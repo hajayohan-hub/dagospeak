@@ -1,0 +1,18 @@
+{
+  "id": "survival",
+  "level": "A0",
+  "theme": "Mots de survie",
+  "themeMg": "Teny fototra",
+  "items": [
+    { "id": "s1", "target": "Bonjour", "source": "Manahoana", "phonetic": "bɔ̃.ʒuʁ", "audio": "", "context": "Bonjour, comment allez-vous ?", "contextTranslation": "Manahoana, manao ahoana ianao?", "quizType": "mg_to_fr", "tags": ["politesse"] },
+    { "id": "s2", "target": "Merci", "source": "Misaotra", "phonetic": "mɛʁ.si", "audio": "", "context": "Merci beaucoup !", "contextTranslation": "Misaotra betsaka!", "quizType": "mg_to_fr", "tags": ["politesse"] },
+    { "id": "s3", "target": "S'il vous plaît", "source": "Azafady", "phonetic": "sil vu plɛ", "audio": "", "context": "Un café, s'il vous plaît.", "contextTranslation": "Kafe iray, azafady.", "quizType": "mg_to_fr", "tags": ["politesse"] },
+    { "id": "s4", "target": "Oui", "source": "Eny", "phonetic": "wi", "audio": "", "context": "Oui, je comprends.", "contextTranslation": "Eny, azoko.", "quizType": "fr_to_mg", "tags": ["base"] },
+    { "id": "s5", "target": "Non", "source": "Tsia", "phonetic": "nɔ̃", "audio": "", "context": "Non, merci.", "contextTranslation": "Tsia, misaotra.", "quizType": "fr_to_mg", "tags": ["base"] },
+    { "id": "s6", "target": "Pardon", "source": "Miala tsiny", "phonetic": "paʁ.dɔ̃", "audio": "", "context": "Pardon, je suis en retard.", "contextTranslation": "Miala tsiny, tara aho.", "quizType": "mg_to_fr", "tags": ["politesse"] },
+    { "id": "s7", "target": "Au revoir", "source": "Veloma", "phonetic": "o ʁə.vwaʁ", "audio": "", "context": "Au revoir et à bientôt !", "contextTranslation": "Veloma ary hihaona indray!", "quizType": "mg_to_fr", "tags": ["politesse"] },
+    { "id": "s8", "target": "Je ne comprends pas", "source": "Tsy azoko", "phonetic": "ʒə nə kɔ̃.pʁɑ̃ pa", "audio": "", "context": "Désolé, je ne comprends pas.", "contextTranslation": "Miala tsiny, tsy azoko.", "quizType": "mg_to_fr", "tags": ["communication"] },
+    { "id": "s9", "target": "Aidez-moi", "source": "Manampy ahy", "phonetic": "e.de mwa", "audio": "", "context": "Aidez-moi, s'il vous plaît.", "contextTranslation": "Manampy ahy, azafady.", "quizType": "mg_to_fr", "tags": ["urgence"] },
+    { "id": "s10", "target": "D'accord", "source": "Tsy maninona", "phonetic": "da.kɔʁ", "audio": "", "context": "C'est d'accord.", "contextTranslation": "Tsy maninona.", "quizType": "fr_to_mg", "tags": ["base"] }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "code": "fr",
+  "name": "Français",
+  "sourceLanguage": "mg",
+  "direction": "ltr",
+  "version": "1.3.0",
+  "levels": [
+    {
+      "id": "A0",
+      "title": "Fototra (Bases)",
+      "description": "Les premiers mots pour survivre au quotidien",
+      "units": ["survival"]
+    },
+    {
+      "id": "A1",
+      "title": "Manomboka (Débutant)",
+      "description": "Vocabulaire essentiel : famille, marché, couleurs",
+      "units": ["family", "market", "colors"]
+    }
+  ]
+}

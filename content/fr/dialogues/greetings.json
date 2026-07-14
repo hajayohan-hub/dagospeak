@@ -1,0 +1,16 @@
+{
+  "id": "greetings",
+  "level": "A0",
+  "title": "Salutations de base",
+  "titleMg": "Fiarahabana fototra",
+  "participants": {
+    "A": { "name": "Rabe", "nameMg": "Rabe", "avatar": "👨🏾" },
+    "B": { "name": "Nary", "nameMg": "Nary", "avatar": "👩🏽" }
+  },
+  "lines": [
+    { "speaker": "A", "text": "Bonjour Nary !", "translation": "Manahoana Nary!", "highlight": "Bonjour" },
+    { "speaker": "B", "text": "Bonjour Rabe ! Comment ça va ?", "translation": "Manahoana Rabe ! Manao ahoana ianao?", "highlight": "Comment ça va" },
+    { "speaker": "A", "text": "Ça va très bien, merci. Et toi ?", "translation": "Tsara fa misaotra. Fa ianao?", "highlight": "merci" },
+    { "speaker": "B", "text": "Ça va. Au revoir !", "translation": "Tsara fa. Veloma!", "highlight": "Au revoir" }
+  ]
+}

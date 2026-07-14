@@ -1,0 +1,18 @@
+{
+  "id": "pronouns_basic",
+  "level": "A0",
+  "theme": "Les pronoms personnels",
+  "themeMg": "Matoanteny personaly",
+  "items": [
+    { "id": "p1", "target": "Je", "source": "Aho / Izaho", "phonetic": "ʒə", "audio": "/content/fr/audio/pronouns/je.mp3", "context": "Je m'appelle Rabe.", "contextTranslation": "Rabe no atao ahy.", "quizType": "mg_to_fr", "tags": ["grammaire"] },
+    { "id": "p2", "target": "Tu", "source": "Ianao", "phonetic": "ty", "audio": "/content/fr/audio/pronouns/tu.mp3", "context": "Comment tu t'appelles ?", "contextTranslation": "Iza no atao anaranao?", "quizType": "mg_to_fr", "tags": ["grammaire"] },
+    { "id": "p3", "target": "Il / Elle", "source": "Izy", "phonetic": "il / ɛl", "audio": "/content/fr/audio/pronouns/il.mp3", "context": "Il est médecin.", "contextTranslation": "Mpitsabo izy.", "quizType": "mg_to_fr", "tags": ["grammaire"] },
+    { "id": "p4", "target": "Nous", "source": "Isika / Izahay", "phonetic": "nu", "audio": "/content/fr/audio/pronouns/nous.mp3", "context": "Nous sommes malgaches.", "contextTranslation": "Malagasy isika.", "quizType": "mg_to_fr", "tags": ["grammaire"] },
+    { "id": "p5", "target": "Vous", "source": "Ianareo", "phonetic": "vu", "audio": "/content/fr/audio/pronouns/vous.mp3", "context": "Vous êtes les bienvenus.", "contextTranslation": "Tongasoa ianareo.", "quizType": "mg_to_fr", "tags": ["grammaire"] },
+    { "id": "p6", "target": "Ils / Elles", "source": "Ireo", "phonetic": "il / ɛl", "audio": "/content/fr/audio/pronouns/ils.mp3", "context": "Ils sont à la maison.", "contextTranslation": "Any an-trano ireo.", "quizType": "mg_to_fr", "tags": ["grammaire"] },
+    { "id": "p7", "target": "Moi", "source": "Ahy / Izaho", "phonetic": "mwa", "audio": "/content/fr/audio/pronouns/moi.mp3", "context": "C'est pour moi.", "contextTranslation": "Ho ahy izany.", "quizType": "fr_to_mg", "tags": ["grammaire"] },
+    { "id": "p8", "target": "Toi", "source": "Anao / Ianao", "phonetic": "twa", "audio": "/content/fr/audio/pronouns/toi.mp3", "context": "Et toi ?", "contextTranslation": "Fa ianao?", "quizType": "fr_to_mg", "tags": ["grammaire"] },
+    { "id": "p9", "target": "Lui", "source": "Azy / Izy", "phonetic": "lɥi", "audio": "/content/fr/audio/pronouns/lui.mp3", "context": "Je parle avec lui.", "contextTranslation": "Miresaka amin'ny izy aho.", "quizType": "fr_to_mg", "tags": ["grammaire"] },
+    { "id": "p10", "target": "Eux", "source": "Azy ireo", "phonetic": "ø", "audio": "/content/fr/audio/pronouns/eux.mp3", "context": "Je les vois.", "contextTranslation": "Mahita azy ireo aho.", "quizType": "fr_to_mg", "tags": ["grammaire"] }
+  ]
+}

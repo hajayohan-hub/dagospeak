@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="mg-FR" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Apprenez à parler français naturellement — conçu pour les apprenants malgaches.">
+  <meta name="theme-color" content="#0A8A6E">
+
+  <title>DagoSpeak — Feheziko</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/icon-192.svg">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.svg">
+  <link rel="icon" type="image/svg+xml" href="../assets/icons/icon-192.svg">
+
+  <!-- Design System -->
+  <link rel="stylesheet" href="src/ui/styles/tokens.css">
+  <link rel="stylesheet" href="src/ui/styles/base.css">
+
+  <!-- Préchargement du module principal -->
+  <link rel="modulepreload" href="src/app.js">
+
+   <style>
+    .ds-level-selector { display: flex; gap: 4px; background: var(--ds-color-surface-2); padding: 4px; border-radius: var(--ds-radius-full); }
+    .ds-level-btn { background: transparent; border: none; padding: 4px 12px; border-radius: var(--ds-radius-full); font-size: var(--ds-font-size-sm); font-weight: 600; cursor: pointer; color: var(--ds-color-text-muted); transition: all 0.2s; }
+    .ds-level-btn.active { background: var(--ds-color-primary); color: white; }
+    .ds-level-btn:hover:not(.active) { background: var(--ds-color-border); }
+  </style>
+
+</head>
+<body>
+
+  <!-- ═══════════ HEADER ═══════════ -->
+  <header class="ds-header" role="banner">
+    <div class="ds-header__inner">
+      <a href="#/" class="ds-header__logo" aria-label="DagoSpeak — Accueil">
+        <img src="assets/icons/icon-192.svg" alt="" width="32" height="32">
+        <span>DagoSpeak</span>
+      </a>
+
+      <!-- Indicateur de niveau -->
+      <div id="level-selector" class="ds-level-selector" role="group" aria-label="Sélection du niveau">
+        <button class="ds-level-btn active" data-level="A0">A0</button>
+        <button class="ds-level-btn" data-level="A1">A1</button>
+      </div>
+
+      <nav class="ds-header__nav" aria-label="Navigation principale">
+        <a href="#/lesson">Leçon</a>
+        <a href="#/practice">Révisions</a>
+        <a href="#/dialogues">Dialogues</a>
+        <a href="#/profile">Profil</a>
+      </nav>
+
+      <div class="ds-header__actions">
+        <button id="theme-toggle" class="ds-icon-btn" aria-label="Basculer le thème" title="Thème">🌓</button>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- ═══════════ MAIN ═══════════ -->
+  <main id="app" role="main" aria-live="polite">
+
+    <section class="ds-hero">
+      <div class="ds-hero__content">
+        <h1>Manahoana ! 👋</h1>
+        <p class="ds-hero__subtitle">
+          Bienvenue sur <strong>DagoSpeak</strong>.<br>
+          Apprenez à parler français naturellement, à votre rythme.
+        </p>
+
+        <div class="ds-hero__actions">
+          <ds-button id="btn-start" size="lg">
+            Manomboka — Commencer
+          </ds-button>
+          <ds-button variant="ghost" size="lg">
+            En savoir plus
+          </ds-button>
+        </div>
+
+        <!-- Démonstration des variantes -->
+        <div class="ds-demo">
+          <h2>Aperçu du Design System</h2>
+          <div class="ds-demo__row">
+            <ds-button variant="primary">Primary</ds-button>
+            <ds-button variant="ghost">Ghost</ds-button>
+            <ds-button variant="danger">Danger</ds-button>
+            <ds-button variant="success">Success</ds-button>
+          </div>
+          <div class="ds-demo__row">
+            <ds-button size="sm">Petit</ds-button>
+            <ds-button size="md">Moyen</ds-button>
+            <ds-button size="lg">Grand</ds-button>
+          </div>
+          <div class="ds-demo__row">
+            <ds-button disabled>Désactivé</ds-button>
+            <ds-button loading>Chargement</ds-button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer class="ds-footer" role="contentinfo">
+    <p>
+      <small>© 2026 DagoSpeak — Feheziko v0.1.0 · Fait avec ❤️ à Antananarivo</small>
+    </p>
+  </footer>
+
+  <!-- ═══════════ STYLES LOCAUX ═══════════ -->
+  <style>
+    /* Header */
+    .ds-header {
+      background: var(--ds-color-surface);
+      border-bottom: 1px solid var(--ds-color-border);
+      position: sticky;
+      top: 0;
+      z-index: var(--ds-z-sticky);
+    }
+    .ds-header__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--ds-space-3) var(--ds-space-4);
+      display: flex;
+      align-items: center;
+      gap: var(--ds-space-5);
+    }
+    .ds-header__logo {
+      display: flex;
+      align-items: center;
+      gap: var(--ds-space-2);
+      font-weight: var(--ds-font-weight-bold);
+      font-size: var(--ds-font-size-md);
+      color: var(--ds-color-text);
+      text-decoration: none;
+    }
+    .ds-header__nav {
+      display: flex;
+      gap: var(--ds-space-4);
+      margin-left: auto;
+    }
+    .ds-header__nav a {
+      text-decoration: none;
+      color: var(--ds-color-text-muted);
+      font-weight: var(--ds-font-weight-medium);
+      padding: var(--ds-space-2) var(--ds-space-3);
+      border-radius: var(--ds-radius-sm);
+      transition: all var(--ds-duration-normal) var(--ds-ease);
+    }
+    .ds-header__nav a:hover {
+      color: var(--ds-color-primary);
+      background: var(--ds-color-primary-soft);
+    }
+    .ds-icon-btn {
+      background: transparent;
+      border: 1px solid var(--ds-color-border);
+      border-radius: var(--ds-radius-md);
+      width: 44px; height: 44px;
+      cursor: pointer;
+      font-size: 1.25rem;
+      transition: all var(--ds-duration-normal) var(--ds-ease);
+    }
+    .ds-icon-btn:hover {
+      background: var(--ds-color-surface-2);
+    }
+
+    /* Hero */
+    .ds-hero {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: var(--ds-space-8) var(--ds-space-4);
+      text-align: center;
+    }
+    .ds-hero h1 {
+      margin-bottom: var(--ds-space-4);
+    }
+    .ds-hero__subtitle {
+      font-size: var(--ds-font-size-md);
+      color: var(--ds-color-text-muted);
+      margin-bottom: var(--ds-space-6);
+    }
+    .ds-hero__actions {
+      display: flex;
+      gap: var(--ds-space-3);
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: var(--ds-space-8);
+    }
+
+    /* Demo */
+    .ds-demo {
+      margin-top: var(--ds-space-8);
+      padding: var(--ds-space-5);
+      background: var(--ds-color-surface);
+      border-radius: var(--ds-radius-lg);
+      box-shadow: var(--ds-shadow-md);
+      text-align: left;
+    }
+    .ds-demo h2 {
+      margin-bottom: var(--ds-space-4);
+      font-size: var(--ds-font-size-lg);
+    }
+    .ds-demo__row {
+      display: flex;
+      gap: var(--ds-space-3);
+      flex-wrap: wrap;
+      margin-bottom: var(--ds-space-4);
+    }
+
+    /* Footer */
+    .ds-footer {
+      text-align: center;
+      padding: var(--ds-space-5);
+      color: var(--ds-color-text-muted);
+      border-top: 1px solid var(--ds-color-border);
+      margin-top: var(--ds-space-8);
+    }
+  </style>
+
+  <!-- ═══════════ APP (module principal) ═══════════ -->
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>

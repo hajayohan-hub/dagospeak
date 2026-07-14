@@ -1,0 +1,18 @@
+{
+  "id": "market",
+  "level": "A1",
+  "theme": "Au Marché",
+  "themeMg": "Any an-tsena",
+  "items": [
+    { "id": "m1", "target": "Riz", "source": "Vary", "phonetic": "ʁi", "audio": "/content/fr/audio/market/riz.mp3", "context": "Je veux acheter du riz.", "contextTranslation": "Te hividy vary aho.", "quizType": "mg_to_fr", "tags": ["nourriture"] },
+    { "id": "m2", "target": "Eau", "source": "Rano", "phonetic": "o", "audio": "/content/fr/audio/market/eau.mp3", "context": "Un verre d'eau, s'il vous plaît.", "contextTranslation": "Rano iray vera, azafady.", "quizType": "mg_to_fr", "tags": ["nourriture"] },
+    { "id": "m3", "target": "Pain", "source": "Mofo", "phonetic": "pɛ̃", "audio": "/content/fr/audio/market/pain.mp3", "context": "Le pain est frais.", "contextTranslation": "Vao vita ny mofo.", "quizType": "mg_to_fr", "tags": ["nourriture"] },
+    { "id": "m4", "target": "Viande", "source": "Hena", "phonetic": "vjɑ̃d", "audio": "/content/fr/audio/market/viande.mp3", "context": "Je n'aime pas la viande.", "contextTranslation": "Tia hena aho.", "quizType": "mg_to_fr", "tags": ["nourriture"] },
+    { "id": "m5", "target": "Poulet", "source": "Akoho", "phonetic": "pu.lɛ", "audio": "/content/fr/audio/market/poulet.mp3", "context": "Le poulet est cher.", "contextTranslation": "Mahalasa ny akoho.", "quizType": "mg_to_fr", "tags": ["nourriture"] },
+    { "id": "m6", "target": "Prix", "source": "Vidiny", "phonetic": "pʁi", "audio": "/content/fr/audio/market/prix.mp3", "context": "Quel est le prix ?", "contextTranslation": "Ohatrinona ny vidiny?", "quizType": "mg_to_fr", "tags": ["commerce"] },
+    { "id": "m7", "target": "Cher", "source": "Lafo", "phonetic": "ʃɛʁ", "audio": "/content/fr/audio/market/cher.mp3", "context": "C'est trop cher.", "contextTranslation": "Lafo loatra izany.", "quizType": "mg_to_fr", "tags": ["commerce"] },
+    { "id": "m8", "target": "Bon marché", "source": "Mora", "phonetic": "bɔ̃ maʁ.ʃe", "audio": "/content/fr/audio/market/bon_marche.mp3", "context": "C'est bon marché.", "contextTranslation": "Mora izany.", "quizType": "mg_to_fr", "tags": ["commerce"] },
+    { "id": "m9", "target": "Combien ?", "source": "Ohatrinona ?", "phonetic": "kɔ̃.bjɛ̃", "audio": "/content/fr/audio/market/combien.mp3", "context": "Combien ça coûte ?", "contextTranslation": "Ohatrinona izany?", "quizType": "mg_to_fr", "tags": ["commerce"] },
+    { "id": "m10", "target": "Légumes", "source": "Legioma", "phonetic": "le.ɡym", "audio": "/content/fr/audio/market/legumes.mp3", "context": "J'achète des légumes.", "contextTranslation": "Mividy legioma aho.", "quizType": "mg_to_fr", "tags": ["nourriture"] }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "name": "DagoSpeak — Feheziko",
+  "short_name": "DagoSpeak",
+  "description": "Apprenez à parler français naturellement. Conçu pour les apprenants malgaches.",
+  "lang": "mg-FR",
+  "dir": "ltr",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#0A8A6E",
+  "background_color": "#FAFAF7",
+  "categories": ["education", "productivity"],
+  "icons": [
+    {
+      "src": "assets/icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Pratique du jour",
+      "short_name": "Pratique",
+      "url": "/#practice",
+      "icons": [{ "src": "assets/icons/icon-192.svg", "sizes": "192x192" }]
+    }
+  ]
+}

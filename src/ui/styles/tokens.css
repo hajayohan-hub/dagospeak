@@ -1,0 +1,163 @@
+/* ============================================================
+   DAGOSPEAK — DESIGN TOKENS
+   Toutes les valeurs de design sont ici.
+   Aucun autre fichier ne doit contenir de valeurs en dur.
+   ============================================================ */
+
+:root {
+  /* ──────────── COULEURS ──────────── */
+  /* Inspirées de Madagascar : lagon, raphia, terre laterite */
+  --ds-color-primary:        #0A8A6E;   /* vert lagon */
+  --ds-color-primary-hover:  #087A61;
+  --ds-color-primary-active: #066B54;
+  --ds-color-primary-soft:   #E6F5F1;
+
+  --ds-color-accent:         #E8A33D;   /* ocre raphia */
+  --ds-color-accent-hover:   #D6922E;
+
+  --ds-color-success:        #2F9E44;
+  --ds-color-warning:        #F08C00;
+  --ds-color-danger:         #D64545;
+  --ds-color-info:           #1971C2;
+
+  --ds-color-bg:             #FAFAF7;
+  --ds-color-surface:        #FFFFFF;
+  --ds-color-surface-2:      #F4F4F0;
+  --ds-color-border:         #E5E5E0;
+
+  --ds-color-text:           #1A1A1A;
+  --ds-color-text-muted:     #5C5C5C;
+  --ds-color-text-disabled:  #9A9A9A;
+  --ds-color-text-inverse:   #FFFFFF;
+
+  /* ──────────── TYPOGRAPHIE ──────────── */
+  --ds-font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --ds-font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+
+  /* Tailles fluides (clamp) pour s'adapter à toutes les tailles d'écran */
+  --ds-font-size-xs:   clamp(0.75rem,  1.5vw, 0.8125rem);  /* 12-13px */
+  --ds-font-size-sm:   clamp(0.875rem, 1.6vw, 0.9375rem);  /* 14-15px */
+  --ds-font-size-base: clamp(1rem,     1.7vw, 1.0625rem);  /* 16-17px */
+  --ds-font-size-md:   clamp(1.125rem, 1.8vw, 1.25rem);    /* 18-20px */
+  --ds-font-size-lg:   clamp(1.25rem,  2vw,   1.5rem);     /* 20-24px */
+  --ds-font-size-xl:   clamp(1.5rem,   2.5vw, 2rem);       /* 24-32px */
+  --ds-font-size-2xl:  clamp(2rem,     3vw,   2.5rem);     /* 32-40px */
+
+  --ds-font-weight-normal:  400;
+  --ds-font-weight-medium:  500;
+  --ds-font-weight-semibold:600;
+  --ds-font-weight-bold:    700;
+
+  --ds-line-height-tight:  1.25;
+  --ds-line-height-normal: 1.5;
+  --ds-line-height-loose:  1.75;
+
+  /* ──────────── ESPACEMENTS (grille 8pt) ──────────── */
+  --ds-space-1:  4px;   /* 0.25rem */
+  --ds-space-2:  8px;   /* 0.5rem  */
+  --ds-space-3: 12px;   /* 0.75rem */
+  --ds-space-4: 16px;   /* 1rem    */
+  --ds-space-5: 24px;   /* 1.5rem  */
+  --ds-space-6: 32px;   /* 2rem    */
+  --ds-space-7: 48px;   /* 3rem    */
+  --ds-space-8: 64px;   /* 4rem    */
+
+  /* ──────────── RAYONS ──────────── */
+  --ds-radius-xs:  4px;
+  --ds-radius-sm:  6px;
+  --ds-radius-md: 12px;
+  --ds-radius-lg: 20px;
+  --ds-radius-xl: 28px;
+  --ds-radius-full: 9999px;
+
+  /* ──────────── OMBRES ──────────── */
+  --ds-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --ds-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --ds-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.04);
+  --ds-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.08), 0 4px 6px rgba(0, 0, 0, 0.04);
+  --ds-shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.10), 0 10px 10px rgba(0, 0, 0, 0.04);
+
+  /* ──────────── TRANSITIONS ──────────── */
+  --ds-ease:        cubic-bezier(0.4, 0, 0.2, 1);
+  --ds-ease-in:     cubic-bezier(0.4, 0, 1, 1);
+  --ds-ease-out:    cubic-bezier(0, 0, 0.2, 1);
+  --ds-duration-fast:   100ms;
+  --ds-duration-normal: 200ms;
+  --ds-duration-slow:   300ms;
+
+  /* ──────────── Z-INDEX ──────────── */
+  --ds-z-base:     0;
+  --ds-z-dropdown: 100;
+  --ds-z-sticky:   200;
+  --ds-z-modal:    300;
+  --ds-z-toast:    400;
+  --ds-z-tooltip:  500;
+
+  /* ──────────── BREAKPOINTS (utilisés en JS via matchMedia) ──────────── */
+  --ds-bp-sm:  640px;
+  --ds-bp-md:  768px;
+  --ds-bp-lg:  1024px;
+  --ds-bp-xl:  1280px;
+}
+
+/* ──────────── MODE SOMBRE ──────────── */
+[data-theme="dark"] {
+  --ds-color-primary:       #34D399;
+  --ds-color-primary-hover: #2FC48D;
+  --ds-color-primary-active:#28B07F;
+  --ds-color-primary-soft:  #0F2A22;
+
+  --ds-color-accent:        #FBBF24;
+  --ds-color-accent-hover:  #F59E0B;
+
+  --ds-color-bg:            #0F1412;
+  --ds-color-surface:       #1A1F1D;
+  --ds-color-surface-2:     #242A27;
+  --ds-color-border:        #2E3531;
+
+  --ds-color-text:          #F1F1EE;
+  --ds-color-text-muted:    #A0A0A0;
+  --ds-color-text-disabled: #606060;
+
+  --ds-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --ds-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.5);
+  --ds-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.6);
+}
+
+/* ──────────── MODE DALTONIEN (deutéranopie) ──────────── */
+[data-colorblind="deuteranopia"] {
+  --ds-color-primary: #3366CC;
+  --ds-color-danger:  #CC3333;
+  --ds-color-success: #FFCC00;
+  --ds-color-warning: #FF9900;
+}
+
+[data-colorblind="protanopia"] {
+  --ds-color-primary: #0077BB;
+  --ds-color-danger:  #EE7700;
+  --ds-color-success: #EE7700;
+}
+
+/* ──────────── RESPECT DES PRÉFÉRENCES SYSTÈME ──────────── */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    /* On applique le mode sombre si l'utilisateur n'a pas fait de choix */
+  }
+}
+
+/* Animations réduites pour les utilisateurs sensibles */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Focus visible accessible (uniquement au clavier) */
+:focus:not(:focus-visible) { outline: none; }
+:focus-visible {
+  outline: 3px solid var(--ds-color-accent);
+  outline-offset: 2px;
+}

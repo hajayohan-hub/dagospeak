@@ -1,0 +1,41 @@
+{
+  "id": "greetings",
+  "level": "A1",
+  "theme": "Salutations",
+  "themeMg": "Fiarahabana",
+  "items": [
+    {
+      "id": "g1",
+      "target": "Bonjour",
+      "source": "Manahoana",
+      "phonetic": "bɔ̃.ʒuʁ",
+      "audio": "/content/fr/audio/greetings/bonjour.mp3",
+      "image": "/content/fr/images/sun.svg",
+      "context": "Bonjour, comment allez-vous ?",
+      "contextTranslation": "Manahoana, manao ahoana ianao?",
+      "tags": ["formel", "matin"]
+    },
+    {
+      "id": "g2",
+      "target": "Merci",
+      "source": "Misaotra",
+      "phonetic": "mɛʁ.si",
+      "audio": "/content/fr/audio/greetings/merci.mp3",
+      "image": "/content/fr/images/hands.svg",
+      "context": "Merci beaucoup !",
+      "contextTranslation": "Misaotra betsaka!",
+      "tags": ["politesse"]
+    },
+    {
+      "id": "g3",
+      "target": "Au revoir",
+      "source": "Veloma",
+      "phonetic": "o ʁə.vwaʁ",
+      "audio": "/content/fr/audio/greetings/aurevoir.mp3",
+      "image": "/content/fr/images/wave.svg",
+      "context": "Au revoir et à bientôt !",
+      "contextTranslation": "Veloma ary hihaona indray!",
+      "tags": ["départ"]
+    }
+  ]
+}

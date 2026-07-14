@@ -1,0 +1,18 @@
+{
+  "id": "colors",
+  "level": "A1",
+  "theme": "Les Couleurs",
+  "themeMg": "Ny Loko",
+  "items": [
+    { "id": "c1", "target": "Rouge", "source": "Mena", "phonetic": "ʁuʒ", "audio": "/content/fr/audio/colors/rouge.mp3", "context": "La voiture est rouge.", "contextTranslation": "Mena ny fiara.", "quizType": "mg_to_fr", "tags": ["couleur"] },
+    { "id": "c2", "target": "Bleu", "source": "Manga", "phonetic": "blø", "audio": "/content/fr/audio/colors/bleu.mp3", "context": "Le ciel est bleu.", "contextTranslation": "Manga ny lanitra.", "quizType": "mg_to_fr", "tags": ["couleur"] },
+    { "id": "c3", "target": "Vert", "source": "Maitso", "phonetic": "vɛʁ", "audio": "/content/fr/audio/colors/vert.mp3", "context": "L'herbe est verte.", "contextTranslation": "Maitso ny ahitra.", "quizType": "mg_to_fr", "tags": ["couleur"] },
+    { "id": "c4", "target": "Jaune", "source": "Mavo", "phonetic": "ʒon", "audio": "/content/fr/audio/colors/jaune.mp3", "context": "Le soleil est jaune.", "contextTranslation": "Mavo ny masoandro.", "quizType": "mg_to_fr", "tags": ["couleur"] },
+    { "id": "c5", "target": "Noir", "source": "Mainty", "phonetic": "nwaʁ", "audio": "/content/fr/audio/colors/noir.mp3", "context": "Le chat est noir.", "contextTranslation": "Mainty ny saka.", "quizType": "mg_to_fr", "tags": ["couleur"] },
+    { "id": "c6", "target": "Blanc", "source": "Fotsy", "phonetic": "blɑ̃", "audio": "/content/fr/audio/colors/blanc.mp3", "context": "La page est blanche.", "contextTranslation": "Fotsy ny pejy.", "quizType": "mg_to_fr", "tags": ["couleur"] },
+    { "id": "c7", "target": "Gris", "source": "Volondavenona", "phonetic": "ɡʁi", "audio": "/content/fr/audio/colors/gris.mp3", "context": "Le ciel est gris.", "contextTranslation": "Volondavenona ny lanitra.", "quizType": "mg_to_fr", "tags": ["couleur"] },
+    { "id": "c8", "target": "Rose", "source": "Mavokely", "phonetic": "ʁoz", "audio": "/content/fr/audio/colors/rose.mp3", "context": "La fleur est rose.", "contextTranslation": "Mavokely ny voninkazo.", "quizType": "mg_to_fr", "tags": ["couleur"] },
+    { "id": "c9", "target": "Marron", "source": "Volon-davenona matroka", "phonetic": "ma.ʁɔ̃", "audio": "/content/fr/audio/colors/marron.mp3", "context": "Les chaussures sont marron.", "contextTranslation": "Volon-davenona ny kiraro.", "quizType": "mg_to_fr", "tags": ["couleur"] },
+    { "id": "c10", "target": "Orange", "source": "Volomboasary", "phonetic": "ɔ.ʁɑ̃ʒ", "audio": "/content/fr/audio/colors/orange.mp3", "context": "J'aime la couleur orange.", "contextTranslation": "Tiako ny loko volomboasary.", "quizType": "mg_to_fr", "tags": ["couleur"] }
+  ]
+}

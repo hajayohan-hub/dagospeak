@@ -1,0 +1,13 @@
+{
+  "name": "dagospeak",
+  "version": "0.1.0",
+  "description": "Plateforme offline-first d'apprentissage des langues",
+  "type": "module",
+  "scripts": {
+    "start": "http-server . -p 3000 -c-1 --cors",
+    "test": "echo \"À venir\" && exit 0"
+  },
+  "keywords": ["pwa", "languages", "offline-first"],
+  "author": "DagoSpeak Team",
+  "license": "UNLICENSED"
+}

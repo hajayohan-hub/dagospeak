@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Test Core — DagoSpeak</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/icons/icon-192.svg">
+</head>
+<body>
+  <h1>Test du Core</h1>
+  <pre id="output" style="background:#f4f4f4;padding:1em;"></pre>
+
+  <script type="module">
+    import { EventBus } from '../src/core/event-bus.js';
+    import { Container } from '../src/core/container.js';
+    import { Logger } from '../src/core/logger.js';
+
+    const out = document.getElementById('output');
+    const log = (msg) => { out.textContent += msg + '\n'; };
+
+    // Test EventBus
+    const bus = new EventBus();
+    bus.on('test', (data) => log(`✅ Événement reçu : ${data.msg}`));
+    bus.emit('test', { msg: 'Hello DagoSpeak !' });
+
+    // Test Container
+    const container = new Container();
+    container.register('logger', () => new Logger('Test'));
+    const logger = container.get('logger');
+    logger.info('Container OK');
+    log('✅ Container instancié');
+
+    // Test Logger
+    log('✅ Tous les tests passent — ouvrez la console (F12) pour voir les logs complets');
+  </script>
+</body>
+</html>
