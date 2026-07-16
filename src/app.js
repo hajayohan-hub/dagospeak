@@ -250,36 +250,69 @@ async function renderPractice() {
       const itemData = sessionQueue[index];
       const progressPercent = ((index) / sessionQueue.length) * 100;
 
-      let questionText = "", correctAnswer = "", options = [];
+            // --- LOGIQUE DE QUIZ BLINDÉE (Plus de réponses vides) ---
+      let questionText = "";
+      let correctAnswer = "";
+      let options = [];
+
       if (itemData.quizType === "mg_to_fr") {
         questionText = `Comment dit-on "<strong>${itemData.source}</strong>" en français ?`;
         correctAnswer = itemData.target;
-        options = [itemData.target, ...vocabData.items.filter(i => i.id !== itemData.id).map(i => i.target).slice(0,2)].sort(()=>Math.random()-0.5);
+
+        // On filtre pour s'assurer qu'on ne prend que des réponses valides et non vides
+        const pool = vocabData.items
+          .filter(i => i.id !== itemData.id && i.target && i.target.trim() !== "")
+          .map(i => i.target);
+
+        const distractors = pool.sort(() => Math.random() - 0.5).slice(0, 2);
+        options = [correctAnswer, ...distractors];
+
       } else {
         questionText = `Que signifie "<strong>${itemData.target}</strong>" en malgache ?`;
         correctAnswer = itemData.source;
-        options = [itemData.source, ...vocabData.items.filter(i => i.id !== itemData.id).map(i => i.source).slice(0,2)].sort(()=>Math.random()-0.5);
+
+        const pool = vocabData.items
+          .filter(i => i.id !== itemData.id && i.source && i.source.trim() !== "")
+          .map(i => i.source);
+
+        const distractors = pool.sort(() => Math.random() - 0.5).slice(0, 2);
+        options = [correctAnswer, ...distractors];
       }
 
-      main.innerHTML = `
+      // Sécurité ultime : s'assurer qu'il y a toujours 3 options valides et uniques
+      options = [...new Set(options.filter(opt => opt && opt.trim() !== ""))];
+      while (options.length < 3) {
+        options.push("Réponse de secours"); // Fallback si le tableau est trop petit
+      }
+
+      // Mélanger les options finales
+      options = options.sort(() => Math.random() - 0.5);
+
+        main.innerHTML = `
         <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem;">
+          <!-- Barre de progression -->
           <div style="background:var(--ds-color-border); height:8px; border-radius:4px; margin-bottom:1rem; overflow:hidden;">
             <div style="background:var(--ds-color-primary); height:100%; width:${progressPercent}%; transition: width 0.3s ease;"></div>
           </div>
+
           <div style="display:flex; justify-content:space-between; margin-bottom:1rem;">
             <ds-button variant="ghost" size="sm" id="btn-back">← Quitter</ds-button>
             <span style="font-weight:600; color:var(--ds-color-text-muted);">Question ${index + 1} / ${sessionQueue.length}</span>
           </div>
 
-          <div style="text-align:center; margin-bottom: 2rem;">
-            <h2>${questionText}</h2>
-            <p style="color: var(--ds-color-text-muted); font-style: italic;">"${itemData.context}"</p>
-            <ds-button variant="ghost" size="sm" id="btn-listen" style="margin-top:1rem;">🔊 Écouter</ds-button>
-            <br>
-            <ds-button variant="ghost" size="sm" id="btn-shadow" style="margin-top:0.5rem;">🎙️ Shadowing (5s)</ds-button>
+          <!-- ZONE DE LA QUESTION (Bien séparée des réponses) -->
+          <div style="text-align:center; margin-bottom: 2rem; background: var(--ds-color-surface); padding: 1.5rem; border-radius: var(--ds-radius-lg); box-shadow: var(--ds-shadow-sm);">
+            <h2 style="margin-bottom: 0.5rem;">${questionText}</h2>
+            <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.95rem;">"${itemData.context}"</p>
+
+            <div style="margin-top: 1rem; display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
+              <ds-button variant="ghost" size="sm" id="btn-listen">🔊 Écouter</ds-button>
+              <ds-button variant="ghost" size="sm" id="btn-shadow">🎙️ Shadowing (5s)</ds-button>
+            </div>
             <div id="shadow-feedback" style="margin-top: 1rem; font-weight: bold; color: var(--ds-color-primary); min-height: 1.5em;"></div>
           </div>
 
+          <!-- ZONE DES RÉPONSES (Le composant quiz est isolé ici) -->
           <ds-quiz id="active-quiz" item-id="${itemData.id}" options='${JSON.stringify(options)}' correct="${correctAnswer}"></ds-quiz>
 
           <div style="margin-top: 2rem; text-align: center;">

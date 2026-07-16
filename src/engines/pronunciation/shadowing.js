@@ -74,10 +74,12 @@ export class ShadowingEngine {
     }
   }
 
-  async #evaluate() {
+    async #evaluate() {
     await new Promise(resolve => setTimeout(resolve, 800));
     const mockScore = Math.random() > 0.3 ? 0.85 : 0.65;
-    const feedback = mockScore > 0.8 ? 'Tsyara ! (Très bien)' : 'Miezaha indray';
+
+    // ✅ CORRECTION : "Tsara" au lieu de "Tayara"
+    const feedback = mockScore > 0.8 ? 'Tsara ! (Très bien)' : 'Miezaha indray (Essayez encore)';
 
     console.log('✅ [DEBUG] Évaluation shadowing:', { score: mockScore, feedback });
     this.#bus.emit('pronunciation:evaluated', { score: mockScore, feedback });
