@@ -63,8 +63,19 @@ document.getElementById('level-selector')?.addEventListener('click', (e) => {
     localStorage.setItem('dagospeak:level', currentLevel);
     updateLevelUI();
     logger.info(`Niveau changé vers : ${currentLevel}`);
+
+    // ✅ ASTUCE : Forcer le re-rendu immédiat de la vue actuelle,
+    // même si le hash de l'URL n'a pas changé.
     const currentHash = window.location.hash.slice(1) || '/';
-    router.navigate(currentHash);
+
+    // Petit délai pour laisser le temps à l'UI de se mettre à jour
+    setTimeout(() => {
+      if (currentHash === '/lesson') renderLesson();
+      else if (currentHash === '/practice') renderPractice();
+      else if (currentHash === '/dialogues') renderDialogues();
+      else if (currentHash === '/') renderHome();
+      else router.navigate(currentHash);
+    }, 50);
   }
 });
 
@@ -313,7 +324,12 @@ async function renderPractice() {
           </div>
 
           <!-- ZONE DES RÉPONSES (Le composant quiz est isolé ici) -->
-          <ds-quiz id="active-quiz" item-id="${itemData.id}" options='${JSON.stringify(options)}' correct="${correctAnswer}"></ds-quiz>
+          <div style="margin-top: 1.5rem; text-align: left;">
+            <p style="font-weight: 600; color: var(--ds-color-text-muted); margin-bottom: 0.5rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;">
+              Choisissez la bonne réponse :
+            </p>
+            <ds-quiz id="active-quiz" item-id="${itemData.id}" options='${JSON.stringify(options)}' correct="${correctAnswer}"></ds-quiz>
+          </div>
 
           <div style="margin-top: 2rem; text-align: center;">
             <ds-button id="btn-next" disabled variant="primary" style="width: 100%; transition: all 0.3s ease;">Question suivante →</ds-button>
@@ -546,4 +562,17 @@ if ('serviceWorker' in navigator) {
 }
 
 router.start();
+
+// Mise à jour de l'état actif de la barre de navigation mobile
+function updateMobileNavActiveState() {
+  const currentHash = window.location.hash.slice(1) || '/';
+  document.querySelectorAll('.ds-mobile-nav a').forEach(link => {
+    link.classList.toggle('active', link.dataset.route === currentHash);
+  });
+}
+
+// Appeler cette fonction à chaque changement de route
+window.addEventListener('hashchange', updateMobileNavActiveState);
+updateMobileNavActiveState(); // Appel initial
+
 logger.info('✅ Application démarrée');
