@@ -3,13 +3,13 @@
   "name": "Français",
   "sourceLanguage": "mg",
   "direction": "ltr",
-  "version": "1.3.0",
+  "version": "2.0.0",
   "levels": [
     {
       "id": "A0",
       "title": "Fototra (Bases)",
       "description": "Les premiers mots pour survivre au quotidien",
-      "units": ["survival"]
+      "units": ["survival", "numbers"]
     },
     {
       "id": "A1",

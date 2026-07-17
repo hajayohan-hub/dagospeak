@@ -1,0 +1,13 @@
+{
+  "id": "numbers",
+  "level": "A0",
+  "theme": "Les Nombres",
+  "themeMg": "Ny Isa",
+  "items": [
+    { "id": "n1", "target": "Un", "source": "Iray", "phonetic": "œ̃", "audio": "", "context": "J'ai un livre.", "contextTranslation": "Manana boky iray aho.", "quizType": "fr_to_mg", "tags": ["nombre"] },
+    { "id": "n2", "target": "Deux", "source": "Roa", "phonetic": "dø", "audio": "", "context": "Nous sommes deux.", "contextTranslation": "Roa izahay.", "quizType": "fr_to_mg", "tags": ["nombre"] },
+    { "id": "n3", "target": "Trois", "source": "Telo", "phonetic": "tʁwa", "audio": "", "context": "Il y a trois chats.", "contextTranslation": "Telo ny saka.", "quizType": "fr_to_mg", "tags": ["nombre"] },
+    { "id": "n4", "target": "Quatre", "source": "Efatra", "phonetic": "katʁ", "audio": "", "context": "J'ai quatre ans.", "contextTranslation": "Efatra taona aho.", "quizType": "fr_to_mg", "tags": ["nombre"] },
+    { "id": "n5", "target": "Cinq", "source": "Dimy", "phonetic": "sɛ̃k", "audio": "", "context": "Il est cinq heures.", "contextTranslation": "Dimy ora izao.", "quizType": "fr_to_mg", "tags": ["nombre"] }
+  ]
+}

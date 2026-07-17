@@ -1,0 +1,17 @@
+{
+  "id": "family_dialogue",
+  "level": "A1",
+  "theme": "family",
+  "title": "Ma famille",
+  "titleMg": "Ny fianakaviako",
+  "participants": {
+    "A": { "name": "Rabe", "nameMg": "Rabe", "avatar": "👨🏾" },
+    "B": { "name": "Sarah", "nameMg": "Sarah", "avatar": "👩🏽" }
+  },
+  "lines": [
+    { "speaker": "B", "text": "Qui est-ce ?", "translation": "Iza izany?", "highlight": "Qui" },
+    { "speaker": "A", "text": "C'est mon père. Et elle, c'est ma mère.", "translation": "Ny raiko izany. Ary izy kosa, ny reniko.", "highlight": "père" },
+    { "speaker": "B", "text": "Et ton frère ?", "translation": "Ary ny anadahinao?", "highlight": "frère" },
+    { "speaker": "A", "text": "Il est grand. Ma sœur est petite.", "translation": "Lehibe izy. Kely ny anabaviko.", "highlight": "grand" }
+  ]
+}

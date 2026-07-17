@@ -1,0 +1,17 @@
+{
+  "id": "colors_dialogue",
+  "level": "A1",
+  "theme": "colors",
+  "title": "Les couleurs de la vie",
+  "titleMg": "Ny lokon'ny fiainana",
+  "participants": {
+    "A": { "name": "Artiste", "nameMg": "Mpihira", "avatar": "👨🏾‍🎨" },
+    "B": { "name": "Ami", "nameMg": "Namana", "avatar": "👩🏽" }
+  },
+  "lines": [
+    { "speaker": "B", "text": "J'aime le rouge et le bleu.", "translation": "Tiako ny mena sy ny manga.", "highlight": "rouge" },
+    { "speaker": "A", "text": "Moi, je préfère le vert et le jaune.", "translation": "Izaho, tiako kokoa ny maitso sy ny mavo.", "highlight": "vert" },
+    { "speaker": "B", "text": "Le ciel est bleu aujourd'hui.", "translation": "Manga ny lanitra androany.", "highlight": "bleu" },
+    { "speaker": "A", "text": "Oui, et le soleil est jaune !", "translation": "Eny, ary mavo ny masoandro!", "highlight": "jaune" }
+  ]
+}

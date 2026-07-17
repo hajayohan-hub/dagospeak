@@ -65,17 +65,10 @@ document.getElementById('level-selector')?.addEventListener('click', (e) => {
     updateLevelUI();
     logger.info(`Niveau changé vers : ${currentLevel}`);
 
-    // ✅ ASTUCE : Forcer le re-rendu immédiat de la vue actuelle,
-    // même si le hash de l'URL n'a pas changé.
-    const currentHash = window.location.hash.slice(1) || '/';
-
-    // Petit délai pour laisser le temps à l'UI de se mettre à jour
+    // ✅ Rediriger vers les thèmes du nouveau niveau
     setTimeout(() => {
-      if (currentHash === '/lesson') renderLesson();
-      else if (currentHash === '/practice') renderPractice();
-      else if (currentHash === '/dialogues') renderDialogues();
-      else if (currentHash === '/') renderHome();
-      else router.navigate(currentHash);
+      window.currentTheme = null;
+      window.location.hash = '/themes';
     }, 50);
   }
 });
@@ -108,6 +101,7 @@ async function renderHome() {
     const manifest = await content.loadManifest('fr');
 
     // Génération dynamique des cartes de niveaux
+        // Génération dynamique des cartes de niveaux
     const levelsHtml = manifest.levels.map(level => {
       const isFree = level.id === 'A0';
       const isUnlocked = isFree || profile.isPremium;
@@ -130,8 +124,8 @@ async function renderHome() {
 
           ${isUnlocked ? `
             <ds-button variant="${level.id === 'A0' ? 'success' : 'primary'}" size="sm"
-                       onclick="window.currentTheme = null; window.location.hash='/themes';">
-              Commencer ce niveau
+                       onclick="localStorage.setItem('dagospeak:level', '${level.id}'); window.currentLevel='${level.id}'; window.currentTheme=null; window.location.hash='/themes';">
+              Voir les thèmes de ce niveau
             </ds-button>
           ` : `
             <ds-button variant="accent" size="sm" id="btn-upgrade-${level.id}">
@@ -452,7 +446,15 @@ async function renderDialogues() {
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement des dialogues...</div>';
 
   try {
-    const dialogueId = currentLevel === 'A0' ? 'greetings' : 'market_bargain';
+    // ✅ Charger le dialogue correspondant au thème actuel
+    let dialogueId;
+    if (currentTheme) {
+      dialogueId = `${currentTheme}_dialogue`;
+    } else {
+      // Fallback si aucun thème n'est sélectionné
+      dialogueId = currentLevel === 'A0' ? 'survival_dialogue' : 'family_dialogue';
+    }
+
     const dialogue = await content.loadSection('fr', 'dialogues', dialogueId);
 
     let chatHtml = dialogue.lines.map(line => {
@@ -470,26 +472,31 @@ async function renderDialogues() {
       `;
     }).join('');
 
+    const themeNames = {
+      'survival': 'Mots de survie', 'numbers': 'Les Nombres',
+      'family': 'La Famille', 'market': 'Au Marché', 'colors': 'Les Couleurs'
+    };
+    const themeName = themeNames[currentTheme] || 'Thème';
+
     main.innerHTML = `
       <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem;">
         <ds-button variant="ghost" size="sm" id="btn-back" style="margin-bottom: 1rem;">← Retour</ds-button>
         <div style="text-align:center; margin-bottom:1.5rem;">
-          <span style="background:var(--ds-color-accent); color:white; padding:4px 10px; border-radius:20px; font-weight:600; font-size:0.8rem;">Niveau ${currentLevel}</span>
+          <span style="background:var(--ds-color-accent); color:white; padding:4px 10px; border-radius:20px; font-weight:600; font-size:0.8rem;">Niveau ${currentLevel} • ${themeName}</span>
         </div>
         <h2 style="text-align:center; margin-bottom:0.5rem;">💬 ${dialogue.title}</h2>
         <p style="text-align:center; color:var(--ds-color-text-muted); margin-bottom:2rem;">${dialogue.titleMg}</p>
         <div style="background:var(--ds-color-bg); padding:1.5rem; border-radius:var(--ds-radius-lg); border:1px solid var(--ds-color-border);">
           ${chatHtml}
         </div>
-        <!-- ✅ BOUTON DE FIN DE DIALOGUE AJOUTÉ -->
         <div style="margin-top: 2rem; text-align: center;">
           <ds-button id="btn-dialogue-next" size="lg" variant="success" style="width: 100%;">Dialogue terminé, continuer →</ds-button>
         </div>
       </section>
     `;
 
-    document.getElementById('btn-back').addEventListener('click', () => router.navigate('/'));
-    document.getElementById('btn-dialogue-next').addEventListener('click', () => router.navigate('/lesson'));
+    document.getElementById('btn-back').addEventListener('click', () => router.navigate('/theme-detail'));
+    document.getElementById('btn-dialogue-next').addEventListener('click', () => router.navigate('/themes'));
 
     document.querySelectorAll('.play-dialog-audio').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -500,9 +507,9 @@ async function renderDialogues() {
       });
     });
 
-    logger.info(`✅ Page Dialogues rendue (Niveau ${currentLevel})`);
+    logger.info(`✅ Page Dialogues rendue (Thème: ${currentTheme})`);
   } catch (e) {
-    main.innerHTML = `<div style="text-align:center; padding:2rem; color:var(--ds-color-danger);">Aucun dialogue disponible.</div>`;
+    main.innerHTML = `<div style="text-align:center; padding:2rem; color:var(--ds-color-danger);">Aucun dialogue disponible pour ce thème.</div>`;
   }
 }
 

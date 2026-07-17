@@ -1,0 +1,16 @@
+{
+  "id": "numbers_dialogue",
+  "level": "A0",
+  "theme": "numbers",
+  "title": "Compter ensemble",
+  "titleMg": "Misaika miaraka",
+  "participants": {
+    "A": { "name": "Professeur", "nameMg": "Mpampianatra", "avatar": "👨🏾‍🏫" },
+    "B": { "name": "Élève", "nameMg": "Mpianatra", "avatar": "👧🏽" }
+  },
+  "lines": [
+    { "speaker": "A", "text": "Combien ? Un, deux, trois.", "translation": "Ohatrinona? Iray, roa, telo.", "highlight": "Un" },
+    { "speaker": "B", "text": "Quatre, cinq. Merci !", "translation": "Efatra, dimy. Misaotra!", "highlight": "Quatre" },
+    { "speaker": "A", "text": "Très bien !", "translation": "Tsara be!", "highlight": "bien" }
+  ]
+}
