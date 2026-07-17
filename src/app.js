@@ -366,6 +366,7 @@ async function renderPractice() {
             <ds-quiz id="active-quiz" item-id="${itemData.id}" options='${JSON.stringify(options)}' correct="${correctAnswer}"></ds-quiz>
           </div>
 
+
           <div style="margin-top: 2rem; text-align: center;">
             <ds-button id="btn-next" disabled variant="primary" style="width: 100%; transition: all 0.3s ease;">Question suivante →</ds-button>
           </div>

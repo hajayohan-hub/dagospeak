@@ -1,142 +1,104 @@
 /**
- * <ds-quiz> — Composant de quiz interactif.
- * 
- * Attributs :
- *   - question : La question à poser
- *   - options : Chaîne JSON des options (ex: '["A", "B", "C"]')
- *   - correct : L'index ou la valeur de la bonne réponse
- * 
- * Événements émis :
- *   - quiz:answered (détail: { selected, isCorrect, itemId })
+ * Composant Web <ds-quiz>
+ * Affiche les options de réponse et gère la sélection.
  */
-const template = document.createElement('template');
-template.innerHTML = `
-<style>
-  :host { display: block; }
-  .quiz-container {
-    background: var(--ds-color-surface);
-    border-radius: var(--ds-radius-lg);
-    padding: var(--ds-space-5);
-    box-shadow: var(--ds-shadow-md);
-    text-align: center;
-  }
-  .question {
-    font-size: var(--ds-font-size-xl);
-    font-weight: var(--ds-font-weight-semibold);
-    margin-bottom: var(--ds-space-5);
-    color: var(--ds-color-text);
-  }
-  .options {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--ds-space-3);
-  }
-  @media (min-width: 640px) {
-    .options { grid-template-columns: 1fr 1fr; }
-  }
-  .option-btn {
-    width: 100%;
-    text-align: left;
-    justify-content: flex-start;
-  }
-  .option-btn.correct {
-    background: var(--ds-color-success) !important;
-    color: white !important;
-  }
-  .option-btn.incorrect {
-    background: var(--ds-color-danger) !important;
-    color: white !important;
-  }
-  .feedback {
-    margin-top: var(--ds-space-4);
-    font-weight: var(--ds-font-weight-semibold);
-    min-height: 1.5em;
-  }
-  .feedback.success { color: var(--ds-color-success); }
-  .feedback.error { color: var(--ds-color-danger); }
-</style>
-
-<div class="quiz-container" role="group" aria-labelledby="quiz-question">
-  <h3 id="quiz-question" class="question"><slot name="question">Question</slot></h3>
-  <div class="options" id="options-container"></div>
-  <div class="feedback" id="feedback" aria-live="polite"></div>
-</div>
-`;
-
 export class DsQuiz extends HTMLElement {
-  #options = [];
-  #correctAnswer = '';
+  constructor() {
+    super();
+    this.#answered = false;
+  }
+
   #answered = false;
+  #correctAnswer = '';
+  #options = [];
 
   static get observedAttributes() {
     return ['options', 'correct', 'item-id'];
   }
 
-  constructor() {
-    super();
-    this.attachShadow({ mode: 'open' }).appendChild(template.content.cloneNode(true));
-    this._optionsContainer = this.shadowRoot.getElementById('options-container');
-    this._feedback = this.shadowRoot.getElementById('feedback');
+  connectedCallback() {
+    this.#options = JSON.parse(this.getAttribute('options') || '[]');
+    this.#correctAnswer = this.getAttribute('correct') || '';
+    this.render();
+    this.attachEvents();
   }
 
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (oldValue === newValue) return;
-    if (name === 'options') {
-      try {
-        this.#options = JSON.parse(newValue);
-      } catch (e) {
-        this.#options = [];
-      }
-    }
-    if (name === 'correct') {
-      this.#correctAnswer = newValue;
-    }
-    if (this.#options.length > 0 && !this.#answered) {
-      this.#renderOptions();
-    }
+  render() {
+    // ✅ ICI : Aucun mot "Question". Uniquement les options et le feedback.
+    this.innerHTML = `
+      <div class="quiz-options" style="display: flex; flex-direction: column; gap: 0.75rem;">
+        ${this.#options.map(opt => `
+          <button class="quiz-btn" data-value="${opt}" style="
+            width: 100%;
+            padding: 1rem;
+            text-align: left;
+            background: var(--ds-color-surface);
+            border: 2px solid var(--ds-color-border);
+            border-radius: var(--ds-radius-md);
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--ds-color-text);
+            cursor: pointer;
+            transition: all 0.2s ease;
+          ">
+            ${opt}
+          </button>
+        `).join('')}
+      </div>
+      <div class="feedback" style="
+        margin-top: 1rem;
+        padding: 0.75rem;
+        border-radius: var(--ds-radius-md);
+        font-weight: 600;
+        text-align: center;
+        display: none;
+      "></div>
+    `;
   }
 
-  #renderOptions() {
-    this._optionsContainer.innerHTML = '';
-    this.#options.forEach((opt, index) => {
-      const btn = document.createElement('ds-button');
-      btn.setAttribute('variant', 'ghost');
-      btn.setAttribute('size', 'lg');
-      btn.classList.add('option-btn');
-      btn.textContent = opt;
-      btn.dataset.value = opt;
-      
-      btn.addEventListener('click', () => this.#handleAnswer(opt, btn));
-      this._optionsContainer.appendChild(btn);
+  attachEvents() {
+    const buttons = this.querySelectorAll('.quiz-btn');
+    this._feedback = this.querySelector('.feedback');
+    this._optionsContainer = this.querySelector('.quiz-options');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => this.#handleAnswer(btn.dataset.value, btn));
     });
   }
 
-    #handleAnswer(selectedValue, btnElement) {
+  #handleAnswer(selectedValue, btnElement) {
     if (this.#answered) return;
     this.#answered = true;
 
     const isCorrect = selectedValue === this.#correctAnswer;
     const itemId = this.getAttribute('item-id') || 'unknown';
 
-    // ✅ CORRECTION DES FEEDBACKS (Tsara / Diso)
     if (isCorrect) {
-      btnElement.classList.add('correct');
-      this._feedback.textContent = 'Tsara ! (Correct)'; // ✅ Corrigé
-      this._feedback.className = 'feedback success';
+      btnElement.style.background = 'var(--ds-color-success-soft, #d1fae5)';
+      btnElement.style.borderColor = 'var(--ds-color-success, #10b981)';
+      btnElement.style.color = 'var(--ds-color-success, #047857)';
+      this._feedback.textContent = 'Tsara ! (Correct)';
+      this._feedback.style.background = 'var(--ds-color-success-soft, #d1fae5)';
+      this._feedback.style.color = 'var(--ds-color-success, #047857)';
     } else {
-      btnElement.classList.add('incorrect');
-      this._feedback.textContent = `Diso (Faux). La bonne réponse était : ${this.#correctAnswer}`; // ✅ Corrigé
-      this._feedback.className = 'feedback error';
+      btnElement.style.background = 'var(--ds-color-danger-soft, #fee2e2)';
+      btnElement.style.borderColor = 'var(--ds-color-danger, #ef4444)';
+      btnElement.style.color = 'var(--ds-color-danger, #b91c1c)';
+      this._feedback.textContent = `Diso (Faux). La bonne réponse était : ${this.#correctAnswer}`;
+      this._feedback.style.background = 'var(--ds-color-danger-soft, #fee2e2)';
+      this._feedback.style.color = 'var(--ds-color-danger, #b91c1c)';
 
-      // Montrer la bonne réponse en vert pour l'apprentissage
+      // Montrer la bonne réponse
       Array.from(this._optionsContainer.children).forEach(child => {
         if (child.dataset.value === this.#correctAnswer) {
-          child.classList.add('correct');
+          child.style.background = 'var(--ds-color-success-soft, #d1fae5)';
+          child.style.borderColor = 'var(--ds-color-success, #10b981)';
         }
       });
     }
 
-    // Émettre l'événement pour les moteurs SRS et Gamification
+    this._feedback.style.display = 'block';
+
     this.dispatchEvent(new CustomEvent('quiz:answered', {
       bubbles: true,
       composed: true,
@@ -145,6 +107,4 @@ export class DsQuiz extends HTMLElement {
   }
 }
 
-if (!customElements.get('ds-quiz')) {
-  customElements.define('ds-quiz', DsQuiz);
-}
+customElements.define('ds-quiz', DsQuiz);
