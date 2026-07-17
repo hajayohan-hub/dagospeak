@@ -69,12 +69,21 @@ function updateLevelUI() {
 document.getElementById('level-selector')?.addEventListener('click', (e) => {
   const btn = e.target.closest('.ds-level-btn');
   if (btn) {
+    // 1. Mettre à jour l'état
     currentLevel = btn.dataset.level;
-    currentTheme = null; // ✅ Réinitialise correctement la variable locale
+    currentTheme = null;
     localStorage.setItem('dagospeak:level', currentLevel);
     updateLevelUI();
     logger.info(`Niveau changé vers : ${currentLevel}`);
-    router.navigate('/themes');
+
+    // 2. FORCER le re-rendu immédiat de la page des thèmes
+    // Cela contourne le problème du "hash inchangé" du routeur
+    renderThemes();
+
+    // 3. S'assurer que l'URL est correcte (sans déclencher de rechargement inutile)
+    if (window.location.hash !== '#/themes') {
+      window.location.hash = '/themes';
+    }
   }
 });
 
@@ -106,9 +115,9 @@ async function renderHome() {
     const manifest = await content.loadManifest('fr');
 
     // Génération dynamique des cartes de niveaux
-        // Génération dynamique des cartes de niveaux
     const levelsHtml = manifest.levels.map(level => {
-      const isFree = level.id === 'A0';
+      const isFree = level.id === 'A0' || level.id === 'A1';
+      // const isFree = level.id === 'A0';
       const isUnlocked = isFree || profile.isPremium;
 
       return `
@@ -128,13 +137,11 @@ async function renderHome() {
           <p style="margin:0; font-size: 0.9rem; color: var(--ds-color-text-muted);">${level.description}</p>
 
           ${isUnlocked ? `
-            <ds-button variant="${level.id === 'A0' ? 'success' : 'primary'}" size="sm"
-                       // Remplacez l'ancien onclick par :
-onclick="window.selectLevel('${level.id}')">
+            <ds-button class="btn-select-level" data-level="${level.id}" variant="${level.id === 'A0' ? 'success' : 'primary'}" size="sm">
               Voir les thèmes de ce niveau
             </ds-button>
           ` : `
-            <ds-button variant="accent" size="sm" id="btn-upgrade-${level.id}">
+            <ds-button class="btn-upgrade" data-level="${level.id}" variant="accent" size="sm">
               Débloquer avec Premium
             </ds-button>
           `}
@@ -154,7 +161,7 @@ onclick="window.selectLevel('${level.id}')">
 
         <p class="ds-hero__subtitle">Choisissez votre parcours d'apprentissage :</p>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+        <div id="levels-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
           ${levelsHtml}
         </div>
 
@@ -168,21 +175,52 @@ onclick="window.selectLevel('${level.id}')">
       </section>
     `;
 
-    // Gestion des boutons d'upgrade
-    document.querySelectorAll('[id^="btn-upgrade"]').forEach(btn => {
-      btn.addEventListener('click', async () => {
-        btn.setAttribute('loading', '');
-        const result = await paymentGateway.checkout('premium_monthly', 'mobile_money');
-        alert(result.message + `\nID: ${result.transactionId}`);
-        profile.isPremium = true;
-        await db.put('progress', profile);
-        renderHome(); // Rafraîchir pour enlever les cadenas
-      });
+    // ✅ ÉCOUTEURS D'ÉVÉNEMENTS APRÈS LE RENDU (100% fiable)
+    document.getElementById('levels-container').addEventListener('click', (e) => {
+      const btn = e.target.closest('.btn-select-level');
+      if (btn) {
+        const levelId = btn.dataset.level;
+        console.log(`✅ Clic sur "Voir les thèmes" pour le niveau ${levelId}`);
+
+        // Mettre à jour l'état AVANT de changer de route
+        currentLevel = levelId;
+        currentTheme = null;
+        localStorage.setItem('dagospeak:level', currentLevel);
+        updateLevelUI();
+
+        // Rediriger vers les thèmes
+        router.navigate('/themes');
+      }
+
+      const upgradeBtn = e.target.closest('.btn-upgrade');
+      if (upgradeBtn) {
+        handleUpgrade(upgradeBtn, profile);
+      }
+    });
+
+    document.getElementById('btn-upgrade-main')?.addEventListener('click', () => {
+      handleUpgrade(document.getElementById('btn-upgrade-main'), profile);
     });
 
     logger.info('✅ Page d\'accueil rendue (Modèle Freemium)');
   } catch (e) {
+    console.error('❌ Erreur renderHome:', e);
     main.innerHTML = `<p style="color:red; text-align:center;">Erreur: ${e.message}</p>`;
+  }
+}
+
+// Fonction helper pour gérer l'upgrade Premium
+async function handleUpgrade(btn, profile) {
+  btn.setAttribute('loading', '');
+  try {
+    const result = await paymentGateway.checkout('premium_monthly', 'mobile_money');
+    alert(result.message + `\nID: ${result.transactionId}`);
+    profile.isPremium = true;
+    await db.put('progress', profile);
+    renderHome(); // Rafraîchir pour enlever les cadenas
+  } catch (err) {
+    alert('Erreur de paiement.');
+    btn.removeAttribute('loading');
   }
 }
 
