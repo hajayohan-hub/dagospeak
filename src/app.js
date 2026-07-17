@@ -66,7 +66,7 @@ function updateLevelUI() {
   });
 }
 
-ddocument.getElementById('level-selector')?.addEventListener('click', (e) => {
+document.getElementById('level-selector')?.addEventListener('click', (e) => {
   const btn = e.target.closest('.ds-level-btn');
   if (btn) {
     currentLevel = btn.dataset.level;
@@ -616,14 +616,12 @@ async function renderThemeDetail() {
   try {
     const unitData = await content.loadSection('fr', 'vocabulary', currentTheme);
 
-
-  main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement...</div>';
-
-  try {
-    const unitData = await content.loadSection('fr', 'vocabulary', currentTheme);
     const themeNames = {
-      'survival': 'Mots de survie', 'family': 'La Famille',
-      'market': 'Au Marché', 'colors': 'Les Couleurs'
+      'survival': 'Mots de survie',
+      'numbers': 'Les Nombres',
+      'family': 'La Famille',
+      'market': 'Au Marché',
+      'colors': 'Les Couleurs'
     };
     const themeName = themeNames[currentTheme] || currentTheme;
 
@@ -653,9 +651,17 @@ async function renderThemeDetail() {
         </div>
       </section>
     `;
+
     document.getElementById('btn-back-themes').addEventListener('click', () => router.navigate('/themes'));
+
   } catch (e) {
-    main.innerHTML = `<p style="color:red; text-align:center;">Erreur: ${e.message}</p>`;
+    console.error('❌ Erreur renderThemeDetail:', e);
+    main.innerHTML = `
+      <div style="text-align:center; padding:2rem; color:var(--ds-color-danger);">
+        <p>Erreur de chargement du thème : ${e.message}</p>
+        <ds-button onclick="window.location.hash='/themes'">Retour aux thèmes</ds-button>
+      </div>
+    `;
   }
 }
 
