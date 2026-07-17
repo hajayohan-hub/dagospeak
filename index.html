@@ -26,6 +26,11 @@
     .ds-level-btn { background: transparent; border: none; padding: 4px 12px; border-radius: var(--ds-radius-full); font-size: var(--ds-font-size-sm); font-weight: 600; cursor: pointer; color: var(--ds-color-text-muted); transition: all 0.2s; }
     .ds-level-btn.active { background: var(--ds-color-primary); color: white; }
     .ds-level-btn:hover:not(.active) { background: var(--ds-color-border); }
+
+    button:focus-visible {
+      outline: 2px solid var(--ds-color-primary);
+      outline-offset: 2px;
+    }
   </style>
 
 </head>

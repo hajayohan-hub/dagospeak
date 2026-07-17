@@ -361,8 +361,8 @@ async function renderPractice() {
             <div id="shadow-feedback" style="margin-top: 1rem; font-weight: bold; color: var(--ds-color-primary); min-height: 1.5em;"></div>
           </div>
 
-          <div style="margin-top: 1.5rem; text-align: left;">
-            <p style="font-weight: 600; color: var(--ds-color-text-muted); margin-bottom: 0.5rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;">Choisissez la bonne réponse :</p>
+          <div style="margin-top: 1.5rem; text-align: center;">
+            <h2 style="font-weight: 600; color: var(--ds-color-text-muted); margin-bottom: 0.5rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;">Choisissez la bonne réponse :</h2>
             <ds-quiz id="active-quiz" item-id="${itemData.id}" options='${JSON.stringify(options)}' correct="${correctAnswer}"></ds-quiz>
           </div>
 

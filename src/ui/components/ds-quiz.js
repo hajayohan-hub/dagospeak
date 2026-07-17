@@ -31,7 +31,7 @@ export class DsQuiz extends HTMLElement {
           <button class="quiz-btn" data-value="${opt}" style="
             width: 100%;
             padding: 1rem;
-            text-align: left;
+            text-align: center;
             background: var(--ds-color-surface);
             border: 2px solid var(--ds-color-border);
             border-radius: var(--ds-radius-md);
@@ -39,6 +39,7 @@ export class DsQuiz extends HTMLElement {
             font-weight: 500;
             color: var(--ds-color-text);
             cursor: pointer;
+            outline: 2px solid transparent;
             transition: all 0.2s ease;
           ">
             ${opt}
