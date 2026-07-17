@@ -111,24 +111,24 @@ export class DsQuiz extends HTMLElement {
     });
   }
 
-  #handleAnswer(selectedValue, btnElement) {
+    #handleAnswer(selectedValue, btnElement) {
     if (this.#answered) return;
     this.#answered = true;
 
     const isCorrect = selectedValue === this.#correctAnswer;
     const itemId = this.getAttribute('item-id') || 'unknown';
 
-    // Feedback visuel
+    // ✅ CORRECTION DES FEEDBACKS (Tsara / Diso)
     if (isCorrect) {
       btnElement.classList.add('correct');
-      this._feedback.textContent = 'Tsyara ! (Correct)';
+      this._feedback.textContent = 'Tsara ! (Correct)'; // ✅ Corrigé
       this._feedback.className = 'feedback success';
     } else {
       btnElement.classList.add('incorrect');
-      this._feedback.textContent = `Falsify. La bonne réponse était : ${this.#correctAnswer}`;
+      this._feedback.textContent = `Diso (Faux). La bonne réponse était : ${this.#correctAnswer}`; // ✅ Corrigé
       this._feedback.className = 'feedback error';
-      
-      // Montrer la bonne réponse
+
+      // Montrer la bonne réponse en vert pour l'apprentissage
       Array.from(this._optionsContainer.children).forEach(child => {
         if (child.dataset.value === this.#correctAnswer) {
           child.classList.add('correct');
