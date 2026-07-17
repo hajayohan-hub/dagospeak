@@ -227,71 +227,93 @@ async function handleUpgrade(btn, profile) {
 async function renderLesson() {
   const main = document.getElementById('app');
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement de la leçon...</div>';
+
   try {
     const manifest = await content.loadManifest('fr');
     const levelData = manifest.levels.find(l => l.id === currentLevel);
-    let allItems = [];
-    for (const unit of levelData.units) {
-      const data = await content.loadSection('fr', 'vocabulary', unit);
-      allItems = allItems.concat(data.items);
-    }
+
+    // ✅ VERROUILLAGE : On utilise strictement le thème sélectionné.
+    // Fallback vers la 1ère unité du niveau seulement si currentTheme est vide (clic direct depuis le header).
+    const unitId = currentTheme || levelData.units[0];
+    currentTheme = unitId; // On sauvegarde pour cohérence
+
+    const vocabData = await content.loadSection('fr', 'vocabulary', unitId);
+
+    const themeNames = {
+      'survival': 'Mots de survie', 'numbers': 'Les Nombres',
+      'family': 'La Famille', 'market': 'Au Marché', 'colors': 'Les Couleurs'
+    };
+    const themeName = themeNames[unitId] || unitId;
 
     main.innerHTML = `
       <section style="max-width: 700px; margin: 0 auto; padding: 2rem 1rem;">
-        <ds-button variant="ghost" size="sm" id="btn-back" style="margin-bottom: 1rem;">← Retour</ds-button>
-        <h2>📖 Leçon : ${levelData.title} (${currentLevel})</h2>
-        <p style="color:var(--ds-color-text-muted); margin-bottom: 2rem;">${levelData.description}</p>
+        <ds-button variant="ghost" size="sm" id="btn-back" style="margin-bottom: 1rem;">← Retour aux thèmes</ds-button>
+        <div style="margin-bottom: 0.5rem;">
+          <span style="background:var(--ds-color-accent); color:white; padding:4px 10px; border-radius:20px; font-weight:600; font-size:0.8rem;">Niveau ${currentLevel}</span>
+        </div>
+        <h2 style="margin-bottom: 0.5rem;">📖 Leçon : ${themeName}</h2>
+        <p style="color:var(--ds-color-text-muted); margin-bottom: 2rem;">${vocabData.themeMg} • ${vocabData.items.length} mots à apprendre</p>
+
         <div style="display:grid; gap:1rem;">
-          ${allItems.map(item => `
+          ${vocabData.items.map(item => `
             <div style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); display:flex; justify-content:space-between; align-items:center; box-shadow:var(--ds-shadow-sm);">
               <div>
                 <strong style="font-size:1.1rem; color:var(--ds-color-primary);">${item.target}</strong>
-                <span style="color:var(--ds-color-text-muted); font-size:0.9em;"> → ${item.source}</span>
+                <span style="color:var(--ds-color-text-muted); font-size:0.9em; margin-left:8px;">→ ${item.source}</span>
+                <div style="font-size:0.85em; color:var(--ds-color-text-muted); font-style:italic; margin-top:4px;">"${item.context}"</div>
               </div>
               <ds-button variant="ghost" size="sm" class="play-audio" data-target="${item.target}">🔊</ds-button>
             </div>
           `).join('')}
         </div>
+
         <div style="margin-top:2rem; text-align:center;">
-          <ds-button id="btn-start-practice" size="lg" variant="success">🎯 Commencer la pratique</ds-button>
+          <ds-button id="btn-start-practice" size="lg" variant="success">🎯 Commencer la pratique de ce thème</ds-button>
         </div>
       </section>
     `;
-    document.getElementById('btn-back').addEventListener('click', () => router.navigate('/'));
+
+    document.getElementById('btn-back').addEventListener('click', () => router.navigate('/themes'));
+
     document.querySelectorAll('.play-audio').forEach(btn => {
       btn.addEventListener('click', () => {
-        const u = new SpeechSynthesisUtterance(btn.dataset.target); u.lang = 'fr-FR'; speechSynthesis.speak(u);
+        speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(btn.dataset.target);
+        u.lang = 'fr-FR'; u.rate = 0.9;
+        speechSynthesis.speak(u);
       });
     });
+
     document.getElementById('btn-start-practice')?.addEventListener('click', () => router.navigate('/practice'));
-    logger.info('✅ Page Leçon rendue');
+    logger.info(`✅ Page Leçon rendue pour le thème: ${unitId}`);
   } catch (e) {
     main.innerHTML = `<p style="color:red; text-align:center;">Erreur leçon: ${e.message}</p>`;
   }
 }
 
 async function renderPractice() {
-  console.log(`🔍 [DEBUG] renderPractice démarré (Niveau: ${currentLevel})`);
+  console.log(`🔍 [DEBUG] renderPractice démarré (Niveau: ${currentLevel}, Thème: ${currentTheme})`);
   const main = document.getElementById('app');
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Préparation de la session...</div>';
 
   try {
     const manifest = await content.loadManifest('fr');
     const levelData = manifest.levels.find(l => l.id === currentLevel);
-    if (!levelData || !levelData.units || levelData.units.length === 0) throw new Error(`Aucune unité pour ${currentLevel}`);
 
+    // ✅ VERROUILLAGE : Session basée strictement sur le thème choisi
     const unitId = currentTheme || levelData.units[0];
+    currentTheme = unitId;
+
     const vocabData = await content.loadSection('fr', 'vocabulary', unitId);
+
+    // La file d'attente ne contient QUE les items de ce thème
     const sessionQueue = [...vocabData.items].sort(() => Math.random() - 0.5);
     let currentIndex = 0;
-
-    // Variable pour stocker la référence de l'écouteur et pouvoir le supprimer
     let shadowEvalHandler = null;
 
     const renderQuestion = (index) => {
-      // ✅ 1. NETTOYAGE COMPLET AVANT CHAQUE QUESTION (Tue les écouteurs fantômes)
       shadowing.forceStop();
-      speechSynthesis.cancel(); // Arrête toute parole en cours
+      speechSynthesis.cancel();
       if (shadowEvalHandler) {
         bus.off('pronunciation:evaluated', shadowEvalHandler);
         shadowEvalHandler = null;
@@ -300,11 +322,7 @@ async function renderPractice() {
       const itemData = sessionQueue[index];
       const progressPercent = ((index) / sessionQueue.length) * 100;
 
-      // --- LOGIQUE DE QUIZ BLINDÉE (Zéro réponse vide) ---
-      let questionText = "";
-      let correctAnswer = "";
-      let options = [];
-
+      let questionText = "", correctAnswer = "", options = [];
       if (itemData.quizType === "mg_to_fr") {
         questionText = `Comment dit-on "<strong>${itemData.source}</strong>" en français ?`;
         correctAnswer = itemData.target;
@@ -319,30 +337,23 @@ async function renderPractice() {
         options = [correctAnswer, ...distractors];
       }
 
-      // Sécurité ultime : nettoyer, dédoublonner et garantir 3 options
       options = [...new Set(options.filter(opt => opt && typeof opt === 'string' && opt.trim() !== ""))];
-      while (options.length < 3) {
-        options.push("Option de secours");
-      }
+      while (options.length < 3) options.push("Option de secours");
       options = options.sort(() => Math.random() - 0.5);
 
-      // --- RENDU HTML CORRIGÉ (Titre "Question" supprimé de la carte de réponse) ---
       main.innerHTML = `
         <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem;">
           <div style="background:var(--ds-color-border); height:8px; border-radius:4px; margin-bottom:1rem; overflow:hidden;">
             <div style="background:var(--ds-color-primary); height:100%; width:${progressPercent}%; transition: width 0.3s ease;"></div>
           </div>
-
           <div style="display:flex; justify-content:space-between; margin-bottom:1rem;">
-            <ds-button variant="ghost" size="sm" id="btn-back">← Quitter</ds-button>
+            <ds-button variant="ghost" size="sm" id="btn-back">← Thèmes</ds-button>
             <span style="font-weight:600; color:var(--ds-color-text-muted);">Question ${index + 1} / ${sessionQueue.length}</span>
           </div>
 
-          <!-- ZONE DE LA QUESTION (Clairement séparée) -->
           <div style="text-align:center; margin-bottom: 2rem; background: var(--ds-color-surface); padding: 1.5rem; border-radius: var(--ds-radius-lg); box-shadow: var(--ds-shadow-sm);">
             <h2 style="margin-bottom: 0.5rem; font-size: var(--ds-font-size-xl);">${questionText}</h2>
             <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.95rem;">"${itemData.context}"</p>
-
             <div style="margin-top: 1rem; display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
               <ds-button variant="ghost" size="sm" id="btn-listen">🔊 Écouter</ds-button>
               <ds-button variant="ghost" size="sm" id="btn-shadow">🎙️ Shadowing (5s)</ds-button>
@@ -350,11 +361,8 @@ async function renderPractice() {
             <div id="shadow-feedback" style="margin-top: 1rem; font-weight: bold; color: var(--ds-color-primary); min-height: 1.5em;"></div>
           </div>
 
-          <!-- ZONE DES RÉPONSES (Sans titre "Question" parasite) -->
           <div style="margin-top: 1.5rem; text-align: left;">
-            <p style="font-weight: 600; color: var(--ds-color-text-muted); margin-bottom: 0.5rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;">
-              Choisissez la bonne réponse :
-            </p>
+            <p style="font-weight: 600; color: var(--ds-color-text-muted); margin-bottom: 0.5rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;">Choisissez la bonne réponse :</p>
             <ds-quiz id="active-quiz" item-id="${itemData.id}" options='${JSON.stringify(options)}' correct="${correctAnswer}"></ds-quiz>
           </div>
 
@@ -364,36 +372,24 @@ async function renderPractice() {
         </section>
       `;
 
-      // --- ÉVÉNEMENTS ---
-      document.getElementById('btn-back').addEventListener('click', () => {
-        shadowing.forceStop();
-        speechSynthesis.cancel();
-        router.navigate('/lesson');
-      });
-
+      document.getElementById('btn-back').addEventListener('click', () => { shadowing.forceStop(); router.navigate('/themes'); });
       document.getElementById('btn-listen').addEventListener('click', () => {
         speechSynthesis.cancel();
-        const u = new SpeechSynthesisUtterance(itemData.target);
-        u.lang = 'fr-FR'; u.rate = 0.9;
-        speechSynthesis.speak(u);
+        const u = new SpeechSynthesisUtterance(itemData.target); u.lang = 'fr-FR'; u.rate = 0.9; speechSynthesis.speak(u);
       });
 
       const btnShadow = document.getElementById('btn-shadow');
       const shadowFeedback = document.getElementById('shadow-feedback');
       const btnNext = document.getElementById('btn-next');
-
-      // ✅ 2. GESTION D'ÉTAT FIABLE (Boolean au lieu de lire le texte)
       let isRecording = false;
 
       btnShadow.addEventListener('click', () => {
         if (isRecording) {
-          // L'utilisateur clique pour arrêter manuellement
           shadowing.forceStop();
           isRecording = false;
           btnShadow.textContent = '🎙️ Shadowing (5s)';
         } else {
-          // L'utilisateur clique pour démarrer
-          speechSynthesis.cancel(); // ✅ Empêche la voix de parler pendant l'enregistrement
+          speechSynthesis.cancel();
           shadowing.startRecording();
           isRecording = true;
           btnShadow.textContent = '⏹️ Arrêt en cours...';
@@ -401,23 +397,15 @@ async function renderPractice() {
         }
       });
 
-      // ✅ 3. ÉCOUTEUR EXPLICITE ET NETTOYABLE
       shadowEvalHandler = (data) => {
-        console.log('🎤 [DEBUG] Shadowing évalué:', data);
         if (shadowFeedback) shadowFeedback.textContent = `${data.feedback} (${(data.score * 100).toFixed(0)}%)`;
-        if (btnShadow) {
-          btnShadow.textContent = '🎙️ Shadowing (5s)';
-          isRecording = false; // ✅ Remet l'état à faux pour permettre une 2ème tentative
-        }
+        if (btnShadow) { btnShadow.textContent = '🎙️ Shadowing (5s)'; isRecording = false; }
         unlockNext();
       };
-
-      // On s'abonne proprement
       bus.on('pronunciation:evaluated', shadowEvalHandler);
 
       const quizEl = document.getElementById('active-quiz');
       quizEl.addEventListener('quiz:answered', async (e) => {
-        console.log('📝 [DEBUG] Quiz répondu:', e.detail);
         await srs.schedule(e.detail.itemId, e.detail.isCorrect ? 4 : 1);
         if (e.detail.isCorrect) {
           await gamification.addXP(10, 'Quiz réussi');
@@ -433,21 +421,13 @@ async function renderPractice() {
           btnNext.setAttribute('variant', 'success');
           btnNext.style.boxShadow = "0 0 0 0 rgba(47, 158, 68, 0.7)";
           btnNext.style.animation = "pulse-green 1.5s infinite";
-          console.log('🔓 [DEBUG] Bouton Suivant ACTIVÉ et animé');
         }
       };
 
-      // Injection du style d'animation (une seule fois)
       if (!document.getElementById('pulse-style')) {
         const style = document.createElement('style');
         style.id = 'pulse-style';
-        style.innerHTML = `
-          @keyframes pulse-green {
-            0% { transform: scale(0.98); box-shadow: 0 0 0 0 rgba(47, 158, 68, 0.7); }
-            70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(47, 158, 68, 0); }
-            100% { transform: scale(0.98); box-shadow: 0 0 0 0 rgba(47, 158, 68, 0); }
-          }
-        `;
+        style.innerHTML = `@keyframes pulse-green { 0% { transform: scale(0.98); box-shadow: 0 0 0 0 rgba(47, 158, 68, 0.7); } 70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(47, 158, 68, 0); } 100% { transform: scale(0.98); box-shadow: 0 0 0 0 rgba(47, 158, 68, 0); } }`;
         document.head.appendChild(style);
       }
 
@@ -469,19 +449,17 @@ async function renderPractice() {
         <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem; text-align:center;">
           <div style="font-size: 4rem; margin-bottom: 1rem;">🎉</div>
           <h2>Session Terminée !</h2>
-          <p style="color: var(--ds-color-text-muted); margin-bottom: 2rem;">Misaotra ! Vous avez révisé cette unité.</p>
-          <ds-button id="btn-finish" size="lg" variant="success" style="width: 100%;">Retour aux Leçons</ds-button>
+          <p style="color: var(--ds-color-text-muted); margin-bottom: 2rem;">Misaotra ! Vous avez maîtrisé ce thème.</p>
+          <ds-button id="btn-finish" size="lg" variant="success" style="width: 100%;">Retour aux Thèmes</ds-button>
         </section>
       `;
-      document.getElementById('btn-finish').addEventListener('click', () => router.navigate('/lesson'));
+      document.getElementById('btn-finish').addEventListener('click', () => router.navigate('/themes'));
     };
 
     renderQuestion(currentIndex);
-    console.log(`✅ [DEBUG] Session initialisée avec ${sessionQueue.length} questions`);
-
   } catch (error) {
     console.error('❌ Erreur renderPractice:', error);
-    main.innerHTML = `<div style="text-align:center; padding:2rem; color:red;"><p>Erreur: ${error.message}</p><ds-button onclick="location.hash='/lesson'">Retour</ds-button></div>`;
+    main.innerHTML = `<div style="text-align:center; padding:2rem; color:red;"><p>Erreur: ${error.message}</p><ds-button onclick="location.hash='/themes'">Retour aux thèmes</ds-button></div>`;
   }
 }
 
@@ -490,16 +468,21 @@ async function renderDialogues() {
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement des dialogues...</div>';
 
   try {
-    // ✅ Charger le dialogue correspondant au thème actuel
-    let dialogueId;
-    if (currentTheme) {
-      dialogueId = `${currentTheme}_dialogue`;
-    } else {
-      // Fallback si aucun thème n'est sélectionné
-      dialogueId = currentLevel === 'A0' ? 'survival_dialogue' : 'family_dialogue';
-    }
+    const manifest = await content.loadManifest('fr');
+    const levelData = manifest.levels.find(l => l.id === currentLevel);
 
+    // ✅ VERROUILLAGE : Dialogue strictement lié au thème choisi
+    const unitId = currentTheme || levelData.units[0];
+    currentTheme = unitId;
+
+    const dialogueId = `${unitId}_dialogue`;
     const dialogue = await content.loadSection('fr', 'dialogues', dialogueId);
+
+    const themeNames = {
+      'survival': 'Mots de survie', 'numbers': 'Les Nombres',
+      'family': 'La Famille', 'market': 'Au Marché', 'colors': 'Les Couleurs'
+    };
+    const themeName = themeNames[unitId] || unitId;
 
     let chatHtml = dialogue.lines.map(line => {
       const speaker = dialogue.participants[line.speaker];
@@ -516,15 +499,9 @@ async function renderDialogues() {
       `;
     }).join('');
 
-    const themeNames = {
-      'survival': 'Mots de survie', 'numbers': 'Les Nombres',
-      'family': 'La Famille', 'market': 'Au Marché', 'colors': 'Les Couleurs'
-    };
-    const themeName = themeNames[currentTheme] || 'Thème';
-
     main.innerHTML = `
       <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem;">
-        <ds-button variant="ghost" size="sm" id="btn-back" style="margin-bottom: 1rem;">← Retour</ds-button>
+        <ds-button variant="ghost" size="sm" id="btn-back" style="margin-bottom: 1rem;">← Retour aux thèmes</ds-button>
         <div style="text-align:center; margin-bottom:1.5rem;">
           <span style="background:var(--ds-color-accent); color:white; padding:4px 10px; border-radius:20px; font-weight:600; font-size:0.8rem;">Niveau ${currentLevel} • ${themeName}</span>
         </div>
@@ -534,12 +511,12 @@ async function renderDialogues() {
           ${chatHtml}
         </div>
         <div style="margin-top: 2rem; text-align: center;">
-          <ds-button id="btn-dialogue-next" size="lg" variant="success" style="width: 100%;">Dialogue terminé, continuer →</ds-button>
+          <ds-button id="btn-dialogue-next" size="lg" variant="success" style="width: 100%;">Dialogue terminé, retourner aux thèmes →</ds-button>
         </div>
       </section>
     `;
 
-    document.getElementById('btn-back').addEventListener('click', () => router.navigate('/theme-detail'));
+    document.getElementById('btn-back').addEventListener('click', () => router.navigate('/themes'));
     document.getElementById('btn-dialogue-next').addEventListener('click', () => router.navigate('/themes'));
 
     document.querySelectorAll('.play-dialog-audio').forEach(btn => {
@@ -551,9 +528,12 @@ async function renderDialogues() {
       });
     });
 
-    logger.info(`✅ Page Dialogues rendue (Thème: ${currentTheme})`);
+    logger.info(`✅ Page Dialogues rendue pour le thème: ${unitId}`);
   } catch (e) {
-    main.innerHTML = `<div style="text-align:center; padding:2rem; color:var(--ds-color-danger);">Aucun dialogue disponible pour ce thème.</div>`;
+    main.innerHTML = `<div style="text-align:center; padding:2rem; color:var(--ds-color-danger);">
+      <p>Aucun dialogue disponible pour ce thème pour le moment.</p>
+      <ds-button onclick="location.hash='/themes'" style="margin-top:1rem;">Retour aux thèmes</ds-button>
+    </div>`;
   }
 }
 
