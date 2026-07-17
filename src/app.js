@@ -51,25 +51,30 @@ window.DagoSpeak = { bus, container, logger, db, content, router, srs, gamificat
 let currentLevel = localStorage.getItem('dagospeak:level') || 'A0';
 let currentTheme = null; // Stocke le thème sélectionné (ex: 'family', 'market')
 
+// Fonction globale pour sélectionner un niveau depuis l'HTML
+window.selectLevel = (levelId) => {
+  currentLevel = levelId;
+  currentTheme = null; // Réinitialise le thème
+  localStorage.setItem('dagospeak:level', currentLevel);
+  updateLevelUI();
+  router.navigate('/themes');
+};
+
 function updateLevelUI() {
   document.querySelectorAll('.ds-level-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.level === currentLevel);
   });
 }
 
-document.getElementById('level-selector')?.addEventListener('click', (e) => {
+ddocument.getElementById('level-selector')?.addEventListener('click', (e) => {
   const btn = e.target.closest('.ds-level-btn');
   if (btn) {
     currentLevel = btn.dataset.level;
+    currentTheme = null; // ✅ Réinitialise correctement la variable locale
     localStorage.setItem('dagospeak:level', currentLevel);
     updateLevelUI();
     logger.info(`Niveau changé vers : ${currentLevel}`);
-
-    // ✅ Rediriger vers les thèmes du nouveau niveau
-    setTimeout(() => {
-      window.currentTheme = null;
-      window.location.hash = '/themes';
-    }, 50);
+    router.navigate('/themes');
   }
 });
 
@@ -124,7 +129,8 @@ async function renderHome() {
 
           ${isUnlocked ? `
             <ds-button variant="${level.id === 'A0' ? 'success' : 'primary'}" size="sm"
-                       onclick="localStorage.setItem('dagospeak:level', '${level.id}'); window.currentLevel='${level.id}'; window.currentTheme=null; window.location.hash='/themes';">
+                       // Remplacez l'ancien onclick par :
+onclick="window.selectLevel('${level.id}')">
               Voir les thèmes de ce niveau
             </ds-button>
           ` : `
@@ -545,23 +551,21 @@ async function renderThemes() {
   try {
     const manifest = await content.loadManifest('fr');
     const levelData = manifest.levels.find(l => l.id === currentLevel);
-    currentTheme = null; // Réinitialiser le thème
+    currentTheme = null; // Réinitialisation propre à l'entrée dans la liste
+
+    const unitNames = {
+      'survival': 'Mots de survie (Fototra)',
+      'numbers': 'Les Nombres (Ny Isa)',
+      'family': 'La Famille (Fianakaviana)',
+      'market': 'Au Marché (Any an-tsena)',
+      'colors': 'Les Couleurs (Ny Loko)'
+    };
 
     const themesHtml = levelData.units.map(unitId => {
-      // On charge juste le manifeste de l'unité pour avoir son titre
-      // Astuce : on utilise des titres génériques si le chargement est lent, ou on les mappe
-      const unitNames = {
-        'survival': 'Mots de survie (Fototra)',
-        'family': 'La Famille (Fianakaviana)',
-        'market': 'Au Marché (Any an-tsena)',
-        'colors': 'Les Couleurs (Ny Loko)'
-      };
       const name = unitNames[unitId] || unitId;
-
       return `
-        <div style="background:var(--ds-color-surface); padding:1.5rem; border-radius:var(--ds-radius-lg); border:1px solid var(--ds-color-border); cursor:pointer; transition:transform 0.2s;"
-             onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'"
-             onclick="window.currentTheme='${unitId}'; window.location.hash='/theme-detail';">
+        <div class="theme-card" data-theme="${unitId}" style="background:var(--ds-color-surface); padding:1.5rem; border-radius:var(--ds-radius-lg); border:1px solid var(--ds-color-border); cursor:pointer; transition:transform 0.2s;"
+             onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
           <h3 style="color:var(--ds-color-primary); margin-bottom:0.5rem;">${name}</h3>
           <p style="color:var(--ds-color-text-muted); font-size:0.9rem;">Cliquez pour explorer ce thème</p>
         </div>
@@ -573,12 +577,24 @@ async function renderThemes() {
         <ds-button variant="ghost" size="sm" id="btn-back-home" style="margin-bottom: 1rem;">← Retour à l'accueil</ds-button>
         <h2 style="margin-bottom: 0.5rem;">Niveau ${currentLevel} : ${levelData.title}</h2>
         <p style="color:var(--ds-color-text-muted); margin-bottom: 2rem;">Choisissez un thème pour commencer :</p>
-        <div style="display:grid; gap:1rem;">
+        <div id="themes-container" style="display:grid; gap:1rem;">
           ${themesHtml}
         </div>
       </section>
     `;
+
     document.getElementById('btn-back-home').addEventListener('click', () => router.navigate('/'));
+
+    // ✅ Écouteur d'événement délégué robuste pour la sélection du thème
+    document.getElementById('themes-container').addEventListener('click', (e) => {
+      const card = e.target.closest('.theme-card');
+      if (card) {
+        currentTheme = card.dataset.theme;
+        console.log('✅ Thème sélectionné:', currentTheme);
+        router.navigate('/theme-detail');
+      }
+    });
+
   } catch (e) {
     main.innerHTML = `<p style="color:red; text-align:center;">Erreur: ${e.message}</p>`;
   }
@@ -587,6 +603,20 @@ async function renderThemes() {
 // --- VUE : DÉTAIL D'UN THÈME (Les 3 actions) ---
 async function renderThemeDetail() {
   const main = document.getElementById('app');
+
+  // ✅ Sécurité : si aucun thème n'est sélectionné, retourner à la liste
+  if (!currentTheme) {
+    console.warn('Aucun thème sélectionné, retour à la liste.');
+    router.navigate('/themes');
+    return;
+  }
+
+  main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement...</div>';
+
+  try {
+    const unitData = await content.loadSection('fr', 'vocabulary', currentTheme);
+
+
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement...</div>';
 
   try {
