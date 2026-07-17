@@ -441,21 +441,50 @@ async function renderPractice() {
       });
     };
 
-    const renderSessionComplete = async () => {
+        const renderSessionComplete = async () => {
       shadowing.forceStop();
       speechSynthesis.cancel();
       await gamification.addXP(50, 'Session terminée');
+
       main.innerHTML = `
         <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem; text-align:center;">
           <div style="font-size: 4rem; margin-bottom: 1rem;">🎉</div>
-          <h2>Session Terminée !</h2>
-          <p style="color: var(--ds-color-text-muted); margin-bottom: 2rem;">Misaotra ! Vous avez maîtrisé ce thème.</p>
-          <ds-button id="btn-finish" size="lg" variant="success" style="width: 100%;">Retour aux Thèmes</ds-button>
+          <h2 style="color: var(--ds-color-primary);">Session Terminée !</h2>
+          <p style="color: var(--ds-color-text-muted); margin-bottom: 0.5rem;">
+            Vous avez maîtrisé le vocabulaire de ce thème.
+          </p>
+          <p style="color: var(--ds-color-text-muted); margin-bottom: 2rem; font-style: italic;">
+            +50 XP gagnés ! Misaotra !
+          </p>
+
+          <!-- ✅ PARCOURS GUIDÉ : Bouton principal vers les Dialogues -->
+          <div style="background: var(--ds-color-primary-soft); padding: 1.5rem; border-radius: var(--ds-radius-lg); border: 1px solid var(--ds-color-primary); margin-bottom: 1.5rem;">
+            <h3 style="color: var(--ds-color-primary); margin-bottom: 0.5rem;">💬 Étape suivante : Les Dialogues</h3>
+            <p style="color: var(--ds-color-text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+              Maintenant, découvrez comment utiliser ces mots dans une conversation réelle !
+            </p>
+            <ds-button id="btn-go-dialogue" size="lg" variant="success" style="width: 100%;">
+              Continuer vers les Dialogues →
+            </ds-button>
+          </div>
+
+          <!-- Bouton secondaire : Retour aux thèmes -->
+          <ds-button id="btn-finish" variant="ghost" size="sm" style="width: 100%; margin-top: 0.5rem;">
+            ← Retour à la liste des thèmes
+          </ds-button>
         </section>
       `;
-      document.getElementById('btn-finish').addEventListener('click', () => router.navigate('/themes'));
-    };
 
+      // ✅ Le bouton principal mène vers les Dialogues du même thème
+      document.getElementById('btn-go-dialogue').addEventListener('click', () => {
+        router.navigate('/dialogues');
+      });
+
+      // Le bouton secondaire ramène aux thèmes (option de secours)
+      document.getElementById('btn-finish').addEventListener('click', () => {
+        router.navigate('/themes');
+      });
+    };
     renderQuestion(currentIndex);
   } catch (error) {
     console.error('❌ Erreur renderPractice:', error);
@@ -479,14 +508,19 @@ async function renderDialogues() {
     const dialogue = await content.loadSection('fr', 'dialogues', dialogueId);
 
     const themeNames = {
-      'survival': 'Mots de survie', 'numbers': 'Les Nombres',
-      'family': 'La Famille', 'market': 'Au Marché', 'colors': 'Les Couleurs'
+      'survival': 'Mots de survie',
+      'numbers': 'Les Nombres',
+      'family': 'La Famille',
+      'market': 'Au Marché',
+      'colors': 'Les Couleurs'
     };
     const themeName = themeNames[unitId] || unitId;
 
+    // Construction du chat HTML
     let chatHtml = dialogue.lines.map(line => {
       const speaker = dialogue.participants[line.speaker];
-      const isMe = line.speaker === 'B';
+      const isMe = line.speaker === 'B'; // L'utilisateur est le locuteur B
+
       return `
         <div style="display:flex; flex-direction:column; align-items:${isMe ? 'flex-end' : 'flex-start'}; margin-bottom: 1.5rem;">
           <div style="background:${isMe ? 'var(--ds-color-primary)' : 'var(--ds-color-surface-2)'}; color:${isMe ? 'white' : 'var(--ds-color-text)'}; padding: 12px 16px; border-radius: ${isMe ? '16px 16px 4px 16px' : '16px 16px 16px 4px'}; max-width: 85%; box-shadow: var(--ds-shadow-sm);">
@@ -499,41 +533,74 @@ async function renderDialogues() {
       `;
     }).join('');
 
+    // Rendu HTML complet
     main.innerHTML = `
       <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem;">
         <ds-button variant="ghost" size="sm" id="btn-back" style="margin-bottom: 1rem;">← Retour aux thèmes</ds-button>
+
         <div style="text-align:center; margin-bottom:1.5rem;">
-          <span style="background:var(--ds-color-accent); color:white; padding:4px 10px; border-radius:20px; font-weight:600; font-size:0.8rem;">Niveau ${currentLevel} • ${themeName}</span>
+          <span style="background:var(--ds-color-accent); color:white; padding:4px 10px; border-radius:20px; font-weight:600; font-size:0.8rem;">
+            Niveau ${currentLevel} • ${themeName}
+          </span>
         </div>
+
         <h2 style="text-align:center; margin-bottom:0.5rem;">💬 ${dialogue.title}</h2>
         <p style="text-align:center; color:var(--ds-color-text-muted); margin-bottom:2rem;">${dialogue.titleMg}</p>
+
         <div style="background:var(--ds-color-bg); padding:1.5rem; border-radius:var(--ds-radius-lg); border:1px solid var(--ds-color-border);">
           ${chatHtml}
         </div>
-        <div style="margin-top: 2rem; text-align: center;">
-          <ds-button id="btn-dialogue-next" size="lg" variant="success" style="width: 100%;">Dialogue terminé, retourner aux thèmes →</ds-button>
+
+        <!-- ✅ BOUTONS DE NAVIGATION FINALE -->
+        <div style="margin-top: 2rem; display: flex; flex-direction: column; gap: 0.75rem; text-align: center;">
+          <ds-button id="btn-restart-practice" size="lg" variant="primary" style="width: 100%;">
+            🔄 Refaire les révisions de ce thème
+          </ds-button>
+          <ds-button id="btn-dialogue-next" size="md" variant="ghost" style="width: 100%;">
+            ← Retour à la liste des thèmes
+          </ds-button>
         </div>
       </section>
     `;
 
-    document.getElementById('btn-back').addEventListener('click', () => router.navigate('/themes'));
-    document.getElementById('btn-dialogue-next').addEventListener('click', () => router.navigate('/themes'));
+    // --- ÉCOUTEURS D'ÉVÉNEMENTS ---
 
+    // Bouton retour aux thèmes
+    document.getElementById('btn-back').addEventListener('click', () => {
+      router.navigate('/themes');
+    });
+
+    // Bouton principal : refaire les révisions
+    document.getElementById('btn-restart-practice').addEventListener('click', () => {
+      router.navigate('/practice');
+    });
+
+    // Bouton secondaire : retour aux thèmes
+    document.getElementById('btn-dialogue-next').addEventListener('click', () => {
+      router.navigate('/themes');
+    });
+
+    // Boutons audio pour chaque ligne du dialogue
     document.querySelectorAll('.play-dialog-audio').forEach(btn => {
       btn.addEventListener('click', () => {
         speechSynthesis.cancel();
         const u = new SpeechSynthesisUtterance(btn.dataset.text);
-        u.lang = 'fr-FR'; u.rate = 0.9;
+        u.lang = 'fr-FR';
+        u.rate = 0.9;
         speechSynthesis.speak(u);
       });
     });
 
     logger.info(`✅ Page Dialogues rendue pour le thème: ${unitId}`);
+
   } catch (e) {
-    main.innerHTML = `<div style="text-align:center; padding:2rem; color:var(--ds-color-danger);">
-      <p>Aucun dialogue disponible pour ce thème pour le moment.</p>
-      <ds-button onclick="location.hash='/themes'" style="margin-top:1rem;">Retour aux thèmes</ds-button>
-    </div>`;
+    console.error('❌ Erreur renderDialogues:', e);
+    main.innerHTML = `
+      <div style="text-align:center; padding:2rem; color:var(--ds-color-danger);">
+        <p style="margin-bottom: 1rem;">Aucun dialogue disponible pour ce thème pour le moment.</p>
+        <ds-button onclick="location.hash='/themes'" style="margin-top:1rem;">Retour aux thèmes</ds-button>
+      </div>
+    `;
   }
 }
 

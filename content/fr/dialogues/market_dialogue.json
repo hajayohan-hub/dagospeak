@@ -1,0 +1,18 @@
+{
+  "id": "market_dialogue",
+  "level": "A1",
+  "theme": "market",
+  "title": "Au Marché",
+  "titleMg": "Any an-tsena",
+  "participants": {
+    "A": { "name": "Vendeur", "nameMg": "Mpivarotra", "avatar": "👨🏾‍🌾" },
+    "B": { "name": "Client", "nameMg": "Mpanjifa", "avatar": "👩🏽" }
+  },
+  "lines": [
+    { "speaker": "B", "text": "Bonjour ! Combien coûte le poulet ?", "translation": "Manahoana ! Ohatrinona ny akoho?", "highlight": "Combien" },
+    { "speaker": "A", "text": "Bonjour ! C'est 10 000 Ariary.", "translation": "Manahoana ! 10 000 Ariary izany.", "highlight": "10 000" },
+    { "speaker": "B", "text": "C'est trop cher ! C'est bon marché ailleurs.", "translation": "Lafo loatra izany ! Mora any amin'ny hafa.", "highlight": "cher" },
+    { "speaker": "A", "text": "D'accord, pour vous, 8 000 Ariary.", "translation": "Tsy maninona, ho anao, 8 000 Ariary.", "highlight": "D'accord" },
+    { "speaker": "B", "text": "Merci beaucoup ! Je le prends.", "translation": "Misaotra betsaka ! Azoko izany.", "highlight": "Merci" }
+  ]
+}
