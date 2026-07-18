@@ -17,6 +17,7 @@ import { PaymentGateway }      from './payments/gateway.js';
 import { MobileMoneyProvider } from './payments/providers/mobile-money.js';
 // Import des nouveaux modules IA
 import { AIManager } from './engines/ai/ai-manager.js';
+import { SpeechRecognitionEngine } from './engines/pronunciation/speech-recognition.js';
 
 // ═══════════════════════════════════════════════════════════
 // INITIALISATION DU CORE
@@ -31,6 +32,7 @@ const router    = new Router('/');
 const srs          = new SRSEngine(db, bus);
 const gamification = new GamificationEngine(db, bus);
 const shadowing    = new ShadowingEngine(bus);
+const speechRecognition = new SpeechRecognitionEngine(bus);
 const roleManager  = new RoleManager(db);
 const aiManager = new AIManager(bus);
 
@@ -44,6 +46,7 @@ container.register('content', () => content);
 container.register('srs', () => srs);
 container.register('gamification', () => gamification);
 container.register('roles', () => roleManager);
+container.register('speechRecognition', () => speechRecognition);
 container.register('payments', () => paymentGateway);
 container.register('ai', () => aiManager);
 
@@ -599,6 +602,10 @@ async function renderDialogues() {
       });
     });
 
+        document.getElementById('btn-go-roleplay').addEventListener('click', () => {
+      router.navigate('/roleplay');
+    });
+
     logger.info(`✅ Page Dialogues rendue pour le thème: ${unitId}`);
 
   } catch (e) {
@@ -606,10 +613,522 @@ async function renderDialogues() {
     main.innerHTML = `
       <div style="text-align:center; padding:2rem; color:var(--ds-color-danger);">
         <p style="margin-bottom: 1rem;">Aucun dialogue disponible pour ce thème pour le moment.</p>
-        <ds-button onclick="location.hash='/themes'" style="margin-top:1rem;">Retour aux thèmes</ds-button>
+        <!--<ds-button onclick="location.hash='/themes'" style="margin-top:1rem;">Retour aux thèmes</ds-button>-->
       </div>
+              <!-- ✅ NOUVEAU FLUX : Dialogues → Role Play → Défi -->
+        <div style="margin-top: 2rem; display: flex; flex-direction: column; gap: 0.75rem; text-align: center;">
+          <ds-button id="btn-go-roleplay" size="lg" variant="primary" style="width: 100%;">
+            🎭 Role Play Guidé (avec réponses)
+          </ds-button>
+          <ds-button id="btn-restart-practice" size="md" variant="ghost" style="width: 100%;">
+            🔄 Refaire les révisions
+          </ds-button>
+          <ds-button id="btn-dialogue-next" size="md" variant="ghost" style="width: 100%;">
+            ← Retour à la liste des thèmes
+          </ds-button>
+        </div>
     `;
   }
+}
+
+// ═══════════════════════════════════════════════════════════
+// VUE : ROLE PLAY GUIDÉ (L'utilisateur joue avec les réponses visibles)
+// ═══════════════════════════════════════════════════════════
+async function renderRolePlay() {
+  const main = document.getElementById('app');
+  main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement du Role Play...</div>';
+
+  try {
+    const unitId = currentTheme;
+    if (!unitId) {
+      router.navigate('/themes');
+      return;
+    }
+
+    const dialogue = await content.loadSection('fr', 'dialogues', `${unitId}_dialogue`);
+    const themeNames = {
+      'survival': 'Mots de survie', 'numbers': 'Les Nombres',
+      'family': 'La Famille', 'market': 'Au Marché', 'colors': 'Les Couleurs'
+    };
+    const themeName = themeNames[unitId] || unitId;
+
+    let currentLineIndex = 0;
+    let feedbackMessage = '';
+
+    const renderLine = () => {
+      if (currentLineIndex >= dialogue.lines.length) {
+        renderRolePlayComplete();
+        return;
+      }
+
+      const line = dialogue.lines[currentLineIndex];
+      const speaker = dialogue.participants[line.speaker];
+      const isUserTurn = line.speaker === 'B'; // L'utilisateur joue toujours le rôle B
+      const progressPercent = (currentLineIndex / dialogue.lines.length) * 100;
+
+      main.innerHTML = `
+        <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem;">
+          <div style="background:var(--ds-color-border); height:8px; border-radius:4px; margin-bottom:1rem; overflow:hidden;">
+            <div style="background:var(--ds-color-accent, #f59e0b); height:100%; width:${progressPercent}%; transition: width 0.3s ease;"></div>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; margin-bottom:1rem;">
+            <ds-button variant="ghost" size="sm" id="btn-back">← Quitter</ds-button>
+            <span style="font-weight:600; color:var(--ds-color-text-muted);">
+              Réplique ${currentLineIndex + 1} / ${dialogue.lines.length}
+            </span>
+          </div>
+
+          <div style="text-align:center; margin-bottom:1rem;">
+            <span style="background:var(--ds-color-accent, #f59e0b); color:white; padding:4px 12px; border-radius:20px; font-weight:600; font-size:0.8rem;">
+              🎭 Role Play Guidé • ${themeName}
+            </span>
+          </div>
+
+          <h2 style="text-align:center; margin-bottom:1.5rem;">💬 ${dialogue.title}</h2>
+
+          <!-- Bulle du locuteur actuel -->
+          <div style="background:var(--ds-color-surface); padding:1.5rem; border-radius:var(--ds-radius-lg); border:2px solid ${isUserTurn ? 'var(--ds-color-primary)' : 'var(--ds-color-border)'}; margin-bottom:1.5rem; box-shadow:var(--ds-shadow-sm);">
+            <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.75rem;">
+              <span style="font-size:1.5rem;">${speaker.avatar}</span>
+              <strong style="color:${isUserTurn ? 'var(--ds-color-primary)' : 'var(--ds-color-text)'};">
+                ${speaker.name} ${isUserTurn ? '(Vous)' : ''}
+              </strong>
+            </div>
+            <div style="font-size:1.2rem; font-weight:500; margin-bottom:0.5rem;">${line.text}</div>
+            <div style="font-size:0.95rem; color:var(--ds-color-text-muted); font-style:italic;">${line.translation}</div>
+          </div>
+
+          <!-- Zone d'action -->
+          <div style="display:flex; flex-direction:column; gap:0.75rem;">
+            <ds-button variant="ghost" size="md" id="btn-listen" style="width:100%;">
+              🔊 Écouter la réplique
+            </ds-button>
+
+            ${isUserTurn ? `
+              <ds-button variant="primary" size="lg" id="btn-speak" style="width:100%;">
+                🎤 Parler à mon tour
+              </ds-button>
+              <div id="speech-feedback" style="text-align:center; padding:1rem; background:var(--ds-color-surface-2); border-radius:var(--ds-radius-md); min-height:3rem; display:flex; align-items:center; justify-content:center;">
+                <span style="color:var(--ds-color-text-muted);">Appuyez sur le micro pour parler</span>
+              </div>
+            ` : `
+              <div style="text-align:center; padding:1rem; background:var(--ds-color-primary-soft); border-radius:var(--ds-radius-md); color:var(--ds-color-primary); font-weight:500;">
+                👂 Écoutez ${speaker.name} attentivement
+              </div>
+            `}
+
+            <ds-button id="btn-next" disabled variant="success" size="lg" style="width:100%; margin-top:0.5rem;">
+              Réplique suivante →
+            </ds-button>
+          </div>
+
+          ${feedbackMessage ? `
+            <div style="margin-top:1rem; padding:1rem; background:var(--ds-color-success-soft, #d1fae5); color:var(--ds-color-success, #047857); border-radius:var(--ds-radius-md); text-align:center; font-weight:600;">
+              ${feedbackMessage}
+            </div>
+          ` : ''}
+        </section>
+      `;
+
+      // Événements
+      document.getElementById('btn-back').addEventListener('click', () => router.navigate('/dialogues'));
+
+      document.getElementById('btn-listen').addEventListener('click', () => {
+        speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(line.text);
+        u.lang = 'fr-FR'; u.rate = 0.9;
+        speechSynthesis.speak(u);
+      });
+
+      const btnNext = document.getElementById('btn-next');
+      const unlockNext = () => {
+        btnNext.disabled = false;
+        btnNext.removeAttribute('disabled');
+      };
+
+      if (isUserTurn) {
+        const btnSpeak = document.getElementById('btn-speak');
+        const speechFeedback = document.getElementById('speech-feedback');
+
+        btnSpeak.addEventListener('click', async () => {
+          btnSpeak.setAttribute('disabled', '');
+          btnSpeak.textContent = '🎤 Écoute en cours... Parlez !';
+          speechFeedback.innerHTML = '<span style="color:var(--ds-color-accent);">🎙️ Je vous écoute...</span>';
+
+          const result = await speechRecognition.listen();
+
+          if (result.error === 'not_supported') {
+            speechFeedback.innerHTML = '<span style="color:var(--ds-color-danger);">⚠️ Reconnaissance vocale non supportée. Cliquez sur "Suivant" pour continuer.</span>';
+            unlockNext();
+            return;
+          }
+
+          if (result.transcript) {
+            // Comparaison simple (tolérance aux fautes)
+            const similarity = calculateSimilarity(result.transcript.toLowerCase(), line.text.toLowerCase());
+
+            if (similarity > 0.6) {
+              speechFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Tsara ! Vous avez dit : "${result.transcript}"</span>`;
+              feedbackMessage = '✅ Excellente prononciation !';
+              await gamification.addXP(5, 'Role Play - réplique réussie');
+            } else {
+              speechFeedback.innerHTML = `<span style="color:var(--ds-color-accent);">🎯 Vous avez dit : "${result.transcript}". Ce n'est pas grave, continuez !</span>`;
+              feedbackMessage = '';
+            }
+          } else {
+            speechFeedback.innerHTML = '<span style="color:var(--ds-color-text-muted);">Aucune voix détectée. Réessayez ou passez à la suite.</span>';
+          }
+
+          btnSpeak.removeAttribute('disabled');
+          btnSpeak.textContent = '🎤 Parler à mon tour';
+          unlockNext();
+        });
+      } else {
+        // Si c'est le partenaire, on débloque directement après avoir écouté
+        setTimeout(unlockNext, 1500);
+      }
+
+      btnNext.addEventListener('click', () => {
+        currentLineIndex++;
+        renderLine();
+      });
+    };
+
+    const renderRolePlayComplete = async () => {
+      await gamification.addXP(30, 'Role Play Guidé terminé');
+      main.innerHTML = `
+        <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem; text-align:center;">
+          <div style="font-size:4rem; margin-bottom:1rem;">🎭</div>
+          <h2 style="color:var(--ds-color-accent);">Role Play Terminé !</h2>
+          <p style="color:var(--ds-color-text-muted); margin-bottom:0.5rem;">
+            Vous avez joué tous les rôles du dialogue "${dialogue.title}".
+          </p>
+          <p style="color:var(--ds-color-text-muted); margin-bottom:2rem; font-style:italic;">
+            +30 XP gagnés !
+          </p>
+
+          <div style="background:var(--ds-color-primary-soft); padding:1.5rem; border-radius:var(--ds-radius-lg); border:1px solid var(--ds-color-primary); margin-bottom:1.5rem;">
+            <h3 style="color:var(--ds-color-primary); margin-bottom:0.5rem;">🏆 Prêt pour le Défi ?</h3>
+            <p style="color:var(--ds-color-text-muted); font-size:0.9rem; margin-bottom:1rem;">
+              Maintenant, rejouez le dialogue <strong>sans les réponses</strong> pour tester votre mémoire !
+            </p>
+            <ds-button id="btn-go-challenge" size="lg" variant="success" style="width:100%;">
+              Commencer le Défi →
+            </ds-button>
+          </div>
+
+          <ds-button id="btn-back-themes" variant="ghost" size="sm" style="width:100%;">
+            ← Retour aux thèmes
+          </ds-button>
+        </section>
+      `;
+
+      document.getElementById('btn-go-challenge').addEventListener('click', () => router.navigate('/challenge'));
+      document.getElementById('btn-back-themes').addEventListener('click', () => router.navigate('/themes'));
+    };
+
+    renderLine();
+    logger.info(`✅ Role Play Guidé démarré pour le thème: ${unitId}`);
+
+  } catch (e) {
+    console.error('❌ Erreur renderRolePlay:', e);
+    main.innerHTML = `<div style="text-align:center; padding:2rem; color:var(--ds-color-danger);">
+      <p>Erreur: ${e.message}</p>
+      <ds-button onclick="location.hash='/themes'">Retour aux thèmes</ds-button>
+    </div>`;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// VUE : DÉFI (L'utilisateur joue sans les réponses visibles)
+// ═══════════════════════════════════════════════════════════
+async function renderChallenge() {
+  const main = document.getElementById('app');
+  main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement du Défi...</div>';
+
+  try {
+    const unitId = currentTheme;
+    if (!unitId) {
+      router.navigate('/themes');
+      return;
+    }
+
+    const dialogue = await content.loadSection('fr', 'dialogues', `${unitId}_dialogue`);
+    const themeNames = {
+      'survival': 'Mots de survie', 'numbers': 'Les Nombres',
+      'family': 'La Famille', 'market': 'Au Marché', 'colors': 'Les Couleurs'
+    };
+    const themeName = themeNames[unitId] || unitId;
+
+    let currentLineIndex = 0;
+    let mistakesCount = 0;
+    const MAX_MISTAKES = 3;
+
+    const renderLine = () => {
+      if (currentLineIndex >= dialogue.lines.length) {
+        renderChallengeComplete();
+        return;
+      }
+
+      const line = dialogue.lines[currentLineIndex];
+      const speaker = dialogue.participants[line.speaker];
+      const isUserTurn = line.speaker === 'B';
+      const progressPercent = (currentLineIndex / dialogue.lines.length) * 100;
+
+      main.innerHTML = `
+        <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem;">
+          <div style="background:var(--ds-color-border); height:8px; border-radius:4px; margin-bottom:1rem; overflow:hidden;">
+            <div style="background:var(--ds-color-danger, #ef4444); height:100%; width:${progressPercent}%; transition: width 0.3s ease;"></div>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; margin-bottom:1rem;">
+            <ds-button variant="ghost" size="sm" id="btn-back">← Quitter</ds-button>
+            <span style="font-weight:600; color:var(--ds-color-text-muted);">
+              Réplique ${currentLineIndex + 1} / ${dialogue.lines.length}
+            </span>
+          </div>
+
+          <div style="text-align:center; margin-bottom:1rem;">
+            <span style="background:var(--ds-color-danger, #ef4444); color:white; padding:4px 12px; border-radius:20px; font-weight:600; font-size:0.8rem;">
+              🏆 Défi • ${themeName}
+            </span>
+          </div>
+
+          <h2 style="text-align:center; margin-bottom:1.5rem;">💬 ${dialogue.title}</h2>
+
+          <!-- Bulle du locuteur -->
+          <div style="background:var(--ds-color-surface); padding:1.5rem; border-radius:var(--ds-radius-lg); border:2px solid ${isUserTurn ? 'var(--ds-color-danger, #ef4444)' : 'var(--ds-color-border)'}; margin-bottom:1.5rem; box-shadow:var(--ds-shadow-sm);">
+            <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.75rem;">
+              <span style="font-size:1.5rem;">${speaker.avatar}</span>
+              <strong style="color:${isUserTurn ? 'var(--ds-color-danger, #ef4444)' : 'var(--ds-color-text)'};">
+                ${speaker.name} ${isUserTurn ? '(À vous !)' : ''}
+              </strong>
+            </div>
+
+            ${isUserTurn ? `
+              <div style="font-size:1.2rem; font-weight:500; color:var(--ds-color-text-muted); font-style:italic; margin-bottom:0.5rem;">
+                🤔 Vous devez dire quelque chose...
+              </div>
+              <div style="font-size:0.9rem; color:var(--ds-color-text-muted);">
+                (Souvenez-vous du Role Play Guidé)
+              </div>
+            ` : `
+              <div style="font-size:1.2rem; font-weight:500; margin-bottom:0.5rem;">${line.text}</div>
+              <div style="font-size:0.95rem; color:var(--ds-color-text-muted); font-style:italic;">${line.translation}</div>
+            `}
+          </div>
+
+          <!-- Zone d'action -->
+          <div style="display:flex; flex-direction:column; gap:0.75rem;">
+            ${!isUserTurn ? `
+              <ds-button variant="ghost" size="md" id="btn-listen" style="width:100%;">
+                🔊 Écouter (indice)
+              </ds-button>
+            ` : ''}
+
+            ${isUserTurn ? `
+              <ds-button variant="primary" size="lg" id="btn-speak" style="width:100%;">
+                🎤 Parler (sans aide)
+              </ds-button>
+              <div id="speech-feedback" style="text-align:center; padding:1rem; background:var(--ds-color-surface-2); border-radius:var(--ds-radius-md); min-height:3rem; display:flex; align-items:center; justify-content:center;">
+                <span style="color:var(--ds-color-text-muted);">Appuyez sur le micro quand vous êtes prêt</span>
+              </div>
+            ` : `
+              <div style="text-align:center; padding:1rem; background:var(--ds-color-surface-2); border-radius:var(--ds-radius-md); color:var(--ds-color-text-muted);">
+                👂 Écoutez ${speaker.name}
+              </div>
+            `}
+
+            <ds-button id="btn-next" disabled variant="success" size="lg" style="width:100%; margin-top:0.5rem;">
+              Réplique suivante →
+            </ds-button>
+          </div>
+
+          ${mistakesCount > 0 ? `
+            <div style="margin-top:1rem; text-align:center; color:var(--ds-color-danger); font-size:0.9rem;">
+              ⚠️ Erreurs : ${mistakesCount} / ${MAX_MISTAKES}
+            </div>
+          ` : ''}
+        </section>
+      `;
+
+      document.getElementById('btn-back').addEventListener('click', () => router.navigate('/themes'));
+
+      const btnNext = document.getElementById('btn-next');
+      const unlockNext = () => {
+        btnNext.disabled = false;
+        btnNext.removeAttribute('disabled');
+      };
+
+      if (!isUserTurn) {
+        document.getElementById('btn-listen')?.addEventListener('click', () => {
+          speechSynthesis.cancel();
+          const u = new SpeechSynthesisUtterance(line.text);
+          u.lang = 'fr-FR'; u.rate = 0.9;
+          speechSynthesis.speak(u);
+        });
+        setTimeout(unlockNext, 1500);
+      } else {
+        const btnSpeak = document.getElementById('btn-speak');
+        const speechFeedback = document.getElementById('speech-feedback');
+
+        btnSpeak.addEventListener('click', async () => {
+          btnSpeak.setAttribute('disabled', '');
+          btnSpeak.textContent = '🎤 Écoute en cours...';
+          speechFeedback.innerHTML = '<span style="color:var(--ds-color-accent);">🎙️ Je vous écoute...</span>';
+
+          const result = await speechRecognition.listen();
+
+          if (result.error === 'not_supported') {
+            speechFeedback.innerHTML = '<span style="color:var(--ds-color-danger);">⚠️ Reconnaissance vocale non supportée.</span>';
+            unlockNext();
+            return;
+          }
+
+          if (result.transcript) {
+            const similarity = calculateSimilarity(result.transcript.toLowerCase(), line.text.toLowerCase());
+
+            if (similarity > 0.6) {
+              speechFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Tsara ! Vous avez dit : "${result.transcript}"</span>`;
+              await gamification.addXP(10, 'Défi - réplique réussie');
+            } else {
+              mistakesCount++;
+              speechFeedback.innerHTML = `
+                <div>
+                  <span style="color:var(--ds-color-danger);">❌ Diso ! Vous avez dit : "${result.transcript}"</span>
+                  <div style="margin-top:0.5rem; font-size:0.9rem; color:var(--ds-color-text-muted);">
+                    La bonne réponse était : <strong>"${line.text}"</strong>
+                  </div>
+                </div>
+              `;
+
+              if (mistakesCount >= MAX_MISTAKES) {
+                renderChallengeFailed();
+                return;
+              }
+            }
+          } else {
+            speechFeedback.innerHTML = '<span style="color:var(--ds-color-text-muted);">Aucune voix détectée. Réessayez.</span>';
+            btnSpeak.removeAttribute('disabled');
+            btnSpeak.textContent = '🎤 Parler (sans aide)';
+            return;
+          }
+
+          btnSpeak.removeAttribute('disabled');
+          btnSpeak.textContent = '🎤 Parler (sans aide)';
+          unlockNext();
+        });
+      }
+
+      btnNext.addEventListener('click', () => {
+        currentLineIndex++;
+        renderLine();
+      });
+    };
+
+    const renderChallengeFailed = () => {
+      main.innerHTML = `
+        <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem; text-align:center;">
+          <div style="font-size:4rem; margin-bottom:1rem;">💪</div>
+          <h2 style="color:var(--ds-color-danger);">Défi interrompu</h2>
+          <p style="color:var(--ds-color-text-muted); margin-bottom:1rem;">
+            Pas de panique ! C'est normal d'oublier certaines répliques.
+          </p>
+          <p style="color:var(--ds-color-text-muted); margin-bottom:2rem;">
+            Reprenez le <strong>Role Play Guidé</strong> pour vous rafraîchir la mémoire, puis retentez le Défi.
+          </p>
+
+          <div style="display:flex; flex-direction:column; gap:0.75rem;">
+            <ds-button id="btn-retry-roleplay" size="lg" variant="primary" style="width:100%;">
+              🎭 Refaire le Role Play Guidé
+            </ds-button>
+            <ds-button id="btn-back-themes" variant="ghost" size="sm" style="width:100%;">
+              ← Retour aux thèmes
+            </ds-button>
+          </div>
+        </section>
+      `;
+
+      document.getElementById('btn-retry-roleplay').addEventListener('click', () => router.navigate('/roleplay'));
+      document.getElementById('btn-back-themes').addEventListener('click', () => router.navigate('/themes'));
+    };
+
+    const renderChallengeComplete = async () => {
+      await gamification.addXP(100, 'Défi terminé !');
+      await gamification.addBadge?.(`master_${currentTheme}`);
+
+      main.innerHTML = `
+        <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem; text-align:center;">
+          <div style="font-size:5rem; margin-bottom:1rem;">🏆</div>
+          <h2 style="color:var(--ds-color-success);">Défi Réussi !</h2>
+          <p style="color:var(--ds-color-text-muted); margin-bottom:0.5rem;">
+            Vous avez maîtrisé le dialogue "${dialogue.title}" !
+          </p>
+          <p style="color:var(--ds-color-accent); font-weight:bold; margin-bottom:2rem;">
+            +100 XP gagnés ! 🎖️ Badge de maîtrise débloqué
+          </p>
+
+          <div style="background:var(--ds-color-success-soft, #d1fae5); padding:1.5rem; border-radius:var(--ds-radius-lg); border:1px solid var(--ds-color-success); margin-bottom:1.5rem;">
+            <h3 style="color:var(--ds-color-success); margin-bottom:0.5rem;">🎓 Thème "${themeName}" maîtrisé !</h3>
+            <p style="color:var(--ds-color-text-muted); font-size:0.9rem; margin-bottom:1rem;">
+              Vous êtes prêt pour une conversation libre avec l'IA (bientôt disponible).
+            </p>
+          </div>
+
+          <ds-button id="btn-back-themes" size="lg" variant="primary" style="width:100%;">
+            ← Choisir un autre thème
+          </ds-button>
+        </section>
+      `;
+
+      document.getElementById('btn-back-themes').addEventListener('click', () => router.navigate('/themes'));
+    };
+
+    renderLine();
+    logger.info(`✅ Défi démarré pour le thème: ${unitId}`);
+
+  } catch (e) {
+    console.error('❌ Erreur renderChallenge:', e);
+    main.innerHTML = `<div style="text-align:center; padding:2rem; color:var(--ds-color-danger);">
+      <p>Erreur: ${e.message}</p>
+      <ds-button onclick="location.hash='/themes'">Retour aux thèmes</ds-button>
+    </div>`;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// UTILITAIRE : Calcul de similarité entre deux chaînes
+// ═══════════════════════════════════════════════════════════
+function calculateSimilarity(str1, str2) {
+  // Nettoyage basique
+  const clean = (s) => s.replace(/[^\w\sàâäéèêëïîôùûüÿç]/gi, '').trim();
+  const s1 = clean(str1);
+  const s2 = clean(str2);
+
+  if (s1 === s2) return 1;
+  if (!s1 || !s2) return 0;
+
+  // Algorithme de Levenshtein simplifié (distance d'édition)
+  const matrix = Array(s2.length + 1).fill(null).map(() => Array(s1.length + 1).fill(null));
+
+  for (let i = 0; i <= s1.length; i++) matrix[0][i] = i;
+  for (let j = 0; j <= s2.length; j++) matrix[j][0] = j;
+
+  for (let j = 1; j <= s2.length; j++) {
+    for (let i = 1; i <= s1.length; i++) {
+      const indicator = s1[i - 1] === s2[j - 1] ? 0 : 1;
+      matrix[j][i] = Math.min(
+        matrix[j][i - 1] + 1,     // suppression
+        matrix[j - 1][i] + 1,     // insertion
+        matrix[j - 1][i - 1] + indicator // substitution
+      );
+    }
+  }
+
+  const distance = matrix[s2.length][s1.length];
+  const maxLength = Math.max(s1.length, s2.length);
+  return maxLength === 0 ? 1 : 1 - (distance / maxLength);
 }
 
 async function renderProfile() {
@@ -768,6 +1287,8 @@ router.addRoute('/lesson', renderLesson);
 router.addRoute('/practice', renderPractice);
 router.addRoute('/dialogues', renderDialogues);
 router.addRoute('/profile', renderProfile);
+router.addRoute('/roleplay', renderRolePlay);
+router.addRoute('/challenge', renderChallenge);
 
 initTheme();
 updateLevelUI();
