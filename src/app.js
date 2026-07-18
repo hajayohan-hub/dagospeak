@@ -511,27 +511,24 @@ async function renderDialogues() {
     const manifest = await content.loadManifest('fr');
     const levelData = manifest.levels.find(l => l.id === currentLevel);
 
-    // ✅ VERROUILLAGE : Dialogue strictement lié au thème choisi
+    // Verrouillage sur le thème choisi
     const unitId = currentTheme || levelData.units[0];
     currentTheme = unitId;
 
     const dialogueId = `${unitId}_dialogue`;
+    console.log(`[DEBUG] Tentative de chargement du dialogue : ${dialogueId}`);
+
     const dialogue = await content.loadSection('fr', 'dialogues', dialogueId);
 
     const themeNames = {
-      'survival': 'Mots de survie',
-      'numbers': 'Les Nombres',
-      'family': 'La Famille',
-      'market': 'Au Marché',
-      'colors': 'Les Couleurs'
+      'survival': 'Mots de survie', 'numbers': 'Les Nombres',
+      'family': 'La Famille', 'market': 'Au Marché', 'colors': 'Les Couleurs'
     };
     const themeName = themeNames[unitId] || unitId;
 
-    // Construction du chat HTML
     let chatHtml = dialogue.lines.map(line => {
       const speaker = dialogue.participants[line.speaker];
-      const isMe = line.speaker === 'B'; // L'utilisateur est le locuteur B
-
+      const isMe = line.speaker === 'B';
       return `
         <div style="display:flex; flex-direction:column; align-items:${isMe ? 'flex-end' : 'flex-start'}; margin-bottom: 1.5rem;">
           <div style="background:${isMe ? 'var(--ds-color-primary)' : 'var(--ds-color-surface-2)'}; color:${isMe ? 'white' : 'var(--ds-color-text)'}; padding: 12px 16px; border-radius: ${isMe ? '16px 16px 4px 16px' : '16px 16px 16px 4px'}; max-width: 85%; box-shadow: var(--ds-shadow-sm);">
@@ -544,7 +541,6 @@ async function renderDialogues() {
       `;
     }).join('');
 
-    // Rendu HTML complet
     main.innerHTML = `
       <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem;">
         <ds-button variant="ghost" size="sm" id="btn-back" style="margin-bottom: 1rem;">← Retour aux thèmes</ds-button>
@@ -562,60 +558,7 @@ async function renderDialogues() {
           ${chatHtml}
         </div>
 
-        <!-- ✅ BOUTONS DE NAVIGATION FINALE -->
-        <div style="margin-top: 2rem; display: flex; flex-direction: column; gap: 0.75rem; text-align: center;">
-          <ds-button id="btn-restart-practice" size="lg" variant="primary" style="width: 100%;">
-            🔄 Refaire les révisions de ce thème
-          </ds-button>
-          <ds-button id="btn-dialogue-next" size="md" variant="ghost" style="width: 100%;">
-            ← Retour à la liste des thèmes
-          </ds-button>
-        </div>
-      </section>
-    `;
-
-    // --- ÉCOUTEURS D'ÉVÉNEMENTS ---
-
-    // Bouton retour aux thèmes
-    document.getElementById('btn-back').addEventListener('click', () => {
-      router.navigate('/themes');
-    });
-
-    // Bouton principal : refaire les révisions
-    document.getElementById('btn-restart-practice').addEventListener('click', () => {
-      router.navigate('/practice');
-    });
-
-    // Bouton secondaire : retour aux thèmes
-    document.getElementById('btn-dialogue-next').addEventListener('click', () => {
-      router.navigate('/themes');
-    });
-
-    // Boutons audio pour chaque ligne du dialogue
-    document.querySelectorAll('.play-dialog-audio').forEach(btn => {
-      btn.addEventListener('click', () => {
-        speechSynthesis.cancel();
-        const u = new SpeechSynthesisUtterance(btn.dataset.text);
-        u.lang = 'fr-FR';
-        u.rate = 0.9;
-        speechSynthesis.speak(u);
-      });
-    });
-
-        document.getElementById('btn-go-roleplay').addEventListener('click', () => {
-      router.navigate('/roleplay');
-    });
-
-    logger.info(`✅ Page Dialogues rendue pour le thème: ${unitId}`);
-
-  } catch (e) {
-    console.error('❌ Erreur renderDialogues:', e);
-    main.innerHTML = `
-      <div style="text-align:center; padding:2rem; color:var(--ds-color-danger);">
-        <p style="margin-bottom: 1rem;">Aucun dialogue disponible pour ce thème pour le moment.</p>
-        <!--<ds-button onclick="location.hash='/themes'" style="margin-top:1rem;">Retour aux thèmes</ds-button>-->
-      </div>
-              <!-- ✅ NOUVEAU FLUX : Dialogues → Role Play → Défi -->
+        <!-- ✅ NOUVEAU FLUX : Dialogues → Role Play → Défi -->
         <div style="margin-top: 2rem; display: flex; flex-direction: column; gap: 0.75rem; text-align: center;">
           <ds-button id="btn-go-roleplay" size="lg" variant="primary" style="width: 100%;">
             🎭 Role Play Guidé (avec réponses)
@@ -627,6 +570,43 @@ async function renderDialogues() {
             ← Retour à la liste des thèmes
           </ds-button>
         </div>
+      </section>
+    `;
+
+    // Écouteurs d'événements
+    document.getElementById('btn-back').addEventListener('click', () => router.navigate('/themes'));
+
+    document.getElementById('btn-go-roleplay').addEventListener('click', () => {
+      router.navigate('/roleplay');
+    });
+
+    document.getElementById('btn-restart-practice').addEventListener('click', () => {
+      router.navigate('/practice');
+    });
+
+    document.getElementById('btn-dialogue-next').addEventListener('click', () => {
+      router.navigate('/themes');
+    });
+
+    document.querySelectorAll('.play-dialog-audio').forEach(btn => {
+      btn.addEventListener('click', () => {
+        speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(btn.dataset.text);
+        u.lang = 'fr-FR'; u.rate = 0.9;
+        speechSynthesis.speak(u);
+      });
+    });
+
+    logger.info(`✅ Page Dialogues rendue pour le thème: ${unitId}`);
+
+  } catch (e) {
+    console.error('❌ Erreur renderDialogues:', e);
+    main.innerHTML = `
+      <div style="text-align:center; padding:2rem; color:var(--ds-color-danger);">
+        <p style="margin-bottom: 1rem; font-weight:bold;">Aucun dialogue trouvé pour ce thème.</p>
+        <p style="font-size:0.9rem; margin-bottom: 1.5rem;">Détail : ${e.message}</p>
+        <ds-button onclick="location.hash='/themes'" style="margin-top:1rem;">Retour aux thèmes</ds-button>
+      </div>
     `;
   }
 }
