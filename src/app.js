@@ -787,4 +787,85 @@ function updateMobileNavActiveState() {
 window.addEventListener('hashchange', updateMobileNavActiveState);
 updateMobileNavActiveState(); // Appel initial
 
+// ═══════════════════════════════════════════════════════════
+// GESTION AUTOMATIQUE DES MISES À JOUR PWA
+// ═══════════════════════════════════════════════════════════
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').then((registration) => {
+      logger.info('SW enregistré avec succès');
+
+      // Écouter si une nouvelle version du Service Worker est trouvée
+      registration.addEventListener('updatefound', () => {
+        const newWorker = registration.installing;
+
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            // Une nouvelle version est prête ! Afficher le bouton de mise à jour
+            showUpdateBanner();
+          }
+        });
+      });
+    }).catch((error) => {
+      logger.warn('Échec de l’enregistrement du SW', error);
+    });
+  });
+}
+
+// Fonction pour afficher le bandeau de mise à jour
+function showUpdateBanner() {
+  // Éviter les doublons
+  if (document.getElementById('pwa-update-banner')) return;
+
+  const banner = document.createElement('div');
+  banner.id = 'pwa-update-banner';
+  banner.innerHTML = `
+    <div style="
+      position: fixed;
+      bottom: 80px; /* Au-dessus de la barre de navigation mobile */
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--ds-color-primary, #2563eb);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 50px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 9999;
+      font-size: 0.9rem;
+      font-weight: 500;
+      animation: slideUp 0.3s ease-out;
+    ">
+      <span>🔄 Nouvelle version disponible !</span>
+      <button id="btn-reload-app" style="
+        background: white;
+        color: var(--ds-color-primary, #2563eb);
+        border: none;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 0.85rem;
+      ">Actualiser</button>
+    </div>
+  `;
+
+  document.body.appendChild(banner);
+
+  // Ajouter l'animation CSS dynamiquement
+  if (!document.getElementById('slide-up-style')) {
+    const style = document.createElement('style');
+    style.id = 'slide-up-style';
+    style.innerHTML = `@keyframes slideUp { from { transform: translate(-50%, 100%); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }`;
+    document.head.appendChild(style);
+  }
+
+  // Action au clic sur le bouton
+  document.getElementById('btn-reload-app').addEventListener('click', () => {
+    window.location.reload(true); // Force le rechargement avec la nouvelle version
+  });
+}
+
 logger.info('✅ Application démarrée');
