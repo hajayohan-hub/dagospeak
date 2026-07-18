@@ -15,6 +15,8 @@ import { ShadowingEngine }     from './engines/pronunciation/shadowing.js';
 import { RoleManager }         from './business/roles.js';
 import { PaymentGateway }      from './payments/gateway.js';
 import { MobileMoneyProvider } from './payments/providers/mobile-money.js';
+// Import des nouveaux modules IA
+import { AIManager } from './engines/ai/ai-manager.js';
 
 // ═══════════════════════════════════════════════════════════
 // INITIALISATION DU CORE
@@ -30,6 +32,7 @@ const srs          = new SRSEngine(db, bus);
 const gamification = new GamificationEngine(db, bus);
 const shadowing    = new ShadowingEngine(bus);
 const roleManager  = new RoleManager(db);
+const aiManager = new AIManager(bus);
 
 const paymentGateway = new PaymentGateway();
 paymentGateway.register('mobile_money', new MobileMoneyProvider());
@@ -42,6 +45,10 @@ container.register('srs', () => srs);
 container.register('gamification', () => gamification);
 container.register('roles', () => roleManager);
 container.register('payments', () => paymentGateway);
+container.register('ai', () => aiManager);
+
+// Initialisation asynchrone de l'IA en arrière-plan (ne bloque pas le démarrage)
+aiManager.initialize().catch(err => console.warn('Init AI échouée:', err));
 
 window.DagoSpeak = { bus, container, logger, db, content, router, srs, gamification, shadowing, roleManager, paymentGateway };
 
@@ -792,7 +799,7 @@ updateMobileNavActiveState(); // Appel initial
 // ═══════════════════════════════════════════════════════════
 // ═══════════════════════════════════════════════════════════
 // GESTION AUTOMATIQUE DES MISES À JOUR PWA
-// ═══════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
     try {
