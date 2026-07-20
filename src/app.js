@@ -294,7 +294,7 @@ async function renderLesson() {
                 <span style="color:var(--ds-color-text-muted); font-size:0.9em; margin-left:8px;">→ ${item.source}</span>
                 <div style="font-size:0.85em; color:var(--ds-color-text-muted); font-style:italic; margin-top:4px;">"${item.context}"</div>
               </div>
-              // Dans renderLesson, remplacez le bouton audio par :
+
 <ds-button variant="primary" size="sm" class="play-audio" data-target="${item.target}" style="min-width: 80px;">
   🔊 Hihainoa
 </ds-button>
