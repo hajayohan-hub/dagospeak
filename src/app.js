@@ -1298,9 +1298,6 @@ updateMobileNavActiveState(); // Appel initial
 // ═══════════════════════════════════════════════════════════
 // GESTION AUTOMATIQUE DES MISES À JOUR PWA
 // ═══════════════════════════════════════════════════════════
-// ═══════════════════════════════════════════════════════════
-// GESTION AUTOMATIQUE DES MISES À JOUR PWA
-// ══════════════════════════════════════════════════════════
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
     try {
