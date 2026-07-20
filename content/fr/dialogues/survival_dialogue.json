@@ -11,7 +11,7 @@
   "lines": [
     { "speaker": "A", "text": "Bonjour !", "translation": "Manahoana!", "highlight": "Bonjour" },
     { "speaker": "B", "text": "Bonjour ! Merci.", "translation": "Manahoana! Misaotra.", "highlight": "Merci" },
-    { "speaker": "A", "text": "S'il vous plaît, aidez-moi.", "translation": "Azafady, manampy ahy.", "highlight": "S'il vous plaît" },
+    { "speaker": "A", "text": "S'il vous plaît, aidez-moi.", "translation": "Azafady, ampio aho.", "highlight": "S'il vous plaît" },
     { "speaker": "B", "text": "Oui, d'accord. Au revoir !", "translation": "Eny, tsy maninona. Veloma!", "highlight": "Oui" }
   ]
 }
