@@ -333,6 +333,60 @@ async function renderLesson() {
   }
 }
 
+
+// ═══════════════════════════════════════════════════════════
+// HELPER TTS : Synthèse vocale avec gestion d'événements précise
+// ═══════════════════════════════════════════════════════════
+function speakWithFeedback(text, { onStart, onEnd, lang = 'fr-FR', rate = 0.9 } = {}) {
+  speechSynthesis.cancel(); // Annule toute voix en cours
+
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = lang;
+  utterance.rate = rate;
+
+  let finished = false;
+
+  utterance.onstart = () => {
+    if (onStart) onStart();
+  };
+
+  utterance.onend = () => {
+    if (finished) return;
+    finished = true;
+    if (onEnd) onEnd();
+  };
+
+  utterance.onerror = () => {
+    if (finished) return;
+    finished = true;
+    if (onEnd) onEnd(); // Débloque quand même en cas d'erreur
+  };
+
+  speechSynthesis.speak(utterance);
+
+  // 🔒 Sécurité : si onend ne se déclenche jamais (bug Chrome connu), on débloque après 10s
+  setTimeout(() => {
+    if (!finished) {
+      finished = true;
+      if (onEnd) onEnd();
+    }
+  }, 10000);
+}
+
+// ═══════════════════════════════════════════════════════════
+// PRÉCHAUFFAGE TTS : Élimine la latence au premier clic
+// ═══════════════════════════════════════════════════════════
+function warmUpTTS() {
+  if ('speechSynthesis' in window) {
+    const warmup = new SpeechSynthesisUtterance('');
+    warmup.volume = 0;
+    speechSynthesis.speak(warmup);
+    console.log('[TTS] Préchauffage effectué');
+  }
+}
+// Appel au démarrage
+window.addEventListener('load', warmUpTTS);
+
 async function renderPractice() {
   console.log(`🔍 [DEBUG] renderPractice démarré (Niveau: ${currentLevel}, Thème: ${currentTheme})`);
   const main = document.getElementById('app');
@@ -463,16 +517,24 @@ async function renderPractice() {
 
       // ÉTAPE 1 -> 2
       document.getElementById('btn-listen').addEventListener('click', () => {
-        speechSynthesis.cancel();
-        const u = new SpeechSynthesisUtterance(itemData.target);
-        u.lang = 'fr-FR'; u.rate = 0.9;
-        speechSynthesis.speak(u);
+          const btnListen = document.getElementById('btn-listen');
+          const originalText = btnListen.textContent;
 
-        document.getElementById('btn-listen').classList.remove('guide-active');
-        stepQuiz.style.opacity = '1';
-        stepQuiz.style.pointerEvents = 'auto';
-        stepQuiz.classList.add('guide-active');
-      });
+          speakWithFeedback(itemData.target, {
+            onStart: () => {
+              // La voix commence VRAIMENT → on passe à l'étape suivante
+              btnListen.textContent = '🔊 ...';
+              btnListen.classList.remove('guide-active');
+              stepQuiz.style.opacity = '1';
+              stepQuiz.style.pointerEvents = 'auto';
+              stepQuiz.classList.add('guide-active');
+            },
+            onEnd: () => {
+              // La voix a fini → on remet le bouton à la normale
+              btnListen.textContent = originalText;
+            }
+          });
+        });
 
       let quizAnswered = false;
       let shadowAttempted = false;
@@ -754,10 +816,11 @@ async function renderDialogues() {
 
     document.querySelectorAll('.play-dialog-audio').forEach(btn => {
       btn.addEventListener('click', () => {
-        speechSynthesis.cancel();
-        const u = new SpeechSynthesisUtterance(btn.dataset.text);
-        u.lang = 'fr-FR'; u.rate = 0.9;
-        speechSynthesis.speak(u);
+        const originalText = btn.textContent;
+        speakWithFeedback(btn.dataset.text, {
+          onStart: () => { btn.textContent = '🔊 ...'; },
+          onEnd: () => { btn.textContent = originalText; }
+        });
       });
     });
 
@@ -878,12 +941,15 @@ async function renderRolePlay() {
       // Événements
       document.getElementById('btn-back').addEventListener('click', () => router.navigate('/dialogues'));
 
-      document.getElementById('btn-listen').addEventListener('click', () => {
-        speechSynthesis.cancel();
-        const u = new SpeechSynthesisUtterance(line.text);
-        u.lang = 'fr-FR'; u.rate = 0.9;
-        speechSynthesis.speak(u);
-      });
+      document.querySelectorAll('.play-dialog-audio').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const originalText = btn.textContent;
+            speakWithFeedback(btn.dataset.text, {
+              onStart: () => { btn.textContent = '🔊 ...'; },
+              onEnd: () => { btn.textContent = originalText; }
+            });
+          });
+        });
 
       const btnNext = document.getElementById('btn-next');
       const unlockNext = () => {
@@ -1131,13 +1197,20 @@ async function renderChallenge() {
 
       if (!isUserTurn) {
         document.getElementById('btn-listen').addEventListener('click', () => {
-          speechSynthesis.cancel();
-          const u = new SpeechSynthesisUtterance(line.text);
-          u.lang = 'fr-FR'; u.rate = 0.9;
-          speechSynthesis.speak(u);
+          const btnListen = document.getElementById('btn-listen');
+          const originalText = btnListen.textContent;
 
-          document.getElementById('step-listen').classList.remove('guide-active');
-          setTimeout(unlockNext, 1000);
+          speakWithFeedback(line.text, {
+            onStart: () => {
+              btnListen.textContent = '🔊 ...';
+              document.getElementById('step-listen').classList.remove('guide-active');
+            },
+            onEnd: () => {
+              // La voix a FINI → on débloque l'étape suivante
+              btnListen.textContent = originalText;
+              unlockNext();
+            }
+          });
         });
       } else {
         const btnSpeak = document.getElementById('btn-speak');
