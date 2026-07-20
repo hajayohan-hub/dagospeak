@@ -334,6 +334,7 @@ async function renderLesson() {
 }
 
 async function renderPractice() {
+  console.log(`🔍 [DEBUG] renderPractice démarré (Niveau: ${currentLevel}, Thème: ${currentTheme})`);
   const main = document.getElementById('app');
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Miomana ny session...</div>';
 
@@ -361,6 +362,11 @@ async function renderPractice() {
           70% { box-shadow: 0 0 0 8px rgba(59, 130, 246, 0); transform: scale(1.03); }
           100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); transform: scale(1); }
         }
+        @keyframes pulse-green {
+          0% { transform: scale(0.98); box-shadow: 0 0 0 0 rgba(47, 158, 68, 0.7); }
+          70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(47, 158, 68, 0); }
+          100% { transform: scale(0.98); box-shadow: 0 0 0 0 rgba(47, 158, 68, 0); }
+        }
         .guide-active {
           animation: pulse-guide 2s infinite !important;
           border: 2px solid var(--ds-color-primary) !important;
@@ -380,7 +386,6 @@ async function renderPractice() {
       const itemData = sessionQueue[index];
       const progressPercent = ((index) / sessionQueue.length) * 100;
 
-      // ✅ POINT 4: Format Bilingue (Français principal, Malgache en sous-titre)
       let questionText = "";
       let correctAnswer = "";
       let options = [];
@@ -389,12 +394,14 @@ async function renderPractice() {
         questionText = `Comment dit-on "<strong>${itemData.source}</strong>" en français ?<br><span style="font-size:0.85em; color:var(--ds-color-text-muted); font-weight:normal;">(Inona no dikan'ny "<strong>${itemData.source}</strong>" amin'ny teny frantsay?)</span>`;
         correctAnswer = itemData.target;
         const pool = vocabData.items.filter(i => i.id !== itemData.id && i.target && i.target.trim() !== "").map(i => i.target);
-        options = [correctAnswer, ...pool.sort(() => Math.random() - 0.5).slice(0, 2)];
+        const distractors = pool.sort(() => Math.random() - 0.5).slice(0, 2);
+        options = [correctAnswer, ...distractors];
       } else {
         questionText = `Que signifie "<strong>${itemData.target}</strong>" en malgache ?<br><span style="font-size:0.85em; color:var(--ds-color-text-muted); font-weight:normal;">(Inona no dikan'ny "<strong>${itemData.target}</strong>" amin'ny teny malagasy?)</span>`;
         correctAnswer = itemData.source;
         const pool = vocabData.items.filter(i => i.id !== itemData.id && i.source && i.source.trim() !== "").map(i => i.source);
-        options = [correctAnswer, ...pool.sort(() => Math.random() - 0.5).slice(0, 2)];
+        const distractors = pool.sort(() => Math.random() - 0.5).slice(0, 2);
+        options = [correctAnswer, ...distractors];
       }
 
       options = [...new Set(options.filter(opt => opt && typeof opt === 'string' && opt.trim() !== ""))];
@@ -447,10 +454,9 @@ async function renderPractice() {
         </section>
       `;
 
-      // --- GESTION DES ÉTAPES ET ÉVÉNEMENTS ---
+      // --- GESTION DES ÉVÉNEMENTS ---
       document.getElementById('btn-back').addEventListener('click', () => { shadowing.forceStop(); router.navigate('/themes'); });
 
-      const stepListen = document.getElementById('step-listen');
       const stepQuiz = document.getElementById('step-quiz');
       const stepShadow = document.getElementById('step-shadow');
       const btnNext = document.getElementById('btn-next');
@@ -462,11 +468,10 @@ async function renderPractice() {
         u.lang = 'fr-FR'; u.rate = 0.9;
         speechSynthesis.speak(u);
 
-        // Désactiver le guide sur Écouter, activer sur Quiz
         document.getElementById('btn-listen').classList.remove('guide-active');
         stepQuiz.style.opacity = '1';
         stepQuiz.style.pointerEvents = 'auto';
-        stepQuiz.classList.add('guide-active'); // Pulse sur le conteneur du quiz
+        stepQuiz.classList.add('guide-active');
       });
 
       let quizAnswered = false;
@@ -481,7 +486,6 @@ async function renderPractice() {
           await gamification.addXP(10, 'Quiz réussi');
         }
 
-        // Désactiver le guide sur Quiz, activer sur Shadowing
         stepQuiz.classList.remove('guide-active');
         stepShadow.style.opacity = '1';
         stepShadow.style.pointerEvents = 'auto';
@@ -514,7 +518,7 @@ async function renderPractice() {
         if (btnShadow) {
           btnShadow.textContent = '🎤 Mitenena (Shadowing 5s)';
           isRecording = false;
-          btnShadow.classList.remove('guide-active'); // Retirer le guide du bouton shadowing
+          btnShadow.classList.remove('guide-active');
         }
 
         if (data.score > 0.7) themeScore += 5;
@@ -522,16 +526,13 @@ async function renderPractice() {
       };
       bus.on('pronunciation:evaluated', shadowEvalHandler);
 
-      // Vérification pour passer à l'étape 4
       const checkCompletion = () => {
-        // Le bouton suivant s'active après le quiz. Le shadowing est fortement encouragé (guide) mais pas bloquant.
-        if (quizAnswered) {
+        if (quizAnswered && shadowAttempted) {
           btnNext.disabled = false;
           btnNext.removeAttribute('disabled');
           btnNext.style.opacity = '1';
           btnNext.style.pointerEvents = 'auto';
           btnNext.setAttribute('variant', 'success');
-          // ✅ POINT 2: Le bouton pulse APRÈS le shadowing (ou le quiz si shadowing ignoré)
           btnNext.style.boxShadow = "0 0 0 0 rgba(47, 158, 68, 0.7)";
           btnNext.style.animation = "pulse-green 1.5s infinite";
         }
@@ -547,9 +548,125 @@ async function renderPractice() {
       });
     };
 
-    // (Gardez les fonctions renderPronunciationChallenge et renderSessionComplete telles qu'elles étaient dans la version précédente)
-    // ... [Copiez ici les fonctions renderPronunciationChallenge et renderSessionComplete de la réponse précédente] ...
+    const renderPronunciationChallenge = async () => {
+      const challengeWords = sessionQueue.sort(() => Math.random() - 0.5).slice(0, 3);
 
+      main.innerHTML = `
+        <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem; text-align:center;">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">🎤</div>
+          <h2 style="color: var(--ds-color-accent);">Fanamby: Mitenena! (Défi de prononciation)</h2>
+          <p style="color: var(--ds-color-text-muted); margin-bottom: 2rem;">
+            Alohan'ny hifarana, andramo tenenina ireto teny 3 ireto mba hahazoana naoty fanampiny!
+            <br><em>(Avant de finir, prononcez ces 3 mots pour des points bonus !)</em>
+          </p>
+
+          <div style="display:flex; flex-direction:column; gap:1rem; margin-bottom:2rem;">
+            ${challengeWords.map((word, idx) => `
+              <div style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:1px solid var(--ds-color-border);">
+                <div style="font-weight:bold; font-size:1.1rem; margin-bottom:0.5rem;">${idx + 1}. ${word.target}</div>
+                <ds-button variant="ghost" size="sm" class="challenge-speak-btn" data-word="${word.target}">
+                  🎤 Mitenena izao
+                </ds-button>
+                <div class="challenge-feedback-${idx}" style="margin-top:0.5rem; font-size:0.9rem; font-weight:600;"></div>
+              </div>
+            `).join('')}
+          </div>
+
+          <ds-button id="btn-finish-challenge" size="lg" variant="success" style="width: 100%;">
+            Hijery ny naoty (Voir mon score final)
+          </ds-button>
+        </section>
+      `;
+
+      document.querySelectorAll('.challenge-speak-btn').forEach((btn, idx) => {
+        btn.addEventListener('click', async () => {
+          btn.disabled = true;
+          btn.textContent = '🎙️ ...';
+          const result = await speechRecognition.listen();
+
+          const feedbackEl = document.querySelector(`.challenge-feedback-${idx}`);
+          if (result.transcript) {
+            const similarity = calculateSimilarity(result.transcript.toLowerCase(), btn.dataset.word.toLowerCase());
+            if (similarity > 0.5) {
+              feedbackEl.textContent = "✅ Tsara!";
+              feedbackEl.style.color = "var(--ds-color-success)";
+              themeScore += 5;
+              maxPossibleScore += 5;
+            } else {
+              feedbackEl.textContent = `❌ Diso. Navoaka: "${result.transcript}"`;
+              feedbackEl.style.color = "var(--ds-color-danger)";
+            }
+          } else {
+            feedbackEl.textContent = "⚠️ Tsy re ny feo (Aucune voix détectée)";
+          }
+          btn.textContent = '✅ Vita';
+        });
+      });
+
+      document.getElementById('btn-finish-challenge').addEventListener('click', () => {
+        renderSessionComplete();
+      });
+    };
+
+    const renderSessionComplete = async () => {
+      shadowing.forceStop();
+      speechSynthesis.cancel();
+      await gamification.addXP(50, 'Session terminée');
+
+      const percentage = Math.round((themeScore / maxPossibleScore) * 100);
+      let masteryText = "Miezaha indray (Continuez à essayer)";
+      let color = "var(--ds-color-text-muted)";
+
+      if (percentage >= 80) { masteryText = "Tena tsara! (Excellent!)"; color = "var(--ds-color-success)"; }
+      else if (percentage >= 50) { masteryText = "Tsara (Bien)"; color = "var(--ds-color-accent)"; }
+
+      main.innerHTML = `
+        <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem; text-align:center;">
+          <div style="font-size: 4rem; margin-bottom: 1rem;">🏆</div>
+          <h2 style="color: var(--ds-color-primary);">Session Vita! (Terminée)</h2>
+
+          <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); border: 2px solid ${color}; margin: 2rem 0;">
+            <div style="font-size: 0.9rem; color: var(--ds-color-text-muted); text-transform: uppercase;">Ny naoty azonao (Votre score)</div>
+            <div style="font-size: 3rem; font-weight: bold; color: ${color}; margin: 0.5rem 0;">${percentage}%</div>
+            <div style="font-size: 1.2rem; font-weight: 600; color: ${color};">${masteryText}</div>
+            <div style="margin-top: 1rem; font-size: 0.9rem; color: var(--ds-color-text-muted);">
+              Fahaiza-manao: ${themeScore} / ${maxPossibleScore} points
+            </div>
+          </div>
+
+          <div style="background:var(--ds-color-primary-soft); padding:1.5rem; border-radius:var(--ds-radius-lg); border:1px solid var(--ds-color-primary); margin-bottom:1.5rem;">
+            <h3 style="color:var(--ds-color-primary); margin-bottom:0.5rem;">💬 Étape suivante : Dialogues</h3>
+            <p style="color:var(--ds-color-text-muted); font-size:0.9rem; margin-bottom:1rem;">
+              Maintenant, découvrez comment utiliser ces mots dans une conversation réelle !
+            </p>
+            <ds-button id="btn-go-dialogue" size="lg" variant="success" style="width: 100%;">
+              Continuer vers les Dialogues →
+            </ds-button>
+          </div>
+
+          <ds-button id="btn-finish" variant="ghost" size="sm" style="width: 100%; margin-top: 0.5rem;">
+            ← Hiverina amin'ny lohahevitra (Retour aux thèmes)
+          </ds-button>
+        </section>
+      `;
+
+      document.getElementById('btn-go-dialogue').addEventListener('click', () => {
+        router.navigate('/dialogues');
+      });
+
+      document.getElementById('btn-finish').addEventListener('click', () => {
+        router.navigate('/themes');
+      });
+    };
+
+    renderQuestion(currentIndex);
+    console.log(`✅ [DEBUG] Session initialisée avec ${sessionQueue.length} questions`);
+
+  } catch (error) {
+    console.error('❌ Erreur renderPractice:', error);
+    main.innerHTML = `<div style="text-align:center; padding:2rem; color:red;"><p>Erreur: ${error.message}</p><ds-button onclick="location.hash='/themes'">Hiverina</ds-button></div>`;
+  }
+}
 async function renderDialogues() {
   const main = document.getElementById('app');
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement des dialogues...</div>';
