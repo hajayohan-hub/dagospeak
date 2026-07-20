@@ -1007,10 +1007,10 @@ async function renderChallenge() {
 
     let currentLineIndex = 0;
     let mistakesCount = 0;
-    const MAX_MISTAKES = 2; // Plus indulgent, mais avec un filet de sécurité rapide
+    const MAX_MISTAKES = 2;
     let shadowEvalHandler = null;
 
-    // Injection du style d'animation de guidage (si pas déjà fait)
+    // Injection du style d'animation de guidage
     if (!document.getElementById('pulse-guide-style')) {
       const style = document.createElement('style');
       style.id = 'pulse-guide-style';
@@ -1065,7 +1065,6 @@ async function renderChallenge() {
 
           <h2 style="text-align:center; margin-bottom:1.5rem;">💬 ${dialogue.title}</h2>
 
-          <!-- Bulle du locuteur -->
           <div style="background:var(--ds-color-surface); padding:1.5rem; border-radius:var(--ds-radius-lg); border:2px solid ${isUserTurn ? 'var(--ds-color-danger, #ef4444)' : 'var(--ds-color-border)'}; margin-bottom:1.5rem; box-shadow:var(--ds-shadow-sm);">
             <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.75rem;">
               <span style="font-size:1.5rem;">${speaker.avatar}</span>
@@ -1087,7 +1086,6 @@ async function renderChallenge() {
             `}
           </div>
 
-          <!-- Zone d'action guidée -->
           <div style="display:flex; flex-direction:column; gap:0.75rem;">
             ${!isUserTurn ? `
               <div id="step-listen" class="guide-active" style="text-align:center; padding:1rem; background:var(--ds-color-surface-2); border-radius:var(--ds-radius-md);">
@@ -1117,7 +1115,6 @@ async function renderChallenge() {
         </section>
       `;
 
-      // --- GESTION DES ÉVÉNEMENTS ---
       document.getElementById('btn-back-guided').addEventListener('click', () => {
         shadowing.forceStop();
         router.navigate('/roleplay');
@@ -1139,7 +1136,6 @@ async function renderChallenge() {
           u.lang = 'fr-FR'; u.rate = 0.9;
           speechSynthesis.speak(u);
 
-          // Guide vers l'étape suivante (qui est juste "Suivant" pour le partenaire)
           document.getElementById('step-listen').classList.remove('guide-active');
           setTimeout(unlockNext, 1000);
         });
@@ -1148,7 +1144,7 @@ async function renderChallenge() {
         const speechFeedback = document.getElementById('speech-feedback');
         let isRecording = false;
 
-        btnSpeak.addEventListener('click', async () => {
+        btnSpeak.addEventListener('click', () => {
           if (isRecording) {
             shadowing.forceStop();
             isRecording = false;
@@ -1164,7 +1160,7 @@ async function renderChallenge() {
           shadowing.startRecording();
         });
 
-        shadowEvalHandler = (data) => {
+        shadowEvalHandler = async (data) => {
           isRecording = false;
           btnSpeak.removeAttribute('disabled');
           btnSpeak.textContent = '🎤 Mitenena indray (Réessayer)';
@@ -1198,7 +1194,6 @@ async function renderChallenge() {
                 renderChallengeFailed();
                 return;
               }
-              // On débloque quand même pour ne pas bloquer l'utilisateur, mais il voit la bonne réponse
               document.getElementById('step-speak').classList.remove('guide-active');
               unlockNext();
             }
