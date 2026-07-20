@@ -12,7 +12,7 @@
     { "id": "s6", "target": "Pardon", "source": "Miala tsiny", "phonetic": "paʁ.dɔ̃", "audio": "", "context": "Pardon, je suis en retard.", "contextTranslation": "Miala tsiny, tara aho.", "quizType": "mg_to_fr", "tags": ["politesse"] },
     { "id": "s7", "target": "Au revoir", "source": "Veloma", "phonetic": "o ʁə.vwaʁ", "audio": "", "context": "Au revoir et à bientôt !", "contextTranslation": "Veloma ary hihaona indray!", "quizType": "mg_to_fr", "tags": ["politesse"] },
     { "id": "s8", "target": "Je ne comprends pas", "source": "Tsy azoko", "phonetic": "ʒə nə kɔ̃.pʁɑ̃ pa", "audio": "", "context": "Désolé, je ne comprends pas.", "contextTranslation": "Miala tsiny, tsy azoko.", "quizType": "mg_to_fr", "tags": ["communication"] },
-    { "id": "s9", "target": "Aidez-moi", "source": "Ampio aho", "phonetic": "e.de mwa", "audio": "", "context": "Aidez-moi, s'il vous plaît.", "contextTranslation": "Manampy ahy, azafady.", "quizType": "mg_to_fr", "tags": ["urgence"] },
+    { "id": "s9", "target": "Aidez-moi", "source": "Ampio aho", "phonetic": "e.de mwa", "audio": "", "context": "Aidez-moi, s'il vous plaît.", "contextTranslation": "Ampio aho, azafady.", "quizType": "mg_to_fr", "tags": ["urgence"] },
     { "id": "s10", "target": "D'accord", "source": "Tsy maninona", "phonetic": "da.kɔʁ", "audio": "", "context": "C'est d'accord.", "contextTranslation": "Tsy maninona.", "quizType": "fr_to_mg", "tags": ["base"] }
   ]
 }

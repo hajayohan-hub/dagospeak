@@ -435,7 +435,7 @@ async function renderPractice() {
             <p style="font-weight: 600; color: var(--ds-color-text-muted); margin-bottom: 0.5rem; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px;">
               Étape 2 : Safidio ny valiny marina (Choisissez la bonne réponse)
             </p>
-            <ds-quiz id="active-quiz" item-id="${itemData.id}" options='${JSON.stringify(options)}' correct="${correctAnswer}"></ds-quiz>
+            <ds-quiz id="active-quiz" item-id="${itemData.id}" options="${JSON.stringify(options).replace(/"/g, '&quot;')}" correct="${correctAnswer}"></ds-quiz>
           </div>
 
           <!-- ÉTAPE 3 : Shadowing (Guidé) -->
