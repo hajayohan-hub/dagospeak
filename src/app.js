@@ -19,6 +19,28 @@ import { MobileMoneyProvider } from './payments/providers/mobile-money.js';
 import { AIManager } from './engines/ai/ai-manager.js';
 import { SpeechRecognitionEngine } from './engines/pronunciation/speech-recognition.js';
 
+
+// ═══════════════════════════════════════════════════════════
+// TRADUCTION DE L'INTERFACE (FR → MG)
+// ═══════════════════════════════════════════════════════════
+const i18n = {
+  chooseAnswer: "Safidio ny valiny marina :",
+  listen: "🔊 Hihainoa",
+  speak: "🎤 Mitenena (Shadowing)",
+  speakNow: "🎙️ Mitenena izao...",
+  stopRecording: "⏹️ Ajanony",
+  nextQuestion: "Manaraka →",
+  backToThemes: "← Hiverina amin'ny lohahevitra",
+  listenFirst: "1. Hihainoa aloha",
+  answerQuiz: "2. Safidio ny valiny",
+  tryPronunciation: "3. Andramo tenenina (Fanazaran-tena)",
+  yourScore: "Ny naoty azonao",
+  mastery: "Fahaiza-manao",
+  excellent: "Tena tsara!",
+  good: "Tsara",
+  keepTrying: "Miezaha indray"
+};
+
 // ═══════════════════════════════════════════════════════════
 // INITIALISATION DU CORE
 // ═══════════════════════════════════════════════════════════
@@ -272,7 +294,10 @@ async function renderLesson() {
                 <span style="color:var(--ds-color-text-muted); font-size:0.9em; margin-left:8px;">→ ${item.source}</span>
                 <div style="font-size:0.85em; color:var(--ds-color-text-muted); font-style:italic; margin-top:4px;">"${item.context}"</div>
               </div>
-              <ds-button variant="ghost" size="sm" class="play-audio" data-target="${item.target}">🔊</ds-button>
+              // Dans renderLesson, remplacez le bouton audio par :
+<ds-button variant="primary" size="sm" class="play-audio" data-target="${item.target}" style="min-width: 80px;">
+  🔊 Hihainoa
+</ds-button>
             </div>
           `).join('')}
         </div>
@@ -288,8 +313,10 @@ async function renderLesson() {
     document.querySelectorAll('.play-audio').forEach(btn => {
       btn.addEventListener('click', () => {
         speechSynthesis.cancel();
+        btn.textContent = '🔊 ...'; // Feedback visuel immédiat
         const u = new SpeechSynthesisUtterance(btn.dataset.target);
         u.lang = 'fr-FR'; u.rate = 0.9;
+        u.onend = () => { btn.textContent = '🔊 Hihainoa'; }; // Revient à la normale après
         speechSynthesis.speak(u);
       });
     });
@@ -304,21 +331,20 @@ async function renderLesson() {
 async function renderPractice() {
   console.log(`🔍 [DEBUG] renderPractice démarré (Niveau: ${currentLevel}, Thème: ${currentTheme})`);
   const main = document.getElementById('app');
-  main.innerHTML = '<div style="text-align:center; padding:2rem;">Préparation de la session...</div>';
+  main.innerHTML = '<div style="text-align:center; padding:2rem;">Miomana ny session...</div>';
 
   try {
     const manifest = await content.loadManifest('fr');
     const levelData = manifest.levels.find(l => l.id === currentLevel);
-
-    // ✅ VERROUILLAGE : Session basée strictement sur le thème choisi
     const unitId = currentTheme || levelData.units[0];
     currentTheme = unitId;
 
     const vocabData = await content.loadSection('fr', 'vocabulary', unitId);
-
-    // La file d'attente ne contient QUE les items de ce thème
     const sessionQueue = [...vocabData.items].sort(() => Math.random() - 0.5);
+
     let currentIndex = 0;
+    let themeScore = 0; // ✅ POINT 5: Score du thème
+    let maxPossibleScore = sessionQueue.length * 15; // 10 pts quiz + 5 pts shadowing
     let shadowEvalHandler = null;
 
     const renderQuestion = (index) => {
@@ -334,13 +360,13 @@ async function renderPractice() {
 
       let questionText = "", correctAnswer = "", options = [];
       if (itemData.quizType === "mg_to_fr") {
-        questionText = `Comment dit-on "<strong>${itemData.source}</strong>" en français ?`;
+        questionText = `Inona no dikan'ny "<strong>${itemData.source}</strong>" amin'ny teny frantsay?`;
         correctAnswer = itemData.target;
         const pool = vocabData.items.filter(i => i.id !== itemData.id && i.target && i.target.trim() !== "").map(i => i.target);
         const distractors = pool.sort(() => Math.random() - 0.5).slice(0, 2);
         options = [correctAnswer, ...distractors];
       } else {
-        questionText = `Que signifie "<strong>${itemData.target}</strong>" en malgache ?`;
+        questionText = `Inona no dikan'ny "<strong>${itemData.target}</strong>" amin'ny teny malagasy?`;
         correctAnswer = itemData.source;
         const pool = vocabData.items.filter(i => i.id !== itemData.id && i.source && i.source.trim() !== "").map(i => i.source);
         const distractors = pool.sort(() => Math.random() - 0.5).slice(0, 2);
@@ -348,87 +374,115 @@ async function renderPractice() {
       }
 
       options = [...new Set(options.filter(opt => opt && typeof opt === 'string' && opt.trim() !== ""))];
-      while (options.length < 3) options.push("Option de secours");
+      while (options.length < 3) options.push("Valiny fanampiny");
       options = options.sort(() => Math.random() - 0.5);
 
+      // ✅ POINT 4: Interface guidée étape par étape
       main.innerHTML = `
         <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem;">
           <div style="background:var(--ds-color-border); height:8px; border-radius:4px; margin-bottom:1rem; overflow:hidden;">
             <div style="background:var(--ds-color-primary); height:100%; width:${progressPercent}%; transition: width 0.3s ease;"></div>
           </div>
+
           <div style="display:flex; justify-content:space-between; margin-bottom:1rem;">
-            <ds-button variant="ghost" size="sm" id="btn-back">← Thèmes</ds-button>
-            <span style="font-weight:600; color:var(--ds-color-text-muted);">Question ${index + 1} / ${sessionQueue.length}</span>
+            <ds-button variant="ghost" size="sm" id="btn-back">${i18n.backToThemes}</ds-button>
+            <span style="font-weight:600; color:var(--ds-color-text-muted);">Fanontaniana ${index + 1} / ${sessionQueue.length}</span>
           </div>
 
-          <div style="text-align:center; margin-bottom: 2rem; background: var(--ds-color-surface); padding: 1.5rem; border-radius: var(--ds-radius-lg); box-shadow: var(--ds-shadow-sm);">
+          <!-- ÉTAPE 1 & 2 : Écoute et Quiz -->
+          <div style="text-align:center; margin-bottom: 1.5rem; background: var(--ds-color-surface); padding: 1.5rem; border-radius: var(--ds-radius-lg); box-shadow: var(--ds-shadow-sm); border: 1px solid var(--ds-color-border);">
+            <div style="font-size:0.8rem; text-transform:uppercase; color:var(--ds-color-text-muted); margin-bottom:0.5rem; letter-spacing:1px;">${i18n.listenFirst} & ${i18n.answerQuiz}</div>
             <h2 style="margin-bottom: 0.5rem; font-size: var(--ds-font-size-xl);">${questionText}</h2>
             <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.95rem;">"${itemData.context}"</p>
-            <div style="margin-top: 1rem; display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
-              <ds-button variant="ghost" size="sm" id="btn-listen">🔊 Écouter</ds-button>
-              <ds-button variant="ghost" size="sm" id="btn-shadow">🎙️ Shadowing (5s)</ds-button>
-            </div>
-            <div id="shadow-feedback" style="margin-top: 1rem; font-weight: bold; color: var(--ds-color-primary); min-height: 1.5em;"></div>
+
+            <ds-button variant="primary" size="sm" id="btn-listen" style="margin-top:1rem;">${i18n.listen}</ds-button>
           </div>
 
-          <div style="margin-top: 1.5rem; text-align: center;">
-            <h2 style="font-weight: 600; color: var(--ds-color-text-muted); margin-bottom: 0.5rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;">Choisissez la bonne réponse :</h2>
+          <div style="margin-bottom: 1.5rem;">
+            <p style="font-weight: 600; color: var(--ds-color-text-muted); margin-bottom: 0.5rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;">
+              ${i18n.chooseAnswer}
+            </p>
             <ds-quiz id="active-quiz" item-id="${itemData.id}" options='${JSON.stringify(options)}' correct="${correctAnswer}"></ds-quiz>
           </div>
 
+          <!-- ÉTAPE 3 : Shadowing (Guidé) -->
+          <div style="text-align:center; margin-bottom: 1.5rem; background: var(--ds-color-primary-soft); padding: 1rem; border-radius: var(--ds-radius-lg); border: 1px dashed var(--ds-color-primary);">
+            <div style="font-size:0.8rem; text-transform:uppercase; color:var(--ds-color-primary); margin-bottom:0.5rem; font-weight:bold;">${i18n.tryPronunciation}</div>
+            <ds-button variant="ghost" size="sm" id="btn-shadow">${i18n.speak}</ds-button>
+            <div id="shadow-feedback" style="margin-top: 0.5rem; font-weight: bold; color: var(--ds-color-text); min-height: 1.5em; font-size: 0.9rem;"></div>
+          </div>
 
-          <div style="margin-top: 2rem; text-align: center;">
-            <ds-button id="btn-next" disabled variant="primary" style="width: 100%; transition: all 0.3s ease;">Question suivante →</ds-button>
+          <!-- ÉTAPE 4 : Bouton Suivant (Caché au début) -->
+          <div style="margin-top: 2rem; text-align: center; min-height: 60px;">
+            <ds-button id="btn-next" disabled variant="primary" style="width: 100%; opacity: 0.5; pointer-events: none; transition: all 0.5s ease;">
+              ${i18n.nextQuestion}
+            </ds-button>
           </div>
         </section>
       `;
 
+      // --- GESTION DES ÉVÉNEMENTS ---
       document.getElementById('btn-back').addEventListener('click', () => { shadowing.forceStop(); router.navigate('/themes'); });
+
       document.getElementById('btn-listen').addEventListener('click', () => {
         speechSynthesis.cancel();
-        const u = new SpeechSynthesisUtterance(itemData.target); u.lang = 'fr-FR'; u.rate = 0.9; speechSynthesis.speak(u);
+        const u = new SpeechSynthesisUtterance(itemData.target);
+        u.lang = 'fr-FR'; u.rate = 0.9;
+        speechSynthesis.speak(u);
       });
 
       const btnShadow = document.getElementById('btn-shadow');
       const shadowFeedback = document.getElementById('shadow-feedback');
       const btnNext = document.getElementById('btn-next');
       let isRecording = false;
+      let quizAnswered = false;
+      let shadowAttempted = false;
 
       btnShadow.addEventListener('click', () => {
         if (isRecording) {
           shadowing.forceStop();
           isRecording = false;
-          btnShadow.textContent = '🎙️ Shadowing (5s)';
+          btnShadow.textContent = i18n.speak;
         } else {
           speechSynthesis.cancel();
           shadowing.startRecording();
           isRecording = true;
-          btnShadow.textContent = '⏹️ Arrêt en cours...';
-          shadowFeedback.textContent = 'Parlez maintenant...';
+          btnShadow.textContent = i18n.stopRecording;
+          shadowFeedback.textContent = i18n.speakNow;
         }
       });
 
       shadowEvalHandler = (data) => {
+        shadowAttempted = true;
         if (shadowFeedback) shadowFeedback.textContent = `${data.feedback} (${(data.score * 100).toFixed(0)}%)`;
-        if (btnShadow) { btnShadow.textContent = '🎙️ Shadowing (5s)'; isRecording = false; }
-        unlockNext();
+        if (btnShadow) { btnShadow.textContent = i18n.speak; isRecording = false; }
+
+        // ✅ POINT 5: Ajouter des points pour la prononciation
+        if (data.score > 0.7) themeScore += 5;
+
+        checkCompletion();
       };
       bus.on('pronunciation:evaluated', shadowEvalHandler);
 
       const quizEl = document.getElementById('active-quiz');
       quizEl.addEventListener('quiz:answered', async (e) => {
+        quizAnswered = true;
         await srs.schedule(e.detail.itemId, e.detail.isCorrect ? 4 : 1);
         if (e.detail.isCorrect) {
+          themeScore += 10; // ✅ POINT 5: Points pour le quiz
           await gamification.addXP(10, 'Quiz réussi');
-          await gamification.updateStreak();
         }
-        unlockNext();
+        checkCompletion();
       });
 
-      const unlockNext = () => {
-        if (btnNext) {
+      // ✅ POINT 4: Logique d'affichage du bouton "Suivant"
+      const checkCompletion = () => {
+        // Le bouton ne s'active QUE si le quiz est répondu (le shadowing reste optionnel mais encouragé)
+        if (quizAnswered) {
           btnNext.disabled = false;
           btnNext.removeAttribute('disabled');
+          btnNext.style.opacity = '1';
+          btnNext.style.pointerEvents = 'auto';
           btnNext.setAttribute('variant', 'success');
           btnNext.style.boxShadow = "0 0 0 0 rgba(47, 158, 68, 0.7)";
           btnNext.style.animation = "pulse-green 1.5s infinite";
@@ -447,59 +501,112 @@ async function renderPractice() {
           currentIndex++;
           renderQuestion(currentIndex);
         } else {
-          renderSessionComplete();
+          renderPronunciationChallenge(); // ✅ NOUVEAU : Étape défi avant la fin
         }
       });
     };
 
-        const renderSessionComplete = async () => {
-      shadowing.forceStop();
-      speechSynthesis.cancel();
-      await gamification.addXP(50, 'Session terminée');
+
+        const renderPronunciationChallenge = async () => {
+      // Prendre 3 mots au hasard du thème pour le défi final
+      const challengeWords = sessionQueue.sort(() => Math.random() - 0.5).slice(0, 3);
 
       main.innerHTML = `
         <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem; text-align:center;">
-          <div style="font-size: 4rem; margin-bottom: 1rem;">🎉</div>
-          <h2 style="color: var(--ds-color-primary);">Session Terminée !</h2>
-          <p style="color: var(--ds-color-text-muted); margin-bottom: 0.5rem;">
-            Vous avez maîtrisé le vocabulaire de ce thème.
-          </p>
-          <p style="color: var(--ds-color-text-muted); margin-bottom: 2rem; font-style: italic;">
-            +50 XP gagnés ! Misaotra !
+          <div style="font-size: 3rem; margin-bottom: 1rem;">🎤</div>
+          <h2 style="color: var(--ds-color-accent);">Fanamby: Mitenena! (Défi de prononciation)</h2>
+          <p style="color: var(--ds-color-text-muted); margin-bottom: 2rem;">
+            Alohan'ny hifarana, andramo tenenina ireto teny 3 ireto mba hahazoana naoty fanampiny!
+            <br><em>(Avant de finir, prononcez ces 3 mots pour des points bonus !)</em>
           </p>
 
-          <!-- ✅ PARCOURS GUIDÉ : Bouton principal vers les Dialogues -->
-          <div style="background: var(--ds-color-primary-soft); padding: 1.5rem; border-radius: var(--ds-radius-lg); border: 1px solid var(--ds-color-primary); margin-bottom: 1.5rem;">
-            <h3 style="color: var(--ds-color-primary); margin-bottom: 0.5rem;">💬 Étape suivante : Les Dialogues</h3>
-            <p style="color: var(--ds-color-text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
-              Maintenant, découvrez comment utiliser ces mots dans une conversation réelle !
-            </p>
-            <ds-button id="btn-go-dialogue" size="lg" variant="success" style="width: 100%;">
-              Continuer vers les Dialogues →
-            </ds-button>
+          <div style="display:flex; flex-direction:column; gap:1rem; margin-bottom:2rem;">
+            ${challengeWords.map((word, idx) => `
+              <div style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:1px solid var(--ds-color-border);">
+                <div style="font-weight:bold; font-size:1.1rem; margin-bottom:0.5rem;">${idx + 1}. ${word.target}</div>
+                <ds-button variant="ghost" size="sm" class="challenge-speak-btn" data-word="${word.target}">
+                  🎤 Mitenena izao
+                </ds-button>
+                <div class="challenge-feedback-${idx}" style="margin-top:0.5rem; font-size:0.9rem; font-weight:600;"></div>
+              </div>
+            `).join('')}
           </div>
 
-          <!-- Bouton secondaire : Retour aux thèmes -->
-          <ds-button id="btn-finish" variant="ghost" size="sm" style="width: 100%; margin-top: 0.5rem;">
-            ← Retour à la liste des thèmes
+          <ds-button id="btn-finish-challenge" size="lg" variant="success" style="width: 100%;">
+            Hijery ny naoty (Voir mon score final)
           </ds-button>
         </section>
       `;
 
-      // ✅ Le bouton principal mène vers les Dialogues du même thème
-      document.getElementById('btn-go-dialogue').addEventListener('click', () => {
-        router.navigate('/dialogues');
+      document.querySelectorAll('.challenge-speak-btn').forEach((btn, idx) => {
+        btn.addEventListener('click', async () => {
+          btn.disabled = true;
+          btn.textContent = '🎙️ ...';
+          const result = await speechRecognition.listen();
+
+          const feedbackEl = document.querySelector(`.challenge-feedback-${idx}`);
+          if (result.transcript) {
+            const similarity = calculateSimilarity(result.transcript.toLowerCase(), btn.dataset.word.toLowerCase());
+            if (similarity > 0.5) {
+              feedbackEl.textContent = "✅ Tsara!";
+              feedbackEl.style.color = "var(--ds-color-success)";
+              themeScore += 5; // Bonus
+              maxPossibleScore += 5;
+            } else {
+              feedbackEl.textContent = `❌ Diso. Navoaka: "${result.transcript}"`;
+              feedbackEl.style.color = "var(--ds-color-danger)";
+            }
+          } else {
+            feedbackEl.textContent = "⚠️ Tsy re ny feo (Aucune voix détectée)";
+          }
+          btn.textContent = '✅ Vita';
+        });
       });
 
-      // Le bouton secondaire ramène aux thèmes (option de secours)
-      document.getElementById('btn-finish').addEventListener('click', () => {
-        router.navigate('/themes');
+      document.getElementById('btn-finish-challenge').addEventListener('click', () => {
+        renderSessionComplete();
       });
     };
+
+    // ✅ POINT 5: Écran de fin avec Note et Bilan
+    const renderSessionComplete = async () => {
+      shadowing.forceStop();
+      speechSynthesis.cancel();
+      await gamification.addXP(50, 'Session terminée');
+
+      const percentage = Math.round((themeScore / maxPossibleScore) * 100);
+      let masteryText = i18n.keepTrying;
+      let color = "var(--ds-color-text-muted)";
+
+      if (percentage >= 80) { masteryText = i18n.excellent; color = "var(--ds-color-success)"; }
+      else if (percentage >= 50) { masteryText = i18n.good; color = "var(--ds-color-accent)"; }
+
+      main.innerHTML = `
+        <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem; text-align:center;">
+          <div style="font-size: 4rem; margin-bottom: 1rem;">🏆</div>
+          <h2 style="color: var(--ds-color-primary);">Session Vita! (Terminée)</h2>
+
+          <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); border: 2px solid ${color}; margin: 2rem 0;">
+            <div style="font-size: 0.9rem; color: var(--ds-color-text-muted); text-transform: uppercase;">${i18n.yourScore}</div>
+            <div style="font-size: 3rem; font-weight: bold; color: ${color}; margin: 0.5rem 0;">${percentage}%</div>
+            <div style="font-size: 1.2rem; font-weight: 600; color: ${color};">${masteryText}</div>
+            <div style="margin-top: 1rem; font-size: 0.9rem; color: var(--ds-color-text-muted);">
+              ${i18n.mastery}: ${themeScore} / ${maxPossibleScore} points
+            </div>
+          </div>
+
+          <ds-button id="btn-finish" size="lg" variant="success" style="width: 100%;">
+            Hiverina amin'ny lohahevitra (Retour aux thèmes)
+          </ds-button>
+        </section>
+      `;
+      document.getElementById('btn-finish').addEventListener('click', () => router.navigate('/themes'));
+    };
+
     renderQuestion(currentIndex);
   } catch (error) {
     console.error('❌ Erreur renderPractice:', error);
-    main.innerHTML = `<div style="text-align:center; padding:2rem; color:red;"><p>Erreur: ${error.message}</p><ds-button onclick="location.hash='/themes'">Retour aux thèmes</ds-button></div>`;
+    main.innerHTML = `<div style="text-align:center; padding:2rem; color:red;"><p>Erreur: ${error.message}</p><ds-button onclick="location.hash='/themes'">Hiverina</ds-button></div>`;
   }
 }
 
