@@ -512,7 +512,7 @@ async function renderPractice() {
         }
       });
 
-      shadowEvalHandler = (data) => {
+      shadowEvalHandler = async (data) => {
         shadowAttempted = true;
         if (shadowFeedback) shadowFeedback.textContent = `${data.feedback} (${(data.score * 100).toFixed(0)}%)`;
         if (btnShadow) {
