@@ -18,6 +18,7 @@ import { MobileMoneyProvider } from './payments/providers/mobile-money.js';
 // Import des nouveaux modules IA
 import { AIManager } from './engines/ai/ai-manager.js';
 import { SpeechRecognitionEngine } from './engines/pronunciation/speech-recognition.js';
+import { TeacherAvatar } from './ui/components/teacher-avatar.js';
 
 
 // ═══════════════════════════════════════════════════════════
@@ -139,18 +140,21 @@ document.getElementById('theme-toggle')?.addEventListener('click', () => {
 
 async function renderHome() {
   const main = document.getElementById('app');
-  main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement...</div>';
+  main.innerHTML = '<div style="text-align:center; padding:2rem;">Mamakiana...</div>';
 
   try {
     await roleManager.init();
     const profile = await gamification.getProfile();
     const manifest = await content.loadManifest('fr');
 
-    // Génération dynamique des cartes de niveaux
     const levelsHtml = manifest.levels.map(level => {
       const isFree = level.id === 'A0' || level.id === 'A1';
-      // const isFree = level.id === 'A0';
       const isUnlocked = isFree || profile.isPremium;
+
+      const levelDescriptions = {
+        'A0': { fr: 'Les premiers mots pour survivre au quotidien', mg: 'Ny teny voalohany hahafahana miaina isan\'andro' },
+        'A1': { fr: 'Vocabulaire essentiel : famille, marché, couleurs', mg: 'Teny ilaina : fianakaviana, tsena, loko' }
+      };
 
       return `
         <div style="background: ${isUnlocked ? 'var(--ds-color-surface)' : 'var(--ds-color-surface-2)'};
@@ -160,21 +164,33 @@ async function renderHome() {
                     display: flex; flex-direction: column; gap: 1rem;">
 
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <h3 style="margin:0; color: ${isUnlocked ? 'var(--ds-color-primary)' : 'var(--ds-color-text-muted)'};">
-              Niveau ${level.id} : ${level.title}
-            </h3>
-            ${!isUnlocked ? '<span style="font-size:1.5rem;" title="Contenu Premium">🔒</span>' : '<span style="font-size:1.5rem;">🔓</span>'}
+            <div>
+              <h3 style="margin:0; color: ${isUnlocked ? 'var(--ds-color-primary)' : 'var(--ds-color-text-muted)'};">
+                Ambaratonga ${level.id} : ${level.title}
+              </h3>
+              <p style="margin:4px 0 0 0; font-size: 0.85rem; color: var(--ds-color-text-muted); font-style:italic;">
+                (Niveau ${level.id})
+              </p>
+            </div>
+            ${!isUnlocked ? '<span style="font-size:1.5rem;" title="Voa hidiana">🔒</span>' : '<span style="font-size:1.5rem;" title="Misokatra">🔓</span>'}
           </div>
 
-          <p style="margin:0; font-size: 0.9rem; color: var(--ds-color-text-muted);">${level.description}</p>
+          <div>
+            <p style="margin:0; font-size: 0.9rem; color: var(--ds-color-text-muted);">
+              ${levelDescriptions[level.id]?.fr || level.description}
+            </p>
+            <p style="margin:4px 0 0 0; font-size: 0.85rem; color: var(--ds-color-text-muted); font-style:italic;">
+              ${levelDescriptions[level.id]?.mg || ''}
+            </p>
+          </div>
 
           ${isUnlocked ? `
             <ds-button class="btn-select-level" data-level="${level.id}" variant="${level.id === 'A0' ? 'success' : 'primary'}" size="sm">
-              Voir les thèmes de ce niveau
+              Jereo ny lohahevitra (Voir les thèmes)
             </ds-button>
           ` : `
             <ds-button class="btn-upgrade" data-level="${level.id}" variant="accent" size="sm">
-              Débloquer avec Premium
+              Havaozina ho Premium (Débloquer avec Premium)
             </ds-button>
           `}
         </div>
@@ -184,14 +200,28 @@ async function renderHome() {
     main.innerHTML = `
       <section class="ds-hero">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
-          <h1>Manahoana ! 👋</h1>
+          <div>
+            <h1 style="margin:0;">Manahoana ! 👋</h1>
+            <p style="margin:4px 0 0 0; font-size:0.9rem; color:var(--ds-color-text-muted); font-style:italic;">
+              (Bonjour !)
+            </p>
+          </div>
           <div style="text-align:right;">
-            <div style="font-size: var(--ds-font-size-lg); font-weight: bold; color: var(--ds-color-accent);">🔥 ${profile.streak} jour${profile.streak > 1 ? 's' : ''}</div>
-            <div style="color: var(--ds-color-text-muted);">Niveau ${profile.level} • ${profile.xp} XP ${profile.isPremium ? '• 👑 Premium' : ''}</div>
+            <div style="font-size: var(--ds-font-size-lg); font-weight: bold; color: var(--ds-color-accent);">🔥 ${profile.streak} andro</div>
+            <div style="color: var(--ds-color-text-muted); font-size:0.85rem;">
+              Ambaratonga ${profile.level} • ${profile.xp} XP ${profile.isPremium ? '• 👑 Premium' : ''}
+            </div>
           </div>
         </div>
 
-        <p class="ds-hero__subtitle">Choisissez votre parcours d'apprentissage :</p>
+        <div style="margin-bottom: 2rem;">
+          <p class="ds-hero__subtitle" style="margin:0; font-size:1.1rem; font-weight:500;">
+            Safidio ny lalanao hianarana :
+          </p>
+          <p style="margin:4px 0 0 0; font-size:0.9rem; color:var(--ds-color-text-muted); font-style:italic;">
+            (Choisissez votre parcours d'apprentissage :)
+          </p>
+        </div>
 
         <div id="levels-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
           ${levelsHtml}
@@ -199,28 +229,28 @@ async function renderHome() {
 
         ${!profile.isPremium ? `
         <div style="padding: 1.5rem; background: var(--ds-color-primary-soft); border-radius: var(--ds-radius-lg); border: 1px solid var(--ds-color-primary); text-align:center;">
-          <h3 style="color: var(--ds-color-primary); margin-bottom: 0.5rem;">🚀 Passez à DagoSpeak Premium</h3>
-          <p style="color: var(--ds-color-text-muted); margin-bottom: 1rem;">Débloquez tous les niveaux (A1, A2, B1...), les dialogues avancés et l'IA de correction.</p>
-          <ds-button id="btn-upgrade-main" size="md">Devenir Premium (15 000 Ar / mois)</ds-button>
+          <h3 style="color: var(--ds-color-primary); margin-bottom: 0.5rem;">🚀 Hiditra ao amin'ny DagoSpeak Premium</h3>
+          <p style="color: var(--ds-color-text-muted); margin-bottom: 0.5rem; font-size:0.9rem;">
+            (Passez à DagoSpeak Premium)
+          </p>
+          <p style="color: var(--ds-color-text-muted); margin-bottom: 1rem; font-size:0.85rem;">
+            Sokafy ny ambaratonga rehetra (A1, A2, B1...), ny resaka mandroso ary ny IA fanampiana.
+            <br><em>(Débloquez tous les niveaux, les dialogues avancés et l'IA de correction.)</em>
+          </p>
+          <ds-button id="btn-upgrade-main" size="md">Lasà Premium (15 000 Ar / volana)</ds-button>
         </div>
         ` : ''}
       </section>
     `;
 
-    // ✅ ÉCOUTEURS D'ÉVÉNEMENTS APRÈS LE RENDU (100% fiable)
     document.getElementById('levels-container').addEventListener('click', (e) => {
       const btn = e.target.closest('.btn-select-level');
       if (btn) {
         const levelId = btn.dataset.level;
-        console.log(`✅ Clic sur "Voir les thèmes" pour le niveau ${levelId}`);
-
-        // Mettre à jour l'état AVANT de changer de route
         currentLevel = levelId;
         currentTheme = null;
         localStorage.setItem('dagospeak:level', currentLevel);
         updateLevelUI();
-
-        // Rediriger vers les thèmes
         router.navigate('/themes');
       }
 
@@ -234,10 +264,12 @@ async function renderHome() {
       handleUpgrade(document.getElementById('btn-upgrade-main'), profile);
     });
 
-    logger.info('✅ Page d\'accueil rendue (Modèle Freemium)');
+    window.teacherAvatar.show('home');
+
+    logger.info('✅ Page d\'accueil rendue (Modèle Freemium bilingue)');
   } catch (e) {
     console.error('❌ Erreur renderHome:', e);
-    main.innerHTML = `<p style="color:red; text-align:center;">Erreur: ${e.message}</p>`;
+    main.innerHTML = `<p style="color:red; text-align:center;">Hadisoana: ${e.message}</p>`;
   }
 }
 
@@ -327,6 +359,9 @@ async function renderLesson() {
     });
 
     document.getElementById('btn-start-practice')?.addEventListener('click', () => router.navigate('/practice'));
+
+    window.teacherAvatar.show('lesson');
+
     logger.info(`✅ Page Leçon rendue pour le thème: ${unitId}`);
   } catch (e) {
     main.innerHTML = `<p style="color:red; text-align:center;">Erreur leçon: ${e.message}</p>`;
@@ -724,11 +759,15 @@ async function renderPractice() {
     renderQuestion(currentIndex);
     console.log(`✅ [DEBUG] Session initialisée avec ${sessionQueue.length} questions`);
 
+    window.teacherAvatar.show('practice');
+
   } catch (error) {
     console.error('❌ Erreur renderPractice:', error);
     main.innerHTML = `<div style="text-align:center; padding:2rem; color:red;"><p>Erreur: ${error.message}</p><ds-button onclick="location.hash='/themes'">Hiverina</ds-button></div>`;
   }
 }
+
+
 async function renderDialogues() {
   const main = document.getElementById('app');
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement des dialogues...</div>';
@@ -825,6 +864,8 @@ async function renderDialogues() {
     });
 
     logger.info(`✅ Page Dialogues rendue pour le thème: ${unitId}`);
+
+    window.teacherAvatar.show('dialogues');
 
   } catch (e) {
     console.error('❌ Erreur renderDialogues:', e);
@@ -1040,6 +1081,8 @@ async function renderRolePlay() {
 
     renderLine();
     logger.info(`✅ Role Play Guidé démarré pour le thème: ${unitId}`);
+
+    window.teacherAvatar.show('roleplay');
 
   } catch (e) {
     console.error('❌ Erreur renderRolePlay:', e);
@@ -1347,6 +1390,8 @@ async function renderChallenge() {
     renderLine();
     console.log(`✅ [DEBUG] Défi démarré pour le thème: ${unitId}`);
 
+    window.teacherAvatar.show('challenge');
+
   } catch (e) {
     console.error('❌ Erreur renderChallenge:', e);
     main.innerHTML = `<div style="text-align:center; padding:2rem; color:var(--ds-color-danger);">
@@ -1466,6 +1511,8 @@ async function renderThemes() {
       }
     });
 
+    window.teacherAvatar.show('themes');
+
   } catch (e) {
     main.innerHTML = `<p style="color:red; text-align:center;">Erreur: ${e.message}</p>`;
   }
@@ -1524,6 +1571,8 @@ async function renderThemeDetail() {
     `;
 
     document.getElementById('btn-back-themes').addEventListener('click', () => router.navigate('/themes'));
+
+    window.teacherAvatar.show('theme-detail');
 
   } catch (e) {
     console.error('❌ Erreur renderThemeDetail:', e);
