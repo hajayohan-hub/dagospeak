@@ -1,12 +1,12 @@
 /**
- * TeacherAvatar - Assistant virtuel animé avec voix masculine qui guide l'utilisateur.
+ * TeacherAvatar - Assistant virtuel animé avec voix féminine qui guide l'utilisateur.
  */
 export class TeacherAvatar {
   constructor() {
     this.currentTip = '';
     this.isVisible = true;
     this.isSpeaking = false;
-    this.maleVoice = null;
+    this.femaleVoice = null;
     this.masteredThemes = new Set(); // ✅ Compteur de thèmes maîtrisés
     this.autoSpeakEnabled = true;
     this.#loadMasteredThemes();
@@ -39,10 +39,10 @@ export class TeacherAvatar {
     const loadVoices = () => {
       const voices = speechSynthesis.getVoices();
       // ✅ Chercher une voix féminine française
-      this.maleVoice = voices.find(v => v.lang.startsWith('fr') && (v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('femme'))) ||
-                       voices.find(v => v.lang.startsWith('fr')) ||
-                       voices[0];
-      console.log('[TeacherAvatar] Voix chargée:', this.maleVoice?.name || 'Par défaut');
+      this.femaleVoice = voices.find(v => v.lang.startsWith('fr') && (v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('femme'))) ||
+                         voices.find(v => v.lang.startsWith('fr')) ||
+                         voices[0];
+      console.log('[TeacherAvatar] Voix chargée:', this.femaleVoice?.name || 'Par défaut');
     };
 
     loadVoices();
@@ -50,6 +50,17 @@ export class TeacherAvatar {
   }
 
   speak(text) {
+    if (!('speechSynthesis' in window)) return;
+
+    speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text); // ✅ CRÉATION DE L'UTTERANCE
+    utterance.lang = 'fr-FR';
+    utterance.rate = 0.95;
+    utterance.pitch = 1.1; // Voix plus aiguë (féminine)
+
+    if (this.femaleVoice) {
+      utterance.voice = this.femaleVoice;
+    }
 
     utterance.onstart = () => {
       this.isSpeaking = true;
@@ -61,7 +72,7 @@ export class TeacherAvatar {
       this.#animateSpeaking(false);
     };
 
-    speechSynthesis.speak(utterance);
+    speechSynthesis.speak(utterance); // ✅ APPEL À SPEAK
   }
 
   #animateSpeaking(isSpeaking) {
@@ -122,9 +133,7 @@ export class TeacherAvatar {
       }, 500);
     }
   }
-
-}
-
+  // ✅ PAS D'ACCOLADE EN TROP ICI ! La méthode show() se termine normalement.
 
   render() {
     const oldAvatar = document.getElementById('teacher-avatar-container');
@@ -166,8 +175,7 @@ export class TeacherAvatar {
         animation: idle-float 3s ease-in-out infinite;
         transition: all 0.3s;
       " title="Cliquez pour de l'aide">
-      👩‍🏫
-
+        👩‍🏫
       </div>
       <div id="teacher-tooltip" style="
         position: fixed;
