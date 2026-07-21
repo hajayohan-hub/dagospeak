@@ -1142,7 +1142,6 @@ async function renderChallenge() {
     const MAX_MISTAKES = 2;
     let shadowEvalHandler = null;
 
-    // Injection du style d'animation
     if (!document.getElementById('pulse-guide-style')) {
       const style = document.createElement('style');
       style.id = 'pulse-guide-style';
@@ -1197,7 +1196,6 @@ async function renderChallenge() {
 
           <h2 style="text-align:center; margin-bottom:1.5rem;">💬 ${dialogue.title}</h2>
 
-          <!-- Bulle du locuteur -->
           <div style="background:var(--ds-color-surface); padding:1.5rem; border-radius:var(--ds-radius-lg); border:2px solid ${isUserTurn ? 'var(--ds-color-danger, #ef4444)' : 'var(--ds-color-border)'}; margin-bottom:1.5rem; box-shadow:var(--ds-shadow-sm);">
             <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.75rem;">
               <span style="font-size:1.5rem;">${speaker.avatar}</span>
@@ -1219,10 +1217,8 @@ async function renderChallenge() {
             `}
           </div>
 
-          <!-- Zone d'action : Vraie conversation -->
           <div style="display:flex; flex-direction:column; gap:0.75rem;">
             ${!isUserTurn ? `
-              <!-- Tour du partenaire : voix automatique -->
               <div id="step-listen" class="guide-active" style="text-align:center; padding:1.5rem; background:var(--ds-color-surface-2); border-radius:var(--ds-radius-md);">
                 <div style="font-size:0.75rem; text-transform:uppercase; color:var(--ds-color-text-muted); margin-bottom:0.5rem;">
                   👂 Hihainoa an'i ${speaker.name} (Écoutez ${speaker.name})
@@ -1233,7 +1229,6 @@ async function renderChallenge() {
                 </div>
               </div>
             ` : `
-              <!-- Tour de l'utilisateur : parler -->
               <div id="step-speak" class="guide-active" style="text-align:center; padding:1rem; background:var(--ds-color-primary-soft); border-radius:var(--ds-radius-md); border: 1px dashed var(--ds-color-primary);">
                 <div style="font-size:0.75rem; text-transform:uppercase; color:var(--ds-color-primary); margin-bottom:0.5rem; font-weight:bold;">
                   Étape : Mitenena tsy misy fanampiana (Parlez sans aide)
@@ -1274,7 +1269,6 @@ async function renderChallenge() {
       };
 
       if (!isUserTurn) {
-        // ✅ Tour du partenaire : voix automatique
         const indicator = document.getElementById('partner-speaking-indicator');
 
         speakWithFeedback(line.text, {
@@ -1290,7 +1284,6 @@ async function renderChallenge() {
           }
         });
       } else {
-        // ✅ Tour de l'utilisateur : parler
         const btnSpeak = document.getElementById('btn-speak');
         const speechFeedback = document.getElementById('speech-feedback');
         let isRecording = false;
@@ -1404,7 +1397,6 @@ async function renderChallenge() {
       speechSynthesis.cancel();
       await gamification.addXP(100, 'Défi terminé !');
 
-      // ✅ Marquer ce thème comme maîtrisé
       window.teacherAvatar.markThemeMastered(currentTheme);
 
       main.innerHTML = `
