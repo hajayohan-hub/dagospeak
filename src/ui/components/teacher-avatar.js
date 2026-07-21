@@ -121,8 +121,8 @@ export class TeacherAvatar {
         this.speak(tip.fr);
       }, 500);
     }
-  }
-}
+
+
 
   render() {
     const oldAvatar = document.getElementById('teacher-avatar-container');
