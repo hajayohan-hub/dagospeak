@@ -7,15 +7,39 @@ export class TeacherAvatar {
     this.isVisible = true;
     this.isSpeaking = false;
     this.maleVoice = null;
+    this.masteredThemes = new Set(); // ✅ Compteur de thèmes maîtrisés
+    this.autoSpeakEnabled = true;
+    this.#loadMasteredThemes();
     this.#loadVoices();
   }
 
+  #loadMasteredThemes() {
+    const saved = localStorage.getItem('dagospeak:masteredThemes');
+    if (saved) {
+      this.masteredThemes = new Set(JSON.parse(saved));
+    }
+  }
+
+  #saveMasteredThemes() {
+    localStorage.setItem('dagospeak:masteredThemes', JSON.stringify([...this.masteredThemes]));
+  }
+
+  markThemeMastered(themeId) {
+    this.masteredThemes.add(themeId);
+    this.#saveMasteredThemes();
+
+    // ✅ Après 3 thèmes maîtrisés, désactiver l'auto-parole
+    if (this.masteredThemes.size >= 3) {
+      this.autoSpeakEnabled = false;
+      console.log('[TeacherAvatar] Auto-parole désactivée (3 thèmes maîtrisés)');
+    }
+  }
+
   #loadVoices() {
-    // Charger les voix disponibles
     const loadVoices = () => {
       const voices = speechSynthesis.getVoices();
-      // Chercher une voix masculine française
-      this.maleVoice = voices.find(v => v.lang.startsWith('fr') && v.name.toLowerCase().includes('male')) ||
+      // ✅ Chercher une voix féminine française
+      this.maleVoice = voices.find(v => v.lang.startsWith('fr') && (v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('femme'))) ||
                        voices.find(v => v.lang.startsWith('fr')) ||
                        voices[0];
       console.log('[TeacherAvatar] Voix chargée:', this.maleVoice?.name || 'Par défaut');
@@ -26,17 +50,6 @@ export class TeacherAvatar {
   }
 
   speak(text) {
-    if (!('speechSynthesis' in window)) return;
-
-    speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'fr-FR';
-    utterance.rate = 0.95;
-    utterance.pitch = 0.9; // Voix plus grave (masculine)
-
-    if (this.maleVoice) {
-      utterance.voice = this.maleVoice;
-    }
 
     utterance.onstart = () => {
       this.isSpeaking = true;
@@ -82,15 +95,15 @@ export class TeacherAvatar {
       },
       'practice': {
         fr: "Suivez les étapes guidées : Écoutez, Répondez, Prononcez. Le bouton vert vous guide !",
-        mg: "Araho ny dingana voatarika : Hihainoa, Valiako, Mitenena. Ny bokotra maitso dia mitarika anao !"
+        mg: "Araho ny dingana voatarika : Mihainoa, Valiako, Mitenena. Ny bokotra maitso dia mitarika anao !"
       },
       'dialogues': {
         fr: "Lisez la conversation et écoutez chaque ligne. Vous êtes prêt pour le Role Play !",
-        mg: "Vakio ny resaka ary hihainoa ny andalana tsirairay. Vonona ianao ho an'ny Role Play !"
+        mg: "Vakio ny resaka ary mihainoa ny andalana tsirairay. Vonona ianao ho an'ny Role Play !"
       },
       'roleplay': {
         fr: "Jouez les deux rôles. Écoutez, puis parlez à votre tour. Les réponses sont affichées pour vous aider.",
-        mg: "Milalao anjara asa roa. Hihainoa, ary mitenena ianao. Ny valiny dia aseho mba hanampiana anao."
+        mg: "Milalao anjara asa roa. Mihainoa, ary mitenena ianao. Ny valiny dia aseho mba hanampiana anao."
       },
       'challenge': {
         fr: "Défi ! Parlez sans voir les réponses. Si vous bloquez, retournez au Role Play Guidé.",
@@ -102,11 +115,14 @@ export class TeacherAvatar {
     this.currentTip = tip;
     this.render();
 
-    // Parler automatiquement au changement de page
-    setTimeout(() => {
-      this.speak(tip.fr);
-    }, 500);
+    // ✅ Parler automatiquement SEULEMENT si l'utilisateur n'a pas encore maîtrisé 3 thèmes
+    if (this.autoSpeakEnabled) {
+      setTimeout(() => {
+        this.speak(tip.fr);
+      }, 500);
+    }
   }
+}
 
   render() {
     const oldAvatar = document.getElementById('teacher-avatar-container');
@@ -148,7 +164,8 @@ export class TeacherAvatar {
         animation: idle-float 3s ease-in-out infinite;
         transition: all 0.3s;
       " title="Cliquez pour de l'aide">
-        👨‍🏫
+      👩‍🏫
+
       </div>
       <div id="teacher-tooltip" style="
         position: fixed;
