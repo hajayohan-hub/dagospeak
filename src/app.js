@@ -901,6 +901,7 @@ async function renderRolePlay() {
     const themeName = themeNames[unitId] || unitId;
 
     let currentLineIndex = 0;
+    let shadowEvalHandler = null;
 
     const renderLine = () => {
       if (currentLineIndex >= dialogue.lines.length) {
@@ -1029,45 +1030,56 @@ async function renderRolePlay() {
           shadowing.startRecording();
         });
 
-        const shadowEvalHandler = (data) => {
-  isRecording = false;
-  btnSpeak.removeAttribute('disabled');
+        shadowEvalHandler = (data) => {
+          isRecording = false;
+          btnSpeak.removeAttribute('disabled');
 
-  if (data.error === 'not_supported') {
-    speechFeedback.innerHTML = '<span style="color:var(--ds-color-danger);">⚠️ Tsy mandeha ny mikrô (Micro non supporté)</span>';
-    btnSpeak.textContent = '🎤 Mitenena izao (Parler maintenant)';
-    unlockNext();
-    return;
-  }
+          if (data.error === 'not_supported') {
+            speechFeedback.innerHTML = '<span style="color:var(--ds-color-danger);">⚠️ Tsy mandeha ny mikrô (Micro non supporté)</span>';
+            btnSpeak.textContent = '🎤 Mitenena izao (Parler maintenant)';
+            unlockNext();
+            return;
+          }
 
-  if (data.transcript) {
-    const similarity = calculateSimilarity(data.transcript.toLowerCase(), line.text.toLowerCase());
+          if (data.transcript) {
+            const similarity = calculateSimilarity(data.transcript.toLowerCase(), line.text.toLowerCase());
 
-    if (similarity > 0.75) {
-      // ✅ TRÈS BIEN
-      speechFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Tena tsara ! (Très bien !)</span>`;
-      btnSpeak.textContent = '✅ Vita';
-      gamification.addXP(5, 'Role Play - excellente prononciation');
-      document.getElementById('step-speak').classList.remove('guide-active');
-      unlockNext();
-    } else if (similarity > 0.55) {
-      // ✅ BIEN
-      speechFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Tsara ! (Bien !)</span>`;
-      btnSpeak.textContent = '✅ Vita';
-      gamification.addXP(3, 'Role Play - bonne prononciation');
-      document.getElementById('step-speak').classList.remove('guide-active');
-      unlockNext();
-    } else {
-      // ❌ À RÉPÉTER
-      speechFeedback.innerHTML = `<span style="color:var(--ds-color-accent);">🔄 Havereno (À répéter) - Navoaka: "${data.transcript}"</span>`;
-      btnSpeak.textContent = '🎤 Mitenena indray (Réessayer)';
-      // Ne pas débloquer, l'utilisateur doit réessayer
-    }
-  } else {
-    speechFeedback.innerHTML = '<span style="color:var(--ds-color-text-muted);">⚠️ Tsy re ny feo (Aucune voix détectée)</span>';
-    btnSpeak.textContent = '🎤 Mitenena izao (Parler maintenant)';
-  }
-};
+            if (similarity > 0.75) {
+              speechFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Tena tsara ! (Très bien !)</span>`;
+              btnSpeak.textContent = '✅ Vita';
+              gamification.addXP(5, 'Role Play - excellente prononciation');
+              document.getElementById('step-speak').classList.remove('guide-active');
+              unlockNext();
+            } else if (similarity > 0.55) {
+              speechFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Tsara ! (Bien !)</span>`;
+              btnSpeak.textContent = '✅ Vita';
+              gamification.addXP(3, 'Role Play - bonne prononciation');
+              document.getElementById('step-speak').classList.remove('guide-active');
+              unlockNext();
+            } else {
+              speechFeedback.innerHTML = `<span style="color:var(--ds-color-accent);">🔄 Havereno (À répéter) - Navoaka: "${data.transcript}"</span>`;
+              btnSpeak.textContent = '🎤 Mitenena indray (Réessayer)';
+            }
+          } else {
+            speechFeedback.innerHTML = '<span style="color:var(--ds-color-text-muted);">⚠️ Tsy re ny feo (Aucune voix détectée)</span>';
+            btnSpeak.textContent = '🎤 Mitenena izao (Parler maintenant)';
+          }
+        };
+
+        // ✅ IMPORTANT : Enregistrer le handler
+        bus.on('pronunciation:evaluated', shadowEvalHandler);
+      }
+
+      // ✅ IMPORTANT : Gestion du bouton Suivant
+      btnNext.addEventListener('click', () => {
+        if (shadowEvalHandler) {
+          bus.off('pronunciation:evaluated', shadowEvalHandler);
+          shadowEvalHandler = null;
+        }
+        currentLineIndex++;
+        renderLine();
+      });
+    };
 
     const renderRolePlayComplete = async () => {
       await gamification.addXP(30, 'Role Play Guidé terminé');
