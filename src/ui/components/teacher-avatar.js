@@ -45,18 +45,16 @@ export class TeacherAvatar {
     speechSynthesis.onvoiceschanged = loadVoices;
   }
 
-  // ✅ MÉTHODE SPEAK CORRIGÉE ET COMPLÈTE
+  // ✅ MÉTHODE CORRIGÉE : Création de la variable utterance avant utilisation
   speak(text) {
     if (!('speechSynthesis' in window) || !text) return;
 
     try {
       speechSynthesis.cancel();
-
-      // ✅ CRÉATION DE LA VARIABLE UTTERANCE (C'est ce qui manquait dans votre fichier)
-      const utterance = new SpeechSynthesisUtterance(text);
+      const utterance = new SpeechSynthesisUtterance(text); // ✅ CETTE LIGNE ÉTAIT MANQUANTE
       utterance.lang = 'fr-FR';
       utterance.rate = 0.95;
-      utterance.pitch = 1.1; // Voix féminine
+      utterance.pitch = 1.1;
 
       if (this.femaleVoice) {
         utterance.voice = this.femaleVoice;

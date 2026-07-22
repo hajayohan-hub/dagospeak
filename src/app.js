@@ -1151,11 +1151,11 @@ async function renderRolePlay() {
           }
         };
 
-        // ✅ IMPORTANT : Enregistrer le handler
+        // ✅ IMPORTANT : Enregistrer le handler (c'était manquant dans votre fichier)
         bus.on('pronunciation:evaluated', shadowEvalHandler);
       }
 
-      // ✅ IMPORTANT : Gestion du bouton Suivant
+      // ✅ IMPORTANT : Gestion du bouton Suivant (c'était manquant dans votre fichier)
       btnNext.addEventListener('click', () => {
         if (shadowEvalHandler) {
           bus.off('pronunciation:evaluated', shadowEvalHandler);
