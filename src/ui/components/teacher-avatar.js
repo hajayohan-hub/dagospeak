@@ -46,15 +46,17 @@ export class TeacherAvatar {
   }
 
   // ✅ MÉTHODE SPEAK COMPLÈTE ET CORRIGÉE
-  speak(text) {
+   speak(text) {
     if (!('speechSynthesis' in window) || !text) return;
 
     try {
       speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text); // ✅ CRÉATION DE L'UTTERANCE
+
+      // ✅ CRÉATION DE LA VARIABLE UTTERANCE (C'est ce qui manquait)
+      const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'fr-FR';
       utterance.rate = 0.95;
-      utterance.pitch = 1.1;
+      utterance.pitch = 1.1; // Voix féminine
 
       if (this.femaleVoice) {
         utterance.voice = this.femaleVoice;
