@@ -1,21 +1,43 @@
-// ✅ INCRÉMENTATION DU CACHE : Force le nettoyage de l'ancien cache corrompu (v4)
-const CACHE_NAME = 'dagospeak-v5';
+const CACHE_NAME = 'dagospeak-v6'; // ✅ Incrémentation pour forcer le nettoyage du cache v5
 
-// 1. INSTALLATION : On ne pré-cache que l'essentiel absolu (le shell de l'app)
+// Liste des fichiers ESSENTIELS à mettre en cache pour le mode hors-ligne
+const urlsToCache = [
+  '/',
+  '/index.html',
+  '/manifest.webmanifest',
+  '/content/fr/manifest.json',
+  '/content/fr/vocabulary/survival.json',
+  '/content/fr/vocabulary/numbers.json',
+  '/content/fr/vocabulary/family.json',
+  '/content/fr/vocabulary/market.json',
+  '/content/fr/vocabulary/colors.json',
+  '/content/fr/dialogues/survival_dialogue.json',
+  '/content/fr/dialogues/numbers_dialogue.json',
+  '/content/fr/dialogues/family_dialogue.json',
+  '/content/fr/dialogues/market_dialogue.json',
+  '/content/fr/dialogues/colors_dialogue.json'
+];
+
+// 1. INSTALLATION : Pré-cache agressif de toutes les données
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll([
-        '/',
-        '/index.html',
-        '/manifest.webmanifest'
-      ]);
+    caches.open(CACHE_NAME).then(async (cache) => {
+      console.log('[SW] Mise en cache des fichiers essentiels pour le mode hors-ligne...');
+      // Boucle avec try/catch : si un fichier manque, les autres sont quand même mis en cache
+      for (const url of urlsToCache) {
+        try {
+          await cache.add(url);
+          console.log('[SW] ✅ Mis en cache:', url);
+        } catch (err) {
+          console.warn('[SW] ⚠️ Échec du cache (fichier manistant ou bloqué):', url);
+        }
+      }
     })
   );
-  self.skipWaiting(); // Force l'activation immédiate du nouveau SW
+  self.skipWaiting(); // Force l'activation immédiate
 });
 
-// 2. ACTIVATION : Nettoyage agressif des anciennes versions (v1, v2, v3, v4...)
+// 2. ACTIVATION : Nettoyage des anciens caches (v1 à v5)
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -27,7 +49,7 @@ self.addEventListener('activate', (event) => {
           }
         })
       );
-    }).then(() => self.clients.claim()) // Prend le contrôle immédiat
+    }).then(() => self.clients.claim()) // Prend le contrôle immédiat des pages ouvertes
   );
 });
 
@@ -52,8 +74,34 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // 🟡 STRATÉGIE B : JSON (Données) -> Network First, fallback Cache
+  // 🟡 STRATÉGIE B : JSON (Données) -> CACHE FIRST (Crucial pour le hors-ligne)
   if (url.pathname.includes('/content/') && url.pathname.endsWith('.json')) {
+    event.respondWith(
+      caches.match(request).then((cachedResponse) => {
+        if (cachedResponse) {
+          return cachedResponse; // ✅ Servi instantanément depuis le cache (fonctionne hors-ligne)
+        }
+        // Sinon, on essaie le réseau
+        return fetch(request).then((response) => {
+          if (response.ok) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
+          }
+          return response;
+        }).catch(() => {
+          // 🛡️ FILET DE SÉCURITÉ : Ne jamais renvoyer undefined
+          return new Response(JSON.stringify({ error: "Hors ligne et données non disponibles" }), {
+            status: 503,
+            headers: { 'Content-Type': 'application/json' }
+          });
+        });
+      })
+    );
+    return;
+  }
+
+  // 🔵 STRATÉGIE C : JS et CSS -> Network First, fallback Cache (pour voir vos mises à jour de code)
+  if (request.destination === 'script' || request.destination === 'style') {
     event.respondWith(
       fetch(request)
         .then((response) => {
@@ -68,24 +116,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // 🔵 STRATÉGIE C : JS et CSS -> Network First (CRUCIAL pour le développement)
-  // Cela garantit que vous voyez vos corrections de code immédiatement.
-  if (request.destination === 'script' || request.destination === 'style') {
-    event.respondWith(
-      fetch(request)
-        .then((response) => {
-          if (response.ok) {
-            const clone = response.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
-          }
-          return response;
-        })
-        .catch(() => caches.match(request)) // Fallback hors-ligne
-    );
-    return;
-  }
-
-  // 🟣 STRATÉGIE D : Images et Fonts -> Cache First (pour la rapidité)
+  // 🟣 STRATÉGIE D : Images et Fonts -> Cache First
   if (request.destination === 'image' || request.destination === 'font') {
     event.respondWith(
       caches.match(request).then((response) => {
