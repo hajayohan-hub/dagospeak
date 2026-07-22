@@ -65,8 +65,10 @@ window.feedbackSounds = feedbackSounds;
 const speechRecognition = new SpeechRecognitionEngine(bus);
 const roleManager  = new RoleManager(db);
 const aiManager = new AIManager(bus);
+
 const downloadProgress = new DownloadProgress();
 window.downloadProgress = downloadProgress;
+
 
 
 
@@ -88,9 +90,6 @@ container.register('ai', () => aiManager);
 aiManager.initialize().catch(err => console.warn('Init AI échouée:', err));
 
 
-window.DagoSpeak = { bus, container, logger, db, content, router, srs, gamification, shadowing, roleManager, paymentGateway };
-
-
 // Écouter les événements de progression Vosk
 bus.on('vosk:progress', (data) => {
   downloadProgress.update(data.percent, data.message);
@@ -103,6 +102,8 @@ bus.on('vosk:ready', () => {
 bus.on('vosk:error', (data) => {
   downloadProgress.error('Erreur: ' + data.error);
 });
+
+window.DagoSpeak = { bus, container, logger, db, content, router, srs, gamification, shadowing, roleManager, paymentGateway };
 
 // ═══════════════════════════════════════════════════════════
 // ÉTAT & THÈME

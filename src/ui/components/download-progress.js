@@ -1,6 +1,5 @@
 /**
  * DownloadProgress - Barre de progression non bloquante pour les téléchargements lourds.
- * S'affiche en bas de l'écran, ne bloque pas la navigation.
  */
 export class DownloadProgress {
   #container = null;
@@ -34,7 +33,7 @@ export class DownloadProgress {
             50% { opacity: 0.7; }
           }
         </style>
-        <div style="
+        <div id="download-progress-box" style="
           position: fixed;
           bottom: 80px;
           left: 50%;
@@ -100,16 +99,19 @@ export class DownloadProgress {
   }
 
   show() {
-    if (!this.#container) return;
-    this.#container.querySelector('div[style*="display: none"]')?.style.setProperty('display', 'block');
-    this.#container.firstElementChild.nextElementSibling.style.display = 'block';
-    this.#isVisible = true;
+    const box = document.getElementById('download-progress-box');
+    if (box) {
+      box.style.display = 'block';
+      this.#isVisible = true;
+    }
   }
 
   hide() {
-    if (!this.#container) return;
-    this.#container.firstElementChild.nextElementSibling.style.display = 'none';
-    this.#isVisible = false;
+    const box = document.getElementById('download-progress-box');
+    if (box) {
+      box.style.display = 'none';
+      this.#isVisible = false;
+    }
   }
 
   update(percent, message = '') {
@@ -129,8 +131,6 @@ export class DownloadProgress {
   }
 
   success(message = 'Téléchargement terminé !') {
-    if (!this.#container) return;
-
     this.update(100, message);
     if (this.#bar) {
       this.#bar.style.background = 'var(--ds-color-success)';
@@ -140,14 +140,10 @@ export class DownloadProgress {
       this.#percentage.textContent = '✅';
       this.#percentage.style.color = 'var(--ds-color-success)';
     }
-
-    // Disparaître après 2 secondes
-    setTimeout(() => this.hide(), 2000);
+    setTimeout(() => this.hide(), 3000);
   }
 
   error(message = 'Erreur de téléchargement') {
-    if (!this.#container) return;
-
     this.update(0, message);
     if (this.#bar) {
       this.#bar.style.background = 'var(--ds-color-danger)';
@@ -157,7 +153,6 @@ export class DownloadProgress {
       this.#percentage.textContent = '❌';
       this.#percentage.style.color = 'var(--ds-color-danger)';
     }
-
-    setTimeout(() => this.hide(), 3000);
+    setTimeout(() => this.hide(), 4000);
   }
 }
