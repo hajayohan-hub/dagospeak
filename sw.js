@@ -1,11 +1,19 @@
-const CACHE_NAME = 'dagospeak-v7'; // ✅ Incrémentation pour forcer un nettoyage total
+const CACHE_NAME = 'dagospeak-v8';
 
-// Liste des fichiers ESSENTIELS pour que l'application fonctionne hors-ligne
+// ✅ AJOUT du modèle Vosk et des assets Wasm
 const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.webmanifest',
-  '/src/app.js', // ✅ CRUCIAL : Doit être pré-caché !
+  '/src/app.js',
+  '/src/engines/pronunciation/shadowing.js',
+  '/src/engines/pronunciation/vosk-engine.js', // ✅ NOUVEAU
+  // Vosk Browser assets (CDN)
+  'https://cdn.jsdelivr.net/npm/vosk-browser@0.0.8/dist/vosk.js',
+  'https://cdn.jsdelivr.net/npm/vosk-browser@0.0.8/dist/vosk.wasm',
+  // Le modèle français (sera téléchargé au 1er lancement puis mis en cache)
+  'https://alphacephei.com/vosk/models/vosk-model-small-fr-0.22.tar',
+  // Vos fichiers de contenu existants
   '/src/ui/styles/tokens.css',
   '/src/ui/styles/base.css',
   '/content/fr/manifest.json',
@@ -20,6 +28,7 @@ const urlsToCache = [
   '/content/fr/dialogues/market_dialogue.json',
   '/content/fr/dialogues/colors_dialogue.json'
 ];
+
 
 // 1. INSTALLATION : Pré-cache agressif
 self.addEventListener('install', (event) => {

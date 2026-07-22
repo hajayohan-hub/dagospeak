@@ -558,6 +558,14 @@ async function renderPractice() {
         </section>
       `;
 
+      // Après le main.innerHTML = ... dans renderPractice
+        const status = shadowing.getStatus();
+        const voskBadge = status.isVoskReady
+          ? '<span style="background:#10b981; color:white; padding:2px 8px; border-radius:12px; font-size:0.7rem; margin-left:8px;">🎤 Vosk Offline Prêt</span>'
+          : '<span style="background:#f59e0b; color:white; padding:2px 8px; border-radius:12px; font-size:0.7rem; margin-left:8px;">☁️ Mode Cloud</span>';
+
+        // Ajoutez ce badge à côté du titre de la page
+
       // --- GESTION DES ÉVÉNEMENTS ---
       document.getElementById('btn-back').addEventListener('click', () => { shadowing.forceStop(); router.navigate('/themes'); });
 
