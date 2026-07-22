@@ -23,6 +23,7 @@ import { FeedbackSounds } from './engines/audio/feedback-sounds.js';
 
 
 
+
 // ═══════════════════════════════════════════════════════════
 // TRADUCTION DE L'INTERFACE (FR → MG)
 // ═══════════════════════════════════════════════════════════
@@ -57,6 +58,7 @@ const router    = new Router('/');
 const srs          = new SRSEngine(db, bus);
 const gamification = new GamificationEngine(db, bus);
 const shadowing    = new ShadowingEngine(bus);
+
 const feedbackSounds = new FeedbackSounds();
 window.feedbackSounds = feedbackSounds;
 const speechRecognition = new SpeechRecognitionEngine(bus);
@@ -930,6 +932,51 @@ async function renderRolePlay() {
     let currentLineIndex = 0;
     let shadowEvalHandler = null;
 
+    // ✅ FONCTION SÉPARÉE (pas à l'intérieur de renderLine)
+    const renderRolePlayComplete = async () => {
+      if (shadowEvalHandler) {
+        bus.off('pronunciation:evaluated', shadowEvalHandler);
+        shadowEvalHandler = null;
+      }
+
+      if (typeof feedbackSounds !== 'undefined') feedbackSounds.playCelebration();
+      await gamification.addXP(30, 'Role Play Guidé terminé');
+
+      setTimeout(() => {
+        window.teacherAvatar.speak("Très bien ! Vous avez terminé le Role Play Guidé. Maintenant, passez au Défi pour tester votre mémoire !");
+      }, 800);
+
+      main.innerHTML = `
+        <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem; text-align:center;">
+          <div style="font-size:4rem; margin-bottom:1rem;">🎭</div>
+          <h2 style="color:var(--ds-color-accent);">Role Play Vita ! (Terminé)</h2>
+          <p style="color:var(--ds-color-text-muted); margin-bottom:0.5rem;">
+            Nilalao ny anjara asa rehetra tao amin'ny "${dialogue.title}" ianao.
+          </p>
+          <p style="color:var(--ds-color-text-muted); margin-bottom:2rem; font-style:italic;">
+            +30 XP azo !
+          </p>
+
+          <div style="background:var(--ds-color-primary-soft); padding:1.5rem; border-radius:var(--ds-radius-lg); border:1px solid var(--ds-color-primary); margin-bottom:1.5rem;">
+            <h3 style="color:var(--ds-color-primary); margin-bottom:0.5rem;">🏆 Vonona ho an'ny Fanamby ? (Prêt pour le Défi ?)</h3>
+            <p style="color:var(--ds-color-text-muted); font-size:0.9rem; margin-bottom:1rem;">
+              Avereno milalao ny resaka <strong>tsy misy valiny</strong> mba hanamarinana ny fahatsiarovanao !
+            </p>
+            <ds-button id="btn-go-challenge" size="lg" variant="success" class="guide-active" style="width:100%;">
+              Manomboka ny Fanamby → (Commencer le Défi)
+            </ds-button>
+          </div>
+
+          <ds-button id="btn-back-themes" variant="ghost" size="sm" style="width:100%;">
+            ← Hiverina amin'ny lohahevitra (Retour aux thèmes)
+          </ds-button>
+        </section>
+      `;
+
+      document.getElementById('btn-go-challenge').addEventListener('click', () => router.navigate('/challenge'));
+      document.getElementById('btn-back-themes').addEventListener('click', () => router.navigate('/themes'));
+    };
+
     const renderLine = () => {
       if (currentLineIndex >= dialogue.lines.length) {
         renderRolePlayComplete();
@@ -1080,21 +1127,21 @@ async function renderRolePlay() {
             const similarity = calculateSimilarity(data.transcript.toLowerCase(), line.text.toLowerCase());
 
             if (similarity > 0.60) {
-              feedbackSounds.playSuccess();
+              if (typeof feedbackSounds !== 'undefined') feedbackSounds.playSuccess();
               speechFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Tena tsara ! (Très bien !)</span>`;
               btnSpeak.textContent = '✅ Vita';
               gamification.addXP(5, 'Role Play - excellente prononciation');
               document.getElementById('btn-speak').classList.remove('guide-active');
               unlockNext();
             } else if (similarity > 0.40) {
-              feedbackSounds.playSuccess();
+              if (typeof feedbackSounds !== 'undefined') feedbackSounds.playSuccess();
               speechFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Tsara ! (Bien !)</span>`;
               btnSpeak.textContent = '✅ Vita';
               gamification.addXP(3, 'Role Play - bonne prononciation');
               document.getElementById('btn-speak').classList.remove('guide-active');
               unlockNext();
             } else {
-              feedbackSounds.playRetry();
+              if (typeof feedbackSounds !== 'undefined') feedbackSounds.playRetry();
               speechFeedback.innerHTML = `<span style="color:var(--ds-color-accent);">🔄 Havereno (À répéter)</span>`;
               btnSpeak.textContent = '🎤 Mitenena indray (Réessayer)';
             }
@@ -1117,46 +1164,6 @@ async function renderRolePlay() {
         currentLineIndex++;
         renderLine();
       });
-    };
-
-    // ✅ FONCTION SÉPARÉE (pas à l'intérieur de renderLine)
-    const renderRolePlayComplete = async () => {
-      feedbackSounds.playCelebration();
-      await gamification.addXP(30, 'Role Play Guidé terminé');
-
-      setTimeout(() => {
-        window.teacherAvatar.speak("Très bien ! Vous avez terminé le Role Play Guidé. Maintenant, passez au Défi pour tester votre mémoire !");
-      }, 800);
-
-      main.innerHTML = `
-        <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem; text-align:center;">
-          <div style="font-size:4rem; margin-bottom:1rem;">🎭</div>
-          <h2 style="color:var(--ds-color-accent);">Role Play Vita ! (Terminé)</h2>
-          <p style="color:var(--ds-color-text-muted); margin-bottom:0.5rem;">
-            Nilalao ny anjara asa rehetra tao amin'ny "${dialogue.title}" ianao.
-          </p>
-          <p style="color:var(--ds-color-text-muted); margin-bottom:2rem; font-style:italic;">
-            +30 XP azo !
-          </p>
-
-          <div style="background:var(--ds-color-primary-soft); padding:1.5rem; border-radius:var(--ds-radius-lg); border:1px solid var(--ds-color-primary); margin-bottom:1.5rem;">
-            <h3 style="color:var(--ds-color-primary); margin-bottom:0.5rem;">🏆 Vonona ho an'ny Fanamby ? (Prêt pour le Défi ?)</h3>
-            <p style="color:var(--ds-color-text-muted); font-size:0.9rem; margin-bottom:1rem;">
-              Avereno milalao ny resaka <strong>tsy misy valiny</strong> mba hanamarinana ny fahatsiarovanao !
-            </p>
-            <ds-button id="btn-go-challenge" size="lg" variant="success" class="guide-active" style="width:100%;">
-              Manomboka ny Fanamby → (Commencer le Défi)
-            </ds-button>
-          </div>
-
-          <ds-button id="btn-back-themes" variant="ghost" size="sm" style="width:100%;">
-            ← Hiverina amin'ny lohahevitra (Retour aux thèmes)
-          </ds-button>
-        </section>
-      `;
-
-      document.getElementById('btn-go-challenge').addEventListener('click', () => router.navigate('/challenge'));
-      document.getElementById('btn-back-themes').addEventListener('click', () => router.navigate('/themes'));
     };
 
     renderLine();

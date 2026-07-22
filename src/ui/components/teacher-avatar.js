@@ -27,7 +27,6 @@ export class TeacherAvatar {
   markThemeMastered(themeId) {
     this.masteredThemes.add(themeId);
     this.#saveMasteredThemes();
-
     if (this.masteredThemes.size >= 3) {
       this.autoSpeakEnabled = false;
       console.log('[TeacherAvatar] Auto-parole désactivée (3 thèmes maîtrisés)');
@@ -42,41 +41,49 @@ export class TeacherAvatar {
                          voices[0];
       console.log('[TeacherAvatar] Voix chargée:', this.femaleVoice?.name || 'Par défaut');
     };
-
     loadVoices();
     speechSynthesis.onvoiceschanged = loadVoices;
   }
 
+  // ✅ MÉTHODE SPEAK COMPLÈTE ET CORRIGÉE
   speak(text) {
-    if (!('speechSynthesis' in window)) return;
+    if (!('speechSynthesis' in window) || !text) return;
 
-    speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text); // ✅ CRÉATION DE L'UTTERANCE
-    utterance.lang = 'fr-FR';
-    utterance.rate = 0.95;
-    utterance.pitch = 1.1;
+    try {
+      speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text); // ✅ CRÉATION DE L'UTTERANCE
+      utterance.lang = 'fr-FR';
+      utterance.rate = 0.95;
+      utterance.pitch = 1.1;
 
-    if (this.femaleVoice) {
-      utterance.voice = this.femaleVoice;
+      if (this.femaleVoice) {
+        utterance.voice = this.femaleVoice;
+      }
+
+      utterance.onstart = () => {
+        this.isSpeaking = true;
+        this.#animateSpeaking(true);
+      };
+
+      utterance.onend = () => {
+        this.isSpeaking = false;
+        this.#animateSpeaking(false);
+      };
+
+      utterance.onerror = () => {
+        this.isSpeaking = false;
+        this.#animateSpeaking(false);
+      };
+
+      speechSynthesis.speak(utterance);
+    } catch (e) {
+      console.warn('[TeacherAvatar] Erreur speak:', e);
     }
-
-    utterance.onstart = () => {
-      this.isSpeaking = true;
-      this.#animateSpeaking(true);
-    };
-
-    utterance.onend = () => {
-      this.isSpeaking = false;
-      this.#animateSpeaking(false);
-    };
-
-    speechSynthesis.speak(utterance); // ✅ APPEL À SPEAK
   }
 
   #animateSpeaking(isSpeaking) {
     const avatar = document.getElementById('teacher-avatar');
     if (!avatar) return;
-
     if (isSpeaking) {
       avatar.style.animation = 'speaking-pulse 0.5s infinite alternate';
     } else {
