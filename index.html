@@ -1,318 +1,40 @@
 <!DOCTYPE html>
-<html lang="mg-FR" data-theme="light">
+<html lang="fr" data-theme="light">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="description" content="Apprenez à parler français naturellement — conçu pour les apprenants malgaches.">
-  <meta name="theme-color" content="#0A8A6E">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="description" content="DagoSpeak - Apprenez le malgache facilement" />
+  <meta name="theme-color" content="#2563eb" />
 
-  <title>DagoSpeak-Yelandar</title>
+  <title>DagoSpeak</title>
 
-  <!-- PWA -->
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" type="image/svg+xml" href="assets/icons/icon-192.svg">
-  <link rel="apple-touch-icon" href="assets/icons/icon-192.svg">
-  <link rel="icon" type="image/svg+xml" href="../assets/icons/icon-192.svg">
+  <!-- Manifest pour PWA -->
+  <link rel="manifest" href="/manifest.webmanifest" />
 
-  <!-- Design System -->
-  <link rel="stylesheet" href="src/ui/styles/tokens.css">
-  <link rel="stylesheet" href="src/ui/styles/base.css">
+  <!-- Icônes (assure-toi qu'elles existent dans ton dossier assets) -->
+  <link rel="icon" type="image/svg+xml" href="/assets/icons/icon-192.svg" />
 
-  <!-- Préchargement du module principal -->
-  <link rel="modulepreload" href="src/app.js">
-
-   <style>
-    .ds-level-selector { display: flex; gap: 4px; background: var(--ds-color-surface-2); padding: 4px; border-radius: var(--ds-radius-full); }
-    .ds-level-btn { background: transparent; border: none; padding: 4px 12px; border-radius: var(--ds-radius-full); font-size: var(--ds-font-size-sm); font-weight: 600; cursor: pointer; color: var(--ds-color-text-muted); transition: all 0.2s; }
-    .ds-level-btn.active { background: var(--ds-color-primary); color: white; }
-    .ds-level-btn:hover:not(.active) { background: var(--ds-color-border); }
-
-    button:focus-visible {
-      outline: 2px solid var(--ds-color-primary);
-      outline-offset: 2px;
-    }
-  </style>
-
+  <!-- Styles -->
+  <link rel="stylesheet" href="/src/ui/styles/tokens.css" />
+  <link rel="stylesheet" href="/src/ui/styles/base.css" />
 </head>
 <body>
+  <!-- ✅ SEUL CONTENEUR DE L'APPLICATION -->
+  <div id="app"></div>
 
-  <!-- ═══════════ HEADER ═══════════ -->
-  <header class="ds-header" role="banner">
-    <div class="ds-header__inner">
-      <a href="#/" class="ds-header__logo" aria-label="DagoSpeak — Accueil">
-        <img src="assets/icons/icon-192.svg" alt="" width="32" height="32">
-        <span>DagoSpeak</span>
-      </a>
-
-      <!-- Indicateur de niveau -->
-      <div id="level-selector" class="ds-level-selector" role="group" aria-label="Sélection du niveau">
-        <button class="ds-level-btn active" data-level="A0">A0</button>
-        <button class="ds-level-btn" data-level="A1">A1</button>
-      </div>
-
-      <nav class="ds-header__nav" aria-label="Navigation principale">
-        <a href="#/lesson">Leçon</a>
-        <a href="#/practice">Révisions</a>
-        <a href="#/dialogues">Dialogues</a>
-        <a href="#/profile">Profil</a>
-      </nav>
-
-      <div class="ds-header__actions">
-        <button id="theme-toggle" class="ds-icon-btn" aria-label="Basculer le thème" title="Thème">🌓</button>
-      </div>
-    </div>
-  </header>
-
-
-  <!-- ═══════════ MAIN ═══════════ -->
-  <main id="app" role="main" aria-live="polite">
-
-    <section class="ds-hero">
-      <div class="ds-hero__content">
-        <h1>Manahoana ! 👋</h1>
-        <p class="ds-hero__subtitle">
-          Bienvenue sur <strong>DagoSpeak</strong>.<br>
-          Apprenez à parler français naturellement, à votre rythme.
-        </p>
-
-        <div class="ds-hero__actions">
-          <ds-button id="btn-start" size="lg">
-            Manomboka — Commencer
-          </ds-button>
-          <ds-button variant="ghost" size="lg">
-            En savoir plus
-          </ds-button>
-        </div>
-
-        <!-- Démonstration des variantes -->
-        <div class="ds-demo">
-          <h2>Aperçu du Design System</h2>
-          <div class="ds-demo__row">
-            <ds-button variant="primary">Primary</ds-button>
-            <ds-button variant="ghost">Ghost</ds-button>
-            <ds-button variant="danger">Danger</ds-button>
-            <ds-button variant="success">Success</ds-button>
-          </div>
-          <div class="ds-demo__row">
-            <ds-button size="sm">Petit</ds-button>
-            <ds-button size="md">Moyen</ds-button>
-            <ds-button size="lg">Grand</ds-button>
-          </div>
-          <div class="ds-demo__row">
-            <ds-button disabled>Désactivé</ds-button>
-            <ds-button loading>Chargement</ds-button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- ═══════════ FOOTER ═══════════ -->
-  <footer class="ds-footer" role="contentinfo">
-    <p>
-      <small style="text-align: center;">© 2026 DagoSpeak — Feheziko v3.1.0 · Fait avec ❤️ à Antananarivo</small>
-    </p>
-  </footer>
-
-  <!-- ═══════════ STYLES LOCAUX ═══════════ -->
-    <style>
-    /* --- HEADER DESKTOP --- */
-    .ds-header {
-      background: var(--ds-color-surface);
-      border-bottom: 1px solid var(--ds-color-border);
-      position: sticky;
-      top: 0;
-      z-index: var(--ds-z-sticky, 200);
-    }
-    .ds-header__inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: var(--ds-space-3, 12px) var(--ds-space-4, 16px);
-      display: flex;
-      align-items: center;
-      gap: var(--ds-space-4, 16px);
-    }
-    .ds-header__logo {
-      display: flex;
-      align-items: center;
-      gap: var(--ds-space-2, 8px);
-      font-weight: var(--ds-font-weight-bold, 700);
-      font-size: var(--ds-font-size-md, 1.125rem);
-      color: var(--ds-color-text);
-      text-decoration: none;
-      flex-shrink: 0;
-    }
-    .ds-level-selector {
-      display: flex;
-      gap: 4px;
-      background: var(--ds-color-surface-2);
-      padding: 4px;
-      border-radius: var(--ds-radius-full, 999px);
-      flex-shrink: 0;
-    }
-    .ds-level-btn {
-      background: transparent;
-      border: none;
-      padding: 4px 12px;
-      border-radius: var(--ds-radius-full, 999px);
-      font-size: var(--ds-font-size-sm, 0.875rem);
-      font-weight: 600;
-      cursor: pointer;
-      color: var(--ds-color-text-muted);
-      transition: all 0.2s;
-    }
-    .ds-level-btn.active { background: var(--ds-color-primary); color: white; }
-    .ds-level-btn:hover:not(.active) { background: var(--ds-color-border); }
-
-    .ds-header__nav {
-      display: flex;
-      gap: var(--ds-space-4, 16px);
-      margin-left: auto;
-    }
-    .ds-header__nav a {
-      text-decoration: none;
-      color: var(--ds-color-text-muted);
-      font-weight: var(--ds-font-weight-medium, 500);
-      padding: var(--ds-space-2, 8px) var(--ds-space-3, 12px);
-      border-radius: var(--ds-radius-sm, 6px);
-      transition: all 0.2s;
-      white-space: nowrap;
-    }
-    .ds-header__nav a:hover, .ds-header__nav a.active {
-      color: var(--ds-color-primary);
-      background: var(--ds-color-primary-soft);
-    }
-    .ds-icon-btn {
-      background: transparent;
-      border: 1px solid var(--ds-color-border);
-      border-radius: var(--ds-radius-md, 12px);
-      width: 40px; height: 40px;
-      cursor: pointer;
-      font-size: 1.25rem;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-
-    /* --- NAVIGATION MOBILE (Bottom Bar) --- */
-    .ds-mobile-nav {
-      display: none; /* Caché sur desktop */
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: var(--ds-color-surface);
-      border-top: 1px solid var(--ds-color-border);
-      padding: 8px 0 env(safe-area-inset-bottom, 8px);
-      z-index: var(--ds-z-sticky, 200);
-      justify-content: space-around;
-    }
-    .ds-mobile-nav a {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-decoration: none;
-      color: var(--ds-color-text-muted);
-      font-size: 0.75rem;
-      font-weight: 500;
-      gap: 4px;
-      padding: 4px 12px;
-    }
-    .ds-mobile-nav a.active {
-      color: var(--ds-color-primary);
-    }
-    .ds-mobile-nav a span.icon { font-size: 1.5rem; }
-
-    /* ═══════════════════════════════════════════════════════════
-   FOOTER — CORRECTION CONTRASTE & CENTRAGE
-   ═══════════════════════════════════════════════════════════ */
-.ds-footer {
-  background: var(--ds-color-surface);
-  border-top: 1px solid var(--ds-color-border);
-  padding: 2rem 1rem;
-  margin-top: 3rem;
-  text-align: center; /* ✅ CENTRAGE GLOBAL */
-  width: 100%;
-}
-
-.ds-footer__inner {
-  max-width: 1200px;
-  margin: 0 auto; /* ✅ CENTRAGE HORIZONTAL */
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* ✅ CENTRAGE VERTICAL DES ÉLÉMENTS */
-  gap: 1rem;
-}
-
-.ds-footer__text {
-  color: var(--ds-color-text-muted); /* ✅ Utilise la variable qui s'adapte au thème */
-  font-size: var(--ds-font-size-sm, 0.875rem);
-  margin: 0;
-}
-
-.ds-footer__links {
-  display: flex;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  justify-content: center; /* ✅ CENTRE LES LIENS */
-}
-
-.ds-footer__links a {
-  color: var(--ds-color-text-muted);
-  text-decoration: none;
-  font-size: var(--ds-font-size-sm, 0.875rem);
-  transition: color 0.2s;
-}
-
-.ds-footer__links a:hover {
-  color: var(--ds-color-primary);
-}
-
-/* ✅ CORRECTION SPÉCIFIQUE MODE SOMBRE */
-[data-theme="dark"] .ds-footer {
-  background: var(--ds-color-surface);
-  border-top-color: var(--ds-color-border);
-}
-
-[data-theme="dark"] .ds-footer__text,
-[data-theme="dark"] .ds-footer__links a {
-  color: var(--ds-color-text-muted); /* Doit être une couleur claire en mode sombre */
-}
-
-    /* --- MEDIA QUERIES --- */
-    @media (max-width: 768px) {
-      .ds-header__nav { display: none; } /* Cache le menu du haut sur mobile */
-      .ds-mobile-nav { display: flex; } /* Affiche la barre du bas sur mobile */
-      .ds-header__inner { justify-content: space-between; }
-      .ds-hero { padding-bottom: 80px; } /* Espace pour la barre du bas */
-    }
-  </style>
-
-  <!-- ═══════════ APP (module principal) ═══════════ -->
-
-
-      <!-- ═══════════ NAVIGATION MOBILE (Bottom Bar) ═══════════ -->
-  <nav class="ds-mobile-nav" aria-label="Navigation mobile">
-    <a href="#/lesson" data-route="/lesson">
-      <span class="icon">📖</span>
-      <span>Leçon</span>
-    </a>
-    <a href="#/practice" data-route="/practice">
-      <span class="icon">🎯</span>
-      <span>Révisions</span>
-    </a>
-    <a href="#/dialogues" data-route="/dialogues">
-      <span class="icon">💬</span>
-      <span>Dialogues</span>
-    </a>
-    <a href="#/profile" data-route="/profile">
-      <span class="icon">👤</span>
-      <span>Profil</span>
-    </a>
+  <!-- ✅ NAVIGATION MOBILE (Si tu l'utilises, sinon retire ce bloc) -->
+  <nav class="ds-mobile-nav" style="position: fixed; bottom: 0; left: 0; right: 0; background: var(--ds-color-surface); border-top: 1px solid var(--ds-color-border); display: flex; justify-content: space-around; padding: 0.5rem 0; z-index: 1000;">
+    <a href="#/" data-route="/" style="text-decoration: none; color: var(--ds-color-text-muted); font-size: 1.5rem;">🏠</a>
+    <a href="#/themes" data-route="/themes" style="text-decoration: none; color: var(--ds-color-text-muted); font-size: 1.5rem;">📚</a>
+    <a href="#/profile" data-route="/profile" style="text-decoration: none; color: var(--ds-color-text-muted); font-size: 1.5rem;">👤</a>
   </nav>
 
+  <!-- ✅ BOUTON DE CHANGEMENT DE THÈME (Optionnel, peut être déplacé dans l'UI) -->
+  <button id="theme-toggle" style="position: fixed; top: 1rem; right: 1rem; z-index: 1001; background: var(--ds-color-surface); border: 1px solid var(--ds-color-border); border-radius: 50%; width: 40px; height: 40px; cursor: pointer; font-size: 1.2rem;">
+    🌓
+  </button>
+
+  <!-- ✅ UNIQUE SCRIPT D'INITIALISATION (À la toute fin du body) -->
   <script type="module" src="src/app.js"></script>
-
-
 </body>
 </html>
