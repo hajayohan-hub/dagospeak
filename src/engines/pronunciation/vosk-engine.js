@@ -1,9 +1,8 @@
 /**
  * VoskEngine - Reconnaissance vocale 100% locale via WebAssembly.
- * Fonctionne parfaitement hors-ligne sur appareils modestes.
+ * Avec téléchargement progressif et suivi en temps réel.
  */
 export class VoskEngine {
-  // ✅ DÉCLARATION DE TOUS LES CHAMPS PRIVÉS (C'est ce qui manquait)
   #bus;
   #model = null;
   #recognizer = null;
@@ -15,56 +14,108 @@ export class VoskEngine {
   #isInitialized = false;
   #isProcessing = false;
   #audioChunks = [];
-  #modelUrl = 'https://alphacephei.com/vosk/models/vosk-model-small-fr-0.22.tar';
+  #modelUrl = 'https://alphacephei.com/vosk/models/vosk-model-small-fr-0.22.zip';
+  #expectedSize = 42 * 1024 * 1024; // ~42 Mo estimés
 
   constructor(bus) {
     this.#bus = bus;
   }
 
   /**
-   * Initialise le modèle Vosk (à appeler une seule fois)
+   * Télécharge le modèle avec suivi de progression
+   */
+  async #downloadModelWithProgress() {
+    this.#bus.emit('vosk:progress', { percent: 0, message: 'Connexion au serveur...' });
+
+    try {
+      const response = await fetch(this.#modelUrl);
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+
+      const contentLength = response.headers.get('content-length');
+      const total = contentLength ? parseInt(contentLength, 10) : this.#expectedSize;
+
+      const reader = response.body.getReader();
+      const chunks = [];
+      let received = 0;
+
+      while (true) {
+        const { done, value } = await reader.read();
+
+        if (done) break;
+
+        chunks.push(value);
+        received += value.length;
+
+        const percent = (received / total) * 100;
+        const receivedMB = (received / (1024 * 1024)).toFixed(1);
+        const totalMB = (total / (1024 * 1024)).toFixed(1);
+
+        this.#bus.emit('vosk:progress', {
+          percent: percent,
+          message: `${receivedMB} Mo / ${totalMB} Mo (${Math.round(percent)}%)`
+        });
+      }
+
+      this.#bus.emit('vosk:progress', { percent: 95, message: 'Assemblage du modèle...' });
+
+      // Combiner tous les chunks en un seul ArrayBuffer
+      const blob = new Blob(chunks);
+      return blob;
+
+    } catch (error) {
+      console.error('[VoskEngine] Erreur téléchargement:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Initialise le modèle Vosk avec suivi de progression
    */
   async initialize() {
     if (this.#isInitialized) return true;
 
     if (typeof vosk === 'undefined') {
       console.warn('[VoskEngine] Bibliothèque vosk-browser non chargée');
+      this.#bus.emit('vosk:error', { error: 'Bibliothèque Vosk non disponible' });
       return false;
     }
 
     try {
-      this.#bus.emit('vosk:loading', { message: 'Chargement du modèle vocal (~40 Mo)...' });
+      this.#bus.emit('vosk:progress', { percent: 5, message: 'Téléchargement du modèle vocal...' });
 
-      // Créer le modèle (téléchargement automatique si pas en cache)
-      this.#model = await vosk.createModel(this.#modelUrl);
+      // Télécharger le modèle avec progression
+      const modelBlob = await this.#downloadModelWithProgress();
 
-      // Créer le recognizer avec une grammaire optimisée pour nos leçons
-      const vocab = [
-        "bonjour", "merci", "oui", "non", "s'il vous plaît",
-        "au revoir", "comment", "allez-vous", "famille", "marché",
-        "misaotra", "manahoana", "veloma", "eny", "tsia",
-        "ray", "reny", "anaka", "anaka", "rahoviana",
-        "firy", "voalohany", "faharoa", "fahatelo",
-        "[unk]" // Token pour mots inconnus (obligatoire)
-      ];
+      this.#bus.emit('vosk:progress', { percent: 97, message: 'Chargement en mémoire...' });
 
+      // Créer le modèle à partir du Blob
+      this.#model = await vosk.createModel(modelBlob);
+
+      // Créer le recognizer
       this.#recognizer = new this.#model.KaldiRecognizer(48000);
       this.#recognizer.setWords(true);
 
       this.#isInitialized = true;
+
+      this.#bus.emit('vosk:progress', { percent: 100, message: 'Moteur vocal prêt !' });
       this.#bus.emit('vosk:ready');
+
       console.log('[VoskEngine] ✅ Modèle chargé et prêt');
       return true;
 
     } catch (error) {
       console.error('[VoskEngine] Erreur initialisation:', error);
       this.#bus.emit('vosk:error', { error: error.message });
+      this.#bus.emit('vosk:progress', { percent: 0, message: 'Erreur: ' + error.message });
       return false;
     }
   }
 
   /**
-   * Démarre l'enregistrement et la reconnaissance en temps réel
+   * Démarre l'enregistrement et la reconnaissance
    */
   async startListening(targetText = '') {
     if (!this.#isInitialized) {
@@ -89,7 +140,6 @@ export class VoskEngine {
       this.#audioChunks = [];
       this.#bus.emit('vosk:listening');
 
-      // Obtenir l'accès au micro
       this.#mediaStream = await navigator.mediaDevices.getUserMedia({
         audio: {
           echoCancellation: true,
@@ -98,25 +148,22 @@ export class VoskEngine {
         }
       });
 
-      // Créer le contexte audio
       this.#audioContext = new AudioContext({ sampleRate: 48000 });
       this.#source = this.#audioContext.createMediaStreamSource(this.#mediaStream);
 
-      // Créer un ScriptProcessorNode pour capturer l'audio en temps réel
       const bufferSize = 4096;
       this.#processor = this.#audioContext.createScriptProcessor(bufferSize, 1, 1);
 
       let silenceCount = 0;
       const SILENCE_THRESHOLD = 0.01;
-      const MAX_SILENCE_CHUNKS = 15; // ~2 secondes de silence pour arrêter
+      const MAX_SILENCE_CHUNKS = 15;
 
       this.#processor.onaudioprocess = (event) => {
         if (!this.#isProcessing) return;
 
         const inputData = event.inputBuffer.getChannelData(0);
-
-        // Détecter le silence
         const volume = Math.max(...Array.from(inputData).map(Math.abs));
+
         if (volume < SILENCE_THRESHOLD) {
           silenceCount++;
         } else {
@@ -125,7 +172,6 @@ export class VoskEngine {
 
         this.#audioChunks.push(new Float32Array(inputData));
 
-        // Arrêter automatiquement après silence prolongé
         if (silenceCount >= MAX_SILENCE_CHUNKS && this.#audioChunks.length > 10) {
           this.stopListening();
         }
@@ -134,7 +180,6 @@ export class VoskEngine {
       this.#source.connect(this.#processor);
       this.#processor.connect(this.#audioContext.destination);
 
-      // Timeout de sécurité : arrêter après 10 secondes max
       this.#timeout = setTimeout(() => {
         if (this.#isProcessing) {
           this.stopListening();
@@ -154,16 +199,12 @@ export class VoskEngine {
     }
   }
 
-  /**
-   * Arrête l'enregistrement et traite le résultat avec Vosk
-   */
   stopListening() {
     if (!this.#isProcessing) return;
 
     this.#isProcessing = false;
     clearTimeout(this.#timeout);
 
-    // Arrêter les flux audio
     if (this.#processor) {
       this.#processor.disconnect();
       this.#processor = null;
@@ -181,25 +222,19 @@ export class VoskEngine {
       this.#audioContext = null;
     }
 
-    // Traiter l'audio accumulé avec Vosk
     if (this.#recognizer && this.#audioChunks.length > 0) {
       try {
-        // Convertir les chunks Float32 en format PCM 16-bit pour Vosk
         const audioData = this.#convertFloat32ToPCM16(this.#audioChunks);
-
-        // Envoyer les données à Vosk pour reconnaissance
         const result = this.#recognizer.acceptWaveform(audioData);
 
         let transcript = '';
         let confidence = 0.5;
 
         if (result) {
-          // Reconnaissance finale
           const finalResult = JSON.parse(this.#recognizer.result());
           transcript = finalResult.text || '';
-          confidence = 0.8; // Vosk ne donne pas de score de confiance direct
+          confidence = 0.8;
         } else {
-          // Résultat partiel
           const partialResult = JSON.parse(this.#recognizer.partialResult());
           transcript = partialResult.partial || '';
           confidence = 0.5;
@@ -223,7 +258,6 @@ export class VoskEngine {
         });
       }
     } else {
-      // Pas d'audio capturé
       this.#bus.emit('pronunciation:evaluated', {
         score: 0,
         feedback: 'Aucun son détecté',
@@ -232,7 +266,6 @@ export class VoskEngine {
       });
     }
 
-    // Nettoyer le recognizer pour la prochaine utilisation
     if (this.#recognizer) {
       this.#recognizer.Reset();
     }
@@ -240,23 +273,17 @@ export class VoskEngine {
     this.#audioChunks = [];
   }
 
-  /**
-   * Convertit Float32Array en PCM 16-bit (format requis par Vosk)
-   */
   #convertFloat32ToPCM16(chunks) {
-    // Calculer la taille totale
     let totalLength = 0;
     for (const chunk of chunks) {
       totalLength += chunk.length;
     }
 
-    // Créer un buffer PCM 16-bit
     const pcmBuffer = new Int16Array(totalLength);
     let offset = 0;
 
     for (const chunk of chunks) {
       for (let i = 0; i < chunk.length; i++) {
-        // Convertir Float32 [-1, 1] en Int16 [-32768, 32767]
         const sample = Math.max(-1, Math.min(1, chunk[i]));
         pcmBuffer[offset++] = sample < 0 ? sample * 0x8000 : sample * 0x7FFF;
       }
@@ -265,9 +292,6 @@ export class VoskEngine {
     return pcmBuffer.buffer;
   }
 
-  /**
-   * Force l'arrêt immédiat
-   */
   forceStop() {
     this.stopListening();
   }
@@ -279,9 +303,6 @@ export class VoskEngine {
     return 'Hihainoa tsara ary andramo indray (Écoutez bien et réessayez)';
   }
 
-  /**
-   * Libère les ressources
-   */
   destroy() {
     this.forceStop();
     if (this.#recognizer) {
@@ -295,9 +316,6 @@ export class VoskEngine {
     this.#isInitialized = false;
   }
 
-  /**
-   * Retourne l'état actuel
-   */
   getStatus() {
     return {
       isInitialized: this.#isInitialized,

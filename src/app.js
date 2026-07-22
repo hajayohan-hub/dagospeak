@@ -20,6 +20,7 @@ import { AIManager } from './engines/ai/ai-manager.js';
 import { SpeechRecognitionEngine } from './engines/pronunciation/speech-recognition.js';
 import { TeacherAvatar } from './ui/components/teacher-avatar.js';
 import { FeedbackSounds } from './engines/audio/feedback-sounds.js';
+import { DownloadProgress } from './ui/components/download-progress.js';
 
 
 
@@ -64,6 +65,8 @@ window.feedbackSounds = feedbackSounds;
 const speechRecognition = new SpeechRecognitionEngine(bus);
 const roleManager  = new RoleManager(db);
 const aiManager = new AIManager(bus);
+const downloadProgress = new DownloadProgress();
+window.downloadProgress = downloadProgress;
 
 
 
@@ -84,8 +87,22 @@ container.register('ai', () => aiManager);
 // Initialisation asynchrone de l'IA en arrière-plan (ne bloque pas le démarrage)
 aiManager.initialize().catch(err => console.warn('Init AI échouée:', err));
 
+
 window.DagoSpeak = { bus, container, logger, db, content, router, srs, gamification, shadowing, roleManager, paymentGateway };
-window.feedbackSounds = feedbackSounds; // Accessible globalement
+
+
+// Écouter les événements de progression Vosk
+bus.on('vosk:progress', (data) => {
+  downloadProgress.update(data.percent, data.message);
+});
+
+bus.on('vosk:ready', () => {
+  downloadProgress.success('Moteur vocal prêt pour le mode hors-ligne !');
+});
+
+bus.on('vosk:error', (data) => {
+  downloadProgress.error('Erreur: ' + data.error);
+});
 
 // ═══════════════════════════════════════════════════════════
 // ÉTAT & THÈME
