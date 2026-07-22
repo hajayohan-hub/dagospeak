@@ -19,8 +19,8 @@ import { MobileMoneyProvider } from './payments/providers/mobile-money.js';
 import { AIManager } from './engines/ai/ai-manager.js';
 import { SpeechRecognitionEngine } from './engines/pronunciation/speech-recognition.js';
 import { TeacherAvatar } from './ui/components/teacher-avatar.js';
-import { FeedbackSounds } from './engines/audio/feedback-sounds.js';
 import { DownloadProgress } from './ui/components/download-progress.js';
+import { FeedbackSounds } from './engines/audio/feedback-sounds.js';
 
 
 
@@ -66,10 +66,6 @@ const speechRecognition = new SpeechRecognitionEngine(bus);
 const roleManager  = new RoleManager(db);
 const aiManager = new AIManager(bus);
 
-const downloadProgress = new DownloadProgress();
-window.downloadProgress = downloadProgress;
-
-
 
 
 const paymentGateway = new PaymentGateway();
@@ -90,6 +86,10 @@ container.register('ai', () => aiManager);
 aiManager.initialize().catch(err => console.warn('Init AI échouée:', err));
 
 
+// ✅ Barre de progression pour Vosk
+const downloadProgress = new DownloadProgress();
+window.downloadProgress = downloadProgress;
+
 // Écouter les événements de progression Vosk
 bus.on('vosk:progress', (data) => {
   downloadProgress.update(data.percent, data.message);
@@ -102,7 +102,6 @@ bus.on('vosk:ready', () => {
 bus.on('vosk:error', (data) => {
   downloadProgress.error('Erreur: ' + data.error);
 });
-
 window.DagoSpeak = { bus, container, logger, db, content, router, srs, gamification, shadowing, roleManager, paymentGateway };
 
 // ═══════════════════════════════════════════════════════════

@@ -7,11 +7,11 @@
   <meta name="theme-color" content="#2563eb" />
   <title>DagoSpeak</title>
   <link rel="manifest" href="/manifest.webmanifest" />
-  <link rel="icon" type="image/svg+xml" href="/assets/icons/icon-192.svg" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🇲🇬</text></svg>">
   <link rel="stylesheet" href="/src/ui/styles/tokens.css" />
   <link rel="stylesheet" href="/src/ui/styles/base.css" />
-  <!-- Vosk pour la reconnaissance vocale offline (WebAssembly) -->
-<script src="https://cdn.jsdelivr.net/npm/vosk-browser@0.0.8/dist/vosk.js"></script>
+  <!-- ✅ AJOUT ICI : Vosk -->
+  <script src="https://cdn.jsdelivr.net/npm/vosk-browser@0.0.8/dist/vosk.js"></script>
 </head>
 <body>
   <!-- ✅ EN-TÊTE AVEC LOGO (Visible sur PC et Mobile) -->
@@ -43,6 +43,8 @@
       👤<br><span style="font-size:0.65rem; font-weight: 600;">Profil</span>
     </a>
   </nav>
+
+
 
   <!-- ✅ UNIQUE SCRIPT D'INITIALISATION (À la toute fin) -->
   <script type="module" src="src/app.js"></script>
