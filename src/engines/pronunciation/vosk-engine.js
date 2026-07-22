@@ -15,7 +15,7 @@ export class VoskEngine {
   #isProcessing = false;
   #audioChunks = [];
   // ✅ CORRECTION : Utiliser le fichier .zip (format standard alphacephei)
-  #modelUrl = 'https://alphacephei.com/vosk/models/vosk-model-small-fr-0.22.zip';
+  #modelUrl = '/vosk-model-small-fr-0.22.zip';
   #expectedSize = 42 * 1024 * 1024; // ~42 Mo estimés
 
   constructor(bus) {

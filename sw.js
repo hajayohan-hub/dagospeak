@@ -6,6 +6,7 @@ const urlsToCache = [
   '/index.html',
   '/manifest.webmanifest',
   '/src/app.js',
+   '/vosk-model-small-fr-0.22.zip', // ✅ AJOUTEZ CETTE LIGNE ICI
   '/src/engines/pronunciation/shadowing.js',
   '/src/engines/pronunciation/vosk-engine.js', // ✅ NOUVEAU
   // Vosk Browser assets (CDN)
