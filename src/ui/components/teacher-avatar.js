@@ -7,7 +7,7 @@ export class TeacherAvatar {
     this.isVisible = true;
     this.isSpeaking = false;
     this.femaleVoice = null;
-    this.masteredThemes = new Set(); // ✅ Compteur de thèmes maîtrisés
+    this.masteredThemes = new Set();
     this.autoSpeakEnabled = true;
     this.#loadMasteredThemes();
     this.#loadVoices();
@@ -28,8 +28,7 @@ export class TeacherAvatar {
     this.masteredThemes.add(themeId);
     this.#saveMasteredThemes();
 
-    // ✅ Après 1 thèmes maîtrisés, désactiver l'auto-parole
-    if (this.masteredThemes.size >= 1) {
+    if (this.masteredThemes.size >= 3) {
       this.autoSpeakEnabled = false;
       console.log('[TeacherAvatar] Auto-parole désactivée (3 thèmes maîtrisés)');
     }
@@ -38,7 +37,6 @@ export class TeacherAvatar {
   #loadVoices() {
     const loadVoices = () => {
       const voices = speechSynthesis.getVoices();
-      // ✅ Chercher une voix féminine française
       this.femaleVoice = voices.find(v => v.lang.startsWith('fr') && (v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('femme'))) ||
                          voices.find(v => v.lang.startsWith('fr')) ||
                          voices[0];
@@ -56,7 +54,7 @@ export class TeacherAvatar {
     const utterance = new SpeechSynthesisUtterance(text); // ✅ CRÉATION DE L'UTTERANCE
     utterance.lang = 'fr-FR';
     utterance.rate = 0.95;
-    utterance.pitch = 1.1; // Voix plus aiguë (féminine)
+    utterance.pitch = 1.1;
 
     if (this.femaleVoice) {
       utterance.voice = this.femaleVoice;
@@ -126,14 +124,12 @@ export class TeacherAvatar {
     this.currentTip = tip;
     this.render();
 
-    // ✅ Parler automatiquement SEULEMENT si l'utilisateur n'a pas encore maîtrisé 3 thèmes
     if (this.autoSpeakEnabled) {
       setTimeout(() => {
         this.speak(tip.fr);
       }, 500);
     }
   }
-  // ✅ PAS D'ACCOLADE EN TROP ICI ! La méthode show() se termine normalement.
 
   render() {
     const oldAvatar = document.getElementById('teacher-avatar-container');

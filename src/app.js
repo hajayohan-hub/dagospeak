@@ -22,6 +22,7 @@ import { TeacherAvatar } from './ui/components/teacher-avatar.js';
 import { FeedbackSounds } from './engines/audio/feedback-sounds.js';
 
 
+
 // ═══════════════════════════════════════════════════════════
 // TRADUCTION DE L'INTERFACE (FR → MG)
 // ═══════════════════════════════════════════════════════════
@@ -56,10 +57,12 @@ const router    = new Router('/');
 const srs          = new SRSEngine(db, bus);
 const gamification = new GamificationEngine(db, bus);
 const shadowing    = new ShadowingEngine(bus);
+const feedbackSounds = new FeedbackSounds();
+window.feedbackSounds = feedbackSounds;
 const speechRecognition = new SpeechRecognitionEngine(bus);
 const roleManager  = new RoleManager(db);
 const aiManager = new AIManager(bus);
-const feedbackSounds = new FeedbackSounds();
+
 
 
 const paymentGateway = new PaymentGateway();
@@ -1100,9 +1103,12 @@ async function renderRolePlay() {
             btnSpeak.textContent = '🎤 Mitenena izao';
           }
         };
+
+        // ✅ IMPORTANT : Enregistrer le handler
         bus.on('pronunciation:evaluated', shadowEvalHandler);
       }
 
+      // ✅ IMPORTANT : Gestion du bouton Suivant
       btnNext.addEventListener('click', () => {
         if (shadowEvalHandler) {
           bus.off('pronunciation:evaluated', shadowEvalHandler);
@@ -1118,7 +1124,6 @@ async function renderRolePlay() {
       feedbackSounds.playCelebration();
       await gamification.addXP(30, 'Role Play Guidé terminé');
 
-      // ✅ Voix du Teacher Avatar
       setTimeout(() => {
         window.teacherAvatar.speak("Très bien ! Vous avez terminé le Role Play Guidé. Maintenant, passez au Défi pour tester votre mémoire !");
       }, 800);
