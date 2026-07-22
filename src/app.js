@@ -1697,13 +1697,6 @@ router.addRoute('/challenge', renderChallenge);
 initTheme();
 updateLevelUI();
 
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-      .then((reg) => logger.info('SW enregistré', reg.scope))
-      .catch((err) => logger.warn('SW échec', err));
-  });
-}
 
 router.start();
 
