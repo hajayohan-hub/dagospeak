@@ -28,8 +28,8 @@ export class TeacherAvatar {
     this.masteredThemes.add(themeId);
     this.#saveMasteredThemes();
 
-    // ✅ Après 3 thèmes maîtrisés, désactiver l'auto-parole
-    if (this.masteredThemes.size >= 3) {
+    // ✅ Après 1 thèmes maîtrisés, désactiver l'auto-parole
+    if (this.masteredThemes.size >= 1) {
       this.autoSpeakEnabled = false;
       console.log('[TeacherAvatar] Auto-parole désactivée (3 thèmes maîtrisés)');
     }
