@@ -32,7 +32,6 @@ export class VoskEngine {
     }
 
     try {
-      // Vérifie l'espace disponible avant de lancer le téléchargement (~40 Mo)
       if (navigator.storage?.estimate) {
         const { usage = 0, quota = 0 } = await navigator.storage.estimate();
         const free = quota - usage;
@@ -45,23 +44,19 @@ export class VoskEngine {
         }
       }
 
-      // Demande un stockage persistant pour éviter que le navigateur
-      // supprime le modèle en cas de pression mémoire
       if (navigator.storage?.persist) {
         await navigator.storage.persist();
       }
 
       this.#bus.emit('vosk:progress', { percent: 10, message: 'Téléchargement du modèle (~40 Mo)...' });
-
       this.#model = await Vosk.createModel(this.#modelUrl);
-
       this.#bus.emit('vosk:progress', { percent: 90, message: 'Initialisation du moteur...' });
 
+      // ✅ CORRECTION CRUCIALE : Le modèle small-fr est strictement à 16 kHz, PAS 48 kHz !
       this.#recognizer = new this.#model.KaldiRecognizer(16000);
       this.#recognizer.setWords(true);
 
       this.#isInitialized = true;
-
       this.#bus.emit('vosk:progress', { percent: 100, message: 'Moteur vocal prêt !' });
       this.#bus.emit('vosk:ready');
 
@@ -70,10 +65,7 @@ export class VoskEngine {
 
     } catch (error) {
       const isQuota = error?.name === 'QuotaExceededError';
-      const message = isQuota
-        ? 'Espace de stockage insuffisant pour enregistrer le modèle'
-        : (error?.message || 'Erreur inconnue');
-
+      const message = isQuota ? 'Espace de stockage insuffisant' : (error?.message || 'Erreur inconnue');
       console.error('[VoskEngine] Erreur initialisation:', error);
       this.#bus.emit('vosk:error', { error: message });
       this.#bus.emit('vosk:progress', { percent: 0, message: 'Erreur: ' + message });
@@ -101,17 +93,13 @@ export class VoskEngine {
       this.#audioChunks = [];
       this.#bus.emit('vosk:listening');
 
-      // ✅ Le micro capture en natif (48kHz), le navigateur resample automatiquement
-this.#mediaStream = await navigator.mediaDevices.getUserMedia({
-  audio: {
-    echoCancellation: true,
-    noiseSuppression: true,
-    autoGainControl: true
-  }
-});
+      // ✅ Le navigateur gère le resampling automatiquement, on enlève la contrainte 48k
+      this.#mediaStream = await navigator.mediaDevices.getUserMedia({
+        audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true }
+      });
 
-// ✅ AudioContext à 16000 Hz pour correspondre au modèle Vosk
-this.#audioContext = new AudioContext({ sampleRate: 16000 });
+      // ✅ CORRECTION CRUCIALE : AudioContext à 16 kHz pour correspondre au modèle Vosk
+      this.#audioContext = new AudioContext({ sampleRate: 16000 });
       this.#source = this.#audioContext.createMediaStreamSource(this.#mediaStream);
 
       const bufferSize = 4096;
@@ -123,7 +111,6 @@ this.#audioContext = new AudioContext({ sampleRate: 16000 });
 
       this.#processor.onaudioprocess = (event) => {
         if (!this.#isProcessing) return;
-
         const inputData = event.inputBuffer.getChannelData(0);
         const volume = Math.max(...Array.from(inputData).map(Math.abs));
 
