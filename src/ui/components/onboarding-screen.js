@@ -2,8 +2,10 @@
  * OnboardingScreen - Page d'intro animée avec setup intelligent et offres dynamiques.
  */
 export class OnboardingScreen {
+  // ✅ DÉCLARATION DE TOUS LES CHAMPS PRIVÉS
   #container = null;
   #currentSlide = 0;
+  #onComplete = null; // ✅ C'est cette ligne qui manquait !
   #slides = [
     {
       icon: '🇲🇬',
@@ -96,25 +98,25 @@ export class OnboardingScreen {
         }
       }
 
-      // 2. Demander le stockage persistant (empêche le navigateur de supprimer le modèle)
+      // 2. Demander le stockage persistant
       detailEl.textContent = 'Sécurisation du stockage...';
       if (navigator.storage && navigator.storage.persist) {
-        const isPersisted = await navigator.storage.persist();
-        console.log('[Onboarding] Stockage persistant:', isPersisted);
+        await navigator.storage.persist();
       }
 
-      // 3. Lancer le téléchargement du modèle via l'engine existant
+      // 3. Lancer le téléchargement du modèle
       detailEl.textContent = 'Téléchargement du moteur vocal (~40 Mo)...';
       progressEl.style.width = '10%';
 
-      // Écouter les progrès envoyés par vosk-engine.js
       const progressHandler = (data) => {
         progressEl.style.width = `${data.percent}%`;
         detailEl.textContent = data.message;
       };
+
+      // Écouter les événements de progression
       window.DagoSpeak.bus.on('vosk:progress', progressHandler);
 
-      // Déclencher l'initialisation (qui lance le téléchargement du .tar.gz local)
+      // Déclencher l'initialisation de Vosk
       await window.DagoSpeak.shadowing.preloadVoskModel();
 
       window.DagoSpeak.bus.off('vosk:progress', progressHandler);
@@ -139,7 +141,6 @@ export class OnboardingScreen {
     progressEl.style.width = '100%';
     progressEl.style.background = 'var(--ds-color-success)';
 
-    // Logique des 3 offres dynamiques
     const isLowEnd = (navigator.deviceMemory || 4) < 4 || (navigator.hardwareConcurrency || 4) < 4;
     const isOnline = navigator.onLine;
 
