@@ -1,5 +1,6 @@
 /**
  * TeacherAvatar - Assistant virtuel animé avec voix française + traduction malgache permanente
+ * Application pour apprendre le FRANÇAIS aux locuteurs malgaches
  */
 export class TeacherAvatar {
   #container = null;
@@ -43,12 +44,12 @@ export class TeacherAvatar {
     speechSynthesis.onvoiceschanged = loadVoices;
   }
 
+  // ✅ MÉTHODE CORRIGÉE : La variable utterance est maintenant créée
   speak(text) {
     if (!('speechSynthesis' in window) || !text) return;
     try {
       speechSynthesis.cancel();
-      // ✅ CORRECTION : Création de la variable utterance qui manquait
-      const utterance = new SpeechSynthesisUtterance(text);
+      const utterance = new SpeechSynthesisUtterance(text); // ✅ CRUCIAL
       utterance.lang = 'fr-FR';
       utterance.rate = 0.95;
       utterance.pitch = 1.1; // Voix féminine
@@ -81,6 +82,7 @@ export class TeacherAvatar {
   }
 
   show(tipKey) {
+    // ✅ Textes corrigés : apprentissage du FRANÇAIS (pas du malgache)
     const tips = {
       'home': {
         fr: "Bienvenue ! Choisissez un niveau pour commencer votre apprentissage du français.",
