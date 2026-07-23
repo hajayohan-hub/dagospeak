@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dagospeak-v9';
+const CACHE_NAME = 'dagospeak-v10';
 
 const urlsToCache = [
   '/',
@@ -20,8 +20,8 @@ const urlsToCache = [
   '/content/fr/dialogues/colors_dialogue.json'
 ];
 
-// ✅ URL du modèle Vosk (sera mis en cache après le premier téléchargement)
-const VOSK_MODEL_URL = 'https://cdn.jsdelivr.net/gh/alphacep/vosk-models@master/vosk-model-small-fr-0.22.zip';
+// ✅ Modèle Vosk local (jamais précaché à l'installation — trop lourd pour tous les visiteurs)
+const VOSK_MODEL_URL = '/vosk-model-small-fr-0.22.tar.gz';
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -58,8 +58,8 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
-  // ✅ STRATÉGIE SPÉCIALE POUR LE MODÈLE VOSK : Cache First avec fallback Network
-  if (request.url === VOSK_MODEL_URL) {
+  // ✅ STRATÉGIE SPÉCIALE POUR LE MODÈLE VOSK : Cache First, téléchargé une seule fois
+  if (url.pathname === VOSK_MODEL_URL) {
     event.respondWith(
       caches.match(request).then((cachedResponse) => {
         if (cachedResponse) {
@@ -82,7 +82,6 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Autres stratégies existantes...
   if (request.mode === 'navigate') {
     event.respondWith(fetch(request).catch(() => caches.match('/index.html')));
     return;

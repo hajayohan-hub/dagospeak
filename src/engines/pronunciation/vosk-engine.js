@@ -1,6 +1,6 @@
 /**
  * VoskEngine - Reconnaissance vocale 100% locale via WebAssembly.
- * Utilise un modèle hébergé sur CDN compatible CORS, mis en cache par le Service Worker.
+ * Modèle auto-hébergé en local (tar.gz), mis en cache par le Service Worker.
  */
 export class VoskEngine {
   #bus;
@@ -15,8 +15,8 @@ export class VoskEngine {
   #isProcessing = false;
   #audioChunks = [];
 
-  // ✅ Modèle hébergé sur CDN compatible CORS (sera mis en cache par le SW)
-  #modelUrl = 'https://cdn.jsdelivr.net/gh/alphacep/vosk-models@master/vosk-model-small-fr-0.22.zip';
+  // ✅ Modèle local, format tar.gz obligatoire pour vosk-browser
+  #modelUrl = '/vosk-model-small-fr-0.22.tar.gz';
 
   constructor(bus) {
     this.#bus = bus;
@@ -26,15 +26,33 @@ export class VoskEngine {
     if (this.#isInitialized) return true;
 
     if (typeof Vosk === 'undefined') {
-      console.warn('[VoskEngine] Bibliothèque Vosk non chargée');
+      console.warn('[VoskEngine] Bibliothèque Vosk non chargée. Vérifiez la balise <script> dans index.html');
       this.#bus.emit('vosk:error', { error: 'Bibliothèque Vosk non disponible' });
       return false;
     }
 
     try {
-      this.#bus.emit('vosk:progress', { percent: 10, message: 'Connexion au serveur de modèles...' });
+      // Vérifie l'espace disponible avant de lancer le téléchargement (~40 Mo)
+      if (navigator.storage?.estimate) {
+        const { usage = 0, quota = 0 } = await navigator.storage.estimate();
+        const free = quota - usage;
+        if (quota > 0 && free < 60 * 1024 * 1024) {
+          const msg = 'Espace de stockage insuffisant sur cet appareil pour le mode hors-ligne';
+          console.warn('[VoskEngine]', msg, { free, quota });
+          this.#bus.emit('vosk:error', { error: msg });
+          this.#bus.emit('vosk:progress', { percent: 0, message: msg });
+          return false;
+        }
+      }
 
-      // Vosk gère automatiquement le téléchargement et la mise en cache
+      // Demande un stockage persistant pour éviter que le navigateur
+      // supprime le modèle en cas de pression mémoire
+      if (navigator.storage?.persist) {
+        await navigator.storage.persist();
+      }
+
+      this.#bus.emit('vosk:progress', { percent: 10, message: 'Téléchargement du modèle (~40 Mo)...' });
+
       this.#model = await Vosk.createModel(this.#modelUrl);
 
       this.#bus.emit('vosk:progress', { percent: 90, message: 'Initialisation du moteur...' });
@@ -51,9 +69,14 @@ export class VoskEngine {
       return true;
 
     } catch (error) {
+      const isQuota = error?.name === 'QuotaExceededError';
+      const message = isQuota
+        ? 'Espace de stockage insuffisant pour enregistrer le modèle'
+        : (error?.message || 'Erreur inconnue');
+
       console.error('[VoskEngine] Erreur initialisation:', error);
-      this.#bus.emit('vosk:error', { error: error.message });
-      this.#bus.emit('vosk:progress', { percent: 0, message: 'Erreur: ' + error.message });
+      this.#bus.emit('vosk:error', { error: message });
+      this.#bus.emit('vosk:progress', { percent: 0, message: 'Erreur: ' + message });
       return false;
     }
   }
