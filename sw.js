@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dagospeak-v10';
+const CACHE_NAME = 'dagospeak-v11'; // ✅ Incrémenté pour forcer la mise à jour
 
 const urlsToCache = [
   '/',
@@ -20,7 +20,6 @@ const urlsToCache = [
   '/content/fr/dialogues/colors_dialogue.json'
 ];
 
-// ✅ Modèle Vosk local (jamais précaché à l'installation — trop lourd pour tous les visiteurs)
 const VOSK_MODEL_URL = '/vosk-model-small-fr-0.22.tar.gz';
 
 self.addEventListener('install', (event) => {
@@ -28,11 +27,8 @@ self.addEventListener('install', (event) => {
     caches.open(CACHE_NAME).then(async (cache) => {
       console.log('[SW] Mise en cache des fichiers essentiels...');
       for (const url of urlsToCache) {
-        try {
-          await cache.add(url);
-        } catch (err) {
-          console.warn('[SW] ⚠️ Échec du cache:', url);
-        }
+        try { await cache.add(url); }
+        catch (err) { console.warn('[SW] ⚠️ Échec du cache:', url); }
       }
     })
   );
@@ -50,7 +46,15 @@ self.addEventListener('activate', (event) => {
           }
         })
       );
-    }).then(() => self.clients.claim())
+    }).then(() => {
+      self.clients.claim();
+      // ✅ Notification de nouvelle version aux onglets ouverts
+      return self.clients.matchAll().then(clients => {
+        clients.forEach(client => {
+          client.postMessage({ type: "NEW_VERSION" });
+        });
+      });
+    })
   );
 });
 
@@ -58,35 +62,40 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
-  // ✅ STRATÉGIE SPÉCIALE POUR LE MODÈLE VOSK : Cache First, téléchargé une seule fois
-  if (url.pathname === VOSK_MODEL_URL) {
+  // 1. MODÈLE VOSK : Cache First (pour le hors-ligne)
+  if (request.url === VOSK_MODEL_URL) {
     event.respondWith(
-      caches.match(request).then((cachedResponse) => {
-        if (cachedResponse) {
-          console.log('[SW] ✅ Modèle Vosk servi depuis le cache');
-          return cachedResponse;
-        }
-        console.log('[SW] 📥 Téléchargement du modèle Vosk...');
-        return fetch(request).then((networkResponse) => {
-          if (networkResponse.ok) {
-            const clone = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(request, clone);
-              console.log('[SW] ✅ Modèle Vosk mis en cache pour le mode hors-ligne');
-            });
+      caches.match(request).then((cached) => {
+        if (cached) return cached;
+        return fetch(request).then((res) => {
+          if (res.ok) {
+            const clone = res.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
           }
-          return networkResponse;
+          return res;
         });
       })
     );
     return;
   }
 
-  if (request.mode === 'navigate') {
-    event.respondWith(fetch(request).catch(() => caches.match('/index.html')));
+  // 2. SCRIPTS & STYLES : Network First (pour avoir vos mises à jour de code)
+  if (request.destination === 'script' || request.destination === 'style') {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          if (response.ok) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
+          }
+          return response;
+        })
+        .catch(() => caches.match(request))
+    );
     return;
   }
 
+  // 3. DONNÉES JSON : Cache First, fallback Network
   if (url.pathname.includes('/content/') && url.pathname.endsWith('.json')) {
     event.respondWith(
       caches.match(request).then((response) => {
@@ -97,21 +106,8 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  if (request.destination === 'script' || request.destination === 'style') {
-    event.respondWith(
-      caches.match(request).then((response) => {
-        if (response) return response;
-        return fetch(request).then((networkResponse) => {
-          if (networkResponse.ok) {
-            const clone = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
-          }
-          return networkResponse;
-        }).catch(() => new Response("/* Offline */", { status: 503, headers: { 'Content-Type': request.destination === 'script' ? 'application/javascript' : 'text/css' } }));
-      })
-    );
-    return;
-  }
-
-  event.respondWith(caches.match(request).then((response) => response || fetch(request).catch(() => new Response("Offline", { status: 503 }))));
+  // 4. TOUT LE RESTE : Cache First, fallback Network
+  event.respondWith(
+    caches.match(request).then((response) => response || fetch(request).catch(() => new Response("Offline", { status: 503 })))
+  );
 });

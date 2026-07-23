@@ -1754,12 +1754,17 @@ updateMobileNavActiveState(); // Appel initial
 // GESTION AUTOMATIQUE DES MISES À JOUR PWA
 // ═══════════════════════════════════════════════════════════
 if ('serviceWorker' in navigator) {
+  // ✅ Écouter le message de nouvelle version provenant du SW
+  navigator.serviceWorker.addEventListener('message', (event) => {
+    if (event.data && event.data.type === 'NEW_VERSION') {
+      showUpdateBanner();
+    }
+  });
+
   window.addEventListener('load', async () => {
     try {
       const registration = await navigator.serviceWorker.register('/sw.js');
-
-      // Force la vérification immédiate au chargement
-      registration.update();
+      registration.update(); // Force la vérification
 
       registration.addEventListener('updatefound', () => {
         const newWorker = registration.installing;
@@ -1770,9 +1775,7 @@ if ('serviceWorker' in navigator) {
         });
       });
 
-      // Vérification périodique toutes les 30 minutes
       setInterval(() => { registration.update(); }, 30 * 60 * 1000);
-
     } catch (error) {
       console.warn('Échec SW', error);
     }
@@ -1787,15 +1790,16 @@ function showUpdateBanner() {
     <div style="position:fixed; bottom:80px; left:50%; transform:translateX(-50%); background:var(--ds-color-primary,#2563eb); color:white; padding:12px 20px; border-radius:50px; box-shadow:0 4px 12px rgba(0,0,0,0.2); display:flex; align-items:center; gap:12px; z-index:9999; font-size:0.9rem; font-weight:500; animation:slideUp 0.3s ease-out;">
       <span>🔄 Nouvelle version disponible !</span>
       <button id="btn-reload-app" style="background:white; color:var(--ds-color-primary,#2563eb); border:none; padding:6px 12px; border-radius:20px; font-weight:bold; cursor:pointer; font-size:0.85rem;">Actualiser</button>
-    </div>
-  `;
+    </div>`;
   document.body.appendChild(banner);
+
   if (!document.getElementById('slide-up-style')) {
     const style = document.createElement('style');
     style.id = 'slide-up-style';
     style.innerHTML = `@keyframes slideUp { from { transform: translate(-50%, 100%); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }`;
     document.head.appendChild(style);
   }
+
   document.getElementById('btn-reload-app').addEventListener('click', () => window.location.reload(true));
 }
 

@@ -52,9 +52,21 @@ export class VoskEngine {
       this.#model = await Vosk.createModel(this.#modelUrl);
       this.#bus.emit('vosk:progress', { percent: 90, message: 'Initialisation du moteur...' });
 
-      // ✅ CORRECTION CRUCIALE : Le modèle small-fr est strictement à 16 kHz, PAS 48 kHz !
-      this.#recognizer = new this.#model.KaldiRecognizer(16000);
-      this.#recognizer.setWords(true);
+      // ✅ PROTECTION : Vérification robuste de la création du Recognizer
+      try {
+        this.#recognizer = new this.#model.KaldiRecognizer(16000);
+
+        if (!this.#recognizer) {
+          throw new Error("Le Recognizer n'a pas pu être créé.");
+        }
+
+        this.#recognizer.setWords(true);
+      } catch (err) {
+        console.error('[Vosk] Impossible de créer le Recognizer. Le modèle est peut-être incomplet (dossier ivector manquant) ou incompatible.', err);
+        this.#bus.emit('vosk:error', { error: 'Le modèle Vosk est incomplet ou incompatible.' });
+        this.#bus.emit('vosk:progress', { percent: 0, message: 'Erreur: Modèle invalide' });
+        return false;
+      }
 
       this.#isInitialized = true;
       this.#bus.emit('vosk:progress', { percent: 100, message: 'Moteur vocal prêt !' });
