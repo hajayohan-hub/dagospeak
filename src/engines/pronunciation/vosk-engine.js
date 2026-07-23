@@ -57,7 +57,7 @@ export class VoskEngine {
 
       this.#bus.emit('vosk:progress', { percent: 90, message: 'Initialisation du moteur...' });
 
-      this.#recognizer = new this.#model.KaldiRecognizer(48000);
+      this.#recognizer = new this.#model.KaldiRecognizer(16000);
       this.#recognizer.setWords(true);
 
       this.#isInitialized = true;
@@ -102,10 +102,10 @@ export class VoskEngine {
       this.#bus.emit('vosk:listening');
 
       this.#mediaStream = await navigator.mediaDevices.getUserMedia({
-        audio: { echoCancellation: true, noiseSuppression: true, sampleRate: 48000 }
+        audio: { echoCancellation: true, noiseSuppression: true, sampleRate: 16000 }
       });
 
-      this.#audioContext = new AudioContext({ sampleRate: 48000 });
+      this.#audioContext = new AudioContext({ sampleRate: 16000 });
       this.#source = this.#audioContext.createMediaStreamSource(this.#mediaStream);
 
       const bufferSize = 4096;
