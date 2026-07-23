@@ -101,11 +101,17 @@ export class VoskEngine {
       this.#audioChunks = [];
       this.#bus.emit('vosk:listening');
 
-      this.#mediaStream = await navigator.mediaDevices.getUserMedia({
-        audio: { echoCancellation: true, noiseSuppression: true, sampleRate: 16000 }
-      });
+      // ✅ Le micro capture en natif (48kHz), le navigateur resample automatiquement
+this.#mediaStream = await navigator.mediaDevices.getUserMedia({
+  audio: {
+    echoCancellation: true,
+    noiseSuppression: true,
+    autoGainControl: true
+  }
+});
 
-      this.#audioContext = new AudioContext({ sampleRate: 16000 });
+// ✅ AudioContext à 16000 Hz pour correspondre au modèle Vosk
+this.#audioContext = new AudioContext({ sampleRate: 16000 });
       this.#source = this.#audioContext.createMediaStreamSource(this.#mediaStream);
 
       const bufferSize = 4096;
