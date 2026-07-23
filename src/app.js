@@ -204,16 +204,30 @@ async function renderHome() {
     const profile = await gamification.getProfile();
     const manifest = await content.loadManifest('fr');
 
-    // ✅ IMAGE HERO SECTION - 3 OPTIONS AU CHOIX :
-
-    // OPTION 1 : Image locale (recommandé) - Placez l'image dans /assets/hero-bg.jpg
-    const heroImage = 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 1200 600\'%3E%3Cdefs%3E%3ClinearGradient id=\'grad\' x1=\'0%25\' y1=\'0%25\' x2=\'100%25\' y2=\'100%25\'%3E%3Cstop offset=\'0%25\' style=\'stop-color:%232563eb;stop-opacity:1\' /%3E%3Cstop offset=\'100%25\' style=\'stop-color:%23f59e0b;stop-opacity:1\' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width=\'1200\' height=\'600\' fill=\'url(%23grad)\'/%3E%3C/svg%3E")';
-
-    // OPTION 2 : Si vous avez l'image générée, décommentez :
-    // const heroImage = 'url("/assets/hero-section.jpg")';
-
-    // OPTION 3 : Gradient CSS simple (fallback)
-    // const heroImage = 'linear-gradient(135deg, var(--ds-color-primary) 0%, var(--ds-color-accent) 100%)';
+    // ✅ HERO SECTION COMPACTE (ne déborde pas)
+    const heroHtml = `
+      <div style="
+        background: linear-gradient(135deg, var(--ds-color-primary) 0%, var(--ds-color-accent) 100%);
+        border-radius: var(--ds-radius-lg);
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        color: white;
+        position: relative;
+        overflow: hidden;
+        box-shadow: var(--ds-shadow-md);
+      ">
+        <h1 style="font-size: 1.8rem; margin-bottom: 0.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">
+          Manahoana ! 👋
+        </h1>
+        <p style="font-size: 1rem; margin-bottom: 0.5rem; opacity: 0.95; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">
+          Apprenez les langues avec IA
+        </p>
+        <p style="font-size: 0.85rem; opacity: 0.9; font-style: italic; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">
+          Mianara fiteny miaraka amin'ny IA
+        </p>
+      </div>
+    `;
 
     const levelsHtml = manifest.levels.map(level => {
       const isFree = level.id === 'A0' || level.id === 'A1';
@@ -261,82 +275,16 @@ async function renderHome() {
       `;
     }).join('');
 
-    // ✅ HERO SECTION COMPLÈTE AVEC IMAGE
-    const heroHtml = `
-      <div class="ds-hero" style="
-        background: ${heroImage};
-        background-size: cover;
-        background-position: center;
-        border-radius: var(--ds-radius-lg);
-        padding: 3rem 2rem;
-        margin-bottom: 2rem;
-        text-align: center;
-        color: white;
-        position: relative;
-        overflow: hidden;
-        box-shadow: var(--ds-shadow-lg);
-      ">
-        <!-- Overlay pour améliorer la lisibilité -->
-        <div style="
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(0, 0, 0, 0.3);
-          z-index: 1;
-        "></div>
-
-        <!-- Contenu -->
-        <div style="position: relative; z-index: 2; animation: fadeIn 1s ease-out;">
-          <h1 style="font-size: 2.5rem; margin-bottom: 1rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">
-            Manahoana ! 👋
-          </h1>
-          <p style="font-size: 1.2rem; margin-bottom: 1rem; opacity: 0.95; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">
-            Apprenez les langues avec IA, même sans internet
-          </p>
-          <p style="font-size: 1rem; opacity: 0.9; font-style: italic; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">
-            Mianara fiteny miaraka amin'ny IA, na tsy misy internet aza
-          </p>
-          <div style="margin-top: 1.5rem; font-size: 0.9rem; opacity: 0.85;">
-            <span style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; margin: 0 4px;">
-              🌍 Offline-first
-            </span>
-            <span style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; margin: 0 4px;">
-               IA intégrée
-            </span>
-            <span style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; margin: 0 4px;">
-              📱 Mobile-friendly
-            </span>
-          </div>
-        </div>
-      </div>
-    `;
-
-    // ✅ ICÔNES HEADER (Langues et À propos)
-    const headerIconsHtml = `
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
-        <div>
+    // ✅ CONTENU SANS ICÔNES (elles sont dans le header)
+    main.innerHTML = `
+      <section class="ds-home" style="padding: 1rem;">
+        ${heroHtml}
+        <div style="margin-bottom: 1.5rem;">
           <h2 style="margin:0; color: var(--ds-color-text);">Safidio ny lalanao hianarana :</h2>
           <p style="margin:4px 0 0 0; font-size:0.9rem; color:var(--ds-color-text-muted); font-style:italic;">
             (Choisissez votre parcours d'apprentissage :)
           </p>
         </div>
-        <div style="display: flex; gap: 0.75rem;">
-          <ds-button variant="ghost" size="sm" id="btn-languages" style="font-size: 1.2rem; padding: 8px 12px;" title="Choisir la langue">
-            🌐
-          </ds-button>
-          <ds-button variant="ghost" size="sm" id="btn-about" style="font-size: 1.2rem; padding: 8px 12px;" title="À propos">
-            ℹ️
-          </ds-button>
-        </div>
-      </div>
-    `;
-
-    main.innerHTML = `
-      <section class="ds-home">
-        ${heroHtml}
-        ${headerIconsHtml}
         <div id="levels-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
           ${levelsHtml}
         </div>
@@ -378,12 +326,12 @@ async function renderHome() {
       handleUpgrade(document.getElementById('btn-upgrade-main'), profile);
     });
 
-    // ✅ NOUVEAUX BOUTONS HEADER
-    document.getElementById('btn-languages').addEventListener('click', () => {
+    // ✅ ÉCOUTEURS POUR LES BOUTONS DU HEADER (dans index.html)
+    document.getElementById('btn-languages')?.addEventListener('click', () => {
       showLanguageSelector();
     });
 
-    document.getElementById('btn-about').addEventListener('click', () => {
+    document.getElementById('btn-about')?.addEventListener('click', () => {
       router.navigate('/about');
     });
 
@@ -395,15 +343,15 @@ async function renderHome() {
   }
 }
 
-// ✅ NOUVELLE FONCTION : Sélecteur de langues
+// ✅ FONCTION : Sélecteur de langues
 function showLanguageSelector() {
   const languages = [
-    { code: 'fr', name: 'Français', flag: '🇫🇷', status: 'Actif' },
+    { code: 'fr', name: 'Français', flag: '🇫', status: 'Actif' },
     { code: 'en', name: 'English', flag: '🇬🇧', status: 'Bientôt' },
     { code: 'de', name: 'Deutsch', flag: '🇩🇪', status: 'Bientôt' },
-    { code: 'es', name: 'Español', flag: '🇸', status: 'Bientôt' },
+    { code: 'es', name: 'Español', flag: '🇪', status: 'Bientôt' },
     { code: 'it', name: 'Italiano', flag: '🇮🇹', status: 'Bientôt' },
-    { code: 'ko', name: '한국어', flag: '🇰🇷', status: 'Bientôt' }
+    { code: 'ko', name: '한국어', flag: '🇷', status: 'Bientôt' }
   ];
 
   const modal = document.createElement('div');
@@ -471,11 +419,6 @@ function showLanguageSelector() {
             ">${lang.status}</span>
           </div>
         `).join('')}
-      </div>
-      <div style="margin-top: 1.5rem; padding: 1rem; background: var(--ds-color-primary-soft); border-radius: var(--ds-radius-md); text-align: center;">
-        <p style="margin: 0; font-size: 0.9rem; color: var(--ds-color-text-muted);">
-          🚧 Les autres langues seront disponibles prochainement !
-        </p>
       </div>
     </div>
   `;
