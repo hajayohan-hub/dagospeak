@@ -5,7 +5,7 @@ export class OnboardingScreen {
   // ✅ DÉCLARATION DE TOUS LES CHAMPS PRIVÉS
   #container = null;
   #currentSlide = 0;
-  #onComplete = null; // ✅ C'est cette ligne qui manquait !
+  #onComplete = null;
   #slides = [
     {
       icon: '🇲🇬',
@@ -47,12 +47,12 @@ export class OnboardingScreen {
 
   #updateSlide() {
     const slide = this.#slides[this.#currentSlide];
-    this.#container.innerHTML = `
-      <div style="font-size: 5rem; margin-bottom: 1rem; animation: bounce 2s infinite;">${slide.icon}</div>
-      <h2 style="color: var(--ds-color-primary); margin-bottom: 1rem;">${slide.title}</h2>
-      <p style="color: var(--ds-color-text-muted); font-size: 1.1rem; margin-bottom: 2rem; line-height: 1.6;">${slide.text}</p>
 
-      ${this.#currentSlide < 2 ? `
+    if (this.#currentSlide < 2) {
+      this.#container.innerHTML = `
+        <div style="font-size: 5rem; margin-bottom: 1rem;">${slide.icon}</div>
+        <h2 style="color: var(--ds-color-primary); margin-bottom: 1rem;">${slide.title}</h2>
+        <p style="color: var(--ds-color-text-muted); font-size: 1.1rem; margin-bottom: 2rem; line-height: 1.6;">${slide.text}</p>
         <ds-button id="btn-next-slide" size="lg" variant="primary" style="width: 100%; max-width: 300px;">
           ${slide.action} →
         </ds-button>
@@ -61,7 +61,20 @@ export class OnboardingScreen {
             <div style="width: 10px; height: 10px; border-radius: 50%; background: ${i === this.#currentSlide ? 'var(--ds-color-primary)' : 'var(--ds-color-border)'}; transition: background 0.3s;"></div>
           `).join('')}
         </div>
-      ` : `
+      `;
+
+      document.getElementById('btn-next-slide').addEventListener('click', () => {
+        this.#currentSlide++;
+        this.#updateSlide();
+        if (this.#currentSlide === 2) {
+          this.#startSmartSetup();
+        }
+      });
+    } else {
+      this.#container.innerHTML = `
+        <div style="font-size: 5rem; margin-bottom: 1rem;">${slide.icon}</div>
+        <h2 style="color: var(--ds-color-primary); margin-bottom: 1rem;">${slide.title}</h2>
+        <p style="color: var(--ds-color-text-muted); font-size: 1.1rem; margin-bottom: 2rem; line-height: 1.6;">${slide.text}</p>
         <div id="setup-area" style="width: 100%; max-width: 350px;">
           <div id="setup-status" style="margin-bottom: 1rem; font-weight: 600; color: var(--ds-color-text);">Vérification de l'appareil...</div>
           <div style="width: 100%; height: 12px; background: var(--ds-color-border); border-radius: 6px; overflow: hidden; margin-bottom: 1rem;">
@@ -71,14 +84,7 @@ export class OnboardingScreen {
         </div>
       `;
 
-    if (this.#currentSlide < 2) {
-      document.getElementById('btn-next-slide').addEventListener('click', () => {
-        this.#currentSlide++;
-        this.#updateSlide();
-        if (this.#currentSlide === 2) {
-          this.#startSmartSetup();
-        }
-      });
+      this.#startSmartSetup();
     }
   }
 
@@ -88,7 +94,6 @@ export class OnboardingScreen {
     const detailEl = document.getElementById('setup-detail');
 
     try {
-      // 1. Vérifier l'espace de stockage
       detailEl.textContent = 'Vérification de l\'espace disponible...';
       if (navigator.storage && navigator.storage.estimate) {
         const estimate = await navigator.storage.estimate();
@@ -98,13 +103,11 @@ export class OnboardingScreen {
         }
       }
 
-      // 2. Demander le stockage persistant
       detailEl.textContent = 'Sécurisation du stockage...';
       if (navigator.storage && navigator.storage.persist) {
         await navigator.storage.persist();
       }
 
-      // 3. Lancer le téléchargement du modèle
       detailEl.textContent = 'Téléchargement du moteur vocal (~40 Mo)...';
       progressEl.style.width = '10%';
 
@@ -113,15 +116,10 @@ export class OnboardingScreen {
         detailEl.textContent = data.message;
       };
 
-      // Écouter les événements de progression
       window.DagoSpeak.bus.on('vosk:progress', progressHandler);
-
-      // Déclencher l'initialisation de Vosk
       await window.DagoSpeak.shadowing.preloadVoskModel();
-
       window.DagoSpeak.bus.off('vosk:progress', progressHandler);
 
-      // 4. Afficher l'offre dynamique
       this.#showDynamicOffer();
 
     } catch (error) {
