@@ -24,7 +24,37 @@ import { FeedbackSounds } from './engines/audio/feedback-sounds.js';
 import { OnboardingScreen } from './ui/components/onboarding-screen.js';
 
 
+// ═══════════════════════════════════════════════════════════
+// SUIVI DE PROGRESSION DES PARCOURS
+// ═══════════════════════════════════════════════════════════
+const journeyTracker = {
+  getCompletedJourneys() {
+    const saved = localStorage.getItem('dagospeak:completedJourneys');
+    return saved ? JSON.parse(saved) : { lessons: [], practices: [], dialogues: [], roleplays: [], challenges: [] };
+  },
 
+  markJourneyComplete(type, themeId) {
+    const journeys = this.getCompletedJourneys();
+    if (!journeys[type].includes(themeId)) {
+      journeys[type].push(themeId);
+      localStorage.setItem('dagospeak:completedJourneys', JSON.stringify(journeys));
+    }
+  },
+
+  isJourneyComplete(type, themeId) {
+    const journeys = this.getCompletedJourneys();
+    return journeys[type].includes(themeId);
+  },
+
+  getCompletionStats() {
+    const journeys = this.getCompletedJourneys();
+    const totalTypes = 5; // lessons, practices, dialogues, roleplays, challenges
+    const totalThemes = 5; // survival, numbers, family, market, colors
+    const totalJourneys = totalTypes * totalThemes;
+    const completedJourneys = Object.values(journeys).reduce((sum, arr) => sum + arr.length, 0);
+    return { completedJourneys, totalJourneys, percentage: (completedJourneys / totalJourneys) * 100 };
+  }
+};
 
 // ═══════════════════════════════════════════════════════════
 // TRADUCTION DE L'INTERFACE (FR → MG)
@@ -174,10 +204,20 @@ async function renderHome() {
     const profile = await gamification.getProfile();
     const manifest = await content.loadManifest('fr');
 
+    // ✅ IMAGE HERO SECTION - 3 OPTIONS AU CHOIX :
+
+    // OPTION 1 : Image locale (recommandé) - Placez l'image dans /assets/hero-bg.jpg
+    const heroImage = 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 1200 600\'%3E%3Cdefs%3E%3ClinearGradient id=\'grad\' x1=\'0%25\' y1=\'0%25\' x2=\'100%25\' y2=\'100%25\'%3E%3Cstop offset=\'0%25\' style=\'stop-color:%232563eb;stop-opacity:1\' /%3E%3Cstop offset=\'100%25\' style=\'stop-color:%23f59e0b;stop-opacity:1\' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width=\'1200\' height=\'600\' fill=\'url(%23grad)\'/%3E%3C/svg%3E")';
+
+    // OPTION 2 : Si vous avez l'image générée, décommentez :
+    // const heroImage = 'url("/assets/hero-section.jpg")';
+
+    // OPTION 3 : Gradient CSS simple (fallback)
+    // const heroImage = 'linear-gradient(135deg, var(--ds-color-primary) 0%, var(--ds-color-accent) 100%)';
+
     const levelsHtml = manifest.levels.map(level => {
       const isFree = level.id === 'A0' || level.id === 'A1';
       const isUnlocked = isFree || profile.isPremium;
-
       const levelDescriptions = {
         'A0': { fr: 'Les premiers mots pour survivre au quotidien', mg: 'Ny teny voalohany hahafahana miaina isan\'andro' },
         'A1': { fr: 'Vocabulaire essentiel : famille, marché, couleurs', mg: 'Teny ilaina : fianakaviana, tsena, loko' }
@@ -189,7 +229,6 @@ async function renderHome() {
                     border: 1px solid ${isUnlocked ? 'var(--ds-color-border)' : 'var(--ds-color-text-disabled)'};
                     opacity: ${isUnlocked ? 1 : 0.7};
                     display: flex; flex-direction: column; gap: 1rem;">
-
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <div>
               <h3 style="margin:0; color: ${isUnlocked ? 'var(--ds-color-primary)' : 'var(--ds-color-text-muted)'};">
@@ -201,7 +240,6 @@ async function renderHome() {
             </div>
             ${!isUnlocked ? '<span style="font-size:1.5rem;" title="Voa hidiana">🔒</span>' : '<span style="font-size:1.5rem;" title="Misokatra">🔓</span>'}
           </div>
-
           <div>
             <p style="margin:0; font-size: 0.9rem; color: var(--ds-color-text-muted);">
               ${levelDescriptions[level.id]?.fr || level.description}
@@ -210,7 +248,6 @@ async function renderHome() {
               ${levelDescriptions[level.id]?.mg || ''}
             </p>
           </div>
-
           ${isUnlocked ? `
             <ds-button class="btn-select-level" data-level="${level.id}" variant="${level.id === 'A0' ? 'success' : 'primary'}" size="sm">
               Jereo ny lohahevitra (Voir les thèmes)
@@ -224,36 +261,85 @@ async function renderHome() {
       `;
     }).join('');
 
-    main.innerHTML = `
-      <section class="ds-hero">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
-          <div>
-            <h1 style="margin:0;">Manahoana ! 👋</h1>
-            <p style="margin:4px 0 0 0; font-size:0.9rem; color:var(--ds-color-text-muted); font-style:italic;">
-              (Bonjour !)
-            </p>
-          </div>
-          <div style="text-align:right;">
-            <div style="font-size: var(--ds-font-size-lg); font-weight: bold; color: var(--ds-color-accent);">🔥 ${profile.streak} andro</div>
-            <div style="color: var(--ds-color-text-muted); font-size:0.85rem;">
-              Ambaratonga ${profile.level} • ${profile.xp} XP ${profile.isPremium ? '• 👑 Premium' : ''}
-            </div>
+    // ✅ HERO SECTION COMPLÈTE AVEC IMAGE
+    const heroHtml = `
+      <div class="ds-hero" style="
+        background: ${heroImage};
+        background-size: cover;
+        background-position: center;
+        border-radius: var(--ds-radius-lg);
+        padding: 3rem 2rem;
+        margin-bottom: 2rem;
+        text-align: center;
+        color: white;
+        position: relative;
+        overflow: hidden;
+        box-shadow: var(--ds-shadow-lg);
+      ">
+        <!-- Overlay pour améliorer la lisibilité -->
+        <div style="
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.3);
+          z-index: 1;
+        "></div>
+
+        <!-- Contenu -->
+        <div style="position: relative; z-index: 2; animation: fadeIn 1s ease-out;">
+          <h1 style="font-size: 2.5rem; margin-bottom: 1rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">
+            Manahoana ! 👋
+          </h1>
+          <p style="font-size: 1.2rem; margin-bottom: 1rem; opacity: 0.95; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">
+            Apprenez les langues avec IA, même sans internet
+          </p>
+          <p style="font-size: 1rem; opacity: 0.9; font-style: italic; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">
+            Mianara fiteny miaraka amin'ny IA, na tsy misy internet aza
+          </p>
+          <div style="margin-top: 1.5rem; font-size: 0.9rem; opacity: 0.85;">
+            <span style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; margin: 0 4px;">
+              🌍 Offline-first
+            </span>
+            <span style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; margin: 0 4px;">
+               IA intégrée
+            </span>
+            <span style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; margin: 0 4px;">
+              📱 Mobile-friendly
+            </span>
           </div>
         </div>
+      </div>
+    `;
 
-        <div style="margin-bottom: 2rem;">
-          <p class="ds-hero__subtitle" style="margin:0; font-size:1.1rem; font-weight:500;">
-            Safidio ny lalanao hianarana :
-          </p>
+    // ✅ ICÔNES HEADER (Langues et À propos)
+    const headerIconsHtml = `
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <h2 style="margin:0; color: var(--ds-color-text);">Safidio ny lalanao hianarana :</h2>
           <p style="margin:4px 0 0 0; font-size:0.9rem; color:var(--ds-color-text-muted); font-style:italic;">
             (Choisissez votre parcours d'apprentissage :)
           </p>
         </div>
+        <div style="display: flex; gap: 0.75rem;">
+          <ds-button variant="ghost" size="sm" id="btn-languages" style="font-size: 1.2rem; padding: 8px 12px;" title="Choisir la langue">
+            🌐
+          </ds-button>
+          <ds-button variant="ghost" size="sm" id="btn-about" style="font-size: 1.2rem; padding: 8px 12px;" title="À propos">
+            ℹ️
+          </ds-button>
+        </div>
+      </div>
+    `;
 
+    main.innerHTML = `
+      <section class="ds-home">
+        ${heroHtml}
+        ${headerIconsHtml}
         <div id="levels-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
           ${levelsHtml}
         </div>
-
         ${!profile.isPremium ? `
         <div style="padding: 1.5rem; background: var(--ds-color-primary-soft); border-radius: var(--ds-radius-lg); border: 1px solid var(--ds-color-primary); text-align:center;">
           <h3 style="color: var(--ds-color-primary); margin-bottom: 0.5rem;">🚀 Hiditra ao amin'ny DagoSpeak Premium</h3>
@@ -270,6 +356,7 @@ async function renderHome() {
       </section>
     `;
 
+    // ✅ ÉCOUTEURS D'ÉVÉNEMENTS
     document.getElementById('levels-container').addEventListener('click', (e) => {
       const btn = e.target.closest('.btn-select-level');
       if (btn) {
@@ -291,14 +378,121 @@ async function renderHome() {
       handleUpgrade(document.getElementById('btn-upgrade-main'), profile);
     });
 
-    window.teacherAvatar.show('home');
+    // ✅ NOUVEAUX BOUTONS HEADER
+    document.getElementById('btn-languages').addEventListener('click', () => {
+      showLanguageSelector();
+    });
 
+    document.getElementById('btn-about').addEventListener('click', () => {
+      router.navigate('/about');
+    });
+
+    window.teacherAvatar.show('home');
     logger.info('✅ Page d\'accueil rendue (Modèle Freemium bilingue)');
   } catch (e) {
     console.error('❌ Erreur renderHome:', e);
     main.innerHTML = `<p style="color:red; text-align:center;">Hadisoana: ${e.message}</p>`;
   }
 }
+
+// ✅ NOUVELLE FONCTION : Sélecteur de langues
+function showLanguageSelector() {
+  const languages = [
+    { code: 'fr', name: 'Français', flag: '🇫🇷', status: 'Actif' },
+    { code: 'en', name: 'English', flag: '🇬🇧', status: 'Bientôt' },
+    { code: 'de', name: 'Deutsch', flag: '🇩🇪', status: 'Bientôt' },
+    { code: 'es', name: 'Español', flag: '🇸', status: 'Bientôt' },
+    { code: 'it', name: 'Italiano', flag: '🇮🇹', status: 'Bientôt' },
+    { code: 'ko', name: '한국어', flag: '🇰🇷', status: 'Bientôt' }
+  ];
+
+  const modal = document.createElement('div');
+  modal.id = 'language-modal';
+  modal.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease-out;
+  `;
+
+  modal.innerHTML = `
+    <div style="
+      background: var(--ds-color-surface);
+      padding: 2rem;
+      border-radius: var(--ds-radius-lg);
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      animation: slideUp 0.3s ease-out;
+    ">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h2 style="margin: 0; color: var(--ds-color-primary);">🌐 Safidio ny teny (Choisir la langue)</h2>
+        <button id="close-lang-modal" style="
+          background: none;
+          border: none;
+          font-size: 1.5rem;
+          cursor: pointer;
+          color: var(--ds-color-text-muted);
+        ">×</button>
+      </div>
+      <div style="display: grid; gap: 1rem;">
+        ${languages.map(lang => `
+          <div style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: ${lang.code === 'fr' ? 'var(--ds-color-primary-soft)' : 'var(--ds-color-surface-2)'};
+            border-radius: var(--ds-radius-md);
+            border: ${lang.code === 'fr' ? '2px solid var(--ds-color-primary)' : '1px solid var(--ds-color-border)'};
+            opacity: ${lang.status === 'Actif' ? '1' : '0.7'};
+          ">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <span style="font-size: 2rem;">${lang.flag}</span>
+              <div>
+                <div style="font-weight: 600; color: var(--ds-color-text);">${lang.name}</div>
+                ${lang.code === 'fr' ? '<div style="font-size: 0.8rem; color: var(--ds-color-success);">✓ Langue actuelle</div>' : ''}
+              </div>
+            </div>
+            <span style="
+              padding: 4px 12px;
+              border-radius: 20px;
+              font-size: 0.8rem;
+              background: ${lang.status === 'Actif' ? 'var(--ds-color-success)' : 'var(--ds-color-text-disabled)'};
+              color: white;
+            ">${lang.status}</span>
+          </div>
+        `).join('')}
+      </div>
+      <div style="margin-top: 1.5rem; padding: 1rem; background: var(--ds-color-primary-soft); border-radius: var(--ds-radius-md); text-align: center;">
+        <p style="margin: 0; font-size: 0.9rem; color: var(--ds-color-text-muted);">
+          🚧 Les autres langues seront disponibles prochainement !
+        </p>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  document.getElementById('close-lang-modal').addEventListener('click', () => {
+    modal.remove();
+  });
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.remove();
+    }
+  });
+}
+
 
 // Fonction helper pour gérer l'upgrade Premium
 async function handleUpgrade(btn, profile) {
@@ -374,16 +568,49 @@ async function renderLesson() {
 
     document.getElementById('btn-back').addEventListener('click', () => router.navigate('/themes'));
 
-    document.querySelectorAll('.play-audio').forEach(btn => {
-      btn.addEventListener('click', () => {
-        speechSynthesis.cancel();
-        btn.textContent = '🔊 ...'; // Feedback visuel immédiat
-        const u = new SpeechSynthesisUtterance(btn.dataset.target);
-        u.lang = 'fr-FR'; u.rate = 0.9;
-        u.onend = () => { btn.textContent = '🔊 Mihainoa'; }; // Revient à la normale après
-        speechSynthesis.speak(u);
-      });
-    });
+    // ✅ ALLUMAGE PROGRESSIF DES MOTS
+        let currentWordIndex = 0;
+        const wordButtons = document.querySelectorAll('.play-audio');
+        if (wordButtons.length > 0) {
+          // Allumer le premier mot
+          wordButtons[0].classList.add('guide-active');
+          wordButtons[0].style.animation = 'pulse-guide 2s infinite';
+
+          wordButtons.forEach((btn, index) => {
+            btn.addEventListener('click', () => {
+              speechSynthesis.cancel();
+              btn.textContent = '🔊 ...';
+              const u = new SpeechSynthesisUtterance(btn.dataset.target);
+              u.lang = 'fr-FR'; u.rate = 0.9;
+              u.onend = () => {
+                btn.textContent = '🔊 Mihainoa';
+                btn.classList.remove('guide-active');
+                btn.style.animation = 'none';
+
+                // ✅ Allumer le mot suivant
+                currentWordIndex = index + 1;
+                if (currentWordIndex < wordButtons.length) {
+                  wordButtons[currentWordIndex].classList.add('guide-active');
+                  wordButtons[currentWordIndex].style.animation = 'pulse-guide 2s infinite';
+                } else {
+                  // ✅ Tous les mots écoutés : allumer le bouton de fin
+                  const btnStartPractice = document.getElementById('btn-start-practice');
+                  if (btnStartPractice) {
+                    btnStartPractice.classList.add('guide-active');
+                    btnStartPractice.style.animation = 'pulse-green 1.5s infinite';
+                  }
+                }
+              };
+              speechSynthesis.speak(u);
+            });
+          });
+        }
+
+        // ✅ TRADUCTION MALGACHE DU BOUTON DE FIN
+        document.getElementById('btn-start-practice')?.addEventListener('click', () => {
+          journeyTracker.markJourneyComplete('lessons', unitId);
+          router.navigate('/practice');
+        });
 
     document.getElementById('btn-start-practice')?.addEventListener('click', () => router.navigate('/practice'));
 
@@ -809,6 +1036,8 @@ async function renderPractice() {
     renderQuestion(currentIndex);
     console.log(`✅ [DEBUG] Session initialisée avec ${sessionQueue.length} questions`);
 
+    journeyTracker.markJourneyComplete('practices', unitId);
+
     window.teacherAvatar.show('practice');
 
   } catch (error) {
@@ -914,6 +1143,8 @@ async function renderDialogues() {
     });
 
     logger.info(`✅ Page Dialogues rendue pour le thème: ${unitId}`);
+
+    journeyTracker.markJourneyComplete('dialogues', unitId);
 
     window.teacherAvatar.show('dialogues');
 
@@ -1190,7 +1421,11 @@ async function renderRolePlay() {
     };
 
     renderLine();
+
+    journeyTracker.markJourneyComplete('roleplays', unitId);
+
     window.teacherAvatar.show('roleplay');
+
     logger.info(`✅ Role Play Guidé démarré pour le thème: ${unitId}`);
 
   } catch (e) {
@@ -1508,7 +1743,11 @@ async function renderChallenge() {
     };
 
     renderLine();
+
+    journeyTracker.markJourneyComplete('challenges', unitId);
+
     window.teacherAvatar.show('challenge');
+
     console.log(`✅ [DEBUG] Défi démarré pour le thème: ${unitId}`);
 
   } catch (e) {
@@ -1557,25 +1796,221 @@ function calculateSimilarity(str1, str2) {
 async function renderProfile() {
   const main = document.getElementById('app');
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement du profil...</div>';
+
   try {
     const profile = await gamification.getProfile();
+    const stats = journeyTracker.getCompletionStats();
+
     main.innerHTML = `
       <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem;">
-        <ds-button variant="ghost" size="sm" id="btn-back" style="margin-bottom: 1rem;">← Retour</ds-button>
-        <h2 style="text-align: center; margin-bottom: 2rem;">Mon Profil</h2>
-        <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); box-shadow: var(--ds-shadow-md); text-align:center;">
-          <div style="font-size: 3rem; margin-bottom: 0.5rem;">🎓</div>
-          <h3 style="color: var(--ds-color-primary);">Niveau ${profile.level}</h3>
-          <p style="color: var(--ds-color-text-muted);">${profile.xp} XP accumulés</p>
-          <div style="margin-top: 1rem; font-size: 1.5rem; color: var(--ds-color-accent); font-weight: bold;">🔥 ${profile.streak} jours</div>
+        <ds-button variant="ghost" size="sm" id="btn-back" style="margin-bottom: 1rem;">← Miverina (Retour)</ds-button>
+        <h2 style="text-align: center; margin-bottom: 2rem;">👤 Mombamomba ahy (Mon Profil)</h2>
+
+        <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); box-shadow: var(--ds-shadow-md); text-align:center; margin-bottom: 2rem;">
+          <div style="font-size: 3rem; margin-bottom: 0.5rem;"></div>
+          <h3 style="color: var(--ds-color-primary);">Ambaratonga ${profile.level}</h3>
+          <p style="color: var(--ds-color-text-muted);">${profile.xp} XP azo</p>
+          <div style="margin-top: 1rem; font-size: 1.5rem; color: var(--ds-color-accent); font-weight: bold;">🔥 ${profile.streak} andro</div>
+        </div>
+
+        <div style="background: var(--ds-color-primary-soft); padding: 1.5rem; border-radius: var(--ds-radius-lg); border: 1px solid var(--ds-color-primary); margin-bottom: 1.5rem;">
+          <h3 style="color: var(--ds-color-primary); margin-bottom: 1rem;">📊 Fandrosoana (Progression)</h3>
+          <div style="font-size: 2rem; font-weight: bold; color: var(--ds-color-primary); margin-bottom: 0.5rem;">${Math.round(stats.percentage)}%</div>
+          <div style="color: var(--ds-color-text-muted); font-size: 0.9rem;">
+            ${stats.completedJourneys} / ${stats.totalJourneys} parcours terminés
+          </div>
+        </div>
+
+        <div style="background: var(--ds-color-surface); padding: 1.5rem; border-radius: var(--ds-radius-lg); border: 1px solid var(--ds-color-border);">
+          <h3 style="color: var(--ds-color-text); margin-bottom: 1rem;"> Tatitra (Rapports)</h3>
+          <div style="display: grid; gap: 0.75rem;">
+            <div style="display: flex; justify-content: space-between; padding: 0.75rem; background: var(--ds-color-surface-2); border-radius: var(--ds-radius-md);">
+              <span>📖 Leçons</span>
+              <strong>${journeyTracker.getCompletedJourneys().lessons.length} / 5</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 0.75rem; background: var(--ds-color-surface-2); border-radius: var(--ds-radius-md);">
+              <span>🎯 Révisions</span>
+              <strong>${journeyTracker.getCompletedJourneys().practices.length} / 5</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 0.75rem; background: var(--ds-color-surface-2); border-radius: var(--ds-radius-md);">
+              <span>💬 Dialogues</span>
+              <strong>${journeyTracker.getCompletedJourneys().dialogues.length} / 5</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 0.75rem; background: var(--ds-color-surface-2); border-radius: var(--ds-radius-md);">
+              <span>🎭 Role Play</span>
+              <strong>${journeyTracker.getCompletedJourneys().roleplays.length} / 5</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 0.75rem; background: var(--ds-color-surface-2); border-radius: var(--ds-radius-md);">
+              <span> Défis</span>
+              <strong>${journeyTracker.getCompletedJourneys().challenges.length} / 5</strong>
+            </div>
+          </div>
         </div>
       </section>
     `;
+
     document.getElementById('btn-back').addEventListener('click', () => router.navigate('/'));
     logger.info('✅ Page Profil rendue');
   } catch (e) {
     main.innerHTML = `<p style="color:red; text-align:center;">Erreur profil: ${e.message}</p>`;
   }
+}
+
+  async function renderAbout() {
+  const main = document.getElementById('app');
+  let currentTab = 'about';
+
+  const renderTab = (tab) => {
+    if (tab === 'about') {
+      main.innerHTML = `
+        <section style="max-width: 700px; margin: 0 auto; padding: 2rem 1rem;">
+          <ds-button variant="ghost" size="sm" id="btn-back" style="margin-bottom: 1rem;">← Miverina (Retour)</ds-button>
+          <h1 style="text-align: center; margin-bottom: 2rem;">📱 Mombamomba ny DagoSpeak</h1>
+
+          <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); box-shadow: var(--ds-shadow-md); margin-bottom: 2rem;">
+            <h2 style="color: var(--ds-color-primary); margin-bottom: 1rem;">🎯 Mission</h2>
+            <p style="line-height: 1.6; margin-bottom: 1rem;">
+              DagoSpeak dia plateforme d'auto-apprentissage des langues assistée par IA, offline-first, pour les locuteurs Malgaches.
+            </p>
+            <p style="line-height: 1.6; margin-bottom: 1rem;">
+              <strong>Première application à Madagascar</strong> conçue pour fonctionner sur les téléphones modestes, permettant l'apprentissage de plusieurs langues (Français, Anglais, Allemand, Espagnol, Italien, Coréen) avec un guidage complet pour transformer un utilisateur débutant en expert.
+            </p>
+          </div>
+
+          <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); box-shadow: var(--ds-shadow-md); margin-bottom: 2rem;">
+            <h2 style="color: var(--ds-color-primary); margin-bottom: 1rem;">👥 Équipe</h2>
+            <p style="line-height: 1.6;">
+              Propulsé par les équipes de <strong>Web Services Mada</strong> de <strong>Mada Digital Services</strong>.
+            </p>
+          </div>
+
+          <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); box-shadow: var(--ds-shadow-md); margin-bottom: 2rem;">
+            <h2 style="color: var(--ds-color-primary); margin-bottom: 1rem;"> Termes et Conditions</h2>
+            <p style="line-height: 1.6; font-size: 0.9rem;">
+              En utilisant DagoSpeak, vous acceptez nos conditions d'utilisation. L'application collecte uniquement les données nécessaires à votre progression (scores, XP, thèmes maîtrisés) et les stocke localement sur votre appareil.
+            </p>
+          </div>
+
+          <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); box-shadow: var(--ds-shadow-md);">
+            <h2 style="color: var(--ds-color-primary); margin-bottom: 1rem;"> Appareils Supportés</h2>
+            <ul style="line-height: 1.8; padding-left: 1.5rem;">
+              <li>Android 5.0+ (Chrome, Firefox)</li>
+              <li>iOS 12+ (Safari)</li>
+              <li>Chrome OS (Chromebook)</li>
+              <li>Windows 10+ (Edge, Chrome)</li>
+              <li>macOS 10.14+ (Safari, Chrome)</li>
+            </ul>
+          </div>
+        </section>
+      `;
+    } else if (tab === 'offers') {
+      main.innerHTML = `
+        <section style="max-width: 700px; margin: 0 auto; padding: 2rem 1rem;">
+          <ds-button variant="ghost" size="sm" id="btn-back" style="margin-bottom: 1rem;">← Miverina (Retour)</ds-button>
+          <h1 style="text-align: center; margin-bottom: 2rem;">💰 Tolotra (Offres)</h1>
+
+          <div style="display: grid; gap: 1.5rem;">
+            <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); border: 2px solid var(--ds-color-border);">
+              <h3 style="color: var(--ds-color-text); margin-bottom: 0.5rem;">🆓 Version Gratuite</h3>
+              <p style="color: var(--ds-color-text-muted); margin-bottom: 1rem;">Pour toujours</p>
+              <ul style="line-height: 1.8; padding-left: 1.5rem; margin-bottom: 1rem;">
+                <li>✅ Niveau A0 complet</li>
+                <li>✅ 5 thèmes de base</li>
+                <li>✅ Mode hors-ligne</li>
+                <li>❌ Niveaux avancés (A1, A2, B1, B2, C1, C2)</li>
+                <li>❌ IA de correction avancée</li>
+              </ul>
+              <div style="font-size: 1.5rem; font-weight: bold; color: var(--ds-color-text);">0 Ar / mois</div>
+            </div>
+
+            <div style="background: var(--ds-color-primary-soft); padding: 2rem; border-radius: var(--ds-radius-lg); border: 2px solid var(--ds-color-primary); position: relative;">
+              <div style="position: absolute; top: -10px; right: 20px; background: var(--ds-color-accent); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">POPULAIRE</div>
+              <h3 style="color: var(--ds-color-primary); margin-bottom: 0.5rem;">⭐ Premium</h3>
+              <p style="color: var(--ds-color-text-muted); margin-bottom: 1rem;">Abonnement mensuel</p>
+              <ul style="line-height: 1.8; padding-left: 1.5rem; margin-bottom: 1rem;">
+                <li>✅ Tous les niveaux (A0 à C2)</li>
+                <li>✅ Toutes les langues</li>
+                <li>✅ IA de correction avancée</li>
+                <li>✅ Certifications officielles</li>
+                <li>✅ Support prioritaire</li>
+              </ul>
+              <div style="font-size: 1.5rem; font-weight: bold; color: var(--ds-color-primary);">15 000 Ar / mois</div>
+              <ds-button size="lg" variant="primary" style="width: 100%; margin-top: 1rem;">Manomboka (Commencer)</ds-button>
+            </div>
+
+            <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); border: 2px solid var(--ds-color-border);">
+              <h3 style="color: var(--ds-color-text); margin-bottom: 0.5rem;"> Certification Uniquement</h3>
+              <p style="color: var(--ds-color-text-muted); margin-bottom: 1rem;">Paiement unique</p>
+              <ul style="line-height: 1.8; padding-left: 1.5rem; margin-bottom: 1rem;">
+                <li>✅ Examen de certification A2, B2 ou C2</li>
+                <li>✅ Certificat officiel PDF</li>
+                <li>✅ Reconnaissance internationale</li>
+              </ul>
+              <div style="font-size: 1.5rem; font-weight: bold; color: var(--ds-color-text);">50 000 Ar / certification</div>
+            </div>
+          </div>
+        </section>
+      `;
+    } else if (tab === 'certification') {
+      main.innerHTML = `
+        <section style="max-width: 700px; margin: 0 auto; padding: 2rem 1rem;">
+          <ds-button variant="ghost" size="sm" id="btn-back" style="margin-bottom: 1rem;">← Miverina (Retour)</ds-button>
+          <h1 style="text-align: center; margin-bottom: 2rem;"> Sertifikat (Certification)</h1>
+
+          <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); box-shadow: var(--ds-shadow-md); margin-bottom: 2rem;">
+            <h2 style="color: var(--ds-color-primary); margin-bottom: 1rem;">📊 Niveaux de Certification</h2>
+            <div style="display: grid; gap: 1rem;">
+              <div style="padding: 1.5rem; background: var(--ds-color-success-soft); border-radius: var(--ds-radius-md); border-left: 4px solid var(--ds-color-success);">
+                <h3 style="color: var(--ds-color-success); margin-bottom: 0.5rem;">A2 - Débutant</h3>
+                <p style="font-size: 0.9rem; line-height: 1.6;">Capable de communiquer dans des situations simples du quotidien.</p>
+              </div>
+              <div style="padding: 1.5rem; background: var(--ds-color-accent-soft); border-radius: var(--ds-radius-md); border-left: 4px solid var(--ds-color-accent);">
+                <h3 style="color: var(--ds-color-accent); margin-bottom: 0.5rem;">B2 - Intermédiaire</h3>
+                <p style="font-size: 0.9rem; line-height: 1.6;">Capable de comprendre et participer à des conversations complexes.</p>
+              </div>
+              <div style="padding: 1.5rem; background: var(--ds-color-primary-soft); border-radius: var(--ds-radius-md); border-left: 4px solid var(--ds-color-primary);">
+                <h3 style="color: var(--ds-color-primary); margin-bottom: 0.5rem;">C2 - Avancé</h3>
+                <p style="font-size: 0.9rem; line-height: 1.6;">Maîtrise complète de la langue, niveau expert.</p>
+              </div>
+            </div>
+          </div>
+
+          <div style="background: var(--ds-color-primary-soft); padding: 2rem; border-radius: var(--ds-radius-lg); border: 1px solid var(--ds-color-primary);">
+            <h3 style="color: var(--ds-color-primary); margin-bottom: 1rem;">📝 Comment obtenir votre certification ?</h3>
+            <ol style="line-height: 1.8; padding-left: 1.5rem;">
+              <li>Complétez tous les parcours du niveau souhaité</li>
+              <li>Atteignez un score minimum de 80% aux révisions</li>
+              <li>Passez l'examen de certification (50 000 Ar)</li>
+              <li>Recevez votre certificat officiel par email</li>
+            </ol>
+          </div>
+        </section>
+      `;
+    }
+
+    // Ajouter les onglets de navigation
+    const tabsHtml = `
+      <div style="position: sticky; top: 0; background: var(--ds-color-bg); padding: 1rem 0; border-bottom: 1px solid var(--ds-color-border); margin-bottom: 2rem; z-index: 100;">
+        <div style="display: flex; gap: 0.5rem; justify-content: center;">
+          <ds-button variant="${currentTab === 'about' ? 'primary' : 'ghost'}" size="sm" data-tab="about">📱 À propos</ds-button>
+          <ds-button variant="${currentTab === 'offers' ? 'primary' : 'ghost'}" size="sm" data-tab="offers">💰 Offres</ds-button>
+          <ds-button variant="${currentTab === 'certification' ? 'primary' : 'ghost'}" size="sm" data-tab="certification">🎓 Certification</ds-button>
+        </div>
+      </div>
+    `;
+
+    main.innerHTML = tabsHtml + main.innerHTML;
+
+    document.getElementById('btn-back').addEventListener('click', () => router.navigate('/'));
+    document.querySelectorAll('[data-tab]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentTab = btn.dataset.tab;
+        renderTab(currentTab);
+      });
+    });
+  };
+
+  renderTab('about');
 }
 
 // --- VUE : LISTE DES THÈMES DU NIVEAU ---
