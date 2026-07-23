@@ -965,9 +965,9 @@ async function renderRolePlay() {
         shadowEvalHandler = null;
       }
 
-      if (typeof feedbackSounds !== 'undefined') feedbackSounds.playCelebration();
       await gamification.addXP(30, 'Role Play Guidé terminé');
 
+      // ✅ Voix française de félicitation
       setTimeout(() => {
         window.teacherAvatar.speak("Très bien ! Vous avez terminé le Role Play Guidé. Maintenant, passez au Défi pour tester votre mémoire !");
       }, 800);
@@ -1153,21 +1153,18 @@ async function renderRolePlay() {
             const similarity = calculateSimilarity(data.transcript.toLowerCase(), line.text.toLowerCase());
 
             if (similarity > 0.60) {
-              if (typeof feedbackSounds !== 'undefined') feedbackSounds.playSuccess();
               speechFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Tena tsara ! (Très bien !)</span>`;
               btnSpeak.textContent = '✅ Vita';
               gamification.addXP(5, 'Role Play - excellente prononciation');
               document.getElementById('btn-speak').classList.remove('guide-active');
               unlockNext();
             } else if (similarity > 0.40) {
-              if (typeof feedbackSounds !== 'undefined') feedbackSounds.playSuccess();
               speechFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Tsara ! (Bien !)</span>`;
               btnSpeak.textContent = '✅ Vita';
               gamification.addXP(3, 'Role Play - bonne prononciation');
               document.getElementById('btn-speak').classList.remove('guide-active');
               unlockNext();
             } else {
-              if (typeof feedbackSounds !== 'undefined') feedbackSounds.playRetry();
               speechFeedback.innerHTML = `<span style="color:var(--ds-color-accent);">🔄 Havereno (À répéter)</span>`;
               btnSpeak.textContent = '🎤 Mitenena indray (Réessayer)';
             }
@@ -1177,11 +1174,11 @@ async function renderRolePlay() {
           }
         };
 
-        // ✅ IMPORTANT : Enregistrer le handler (c'était manquant dans votre fichier)
+        // ✅ IMPORTANT : Enregistrer le handler
         bus.on('pronunciation:evaluated', shadowEvalHandler);
       }
 
-      // ✅ IMPORTANT : Gestion du bouton Suivant (c'était manquant dans votre fichier)
+      // ✅ IMPORTANT : Gestion du bouton Suivant
       btnNext.addEventListener('click', () => {
         if (shadowEvalHandler) {
           bus.off('pronunciation:evaluated', shadowEvalHandler);
