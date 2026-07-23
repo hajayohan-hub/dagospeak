@@ -7,7 +7,7 @@ const urlsToCache = [
   '/src/app.js',
   '/src/ui/styles/tokens.css',
   '/src/ui/styles/base.css',
-  '/vosk-model-small-fr-0.22.zip', // ✅ Fichier local, pas de CORS
+  '/vosk-model-small-fr-0.22.tar.gz', // ✅ Fichier local, pas de CORS
   '/content/fr/manifest.json',
   '/content/fr/vocabulary/survival.json',
   '/content/fr/vocabulary/numbers.json',
