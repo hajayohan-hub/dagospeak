@@ -2,7 +2,6 @@
  * OnboardingScreen - Page d'intro animée avec setup intelligent et offres dynamiques.
  */
 export class OnboardingScreen {
-  // ✅ DÉCLARATION DE TOUS LES CHAMPS PRIVÉS
   #container = null;
   #currentSlide = 0;
   #onComplete = null;
@@ -49,6 +48,7 @@ export class OnboardingScreen {
     const slide = this.#slides[this.#currentSlide];
 
     if (this.#currentSlide < 2) {
+      // ✅ Slides 0 et 1 : Afficher le bouton "Suivant"
       this.#container.innerHTML = `
         <div style="font-size: 5rem; margin-bottom: 1rem;">${slide.icon}</div>
         <h2 style="color: var(--ds-color-primary); margin-bottom: 1rem;">${slide.title}</h2>
@@ -63,14 +63,16 @@ export class OnboardingScreen {
         </div>
       `;
 
-      document.getElementById('btn-next-slide').addEventListener('click', () => {
-        this.#currentSlide++;
-        this.#updateSlide();
-        if (this.#currentSlide === 2) {
-          this.#startSmartSetup();
-        }
-      });
+      // ✅ Attacher l'event listener UNIQUEMENT si le bouton existe
+      const btnNext = document.getElementById('btn-next-slide');
+      if (btnNext) {
+        btnNext.addEventListener('click', () => {
+          this.#currentSlide++;
+          this.#updateSlide();
+        });
+      }
     } else {
+      // ✅ Slide 2 : Afficher la zone de téléchargement
       this.#container.innerHTML = `
         <div style="font-size: 5rem; margin-bottom: 1rem;">${slide.icon}</div>
         <h2 style="color: var(--ds-color-primary); margin-bottom: 1rem;">${slide.title}</h2>
@@ -84,6 +86,7 @@ export class OnboardingScreen {
         </div>
       `;
 
+      // ✅ Démarrer le setup intelligent
       this.#startSmartSetup();
     }
   }
