@@ -93,7 +93,7 @@ export class TeacherAvatar {
 
   show(tipKey) {
     const tips = {
-      'home': { fr: "Bienvenue ! Choisissez un niveau pour commencer votre apprentissage du malgache.", mg: "Tongasoa ! Safidio ambaratonga mba hanombohana ny fianarana teny malagasy." },
+      'home': { fr: "Bienvenue ! Choisissez un niveau pour commencer votre apprentissage à partir du malgache.", mg: "Tongasoa ! Safidio ambaratonga mba hanombohana ny fianarana amin'ny alalan'ny teny malagasy." },
       'themes': { fr: "Cliquez sur un thème pour voir les leçons, révisions et dialogues disponibles.", mg: "Tsindrio lohahevitra iray mba hahitana ny lesona, fanadiniana ary resaka azo atao." },
       'theme-detail': { fr: "Choisissez une activité : Leçon, Révisions, ou Dialogues.", mg: "Safidio hetsika iray : Lesona, Fanadiniana, na Resaka." },
       'lesson': { fr: "Écoutez chaque mot en cliquant sur le bouton audio. Regardez la prononciation et l'exemple.", mg: "Hihainoa ny teny tsirairay amin'ny alalan'ny bokotra audio. Jereo ny fomba fanononana ary ny ohatra." },

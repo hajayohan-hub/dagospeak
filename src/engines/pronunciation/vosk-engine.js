@@ -1,6 +1,5 @@
 /**
  * VoskEngine - Reconnaissance vocale 100% locale via WebAssembly.
- * Avec téléchargement progressif et suivi en temps réel.
  */
 export class VoskEngine {
   #bus;
@@ -14,68 +13,17 @@ export class VoskEngine {
   #isInitialized = false;
   #isProcessing = false;
   #audioChunks = [];
-  // ✅ CORRECTION : Utiliser le fichier .zip (format standard alphacephei)
+
+  // ✅ URL LOCALE du modèle (le fichier .zip doit être à la racine du projet)
   #modelUrl = '/vosk-model-small-fr-0.22.zip';
-  #expectedSize = 42 * 1024 * 1024; // ~42 Mo estimés
 
   constructor(bus) {
     this.#bus = bus;
   }
 
-  /**
-   * Télécharge le modèle avec suivi de progression
-   */
-  async #downloadModelWithProgress() {
-    this.#bus.emit('vosk:progress', { percent: 0, message: 'Connexion au serveur...' });
-
-    try {
-      const response = await fetch(this.#modelUrl);
-
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
-      }
-
-      const contentLength = response.headers.get('content-length');
-      const total = contentLength ? parseInt(contentLength, 10) : this.#expectedSize;
-
-      const reader = response.body.getReader();
-      const chunks = [];
-      let received = 0;
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        chunks.push(value);
-        received += value.length;
-
-        const percent = (received / total) * 100;
-        const receivedMB = (received / (1024 * 1024)).toFixed(1);
-        const totalMB = (total / (1024 * 1024)).toFixed(1);
-
-        this.#bus.emit('vosk:progress', {
-          percent: percent,
-          message: `${receivedMB} Mo / ${totalMB} Mo (${Math.round(percent)}%)`
-        });
-      }
-
-      this.#bus.emit('vosk:progress', { percent: 95, message: 'Assemblage du modèle...' });
-      const blob = new Blob(chunks);
-      return blob;
-
-    } catch (error) {
-      console.error('[VoskEngine] Erreur téléchargement:', error);
-      throw error;
-    }
-  }
-
-  /**
-   * Initialise le modèle Vosk avec suivi de progression
-   */
   async initialize() {
     if (this.#isInitialized) return true;
 
-    // ✅ CORRECTION MAJEURE : La variable globale exposée par le CDN est "Vosk" (V majuscule)
     if (typeof Vosk === 'undefined') {
       console.warn('[VoskEngine] Bibliothèque Vosk non chargée. Vérifiez la balise <script> dans index.html');
       this.#bus.emit('vosk:error', { error: 'Bibliothèque Vosk non disponible' });
@@ -83,17 +31,14 @@ export class VoskEngine {
     }
 
     try {
-      this.#bus.emit('vosk:progress', { percent: 5, message: 'Téléchargement du modèle vocal...' });
+      this.#bus.emit('vosk:progress', { percent: 10, message: 'Téléchargement du modèle (~40 Mo)... Cela peut prendre un moment.' });
 
-      // Télécharger le modèle avec progression
-      const modelBlob = await this.#downloadModelWithProgress();
+      // ✅ CORRECTION MAJEURE : Vosk.createModel attend une URL (string), PAS un Blob.
+      // La librairie gère elle-même le téléchargement. Comme le fichier est local, pas de CORS.
+      this.#model = await Vosk.createModel(this.#modelUrl);
 
-      this.#bus.emit('vosk:progress', { percent: 97, message: 'Chargement en mémoire...' });
+      this.#bus.emit('vosk:progress', { percent: 90, message: 'Initialisation du moteur...' });
 
-      // ✅ CORRECTION MAJEURE : Utiliser Vosk (majuscule)
-      this.#model = await Vosk.createModel(modelBlob);
-
-      // Créer le recognizer
       this.#recognizer = new this.#model.KaldiRecognizer(48000);
       this.#recognizer.setWords(true);
 

@@ -1,22 +1,13 @@
 const CACHE_NAME = 'dagospeak-v8';
 
-// ✅ AJOUT du modèle Vosk et des assets Wasm
 const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.webmanifest',
   '/src/app.js',
-   '/vosk-model-small-fr-0.22.zip', // ✅ AJOUTEZ CETTE LIGNE ICI
-  '/src/engines/pronunciation/shadowing.js',
-  '/src/engines/pronunciation/vosk-engine.js', // ✅ NOUVEAU
-  // Vosk Browser assets (CDN)
-  'https://cdn.jsdelivr.net/npm/vosk-browser@0.0.8/dist/vosk.js',
-  'https://cdn.jsdelivr.net/npm/vosk-browser@0.0.8/dist/vosk.wasm',
-  // Le modèle français (sera téléchargé au 1er lancement puis mis en cache)
-  'https://alphacephei.com/vosk/models/vosk-model-small-fr-0.22.tar',
-  // Vos fichiers de contenu existants
   '/src/ui/styles/tokens.css',
   '/src/ui/styles/base.css',
+  '/vosk-model-small-fr-0.22.zip', // ✅ Fichier local, pas de CORS
   '/content/fr/manifest.json',
   '/content/fr/vocabulary/survival.json',
   '/content/fr/vocabulary/numbers.json',
@@ -30,8 +21,6 @@ const urlsToCache = [
   '/content/fr/dialogues/colors_dialogue.json'
 ];
 
-
-// 1. INSTALLATION : Pré-cache agressif
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(async (cache) => {
@@ -48,7 +37,6 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
 
-// 2. ACTIVATION : Nettoyage des anciens caches (v1 à v6)
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -64,77 +52,50 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// 3. FETCH : Stratégies de cache robustes avec filets de sécurité
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
-  // 🟢 STRATÉGIE A : HTML -> Network First, fallback Cache
   if (request.mode === 'navigate') {
-    event.respondWith(
-      fetch(request).catch(() => caches.match('/index.html'))
-    );
+    event.respondWith(fetch(request).catch(() => caches.match('/index.html')));
     return;
   }
 
-  // 🟡 STRATÉGIE B : JSON (Données) -> Cache First, fallback Network
   if (url.pathname.includes('/content/') && url.pathname.endsWith('.json')) {
     event.respondWith(
       caches.match(request).then((response) => {
-        if (response) return response; // Servi instantanément depuis le cache
-        return fetch(request).catch(() => {
-          // ✅ FILET DE SÉCURITÉ : Renvoie une réponse valide au lieu de undefined
-          return new Response(JSON.stringify({ error: "Hors ligne" }), {
-            status: 503,
-            headers: { 'Content-Type': 'application/json' }
-          });
-        });
+        if (response) return response;
+        return fetch(request).catch(() => new Response(JSON.stringify({ error: "Hors ligne" }), { status: 503, headers: { 'Content-Type': 'application/json' } }));
       })
     );
     return;
   }
 
-  // 🔵 STRATÉGIE C : JS et CSS -> CACHE FIRST (Indispensable pour le hors-ligne)
   if (request.destination === 'script' || request.destination === 'style') {
     event.respondWith(
       caches.match(request).then((response) => {
-        if (response) return response; // ✅ Trouvé dans le cache, on le sert (fonctionne hors-ligne)
-
-        // Sinon, on essaie le réseau et on met en cache pour la prochaine fois
+        if (response) return response;
         return fetch(request).then((networkResponse) => {
           if (networkResponse.ok) {
             const clone = networkResponse.clone();
             caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
           }
           return networkResponse;
-        }).catch(() => {
-          // ✅ FILET DE SÉCURITÉ ULTIME : Empêche l'erreur "Failed to convert value to 'Response'"
-          if (request.destination === 'script') {
-            return new Response("/* Offline fallback */", { status: 503, headers: { 'Content-Type': 'application/javascript' } });
-          }
-          return new Response("/* Offline fallback */", { status: 503, headers: { 'Content-Type': 'text/css' } });
-        });
+        }).catch(() => new Response("/* Offline */", { status: 503, headers: { 'Content-Type': request.destination === 'script' ? 'application/javascript' : 'text/css' } }));
       })
     );
     return;
   }
 
-  // 🟣 STRATÉGIE D : Images et Icônes -> Cache First, fallback Network
   if (request.destination === 'image' || request.destination === 'font') {
     event.respondWith(
       caches.match(request).then((response) => {
         if (response) return response;
-        return fetch(request).catch(() => {
-          // ✅ FILET DE SÉCURITÉ pour les images
-          return new Response("", { status: 404, headers: { 'Content-Type': 'image/svg+xml' } });
-        });
+        return fetch(request).catch(() => new Response("", { status: 404, headers: { 'Content-Type': 'image/svg+xml' } }));
       })
     );
     return;
   }
 
-  // ⚪ STRATÉGIE E : Tout le reste -> Cache First
-  event.respondWith(
-    caches.match(request).then((response) => response || fetch(request).catch(() => new Response("Offline", { status: 503 })))
-  );
+  event.respondWith(caches.match(request).then((response) => response || fetch(request).catch(() => new Response("Offline", { status: 503 }))));
 });
