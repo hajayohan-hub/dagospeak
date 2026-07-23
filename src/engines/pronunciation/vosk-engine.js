@@ -1,5 +1,6 @@
 /**
  * VoskEngine - Reconnaissance vocale 100% locale via WebAssembly.
+ * Utilise un modèle hébergé sur CDN compatible CORS, mis en cache par le Service Worker.
  */
 export class VoskEngine {
   #bus;
@@ -14,8 +15,8 @@ export class VoskEngine {
   #isProcessing = false;
   #audioChunks = [];
 
-  // ✅ URL LOCALE du modèle (le fichier .zip doit être à la racine du projet)
-  #modelUrl = '/vosk-model-small-fr-0.22.tar.gz';
+  // ✅ Modèle hébergé sur CDN compatible CORS (sera mis en cache par le SW)
+  #modelUrl = 'https://cdn.jsdelivr.net/gh/alphacep/vosk-models@master/vosk-model-small-fr-0.22.zip';
 
   constructor(bus) {
     this.#bus = bus;
@@ -25,16 +26,15 @@ export class VoskEngine {
     if (this.#isInitialized) return true;
 
     if (typeof Vosk === 'undefined') {
-      console.warn('[VoskEngine] Bibliothèque Vosk non chargée. Vérifiez la balise <script> dans index.html');
+      console.warn('[VoskEngine] Bibliothèque Vosk non chargée');
       this.#bus.emit('vosk:error', { error: 'Bibliothèque Vosk non disponible' });
       return false;
     }
 
     try {
-      this.#bus.emit('vosk:progress', { percent: 10, message: 'Téléchargement du modèle (~40 Mo)... Cela peut prendre un moment.' });
+      this.#bus.emit('vosk:progress', { percent: 10, message: 'Connexion au serveur de modèles...' });
 
-      // ✅ CORRECTION MAJEURE : Vosk.createModel attend une URL (string), PAS un Blob.
-      // La librairie gère elle-même le téléchargement. Comme le fichier est local, pas de CORS.
+      // Vosk gère automatiquement le téléchargement et la mise en cache
       this.#model = await Vosk.createModel(this.#modelUrl);
 
       this.#bus.emit('vosk:progress', { percent: 90, message: 'Initialisation du moteur...' });

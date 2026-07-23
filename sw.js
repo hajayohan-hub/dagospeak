@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dagospeak-v8';
+const CACHE_NAME = 'dagospeak-v9';
 
 const urlsToCache = [
   '/',
@@ -7,7 +7,6 @@ const urlsToCache = [
   '/src/app.js',
   '/src/ui/styles/tokens.css',
   '/src/ui/styles/base.css',
-  '/vosk-model-small-fr-0.22.tar.gz', // ✅ Fichier local, pas de CORS
   '/content/fr/manifest.json',
   '/content/fr/vocabulary/survival.json',
   '/content/fr/vocabulary/numbers.json',
@@ -20,6 +19,9 @@ const urlsToCache = [
   '/content/fr/dialogues/market_dialogue.json',
   '/content/fr/dialogues/colors_dialogue.json'
 ];
+
+// ✅ URL du modèle Vosk (sera mis en cache après le premier téléchargement)
+const VOSK_MODEL_URL = 'https://cdn.jsdelivr.net/gh/alphacep/vosk-models@master/vosk-model-small-fr-0.22.zip';
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -56,6 +58,31 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
+  // ✅ STRATÉGIE SPÉCIALE POUR LE MODÈLE VOSK : Cache First avec fallback Network
+  if (request.url === VOSK_MODEL_URL) {
+    event.respondWith(
+      caches.match(request).then((cachedResponse) => {
+        if (cachedResponse) {
+          console.log('[SW] ✅ Modèle Vosk servi depuis le cache');
+          return cachedResponse;
+        }
+        console.log('[SW] 📥 Téléchargement du modèle Vosk...');
+        return fetch(request).then((networkResponse) => {
+          if (networkResponse.ok) {
+            const clone = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(request, clone);
+              console.log('[SW] ✅ Modèle Vosk mis en cache pour le mode hors-ligne');
+            });
+          }
+          return networkResponse;
+        });
+      })
+    );
+    return;
+  }
+
+  // Autres stratégies existantes...
   if (request.mode === 'navigate') {
     event.respondWith(fetch(request).catch(() => caches.match('/index.html')));
     return;
@@ -82,16 +109,6 @@ self.addEventListener('fetch', (event) => {
           }
           return networkResponse;
         }).catch(() => new Response("/* Offline */", { status: 503, headers: { 'Content-Type': request.destination === 'script' ? 'application/javascript' : 'text/css' } }));
-      })
-    );
-    return;
-  }
-
-  if (request.destination === 'image' || request.destination === 'font') {
-    event.respondWith(
-      caches.match(request).then((response) => {
-        if (response) return response;
-        return fetch(request).catch(() => new Response("", { status: 404, headers: { 'Content-Type': 'image/svg+xml' } }));
       })
     );
     return;
