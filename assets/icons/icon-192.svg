@@ -2,6 +2,6 @@
   <rect width="512" height="512" rx="96" fill="#0A8A6E"/>
   <text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle"
         font-family="Inter, sans-serif" font-size="220" font-weight="700"
-        fill="#FFFFFF">D</text>
+        fill="#FFFFFF">DS</text>
   <circle cx="400" cy="120" r="40" fill="#E8A33D"/>
 </svg>

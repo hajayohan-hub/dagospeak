@@ -7,16 +7,16 @@
   <meta name="theme-color" content="#2563eb" />
   <title>DagoSpeak</title>
   <link rel="manifest" href="/manifest.webmanifest" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🇲🇬</text></svg>">
+  <link rel="icon" href="/assets/dagospeak-logo.svg" />
   <link rel="stylesheet" href="/src/ui/styles/tokens.css" />
   <link rel="stylesheet" href="/src/ui/styles/base.css" />
   <script src="https://cdn.jsdelivr.net/npm/vosk-browser@0.0.8/dist/vosk.js"></script>
 </head>
 <body>
   <!-- ✅ HEADER AVEC LOGO ET ICÔNES -->
-  <header style="position: fixed; top: 0; left: 0; right: 0; background: var(--ds-color-surface); border-bottom: 1px solid var(--ds-color-border); padding: 0.75rem 1rem; z-index: 1000; display: flex; align-items: center; justify-content: space-between; box-shadow: var(--ds-shadow-sm);">
-    <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: bold; font-size: 1.25rem; color: var(--ds-color-primary);">
-      <span style="font-size: 1.5rem;">🇲🇬</span>
+  <header id="main-header" style="position: fixed; top: 0; left: 0; right: 0; background: var(--ds-color-surface); border-bottom: 1px solid var(--ds-color-border); padding: 0.75rem 1rem; z-index: 1000; display: flex; align-items: center; justify-content: space-between; box-shadow: var(--ds-shadow-sm);">
+    <div id="header-logo" style="display: flex; align-items: center; gap: 0.5rem; font-weight: bold; font-size: 1.25rem; color: var(--ds-color-primary); cursor: pointer;">
+      <img src="/assets/dagospeak-logo.svg" alt="DagoSpeak" style="width: 32px; height: 32px;" />
       <span>DagoSpeak</span>
     </div>
     <div style="display: flex; gap: 0.5rem; align-items: center;">
@@ -42,7 +42,7 @@
       🏠<br><span style="font-size:0.65rem; font-weight: 600;">Accueil</span>
     </a>
     <a href="#/themes" data-route="/themes" style="text-decoration: none; color: var(--ds-color-text-muted); font-size: 1.4rem; text-align: center; flex: 1; transition: color 0.2s;">
-      📚<br><span style="font-size:0.65rem; font-weight: 600;">Thèmes</span>
+      <br><span style="font-size:0.65rem; font-weight: 600;">Thèmes</span>
     </a>
     <a href="#/profile" data-route="/profile" style="text-decoration: none; color: var(--ds-color-text-muted); font-size: 1.4rem; text-align: center; flex: 1; transition: color 0.2s;">
       👤<br><span style="font-size:0.65rem; font-weight: 600;">Profil</span>

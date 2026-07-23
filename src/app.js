@@ -204,27 +204,35 @@ async function renderHome() {
     const profile = await gamification.getProfile();
     const manifest = await content.loadManifest('fr');
 
-    // ✅ HERO SECTION COMPACTE (ne déborde pas)
+    // ✅ HERO SECTION AVEC IMAGE DE FOND
     const heroHtml = `
       <div style="
-        background: linear-gradient(135deg, var(--ds-color-primary) 0%, var(--ds-color-accent) 100%);
+        background: linear-gradient(135deg, rgba(37, 99, 235, 0.9) 0%, rgba(245, 158, 11, 0.9) 100%),
+                    url('/assets/hero-bg.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
         border-radius: var(--ds-radius-lg);
-        padding: 1.5rem;
+        padding: 2rem 1.5rem;
         margin-bottom: 1.5rem;
         text-align: center;
         color: white;
         position: relative;
         overflow: hidden;
-        box-shadow: var(--ds-shadow-md);
+        box-shadow: var(--ds-shadow-lg);
+        min-height: 200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
       ">
-        <h1 style="font-size: 1.8rem; margin-bottom: 0.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">
+        <h1 style="font-size: 2rem; margin-bottom: 0.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3); animation: fadeIn 1s ease-out;">
           Manahoana ! 👋
         </h1>
-        <p style="font-size: 1rem; margin-bottom: 0.5rem; opacity: 0.95; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">
-          Apprenez les langues avec IA
+        <p style="font-size: 1.1rem; margin-bottom: 0.5rem; opacity: 0.95; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">
+          Apprenez les langues avec IA, même sans internet
         </p>
-        <p style="font-size: 0.85rem; opacity: 0.9; font-style: italic; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">
-          Mianara fiteny miaraka amin'ny IA
+        <p style="font-size: 0.95rem; opacity: 0.9; font-style: italic; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">
+          Mianara fiteny miaraka amin'ny IA, na tsy misy internet aza
         </p>
       </div>
     `;
@@ -275,7 +283,6 @@ async function renderHome() {
       `;
     }).join('');
 
-    // ✅ CONTENU SANS ICÔNES (elles sont dans le header)
     main.innerHTML = `
       <section class="ds-home" style="padding: 1rem;">
         ${heroHtml}
@@ -304,7 +311,7 @@ async function renderHome() {
       </section>
     `;
 
-    // ✅ ÉCOUTEURS D'ÉVÉNEMENTS
+    // ✅ ÉCOUTEURS D'ÉVÉNEMENTS - Mobile compatible
     document.getElementById('levels-container').addEventListener('click', (e) => {
       const btn = e.target.closest('.btn-select-level');
       if (btn) {
@@ -326,14 +333,40 @@ async function renderHome() {
       handleUpgrade(document.getElementById('btn-upgrade-main'), profile);
     });
 
-    // ✅ ÉCOUTEURS POUR LES BOUTONS DU HEADER (dans index.html)
-    document.getElementById('btn-languages')?.addEventListener('click', () => {
-      showLanguageSelector();
+    // ✅ LOGO CLIQUABLE - Retour à l'accueil
+    document.getElementById('header-logo')?.addEventListener('click', () => {
+      router.navigate('/');
     });
 
-    document.getElementById('btn-about')?.addEventListener('click', () => {
-      router.navigate('/about');
-    });
+    // ✅ BOUTONS HEADER - Mobile compatible avec touch
+    const btnLanguages = document.getElementById('btn-languages');
+    const btnAbout = document.getElementById('btn-about');
+
+    if (btnLanguages) {
+      btnLanguages.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        showLanguageSelector();
+      });
+      // Support tactile
+      btnLanguages.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        showLanguageSelector();
+      });
+    }
+
+    if (btnAbout) {
+      btnAbout.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        router.navigate('/about');
+      });
+      // Support tactile
+      btnAbout.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        router.navigate('/about');
+      });
+    }
 
     window.teacherAvatar.show('home');
     logger.info('✅ Page d\'accueil rendue (Modèle Freemium bilingue)');
@@ -344,14 +377,22 @@ async function renderHome() {
 }
 
 // ✅ FONCTION : Sélecteur de langues
+// ✅ NOUVELLE FONCTION : Sélecteur de langues (corrigé pour mobile)
 function showLanguageSelector() {
+  // Fermer si déjà ouvert
+  const existingModal = document.getElementById('language-modal');
+  if (existingModal) {
+    existingModal.remove();
+    return;
+  }
+
   const languages = [
     { code: 'fr', name: 'Français', flag: '🇫', status: 'Actif' },
-    { code: 'en', name: 'English', flag: '🇬🇧', status: 'Bientôt' },
+    { code: 'en', name: 'English', flag: '🇬', status: 'Bientôt' },
     { code: 'de', name: 'Deutsch', flag: '🇩🇪', status: 'Bientôt' },
     { code: 'es', name: 'Español', flag: '🇪', status: 'Bientôt' },
-    { code: 'it', name: 'Italiano', flag: '🇮🇹', status: 'Bientôt' },
-    { code: 'ko', name: '한국어', flag: '🇷', status: 'Bientôt' }
+    { code: 'it', name: 'Italiano', flag: '🇹', status: 'Bientôt' },
+    { code: 'ko', name: '한국어', flag: '', status: 'Bientôt' }
   ];
 
   const modal = document.createElement('div');
@@ -363,11 +404,12 @@ function showLanguageSelector() {
     right: 0;
     bottom: 0;
     background: rgba(0,0,0,0.7);
-    z-index: 10000;
+    z-index: 10001;
     display: flex;
     align-items: center;
     justify-content: center;
     animation: fadeIn 0.3s ease-out;
+    padding: 1rem;
   `;
 
   modal.innerHTML = `
@@ -376,20 +418,29 @@ function showLanguageSelector() {
       padding: 2rem;
       border-radius: var(--ds-radius-lg);
       max-width: 500px;
-      width: 90%;
+      width: 100%;
       max-height: 80vh;
       overflow-y: auto;
       animation: slideUp 0.3s ease-out;
+      position: relative;
     ">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-        <h2 style="margin: 0; color: var(--ds-color-primary);">🌐 Safidio ny teny (Choisir la langue)</h2>
+        <h2 style="margin: 0; color: var(--ds-color-primary); font-size: 1.3rem;"> Safidio ny teny</h2>
         <button id="close-lang-modal" style="
-          background: none;
+          background: var(--ds-color-surface-2);
           border: none;
+          border-radius: 50%;
+          width: 36px;
+          height: 36px;
           font-size: 1.5rem;
           cursor: pointer;
           color: var(--ds-color-text-muted);
-        ">×</button>
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          line-height: 1;
+          flex-shrink: 0;
+        " aria-label="Fermer">×</button>
       </div>
       <div style="display: grid; gap: 1rem;">
         ${languages.map(lang => `
@@ -420,21 +471,220 @@ function showLanguageSelector() {
           </div>
         `).join('')}
       </div>
+      <div style="margin-top: 1.5rem; padding: 1rem; background: var(--ds-color-primary-soft); border-radius: var(--ds-radius-md); text-align: center;">
+        <p style="margin: 0; font-size: 0.9rem; color: var(--ds-color-text-muted);">
+          🚧 Les autres langues seront disponibles prochainement !
+        </p>
+      </div>
     </div>
   `;
 
   document.body.appendChild(modal);
 
-  document.getElementById('close-lang-modal').addEventListener('click', () => {
+  // ✅ BOUTON FERMER - Support mobile et desktop
+  const closeBtn = document.getElementById('close-lang-modal');
+  const closeModal = () => {
     modal.remove();
+  };
+
+  // Support clic
+  closeBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    closeModal();
   });
 
+  // Support tactile
+  closeBtn.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    closeModal();
+  });
+
+  // Fermer en cliquant à l'extérieur
   modal.addEventListener('click', (e) => {
     if (e.target === modal) {
-      modal.remove();
+      closeModal();
     }
   });
+
+  // Empêcher la propagation sur le contenu
+  modal.querySelector('div[style*="background: var(--ds-color-surface)"]').addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
 }
+
+// ✅ PAGE À PROPOS AVEC 3 ONGLETS
+async function renderAbout() {
+  const main = document.getElementById('app');
+  let currentTab = 'about';
+
+  const renderTab = (tab) => {
+    if (tab === 'about') {
+      main.innerHTML = `
+        <section style="max-width: 700px; margin: 0 auto; padding: 2rem 1rem;">
+          <ds-button variant="ghost" size="sm" id="btn-back" style="margin-bottom: 1rem;">← Miverina (Retour)</ds-button>
+          <h1 style="text-align: center; margin-bottom: 2rem;"> Mombamomba ny DagoSpeak</h1>
+
+          <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); box-shadow: var(--ds-shadow-md); margin-bottom: 2rem; text-align: center;">
+            <img src="/assets/mds-logo.jpg" alt="Mada Digital Services" style="max-width: 200px; margin-bottom: 1rem; border-radius: var(--ds-radius-md);" />
+            <h2 style="color: var(--ds-color-primary); margin-bottom: 1rem;">Propulsé par Web Services Mada</h2>
+            <p style="line-height: 1.6; margin-bottom: 1rem;">
+              DagoSpeak dia <strong>plateforme d'auto-apprentissage des langues assistée par IA</strong>, offline-first, pour les locuteurs Malgaches.
+            </p>
+            <p style="line-height: 1.6; margin-bottom: 1rem;">
+              <strong>Première application à Madagascar</strong> conçue pour fonctionner sur les téléphones modestes, permettant l'apprentissage de plusieurs langues (Français, Anglais, Allemand, Espagnol, Italien, Coréen) avec un guidage complet pour transformer un utilisateur débutant en expert.
+            </p>
+            <div style="margin-top: 1.5rem; padding: 1rem; background: var(--ds-color-primary-soft); border-radius: var(--ds-radius-md);">
+              <p style="margin: 0; font-size: 0.9rem;"><strong>Équipe :</strong> Web Services Mada de Mada Digital Services (MDS)</p>
+              <a href="https://www.facebook.com/WebServicesMada" target="_blank" style="display: inline-block; margin-top: 0.5rem; color: var(--ds-color-primary); text-decoration: none; font-weight: 600;">
+                👉 Visiter notre page Facebook
+              </a>
+            </div>
+          </div>
+
+          <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); box-shadow: var(--ds-shadow-md); margin-bottom: 2rem;">
+            <h2 style="color: var(--ds-color-primary); margin-bottom: 1rem;"> Caractéristiques</h2>
+            <ul style="line-height: 1.8; padding-left: 1.5rem;">
+              <li>✅ 100% Offline-first (fonctionne sans internet)</li>
+              <li>✅ Reconnaissance vocale avec IA</li>
+              <li>✅ Adapté aux téléphones modestes (2GB RAM)</li>
+              <li>✅ Progression gamifiée (XP, niveaux, badges)</li>
+              <li>✅ Contenu bilingue Français-Malgache</li>
+              <li>✅ Certifications officielles (A2, B2, C2)</li>
+            </ul>
+          </div>
+
+          <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); box-shadow: var(--ds-shadow-md);">
+            <h2 style="color: var(--ds-color-primary); margin-bottom: 1rem;">📱 Appareils Supportés</h2>
+            <ul style="line-height: 1.8; padding-left: 1.5rem;">
+              <li>Android 5.0+ (Chrome, Firefox)</li>
+              <li>iOS 12+ (Safari)</li>
+              <li>Chrome OS (Chromebook)</li>
+              <li>Windows 10+ (Edge, Chrome)</li>
+              <li>macOS 10.14+ (Safari, Chrome)</li>
+            </ul>
+          </div>
+        </section>
+      `;
+    } else if (tab === 'offers') {
+      main.innerHTML = `
+        <section style="max-width: 700px; margin: 0 auto; padding: 2rem 1rem;">
+          <ds-button variant="ghost" size="sm" id="btn-back" style="margin-bottom: 1rem;">← Miverina (Retour)</ds-button>
+          <h1 style="text-align: center; margin-bottom: 2rem;">💰 Tolotra (Offres)</h1>
+
+          <div style="display: grid; gap: 1.5rem;">
+            <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); border: 2px solid var(--ds-color-border);">
+              <h3 style="color: var(--ds-color-text); margin-bottom: 0.5rem;">🆓 Version Gratuite</h3>
+              <p style="color: var(--ds-color-text-muted); margin-bottom: 1rem;">Pour toujours</p>
+              <ul style="line-height: 1.8; padding-left: 1.5rem; margin-bottom: 1rem;">
+                <li>✅ Niveau A0 complet</li>
+                <li>✅ 5 thèmes de base</li>
+                <li>✅ Mode hors-ligne</li>
+                <li>❌ Niveaux avancés (A1, A2, B1, B2, C1, C2)</li>
+                <li>❌ IA de correction avancée</li>
+              </ul>
+              <div style="font-size: 1.5rem; font-weight: bold; color: var(--ds-color-text);">0 Ar / mois</div>
+            </div>
+
+            <div style="background: var(--ds-color-primary-soft); padding: 2rem; border-radius: var(--ds-radius-lg); border: 2px solid var(--ds-color-primary); position: relative;">
+              <div style="position: absolute; top: -10px; right: 20px; background: var(--ds-color-accent); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">POPULAIRE</div>
+              <h3 style="color: var(--ds-color-primary); margin-bottom: 0.5rem;">⭐ Premium</h3>
+              <p style="color: var(--ds-color-text-muted); margin-bottom: 1rem;">Abonnement mensuel</p>
+              <ul style="line-height: 1.8; padding-left: 1.5rem; margin-bottom: 1rem;">
+                <li>✅ Tous les niveaux (A0 à C2)</li>
+                <li>✅ Toutes les langues</li>
+                <li>✅ IA de correction avancée</li>
+                <li>✅ Certifications officielles</li>
+                <li>✅ Support prioritaire</li>
+              </ul>
+              <div style="font-size: 1.5rem; font-weight: bold; color: var(--ds-color-primary);">15 000 Ar / mois</div>
+              <ds-button size="lg" variant="primary" style="width: 100%; margin-top: 1rem;">Manomboka (Commencer)</ds-button>
+            </div>
+
+            <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); border: 2px solid var(--ds-color-border);">
+              <h3 style="color: var(--ds-color-text); margin-bottom: 0.5rem;"> Certification Uniquement</h3>
+              <p style="color: var(--ds-color-text-muted); margin-bottom: 1rem;">Paiement unique</p>
+              <ul style="line-height: 1.8; padding-left: 1.5rem; margin-bottom: 1rem;">
+                <li>✅ Examen de certification A2, B2 ou C2</li>
+                <li>✅ Certificat officiel PDF</li>
+                <li>✅ Reconnaissance internationale</li>
+              </ul>
+              <div style="font-size: 1.5rem; font-weight: bold; color: var(--ds-color-text);">50 000 Ar / certification</div>
+            </div>
+          </div>
+        </section>
+      `;
+    } else if (tab === 'certification') {
+      main.innerHTML = `
+        <section style="max-width: 700px; margin: 0 auto; padding: 2rem 1rem;">
+          <ds-button variant="ghost" size="sm" id="btn-back" style="margin-bottom: 1rem;">← Miverina (Retour)</ds-button>
+          <h1 style="text-align: center; margin-bottom: 2rem;"> Sertifikat (Certification)</h1>
+
+          <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); box-shadow: var(--ds-shadow-md); margin-bottom: 2rem;">
+            <h2 style="color: var(--ds-color-primary); margin-bottom: 1rem;"> Niveaux de Certification</h2>
+            <div style="display: grid; gap: 1rem;">
+              <div style="padding: 1.5rem; background: var(--ds-color-success-soft); border-radius: var(--ds-radius-md); border-left: 4px solid var(--ds-color-success);">
+                <h3 style="color: var(--ds-color-success); margin-bottom: 0.5rem;">A2 - Débutant</h3>
+                <p style="font-size: 0.9rem; line-height: 1.6;">Capable de communiquer dans des situations simples du quotidien.</p>
+              </div>
+              <div style="padding: 1.5rem; background: var(--ds-color-accent-soft); border-radius: var(--ds-radius-md); border-left: 4px solid var(--ds-color-accent);">
+                <h3 style="color: var(--ds-color-accent); margin-bottom: 0.5rem;">B2 - Intermédiaire</h3>
+                <p style="font-size: 0.9rem; line-height: 1.6;">Capable de comprendre et participer à des conversations complexes.</p>
+              </div>
+              <div style="padding: 1.5rem; background: var(--ds-color-primary-soft); border-radius: var(--ds-radius-md); border-left: 4px solid var(--ds-color-primary);">
+                <h3 style="color: var(--ds-color-primary); margin-bottom: 0.5rem;">C2 - Avancé</h3>
+                <p style="font-size: 0.9rem; line-height: 1.6;">Maîtrise complète de la langue, niveau expert.</p>
+              </div>
+            </div>
+          </div>
+
+          <div style="background: var(--ds-color-primary-soft); padding: 2rem; border-radius: var(--ds-radius-lg); border: 1px solid var(--ds-color-primary);">
+            <h3 style="color: var(--ds-color-primary); margin-bottom: 1rem;">📝 Comment obtenir votre certification ?</h3>
+            <ol style="line-height: 1.8; padding-left: 1.5rem;">
+              <li>Complétez tous les parcours du niveau souhaité</li>
+              <li>Atteignez un score minimum de 80% aux révisions</li>
+              <li>Passez l'examen de certification (50 000 Ar)</li>
+              <li>Recevez votre certificat officiel par email</li>
+            </ol>
+          </div>
+        </section>
+      `;
+    }
+
+    // Ajouter les onglets de navigation
+    const tabsHtml = `
+      <div style="position: sticky; top: 70px; background: var(--ds-color-bg); padding: 1rem 0; border-bottom: 1px solid var(--ds-color-border); margin-bottom: 2rem; z-index: 100; box-shadow: var(--ds-shadow-sm);">
+        <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
+          <ds-button variant="${currentTab === 'about' ? 'primary' : 'ghost'}" size="sm" data-tab="about" style="flex: 1; min-width: 100px;">📱 À propos</ds-button>
+          <ds-button variant="${currentTab === 'offers' ? 'primary' : 'ghost'}" size="sm" data-tab="offers" style="flex: 1; min-width: 100px;">💰 Offres</ds-button>
+          <ds-button variant="${currentTab === 'certification' ? 'primary' : 'ghost'}" size="sm" data-tab="certification" style="flex: 1; min-width: 100px;">🎓 Certification</ds-button>
+        </div>
+      </div>
+    `;
+
+    main.innerHTML = tabsHtml + main.innerHTML;
+
+    document.getElementById('btn-back').addEventListener('click', () => router.navigate('/'));
+    document.querySelectorAll('[data-tab]').forEach(btn => {
+      // Support clic
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        currentTab = btn.dataset.tab;
+        renderTab(currentTab);
+      });
+      // Support tactile
+      btn.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        currentTab = btn.dataset.tab;
+        renderTab(currentTab);
+      });
+    });
+  };
+
+  renderTab('about');
+}
+
 
 
 // Fonction helper pour gérer l'upgrade Premium
@@ -2097,6 +2347,7 @@ router.addRoute('/dialogues', renderDialogues);
 router.addRoute('/profile', renderProfile);
 router.addRoute('/roleplay', renderRolePlay);
 router.addRoute('/challenge', renderChallenge);
+router.addRoute('/about', renderAbout);
 
 initTheme();
 updateLevelUI();
