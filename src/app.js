@@ -1707,6 +1707,9 @@ async function renderThemeDetail() {
 // ═══════════════════════════════════════════════════════════
 // ROUTEUR & DÉMARRAGE INTELLIGENT
 // ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
+// ROUTEUR & DÉMARRAGE (Onboarding temporairement désactivé)
+// ═══════════════════════════════════════════════════════════
 router.addRoute('/', renderHome);
 router.addRoute('/themes', renderThemes);
 router.addRoute('/theme-detail', renderThemeDetail);
@@ -1720,21 +1723,10 @@ router.addRoute('/challenge', renderChallenge);
 initTheme();
 updateLevelUI();
 
-// Vérifier si c'est la première utilisation
-const hasSeenOnboarding = localStorage.getItem('dagospeak:onboardingComplete');
-
-if (!hasSeenOnboarding) {
-  // Afficher l'écran d'intro AVANT de démarrer le routeur
-  new OnboardingScreen(() => {
-    // Cette fonction est appelée quand l'onboarding est terminé
-    router.start();
-    logger.info('✅ Application démarrée après onboarding');
-  });
-} else {
-  // Démarrage normal et instantané pour les utilisateurs existants
-  router.start();
-  logger.info('✅ Application démarrée (Utilisateur connu)');
-}
+// ✅ ONBOARDING DÉSACTIVÉ TEMPORAIREMENT (Vosk désactivé)
+// Démarrage direct de l'application
+router.start();
+logger.info('✅ Application démarrée (mode normal)');
 
 // ... (Gardez tout votre code existant concernant le Service Worker et le bandeau de mise à jour PWA en dessous)
 
