@@ -21,6 +21,7 @@ import { SpeechRecognitionEngine } from './engines/pronunciation/speech-recognit
 import { TeacherAvatar } from './ui/components/teacher-avatar.js';
 import { DownloadProgress } from './ui/components/download-progress.js';
 import { FeedbackSounds } from './engines/audio/feedback-sounds.js';
+import { OnboardingScreen } from './ui/components/onboarding-screen.js';
 
 
 
@@ -1707,11 +1708,11 @@ async function renderThemeDetail() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// ROUTEUR & DÉMARRAGE
+// ROUTEUR & DÉMARRAGE INTELLIGENT
 // ═══════════════════════════════════════════════════════════
 router.addRoute('/', renderHome);
-router.addRoute('/themes', renderThemes);            // <-- NOUVEAU
-router.addRoute('/theme-detail', renderThemeDetail); // <-- NOUVEAU
+router.addRoute('/themes', renderThemes);
+router.addRoute('/theme-detail', renderThemeDetail);
 router.addRoute('/lesson', renderLesson);
 router.addRoute('/practice', renderPractice);
 router.addRoute('/dialogues', renderDialogues);
@@ -1722,8 +1723,23 @@ router.addRoute('/challenge', renderChallenge);
 initTheme();
 updateLevelUI();
 
+// Vérifier si c'est la première utilisation
+const hasSeenOnboarding = localStorage.getItem('dagospeak:onboardingComplete');
 
-router.start();
+if (!hasSeenOnboarding) {
+  // Afficher l'écran d'intro AVANT de démarrer le routeur
+  new OnboardingScreen(() => {
+    // Cette fonction est appelée quand l'onboarding est terminé
+    router.start();
+    logger.info('✅ Application démarrée après onboarding');
+  });
+} else {
+  // Démarrage normal et instantané pour les utilisateurs existants
+  router.start();
+  logger.info('✅ Application démarrée (Utilisateur connu)');
+}
+
+// ... (Gardez tout votre code existant concernant le Service Worker et le bandeau de mise à jour PWA en dessous)
 
 // Mise à jour de l'état actif de la barre de navigation mobile
 function updateMobileNavActiveState() {

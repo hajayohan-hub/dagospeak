@@ -15,7 +15,7 @@ export class VoskEngine {
   #audioChunks = [];
 
   // ✅ URL LOCALE du modèle (le fichier .zip doit être à la racine du projet)
-  #modelUrl = '/vosk-model-small-fr-0.22.zip';
+  #modelUrl = '/vosk-model-small-fr-0.22.tar.gz';
 
   constructor(bus) {
     this.#bus = bus;

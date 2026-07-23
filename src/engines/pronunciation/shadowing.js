@@ -187,4 +187,14 @@ export class ShadowingEngine {
       isRecording: this.#isRecording
     };
   }
+
+    /**
+   * Méthode publique pour précharger le modèle Vosk lors de l'onboarding
+   */
+  async preloadVoskModel() {
+    if (this.#voskEngine) {
+      return await this.#voskEngine.initialize();
+    }
+    return false;
+  }
 }
