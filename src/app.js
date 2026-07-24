@@ -2220,7 +2220,7 @@ function renderProgressHeader() {
   document.body.appendChild(header);
 }
 
-// ✅ BOUTONS FLOTTANTS "COMMENCER" ET "GUIDE" (Uniquement sur l'Accueil)
+// ✅ BOUTONS FLOTTANTS "COMMENCER" ET "GUIDE" (Au-dessus du Teacher Avatar)
 function renderFloatingHomeButtons() {
   if (window.location.hash !== '#' && window.location.hash !== '#/') return;
   if (document.getElementById('floating-home-actions')) return;
@@ -2229,16 +2229,17 @@ function renderFloatingHomeButtons() {
   container.id = 'floating-home-actions';
   container.style.cssText = `
     position: fixed;
-    bottom: 100px;
+    bottom: 195px; /* ✅ AU-DESSUS du Teacher Avatar (qui est à bottom: 100px) */
     right: 20px;
     display: flex;
     flex-direction: column;
     gap: 12px;
     z-index: 9997;
+    animation: slideInRight 0.5s ease-out;
   `;
 
   container.innerHTML = `
-    <ds-button id="btn-float-start" variant="success" size="sm" style="box-shadow: 0 4px 12px rgba(0,0,0,0.2); font-weight: bold;">
+    <ds-button id="btn-float-start" variant="success" size="sm" style="box-shadow: 0 4px 12px rgba(0,0,0,0.2); font-weight: bold; animation: pulse-green 2s infinite;">
       🚀 Commencer
     </ds-button>
     <ds-button id="btn-float-guide" variant="primary" size="sm" style="box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
@@ -2246,12 +2247,33 @@ function renderFloatingHomeButtons() {
     </ds-button>
   `;
 
+  // Ajouter l'animation CSS si pas déjà présente
+  if (!document.getElementById('floating-buttons-style')) {
+    const style = document.createElement('style');
+    style.id = 'floating-buttons-style';
+    style.innerHTML = `
+      @keyframes slideInRight {
+        from { transform: translateX(100px); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
   document.body.appendChild(container);
 
+  // ✅ BOUTON "COMMENCER" : Guide vocal + Navigation
   document.getElementById('btn-float-start').addEventListener('click', () => {
-    router.navigate('/themes');
+    // Le Teacher Avatar parle pour guider l'utilisateur
+    window.teacherAvatar.speak("Bienvenue ! Choisissez un niveau pour commencer votre apprentissage du français. Cliquez sur Ambaratonga A0 pour débuter.");
+
+    // Navigation vers les thèmes après 2 secondes (temps de la parole)
+    setTimeout(() => {
+      router.navigate('/themes');
+    }, 2000);
   });
 
+  // ✅ BOUTON "GUIDE" : Modal d'aide
   document.getElementById('btn-float-guide').addEventListener('click', () => {
     showAppGuide();
   });

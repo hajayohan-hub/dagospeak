@@ -109,15 +109,19 @@ export class TeacherAvatar {
     if (badge) badge.remove();
   }
 
-  show(tipKey) {
+    show(tipKey) {
     const tips = {
       'home': {
-        fr: "Bienvenue ! Cliquez sur moi pour commencer votre apprentissage du français.",
-        mg: "Tongasoa ! Tsindrio aho mba hanombohana ny fianarana teny frantsay."
+        fr: "Bienvenue ! Cliquez sur le bouton 'Commencer' pour choisir votre niveau.",
+        mg: "Tongasoa ! Tsindrio ny bokotra 'Commencer' mba hifidianana ny ambaratonga."
       },
       'themes': {
         fr: "Choisissez un thème pour voir les leçons disponibles.",
         mg: "Safidio lohahevitra iray mba hahitana ny lesona."
+      },
+      'theme-detail': {
+        fr: "Choisissez une activité : Leçon, Révisions, ou Dialogues.",
+        mg: "Safidio hetsika iray : Lesona, Fanadiniana, na Resaka."
       },
       'lesson': {
         fr: "Écoutez chaque mot en cliquant sur le bouton audio.",
@@ -144,10 +148,18 @@ export class TeacherAvatar {
     this.#currentTip = tips[tipKey] || { fr: "Continuez !", mg: "Tohizo !" };
     this.render();
 
-    // ✅ Pour le premier utilisateur : juste un signe visuel
-    if (this.#isFirstUser) {
-      setTimeout(() => this.#startSignAnimation(), 1000);
-    } else if (this.#autoSpeakEnabled) {
+    // ✅ CORRECTION : Sur la page d'accueil, NE PAS parler automatiquement
+    // Le bouton "Commencer" s'en charge
+    if (tipKey === 'home') {
+      // Juste l'animation de signe pour attirer l'attention
+      if (this.#isFirstUser) {
+        setTimeout(() => this.#startSignAnimation(), 1000);
+      }
+      return; // ✅ Sortir sans parler
+    }
+
+    // Pour les autres pages, parler automatiquement si activé
+    if (this.#autoSpeakEnabled) {
       setTimeout(() => this.speak(this.#currentTip.fr), 500);
     }
   }
