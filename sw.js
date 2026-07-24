@@ -1,9 +1,11 @@
-const CACHE_NAME = 'dagospeak-v11'; // ✅ Incrémenté pour forcer la mise à jour
+const CACHE_NAME = 'dagospeak-v12';
 
 const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.webmanifest',
+  '/assets/dagospeak-logo.svg', // ✅ Correction icône raccourci
+  '/assets/hero-bg.png',        // ✅ Correction image Hero hors-ligne
   '/src/app.js',
   '/src/ui/styles/tokens.css',
   '/src/ui/styles/base.css',
@@ -19,8 +21,6 @@ const urlsToCache = [
   '/content/fr/dialogues/market_dialogue.json',
   '/content/fr/dialogues/colors_dialogue.json'
 ];
-
-const VOSK_MODEL_URL = '/vosk-model-small-fr-0.22.tar.gz';
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -46,15 +46,7 @@ self.addEventListener('activate', (event) => {
           }
         })
       );
-    }).then(() => {
-      self.clients.claim();
-      // ✅ Notification de nouvelle version aux onglets ouverts
-      return self.clients.matchAll().then(clients => {
-        clients.forEach(client => {
-          client.postMessage({ type: "NEW_VERSION" });
-        });
-      });
-    })
+    }).then(() => self.clients.claim())
   );
 });
 
@@ -62,24 +54,29 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
-  // 1. MODÈLE VOSK : Cache First (pour le hors-ligne)
-  if (request.url === VOSK_MODEL_URL) {
+  // 1. Fichiers statiques et Images (Cache First)
+  if (request.destination === 'image' || urlsToCache.includes(url.pathname)) {
     event.respondWith(
-      caches.match(request).then((cached) => {
-        if (cached) return cached;
-        return fetch(request).then((res) => {
-          if (res.ok) {
-            const clone = res.clone();
+      caches.match(request).then((response) => {
+        if (response) return response;
+        return fetch(request).then((networkResponse) => {
+          if (networkResponse.ok) {
+            const clone = networkResponse.clone();
             caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
           }
-          return res;
+          return networkResponse;
+        }).catch(() => {
+          // Fallback pour les images manquantes
+          if (request.destination === 'image') {
+            return new Response('', { status: 404, headers: { 'Content-Type': 'image/svg+xml' } });
+          }
         });
       })
     );
     return;
   }
 
-  // 2. SCRIPTS & STYLES : Network First (pour avoir vos mises à jour de code)
+  // 2. Scripts et Styles (Network First pour les mises à jour)
   if (request.destination === 'script' || request.destination === 'style') {
     event.respondWith(
       fetch(request)
@@ -95,18 +92,15 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // 3. DONNÉES JSON : Cache First, fallback Network
-  if (url.pathname.includes('/content/') && url.pathname.endsWith('.json')) {
+  // 3. Navigation (HTML)
+  if (request.mode === 'navigate') {
     event.respondWith(
-      caches.match(request).then((response) => {
-        if (response) return response;
-        return fetch(request).catch(() => new Response(JSON.stringify({ error: "Hors ligne" }), { status: 503, headers: { 'Content-Type': 'application/json' } }));
-      })
+      fetch(request).catch(() => caches.match('/index.html'))
     );
     return;
   }
 
-  // 4. TOUT LE RESTE : Cache First, fallback Network
+  // 4. Fallback par défaut
   event.respondWith(
     caches.match(request).then((response) => response || fetch(request).catch(() => new Response("Offline", { status: 503 })))
   );

@@ -207,31 +207,30 @@ async function renderHome() {
     // ✅ HERO SECTION AVEC IMAGE DE FOND
     const heroHtml = `
       <div style="
-        background: linear-gradient(135deg, rgba(37, 99, 235, 0.9) 0%, rgba(245, 158, 11, 0.9) 100%),
-                    url('/assets/hero-bg.png');
+        background: url('/assets/hero-bg.png');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         border-radius: var(--ds-radius-lg);
-        padding: 2rem 1.5rem;
+        padding: 2.5rem 1.5rem;
         margin-bottom: 1.5rem;
         text-align: center;
         color: white;
         position: relative;
         overflow: hidden;
         box-shadow: var(--ds-shadow-lg);
-        min-height: 200px;
+        min-height: 220px;
         display: flex;
         flex-direction: column;
         justify-content: center;
       ">
-        <h1 style="font-size: 2rem; margin-bottom: 0.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3); animation: fadeIn 1s ease-out;">
+        <h1 style="font-size: 2.2rem; margin-bottom: 0.5rem; text-shadow: 0 3px 6px rgba(0,0,0,0.8); animation: fadeIn 1s ease-out;">
           Manahoana ! 👋
         </h1>
-        <p style="font-size: 1.1rem; margin-bottom: 0.5rem; opacity: 0.95; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">
+        <p style="font-size: 1.1rem; margin-bottom: 0.5rem; opacity: 1; text-shadow: 0 2px 4px rgba(0,0,0,0.9); font-weight: 600;">
           Apprenez les langues avec IA, même sans internet
         </p>
-        <p style="font-size: 0.95rem; opacity: 0.9; font-style: italic; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">
+        <p style="font-size: 0.95rem; opacity: 0.95; font-style: italic; text-shadow: 0 2px 4px rgba(0,0,0,0.9);">
           Mianara fiteny miaraka amin'ny IA, na tsy misy internet aza
         </p>
       </div>
@@ -376,7 +375,7 @@ async function renderHome() {
   }
 }
 
-// ✅ FONCTION : Sélecteur de langues
+
 // ✅ NOUVELLE FONCTION : Sélecteur de langues (corrigé pour mobile)
 function showLanguageSelector() {
   // Fermer si déjà ouvert
@@ -527,7 +526,7 @@ async function renderAbout() {
           <h1 style="text-align: center; margin-bottom: 2rem;"> Mombamomba ny DagoSpeak</h1>
 
           <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); box-shadow: var(--ds-shadow-md); margin-bottom: 2rem; text-align: center;">
-            <img src="/assets/mds-logo.jpg" alt="Mada Digital Services" style="max-width: 200px; margin-bottom: 1rem; border-radius: var(--ds-radius-md);" />
+            <img src="assets/mds-logo.jpg" alt="Mada Digital Services" style="max-width: 200px; margin-bottom: 1rem; border-radius: var(--ds-radius-md);" />
             <h2 style="color: var(--ds-color-primary); margin-bottom: 1rem;">Propulsé par Web Services Mada</h2>
             <p style="line-height: 1.6; margin-bottom: 1rem;">
               DagoSpeak dia <strong>plateforme d'auto-apprentissage des langues assistée par IA</strong>, offline-first, pour les locuteurs Malgaches.
