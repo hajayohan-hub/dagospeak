@@ -1,11 +1,11 @@
-const CACHE_NAME = 'dagospeak-v12';
+const CACHE_NAME = 'dagospeak-v13'; // ✅ Incrémentation pour forcer la mise à jour
 
 const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.webmanifest',
-  '/assets/dagospeak-logo.svg', // ✅ Correction icône raccourci
-  '/assets/hero-bg.png',        // ✅ Correction image Hero hors-ligne
+  '/assets/dagospeak-logo.svg',
+  '/assets/hero-bg.png',
   '/src/app.js',
   '/src/ui/styles/tokens.css',
   '/src/ui/styles/base.css',
@@ -52,56 +52,43 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   const { request } = event;
-  const url = new URL(request.url);
 
-  // 1. Fichiers statiques et Images (Cache First)
-  if (request.destination === 'image' || urlsToCache.includes(url.pathname)) {
-    event.respondWith(
-      caches.match(request).then((response) => {
-        if (response) return response;
-        return fetch(request).then((networkResponse) => {
-          if (networkResponse.ok) {
-            const clone = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
-          }
-          return networkResponse;
-        }).catch(() => {
-          // Fallback pour les images manquantes
-          if (request.destination === 'image') {
-            return new Response('', { status: 404, headers: { 'Content-Type': 'image/svg+xml' } });
-          }
-        });
-      })
-    );
-    return;
-  }
-
-  // 2. Scripts et Styles (Network First pour les mises à jour)
-  if (request.destination === 'script' || request.destination === 'style') {
-    event.respondWith(
-      fetch(request)
-        .then((response) => {
-          if (response.ok) {
-            const clone = response.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
-          }
-          return response;
-        })
-        .catch(() => caches.match(request))
-    );
-    return;
-  }
-
-  // 3. Navigation (HTML)
-  if (request.mode === 'navigate') {
-    event.respondWith(
-      fetch(request).catch(() => caches.match('/index.html'))
-    );
-    return;
-  }
-
-  // 4. Fallback par défaut
+  // 🛡️ STRATÉGIE UNIVERSELLE 100% ROBUSTE : Cache First -> Network -> Fallback Response
   event.respondWith(
-    caches.match(request).then((response) => response || fetch(request).catch(() => new Response("Offline", { status: 503 })))
+    caches.match(request).then((cachedResponse) => {
+      // 1. Si c'est dans le cache, on le sert immédiatement (Mode hors-ligne garanti)
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+
+      // 2. Sinon, on essaie le réseau
+      return fetch(request).then((networkResponse) => {
+        // Si la réponse est valide, on la met en cache pour la prochaine fois
+        if (networkResponse && networkResponse.ok && request.method === 'GET') {
+          const clone = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(request, clone);
+          });
+        }
+        return networkResponse;
+      }).catch(() => {
+        // 3. ⚠️ CRUCIAL : En mode hors-ligne, si ni le cache ni le réseau ne fonctionnent,
+        // on DOIT retourner une Response valide pour éviter le crash "Failed to convert value to 'Response'"
+
+        if (request.mode === 'navigate') {
+          return caches.match('/index.html') || new Response('Page non disponible hors-ligne', { status: 503 });
+        }
+
+        // Fallback générique silencieux pour les scripts, styles, images, etc.
+        const contentType = request.destination === 'script' ? 'application/javascript' :
+                            request.destination === 'style' ? 'text/css' :
+                            request.destination === 'image' ? 'image/svg+xml' : 'text/plain';
+
+        return new Response(`/* Offline fallback */`, {
+          status: 503,
+          headers: { 'Content-Type': contentType }
+        });
+      });
+    })
   );
 });
