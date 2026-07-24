@@ -592,7 +592,7 @@ async function renderAbout() {
               <p style="color: var(--ds-color-text-muted); margin-bottom: 1rem;">Abonnement mensuel</p>
               <ul style="line-height: 1.8; padding-left: 1.5rem; margin-bottom: 1rem;">
                 <li>✅ Tous les niveaux (A0 à C2)</li>
-                <li>✅ Toutes les langues</li>
+                <li>✅ Une langue séléctionnée</li>
                 <li>✅ IA de correction avancée</li>
                 <li>✅ Certifications officielles</li>
                 <li>✅ Support prioritaire</li>
@@ -618,7 +618,7 @@ async function renderAbout() {
       main.innerHTML = `
         <section style="max-width: 700px; margin: 0 auto; padding: 2rem 1rem;">
           <ds-button variant="ghost" size="sm" id="btn-back" style="margin-bottom: 1rem;">← Miverina (Retour)</ds-button>
-          <h1 style="text-align: center; margin-bottom: 2rem;"> Sertifikat (Certification)</h1>
+          <h1 style="text-align: center; margin-bottom: 2rem;"> Certificat (Certification)</h1>
 
           <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); box-shadow: var(--ds-shadow-md); margin-bottom: 2rem;">
             <h2 style="color: var(--ds-color-primary); margin-bottom: 1rem;"> Niveaux de Certification</h2>

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dagospeak-v13'; // ✅ Incrémentation pour forcer la mise à jour
+const CACHE_NAME = 'dagospeak-v14'; // ✅ Incrémentation forcée
 
 const urlsToCache = [
   '/',
@@ -22,20 +22,30 @@ const urlsToCache = [
   '/content/fr/dialogues/colors_dialogue.json'
 ];
 
+console.log('[SW] 🚀 Fichier sw.js chargé. Version:', CACHE_NAME);
+
 self.addEventListener('install', (event) => {
+  console.log('[SW] 📥 Événement "install" déclenché.');
   event.waitUntil(
     caches.open(CACHE_NAME).then(async (cache) => {
-      console.log('[SW] Mise en cache des fichiers essentiels...');
+      console.log('[SW] 📂 Cache ouvert:', CACHE_NAME);
       for (const url of urlsToCache) {
-        try { await cache.add(url); }
-        catch (err) { console.warn('[SW] ⚠️ Échec du cache:', url); }
+        try {
+          console.log('[SW] 🔄 Tentative de cache:', url);
+          await cache.add(url);
+          console.log('[SW] ✅ Mis en cache avec succès:', url);
+        } catch (err) {
+          console.warn('[SW] ⚠️ ÉCHEC du cache pour:', url, '->', err.message);
+        }
       }
+      console.log('[SW] 🏁 Fin de la boucle de mise en cache.');
     })
   );
   self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
+  console.log('[SW] ⚡ Événement "activate" déclenché.');
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
@@ -46,24 +56,23 @@ self.addEventListener('activate', (event) => {
           }
         })
       );
-    }).then(() => self.clients.claim())
+    }).then(() => {
+      console.log('[SW] 🎯 Activation terminée, prise de contrôle des pages.');
+      return self.clients.claim();
+    })
   );
 });
 
 self.addEventListener('fetch', (event) => {
   const { request } = event;
 
-  // 🛡️ STRATÉGIE UNIVERSELLE 100% ROBUSTE : Cache First -> Network -> Fallback Response
   event.respondWith(
     caches.match(request).then((cachedResponse) => {
-      // 1. Si c'est dans le cache, on le sert immédiatement (Mode hors-ligne garanti)
       if (cachedResponse) {
-        return cachedResponse;
+        return cachedResponse; // Servi depuis le cache
       }
 
-      // 2. Sinon, on essaie le réseau
       return fetch(request).then((networkResponse) => {
-        // Si la réponse est valide, on la met en cache pour la prochaine fois
         if (networkResponse && networkResponse.ok && request.method === 'GET') {
           const clone = networkResponse.clone();
           caches.open(CACHE_NAME).then((cache) => {
@@ -72,18 +81,13 @@ self.addEventListener('fetch', (event) => {
         }
         return networkResponse;
       }).catch(() => {
-        // 3. ⚠️ CRUCIAL : En mode hors-ligne, si ni le cache ni le réseau ne fonctionnent,
-        // on DOIT retourner une Response valide pour éviter le crash "Failed to convert value to 'Response'"
-
+        // Fallback hors-ligne robuste
         if (request.mode === 'navigate') {
-          return caches.match('/index.html') || new Response('Page non disponible hors-ligne', { status: 503 });
+          return caches.match('/index.html') || new Response('Page hors-ligne', { status: 503 });
         }
-
-        // Fallback générique silencieux pour les scripts, styles, images, etc.
         const contentType = request.destination === 'script' ? 'application/javascript' :
                             request.destination === 'style' ? 'text/css' :
                             request.destination === 'image' ? 'image/svg+xml' : 'text/plain';
-
         return new Response(`/* Offline fallback */`, {
           status: 503,
           headers: { 'Content-Type': contentType }
