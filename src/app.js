@@ -541,7 +541,7 @@ async function renderAbout() {
           <h1 style="text-align: center; margin-bottom: 2rem;"> Mombamomba ny DagoSpeak</h1>
 
           <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); box-shadow: var(--ds-shadow-md); margin-bottom: 2rem; text-align: center;">
-            <img src="assets/mds-logo.jpg" alt="Mada Digital Services" style="max-width: 200px; margin-bottom: 1rem; border-radius: var(--ds-radius-md);" />
+            <img src="/assets/mds-logo.png" alt="Mada Digital Services" style="max-width: 200px; margin-bottom: 1rem; border-radius: var(--ds-radius-md);" />
             <h2 style="color: var(--ds-color-primary); margin-bottom: 1rem;">Propulsé par Web Services Mada</h2>
             <p style="line-height: 1.6; margin-bottom: 1rem;">
               DagoSpeak dia <strong>plateforme d'auto-apprentissage des langues assistée par IA</strong>, offline-first, pour les locuteurs Malgaches.
