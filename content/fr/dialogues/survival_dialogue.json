@@ -1,17 +1,21 @@
 {
   "id": "survival_dialogue",
-  "level": "A0",
-  "theme": "survival",
-  "title": "Premiers mots",
-  "titleMg": "Teny voalohany",
+  "title": "Première rencontre",
+  "description": "Dialogue simple pour se présenter",
   "participants": {
-    "A": { "name": "Haja", "nameMg": "Haja", "avatar": "👨🏾" },
-    "B": { "name": "Nary", "nameMg": "Nary", "avatar": "👩🏽" }
+    "A": { "name": "Marie", "avatar": "👩" },
+    "B": { "name": "Vous", "avatar": "🧑" }
   },
   "lines": [
-    { "speaker": "A", "text": "Bonjour !", "translation": "Manahoana!", "highlight": "Bonjour" },
-    { "speaker": "B", "text": "Bonjour ! Merci.", "translation": "Manahoana! Misaotra.", "highlight": "Merci" },
-    { "speaker": "A", "text": "S'il vous plaît, aidez-moi.", "translation": "Azafady, ampio aho.", "highlight": "S'il vous plaît" },
-    { "speaker": "B", "text": "Oui, d'accord. Au revoir !", "translation": "Eny, tsy maninona. Veloma!", "highlight": "Oui" }
+    { "speaker": "A", "text": "Bonjour !", "translation": "Manahoana !" },
+    { "speaker": "B", "text": "Bonjour !", "translation": "Manahoana !" },
+    { "speaker": "A", "text": "Comment ça va ?", "translation": "Manahoana ianao ?" },
+    { "speaker": "B", "text": "Ça va bien, merci.", "translation": "Tsara fa misaotra." },
+    { "speaker": "A", "text": "Je m'appelle Marie. Et toi ?", "translation": "Marie no anarako. Ary ianao ?" },
+    { "speaker": "B", "text": "Je m'appelle [votre nom].", "translation": "[anaranao] no anarako." },
+    { "speaker": "A", "text": "Enchantée !", "translation": "Faly mahafantatra anao !" },
+    { "speaker": "B", "text": "Enchanté aussi !", "translation": "Izaho koa faly mahafantatra anao !" },
+    { "speaker": "A", "text": "Au revoir !", "translation": "Veloma !" },
+    { "speaker": "B", "text": "Au revoir !", "translation": "Veloma !" }
   ]
 }

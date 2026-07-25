@@ -11,6 +11,27 @@
   <link rel="stylesheet" href="/src/ui/styles/tokens.css" />
   <link rel="stylesheet" href="/src/ui/styles/base.css" />
   <script src="https://cdn.jsdelivr.net/npm/vosk-browser@0.0.8/dist/vosk.js"></script>
+
+  <style>
+  /* Animations globales */
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  @keyframes pulse-soft { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
+  @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+
+  /* Appliquer aux éléments */
+  .ds-button { animation: fadeIn 0.3s ease-out; transition: all 0.2s; }
+  .ds-button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .ds-button:active { transform: translateY(0); }
+
+  /* Feedback visuel pour les bonnes/mauvaises réponses */
+  .correct-answer { animation: pulse-soft 0.5s; background: var(--ds-color-success-soft) !important; }
+  .wrong-answer { animation: shake 0.4s; background: var(--ds-color-danger-soft) !important; }
+
+  /* Transitions fluides */
+  * { transition: background-color 0.2s, color 0.2s, border-color 0.2s; }
+</style>
+
 </head>
 <body>
   <!-- ✅ HEADER AVEC LOGO ET ICÔNES -->

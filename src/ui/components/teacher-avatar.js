@@ -12,6 +12,7 @@ export class TeacherAvatar {
   #signAnimationInterval = null;
 
   constructor() {
+    this.#voiceLoaded = false;
     this.#loadMasteredThemes();
     this.#loadVoices();
   }
@@ -39,35 +40,29 @@ export class TeacherAvatar {
     #loadVoices() {
     const loadVoices = () => {
       const voices = speechSynthesis.getVoices();
+      if (voices.length === 0) return; // Ne pas charger si pas de voix
 
-      // ✅ Recherche optimisée : voix française féminine en priorité
-      this.#femaleVoice = voices.find(v =>
-        v.lang.startsWith('fr') &&
-        (v.name.toLowerCase().includes('female') ||
-         v.name.toLowerCase().includes('femme') ||
-         v.name.toLowerCase().includes('amelie') ||
-         v.name.toLowerCase().includes('thomas'))
-      ) || voices.find(v => v.lang.startsWith('fr')) || voices[0];
+      this.#femaleVoice = voices.find(v => v.lang.startsWith('fr') &&
+        (v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('femme'))) ||
+        voices.find(v => v.lang.startsWith('fr')) || voices[0];
 
-      console.log('[TeacherAvatar] ✅ Voix chargée:', this.#femaleVoice?.name || 'Par défaut');
+      // ✅ Log une seule fois
+      if (!this.#voiceLoaded) {
+        console.log('[TeacherAvatar] ✅ Voix chargée:', this.#femaleVoice?.name || 'Par défaut');
+        this.#voiceLoaded = true;
+      }
     };
 
-    // ✅ Charger immédiatement
     loadVoices();
-
-    // ✅ Recharger quand les voix sont disponibles (asynchrone)
     speechSynthesis.onvoiceschanged = loadVoices;
-
-    // ✅ Forcer le chargement après 100ms (fallback)
-    setTimeout(loadVoices, 100);
   }
 
-  speak(text) {
+   speak(text) {
     if (!('speechSynthesis' in window) || !text) return;
     try {
       speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'fr-FR';
+      utterance.lang = 'fr-FR'; // ✅ Français uniquement
       utterance.rate = 0.95;
       utterance.pitch = 1.1;
 

@@ -216,35 +216,31 @@ async function renderHome() {
 
     // ✅ HERO SECTION AVEC IMAGE DE FOND
     const heroHtml = `
-      <div style="
-        background: url('/assets/hero-bg.png');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        border-radius: var(--ds-radius-lg);
-        padding: 2.5rem 1.5rem;
-        margin-bottom: 1.5rem;
-        text-align: center;
-        color: white;
-        position: relative;
-        overflow: hidden;
-        box-shadow: var(--ds-shadow-lg);
-        min-height: 220px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      ">
-        <h1 style="font-size: 2.2rem; margin-bottom: 0.5rem; text-shadow: 0 3px 6px rgba(0,0,0,0.8); animation: fadeIn 1s ease-out;">
-          Manahoana ! 👋
-        </h1>
-        <p style="font-size: 1.1rem; margin-bottom: 0.5rem; opacity: 1; text-shadow: 0 2px 4px rgba(0,0,0,0.9); font-weight: 600;">
-          Apprenez les langues avec IA, même sans internet
-        </p>
-        <p style="font-size: 0.95rem; opacity: 0.95; font-style: italic; text-shadow: 0 2px 4px rgba(0,0,0,0.9);">
-          Mianara fiteny miaraka amin'ny IA, na tsy misy internet aza
-        </p>
-      </div>
-    `;
+        <div style="
+          background: url('/assets/hero-bg.png');
+          background-size: cover;
+          background-position: center top;
+          border-radius: var(--ds-radius-lg);
+          padding: 1rem 1.5rem 2rem 1.5rem;
+          margin-bottom: 1.5rem;
+          text-align: center;
+          color: white;
+          position: relative;
+          overflow: hidden;
+          box-shadow: var(--ds-shadow-lg);
+          min-height: 180px;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+        ">
+          <h1 style="font-size: 2rem; margin: 0 0 0.5rem 0; text-shadow: 0 2px 4px rgba(0,0,0,0.8); animation: fadeIn 1s ease-out;">
+            Manahoana ! 👋
+          </h1>
+          <p style="font-size: 1rem; margin: 0; opacity: 0.95; text-shadow: 0 1px 2px rgba(0,0,0,0.9); font-weight: 600;">
+            Apprenez les langues avec IA
+          </p>
+        </div>
+      `;
 
     const levelsHtml = manifest.levels.map(level => {
       const isFree = level.id === 'A0' || level.id === 'A1';
@@ -668,14 +664,20 @@ async function renderAbout() {
 
     // Ajouter les onglets de navigation
     const tabsHtml = `
-      <div style="position: sticky; top: 70px; background: var(--ds-color-bg); padding: 1rem 0; border-bottom: 1px solid var(--ds-color-border); margin-bottom: 2rem; z-index: 100; box-shadow: var(--ds-shadow-sm);">
-        <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
-          <ds-button variant="${currentTab === 'about' ? 'primary' : 'ghost'}" size="sm" data-tab="about" style="flex: 1; min-width: 100px;">📱 À propos</ds-button>
-          <ds-button variant="${currentTab === 'offers' ? 'primary' : 'ghost'}" size="sm" data-tab="offers" style="flex: 1; min-width: 100px;">💰 Offres</ds-button>
-          <ds-button variant="${currentTab === 'certification' ? 'primary' : 'ghost'}" size="sm" data-tab="certification" style="flex: 1; min-width: 100px;">🎓 Certification</ds-button>
-        </div>
-      </div>
-    `;
+  <div style="position: sticky; top: 70px; background: var(--ds-color-bg); padding: 0.75rem 0; border-bottom: 1px solid var(--ds-color-border); margin-bottom: 2rem; z-index: 100; box-shadow: var(--ds-shadow-sm);">
+    <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
+      <ds-button variant="${currentTab === 'about' ? 'primary' : 'ghost'}" size="sm" data-tab="about" style="flex: 1; min-width: 90px; font-size: 0.8rem;">
+        ℹ️ Info
+      </ds-button>
+      <ds-button variant="${currentTab === 'offers' ? 'primary' : 'ghost'}" size="sm" data-tab="offers" style="flex: 1; min-width: 90px; font-size: 0.8rem;">
+        💰 Offres
+      </ds-button>
+      <ds-button variant="${currentTab === 'certification' ? 'primary' : 'ghost'}" size="sm" data-tab="certification" style="flex: 1; min-width: 90px; font-size: 0.8rem;">
+         Certificat
+      </ds-button>
+    </div>
+  </div>
+`;
 
     main.innerHTML = tabsHtml + main.innerHTML;
 
@@ -723,6 +725,8 @@ async function renderLesson() {
 
   // ✅ Afficher le header de progression flottant (uniquement hors accueil)
 renderProgressHeader();
+  // ✅ Synchroniser le profil après chaque parcours terminé
+syncProfileWithJourneys();
 
   try {
 
@@ -904,14 +908,14 @@ async function renderPractice() {
 
   // ✅ Afficher le header de progression flottant (uniquement hors accueil)
 renderProgressHeader();
+  // ✅ Synchroniser le profil après chaque parcours terminé
+syncProfileWithJourneys();
 
   try {
     // ✅ Supprimer les boutons flottants de l'accueil
     const floatActions = document.getElementById('floating-home-actions');
     if (floatActions) floatActions.remove();
 
-    // ✅ Afficher le header de progression flottant
-    renderProgressHeader();
 
     const manifest = await content.loadManifest('fr');
     const levelData = manifest.levels.find(l => l.id === currentLevel);
@@ -1090,12 +1094,21 @@ renderProgressHeader();
 
         await srs.schedule(e.detail.itemId, e.detail.isCorrect ? 4 : 1);
 
+        // Dans le handler quiz:answered
+          if (e.detail.isCorrect) {
+            quizEl.classList.add('correct-answer');
+            setTimeout(() => quizEl.classList.remove('correct-answer'), 500);
+          } else {
+            quizEl.classList.add('wrong-answer');
+            setTimeout(() => quizEl.classList.remove('wrong-answer'), 400);
+          }
+
         if (e.detail.isCorrect) {
           themeScore += 10;
           await gamification.addXP(10, 'Quiz réussi');
           if (typeof feedbackSounds !== 'undefined') feedbackSounds.playSuccess();
           // L'Avatar félicite
-          setTimeout(() => window.teacherAvatar.speak("Excellent ! Tsara be !"), 500);
+          setTimeout(() => window.teacherAvatar.speak("Excellent !"), 500);
         } else {
           if (typeof feedbackSounds !== 'undefined') feedbackSounds.playRetry();
           // L'Avatar corrige automatiquement
@@ -1260,6 +1273,8 @@ async function renderDialogues() {
 
   // ✅ Afficher le header de progression flottant (uniquement hors accueil)
 renderProgressHeader();
+  // ✅ Synchroniser le profil après chaque parcours terminé
+syncProfileWithJourneys();
 
   try {
 
@@ -1388,6 +1403,8 @@ async function renderRolePlay() {
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Mamakiana ny Role Play...</div>';
 
   renderProgressHeader();
+  // ✅ Synchroniser le profil après chaque parcours terminé
+  syncProfileWithJourneys();
 
   try {
     const unitId = currentTheme;
@@ -1662,6 +1679,8 @@ async function renderChallenge() {
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Miomana ny fanamby...</div>';
 
   renderProgressHeader();
+  // ✅ Synchroniser le profil après chaque parcours terminé
+  syncProfileWithJourneys();
 
   try {
     const unitId = currentTheme;
@@ -2205,12 +2224,9 @@ async function renderThemeDetail() {
 
 
 // ✅ HEADER DE PROGRESSION FLOTTANT (Pour Leçons, Pratique, Dialogues)
-// ✅ HEADER DE PROGRESSION FLOTTANT - Version autonome (sans dépendance externe)
 function renderProgressHeader() {
-  // Ne pas afficher sur la page d'accueil
   if (window.location.hash === '#' || window.location.hash === '#/' || window.location.hash === '') return;
 
-  // Supprimer l'ancien s'il existe (pour éviter les doublons)
   const oldHeader = document.getElementById('floating-progress-header');
   if (oldHeader) oldHeader.remove();
 
@@ -2221,7 +2237,7 @@ function renderProgressHeader() {
     top: 60px;
     left: 0;
     right: 0;
-    background: linear-gradient(135deg, var(--ds-color-surface) 0%, var(--ds-color-surface-2) 100%);
+    background: var(--ds-color-surface);
     border-bottom: 2px solid var(--ds-color-primary);
     padding: 10px 1rem;
     z-index: 999;
@@ -2232,28 +2248,51 @@ function renderProgressHeader() {
     font-weight: 700;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     animation: slideDown 0.4s ease-out;
-    backdrop-filter: blur(10px);
   `;
 
-  // ✅ LECTURE DIRECTE DU LOCALSTORAGE (source de vérité)
+  // ✅ CALCUL DES DONNÉES DEPUIS completedJourneys (source fiable)
   const getProfileData = () => {
     try {
-      // Essayer plusieurs clés possibles selon votre implémentation
-      const profile = JSON.parse(localStorage.getItem('dagospeak:profile') || '{}');
-      const xp = profile.xp || 0;
-      const level = profile.level || 'A0';
-      const streak = profile.streak || 0;
-      const badges = profile.badges || [];
+      const journeys = JSON.parse(localStorage.getItem('dagospeak:completedJourneys') ||
+        '{"lessons":[],"practices":[],"dialogues":[],"roleplays":[],"challenges":[]}');
 
-      // Calculer le pourcentage de progression
-      const journeys = JSON.parse(localStorage.getItem('dagospeak:completedJourneys') || '{"lessons":[],"practices":[],"dialogues":[],"roleplays":[],"challenges":[]}');
       const completedCount = Object.values(journeys).reduce((sum, arr) => sum + arr.length, 0);
-      const totalCount = 25; // 5 thèmes × 5 types de parcours
+      const totalCount = 25; // 5 thèmes × 5 types
       const percentage = Math.round((completedCount / totalCount) * 100);
 
-      return { xp, level, streak, badges, percentage };
+      // Calculer les XP depuis les parcours terminés
+      const xpPerLesson = 20;
+      const xpPerPractice = 30;
+      const xpPerDialogue = 25;
+      const xpPerRoleplay = 40;
+      const xpPerChallenge = 50;
+
+      const totalXP =
+        (journeys.lessons.length * xpPerLesson) +
+        (journeys.practices.length * xpPerPractice) +
+        (journeys.dialogues.length * xpPerDialogue) +
+        (journeys.roleplays.length * xpPerRoleplay) +
+        (journeys.challenges.length * xpPerChallenge);
+
+      // Déterminer le niveau
+      let level = 'A0';
+      if (totalXP >= 500) level = 'A2';
+      else if (totalXP >= 300) level = 'A1';
+      else if (totalXP >= 100) level = 'A0+';
+
+      // Série (streak) : jours consécutifs avec activité
+      const lastActivity = localStorage.getItem('dagospeak:lastActivity');
+      const streak = lastActivity ? parseInt(localStorage.getItem('dagospeak:streak') || '0') : 0;
+
+      return {
+        xp: totalXP,
+        level,
+        streak,
+        percentage,
+        completedCount
+      };
     } catch (e) {
-      return { xp: 0, level: 'A0', streak: 0, badges: [], percentage: 0 };
+      return { xp: 0, level: 'A0', streak: 0, percentage: 0, completedCount: 0 };
     }
   };
 
@@ -2269,36 +2308,27 @@ function renderProgressHeader() {
       <span>${data.xp} XP</span>
     </div>
     <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-success);">
-      <span style="font-size:1.2rem;"></span>
-      <span>${data.level}</span>
+      <span style="font-size:1.2rem;">🏆</span>
+      <span>Niveau ${data.level}</span>
     </div>
     <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-text);">
       <span style="font-size:1.2rem;">📊</span>
       <span>${data.percentage}%</span>
     </div>
-    ${data.badges.length > 0 ? `
-    <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-accent);">
-      <span style="font-size:1.2rem;">🎖️</span>
-      <span>${data.badges.length}</span>
-    </div>
-    ` : ''}
   `;
 
   document.body.appendChild(header);
 
-  // ✅ RAFRAÎCHISSEMENT AUTOMATIQUE TOUTES LES 2 SECONDES
-  // (pour capter les changements d'XP sans dépendre d'événements)
+  // Rafraîchissement toutes les 2 secondes
   if (!window._progressHeaderInterval) {
     window._progressHeaderInterval = setInterval(() => {
       const currentHeader = document.getElementById('floating-progress-header');
       if (!currentHeader) {
-        // Si le header a été supprimé (changement de page), arrêter l'intervalle
         clearInterval(window._progressHeaderInterval);
         window._progressHeaderInterval = null;
         return;
       }
 
-      // Re-lire les données et mettre à jour
       const newData = getProfileData();
       currentHeader.innerHTML = `
         <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-accent);">
@@ -2310,22 +2340,17 @@ function renderProgressHeader() {
           <span>${newData.xp} XP</span>
         </div>
         <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-success);">
-          <span style="font-size:1.2rem;">🏆</span>
-          <span>${newData.level}</span>
+          <span style="font-size:1.2rem;"></span>
+          <span>Niveau ${newData.level}</span>
         </div>
         <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-text);">
           <span style="font-size:1.2rem;">📊</span>
           <span>${newData.percentage}%</span>
         </div>
-        ${newData.badges.length > 0 ? `
-        <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-accent);">
-          <span style="font-size:1.2rem;">️</span>
-          <span>${newData.badges.length}</span>
-        </div>
-        ` : ''}
       `;
     }, 2000);
   }
+}
 
   // ✅ ÉCOUTER LE BUS D'ÉVÉNEMENTS EXISTANT (si disponible)
   if (typeof bus !== 'undefined') {
@@ -2344,7 +2369,7 @@ function renderProgressHeader() {
     bus.on('gamification:level-up', refreshOnEvent);
     bus.on('gamification:badge-earned', refreshOnEvent);
   }
-}
+
 
 // ✅ CSS pour l'animation (à ajouter une seule fois)
 if (!document.getElementById('progress-header-style')) {
@@ -2362,6 +2387,7 @@ if (!document.getElementById('progress-header-style')) {
 // ✅ BOUTONS FLOTTANTS "COMMENCER" ET "GUIDE" (Au-dessus du Teacher Avatar)
 function renderFloatingHomeButtons() {
   if (window.location.hash !== '#' && window.location.hash !== '#/') return;
+  if (window.location.hash === '#/about') return; // ✅ Ne pas afficher sur /about
   if (document.getElementById('floating-home-actions')) return;
 
   const container = document.createElement('div');
@@ -2404,7 +2430,7 @@ function renderFloatingHomeButtons() {
   // ✅ BOUTON "COMMENCER" : Guide vocal SANS navigation
   document.getElementById('btn-float-start').addEventListener('click', () => {
     // Le Teacher Avatar parle pour guider l'utilisateur sur la page d'accueil
-    window.teacherAvatar.speak("Bienvenue ! Choisissez un niveau pour commencer votre apprentissage du français. Cliquez sur Ambaratonga A0 pour débuter avec les mots de base.");
+    window.teacherAvatar.speak("Bienvenue ! Choisissez un niveau pour commencer votre apprentissage du français. Cliquez sur Niveau A0 pour débuter avec les mots de base.");
 
     // ✅ PAS de navigation - l'utilisateur choisit lui-même
   });
@@ -2427,15 +2453,15 @@ function showAppGuide() {
   modal.innerHTML = `
     <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); max-width: 500px; width: 100%; max-height: 80vh; overflow-y: auto; position: relative;">
       <button id="close-guide" style="position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 1.5rem; cursor: pointer;">×</button>
-      <h2 style="color: var(--ds-color-primary); margin-bottom: 1rem;">📖 Guide d'utilisation DagoSpeak</h2>
+      <h2 style="color: var(--ds-color-primary); margin-bottom: 1rem;">📖 Guide DagoSpeak</h2>
       <ol style="line-height: 1.8; padding-left: 1.5rem; color: var(--ds-color-text);">
-        <li><strong>Actualisation :</strong> Si l'application semble bloquée, actualisez la page (F5 ou tirer vers le bas sur mobile) pour charger les dernières mises à jour.</li>
-        <li><strong>🌐 Icône Globe :</strong> Pour changer la langue d'apprentissage (Français, Anglais, etc.).</li>
-        <li><strong>ℹ️ Icône Info :</strong> Pour en savoir plus sur l'application, les offres et les certifications.</li>
-        <li><strong>👩‍🏫 Teacher Avatar :</strong> Cliquez dessus à tout moment pour obtenir un conseil ou une traduction.</li>
-        <li><strong>🏠 📚 👤 Footer :</strong> Naviguez facilement entre l'Accueil, les Thèmes et votre Profil (où se trouvent vos badges et progrès).</li>
+        <li><strong>Actualisation :</strong> Si l'app semble bloquée, actualisez (F5 ou tirer vers le bas).</li>
+        <li><strong>🌐 Globe :</strong> Changer la langue d'apprentissage.</li>
+        <li><strong>ℹ️ Info :</strong> À propos, offres, certifications.</li>
+        <li><strong>👩‍🏫 Avatar :</strong> Cliquez pour un conseil ou traduction.</li>
+        <li><strong>🏠 📚 👤 Footer :</strong> Accueil, Thèmes, Profil.</li>
       </ol>
-      <ds-button id="btn-understand-guide" variant="primary" size="lg" style="width: 100%; margin-top: 1.5rem;">Azoko (J'ai compris)</ds-button>
+      <ds-button id="btn-understand-guide" variant="primary" size="lg" style="width: 100%; margin-top: 1.5rem;">J'ai compris</ds-button>
     </div>
   `;
 
@@ -2445,6 +2471,44 @@ function showAppGuide() {
   document.getElementById('close-guide').addEventListener('click', closeModal);
   document.getElementById('btn-understand-guide').addEventListener('click', closeModal);
   modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+}
+
+
+// ✅ SYNCHRONISATION AUTOMATIQUE DU PROFIL
+function syncProfileWithJourneys() {
+  const journeys = JSON.parse(localStorage.getItem('dagospeak:completedJourneys') ||
+    '{"lessons":[],"practices":[],"dialogues":[],"roleplays":[],"challenges":[]}');
+
+  const completedCount = Object.values(journeys).reduce((sum, arr) => sum + arr.length, 0);
+
+  // Calculer les XP
+  const totalXP =
+    (journeys.lessons.length * 20) +
+    (journeys.practices.length * 30) +
+    (journeys.dialogues.length * 25) +
+    (journeys.roleplays.length * 40) +
+    (journeys.challenges.length * 50);
+
+  // Déterminer le niveau
+  let level = 'A0';
+  if (totalXP >= 500) level = 'A2';
+  else if (totalXP >= 300) level = 'A1';
+  else if (totalXP >= 100) level = 'A0+';
+
+  // Mettre à jour le profil dans localStorage
+  const profile = {
+    xp: totalXP,
+    level: level,
+    streak: parseInt(localStorage.getItem('dagospeak:streak') || '0'),
+    badges: [],
+    completedJourneys: completedCount,
+    lastActivity: new Date().toISOString()
+  };
+
+  localStorage.setItem('dagospeak:profile', JSON.stringify(profile));
+  localStorage.setItem('dagospeak:lastActivity', new Date().toISOString());
+
+  console.log('[Profile] Synchronisé:', profile);
 }
 
 // ═══════════════════════════════════════════════════════════
