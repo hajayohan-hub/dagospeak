@@ -6,11 +6,11 @@
   <meta name="description" content="DagoSpeak - Apprenez le français facilement" />
   <meta name="theme-color" content="#2563eb" />
   <title>DagoSpeak</title>
-  <link rel="manifest" href="/manifest.webmanifest" />
-  <link rel="icon" href="/assets/dagospeak-logo.svg" />
-  <link rel="stylesheet" href="/src/ui/styles/tokens.css" />
-  <link rel="stylesheet" href="/src/ui/styles/base.css" />
-  <script src="https://cdn.jsdelivr.net/npm/vosk-browser@0.0.8/dist/vosk.js"></script>
+  <link rel="manifest" href="/manifest.webmanifest?v=15" />
+  <link rel="icon" href="/assets/dagospeak-logo.svg?v=15" />
+  <link rel="stylesheet" href="/src/ui/styles/tokens.css?v=15" />
+  <link rel="stylesheet" href="/src/ui/styles/base.css?v=15" />
+  <script src="https://cdn.jsdelivr.net/npm/vosk-browser@0.0.8/dist/vosk.js"/>
 
   <style>
   /* Animations globales */
@@ -37,7 +37,7 @@
   <!-- ✅ HEADER AVEC LOGO ET ICÔNES -->
   <header id="main-header" style="position: fixed; top: 0; left: 0; right: 0; background: var(--ds-color-surface); border-bottom: 1px solid var(--ds-color-border); padding: 0.75rem 1rem; z-index: 1000; display: flex; align-items: center; justify-content: space-between; box-shadow: var(--ds-shadow-sm);">
     <div id="header-logo" style="display: flex; align-items: center; gap: 0.5rem; font-weight: bold; font-size: 1.25rem; color: var(--ds-color-primary); cursor: pointer;">
-      <img src="/assets/dagospeak-logo.svg" alt="DagoSpeak" style="width: 32px; height: 32px;" />
+      <img src="/assets/dagospeak-logo.svg?v=15" alt="DagoSpeak" style="width: 32px; height: 32px;" />
       <span>DagoSpeak</span>
     </div>
     <div style="display: flex; gap: 0.5rem; align-items: center;">
@@ -70,6 +70,6 @@
     </a>
   </nav>
 
-  <script type="module" src="src/app.js"></script>
+  <script type="module" src="src/app.js?v=15"></script>
 </body>
 </html>

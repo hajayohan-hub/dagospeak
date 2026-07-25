@@ -2550,30 +2550,28 @@ updateMobileNavActiveState(); // Appel initial
 // ═══════════════════════════════════════════════════════════
 // GESTION AUTOMATIQUE DES MISES À JOUR PWA
 // ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
+// MISES À JOUR AUTOMATIQUES (style Duolingo)
+// ═══════════════════════════════════════════════════════════
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
     try {
-      const registration = await navigator.serviceWorker.register('/sw.js');
+      const registration = await navigator.serviceWorker.register('/sw.js?v=15');
 
-      // ✅ Vérification immédiate des mises à jour
-      registration.update();
-
-      registration.addEventListener('updatefound', () => {
-        const newWorker = registration.installing;
-        newWorker.addEventListener('statechange', () => {
-          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-            // ✅ Nouvelle version disponible, forcer l'activation
-            newWorker.postMessage('SKIP_WAITING');
-            showUpdateBanner();
-          }
-        });
+      // Écouter le message du SW quand une nouvelle version est prête
+      navigator.serviceWorker.addEventListener('message', (event) => {
+        if (event.data?.type === 'NEW_VERSION_READY') {
+          console.log('[App] Nouvelle version détectée, reload automatique...');
+          // Attendre 2 secondes puis recharger silencieusement
+          setTimeout(() => window.location.reload(), 2000);
+        }
       });
 
-      // ✅ Vérification toutes les 30 minutes
-      setInterval(() => { registration.update(); }, 30 * 60 * 1000);
+      // Vérifier les mises à jour toutes les 5 minutes
+      setInterval(() => registration.update(), 5 * 60 * 1000);
 
     } catch (error) {
-      console.warn('SW échec:', error);
+      console.warn('[App] SW échec:', error);
     }
   });
 }
