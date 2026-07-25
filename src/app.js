@@ -196,6 +196,16 @@ document.getElementById('theme-toggle')?.addEventListener('click', () => {
 // ═══════════════════════════════════════════════════════════
 
 async function renderHome() {
+  // ✅ Supprimer le header de progression quand on revient à l'accueil
+  const progressHeader = document.getElementById('floating-progress-header');
+  if (progressHeader) progressHeader.remove();
+
+  // Arrêter l'intervalle de rafraîchissement
+  if (window._progressHeaderInterval) {
+    clearInterval(window._progressHeaderInterval);
+    window._progressHeaderInterval = null;
+  }
+
   const main = document.getElementById('app');
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Mamakiana...</div>';
 
@@ -711,6 +721,9 @@ async function renderLesson() {
   const main = document.getElementById('app');
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement de la leçon...</div>';
 
+  // ✅ Afficher le header de progression flottant (uniquement hors accueil)
+renderProgressHeader();
+
   try {
 
     // À ajouter au début de chaque fonction de vue (sauf renderHome)
@@ -888,6 +901,9 @@ window.addEventListener('load', warmUpTTS);
 async function renderPractice() {
   const main = document.getElementById('app');
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Miomana ny session...</div>';
+
+  // ✅ Afficher le header de progression flottant (uniquement hors accueil)
+renderProgressHeader();
 
   try {
     // ✅ Supprimer les boutons flottants de l'accueil
@@ -1242,6 +1258,9 @@ async function renderDialogues() {
   const main = document.getElementById('app');
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement des dialogues...</div>';
 
+  // ✅ Afficher le header de progression flottant (uniquement hors accueil)
+renderProgressHeader();
+
   try {
 
     // À ajouter au début de chaque fonction de vue (sauf renderHome)
@@ -1367,6 +1386,8 @@ async function renderDialogues() {
 async function renderRolePlay() {
   const main = document.getElementById('app');
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Mamakiana ny Role Play...</div>';
+
+  renderProgressHeader();
 
   try {
     const unitId = currentTheme;
@@ -1639,6 +1660,8 @@ async function renderRolePlay() {
 async function renderChallenge() {
   const main = document.getElementById('app');
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Miomana ny fanamby...</div>';
+
+  renderProgressHeader();
 
   try {
     const unitId = currentTheme;
@@ -2182,42 +2205,158 @@ async function renderThemeDetail() {
 
 
 // ✅ HEADER DE PROGRESSION FLOTTANT (Pour Leçons, Pratique, Dialogues)
+// ✅ HEADER DE PROGRESSION FLOTTANT - Version autonome (sans dépendance externe)
 function renderProgressHeader() {
   // Ne pas afficher sur la page d'accueil
-  if (window.location.hash === '#' || window.location.hash === '#/') return;
+  if (window.location.hash === '#' || window.location.hash === '#/' || window.location.hash === '') return;
 
-  const existingHeader = document.getElementById('floating-progress-header');
-  if (existingHeader) return;
+  // Supprimer l'ancien s'il existe (pour éviter les doublons)
+  const oldHeader = document.getElementById('floating-progress-header');
+  if (oldHeader) oldHeader.remove();
 
   const header = document.createElement('div');
   header.id = 'floating-progress-header';
   header.style.cssText = `
     position: fixed;
-    top: 60px; /* Juste sous le header principal */
+    top: 60px;
     left: 0;
     right: 0;
-    background: var(--ds-color-surface);
-    border-bottom: 1px solid var(--ds-color-border);
-    padding: 8px 1rem;
+    background: linear-gradient(135deg, var(--ds-color-surface) 0%, var(--ds-color-surface-2) 100%);
+    border-bottom: 2px solid var(--ds-color-primary);
+    padding: 10px 1rem;
     z-index: 999;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    font-size: 0.85rem;
-    font-weight: 600;
-    box-shadow: var(--ds-shadow-sm);
+    font-size: 0.9rem;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    animation: slideDown 0.4s ease-out;
+    backdrop-filter: blur(10px);
   `;
 
-  // Récupérer les données de progression (à adapter selon votre objet gamification)
-  const profile = JSON.parse(localStorage.getItem('dagospeak:profile') || '{"xp": 0, "level": "A0"}');
+  // ✅ LECTURE DIRECTE DU LOCALSTORAGE (source de vérité)
+  const getProfileData = () => {
+    try {
+      // Essayer plusieurs clés possibles selon votre implémentation
+      const profile = JSON.parse(localStorage.getItem('dagospeak:profile') || '{}');
+      const xp = profile.xp || 0;
+      const level = profile.level || 'A0';
+      const streak = profile.streak || 0;
+      const badges = profile.badges || [];
+
+      // Calculer le pourcentage de progression
+      const journeys = JSON.parse(localStorage.getItem('dagospeak:completedJourneys') || '{"lessons":[],"practices":[],"dialogues":[],"roleplays":[],"challenges":[]}');
+      const completedCount = Object.values(journeys).reduce((sum, arr) => sum + arr.length, 0);
+      const totalCount = 25; // 5 thèmes × 5 types de parcours
+      const percentage = Math.round((completedCount / totalCount) * 100);
+
+      return { xp, level, streak, badges, percentage };
+    } catch (e) {
+      return { xp: 0, level: 'A0', streak: 0, badges: [], percentage: 0 };
+    }
+  };
+
+  const data = getProfileData();
 
   header.innerHTML = `
-    <span style="color: var(--ds-color-accent);">🔥 Série: 3</span>
-    <span style="color: var(--ds-color-primary);">⭐ ${profile.xp || 0} XP</span>
-    <span style="color: var(--ds-color-success);">🏆 Niveau ${profile.level || 'A0'}</span>
+    <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-accent);">
+      <span style="font-size:1.2rem;">🔥</span>
+      <span>${data.streak}</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-primary);">
+      <span style="font-size:1.2rem;">⭐</span>
+      <span>${data.xp} XP</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-success);">
+      <span style="font-size:1.2rem;"></span>
+      <span>${data.level}</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-text);">
+      <span style="font-size:1.2rem;">📊</span>
+      <span>${data.percentage}%</span>
+    </div>
+    ${data.badges.length > 0 ? `
+    <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-accent);">
+      <span style="font-size:1.2rem;">🎖️</span>
+      <span>${data.badges.length}</span>
+    </div>
+    ` : ''}
   `;
 
   document.body.appendChild(header);
+
+  // ✅ RAFRAÎCHISSEMENT AUTOMATIQUE TOUTES LES 2 SECONDES
+  // (pour capter les changements d'XP sans dépendre d'événements)
+  if (!window._progressHeaderInterval) {
+    window._progressHeaderInterval = setInterval(() => {
+      const currentHeader = document.getElementById('floating-progress-header');
+      if (!currentHeader) {
+        // Si le header a été supprimé (changement de page), arrêter l'intervalle
+        clearInterval(window._progressHeaderInterval);
+        window._progressHeaderInterval = null;
+        return;
+      }
+
+      // Re-lire les données et mettre à jour
+      const newData = getProfileData();
+      currentHeader.innerHTML = `
+        <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-accent);">
+          <span style="font-size:1.2rem;">🔥</span>
+          <span>${newData.streak}</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-primary);">
+          <span style="font-size:1.2rem;">⭐</span>
+          <span>${newData.xp} XP</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-success);">
+          <span style="font-size:1.2rem;">🏆</span>
+          <span>${newData.level}</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-text);">
+          <span style="font-size:1.2rem;">📊</span>
+          <span>${newData.percentage}%</span>
+        </div>
+        ${newData.badges.length > 0 ? `
+        <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-accent);">
+          <span style="font-size:1.2rem;">️</span>
+          <span>${newData.badges.length}</span>
+        </div>
+        ` : ''}
+      `;
+    }, 2000);
+  }
+
+  // ✅ ÉCOUTER LE BUS D'ÉVÉNEMENTS EXISTANT (si disponible)
+  if (typeof bus !== 'undefined') {
+    const refreshOnEvent = () => {
+      const currentHeader = document.getElementById('floating-progress-header');
+      if (currentHeader) {
+        // Forcer un rafraîchissement immédiat
+        const newData = getProfileData();
+        currentHeader.querySelector('div:nth-child(2) span:last-child').textContent = `${newData.xp} XP`;
+        currentHeader.querySelector('div:nth-child(4) span:last-child').textContent = `${newData.percentage}%`;
+      }
+    };
+
+    // Écouter les événements de gamification existants
+    bus.on('gamification:xp-added', refreshOnEvent);
+    bus.on('gamification:level-up', refreshOnEvent);
+    bus.on('gamification:badge-earned', refreshOnEvent);
+  }
+}
+
+// ✅ CSS pour l'animation (à ajouter une seule fois)
+if (!document.getElementById('progress-header-style')) {
+  const style = document.createElement('style');
+  style.id = 'progress-header-style';
+  style.innerHTML = `
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  `;
+  document.head.appendChild(style);
 }
 
 // ✅ BOUTONS FLOTTANTS "COMMENCER" ET "GUIDE" (Au-dessus du Teacher Avatar)
