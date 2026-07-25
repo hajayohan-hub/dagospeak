@@ -1,5 +1,6 @@
-const CACHE_NAME = 'dagospeak-v15';
-const ASSETS_TO_CACHE = [
+const CACHE_NAME = 'dagospeak-v16'; // Version incrémentée pour forcer le nettoyage
+
+const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/manifest.webmanifest',
@@ -18,77 +19,66 @@ const ASSETS_TO_CACHE = [
   '/content/fr/dialogues/colors_dialogue.json'
 ];
 
-// 1. INSTALL : on cache les assets statiques UNIQUEMENT (pas le code JS/CSS)
+// 1. INSTALL
 self.addEventListener('install', (event) => {
-  console.log('[SW] Installation de', CACHE_NAME);
   event.waitUntil(
-    caches.open(CACHE_NAME).then(async (cache) => {
-      for (const url of ASSETS_TO_CACHE) {
-        try { await cache.add(url); } catch (e) { console.warn('[SW] Cache échoué:', url); }
-      }
-    }).then(() => self.skipWaiting()) // ✅ Force l'activation immédiate
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(STATIC_ASSETS))
+    .then(() => self.skipWaiting())
   );
 });
 
-// 2. ACTIVATE : on supprime les vieux caches + on prend le contrôle + on notifie
+// 2. ACTIVATE
 self.addEventListener('activate', (event) => {
-  console.log('[SW] Activation de', CACHE_NAME);
   event.waitUntil(
-    caches.keys().then(names =>
-      Promise.all(names.filter(n => n !== CACHE_NAME).map(n => caches.delete(n)))
-    ).then(() => self.clients.claim()) // ✅ Prend le contrôle de toutes les pages
-      .then(() => {
-        // ✅ Notifie TOUTES les pages ouvertes qu'une nouvelle version est prête
-        return self.clients.matchAll({ type: 'window', includeUncontrolled: true })
-          .then(clients => {
-            clients.forEach(client => client.postMessage({ type: 'NEW_VERSION_READY' }));
-          });
-      })
+    caches.keys().then((keys) =>
+      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
+    ).then(() => self.clients.claim())
   );
 });
 
-// 3. FETCH : stratégie différenciée
+// 3. FETCH (Stratégie ultra-robuste)
 self.addEventListener('fetch', (event) => {
-  const { request } = event;
-  const url = new URL(request.url);
+  const req = event.request;
+  const url = new URL(req.url);
 
-  // A. Assets statiques (images, contenu JSON) → Cache First
-  if (request.destination === 'image' ||
-      url.pathname.includes('/content/') ||
-      ASSETS_TO_CACHE.includes(url.pathname)) {
+  // ✅ Astuce cruciale : On ignore les ?v=15 pour le cache
+  const cleanUrl = url.origin + url.pathname;
+
+  // A. Navigation HTML
+  if (req.mode === 'navigate') {
     event.respondWith(
-      caches.match(request).then(r => r || fetch(request).then(res => {
-        if (res.ok) { const c = res.clone(); caches.open(CACHE_NAME).then(cache => cache.put(request, c)); }
-        return res;
-      }).catch(() => new Response('', { status: 503 })))
+      fetch(req).catch(() => caches.match('/index.html'))
     );
     return;
   }
 
-  // B. Code JS/CSS → NETWORK FIRST TOUJOURS (pas de cache pour le code)
-  if (request.destination === 'script' || request.destination === 'style') {
+  // B. Assets statiques et Contenu JSON (Cache First)
+  if (STATIC_ASSETS.includes(url.pathname) || url.pathname.startsWith('/content/')) {
     event.respondWith(
-      fetch(request).then(res => {
-        if (res.ok) {
-          const c = res.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(request, c));
-        }
-        return res;
-      }).catch(() => caches.match(request).then(r => r || new Response('/* offline */', { status: 503, headers: { 'Content-Type': 'text/javascript' } })))
+      caches.match(cleanUrl).then((cached) => {
+        if (cached) return cached;
+        return fetch(req).then((res) => {
+          if (res.ok) {
+            const clone = res.clone();
+            caches.open(CACHE_NAME).then((c) => c.put(cleanUrl, clone));
+          }
+          return res;
+        }).catch(() => new Response('', { status: 503 }));
+      })
     );
     return;
   }
 
-  // C. Navigation HTML → Network First
-  if (request.mode === 'navigate') {
-    event.respondWith(
-      fetch(request).catch(() => caches.match('/index.html'))
-    );
-    return;
-  }
-
-  // D. Fallback
+  // C. JS, CSS, API (Network First - JAMAIS de cache pour le code)
   event.respondWith(
-    caches.match(request).then(r => r || fetch(request).catch(() => new Response('', { status: 503 })))
+    fetch(req).then((res) => {
+      if (res.ok) {
+        const clone = res.clone();
+        caches.open(CACHE_NAME).then((c) => c.put(cleanUrl, clone));
+      }
+      return res;
+    }).catch(() =>
+      caches.match(cleanUrl).then((r) => r || new Response('Offline', { status: 503 }))
+    )
   );
 });
