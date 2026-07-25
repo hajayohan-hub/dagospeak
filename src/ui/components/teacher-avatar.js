@@ -10,6 +10,7 @@ export class TeacherAvatar {
   #autoSpeakEnabled = false; // ✅ Désactivé par défaut
   #isFirstUser = true;
   #signAnimationInterval = null;
+  #voiceLoaded = false; // ✅ AJOUTER CETTE LIGNE
 
   constructor() {
 
