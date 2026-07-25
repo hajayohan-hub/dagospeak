@@ -12,7 +12,7 @@ export class TeacherAvatar {
   #signAnimationInterval = null;
 
   constructor() {
-    this.#voiceLoaded = false;
+
     this.#loadMasteredThemes();
     this.#loadVoices();
   }
