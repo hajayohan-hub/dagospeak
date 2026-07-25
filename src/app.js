@@ -2401,15 +2401,12 @@ function renderFloatingHomeButtons() {
 
   document.body.appendChild(container);
 
-  // ✅ BOUTON "COMMENCER" : Guide vocal + Navigation
+  // ✅ BOUTON "COMMENCER" : Guide vocal SANS navigation
   document.getElementById('btn-float-start').addEventListener('click', () => {
-    // Le Teacher Avatar parle pour guider l'utilisateur
-    window.teacherAvatar.speak("Bienvenue ! Choisissez un niveau pour commencer votre apprentissage du français. Cliquez sur Ambaratonga A0 pour débuter.");
+    // Le Teacher Avatar parle pour guider l'utilisateur sur la page d'accueil
+    window.teacherAvatar.speak("Bienvenue ! Choisissez un niveau pour commencer votre apprentissage du français. Cliquez sur Ambaratonga A0 pour débuter avec les mots de base.");
 
-    // Navigation vers les thèmes après 2 secondes (temps de la parole)
-    setTimeout(() => {
-      router.navigate('/themes');
-    }, 2000);
+    // ✅ PAS de navigation - l'utilisateur choisit lui-même
   });
 
   // ✅ BOUTON "GUIDE" : Modal d'aide
@@ -2451,9 +2448,6 @@ function showAppGuide() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// ROUTEUR & DÉMARRAGE INTELLIGENT
-// ═══════════════════════════════════════════════════════════
-// ═══════════════════════════════════════════════════════════
 // ROUTEUR & DÉMARRAGE (Onboarding temporairement désactivé)
 // ═══════════════════════════════════════════════════════════
 router.addRoute('/', renderHome);
@@ -2493,30 +2487,29 @@ updateMobileNavActiveState(); // Appel initial
 // GESTION AUTOMATIQUE DES MISES À JOUR PWA
 // ═══════════════════════════════════════════════════════════
 if ('serviceWorker' in navigator) {
-  // ✅ Écouter le message de nouvelle version provenant du SW
-  navigator.serviceWorker.addEventListener('message', (event) => {
-    if (event.data && event.data.type === 'NEW_VERSION') {
-      showUpdateBanner();
-    }
-  });
-
   window.addEventListener('load', async () => {
     try {
       const registration = await navigator.serviceWorker.register('/sw.js');
-      registration.update(); // Force la vérification
+
+      // ✅ Vérification immédiate des mises à jour
+      registration.update();
 
       registration.addEventListener('updatefound', () => {
         const newWorker = registration.installing;
         newWorker.addEventListener('statechange', () => {
           if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            // ✅ Nouvelle version disponible, forcer l'activation
+            newWorker.postMessage('SKIP_WAITING');
             showUpdateBanner();
           }
         });
       });
 
+      // ✅ Vérification toutes les 30 minutes
       setInterval(() => { registration.update(); }, 30 * 60 * 1000);
+
     } catch (error) {
-      console.warn('Échec SW', error);
+      console.warn('SW échec:', error);
     }
   });
 }

@@ -36,14 +36,30 @@ export class TeacherAvatar {
     }
   }
 
-  #loadVoices() {
+    #loadVoices() {
     const loadVoices = () => {
       const voices = speechSynthesis.getVoices();
-      this.#femaleVoice = voices.find(v => v.lang.startsWith('fr') && (v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('femme'))) ||
-                         voices.find(v => v.lang.startsWith('fr')) || voices[0];
+
+      // ✅ Recherche optimisée : voix française féminine en priorité
+      this.#femaleVoice = voices.find(v =>
+        v.lang.startsWith('fr') &&
+        (v.name.toLowerCase().includes('female') ||
+         v.name.toLowerCase().includes('femme') ||
+         v.name.toLowerCase().includes('amelie') ||
+         v.name.toLowerCase().includes('thomas'))
+      ) || voices.find(v => v.lang.startsWith('fr')) || voices[0];
+
+      console.log('[TeacherAvatar] ✅ Voix chargée:', this.#femaleVoice?.name || 'Par défaut');
     };
+
+    // ✅ Charger immédiatement
     loadVoices();
+
+    // ✅ Recharger quand les voix sont disponibles (asynchrone)
     speechSynthesis.onvoiceschanged = loadVoices;
+
+    // ✅ Forcer le chargement après 100ms (fallback)
+    setTimeout(loadVoices, 100);
   }
 
   speak(text) {
