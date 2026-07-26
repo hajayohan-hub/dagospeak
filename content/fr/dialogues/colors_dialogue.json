@@ -1,17 +1,18 @@
 {
   "id": "colors_dialogue",
-  "level": "A1",
-  "theme": "colors",
-  "title": "Les couleurs de la vie",
-  "titleMg": "Ny lokon'ny fiainana",
+  "title": "De quelle couleur ?",
+  "description": "Dialogue sur les couleurs préférées",
   "participants": {
-    "A": { "name": "Artiste", "nameMg": "Mpihira", "avatar": "👨🏾‍🎨" },
-    "B": { "name": "Ami", "nameMg": "Namana", "avatar": "👩🏽" }
+    "A": { "name": "Marie", "avatar": "👩" },
+    "B": { "name": "Vous", "avatar": "🧑" }
   },
   "lines": [
-    { "speaker": "B", "text": "J'aime le rouge et le bleu.", "translation": "Tiako ny mena sy ny manga.", "highlight": "rouge" },
-    { "speaker": "A", "text": "Moi, je préfère le vert et le jaune.", "translation": "Izaho, tiako kokoa ny maitso sy ny mavo.", "highlight": "vert" },
-    { "speaker": "B", "text": "Le ciel est bleu aujourd'hui.", "translation": "Manga ny lanitra androany.", "highlight": "bleu" },
-    { "speaker": "A", "text": "Oui, et le soleil est jaune !", "translation": "Eny, ary mavo ny masoandro!", "highlight": "jaune" }
+    { "speaker": "A", "text": "Quelle est ta couleur préférée ?", "translation": "Inona ny loko ankafizinao?" },
+    { "speaker": "B", "text": "Ma couleur préférée est le bleu.", "translation": "Ny loko ankafiziko dia manga." },
+    { "speaker": "A", "text": "Pourquoi le bleu ?", "translation": "Nahoana ny manga?" },
+    { "speaker": "B", "text": "Parce que j'aime le ciel et la mer.", "translation": "Satria tiako ny lanitra sy ny ranomasina." },
+    { "speaker": "A", "text": "Et moi, j'aime le rouge. C'est vif et joyeux.", "translation": "Izaho kosa, tiako ny mena. Mavitrika sy faly." },
+    { "speaker": "B", "text": "Regarde, cette fleur est rose !", "translation": "Jereo, mavokely ity voninkazo ity !" },
+    { "speaker": "A", "text": "Oui, et les feuilles sont vertes.", "translation": "Eny, ary maitso ny ravina." }
   ]
 }

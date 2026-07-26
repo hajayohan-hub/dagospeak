@@ -1,41 +1,17 @@
 {
   "id": "greetings",
-  "level": "A1",
-  "theme": "Salutations",
-  "themeMg": "Fiarahabana",
+  "title": "Les Salutations",
+  "description": "Dire bonjour et au revoir",
   "items": [
-    {
-      "id": "g1",
-      "target": "Bonjour",
-      "source": "Manahoana",
-      "phonetic": "bɔ̃.ʒuʁ",
-      "audio": "/content/fr/audio/greetings/bonjour.mp3",
-      "image": "/content/fr/images/sun.svg",
-      "context": "Bonjour, comment allez-vous ?",
-      "contextTranslation": "Manahoana, manao ahoana ianao?",
-      "tags": ["formel", "matin"]
-    },
-    {
-      "id": "g2",
-      "target": "Merci",
-      "source": "Misaotra",
-      "phonetic": "mɛʁ.si",
-      "audio": "/content/fr/audio/greetings/merci.mp3",
-      "image": "/content/fr/images/hands.svg",
-      "context": "Merci beaucoup !",
-      "contextTranslation": "Misaotra betsaka!",
-      "tags": ["politesse"]
-    },
-    {
-      "id": "g3",
-      "target": "Au revoir",
-      "source": "Veloma",
-      "phonetic": "o ʁə.vwaʁ",
-      "audio": "/content/fr/audio/greetings/aurevoir.mp3",
-      "image": "/content/fr/images/wave.svg",
-      "context": "Au revoir et à bientôt !",
-      "contextTranslation": "Veloma ary hihaona indray!",
-      "tags": ["départ"]
-    }
+    { "id": "g1", "source": "Bonjour", "target": "Manahoana", "phonetic": "bɔ̃.ʒuʁ", "audio": "/content/fr/audio/greetings/bonjour.mp3", "context": "Bonjour, comment allez-vous ?", "contextTranslation": "Manahoana, manahoana ianao?", "quizType": "fr_to_mg", "tags": ["salutation"], "icon": "👋" },
+    { "id": "g2", "source": "Bonsoir", "target": "Manaratra", "phonetic": "bɔ.swaʁ", "audio": "/content/fr/audio/greetings/bonsoir.mp3", "context": "Bonsoir, bonne nuit.", "contextTranslation": "Manaratra, alina tsara.", "quizType": "fr_to_mg", "tags": ["salutation"], "icon": "" },
+    { "id": "g3", "source": "Au revoir", "target": "Veloma", "phonetic": "o ʁə.vwaʁ", "audio": "/content/fr/audio/greetings/au_revoir.mp3", "context": "Au revoir, à bientôt !", "contextTranslation": "Veloma, hatramin'ny indray mandeha !", "quizType": "fr_to_mg", "tags": ["salutation"], "icon": "👋" },
+    { "id": "g4", "source": "Merci", "target": "Misaotra", "phonetic": "mɛ.si", "audio": "/content/fr/audio/greetings/merci.mp3", "context": "Merci beaucoup !", "contextTranslation": "Misaotra betsaka !", "quizType": "fr_to_mg", "tags": ["salutation"], "icon": "🙏" },
+    { "id": "g5", "source": "S'il vous plaît", "target": "Azafady", "phonetic": "sil vu plɛ", "audio": "/content/fr/audio/greetings/sil_vous_plait.mp3", "context": "Un café, s'il vous plaît.", "contextTranslation": "Kafe iray, azafady.", "quizType": "fr_to_mg", "tags": ["salutation"], "icon": "☕" },
+    { "id": "g6", "source": "Excusez-moi", "target": "Miala tsiny", "phonetic": "ɛk.sky.ze mwa", "audio": "/content/fr/audio/greetings/excusez_moi.mp3", "context": "Excusez-moi, où est la gare ?", "contextTranslation": "Miala tsiny, aiza ny gara?", "quizType": "fr_to_mg", "tags": ["salutation"], "icon": "🙏" },
+    { "id": "g7", "source": "Oui", "target": "Eny", "phonetic": "wi", "audio": "/content/fr/audio/greetings/oui.mp3", "context": "Oui, je comprends.", "contextTranslation": "Eny, azoko.", "quizType": "fr_to_mg", "tags": ["salutation"], "icon": "✅" },
+    { "id": "g8", "source": "Non", "target": "Tsia", "phonetic": "nɔ̃", "audio": "/content/fr/audio/greetings/non.mp3", "context": "Non, merci.", "contextTranslation": "Tsia, misaotra.", "quizType": "fr_to_mg", "tags": ["salutation"], "icon": "❌" },
+    { "id": "g9", "source": "Comment ça va ?", "target": "Manahoana ianao?", "phonetic": "kɔ.mɑ̃ sa va", "audio": "/content/fr/audio/greetings/comment_ca_va.mp3", "context": "Bonjour, comment ça va ?", "contextTranslation": "Manahoana, manahoana ianao?", "quizType": "fr_to_mg", "tags": ["salutation"], "icon": "💬" },
+    { "id": "g10", "source": "Ça va bien", "target": "Tsara", "phonetic": "sa va bjɛ", "audio": "/content/fr/audio/greetings/ca_va_bien.mp3", "context": "Ça va bien, merci.", "contextTranslation": "Tsara, misaotra.", "quizType": "fr_to_mg", "tags": ["salutation"], "icon": "😊" }
   ]
 }

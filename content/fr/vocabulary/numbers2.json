@@ -1,0 +1,127 @@
+{
+  "id": "numbers2",
+  "title": "Les Nombres (11-20)",
+  "description": "Compter de 11 à 20",
+  "items": [
+    {
+      "id": "n11",
+      "source": "Onze",
+      "target": "Iraika ambin'ny folo",
+      "phonetic": "ɔz",
+      "audio": "/content/fr/audio/numbers2/onze.mp3",
+      "context": "Il y a onze joueurs.",
+      "contextTranslation": "Misy mpilalao iraika ambin'ny folo.",
+      "quizType": "fr_to_mg",
+      "tags": ["nombre"],
+      "icon": ""
+    },
+    {
+      "id": "n12",
+      "source": "Douze",
+      "target": "Roambin'ny folo",
+      "phonetic": "duz",
+      "audio": "/content/fr/audio/numbers2/douze.mp3",
+      "context": "Une année a douze mois.",
+      "contextTranslation": "Ny taona dia manana volana roambin'ny folo.",
+      "quizType": "fr_to_mg",
+      "tags": ["nombre"],
+      "icon": "🔢"
+    },
+    {
+      "id": "n13",
+      "source": "Treize",
+      "target": "Telondroambin'ny folo",
+      "phonetic": "tʁɛz",
+      "audio": "/content/fr/audio/numbers2/treize.mp3",
+      "context": "J'ai treize ans.",
+      "contextTranslation": "Telondroambin'ny folo taona aho.",
+      "quizType": "fr_to_mg",
+      "tags": ["nombre"],
+      "icon": "🔢"
+    },
+    {
+      "id": "n14",
+      "source": "Quatorze",
+      "target": "Efatra ambin'ny folo",
+      "phonetic": "ka.tɔʁz",
+      "audio": "/content/fr/audio/numbers2/quatorze.mp3",
+      "context": "Il est quatorze heures.",
+      "contextTranslation": "Efatra ambin'ny folo ora izy.",
+      "quizType": "fr_to_mg",
+      "tags": ["nombre"],
+      "icon": "🔢"
+    },
+    {
+      "id": "n15",
+      "source": "Quinze",
+      "target": "Dimy ambin'ny folo",
+      "phonetic": "kɛ̃z",
+      "audio": "/content/fr/audio/numbers2/quinze.mp3",
+      "context": "Quinze minutes.",
+      "contextTranslation": "Dimy ambin'ny folo minitra.",
+      "quizType": "fr_to_mg",
+      "tags": ["nombre"],
+      "icon": "🔢"
+    },
+    {
+      "id": "n16",
+      "source": "Seize",
+      "target": "Enina ambin'ny folo",
+      "phonetic": "sz",
+      "audio": "/content/fr/audio/numbers2/seize.mp3",
+      "context": "Seize élèves dans la classe.",
+      "contextTranslation": "Enina ambin'ny folo mpianatra ao anatin'ny kilasy.",
+      "quizType": "fr_to_mg",
+      "tags": ["nombre"],
+      "icon": "🔢"
+    },
+    {
+      "id": "n17",
+      "source": "Dix-sept",
+      "target": "Fito ambin'ny folo",
+      "phonetic": "dis.sɛt",
+      "audio": "/content/fr/audio/numbers2/dix-sept.mp3",
+      "context": "Dix-sept crayons.",
+      "contextTranslation": "Fito ambin'ny folo pensily.",
+      "quizType": "fr_to_mg",
+      "tags": ["nombre"],
+      "icon": ""
+    },
+    {
+      "id": "n18",
+      "source": "Dix-huit",
+      "target": "Valo ambin'ny folo",
+      "phonetic": "dis.ɥit",
+      "audio": "/content/fr/audio/numbers2/dix-huit.mp3",
+      "context": "Dix-huit ans, c'est l'âge adulte.",
+      "contextTranslation": "Valo ambin'ny folo taona, izany no fahatanorana.",
+      "quizType": "fr_to_mg",
+      "tags": ["nombre"],
+      "icon": "🔢"
+    },
+    {
+      "id": "n19",
+      "source": "Dix-neuf",
+      "target": "Sivy ambin'ny folo",
+      "phonetic": "dis.nœf",
+      "audio": "/content/fr/audio/numbers2/dix-neuf.mp3",
+      "context": "Dix-neuf livres.",
+      "contextTranslation": "Sivy ambin'ny folo boky.",
+      "quizType": "fr_to_mg",
+      "tags": ["nombre"],
+      "icon": "🔢"
+    },
+    {
+      "id": "n20",
+      "source": "Vingt",
+      "target": "Roa ambin'ny folo",
+      "phonetic": "vɛ̃",
+      "audio": "/content/fr/audio/numbers2/vingt.mp3",
+      "context": "Vingt doigts au total.",
+      "contextTranslation": "Roa ambin'ny folo rantsan-tànana manontolo.",
+      "quizType": "fr_to_mg",
+      "tags": ["nombre"],
+      "icon": ""
+    }
+  ]
+}

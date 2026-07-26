@@ -1,13 +1,127 @@
 {
   "id": "numbers",
-  "level": "A0",
-  "theme": "Les Nombres",
-  "themeMg": "Ny Isa",
+  "title": "Les Nombres (1-10)",
+  "description": "Compter de 1 à 10",
   "items": [
-    { "id": "n1", "target": "Un", "source": "Iray", "phonetic": "œ̃", "audio": "", "context": "J'ai un livre.", "contextTranslation": "Manana boky iray aho.", "quizType": "fr_to_mg", "tags": ["nombre"] },
-    { "id": "n2", "target": "Deux", "source": "Roa", "phonetic": "dø", "audio": "", "context": "Nous sommes deux.", "contextTranslation": "Roa izahay.", "quizType": "fr_to_mg", "tags": ["nombre"] },
-    { "id": "n3", "target": "Trois", "source": "Telo", "phonetic": "tʁwa", "audio": "", "context": "Il y a trois chats.", "contextTranslation": "Telo ny saka.", "quizType": "fr_to_mg", "tags": ["nombre"] },
-    { "id": "n4", "target": "Quatre", "source": "Efatra", "phonetic": "katʁ", "audio": "", "context": "J'ai quatre ans.", "contextTranslation": "Efatra taona aho.", "quizType": "fr_to_mg", "tags": ["nombre"] },
-    { "id": "n5", "target": "Cinq", "source": "Dimy", "phonetic": "sɛ̃k", "audio": "", "context": "Il est cinq heures.", "contextTranslation": "Dimy ora izao.", "quizType": "fr_to_mg", "tags": ["nombre"] }
+    {
+      "id": "n1",
+      "source": "Un",
+      "target": "Iray",
+      "phonetic": "œ̃",
+      "audio": "/content/fr/audio/numbers/un.mp3",
+      "context": "J'ai un chat.",
+      "contextTranslation": "Manana saka iray aho.",
+      "quizType": "fr_to_mg",
+      "tags": ["nombre"],
+      "icon": "1️⃣"
+    },
+    {
+      "id": "n2",
+      "source": "Deux",
+      "target": "Roa",
+      "phonetic": "dø",
+      "audio": "/content/fr/audio/numbers/deux.mp3",
+      "context": "J'ai deux mains.",
+      "contextTranslation": "Manana tànana roa aho.",
+      "quizType": "fr_to_mg",
+      "tags": ["nombre"],
+      "icon": "2️⃣"
+    },
+    {
+      "id": "n3",
+      "source": "Trois",
+      "target": "Telo",
+      "phonetic": "tʁwa",
+      "audio": "/content/fr/audio/numbers/trois.mp3",
+      "context": "Il y a trois livres.",
+      "contextTranslation": "Misy boky telo.",
+      "quizType": "fr_to_mg",
+      "tags": ["nombre"],
+      "icon": "3️⃣"
+    },
+    {
+      "id": "n4",
+      "source": "Quatre",
+      "target": "Efatra",
+      "phonetic": "katʁ",
+      "audio": "/content/fr/audio/numbers/quatre.mp3",
+      "context": "Une table a quatre pieds.",
+      "contextTranslation": "Ny latabatra dia manana tongotra efatra.",
+      "quizType": "fr_to_mg",
+      "tags": ["nombre"],
+      "icon": "4️⃣"
+    },
+    {
+      "id": "n5",
+      "source": "Cinq",
+      "target": "Dimy",
+      "phonetic": "sɛ̃k",
+      "audio": "/content/fr/audio/numbers/cinq.mp3",
+      "context": "J'ai cinq doigts.",
+      "contextTranslation": "Manana rantsan-tànana dimy aho.",
+      "quizType": "fr_to_mg",
+      "tags": ["nombre"],
+      "icon": "5️⃣"
+    },
+    {
+      "id": "n6",
+      "source": "Six",
+      "target": "Enina",
+      "phonetic": "sis",
+      "audio": "/content/fr/audio/numbers/six.mp3",
+      "context": "Il y a six œufs.",
+      "contextTranslation": "Misy atody enina.",
+      "quizType": "fr_to_mg",
+      "tags": ["nombre"],
+      "icon": "6️"
+    },
+    {
+      "id": "n7",
+      "source": "Sept",
+      "target": "Fito",
+      "phonetic": "sɛt",
+      "audio": "/content/fr/audio/numbers/sept.mp3",
+      "context": "Une semaine a sept jours.",
+      "contextTranslation": "Ny herinandro dia manana andro fito.",
+      "quizType": "fr_to_mg",
+      "tags": ["nombre"],
+      "icon": "7️"
+    },
+    {
+      "id": "n8",
+      "source": "Huit",
+      "target": "Valo",
+      "phonetic": "ɥit",
+      "audio": "/content/fr/audio/numbers/huit.mp3",
+      "context": "Une araignée a huit pattes.",
+      "contextTranslation": "Ny hala dia manana tongotra valo.",
+      "quizType": "fr_to_mg",
+      "tags": ["nombre"],
+      "icon": "8️⃣"
+    },
+    {
+      "id": "n9",
+      "source": "Neuf",
+      "target": "Sivy",
+      "phonetic": "nœf",
+      "audio": "/content/fr/audio/numbers/neuf.mp3",
+      "context": "Il est neuf heures.",
+      "contextTranslation": "Sivy ora izy.",
+      "quizType": "fr_to_mg",
+      "tags": ["nombre"],
+      "icon": "9️⃣"
+    },
+    {
+      "id": "n10",
+      "source": "Dix",
+      "target": "Folo",
+      "phonetic": "dis",
+      "audio": "/content/fr/audio/numbers/dix.mp3",
+      "context": "J'ai dix crayons.",
+      "contextTranslation": "Manana pensily folo aho.",
+      "quizType": "fr_to_mg",
+      "tags": ["nombre"],
+      "icon": "🔟"
+    }
   ]
 }

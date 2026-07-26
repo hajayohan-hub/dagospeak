@@ -1,0 +1,18 @@
+{
+  "id": "months_dialogue",
+  "title": "Quel mois sommes-nous ?",
+  "description": "Dialogue sur les mois",
+  "participants": {
+    "A": { "name": "Marie", "avatar": "" },
+    "B": { "name": "Vous", "avatar": "🧑" }
+  },
+  "lines": [
+    { "speaker": "A", "text": "En quel mois sommes-nous ?", "translation": "Inona ny volana anio?" },
+    { "speaker": "B", "text": "Nous sommes en janvier.", "translation": "Janoary anio." },
+    { "speaker": "A", "text": "Quel est ton mois préféré ?", "translation": "Inona ny volana ankafizinao?" },
+    { "speaker": "B", "text": "Mon mois préféré est décembre.", "translation": "Desambra no volana ankafiziko." },
+    { "speaker": "A", "text": "Pourquoi décembre ?", "translation": "Nahoana ny desambra?" },
+    { "speaker": "B", "text": "Parce que c'est Noël et les vacances !", "translation": "Satria Krismasy sy fialan-tsasatra !" },
+    { "speaker": "A", "text": "Moi, j'aime juillet pour la plage.", "translation": "Izaho, tiako ny jolay ho an'ny morontsiraka." }
+  ]
+}

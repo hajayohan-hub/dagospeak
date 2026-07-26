@@ -1,0 +1,14 @@
+{
+  "id": "days",
+  "title": "Les Jours de la semaine",
+  "description": "Les sept jours",
+  "items": [
+    { "id": "d1", "source": "Lundi", "target": "Alatsinainy", "phonetic": "lœ̃.di", "audio": "/content/fr/audio/days/lundi.mp3", "context": "Le lundi, je vais à l'école.", "contextTranslation": "Alatsinainy, mandeha an-tsekoly aho.", "quizType": "fr_to_mg", "tags": ["jour"], "icon": "" },
+    { "id": "d2", "source": "Mardi", "target": "Talata", "phonetic": "maʁ.di", "audio": "/content/fr/audio/days/mardi.mp3", "context": "Mardi, c'est le jour du marché.", "contextTranslation": "Talata, andron'ny tsena.", "quizType": "fr_to_mg", "tags": ["jour"], "icon": "📅" },
+    { "id": "d3", "source": "Mercredi", "target": "Alarobia", "phonetic": "mɛʁ.kə.di", "audio": "/content/fr/audio/days/mercredi.mp3", "context": "Mercredi, les enfants jouent.", "contextTranslation": "Alarobia, milalao ny ankizy.", "quizType": "fr_to_mg", "tags": ["jour"], "icon": "📅" },
+    { "id": "d4", "source": "Jeudi", "target": "Alakamisy", "phonetic": "ʒø.di", "audio": "/content/fr/audio/days/jeudi.mp3", "context": "Jeudi, nous avons cours de français.", "contextTranslation": "Alakamisy, manana kilasy frantsay isika.", "quizType": "fr_to_mg", "tags": ["jour"], "icon": "📅" },
+    { "id": "d5", "source": "Vendredi", "target": "Zoma", "phonetic": "vɑ̃.dʁə.di", "audio": "/content/fr/audio/days/vendredi.mp3", "context": "Vendredi, c'est la fin de semaine.", "contextTranslation": "Zoma, faran'ny herinandro.", "quizType": "fr_to_mg", "tags": ["jour"], "icon": "📅" },
+    { "id": "d6", "source": "Samedi", "target": "Sabotsy", "phonetic": "sam.di", "audio": "/content/fr/audio/days/samedi.mp3", "context": "Samedi, je me repose.", "contextTranslation": "Sabotsy, miala sasatra aho.", "quizType": "fr_to_mg", "tags": ["jour"], "icon": "📅" },
+    { "id": "d7", "source": "Dimanche", "target": "Alahady", "phonetic": "di.mɑ̃ʃ", "audio": "/content/fr/audio/days/dimanche.mp3", "context": "Dimanche, on va à l'église.", "contextTranslation": "Alahady, mandeha am-piangonana isika.", "quizType": "fr_to_mg", "tags": ["jour"], "icon": "📅" }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "months",
+  "title": "Les Mois de l'année",
+  "description": "Les douze mois",
+  "items": [
+    { "id": "m1", "source": "Janvier", "target": "Janoary", "phonetic": "ʒɑ̃.vje", "audio": "/content/fr/audio/months/janvier.mp3", "context": "Le nouvel an est en janvier.", "contextTranslation": "Ny taom-baovao dia amin'ny janoary.", "quizType": "fr_to_mg", "tags": ["mois"], "icon": "🎆" },
+    { "id": "m2", "source": "Février", "target": "Febroary", "phonetic": "fe.vʁi.je", "audio": "/content/fr/audio/months/fevrier.mp3", "context": "Février a 28 jours.", "contextTranslation": "Febroary dia manana 28 andro.", "quizType": "fr_to_mg", "tags": ["mois"], "icon": "❤️" },
+    { "id": "m3", "source": "Mars", "target": "Martsa", "phonetic": "maʁs", "audio": "/content/fr/audio/months/mars.mp3", "context": "Au mars, le printemps commence.", "contextTranslation": "Amin'ny martsa, manomboka ny lohataona.", "quizType": "fr_to_mg", "tags": ["mois"], "icon": "🌸" },
+    { "id": "m4", "source": "Avril", "target": "Aprily", "phonetic": "a.vʁil", "audio": "/content/fr/audio/months/avril.mp3", "context": "En avril, il pleut souvent.", "contextTranslation": "Amin'ny aprily, matetika manorana.", "quizType": "fr_to_mg", "tags": ["mois"], "icon": "🌧️" },
+    { "id": "m5", "source": "Mai", "target": "Mey", "phonetic": "mɛ", "audio": "/content/fr/audio/months/mai.mp3", "context": "Mai est le mois des fleurs.", "contextTranslation": "Mey no volan'ny voninkazo.", "quizType": "fr_to_mg", "tags": ["mois"], "icon": "" },
+    { "id": "m6", "source": "Juin", "target": "Jona", "phonetic": "ʒu.ɛ̃", "audio": "/content/fr/audio/months/juin.mp3", "context": "En juin, c'est l'été.", "contextTranslation": "Amin'ny jona, fahavaratra.", "quizType": "fr_to_mg", "tags": ["mois"], "icon": "☀️" },
+    { "id": "m7", "source": "Juillet", "target": "Jolay", "phonetic": "ʒɥi.jɛ", "audio": "/content/fr/audio/months/juillet.mp3", "context": "Juillet est le mois des vacances.", "contextTranslation": "Jolay no volan'ny fialan-tsasatra.", "quizType": "fr_to_mg", "tags": ["mois"], "icon": "️" },
+    { "id": "m8", "source": "Août", "target": "Aogositra", "phonetic": "ut", "audio": "/content/fr/audio/months/aout.mp3", "context": "En août, il fait très chaud.", "contextTranslation": "Amin'ny aogositra, mafana be.", "quizType": "fr_to_mg", "tags": ["mois"], "icon": "" },
+    { "id": "m9", "source": "Septembre", "target": "Septambra", "phonetic": "sɛp.tɑ̃bʁ", "audio": "/content/fr/audio/months/septembre.mp3", "context": "Septembre, c'est la rentrée scolaire.", "contextTranslation": "Septambra, fidirana an-tsekoly.", "quizType": "fr_to_mg", "tags": ["mois"], "icon": "" },
+    { "id": "m10", "source": "Octobre", "target": "Oktobra", "phonetic": "ɔk.tɔbʁ", "audio": "/content/fr/audio/months/octobre.mp3", "context": "En octobre, les feuilles tombent.", "contextTranslation": "Amin'ny oktobra, mianjera ny ravina.", "quizType": "fr_to_mg", "tags": ["mois"], "icon": "🍂" },
+    { "id": "m11", "source": "Novembre", "target": "Novambra", "phonetic": "nɔ.vɑ̃bʁ", "audio": "/content/fr/audio/months/novembre.mp3", "context": "Novembre est le mois de la pluie.", "contextTranslation": "Novambra no volan'ny orana.", "quizType": "fr_to_mg", "tags": ["mois"], "icon": "️" },
+    { "id": "m12", "source": "Décembre", "target": "Desambra", "phonetic": "de.sɑ̃bʁ", "audio": "/content/fr/audio/months/decembre.mp3", "context": "Décembre, c'est Noël !", "contextTranslation": "Desambra, Krismasy !", "quizType": "fr_to_mg", "tags": ["mois"], "icon": "🎄" }
+  ]
+}

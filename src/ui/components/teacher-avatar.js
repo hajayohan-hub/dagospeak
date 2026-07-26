@@ -121,11 +121,11 @@ export class TeacherAvatar {
     if (badge) badge.remove();
   }
 
-    show(tipKey) {
+     show(tipKey) {
     const tips = {
       'home': {
-        fr: "Bienvenue ! Cliquez sur le bouton 'Commencer' pour choisir votre niveau.",
-        mg: "Tongasoa ! Tsindrio ny bokotra 'Commencer' mba hifidianana ny ambaratonga."
+        fr: "Bienvenue ! Cliquez sur 'Commencer' pour choisir votre niveau.",
+        mg: "Tongasoa ! Tsindrio 'Commencer' mba hifidianana ny ambaratonga."
       },
       'themes': {
         fr: "Choisissez un thème pour voir les leçons disponibles.",
@@ -136,19 +136,19 @@ export class TeacherAvatar {
         mg: "Safidio hetsika iray : Lesona, Fanadiniana, na Resaka."
       },
       'lesson': {
-        fr: "Écoutez chaque mot en cliquant sur le bouton audio.",
-        mg: "Hihainoa ny teny tsirairay amin'ny bokotra audio."
+        fr: "Écoutez chaque mot et répétez-le à voix haute pour bien prononcer.",
+        mg: "Hihainoa ny teny tsirairay ary avereno am-peo avo mba hahafahananao manonona tsara."
       },
       'practice': {
-        fr: "Suivez les étapes : Écoutez, Répondez, Prononcez.",
-        mg: "Araho ny dingana : Mihainoa, Valiako, Mitenena."
+        fr: "Révisions : écoutez, répondez au quiz, puis prononcez avec le shadowing.",
+        mg: "Fanadiniana : mihainoa, valio ny quiz, ary mitenena amin'ny shadowing."
       },
       'dialogues': {
         fr: "Lisez la conversation et écoutez chaque ligne.",
         mg: "Vakio ny resaka ary mihainoa ny andalana tsirairay."
       },
       'roleplay': {
-        fr: "Jouez les deux rôles. Écoutez, puis parlez.",
+        fr: "Jouez les deux rôles. Écoutez, puis parlez à votre tour.",
         mg: "Milalao anjara asa roa. Mihainoa, ary mitenena."
       },
       'challenge': {
@@ -160,17 +160,11 @@ export class TeacherAvatar {
     this.#currentTip = tips[tipKey] || { fr: "Continuez !", mg: "Tohizo !" };
     this.render();
 
-    // ✅ CORRECTION : Sur la page d'accueil, NE PAS parler automatiquement
-    // Le bouton "Commencer" s'en charge
     if (tipKey === 'home') {
-      // Juste l'animation de signe pour attirer l'attention
-      if (this.#isFirstUser) {
-        setTimeout(() => this.#startSignAnimation(), 1000);
-      }
-      return; // ✅ Sortir sans parler
+      if (this.#isFirstUser) setTimeout(() => this.#startSignAnimation(), 1000);
+      return;
     }
 
-    // Pour les autres pages, parler automatiquement si activé
     if (this.#autoSpeakEnabled) {
       setTimeout(() => this.speak(this.#currentTip.fr), 500);
     }

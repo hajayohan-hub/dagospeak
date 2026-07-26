@@ -1,0 +1,18 @@
+{
+  "id": "body_dialogue",
+  "title": "Mon corps",
+  "description": "Dialogue sur le corps",
+  "participants": {
+    "A": { "name": "Professeur", "avatar": "👨‍🏫" },
+    "B": { "name": "Élève", "avatar": "🧑‍🎓" }
+  },
+  "lines": [
+    { "speaker": "A", "text": "Montrez-moi votre tête.", "translation": "Asehoy ahy ny lohanao." },
+    { "speaker": "B", "text": "Voici ma tête.", "translation": "Ity ny lohako." },
+    { "speaker": "A", "text": "Et vos yeux ?", "translation": "Ary ny masonao?" },
+    { "speaker": "B", "text": "Voici mes yeux.", "translation": "Ity ny masoko." },
+    { "speaker": "A", "text": "Très bien ! Montrez-moi vos mains.", "translation": "Tsara be ! Asehoy ahy ny tànanao." },
+    { "speaker": "B", "text": "Voici mes mains.", "translation": "Ity ny tànako." },
+    { "speaker": "A", "text": "Parfait ! Vous connaissez votre corps !", "translation": "Tena tsara ! Fantatrao ny vatanao !" }
+  ]
+}

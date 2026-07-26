@@ -1,0 +1,18 @@
+{
+  "id": "days_dialogue",
+  "title": "Quel jour sommes-nous ?",
+  "description": "Dialogue sur les jours",
+  "participants": {
+    "A": { "name": "Marie", "avatar": "👩" },
+    "B": { "name": "Vous", "avatar": "🧑" }
+  },
+  "lines": [
+    { "speaker": "A", "text": "Quel jour sommes-nous aujourd'hui ?", "translation": "Inona ny andro anio?" },
+    { "speaker": "B", "text": "Aujourd'hui c'est lundi.", "translation": "Alatsinainy anio." },
+    { "speaker": "A", "text": "Et demain ?", "translation": "Ary rahampitso?" },
+    { "speaker": "B", "text": "Demain c'est mardi.", "translation": "Talata rahampitso." },
+    { "speaker": "A", "text": "Quel jour tu ne travailles pas ?", "translation": "Inona ny andro tsy miasa ianao?" },
+    { "speaker": "B", "text": "Je ne travaille pas le dimanche.", "translation": "Tsy miasa alahady aho." },
+    { "speaker": "A", "text": "Moi non plus ! C'est le jour de repos.", "translation": "Izaho koa ! Andro fialan-tsasatra izany." }
+  ]
+}

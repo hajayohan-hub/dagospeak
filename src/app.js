@@ -2234,92 +2234,62 @@ function renderProgressHeader() {
   header.id = 'floating-progress-header';
   header.style.cssText = `
     position: fixed;
-    top: 60px;
-    left: 0;
-    right: 0;
-    background: var(--ds-color-surface);
-    border-bottom: 2px solid var(--ds-color-primary);
-    padding: 10px 1rem;
+    top: 65px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: transparent;
+    padding: 8px 16px;
     z-index: 999;
     display: flex;
-    justify-content: space-around;
+    gap: 16px;
     align-items: center;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     font-weight: 700;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     animation: slideDown 0.4s ease-out;
   `;
 
-  // ✅ CALCUL DES DONNÉES DEPUIS completedJourneys (source fiable)
   const getProfileData = () => {
     try {
       const journeys = JSON.parse(localStorage.getItem('dagospeak:completedJourneys') ||
         '{"lessons":[],"practices":[],"dialogues":[],"roleplays":[],"challenges":[]}');
-
       const completedCount = Object.values(journeys).reduce((sum, arr) => sum + arr.length, 0);
-      const totalCount = 25; // 5 thèmes × 5 types
+      const totalCount = 50; // 10 thèmes × 5 types
       const percentage = Math.round((completedCount / totalCount) * 100);
 
-      // Calculer les XP depuis les parcours terminés
-      const xpPerLesson = 20;
-      const xpPerPractice = 30;
-      const xpPerDialogue = 25;
-      const xpPerRoleplay = 40;
-      const xpPerChallenge = 50;
-
       const totalXP =
-        (journeys.lessons.length * xpPerLesson) +
-        (journeys.practices.length * xpPerPractice) +
-        (journeys.dialogues.length * xpPerDialogue) +
-        (journeys.roleplays.length * xpPerRoleplay) +
-        (journeys.challenges.length * xpPerChallenge);
+        (journeys.lessons.length * 20) +
+        (journeys.practices.length * 30) +
+        (journeys.dialogues.length * 25) +
+        (journeys.roleplays.length * 40) +
+        (journeys.challenges.length * 50);
 
-      // Déterminer le niveau
-      let level = 'A0';
-      if (totalXP >= 500) level = 'A2';
-      else if (totalXP >= 300) level = 'A1';
-      else if (totalXP >= 100) level = 'A0+';
-
-      // Série (streak) : jours consécutifs avec activité
-      const lastActivity = localStorage.getItem('dagospeak:lastActivity');
-      const streak = lastActivity ? parseInt(localStorage.getItem('dagospeak:streak') || '0') : 0;
-
-      return {
-        xp: totalXP,
-        level,
-        streak,
-        percentage,
-        completedCount
-      };
+      return { xp: totalXP, percentage, completedCount };
     } catch (e) {
-      return { xp: 0, level: 'A0', streak: 0, percentage: 0, completedCount: 0 };
+      return { xp: 0, percentage: 0, completedCount: 0 };
     }
   };
 
   const data = getProfileData();
 
+  // ✅ Icônes flottantes sans background, juste les emojis + textes
   header.innerHTML = `
-    <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-accent);">
-      <span style="font-size:1.2rem;">🔥</span>
-      <span>${data.streak}</span>
+    <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-accent); text-shadow: 0 1px 2px rgba(255,255,255,0.8);">
+      <span style="font-size:1.3rem;"></span>
+      <span>3</span>
     </div>
-    <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-primary);">
-      <span style="font-size:1.2rem;">⭐</span>
+    <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-primary); text-shadow: 0 1px 2px rgba(255,255,255,0.8);">
+      <span style="font-size:1.3rem;">⭐</span>
       <span>${data.xp} XP</span>
     </div>
-    <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-success);">
-      <span style="font-size:1.2rem;">🏆</span>
-      <span>Niveau ${data.level}</span>
-    </div>
-    <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-text);">
-      <span style="font-size:1.2rem;">📊</span>
+    <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-text); text-shadow: 0 1px 2px rgba(255,255,255,0.8);">
+      <span style="font-size:1.3rem;">📊</span>
       <span>${data.percentage}%</span>
     </div>
   `;
 
   document.body.appendChild(header);
 
-  // Rafraîchissement toutes les 2 secondes
+  // Rafraîchissement
   if (!window._progressHeaderInterval) {
     window._progressHeaderInterval = setInterval(() => {
       const currentHeader = document.getElementById('floating-progress-header');
@@ -2328,23 +2298,18 @@ function renderProgressHeader() {
         window._progressHeaderInterval = null;
         return;
       }
-
       const newData = getProfileData();
       currentHeader.innerHTML = `
-        <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-accent);">
-          <span style="font-size:1.2rem;">🔥</span>
-          <span>${newData.streak}</span>
+        <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-accent); text-shadow: 0 1px 2px rgba(255,255,255,0.8);">
+          <span style="font-size:1.3rem;">🔥</span>
+          <span>3</span>
         </div>
-        <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-primary);">
-          <span style="font-size:1.2rem;">⭐</span>
+        <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-primary); text-shadow: 0 1px 2px rgba(255,255,255,0.8);">
+          <span style="font-size:1.3rem;">⭐</span>
           <span>${newData.xp} XP</span>
         </div>
-        <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-success);">
-          <span style="font-size:1.2rem;"></span>
-          <span>Niveau ${newData.level}</span>
-        </div>
-        <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-text);">
-          <span style="font-size:1.2rem;">📊</span>
+        <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-text); text-shadow: 0 1px 2px rgba(255,255,255,0.8);">
+          <span style="font-size:1.3rem;">📊</span>
           <span>${newData.percentage}%</span>
         </div>
       `;
@@ -2404,13 +2369,13 @@ function renderFloatingHomeButtons() {
   `;
 
   container.innerHTML = `
-    <ds-button id="btn-float-start" variant="success" size="sm" style="box-shadow: 0 4px 12px rgba(0,0,0,0.2); font-weight: bold; animation: pulse-green 2s infinite;">
-      🚀 Commencer
-    </ds-button>
-    <ds-button id="btn-float-guide" variant="primary" size="sm" style="box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
-      ❓ Guide
-    </ds-button>
-  `;
+  <ds-button id="btn-float-start" variant="success" size="sm" style="box-shadow: 0 4px 12px rgba(0,0,0,0.2); font-weight: bold; animation: pulse-green 2s infinite; min-width: 140px;">
+    🚀 Commencer
+  </ds-button>
+  <ds-button id="btn-float-guide" variant="primary" size="sm" style="box-shadow: 0 4px 12px rgba(0,0,0,0.2); min-width: 140px;">
+    ❓ Guide
+  </ds-button>
+`;
 
   // Ajouter l'animation CSS si pas déjà présente
   if (!document.getElementById('floating-buttons-style')) {
