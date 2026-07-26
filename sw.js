@@ -3,7 +3,7 @@
 // Stratégie Hybride : Cache-First + Stale-While-Revalidate + Network-First
 // ══════════════════════════════════════════════════════════
 
-const CACHE_NAME = 'dagospeak-v17'; // ⚠️ Incrémenter à chaque déploiement
+const CACHE_NAME = 'dagospeak-v17'; // ⚠️ Incrémenter à chaque déploiement majeur
 
 // Liste des assets critiques à pré-cacher (Cache-First)
 const STATIC_ASSETS = [
@@ -83,7 +83,7 @@ self.addEventListener('activate', (event) => {
       return self.clients.matchAll({ type: 'window', includeUncontrolled: true })
         .then((clients) => {
           clients.forEach((client) => {
-            console.log('[SW v17]  Notification NEW_VERSION à:', client.url);
+            console.log('[SW v17] 📢 Notification NEW_VERSION à:', client.url);
             client.postMessage({ type: 'NEW_VERSION' });
           });
         });
@@ -105,7 +105,6 @@ self.addEventListener('fetch', (event) => {
   // ───────────────────────────────────────────────────────
   // STRATÉGIE A : CACHE-FIRST
   // Pour : Images, Contenu JSON (vocabulaire, dialogues)
-  // Pourquoi : Accès instantané hors-ligne, contenu stable
   // ───────────────────────────────────────────────────────
   if (
     request.destination === 'image' ||
@@ -144,8 +143,6 @@ self.addEventListener('fetch', (event) => {
   // ───────────────────────────────────────────────────────
   // STRATÉGIE B : STALE-WHILE-REVALIDATE
   // Pour : Code JS, CSS
-  // Pourquoi : L'app démarre vite avec l'ancienne version,
-  //            mais se met à jour en arrière-plan
   // ───────────────────────────────────────────────────────
   if (request.destination === 'script' || request.destination === 'style') {
     event.respondWith(
@@ -159,9 +156,9 @@ self.addEventListener('fetch', (event) => {
         }).catch(() => {
           // Si le réseau échoue et qu'on a le cache, on le retourne
           if (cached) return cached;
-          // Sinon, fallback vide
+          // Sinon, fallback vide (✅ Coquille corrigée ici : '/* offline */')
           return new Response(
-            request.destination === 'script' ? '/* offline */' : '/* offline */',
+            '/* offline */',
             {
               status: 503,
               headers: { 'Content-Type': request.destination === 'script' ? 'application/javascript' : 'text/css' }
@@ -179,7 +176,6 @@ self.addEventListener('fetch', (event) => {
   // ───────────────────────────────────────────────────────
   // STRATÉGIE C : NETWORK-FIRST
   // Pour : Navigation HTML
-  // Pourquoi : Toujours avoir la dernière version de l'app
   // ───────────────────────────────────────────────────────
   if (request.mode === 'navigate') {
     event.respondWith(
@@ -211,7 +207,7 @@ self.addEventListener('fetch', (event) => {
 
 // ═══════════════════════════════════════════════════════════
 // 4. MESSAGE : Répond aux messages de l'app
-// ══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
