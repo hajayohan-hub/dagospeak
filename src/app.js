@@ -2350,92 +2350,103 @@ if (!document.getElementById('progress-header-style')) {
 }
 
 // ✅ BOUTONS FLOTTANTS "COMMENCER" ET "GUIDE" (Au-dessus du Teacher Avatar)
+// ✅ BOUTONS FLOTTANTS "COMMENCER" ET "GUIDE" (Version blindée)
 function renderFloatingHomeButtons() {
-  if (window.location.hash !== '#' && window.location.hash !== '#/') return;
-  if (window.location.hash === '#/about') return; // ✅ Ne pas afficher sur /about
+  // Ne s'affiche QUE sur la page d'accueil
+  if (window.location.hash !== '#' && window.location.hash !== '#/' && window.location.hash !== '') return;
+
+  // Éviter les doublons
   if (document.getElementById('floating-home-actions')) return;
 
   const container = document.createElement('div');
   container.id = 'floating-home-actions';
   container.style.cssText = `
     position: fixed;
-    bottom: 195px; /* ✅ AU-DESSUS du Teacher Avatar (qui est à bottom: 100px) */
+    bottom: 195px;
     right: 20px;
     display: flex;
     flex-direction: column;
     gap: 12px;
-    z-index: 9997;
+    z-index: 9998; /* Juste en dessous du Teacher Avatar (9999) */
     animation: slideInRight 0.5s ease-out;
   `;
 
   container.innerHTML = `
-  <ds-button id="btn-float-start" variant="success" size="sm" style="box-shadow: 0 4px 12px rgba(0,0,0,0.2); font-weight: bold; animation: pulse-green 2s infinite; min-width: 140px;">
-    🚀 Commencer
-  </ds-button>
-  <ds-button id="btn-float-guide" variant="primary" size="sm" style="box-shadow: 0 4px 12px rgba(0,0,0,0.2); min-width: 140px;">
-    ❓ Guide
-  </ds-button>
-`;
-
-  // Ajouter l'animation CSS si pas déjà présente
-  if (!document.getElementById('floating-buttons-style')) {
-    const style = document.createElement('style');
-    style.id = 'floating-buttons-style';
-    style.innerHTML = `
-      @keyframes slideInRight {
-        from { transform: translateX(100px); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-      }
-    `;
-    document.head.appendChild(style);
-  }
+    <button id="btn-float-start" style="background: var(--ds-color-success, #22c55e); color: white; border: none; padding: 12px 20px; border-radius: 50px; font-weight: bold; font-size: 0.95rem; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 8px; min-width: 150px; justify-content: center;">
+      🚀 Commencer
+    </button>
+    <button id="btn-float-guide" style="background: var(--ds-color-primary, #2563eb); color: white; border: none; padding: 12px 20px; border-radius: 50px; font-weight: bold; font-size: 0.95rem; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 8px; min-width: 150px; justify-content: center;">
+      ❓ Guide
+    </button>
+  `;
 
   document.body.appendChild(container);
 
-  // ✅ BOUTON "COMMENCER" : Guide vocal SANS navigation
+  // Action du bouton Commencer
   document.getElementById('btn-float-start').addEventListener('click', () => {
-    // Le Teacher Avatar parle pour guider l'utilisateur sur la page d'accueil
-    window.teacherAvatar.speak("Bienvenue ! Choisissez un niveau pour commencer votre apprentissage du français. Cliquez sur Niveau A0 pour débuter avec les mots de base.");
-
-    // ✅ PAS de navigation - l'utilisateur choisit lui-même
+    window.teacherAvatar.speak("Bienvenue ! Choisissez un niveau pour commencer votre apprentissage du français.");
+    setTimeout(() => {
+      router.navigate('/themes');
+    }, 2500);
   });
 
-  // ✅ BOUTON "GUIDE" : Modal d'aide
+  // Action du bouton Guide
   document.getElementById('btn-float-guide').addEventListener('click', () => {
     showAppGuide();
   });
 }
 
-// ✅ MODAL DE GUIDE D'UTILISATION
+// ✅ MODAL DE GUIDE D'UTILISATION (Version blindée)
 function showAppGuide() {
+  // Fermer s'il est déjà ouvert
+  if (document.getElementById('guide-modal')) {
+    document.getElementById('guide-modal').remove();
+    return;
+  }
+
   const modal = document.createElement('div');
+  modal.id = 'guide-modal';
   modal.style.cssText = `
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.8); z-index: 10002;
+    background: rgba(0,0,0,0.7); z-index: 10000;
     display: flex; align-items: center; justify-content: center; padding: 1rem;
+    animation: fadeIn 0.3s ease-out;
   `;
 
   modal.innerHTML = `
-    <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); max-width: 500px; width: 100%; max-height: 80vh; overflow-y: auto; position: relative;">
-      <button id="close-guide" style="position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 1.5rem; cursor: pointer;">×</button>
-      <h2 style="color: var(--ds-color-primary); margin-bottom: 1rem;">📖 Guide DagoSpeak</h2>
-      <ol style="line-height: 1.8; padding-left: 1.5rem; color: var(--ds-color-text);">
-        <li><strong>Actualisation :</strong> Si l'app semble bloquée, actualisez (F5 ou tirer vers le bas).</li>
-        <li><strong>🌐 Globe :</strong> Changer la langue d'apprentissage.</li>
-        <li><strong>ℹ️ Info :</strong> À propos, offres, certifications.</li>
-        <li><strong>👩‍🏫 Avatar :</strong> Cliquez pour un conseil ou traduction.</li>
-        <li><strong>🏠 📚 👤 Footer :</strong> Accueil, Thèmes, Profil.</li>
+    <div style="background: var(--ds-color-surface, white); padding: 2rem; border-radius: 16px; max-width: 500px; width: 100%; max-height: 85vh; overflow-y: auto; position: relative; color: var(--ds-color-text, black);">
+      <button id="close-guide-btn" style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 1.8rem; cursor: pointer; color: var(--ds-color-text-muted, gray); line-height: 1;">×</button>
+
+      <h2 style="color: var(--ds-color-primary, #2563eb); margin-bottom: 1.5rem; text-align: center;">📖 Guide DagoSpeak</h2>
+
+      <ol style="line-height: 1.8; padding-left: 1.5rem; font-size: 0.95rem;">
+        <li style="margin-bottom: 10px;"><strong>🔄 Actualisation :</strong> Si l'app semble bloquée, actualisez la page (F5 ou tirer vers le bas sur mobile).</li>
+        <li style="margin-bottom: 10px;"><strong>🌐 Globe (Haut) :</strong> Pour changer la langue d'apprentissage.</li>
+        <li style="margin-bottom: 10px;"><strong>ℹ️ Info (Haut) :</strong> À propos de l'app, offres et certifications.</li>
+        <li style="margin-bottom: 10px;"><strong>👩‍🏫 Avatar (Bas droite) :</strong> Cliquez dessus à tout moment pour un conseil ou une traduction.</li>
+        <li style="margin-bottom: 10px;"><strong>🏠 📚 👤 (Footer) :</strong> Naviguez entre l'Accueil, les Thèmes et votre Profil.</li>
       </ol>
-      <ds-button id="btn-understand-guide" variant="primary" size="lg" style="width: 100%; margin-top: 1.5rem;">J'ai compris</ds-button>
+
+      <button id="btn-understand-guide" style="width: 100%; background: var(--ds-color-primary, #2563eb); color: white; border: none; padding: 14px; border-radius: 12px; font-weight: bold; font-size: 1rem; cursor: pointer; margin-top: 1.5rem;">
+        J'ai compris, merci !
+      </button>
     </div>
   `;
 
   document.body.appendChild(modal);
 
-  const closeModal = () => modal.remove();
-  document.getElementById('close-guide').addEventListener('click', closeModal);
+  const closeModal = () => {
+    const el = document.getElementById('guide-modal');
+    if (el) el.remove();
+  };
+
+  document.getElementById('close-guide-btn').addEventListener('click', closeModal);
   document.getElementById('btn-understand-guide').addEventListener('click', closeModal);
-  modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+  // Fermer en cliquant en dehors du modal
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
 }
 
 
