@@ -204,98 +204,132 @@ async function renderHome() {
     const profile = await gamification.getProfile();
     const manifest = await content.loadManifest('fr');
 
-    // ✅ Dictionnaire des Niveaux avec Icônes
+    // ✅ 1. HERO SECTION (Injectée correctement + fallback gradient)
+    const heroHtml = `
+      <div style="
+        background:
+          linear-gradient(135deg, rgba(37, 99, 235, 0.85) 0%, rgba(245, 158, 11, 0.85) 100%),
+          url('/assets/hero-bg.png');
+        background-size: cover;
+        background-position: center;
+        background-blend-mode: overlay;
+        border-radius: var(--ds-radius-lg);
+        padding: 2.5rem 1.5rem;
+        margin-bottom: 2rem;
+        text-align: center;
+        color: white;
+        position: relative;
+        overflow: hidden;
+        box-shadow: var(--ds-shadow-lg);
+        min-height: 200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      ">
+        <h1 style="font-size: 2.5rem; margin: 0 0 0.5rem 0; text-shadow: 0 2px 4px rgba(0,0,0,0.8); animation: fadeIn 1s ease-out;">
+          Manahoana ! 👋
+        </h1>
+        <p style="font-size: 1.1rem; margin: 0; opacity: 0.95; text-shadow: 0 1px 2px rgba(0,0,0,0.9); font-weight: 600;">
+          Apprenez les langues avec IA
+        </p>
+        <p style="font-size: 0.95rem; margin-top: 0.5rem; opacity: 0.9; font-style: italic;">
+          Mianara fiteny miaraka amin'ny IA
+        </p>
+      </div>
+    `;
+
+    // ✅ 2. DICTIONNAIRE COMPLET DES NIVEAUX (Icônes, Titres, Descriptions)
     const levelInfo = {
-      'A0': { icon: '🌱', fr: 'Débutant', mg: 'Mpianatra' },
-      'A1': { icon: '', fr: 'Élémentaire', mg: 'Fototra' }
+      'A0': {
+        icon: '🌱',
+        titleFr: 'Niveau A0 : Débutant',
+        titleMg: 'Ambaratonga A0 : Mpianatra',
+        descFr: 'Les premiers mots pour survivre au quotidien',
+        descMg: 'Ny teny voalohany hahafahana miaina isan\'andro'
+      },
+      'A1': {
+        icon: '📚',
+        titleFr: 'Niveau A1 : Élémentaire',
+        titleMg: 'Ambaratonga A1 : Fototra',
+        descFr: 'Vocabulaire essentiel : famille, marché, couleurs',
+        descMg: 'Teny ilaina : fianakaviana, tsena, loko'
+      }
     };
 
-    const heroHtml = `
-        <div style="
-          background:
-            linear-gradient(135deg, rgba(37, 99, 235, 0.8) 0%, rgba(245, 158, 11, 0.8) 100%),
-            url('/assets/hero-bg.png');
-          background-size: cover;
-          background-position: center top;
-          background-repeat: no-repeat;
-          background-blend-mode: overlay;
-          border-radius: var(--ds-radius-lg);
-          padding: 1rem 1.5rem 2rem 1.5rem;
-          margin-bottom: 1.5rem;
-          text-align: center;
-          color: white;
-          position: relative;
-          overflow: hidden;
-          box-shadow: var(--ds-shadow-lg);
-          min-height: 180px;
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-start;
-        ">
-          <h1 style="font-size: 2rem; margin: 0 0 0.5rem 0; text-shadow: 0 2px 4px rgba(0,0,0,0.8); animation: fadeIn 1s ease-out;">
-            Manahoana ! 👋
-          </h1>
-          <p style="font-size: 1rem; margin: 0; opacity: 0.95; text-shadow: 0 1px 2px rgba(0,0,0,0.9); font-weight: 600;">
-            Apprenez les langues avec IA
-          </p>
-        </div>
-      `;
-
+    // ✅ 3. GÉNÉRATION DES GRANDES CARTES DE NIVEAUX
     const levelsHtml = manifest.levels.map(level => {
-        const isFree = level.id === 'A0' || level.id === 'A1';
-        const isUnlocked = isFree || profile.isPremium;
-
-        // ✅ AJOUT DES TITRES EN MALGACHE
-        const levelTitles = {
-          'A0': { fr: 'Débutant', mg: 'Mpianatra' },
-          'A1': { fr: 'Élémentaire', mg: 'Fototra' }
-        };
-
-        const levelDescriptions = {
-          'A0': { fr: 'Les premiers mots pour survivre au quotidien', mg: 'Ny teny voalohany hahafahana miaina isan\'andro' },
-          'A1': { fr: 'Vocabulaire essentiel : famille, marché, couleurs', mg: 'Teny ilaina : fianakaviana, tsena, loko' }
-        };
-
-        const titleInfo = levelTitles[level.id] || { fr: level.title, mg: '' };
+      const isFree = level.id === 'A0' || level.id === 'A1';
+      const isUnlocked = isFree || profile.isPremium;
+      const info = levelInfo[level.id] || {
+        icon: '📁',
+        titleFr: `Niveau ${level.id}`,
+        titleMg: `Ambaratonga ${level.id}`,
+        descFr: level.description || '',
+        descMg: ''
+      };
 
       return `
-        <div style="background: ${isUnlocked ? 'var(--ds-color-surface)' : 'var(--ds-color-surface-2)'};
-                    padding: 1.5rem; border-radius: var(--ds-radius-lg);
-                    border: 1px solid ${isUnlocked ? 'var(--ds-color-border)' : 'var(--ds-color-text-disabled)'};
-                    opacity: ${isUnlocked ? 1 : 0.7};
-                    display: flex; flex-direction: column; gap: 1rem; cursor: pointer; transition: transform 0.2s;"
-             class="btn-select-level" data-level="${level.id}"
-             onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
+        <div class="btn-select-level" data-level="${level.id}" style="
+          background: ${isUnlocked ? 'var(--ds-color-surface)' : 'var(--ds-color-surface-2)'};
+          padding: 2rem 1.5rem;
+          border-radius: var(--ds-radius-lg);
+          border: 2px solid ${isUnlocked ? 'var(--ds-color-primary)' : 'var(--ds-color-text-disabled)'};
+          opacity: ${isUnlocked ? 1 : 0.7};
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          box-shadow: ${isUnlocked ? 'var(--ds-shadow-md)' : 'none'};
+        " onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='var(--ds-shadow-lg)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='${isUnlocked ? 'var(--ds-shadow-md)' : 'none'}'">
 
-          <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+            <div style="display:flex; align-items:center; gap: 1.2rem;">
+              <!-- ✅ GRANDE ICÔNE VISIBLE -->
+              <div style="font-size: 3.5rem; line-height: 1;">${info.icon}</div>
               <div>
-                <h3 style="margin:0; color: ${isUnlocked ? 'var(--ds-color-primary)' : 'var(--ds-color-text-muted)'};">
-                  Ambaratonga ${level.id} : ${titleInfo.fr}
+                <h3 style="margin:0; color: var(--ds-color-primary); font-size: 1.4rem; font-weight: 800;">
+                  ${info.titleFr}
                 </h3>
-                <p style="margin:4px 0 0 0; font-size: 0.85rem; color: var(--ds-color-text-muted); font-style:italic;">
-                  (${titleInfo.mg})
+                <p style="margin:4px 0 0 0; font-size: 1rem; color: var(--ds-color-text-muted); font-weight: 600;">
+                  ${info.titleMg}
                 </p>
               </div>
-              ${!isUnlocked ? '<span style="font-size:1.5rem;">🔒</span>' : '<span style="font-size:1.5rem;">🔓</span>'}
             </div>
-
+            ${!isUnlocked ? '<span style="font-size:2rem;" title="Voa hidiana">🔒</span>' : '<span style="font-size:2rem;" title="Misokatra">🔓</span>'}
           </div>
-        `;
-      }).join('');
 
-    main.innerHTML = `
-      <section class="ds-home" style="padding: 1rem;">
-        <div style="text-align:center; margin-bottom: 2rem;">
-          <h1 style="font-size: 2rem; margin: 0 0 0.5rem 0;">Manahoana ! 👋</h1>
-          <p style="font-size: 1.1rem; color: var(--ds-color-text-muted);">Safidio ny ambaratonga (Choisissez le niveau)</p>
+          <!-- ✅ DESCRIPTIONS SÉPARÉES PAR UNE LIGNE -->
+          <div style="border-top: 1px solid var(--ds-color-border); padding-top: 1rem; margin-top: 0.5rem;">
+            <p style="margin:0; font-size: 0.95rem; color: var(--ds-color-text); line-height: 1.4;">
+              ${info.descFr}
+            </p>
+            <p style="margin:6px 0 0 0; font-size: 0.85rem; color: var(--ds-color-text-muted); font-style:italic; line-height: 1.4;">
+              ${info.descMg}
+            </p>
+          </div>
         </div>
-        <div id="levels-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+      `;
+    }).join('');
+
+    // ✅ 4. INJECTION CORRECTE DANS LE DOM (heroHtml est bien inclus ici !)
+    main.innerHTML = `
+      <section class="ds-home" style="padding: 1rem; max-width: 800px; margin: 0 auto;">
+        ${heroHtml}
+        <div style="text-align:center; margin-bottom: 1.5rem;">
+          <h2 style="margin:0; color: var(--ds-color-text); font-size: 1.5rem;">Safidio ny ambaratonga</h2>
+          <p style="margin:4px 0 0 0; font-size:1rem; color:var(--ds-color-text-muted); font-style:italic;">
+            (Choisissez votre niveau d'apprentissage)
+          </p>
+        </div>
+        <div id="levels-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
           ${levelsHtml}
         </div>
       </section>
     `;
 
-    // Écouteurs
+    // ✅ 5. ÉCOUTEURS D'ÉVÉNEMENTS
     document.getElementById('levels-container').addEventListener('click', (e) => {
       const levelBtn = e.target.closest('.btn-select-level');
       if (levelBtn) {
