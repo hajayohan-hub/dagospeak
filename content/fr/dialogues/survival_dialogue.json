@@ -1,21 +1,19 @@
 {
   "id": "survival_dialogue",
+  "level": "A0",
+  "theme": "survival",
   "title": "Première rencontre",
-  "description": "Dialogue simple pour se présenter",
+  "titleMg": "Fifanerasana voalohany",
   "participants": {
-    "A": { "name": "Marie", "avatar": "👩" },
-    "B": { "name": "Vous", "avatar": "🧑" }
+    "A": { "name": "Pierre", "avatar": "👨" },
+    "B": { "name": "Marie", "avatar": "👩" }
   },
   "lines": [
-    { "speaker": "A", "text": "Bonjour !", "translation": "Manahoana !" },
-    { "speaker": "B", "text": "Bonjour !", "translation": "Manahoana !" },
-    { "speaker": "A", "text": "Comment ça va ?", "translation": "Manahoana ianao ?" },
-    { "speaker": "B", "text": "Ça va bien, merci.", "translation": "Tsara fa misaotra." },
-    { "speaker": "A", "text": "Je m'appelle Marie. Et toi ?", "translation": "Marie no anarako. Ary ianao ?" },
-    { "speaker": "B", "text": "Je m'appelle [votre nom].", "translation": "[anaranao] no anarako." },
-    { "speaker": "A", "text": "Enchantée !", "translation": "Faly mahafantatra anao !" },
-    { "speaker": "B", "text": "Enchanté aussi !", "translation": "Izaho koa faly mahafantatra anao !" },
-    { "speaker": "A", "text": "Au revoir !", "translation": "Veloma !" },
-    { "speaker": "B", "text": "Au revoir !", "translation": "Veloma !" }
+    { "speaker": "A", "text": "Bonjour !", "translation": "Manahoana !", "highlight": "Bonjour" },
+    { "speaker": "B", "text": "Bonjour ! Comment ça va ?", "translation": "Manahoana ! Manao ahoana?", "highlight": "Comment ça va" },
+    { "speaker": "A", "text": "Ça va bien, merci. Et vous ?", "translation": "Tsara, misaotra. Ary ianao?", "highlight": "merci" },
+    { "speaker": "B", "text": "Ça va bien aussi. Merci !", "translation": "Tsara aho koa. Misaotra!", "highlight": "Merci" },
+    { "speaker": "A", "text": "Au revoir !", "translation": "Veloma!", "highlight": "Au revoir" },
+    { "speaker": "B", "text": "Au revoir et à bientôt !", "translation": "Veloma ary hihaona indray!", "highlight": "à bientôt" }
   ]
 }

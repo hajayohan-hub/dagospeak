@@ -1,18 +1,18 @@
 {
   "id": "numbers_dialogue",
+  "level": "A0",
+  "theme": "numbers",
   "title": "Calculs simples",
-  "description": "Additionner et soustraire",
+  "titleMg": "Kajy tsotra",
   "participants": {
-    "A": { "name": "Professeur", "avatar": "👨‍🏫" },
-    "B": { "name": "Élève", "avatar": "🧑‍" }
+    "A": { "name": "M. Martin", "avatar": "👨🏻‍🏫" },
+    "B": { "name": "Emma", "avatar": "👧🏼" }
   },
   "lines": [
-    { "speaker": "A", "text": "Combien font trois et deux ?", "translation": "Inona no telo sy roa?" },
-    { "speaker": "B", "text": "Trois et deux font cinq.", "translation": "Telo sy roa dia dimy." },
-    { "speaker": "A", "text": "Très bien ! Et quatre plus trois ?", "translation": "Tsara be ! Ary efatra sy telo?" },
-    { "speaker": "B", "text": "Quatre plus trois font sept.", "translation": "Efatra sy telo dia fito." },
-    { "speaker": "A", "text": "Maintenant, dix moins quatre ?", "translation": "Ankehitriny, folo efatra?" },
-    { "speaker": "B", "text": "Dix moins quatre font six.", "translation": "Folo efatra dia enina." },
-    { "speaker": "A", "text": "Excellent ! Vous savez compter jusqu'à dix !", "translation": "Tsara be ! Mahay mitisa hatramin'ny folo ianao !" }
+    { "speaker": "A", "text": "Combien font un et deux ?", "translation": "Inona no iray sy roa?", "highlight": "Combien" },
+    { "speaker": "B", "text": "Un et deux font trois.", "translation": "Iray sy roa dia telo.", "highlight": "trois" },
+    { "speaker": "A", "text": "Bravo ! Et quatre plus trois ?", "translation": "Tsara! Ary efatra sy telo?", "highlight": "plus" },
+    { "speaker": "B", "text": "Ça fait sept.", "translation": "Fito.", "highlight": "sept" },
+    { "speaker": "A", "text": "Excellent !", "translation": "Tena tsara!", "highlight": "Excellent" }
   ]
 }

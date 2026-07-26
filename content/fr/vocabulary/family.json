@@ -1,13 +1,18 @@
 {
   "id": "family",
-  "level": "A1",
+  "level": "A0",
   "theme": "La Famille",
   "themeMg": "Ny Fianakaviana",
   "items": [
-    { "id": "f1", "target": "Père", "source": "Ray", "phonetic": "pɛʁ", "audio": "", "context": "Mon père travaille.", "contextTranslation": "Miasa ny raiko.", "quizType": "mg_to_fr", "tags": ["famille"] },
-    { "id": "f2", "target": "Mère", "source": "Reny", "phonetic": "mɛʁ", "audio": "", "context": "Ma mère cuisine.", "contextTranslation": "Mahandro sakafo ny reny.", "quizType": "mg_to_fr", "tags": ["famille"] },
-    { "id": "f3", "target": "Frère", "source": "Anadahy", "phonetic": "fʁɛʁ", "audio": "", "context": "Mon frère est grand.", "contextTranslation": "Lehibe ny anadahiko.", "quizType": "mg_to_fr", "tags": ["famille"] },
-    { "id": "f4", "target": "Sœur", "source": "Anabavy", "phonetic": "sœʁ", "audio": "", "context": "Ma sœur est gentille.", "contextTranslation": "Tsara fanahy ny anabaviko.", "quizType": "mg_to_fr", "tags": ["famille"] },
-    { "id": "f5", "target": "Fils", "source": "Zanakalahy", "phonetic": "fis", "audio": "", "context": "C'est mon fils.", "contextTranslation": "Ny zanako lahy ity.", "quizType": "mg_to_fr", "tags": ["famille"] }
+    { "id": "f1", "target": "Père", "source": "Ray", "phonetic": "pɛʁ", "audio": "", "context": "Mon père travaille.", "contextTranslation": "Miasa ny raiko.", "quizType": "mg_to_fr", "tags": ["famille"], "icon": "👨" },
+    { "id": "f2", "target": "Mère", "source": "Reny", "phonetic": "mɛʁ", "audio": "", "context": "Ma mère cuisine.", "contextTranslation": "Mahandro sakafo ny reny.", "quizType": "mg_to_fr", "tags": ["famille"], "icon": "👩" },
+    { "id": "f3", "target": "Frère", "source": "Anadahy", "phonetic": "fʁɛʁ", "audio": "", "context": "Mon frère est grand.", "contextTranslation": "Lehibe ny anadahiko.", "quizType": "mg_to_fr", "tags": ["famille"], "icon": "" },
+    { "id": "f4", "target": "Sœur", "source": "Anabavy", "phonetic": "sœ", "audio": "", "context": "Ma sœur est gentille.", "contextTranslation": "Tsara fanahy ny anabaviko.", "quizType": "mg_to_fr", "tags": ["famille"], "icon": "👧" },
+    { "id": "f5", "target": "Fils", "source": "Zanakalahy", "phonetic": "fis", "audio": "", "context": "C'est mon fils.", "contextTranslation": "Ny zanako lahy ity.", "quizType": "mg_to_fr", "tags": ["famille"], "icon": "👶" },
+    { "id": "f6", "target": "Fille", "source": "Zanakavavy", "phonetic": "fij", "audio": "", "context": "Ma fille joue.", "contextTranslation": "Milalao ny zanako vavy.", "quizType": "mg_to_fr", "tags": ["famille"], "icon": "👶" },
+    { "id": "f7", "target": "Grand-père", "source": "Dada", "phonetic": "ɡʁɑ̃.pɛ", "audio": "", "context": "Mon grand-père est sage.", "contextTranslation": "Hendry ny dadako.", "quizType": "mg_to_fr", "tags": ["famille"], "icon": "👴" },
+    { "id": "f8", "target": "Grand-mère", "source": "Neny", "phonetic": "ɡʁɑ̃.mɛʁ", "audio": "", "context": "Ma grand-mère raconte des histoires.", "contextTranslation": "Mitantara angano ny neniko.", "quizType": "mg_to_fr", "tags": ["famille"], "icon": "👵" },
+    { "id": "f9", "target": "Bébé", "source": "Zaza", "phonetic": "be.be", "audio": "", "context": "Le bébé dort.", "contextTranslation": "Matory ny zaza.", "quizType": "mg_to_fr", "tags": ["famille"], "icon": "🍼" },
+    { "id": "f10", "target": "Famille", "source": "Fianakaviana", "phonetic": "fa.mij", "audio": "", "context": "J'aime ma famille.", "contextTranslation": "Tiako ny fianakaviako.", "quizType": "mg_to_fr", "tags": ["famille"], "icon": "" }
   ]
 }

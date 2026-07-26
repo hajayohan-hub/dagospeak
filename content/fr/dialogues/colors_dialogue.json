@@ -1,18 +1,20 @@
 {
   "id": "colors_dialogue",
+  "level": "A0",
+  "theme": "colors",
   "title": "De quelle couleur ?",
-  "description": "Dialogue sur les couleurs préférées",
+  "titleMg": "Inona ny lokony?",
   "participants": {
-    "A": { "name": "Marie", "avatar": "👩" },
-    "B": { "name": "Vous", "avatar": "🧑" }
+    "A": { "name": "Sophie", "avatar": "🏼" },
+    "B": { "name": "Thomas", "avatar": "👦🏻" }
   },
   "lines": [
-    { "speaker": "A", "text": "Quelle est ta couleur préférée ?", "translation": "Inona ny loko ankafizinao?" },
-    { "speaker": "B", "text": "Ma couleur préférée est le bleu.", "translation": "Ny loko ankafiziko dia manga." },
-    { "speaker": "A", "text": "Pourquoi le bleu ?", "translation": "Nahoana ny manga?" },
-    { "speaker": "B", "text": "Parce que j'aime le ciel et la mer.", "translation": "Satria tiako ny lanitra sy ny ranomasina." },
-    { "speaker": "A", "text": "Et moi, j'aime le rouge. C'est vif et joyeux.", "translation": "Izaho kosa, tiako ny mena. Mavitrika sy faly." },
-    { "speaker": "B", "text": "Regarde, cette fleur est rose !", "translation": "Jereo, mavokely ity voninkazo ity !" },
-    { "speaker": "A", "text": "Oui, et les feuilles sont vertes.", "translation": "Eny, ary maitso ny ravina." }
+    { "speaker": "A", "text": "Quelle est ta couleur préférée ?", "translation": "Inona ny loko ankafizinao?", "highlight": "couleur" },
+    { "speaker": "B", "text": "Ma couleur préférée est le bleu.", "translation": "Ny loko ankafiziko dia manga.", "highlight": "bleu" },
+    { "speaker": "A", "text": "Pourquoi le bleu ?", "translation": "Nahoana ny manga?", "highlight": "Pourquoi" },
+    { "speaker": "B", "text": "Parce que j'aime le ciel et la mer.", "translation": "Satria tiako ny lanitra sy ny ranomasina.", "highlight": "ciel" },
+    { "speaker": "A", "text": "Moi, j'aime le rouge. C'est vif et joyeux.", "translation": "Izaho kosa, tiako ny mena. Mavitrika sy faly.", "highlight": "rouge" },
+    { "speaker": "B", "text": "Regarde, cette fleur est rose !", "translation": "Jereo, mavokely ity voninkazo ity !", "highlight": "rose" },
+    { "speaker": "A", "text": "Oui, et les feuilles sont vertes.", "translation": "Eny, ary maitso ny ravina.", "highlight": "vertes" }
   ]
 }

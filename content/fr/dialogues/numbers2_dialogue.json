@@ -1,18 +1,18 @@
 {
   "id": "numbers2_dialogue",
-  "title": "Multiplier et diviser",
-  "description": "Calculs avancés",
+  "level": "A0",
+  "theme": "numbers2",
+  "title": "Les grands nombres",
+  "titleMg": "Ny isa lehibe",
   "participants": {
-    "A": { "name": "Professeur", "avatar": "👨‍🏫" },
-    "B": { "name": "Élève", "avatar": "🧑‍🎓" }
+    "A": { "name": "M. Martin", "avatar": "👨🏻‍🏫" },
+    "B": { "name": "Emma", "avatar": "👧🏼" }
   },
   "lines": [
-    { "speaker": "A", "text": "Combien font deux fois six ?", "translation": "Inona no roa indiminy enina?" },
-    { "speaker": "B", "text": "Deux fois six font douze.", "translation": "Roa indiminy enina dia roambin'ny folo." },
-    { "speaker": "A", "text": "Bravo ! Et trois fois cinq ?", "translation": "Tsara ! Ary telo indiminy dimy?" },
-    { "speaker": "B", "text": "Trois fois cinq font quinze.", "translation": "Telo indiminy dimy dia dimy ambin'ny folo." },
-    { "speaker": "A", "text": "Maintenant, vingt divisé par deux ?", "translation": "Ankehitriny, roa ambin'ny folo zaraina roa?" },
-    { "speaker": "B", "text": "Vingt divisé par deux font dix.", "translation": "Roa ambin'ny folo zaraina roa dia folo." },
-    { "speaker": "A", "text": "Parfait ! Vous maîtrisez les nombres jusqu'à vingt !", "translation": "Tena tsara ! Mahay ny isa hatramin'ny roa ambin'ny folo ianao !" }
+    { "speaker": "A", "text": "Quel âge as-tu ?", "translation": "Firy taona ianao?", "highlight": "âge" },
+    { "speaker": "B", "text": "J'ai douze ans.", "translation": "Roambin'ny folo taona aho.", "highlight": "douze" },
+    { "speaker": "A", "text": "Et ton frère ?", "translation": "Ary ny anadahinao?", "highlight": "frère" },
+    { "speaker": "B", "text": "Il a quinze ans.", "translation": "Dimy ambin'ny folo taona izy.", "highlight": "quinze" },
+    { "speaker": "A", "text": "Très bien !", "translation": "Tsara be!", "highlight": "Très bien" }
   ]
 }

@@ -1,17 +1,19 @@
 {
   "id": "greetings_dialogue",
+  "level": "A0",
+  "theme": "greetings",
   "title": "Se saluer",
-  "description": "Dialogue de politesse",
+  "titleMg": "Miarahaba",
   "participants": {
-    "A": { "name": "Marie", "avatar": "👩" },
-    "B": { "name": "Vous", "avatar": "🧑" }
+    "A": { "name": "Marie", "avatar": "👩🏼" },
+    "B": { "name": "Jean", "avatar": "👨🏻" }
   },
   "lines": [
-    { "speaker": "A", "text": "Bonjour !", "translation": "Manahoana !" },
-    { "speaker": "B", "text": "Bonjour ! Comment allez-vous ?", "translation": "Manahoana ! Manahoana ianao?" },
-    { "speaker": "A", "text": "Je vais bien, merci. Et vous ?", "translation": "Tsara aho, misaotra. Ary ianao?" },
-    { "speaker": "B", "text": "Je vais bien aussi. Merci !", "translation": "Tsara aho koa. Misaotra !" },
-    { "speaker": "A", "text": "Au revoir et bonne journée !", "translation": "Veloma ary andro tsara !" },
-    { "speaker": "B", "text": "Au revoir !", "translation": "Veloma !" }
+    { "speaker": "A", "text": "Bonjour !", "translation": "Manahoana !", "highlight": "Bonjour" },
+    { "speaker": "B", "text": "Bonjour ! Comment allez-vous ?", "translation": "Manahoana ! Manao ahoana ianao?", "highlight": "Comment" },
+    { "speaker": "A", "text": "Je vais bien, merci. Et vous ?", "translation": "Tsara aho, misaotra. Ary ianao?", "highlight": "merci" },
+    { "speaker": "B", "text": "Je vais bien aussi. Merci !", "translation": "Tsara aho koa. Misaotra !", "highlight": "Merci" },
+    { "speaker": "A", "text": "Au revoir et bonne journée !", "translation": "Veloma ary andro tsara !", "highlight": "Au revoir" },
+    { "speaker": "B", "text": "Au revoir !", "translation": "Veloma !", "highlight": "Au revoir" }
   ]
 }

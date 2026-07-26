@@ -196,16 +196,6 @@ document.getElementById('theme-toggle')?.addEventListener('click', () => {
 // ═══════════════════════════════════════════════════════════
 
 async function renderHome() {
-  // ✅ Supprimer le header de progression quand on revient à l'accueil
-  const progressHeader = document.getElementById('floating-progress-header');
-  if (progressHeader) progressHeader.remove();
-
-  // Arrêter l'intervalle de rafraîchissement
-  if (window._progressHeaderInterval) {
-    clearInterval(window._progressHeaderInterval);
-    window._progressHeaderInterval = null;
-  }
-
   const main = document.getElementById('app');
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Mamakiana...</div>';
 
@@ -214,236 +204,73 @@ async function renderHome() {
     const profile = await gamification.getProfile();
     const manifest = await content.loadManifest('fr');
 
-    // ✅ HERO SECTION AVEC IMAGE DE FOND
-    const heroHtml = `
-        <div style="
-          background: url('/assets/hero-bg.png');
-          background-size: cover;
-          background-position: center top;
-          border-radius: var(--ds-radius-lg);
-          padding: 1rem 1.5rem 2rem 1.5rem;
-          margin-bottom: 1.5rem;
-          text-align: center;
-          color: white;
-          position: relative;
-          overflow: hidden;
-          box-shadow: var(--ds-shadow-lg);
-          min-height: 180px;
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-start;
-        ">
-          <h1 style="font-size: 2rem; margin: 0 0 0.5rem 0; text-shadow: 0 2px 4px rgba(0,0,0,0.8); animation: fadeIn 1s ease-out;">
-            Manahoana ! 👋
-          </h1>
-          <p style="font-size: 1rem; margin: 0; opacity: 0.95; text-shadow: 0 1px 2px rgba(0,0,0,0.9); font-weight: 600;">
-            Apprenez les langues avec IA
-          </p>
-        </div>
-      `;
-
-        // ✅ PETIT DICTIONNAIRE RAPIDE POUR L'AFFICHAGE DES THÈMES (Évite de charger 10 JSON au démarrage)
-    const themeInfo = {
-      'survival':  { mg: 'Teny fototra', fr: 'Mots de survie', icon: '🆘' },
-      'family':    { mg: 'Fianakaviana', fr: 'La Famille', icon: '👨‍👩‍👧' },
-      'market':    { mg: 'Ny Tsena', fr: 'Le Marché', icon: '🛒' },
-      'numbers':   { mg: 'Ny Isa (1-10)', fr: 'Nombres (1-10)', icon: '🔢' },
-      'numbers2':  { mg: 'Ny Isa (11-20)', fr: 'Nombres (11-20)', icon: '🧮' },
-      'colors':    { mg: 'Ny Loko', fr: 'Les Couleurs', icon: '🎨' },
-      'days':      { mg: 'Ny Andro', fr: 'Les Jours', icon: '📅' },
-      'months':    { mg: 'Ny Volana', fr: 'Les Mois', icon: '🗓️' },
-      'greetings': { mg: 'Fiarahabana', fr: 'Salutations', icon: '👋' },
-      'body':      { mg: 'Ny Vatana', fr: 'Le Corps', icon: '🧍' }
+    // ✅ Dictionnaire des Niveaux avec Icônes
+    const levelInfo = {
+      'A0': { icon: '🌱', fr: 'Débutant', mg: 'Mpianatra' },
+      'A1': { icon: '', fr: 'Élémentaire', mg: 'Fototra' }
     };
 
     const levelsHtml = manifest.levels.map(level => {
+      const info = levelInfo[level.id] || { icon: '📚', fr: level.title, mg: '' };
       const isFree = level.id === 'A0' || level.id === 'A1';
       const isUnlocked = isFree || profile.isPremium;
-      const levelDescriptions = {
-        'A0': { fr: 'Les premiers mots pour survivre au quotidien', mg: 'Ny teny voalohany hahafahana miaina isan\'andro' },
-        'A1': { fr: 'Vocabulaire essentiel : famille, marché, couleurs', mg: 'Teny ilaina : fianakaviana, tsena, loko' }
-      };
 
       return `
         <div style="background: ${isUnlocked ? 'var(--ds-color-surface)' : 'var(--ds-color-surface-2)'};
                     padding: 1.5rem; border-radius: var(--ds-radius-lg);
                     border: 1px solid ${isUnlocked ? 'var(--ds-color-border)' : 'var(--ds-color-text-disabled)'};
                     opacity: ${isUnlocked ? 1 : 0.7};
-                    display: flex; flex-direction: column; gap: 1rem;">
+                    display: flex; flex-direction: column; gap: 1rem; cursor: pointer; transition: transform 0.2s;"
+             class="btn-select-level" data-level="${level.id}"
+             onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
 
-          <!-- EN-TÊTE DU NIVEAU -->
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div>
-              <h3 style="margin:0; color: ${isUnlocked ? 'var(--ds-color-primary)' : 'var(--ds-color-text-muted)'};">
-                Ambaratonga ${level.id} : ${level.title}
-              </h3>
-              <p style="margin:4px 0 0 0; font-size: 0.85rem; color: var(--ds-color-text-muted); font-style:italic;">
-                (Niveau ${level.id})
-              </p>
+            <div style="display:flex; align-items:center; gap:1rem;">
+              <div style="font-size: 2.5rem;">${info.icon}</div>
+              <div>
+                <h3 style="margin:0; color: var(--ds-color-primary);">Ambaratonga ${level.id}</h3>
+                <p style="margin:4px 0 0 0; font-size: 0.9rem; font-weight:600;">${info.fr}</p>
+                <p style="margin:2px 0 0 0; font-size: 0.8rem; color: var(--ds-color-text-muted); font-style:italic;">(${info.mg})</p>
+              </div>
             </div>
-            ${!isUnlocked ? '<span style="font-size:1.5rem;" title="Voa hidiana">🔒</span>' : '<span style="font-size:1.5rem;" title="Misokatra">🔓</span>'}
+            ${!isUnlocked ? '<span style="font-size:1.5rem;">🔒</span>' : '<span style="font-size:1.5rem;">🔓</span>'}
           </div>
-
-          <!-- DESCRIPTION DU NIVEAU -->
-          <div>
-            <p style="margin:0; font-size: 0.9rem; color: var(--ds-color-text-muted);">
-              ${levelDescriptions[level.id]?.fr || level.description}
-            </p>
-            <p style="margin:4px 0 0 0; font-size: 0.85rem; color: var(--ds-color-text-muted); font-style:italic;">
-              ${levelDescriptions[level.id]?.mg || ''}
-            </p>
-          </div>
-
-          <!-- ✅ GRILLE DES 10 THÈMES (Affichés directement si le niveau est débloqué) -->
-          ${isUnlocked && level.units ? `
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 0.75rem; margin-top: 0.5rem;">
-              ${level.units.map(unitId => {
-                const info = themeInfo[unitId] || { mg: unitId, fr: '', icon: '📁' };
-                return `
-                  <div class="btn-select-theme" data-theme="${unitId}" style="
-                    background: var(--ds-color-surface-2);
-                    padding: 1rem 0.5rem;
-                    border-radius: var(--ds-radius-md);
-                    text-align: center;
-                    border: 1px solid var(--ds-color-border);
-                    cursor: pointer;
-                    transition: all 0.2s ease;
-                  " onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.1)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
-                    <div style="font-size: 2rem; margin-bottom: 0.5rem; animation: float 3s ease-in-out infinite;">${info.icon}</div>
-                    <div style="font-weight: 600; font-size: 0.85rem; color: var(--ds-color-text); line-height: 1.2;">${info.mg}</div>
-                    <div style="font-size: 0.7rem; color: var(--ds-color-primary); font-style: italic; margin-top: 4px;">${info.fr}</div>
-                  </div>
-                `;
-              }).join('')}
-            </div>
-          ` : ''}
-
-          <!-- BOUTON D'ACTION -->
-          ${isUnlocked ? `
-            <ds-button class="btn-select-level" data-level="${level.id}" variant="${level.id === 'A0' ? 'success' : 'primary'}" size="sm" style="margin-top: 0.5rem;">
-              Jereo ny lohahevitra (Voir les thèmes)
-            </ds-button>
-          ` : `
-            <ds-button class="btn-upgrade" data-level="${level.id}" variant="accent" size="sm">
-              Havaozina ho Premium (Débloquer avec Premium)
-            </ds-button>
-          `}
         </div>
       `;
     }).join('');
+
     main.innerHTML = `
       <section class="ds-home" style="padding: 1rem;">
-        ${heroHtml}
-        <div style="margin-bottom: 1.5rem;">
-          <h2 style="margin:0; color: var(--ds-color-text);">Safidio ny lalanao hianarana :</h2>
-          <p style="margin:4px 0 0 0; font-size:0.9rem; color:var(--ds-color-text-muted); font-style:italic;">
-            (Choisissez votre parcours d'apprentissage :)
-          </p>
+        <div style="text-align:center; margin-bottom: 2rem;">
+          <h1 style="font-size: 2rem; margin: 0 0 0.5rem 0;">Manahoana ! 👋</h1>
+          <p style="font-size: 1.1rem; color: var(--ds-color-text-muted);">Safidio ny ambaratonga (Choisissez le niveau)</p>
         </div>
         <div id="levels-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
           ${levelsHtml}
         </div>
-        ${!profile.isPremium ? `
-        <div style="padding: 1.5rem; background: var(--ds-color-primary-soft); border-radius: var(--ds-radius-lg); border: 1px solid var(--ds-color-primary); text-align:center;">
-          <h3 style="color: var(--ds-color-primary); margin-bottom: 0.5rem;">🚀 Hiditra ao amin'ny DagoSpeak Premium</h3>
-          <p style="color: var(--ds-color-text-muted); margin-bottom: 0.5rem; font-size:0.9rem;">
-            (Passez à DagoSpeak Premium)
-          </p>
-          <p style="color: var(--ds-color-text-muted); margin-bottom: 1rem; font-size:0.85rem;">
-            Sokafy ny ambaratonga rehetra (A1, A2, B1...), ny resaka mandroso ary ny IA fanampiana.
-            <br><em>(Débloquez tous les niveaux, les dialogues avancés et l'IA de correction.)</em>
-          </p>
-          <ds-button id="btn-upgrade-main" size="md">Lasà Premium (15 000 Ar / volana)</ds-button>
-        </div>
-        ` : ''}
       </section>
     `;
 
-        // ✅ ÉCOUTEURS D'ÉVÉNEMENTS - Mobile compatible (Niveaux + Thèmes + Premium)
+    // Écouteurs
     document.getElementById('levels-container').addEventListener('click', (e) => {
-
-      // 1. Gestion du clic sur un THÈME (Nouveau)
-      const themeBtn = e.target.closest('.btn-select-theme');
-      if (themeBtn) {
-        currentTheme = themeBtn.dataset.theme;
-        currentLevel = currentLevel || 'A0'; // Sécurité si le niveau n'est pas encore défini
-        localStorage.setItem('dagospeak:theme', currentTheme);
-        localStorage.setItem('dagospeak:level', currentLevel);
-        updateLevelUI();
-        router.navigate('/theme-detail'); // Redirige vers le détail du thème (Leçon, Révision, Dialogue)
-        return; // ⚠️ Important : on arrête ici pour ne pas exécuter la suite
-      }
-
-      // 2. Gestion du clic sur un NIVEAU (Votre code existant)
       const levelBtn = e.target.closest('.btn-select-level');
       if (levelBtn) {
-        const levelId = levelBtn.dataset.level;
-        currentLevel = levelId;
+        currentLevel = levelBtn.dataset.level;
         currentTheme = null;
         localStorage.setItem('dagospeak:level', currentLevel);
         updateLevelUI();
         router.navigate('/themes');
-        return; // ⚠️ Important : on arrête ici
-      }
-
-      // 3. Gestion du bouton Premium (Votre code existant)
-      const upgradeBtn = e.target.closest('.btn-upgrade');
-      if (upgradeBtn) {
-        handleUpgrade(upgradeBtn, profile);
+        return;
       }
     });
 
-    // ✅ Écouteur pour le bouton Premium principal (Votre code existant)
-    document.getElementById('btn-upgrade-main')?.addEventListener('click', () => {
-      handleUpgrade(document.getElementById('btn-upgrade-main'), profile);
-    });
-
-    // ✅ LOGO CLIQUABLE - Retour à l'accueil
-    document.getElementById('header-logo')?.addEventListener('click', () => {
-      router.navigate('/');
-    });
-
-    // ✅ BOUTONS HEADER - Mobile compatible avec touch
-    const btnLanguages = document.getElementById('btn-languages');
-    const btnAbout = document.getElementById('btn-about');
-
-    if (btnLanguages) {
-      btnLanguages.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        showLanguageSelector();
-      });
-      // Support tactile
-      btnLanguages.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        showLanguageSelector();
-      });
-    }
-
-    if (btnAbout) {
-      btnAbout.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        router.navigate('/about');
-      });
-      // Support tactile
-      btnAbout.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        router.navigate('/about');
-      });
-    }
-
     window.teacherAvatar.show('home');
-
-    logger.info('✅ Page d\'accueil rendue (Modèle Freemium bilingue)');
-
-    window.teacherAvatar.show('home');
-  renderFloatingHomeButtons(); // ✅ Ajout des boutons flottants Accueil
-  logger.info('✅ Page d\'accueil rendue (Modèle Freemium bilingue)');
+    renderFloatingHomeButtons();
+    logger.info('✅ Page d\'accueil rendue (Niveaux)');
 
   } catch (e) {
     console.error('❌ Erreur renderHome:', e);
-    main.innerHTML = `<p style="color:red; text-align:center;">Hadisoana: ${e.message}</p>`;
+    main.innerHTML = `<p style="color:red; text-align:center; padding:2rem;">Hadisoana: ${e.message}</p>`;
   }
 }
 
@@ -2165,23 +1992,48 @@ async function renderThemes() {
   try {
     const manifest = await content.loadManifest('fr');
     const levelData = manifest.levels.find(l => l.id === currentLevel);
-    currentTheme = null; // Réinitialisation propre à l'entrée dans la liste
+    currentTheme = null;
 
-    const unitNames = {
-      'survival': 'Mots de survie (Fototra)',
-      'numbers': 'Les Nombres (Ny Isa)',
-      'family': 'La Famille (Fianakaviana)',
-      'market': 'Au Marché (Any an-tsena)',
-      'colors': 'Les Couleurs (Ny Loko)'
+    // ✅ Dictionnaire des Thèmes (Icônes, Titres FR/MG)
+    const themeInfo = {
+      'survival':  { icon: '🆘', fr: 'Mots de survie', mg: 'Teny fototra' },
+      'family':    { icon: '‍👩‍👧', fr: 'La Famille', mg: 'Ny Fianakaviana' },
+      'market':    { icon: '🛒', fr: 'Le Marché', mg: 'Ny Tsena' },
+      'numbers':   { icon: '', fr: 'Nombres (1-10)', mg: 'Ny Isa (1-10)' },
+      'numbers2':  { icon: '🧮', fr: 'Nombres (11-20)', mg: 'Ny Isa (11-20)' },
+      'colors':    { icon: '🎨', fr: 'Les Couleurs', mg: 'Ny Loko' },
+      'days':      { icon: '', fr: 'Les Jours', mg: 'Ny Andro' },
+      'months':    { icon: '🗓️', fr: 'Les Mois', mg: 'Ny Volana' },
+      'greetings': { icon: '👋', fr: 'Salutations', mg: 'Fiarahabana' },
+      'body':      { icon: '🧍', fr: 'Le Corps', mg: 'Ny Vatana' }
     };
 
+    const journeys = journeyTracker.getCompletedJourneys();
+    const journeyTypes = ['lessons', 'practices', 'dialogues', 'roleplays', 'challenges'];
+
     const themesHtml = levelData.units.map(unitId => {
-      const name = unitNames[unitId] || unitId;
+      const info = themeInfo[unitId] || { icon: '📁', fr: unitId, mg: unitId };
+
+      // Calcul de la progression pour les points colorés
+      let doneCount = 0;
+      journeyTypes.forEach(type => {
+        if (journeys[type] && journeys[type].includes(unitId)) doneCount++;
+      });
+
+      let statusDot = ''; // Non commencé
+      let statusText = 'Non commencé';
+      if (doneCount === 5) { statusDot = ''; statusText = 'Terminé (100%)'; }
+      else if (doneCount > 0) { statusDot = ''; statusText = `En cours (${doneCount}/5)`; }
+
       return `
-        <div class="theme-card" data-theme="${unitId}" style="background:var(--ds-color-surface); padding:1.5rem; border-radius:var(--ds-radius-lg); border:1px solid var(--ds-color-border); cursor:pointer; transition:transform 0.2s;"
+        <div class="btn-select-theme" data-theme="${unitId}" style="background:var(--ds-color-surface); padding:1.5rem; border-radius:var(--ds-radius-lg); border:1px solid var(--ds-color-border); cursor:pointer; transition:transform 0.2s; display:flex; flex-direction:column; gap:0.5rem;"
              onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
-          <h3 style="color:var(--ds-color-primary); margin-bottom:0.5rem;">${name}</h3>
-          <p style="color:var(--ds-color-text-muted); font-size:0.9rem;">Cliquez pour explorer ce thème</p>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="font-size: 2.5rem;">${info.icon}</div>
+            <div style="font-size: 1.5rem;" title="${statusText}">${statusDot}</div>
+          </div>
+          <h3 style="color:var(--ds-color-primary); margin:0.5rem 0 0 0;">${info.fr}</h3>
+          <p style="color:var(--ds-color-text-muted); font-size:0.85rem; margin:0; font-style:italic;">${info.mg}</p>
         </div>
       `;
     }).join('');
@@ -2189,28 +2041,24 @@ async function renderThemes() {
     main.innerHTML = `
       <section style="max-width: 700px; margin: 0 auto; padding: 2rem 1rem;">
         <ds-button variant="ghost" size="sm" id="btn-back-home" style="margin-bottom: 1rem;">← Retour à l'accueil</ds-button>
-        <h2 style="margin-bottom: 0.5rem;">Niveau ${currentLevel} : ${levelData.title}</h2>
-        <p style="color:var(--ds-color-text-muted); margin-bottom: 2rem;">Choisissez un thème pour commencer :</p>
-        <div id="themes-container" style="display:grid; gap:1rem;">
+        <h2 style="margin-bottom: 0.5rem;">Niveau ${currentLevel} : Thèmes</h2>
+        <p style="color:var(--ds-color-text-muted); margin-bottom: 2rem;">Safidio ny lohahevitra (Choisissez un thème) :</p>
+        <div id="themes-container" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap:1rem;">
           ${themesHtml}
         </div>
       </section>
     `;
 
     document.getElementById('btn-back-home').addEventListener('click', () => router.navigate('/'));
-
-    // ✅ Écouteur d'événement délégué robuste pour la sélection du thème
     document.getElementById('themes-container').addEventListener('click', (e) => {
-      const card = e.target.closest('.theme-card');
+      const card = e.target.closest('.btn-select-theme');
       if (card) {
         currentTheme = card.dataset.theme;
-        console.log('✅ Thème sélectionné:', currentTheme);
+        localStorage.setItem('dagospeak:theme', currentTheme);
         router.navigate('/theme-detail');
       }
     });
-
     window.teacherAvatar.show('themes');
-
   } catch (e) {
     main.innerHTML = `<p style="color:red; text-align:center;">Erreur: ${e.message}</p>`;
   }
@@ -2219,27 +2067,18 @@ async function renderThemes() {
 // --- VUE : DÉTAIL D'UN THÈME (Les 3 actions) ---
 async function renderThemeDetail() {
   const main = document.getElementById('app');
-
-  // ✅ Sécurité : si aucun thème n'est sélectionné, retourner à la liste
-  if (!currentTheme) {
-    console.warn('Aucun thème sélectionné, retour à la liste.');
-    router.navigate('/themes');
-    return;
-  }
+  if (!currentTheme) { router.navigate('/themes'); return; }
 
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement...</div>';
 
   try {
     const unitData = await content.loadSection('fr', 'vocabulary', currentTheme);
-
-    const themeNames = {
-      'survival': 'Mots de survie',
-      'numbers': 'Les Nombres',
-      'family': 'La Famille',
-      'market': 'Au Marché',
-      'colors': 'Les Couleurs'
+    const themeInfo = {
+      'survival': 'Mots de survie', 'numbers': 'Nombres (1-10)', 'family': 'La Famille',
+      'market': 'Le Marché', 'colors': 'Les Couleurs', 'numbers2': 'Nombres (11-20)',
+      'days': 'Les Jours', 'months': 'Les Mois', 'greetings': 'Salutations', 'body': 'Le Corps'
     };
-    const themeName = themeNames[currentTheme] || currentTheme;
+    const themeName = themeInfo[currentTheme] || currentTheme;
 
     main.innerHTML = `
       <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem; text-align:center;">
@@ -2247,39 +2086,49 @@ async function renderThemeDetail() {
         <div style="clear:both; padding-top:1rem;">
           <span style="background:var(--ds-color-accent); color:white; padding:4px 12px; border-radius:20px; font-weight:600; font-size:0.8rem;">Niveau ${currentLevel}</span>
         </div>
-
         <h1 style="margin-top:1rem; color:var(--ds-color-primary);">${themeName}</h1>
-        <p style="color:var(--ds-color-text-muted); margin-bottom: 3rem;">Que souhaitez-vous faire avec ce thème ?</p>
+        <p style="color:var(--ds-color-text-muted); margin-bottom: 2rem;">${unitData.themeMg || ''} • ${unitData.items.length} mots</p>
 
-        <div style="display:flex; flex-direction:column; gap:1rem;">
-          <ds-button variant="primary" size="lg" style="width:100%; justify-content:flex-start; padding-left:2rem;"
-            onclick="window.location.hash='/lesson'">
-            📖 Étudier la leçon
-          </ds-button>
-          <ds-button variant="success" size="lg" style="width:100%; justify-content:flex-start; padding-left:2rem;"
-            onclick="window.location.hash='/practice'">
-            🎯 Faire les révisions (Quiz)
-          </ds-button>
-          <ds-button variant="ghost" size="lg" style="width:100%; justify-content:flex-start; padding-left:2rem; border:1px solid var(--ds-color-border);"
-            onclick="window.location.hash='/dialogues'">
-            💬 Écouter les dialogues
-          </ds-button>
+        <div style="display:flex; flex-direction:column; gap:1rem; text-align:left;">
+
+          <!-- SECTION LEÇON -->
+          <div style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:1px solid var(--ds-color-border);">
+            <h3 style="margin:0 0 1rem 0; color:var(--ds-color-text);">📖 Leçon (Fianarana)</h3>
+            <ds-button variant="primary" size="md" style="width:100%; margin-bottom:0.5rem;" onclick="window.location.hash='/lesson'">
+              1. Les Mots (Ny Teny) - <span style="font-size:0.8em; opacity:0.8;">Gratuit</span>
+            </ds-button>
+            <ds-button variant="ghost" size="md" style="width:100%; opacity:0.6;" disabled>
+              2. Les Phrases & Contextes - <span style="font-size:0.8em;">🔒 Premium</span>
+            </ds-button>
+          </div>
+
+          <!-- SECTION RÉVISIONS -->
+          <div style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:1px solid var(--ds-color-border);">
+            <h3 style="margin:0 0 1rem 0; color:var(--ds-color-text);"> Révisions (Fanazaran-tena)</h3>
+            <ds-button variant="success" size="md" style="width:100%; margin-bottom:0.5rem;" onclick="window.location.hash='/practice'">
+              1. Quiz & Shadowing (Mots) - <span style="font-size:0.8em; opacity:0.8;">Gratuit</span>
+            </ds-button>
+            <ds-button variant="ghost" size="md" style="width:100%; opacity:0.6;" disabled>
+              2. Quiz & Shadowing (Phrases) - <span style="font-size:0.8em;">🔒 Premium</span>
+            </ds-button>
+          </div>
+
+          <!-- SECTION DIALOGUE -->
+          <div style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:1px solid var(--ds-color-border);">
+            <h3 style="margin:0 0 1rem 0; color:var(--ds-color-text);"> Dialogue (Resaka)</h3>
+            <ds-button variant="accent" size="md" style="width:100%;" onclick="window.location.hash='/dialogues'">
+              Écouter et jouer le dialogue - <span style="font-size:0.8em; opacity:0.8;">Gratuit</span>
+            </ds-button>
+          </div>
+
         </div>
       </section>
     `;
 
     document.getElementById('btn-back-themes').addEventListener('click', () => router.navigate('/themes'));
-
     window.teacherAvatar.show('theme-detail');
-
   } catch (e) {
-    console.error('❌ Erreur renderThemeDetail:', e);
-    main.innerHTML = `
-      <div style="text-align:center; padding:2rem; color:var(--ds-color-danger);">
-        <p>Erreur de chargement du thème : ${e.message}</p>
-        <ds-button onclick="window.location.hash='/themes'">Retour aux thèmes</ds-button>
-      </div>
-    `;
+    main.innerHTML = `<div style="text-align:center; padding:2rem; color:var(--ds-color-danger);"> <p>Erreur: ${e.message}</p> <ds-button onclick="window.location.hash='/themes'">Retour</ds-button> </div>`;
   }
 }
 

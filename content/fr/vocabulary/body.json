@@ -1,17 +1,18 @@
 {
   "id": "body",
-  "title": "Le Corps humain",
-  "description": "Les parties du corps",
+  "level": "A0",
+  "theme": "Le Corps",
+  "themeMg": "Ny Vatana",
   "items": [
-    { "id": "b1", "source": "Tête", "target": "Loha", "phonetic": "tɛt", "audio": "/content/fr/audio/body/tete.mp3", "context": "J'ai mal à la tête.", "contextTranslation": "Sakitry ny lohako.", "quizType": "fr_to_mg", "tags": ["corps"], "icon": "🗣️" },
-    { "id": "b2", "source": "Main", "target": "Tànana", "phonetic": "mɛ̃", "audio": "/content/fr/audio/body/main.mp3", "context": "Lave tes mains.", "contextTranslation": "Sasao ny tànanao.", "quizType": "fr_to_mg", "tags": ["corps"], "icon": "✋" },
-    { "id": "b3", "source": "Pied", "target": "Tongotra", "phonetic": "pje", "audio": "/content/fr/audio/body/pied.mp3", "context": "J'ai mal aux pieds.", "contextTranslation": "Sakitry ny tongotro.", "quizType": "fr_to_mg", "tags": ["corps"], "icon": "🦶" },
-    { "id": "b4", "source": "Yeux", "target": "Maso", "phonetic": "jø", "audio": "/content/fr/audio/body/yeux.mp3", "context": "Ferme les yeux.", "contextTranslation": "Hiditra ny masonao.", "quizType": "fr_to_mg", "tags": ["corps"], "icon": "👁️" },
-    { "id": "b5", "source": "Bouche", "target": "Vava", "phonetic": "buʃ", "audio": "/content/fr/audio/body/bouche.mp3", "context": "Ouvre la bouche.", "contextTranslation": "Sokafy ny vavanao.", "quizType": "fr_to_mg", "tags": ["corps"], "icon": "👄" },
-    { "id": "b6", "source": "Oreille", "target": "Sofina", "phonetic": "ɔ.ʁɛj", "audio": "/content/fr/audio/body/oreille.mp3", "context": "J'écoute avec mes oreilles.", "contextTranslation": "Mihainoa amin'ny sofiko aho.", "quizType": "fr_to_mg", "tags": ["corps"], "icon": "👂" },
-    { "id": "b7", "source": "Nez", "target": "Orona", "phonetic": "ne", "audio": "/content/fr/audio/body/nez.mp3", "context": "Mon nez est bouché.", "contextTranslation": "Voan'ny sery ny oronoko.", "quizType": "fr_to_mg", "tags": ["corps"], "icon": "👃" },
-    { "id": "b8", "source": "Bras", "target": "Sanda", "phonetic": "bʁa", "audio": "/content/fr/audio/body/bras.mp3", "context": "Lève le bras.", "contextTranslation": "Angaro ny sandanao.", "quizType": "fr_to_mg", "tags": ["corps"], "icon": "💪" },
-    { "id": "b9", "source": "Jambe", "target": "Hazo", "phonetic": "ʒɑ̃b", "audio": "/content/fr/audio/body/jambe.mp3", "context": "Ma jambe est fatiguée.", "contextTranslation": "Very hery ny hazoko.", "quizType": "fr_to_mg", "tags": ["corps"], "icon": "🦵" },
-    { "id": "b10", "source": "Cœur", "target": "Fo", "phonetic": "kœʁ", "audio": "/content/fr/audio/body/coeur.mp3", "context": "Mon cœur bat vite.", "contextTranslation": "Mikitroka ny foko.", "quizType": "fr_to_mg", "tags": ["corps"], "icon": "❤️" }
+    { "id": "b1", "target": "Tête", "source": "Loha", "phonetic": "tɛt", "audio": "", "context": "J'ai mal à la tête.", "contextTranslation": "Sakitry ny lohako.", "quizType": "mg_to_fr", "tags": ["vatana"], "icon": "🗣️" },
+    { "id": "b2", "target": "Main", "source": "Tànana", "phonetic": "mɛ̃", "audio": "", "context": "Lave tes mains.", "contextTranslation": "Sasao ny tànanao.", "quizType": "mg_to_fr", "tags": ["vatana"], "icon": "✋" },
+    { "id": "b3", "target": "Pied", "source": "Tongotra", "phonetic": "pje", "audio": "", "context": "J'ai mal aux pieds.", "contextTranslation": "Sakitry ny tongotro.", "quizType": "mg_to_fr", "tags": ["vatana"], "icon": "" },
+    { "id": "b4", "target": "Yeux", "source": "Maso", "phonetic": "jø", "audio": "", "context": "Ferme les yeux.", "contextTranslation": "Hidio ny masonao.", "quizType": "mg_to_fr", "tags": ["vatana"], "icon": "👁️" },
+    { "id": "b5", "target": "Bouche", "source": "Vava", "phonetic": "buʃ", "audio": "", "context": "Ouvre la bouche.", "contextTranslation": "Sokafy ny vavanao.", "quizType": "mg_to_fr", "tags": ["vatana"], "icon": "" },
+    { "id": "b6", "target": "Oreille", "source": "Sofina", "phonetic": ".ʁɛj", "audio": "", "context": "J'écoute avec mes oreilles.", "contextTranslation": "Mihainoa amin'ny sofiko aho.", "quizType": "mg_to_fr", "tags": ["vatana"], "icon": "👂" },
+    { "id": "b7", "target": "Nez", "source": "Orona", "phonetic": "ne", "audio": "", "context": "Mon nez est bouché.", "contextTranslation": "Voan'ny sery ny oronoko.", "quizType": "mg_to_fr", "tags": ["vatana"], "icon": "👃" },
+    { "id": "b8", "target": "Bras", "source": "Sanda", "phonetic": "bʁa", "audio": "", "context": "Lève le bras.", "contextTranslation": "Angaro ny sandanao.", "quizType": "mg_to_fr", "tags": ["vatana"], "icon": "💪" },
+    { "id": "b9", "target": "Jambe", "source": "Tongotra", "phonetic": "ʒɑb", "audio": "", "context": "Ma jambe est fatiguée.", "contextTranslation": "Very hery ny tongotro.", "quizType": "mg_to_fr", "tags": ["vatana"], "icon": "🦵" },
+    { "id": "b10", "target": "Cœur", "source": "Fo", "phonetic": "kœʁ", "audio": "", "context": "Mon cœur bat vite.", "contextTranslation": "Mikitroka ny foko.", "quizType": "mg_to_fr", "tags": ["vatana"], "icon": "❤️" }
   ]
 }
