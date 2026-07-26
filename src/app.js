@@ -434,7 +434,7 @@ async function renderHome() {
     }
 
     window.teacherAvatar.show('home');
-    render
+
     logger.info('✅ Page d\'accueil rendue (Modèle Freemium bilingue)');
 
     window.teacherAvatar.show('home');
