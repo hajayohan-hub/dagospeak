@@ -1015,27 +1015,23 @@ syncProfileWithJourneys();
         await srs.schedule(e.detail.itemId, e.detail.isCorrect ? 4 : 1);
 
         // Dans le handler quiz:answered
-          if (e.detail.isCorrect) {
-            quizEl.classList.add('correct-answer');
-            setTimeout(() => quizEl.classList.remove('correct-answer'), 500);
-          } else {
-            quizEl.classList.add('wrong-answer');
-            setTimeout(() => quizEl.classList.remove('wrong-answer'), 400);
-          }
-
-        if (e.detail.isCorrect) {
-          themeScore += 10;
-          await gamification.addXP(10, 'Quiz réussi');
-          if (typeof feedbackSounds !== 'undefined') feedbackSounds.playSuccess();
-          // L'Avatar félicite
-          setTimeout(() => window.teacherAvatar.speak("Excellent !"), 500);
-        } else {
-          if (typeof feedbackSounds !== 'undefined') feedbackSounds.playRetry();
-          // L'Avatar corrige automatiquement
-          setTimeout(() => {
-            window.teacherAvatar.speak(`Faux. La bonne réponse est : ${currentCorrectAnswer}`);
-          }, 500);
-        }
+             if (e.detail.isCorrect) {
+               quizEl.classList.add('correct-answer');
+               setTimeout(() => quizEl.classList.remove('correct-answer'), 500);
+               themeScore += 10;
+               await gamification.addXP(10, 'Quiz réussi');
+               if (typeof feedbackSounds !== 'undefined') feedbackSounds.playSuccess();
+               // ✅ Avatar félicite en français
+               setTimeout(() => window.teacherAvatar.speak("Excellent !"), 500);
+             } else {
+               quizEl.classList.add('wrong-answer');
+               setTimeout(() => quizEl.classList.remove('wrong-answer'), 400);
+               if (typeof feedbackSounds !== 'undefined') feedbackSounds.playRetry();
+               // ✅ Avatar corrige en français, sans prononcer le mot malgache
+               setTimeout(() => {
+                 window.teacherAvatar.speak(`Faux. La bonne réponse est : ${currentCorrectAnswer}`);
+               }, 500);
+             }
 
         stepQuiz.classList.remove('guide-active');
         stepShadow.style.opacity = '1';
@@ -1867,8 +1863,8 @@ async function renderChallenge() {
 
       // ✅ Voix du Teacher Avatar pour féliciter
       setTimeout(() => {
-        window.teacherAvatar.speak("Félicitations ! Vous avez réussi le défi ! Vous êtes prêt pour la conversation libre.");
-      }, 800);
+         window.teacherAvatar.speak("Félicitations ! Vous avez réussi le défi ! Vous maîtrisez ce thème.");
+       }, 800);
 
       main.innerHTML = `
         <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem; text-align:center;">

@@ -1,5 +1,6 @@
 /**
  * TeacherAvatar - Assistant virtuel avec animations de signe et feedback intelligent
+ * RÈGLE D'OR : Ne prononce JAMAIS de mots malgaches. Uniquement du français.
  */
 export class TeacherAvatar {
   #container = null;
@@ -7,13 +8,12 @@ export class TeacherAvatar {
   #isSpeaking = false;
   #femaleVoice = null;
   #masteredThemes = new Set();
-  #autoSpeakEnabled = false; // ✅ Désactivé par défaut
+  #autoSpeakEnabled = false;
   #isFirstUser = true;
   #signAnimationInterval = null;
-  #voiceLoaded = false; // ✅ AJOUTER CETTE LIGNE
+  #voiceLoaded = false;
 
   constructor() {
-
     this.#loadMasteredThemes();
     this.#loadVoices();
   }
@@ -33,50 +33,37 @@ export class TeacherAvatar {
   markThemeMastered(themeId) {
     this.#masteredThemes.add(themeId);
     this.#saveMasteredThemes();
-    if (this.#masteredThemes.size >= 3) {
-      this.#autoSpeakEnabled = false;
-    }
+    if (this.#masteredThemes.size >= 3) this.#autoSpeakEnabled = false;
   }
 
-    #loadVoices() {
+  #loadVoices() {
     const loadVoices = () => {
       const voices = speechSynthesis.getVoices();
-      if (voices.length === 0) return; // Ne pas charger si pas de voix
-
-      this.#femaleVoice = voices.find(v => v.lang.startsWith('fr') &&
-        (v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('femme'))) ||
-        voices.find(v => v.lang.startsWith('fr')) || voices[0];
-
-      // ✅ Log une seule fois
+      if (voices.length === 0) return;
+      this.#femaleVoice = voices.find(v => v.lang.startsWith('fr') && (v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('femme'))) ||
+                         voices.find(v => v.lang.startsWith('fr')) || voices[0];
       if (!this.#voiceLoaded) {
         console.log('[TeacherAvatar] ✅ Voix chargée:', this.#femaleVoice?.name || 'Par défaut');
         this.#voiceLoaded = true;
       }
     };
-
     loadVoices();
     speechSynthesis.onvoiceschanged = loadVoices;
   }
 
-   speak(text) {
+  speak(text) {
     if (!('speechSynthesis' in window) || !text) return;
     try {
       speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'fr-FR'; // ✅ Français uniquement
+      utterance.lang = 'fr-FR'; // ✅ FORCÉ EN FRANÇAIS
       utterance.rate = 0.95;
       utterance.pitch = 1.1;
-
       if (this.#femaleVoice) utterance.voice = this.#femaleVoice;
 
-      utterance.onstart = () => {
-        this.#isSpeaking = true;
-        this.#animateSpeaking(true);
-      };
-      utterance.onend = () => {
-        this.#isSpeaking = false;
-        this.#animateSpeaking(false);
-      };
+      utterance.onstart = () => { this.#isSpeaking = true; this.#animateSpeaking(true); };
+      utterance.onend = () => { this.#isSpeaking = false; this.#animateSpeaking(false); };
+      utterance.onerror = () => { this.#isSpeaking = false; this.#animateSpeaking(false); };
 
       speechSynthesis.speak(utterance);
     } catch (e) {
@@ -90,25 +77,14 @@ export class TeacherAvatar {
     avatar.style.animation = isSpeaking ? 'speaking-pulse 0.5s infinite alternate' : 'idle-float 3s ease-in-out infinite';
   }
 
-  // ✅ NOUVELLE MÉTHODE : Animation de signe pour attirer l'attention
   #startSignAnimation() {
     const avatar = document.getElementById('teacher-avatar');
     if (!avatar) return;
-
-    // Animation de rebond + rotation pour signaler "cliquez-moi"
     avatar.style.animation = 'sign-bounce 2s ease-in-out infinite';
-
-    // Ajouter un badge "!" clignotant
     const badge = document.createElement('div');
     badge.id = 'teacher-sign-badge';
     badge.textContent = '💡';
-    badge.style.cssText = `
-      position: absolute;
-      top: -10px;
-      right: -10px;
-      font-size: 1.5rem;
-      animation: blink 1s ease-in-out infinite;
-    `;
+    badge.style.cssText = `position: absolute; top: -10px; right: -10px; font-size: 1.5rem; animation: tapBounce 1s ease-in-out infinite;`;
     avatar.appendChild(badge);
   }
 
@@ -116,84 +92,35 @@ export class TeacherAvatar {
     const avatar = document.getElementById('teacher-avatar');
     if (!avatar) return;
     avatar.style.animation = 'idle-float 3s ease-in-out infinite';
-
     const badge = document.getElementById('teacher-sign-badge');
     if (badge) badge.remove();
   }
 
-     show(tipKey) {
+  show(tipKey) {
     const tips = {
-      'home': {
-        fr: "Bienvenue ! Cliquez sur 'Commencer' pour choisir votre niveau.",
-        mg: "Tongasoa ! Tsindrio 'Commencer' mba hifidianana ny ambaratonga."
-      },
-      'themes': {
-        fr: "Choisissez un thème pour voir les leçons disponibles.",
-        mg: "Safidio lohahevitra iray mba hahitana ny lesona."
-      },
-      'theme-detail': {
-        fr: "Choisissez une activité : Leçon, Révisions, ou Dialogues.",
-        mg: "Safidio hetsika iray : Lesona, Fanadiniana, na Resaka."
-      },
-      'lesson': {
-        fr: "Écoutez chaque mot et répétez-le à voix haute pour bien prononcer.",
-        mg: "Hihainoa ny teny tsirairay ary avereno am-peo avo mba hahafahananao manonona tsara."
-      },
-      'practice': {
-        fr: "Révisions : écoutez, répondez au quiz, puis prononcez avec le shadowing.",
-        mg: "Fanadiniana : mihainoa, valio ny quiz, ary mitenena amin'ny shadowing."
-      },
-      'dialogues': {
-        fr: "Lisez la conversation et écoutez chaque ligne.",
-        mg: "Vakio ny resaka ary mihainoa ny andalana tsirairay."
-      },
-      'roleplay': {
-        fr: "Jouez les deux rôles. Écoutez, puis parlez à votre tour.",
-        mg: "Milalao anjara asa roa. Mihainoa, ary mitenena."
-      },
-      'challenge': {
-        fr: "Défi ! Parlez sans voir les réponses.",
-        mg: "Fanamby ! Mitenena tsy mijery ny valiny."
-      }
+      'home': { fr: "Bienvenue ! Choisissez un niveau pour commencer votre apprentissage du français.", mg: "Tongasoa ! Safidio ny ambaratonga mba hanombohana ny fianarana teny frantsay." },
+      'themes': { fr: "Choisissez un thème pour voir les leçons, révisions et dialogues disponibles.", mg: "Safidio lohahevitra iray mba hahitana ny lesona, fanadiniana ary resaka." },
+      'theme-detail': { fr: "Choisissez une activité : Leçon, Révisions, ou Dialogues.", mg: "Safidio hetsika iray : Lesona, Fanadiniana, na Resaka." },
+      'lesson': { fr: "Écoutez chaque mot en cliquant sur le bouton audio, puis répétez-le à voix haute.", mg: "Hihainoa ny teny tsirairay amin'ny bokotra audio, ary avereno am-peo avo." },
+      'practice': { fr: "Suivez les étapes guidées : Écoutez, Répondez au quiz, puis Prononcez.", mg: "Araho ny dingana : Mihainoa, Valio ny quiz, ary Mitenena." },
+      'dialogues': { fr: "Lisez la conversation et écoutez chaque ligne. Vous êtes prêt pour le Role Play !", mg: "Vakio ny resaka ary mihainoa ny andalana tsirairay. Vonona ho an'ny Role Play !" },
+      'roleplay': { fr: "Jouez les deux rôles. Écoutez, puis parlez à votre tour.", mg: "Milalao anjara asa roa. Mihainoa, ary mitenena ianao." },
+      'challenge': { fr: "Défi ! Parlez sans voir les réponses. Si vous bloquez, retournez au Role Play Guidé.", mg: "Fanamby ! Mitenena tsy mijery ny valiny." }
     };
 
-    this.#currentTip = tips[tipKey] || { fr: "Continuez !", mg: "Tohizo !" };
+    this.#currentTip = tips[tipKey] || { fr: "Continuez, vous faites du bon travail !", mg: "Tohizo, tsara ny ataonao !" };
     this.render();
 
+    // ✅ Sur la page d'accueil, juste un signe visuel, pas de parole auto
     if (tipKey === 'home') {
       if (this.#isFirstUser) setTimeout(() => this.#startSignAnimation(), 1000);
       return;
     }
 
+    // ✅ Pour les autres pages, parole automatique en FRANÇAIS UNIQUEMENT
     if (this.#autoSpeakEnabled) {
-      setTimeout(() => this.speak(this.#currentTip.fr), 500);
+      setTimeout(() => this.speak(this.#currentTip.fr), 600);
     }
-  }
-
-  // ✅ NOUVELLE MÉTHODE : Feedback de fin de parcours
-  showEndOfJourneyFeedback(completedJourneys, totalJourneys) {
-    const percentage = (completedJourneys / totalJourneys) * 100;
-    let message = '';
-
-    if (percentage === 100) {
-      message = {
-        fr: "Félicitations ! Vous avez terminé tous les parcours. Vous êtes prêt pour le niveau suivant !",
-        mg: "Faly be ! Vita ny parcours rehetra. Vonona ho an'ny ambaratonga manaraka ianao !"
-      };
-    } else if (percentage >= 50) {
-      message = {
-        fr: `Bon travail ! ${Math.round(percentage)}% terminé. Continuez ainsi !`,
-        mg: `Tsara ! ${Math.round(percentage)}% vita. Tohizo izany !`
-      };
-    } else {
-      message = {
-        fr: `Vous avez complété ${Math.round(percentage)}% des parcours. Il reste du travail !`,
-        mg: `${Math.round(percentage)}% ny parcours no vita. Mbola misy asa !`
-      };
-    }
-
-    this.#currentTip = message;
-    this.speak(message.fr);
   }
 
   render() {
@@ -208,10 +135,9 @@ export class TeacherAvatar {
         @keyframes speaking-pulse { 0% { transform: scale(1); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); } 100% { transform: scale(1.15); box-shadow: 0 8px 24px rgba(37, 99, 235, 0.6); } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes sign-bounce { 0%, 100% { transform: translateY(0) rotate(0deg); } 25% { transform: translateY(-15px) rotate(-10deg); } 75% { transform: translateY(-15px) rotate(10deg); } }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
       </style>
-      <div id="teacher-avatar" style="position: fixed; bottom: 100px; right: 20px; width: 80px; height: 80px; background: linear-gradient(135deg, var(--ds-color-primary), var(--ds-color-accent)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 9998; border: 4px solid white; animation: idle-float 3s ease-in-out infinite; transition: all 0.3s;" title="Cliquez pour de l'aide">👩‍🏫</div>
-      <div id="teacher-tooltip" style="position: fixed; bottom: 190px; right: 20px; max-width: 320px; background: var(--ds-color-surface); color: var(--ds-color-text); padding: 1.2rem; border-radius: var(--ds-radius-lg); box-shadow: 0 8px 24px rgba(0,0,0,0.3); z-index: 9999; display: none; border: 2px solid var(--ds-color-primary); animation: fadeIn 0.3s ease-out;">
+      <div id="teacher-avatar" style="position: fixed; bottom: 100px; right: 20px; width: 80px; height: 80px; background: linear-gradient(135deg, var(--ds-color-primary), var(--ds-color-accent)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 9999; border: 4px solid white; animation: idle-float 3s ease-in-out infinite; transition: all 0.3s;" title="Cliquez pour de l'aide">👩‍🏫</div>
+      <div id="teacher-tooltip" style="position: fixed; bottom: 190px; right: 20px; max-width: 320px; background: var(--ds-color-surface); color: var(--ds-color-text); padding: 1.2rem; border-radius: var(--ds-radius-lg); box-shadow: 0 8px 24px rgba(0,0,0,0.3); z-index: 10000; display: none; border: 2px solid var(--ds-color-primary); animation: fadeIn 0.3s ease-out;">
         <div style="font-weight:600; margin-bottom:0.5rem; color:var(--ds-color-primary); font-size:1rem;">💡 Torohevitra (Conseil)</div>
         <div style="font-size:0.95rem; margin-bottom:0.5rem; line-height:1.5;">${this.#currentTip?.fr || ''}</div>
         <div style="font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic; border-top:1px solid var(--ds-color-border); padding-top:0.5rem; line-height:1.4;">${this.#currentTip?.mg || ''}</div>
@@ -228,7 +154,7 @@ export class TeacherAvatar {
       this.#stopSignAnimation();
       tooltip.style.display = tooltip.style.display === 'none' ? 'block' : 'none';
       if (tooltip.style.display === 'block' && this.#currentTip) {
-        this.speak(this.#currentTip.fr);
+        this.speak(this.#currentTip.fr); // ✅ Parle en français au clic
       }
     });
 

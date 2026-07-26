@@ -6,10 +6,10 @@
     </filter>
   </defs>
   <!-- Fond blanc brillant -->
-  <circle cx="50" cy="50" r="46" fill="#ffffff" filter="url(#glow)" />
-  <!-- Lettre D brillante en bleu -->
-  <text x="50" y="62" font-family="Arial, sans-serif" font-size="48" font-weight="900" fill="#2563eb" text-anchor="middle" filter="url(#glow)">D</text>
-  <!-- Bande du drapeau malgache en bas (Blanc et Rouge) -->
-  <path d="M 15 78 A 35 35 0 0 0 85 78 L 85 85 A 35 35 0 0 1 15 85 Z" fill="#FC3D28" />
-  <path d="M 15 78 A 35 35 0 0 0 50 78 L 50 85 A 35 35 0 0 1 15 85 Z" fill="#FFFFFF" />
+  <circle cx="50" cy="50" r="48" fill="#ffffff" filter="url(#glow)" />
+  <!-- Lettre D brillante, agrandie et parfaitement centrée -->
+  <text x="50" y="66" font-family="Arial, sans-serif" font-size="80" font-weight="900" fill="#2563eb" text-anchor="middle" filter="url(#glow)">D</text>
+  <!-- Bande du drapeau malgache en bas -->
+  <path d="M 10 80 A 40 40 0 0 0 90 80 L 90 88 A 40 40 0 0 1 10 88 Z" fill="#FC3D28" />
+  <path d="M 10 80 A 40 40 0 0 0 50 80 L 50 88 A 40 40 0 0 1 10 88 Z" fill="#FFFFFF" />
 </svg>
