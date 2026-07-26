@@ -242,6 +242,20 @@ async function renderHome() {
         </div>
       `;
 
+        // ✅ PETIT DICTIONNAIRE RAPIDE POUR L'AFFICHAGE DES THÈMES (Évite de charger 10 JSON au démarrage)
+    const themeInfo = {
+      'survival':  { mg: 'Teny fototra', fr: 'Mots de survie', icon: '🆘' },
+      'family':    { mg: 'Fianakaviana', fr: 'La Famille', icon: '👨‍👩‍👧' },
+      'market':    { mg: 'Ny Tsena', fr: 'Le Marché', icon: '🛒' },
+      'numbers':   { mg: 'Ny Isa (1-10)', fr: 'Nombres (1-10)', icon: '🔢' },
+      'numbers2':  { mg: 'Ny Isa (11-20)', fr: 'Nombres (11-20)', icon: '🧮' },
+      'colors':    { mg: 'Ny Loko', fr: 'Les Couleurs', icon: '🎨' },
+      'days':      { mg: 'Ny Andro', fr: 'Les Jours', icon: '📅' },
+      'months':    { mg: 'Ny Volana', fr: 'Les Mois', icon: '🗓️' },
+      'greetings': { mg: 'Fiarahabana', fr: 'Salutations', icon: '👋' },
+      'body':      { mg: 'Ny Vatana', fr: 'Le Corps', icon: '🧍' }
+    };
+
     const levelsHtml = manifest.levels.map(level => {
       const isFree = level.id === 'A0' || level.id === 'A1';
       const isUnlocked = isFree || profile.isPremium;
@@ -256,6 +270,8 @@ async function renderHome() {
                     border: 1px solid ${isUnlocked ? 'var(--ds-color-border)' : 'var(--ds-color-text-disabled)'};
                     opacity: ${isUnlocked ? 1 : 0.7};
                     display: flex; flex-direction: column; gap: 1rem;">
+
+          <!-- EN-TÊTE DU NIVEAU -->
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <div>
               <h3 style="margin:0; color: ${isUnlocked ? 'var(--ds-color-primary)' : 'var(--ds-color-text-muted)'};">
@@ -267,6 +283,8 @@ async function renderHome() {
             </div>
             ${!isUnlocked ? '<span style="font-size:1.5rem;" title="Voa hidiana">🔒</span>' : '<span style="font-size:1.5rem;" title="Misokatra">🔓</span>'}
           </div>
+
+          <!-- DESCRIPTION DU NIVEAU -->
           <div>
             <p style="margin:0; font-size: 0.9rem; color: var(--ds-color-text-muted);">
               ${levelDescriptions[level.id]?.fr || level.description}
@@ -275,8 +293,34 @@ async function renderHome() {
               ${levelDescriptions[level.id]?.mg || ''}
             </p>
           </div>
+
+          <!-- ✅ GRILLE DES 10 THÈMES (Affichés directement si le niveau est débloqué) -->
+          ${isUnlocked && level.units ? `
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 0.75rem; margin-top: 0.5rem;">
+              ${level.units.map(unitId => {
+                const info = themeInfo[unitId] || { mg: unitId, fr: '', icon: '📁' };
+                return `
+                  <div class="btn-select-theme" data-theme="${unitId}" style="
+                    background: var(--ds-color-surface-2);
+                    padding: 1rem 0.5rem;
+                    border-radius: var(--ds-radius-md);
+                    text-align: center;
+                    border: 1px solid var(--ds-color-border);
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                  " onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.1)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem; animation: float 3s ease-in-out infinite;">${info.icon}</div>
+                    <div style="font-weight: 600; font-size: 0.85rem; color: var(--ds-color-text); line-height: 1.2;">${info.mg}</div>
+                    <div style="font-size: 0.7rem; color: var(--ds-color-primary); font-style: italic; margin-top: 4px;">${info.fr}</div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          ` : ''}
+
+          <!-- BOUTON D'ACTION -->
           ${isUnlocked ? `
-            <ds-button class="btn-select-level" data-level="${level.id}" variant="${level.id === 'A0' ? 'success' : 'primary'}" size="sm">
+            <ds-button class="btn-select-level" data-level="${level.id}" variant="${level.id === 'A0' ? 'success' : 'primary'}" size="sm" style="margin-top: 0.5rem;">
               Jereo ny lohahevitra (Voir les thèmes)
             </ds-button>
           ` : `
@@ -287,7 +331,6 @@ async function renderHome() {
         </div>
       `;
     }).join('');
-
     main.innerHTML = `
       <section class="ds-home" style="padding: 1rem;">
         ${heroHtml}
@@ -316,24 +359,41 @@ async function renderHome() {
       </section>
     `;
 
-    // ✅ ÉCOUTEURS D'ÉVÉNEMENTS - Mobile compatible
+        // ✅ ÉCOUTEURS D'ÉVÉNEMENTS - Mobile compatible (Niveaux + Thèmes + Premium)
     document.getElementById('levels-container').addEventListener('click', (e) => {
-      const btn = e.target.closest('.btn-select-level');
-      if (btn) {
-        const levelId = btn.dataset.level;
+
+      // 1. Gestion du clic sur un THÈME (Nouveau)
+      const themeBtn = e.target.closest('.btn-select-theme');
+      if (themeBtn) {
+        currentTheme = themeBtn.dataset.theme;
+        currentLevel = currentLevel || 'A0'; // Sécurité si le niveau n'est pas encore défini
+        localStorage.setItem('dagospeak:theme', currentTheme);
+        localStorage.setItem('dagospeak:level', currentLevel);
+        updateLevelUI();
+        router.navigate('/theme-detail'); // Redirige vers le détail du thème (Leçon, Révision, Dialogue)
+        return; // ⚠️ Important : on arrête ici pour ne pas exécuter la suite
+      }
+
+      // 2. Gestion du clic sur un NIVEAU (Votre code existant)
+      const levelBtn = e.target.closest('.btn-select-level');
+      if (levelBtn) {
+        const levelId = levelBtn.dataset.level;
         currentLevel = levelId;
         currentTheme = null;
         localStorage.setItem('dagospeak:level', currentLevel);
         updateLevelUI();
         router.navigate('/themes');
+        return; // ⚠️ Important : on arrête ici
       }
 
+      // 3. Gestion du bouton Premium (Votre code existant)
       const upgradeBtn = e.target.closest('.btn-upgrade');
       if (upgradeBtn) {
         handleUpgrade(upgradeBtn, profile);
       }
     });
 
+    // ✅ Écouteur pour le bouton Premium principal (Votre code existant)
     document.getElementById('btn-upgrade-main')?.addEventListener('click', () => {
       handleUpgrade(document.getElementById('btn-upgrade-main'), profile);
     });
@@ -374,6 +434,7 @@ async function renderHome() {
     }
 
     window.teacherAvatar.show('home');
+    render
     logger.info('✅ Page d\'accueil rendue (Modèle Freemium bilingue)');
 
     window.teacherAvatar.show('home');
