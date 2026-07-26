@@ -261,43 +261,36 @@ async function renderHome() {
     const levelsHtml = manifest.levels.map(level => {
       const isFree = level.id === 'A0' || level.id === 'A1';
       const isUnlocked = isFree || profile.isPremium;
-      const info = levelInfo[level.id] || {
-        icon: '📁',
-        titleFr: `Niveau ${level.id}`,
-        titleMg: `Ambaratonga ${level.id}`,
-        descFr: level.description || '',
-        descMg: ''
+      const levelDescriptions = {
+        'A0': { fr: 'Les premiers mots pour survivre au quotidien', mg: 'Ny teny voalohany hahafahana miaina isan\'andro' },
+        'A1': { fr: 'Vocabulaire essentiel : famille, marché, couleurs', mg: 'Teny ilaina : fianakaviana, tsena, loko' }
       };
+      const titleInfo = levelDescriptions[level.id] || { fr: level.title, mg: '' };
 
       return `
-        <div class="btn-select-level" data-level="${level.id}" style="
+        <div class="card-animate interactive-tap btn-select-level" data-level="${level.id}" style="
           background: ${isUnlocked ? 'var(--ds-color-surface)' : 'var(--ds-color-surface-2)'};
-          padding: 2rem 1.5rem;
-          border-radius: var(--ds-radius-lg);
-          border: 2px solid ${isUnlocked ? 'var(--ds-color-primary)' : 'var(--ds-color-text-disabled)'};
+          padding: 1.5rem; border-radius: var(--ds-radius-lg);
+          border: 1px solid ${isUnlocked ? 'var(--ds-color-border)' : 'var(--ds-color-text-disabled)'};
           opacity: ${isUnlocked ? 1 : 0.7};
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          box-shadow: ${isUnlocked ? 'var(--ds-shadow-md)' : 'none'};
-        " onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='var(--ds-shadow-lg)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='${isUnlocked ? 'var(--ds-shadow-md)' : 'none'}'">
+          display: flex; flex-direction: column; gap: 1rem;">
 
-          <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
             <div style="display:flex; align-items:center; gap: 1.2rem;">
-              <!-- ✅ GRANDE ICÔNE VISIBLE -->
-              <div style="font-size: 3.5rem; line-height: 1;">${info.icon}</div>
+              <!-- ✅ ICÔNE AVEC ANIMATION DE FLOTTEMENT -->
+              <div class="icon-float" style="font-size: 3.5rem; line-height: 1;">
+                ${level.id === 'A0' ? '🌱' : '📚'}
+              </div>
               <div>
-                <h3 style="margin:0; color: var(--ds-color-primary); font-size: 1.4rem; font-weight: 800;">
-                  ${info.titleFr}
+                <h3 style="margin:0; color: ${isUnlocked ? 'var(--ds-color-primary)' : 'var(--ds-color-text-muted)'};">
+                  Ambaratonga ${level.id} : ${titleInfo.fr}
                 </h3>
-                <p style="margin:4px 0 0 0; font-size: 1rem; color: var(--ds-color-text-muted); font-weight: 600;">
-                  ${info.titleMg}
+                <p style="margin:4px 0 0 0; font-size: 0.85rem; color: var(--ds-color-text-muted); font-style:italic;">
+                  (${titleInfo.mg})
                 </p>
               </div>
             </div>
-            ${!isUnlocked ? '<span style="font-size:2rem;" title="Voa hidiana">🔒</span>' : '<span style="font-size:2rem;" title="Misokatra">🔓</span>'}
+            ${!isUnlocked ? '<span style="font-size:1.5rem;">🔒</span>' : '<span style="font-size:1.5rem;">🔓</span>'}
           </div>
 
           <!-- ✅ DESCRIPTIONS SÉPARÉES PAR UNE LIGNE -->
@@ -2089,32 +2082,33 @@ async function renderThemes() {
     const journeys = journeyTracker.getCompletedJourneys();
     const journeyTypes = ['lessons', 'practices', 'dialogues', 'roleplays', 'challenges'];
 
-    const themesHtml = levelData.units.map(unitId => {
+       const themesHtml = levelData.units.map(unitId => {
       const info = themeInfo[unitId] || { icon: '📁', fr: unitId, mg: unitId };
 
-      // ✅ CALCUL DE PROGRESSION ET POINTS COLORÉS EXPLICITES
       let doneCount = 0;
       journeyTypes.forEach(type => {
         if (journeys[type] && journeys[type].includes(unitId)) doneCount++;
       });
 
-      // Utilisation d'emojis explicites pour garantir l'affichage
-      let statusDot = '⚪'; // Non commencé par défaut
+      let statusDot = '⚪';
       let statusText = 'Non commencé';
-
-      if (doneCount === 5) {
-        statusDot = '🟢';
-        statusText = 'Terminé (100%)';
-      } else if (doneCount > 0) {
-        statusDot = '🟠';
-        statusText = `En cours (${doneCount}/5)`;
-      }
+      if (doneCount === 5) { statusDot = '🟢'; statusText = 'Terminé (100%)'; }
+      else if (doneCount > 0) { statusDot = '🟠'; statusText = `En cours (${doneCount}/5)`; }
 
       return `
-        <div class="btn-select-theme" data-theme="${unitId}" style="background:var(--ds-color-surface); padding:1.5rem; border-radius:var(--ds-radius-lg); border:1px solid var(--ds-color-border); cursor:pointer; transition:transform 0.2s; display:flex; flex-direction:column; gap:0.5rem;"
-             onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
+        <!-- ✅ CLASSES card-animate ET interactive-tap AJOUTÉES -->
+        <div class="card-animate interactive-tap btn-select-theme" data-theme="${unitId}" style="
+          background:var(--ds-color-surface);
+          padding:1.5rem;
+          border-radius:var(--ds-radius-lg);
+          border:1px solid var(--ds-color-border);
+          display:flex;
+          flex-direction:column;
+          gap:0.5rem;">
+
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div style="font-size: 2.5rem;">${info.icon}</div>
+            <!-- ✅ ICÔNE AVEC ANIMATION DE FLOTTEMENT -->
+            <div class="icon-float" style="font-size: 2.5rem;">${info.icon}</div>
             <div style="font-size: 1.5rem;" title="${statusText}">${statusDot}</div>
           </div>
           <h3 style="color:var(--ds-color-primary); margin:0.5rem 0 0 0; font-size: 1.1rem;">${info.fr}</h3>
