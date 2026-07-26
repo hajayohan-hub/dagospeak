@@ -239,7 +239,7 @@ async function renderHome() {
       </div>
     `;
 
-    // ✅ 2. DICTIONNAIRE COMPLET DES NIVEAUX (Icônes, Titres, Descriptions)
+    // ✅ 2. DICTIONNAIRE DES NIVEAUX (Icônes, Titres, Descriptions)
     const levelInfo = {
       'A0': {
         icon: '🌱',
@@ -257,17 +257,29 @@ async function renderHome() {
       }
     };
 
-        // ✅ DICTIONNAIRE DES NIVEAUX (pour les titres)
     const levelTitles = {
       'A0': { fr: 'Débutant', mg: 'Mpianatra' },
       'A1': { fr: 'Élémentaire', mg: 'Fototra' }
     };
 
+    // ✅ 3. DICTIONNAIRE DES THÈMES (C'EST CELUI QUI MANQUAIT !)
+    const themeInfo = {
+      'survival':  { mg: 'Teny fototra', fr: 'Mots de survie', icon: '🆘' },
+      'family':    { mg: 'Fianakaviana', fr: 'La Famille', icon: '👨‍👩‍👧' },
+      'market':    { mg: 'Ny Tsena', fr: 'Le Marché', icon: '🛒' },
+      'numbers':   { mg: 'Ny Isa (1-10)', fr: 'Nombres (1-10)', icon: '🔢' },
+      'numbers2':  { mg: 'Ny Isa (11-20)', fr: 'Nombres (11-20)', icon: '🧮' },
+      'colors':    { mg: 'Ny Loko', fr: 'Les Couleurs', icon: '🎨' },
+      'days':      { mg: 'Ny Andro', fr: 'Les Jours', icon: '📅' },
+      'months':    { mg: 'Ny Volana', fr: 'Les Mois', icon: '🗓️' },
+      'greetings': { mg: 'Fiarahabana', fr: 'Salutations', icon: '👋' },
+      'body':      { mg: 'Ny Vatana', fr: 'Le Corps', icon: '🧍' }
+    };
+
+    // ✅ 4. GÉNÉRATION DES CARTES DE NIVEAUX ET THÈMES
     const levelsHtml = manifest.levels.map(level => {
       const isFree = level.id === 'A0' || level.id === 'A1';
       const isUnlocked = isFree || profile.isPremium;
-
-      // ✅ Utiliser levelTitles, PAS info
       const titleInfo = levelTitles[level.id] || { fr: level.title, mg: '' };
       const levelDescriptions = {
         'A0': { fr: 'Les premiers mots pour survivre au quotidien', mg: 'Ny teny voalohany hahafahana miaina isan\'andro' },
@@ -282,20 +294,22 @@ async function renderHome() {
                     display: flex; flex-direction: column; gap: 1rem;">
 
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div>
-              <!-- ✅ CORRECTION : Utiliser titleInfo, pas info -->
-              <h3 style="margin:0; color: ${isUnlocked ? 'var(--ds-color-primary)' : 'var(--ds-color-text-muted)'};">
-                Ambaratonga ${level.id} : ${titleInfo.fr}
-              </h3>
-              <p style="margin:4px 0 0 0; font-size: 0.85rem; color: var(--ds-color-text-muted); font-style:italic;">
-                (${titleInfo.mg})
-              </p>
+            <div style="display:flex; align-items:center; gap: 1rem;">
+              <div style="font-size: 2.5rem;">${levelInfo[level.id]?.icon || '📁'}</div>
+              <div>
+                <h3 style="margin:0; color: ${isUnlocked ? 'var(--ds-color-primary)' : 'var(--ds-color-text-muted)'};">
+                  ${levelInfo[level.id]?.titleFr || `Niveau ${level.id}`}
+                </h3>
+                <p style="margin:4px 0 0 0; font-size: 0.85rem; color: var(--ds-color-text-muted); font-style:italic;">
+                  (${levelInfo[level.id]?.titleMg || ''})
+                </p>
+              </div>
             </div>
             ${!isUnlocked ? '<span style="font-size:1.5rem;">🔒</span>' : '<span style="font-size:1.5rem;">🔓</span>'}
           </div>
 
-          <div>
-            <p style="margin:0; font-size: 0.9rem; color: var(--ds-color-text-muted);">
+          <div style="border-top: 1px solid var(--ds-color-border); padding-top: 1rem;">
+            <p style="margin:0; font-size: 0.9rem; color: var(--ds-color-text);">
               ${levelDescriptions[level.id]?.fr || level.description}
             </p>
             <p style="margin:4px 0 0 0; font-size: 0.85rem; color: var(--ds-color-text-muted); font-style:italic;">
@@ -306,8 +320,7 @@ async function renderHome() {
           ${isUnlocked && level.units ? `
             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 0.75rem; margin-top: 0.5rem;">
               ${level.units.map(unitId => {
-                // ✅ ICI, `info` est bien définie (dans le scope de cette map)
-                const info = themeInfo[unitId] || { mg: unitId, fr: '', icon: '📁' };
+                const info = themeInfo[unitId] || { mg: unitId, fr: unitId, icon: '📁' };
                 return `
                   <div class="btn-select-theme" data-theme="${unitId}" style="
                     background: var(--ds-color-surface-2);
@@ -340,7 +353,7 @@ async function renderHome() {
       `;
     }).join('');
 
-    // ✅ 4. INJECTION CORRECTE DANS LE DOM (heroHtml est bien inclus ici !)
+    // ✅ 5. INJECTION DANS LE DOM
     main.innerHTML = `
       <section class="ds-home" style="padding: 1rem; max-width: 800px; margin: 0 auto;">
         ${heroHtml}
@@ -356,8 +369,21 @@ async function renderHome() {
       </section>
     `;
 
-    // ✅ 5. ÉCOUTEURS D'ÉVÉNEMENTS
+    // ✅ 6. ÉCOUTEURS D'ÉVÉNEMENTS COMPLETS
     document.getElementById('levels-container').addEventListener('click', (e) => {
+      // A. Clic sur un THÈME
+      const themeBtn = e.target.closest('.btn-select-theme');
+      if (themeBtn) {
+        currentTheme = themeBtn.dataset.theme;
+        currentLevel = currentLevel || 'A0';
+        localStorage.setItem('dagospeak:theme', currentTheme);
+        localStorage.setItem('dagospeak:level', currentLevel);
+        updateLevelUI();
+        router.navigate('/theme-detail');
+        return;
+      }
+
+      // B. Clic sur un NIVEAU
       const levelBtn = e.target.closest('.btn-select-level');
       if (levelBtn) {
         currentLevel = levelBtn.dataset.level;
