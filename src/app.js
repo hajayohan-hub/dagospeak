@@ -257,51 +257,85 @@ async function renderHome() {
       }
     };
 
-    // ✅ 3. GÉNÉRATION DES GRANDES CARTES DE NIVEAUX
+        // ✅ DICTIONNAIRE DES NIVEAUX (pour les titres)
+    const levelTitles = {
+      'A0': { fr: 'Débutant', mg: 'Mpianatra' },
+      'A1': { fr: 'Élémentaire', mg: 'Fototra' }
+    };
+
     const levelsHtml = manifest.levels.map(level => {
       const isFree = level.id === 'A0' || level.id === 'A1';
       const isUnlocked = isFree || profile.isPremium;
+
+      // ✅ Utiliser levelTitles, PAS info
+      const titleInfo = levelTitles[level.id] || { fr: level.title, mg: '' };
       const levelDescriptions = {
         'A0': { fr: 'Les premiers mots pour survivre au quotidien', mg: 'Ny teny voalohany hahafahana miaina isan\'andro' },
         'A1': { fr: 'Vocabulaire essentiel : famille, marché, couleurs', mg: 'Teny ilaina : fianakaviana, tsena, loko' }
       };
-      const titleInfo = levelDescriptions[level.id] || { fr: level.title, mg: '' };
 
       return `
-        <div class="card-animate interactive-tap btn-select-level" data-level="${level.id}" style="
-          background: ${isUnlocked ? 'var(--ds-color-surface)' : 'var(--ds-color-surface-2)'};
-          padding: 1.5rem; border-radius: var(--ds-radius-lg);
-          border: 1px solid ${isUnlocked ? 'var(--ds-color-border)' : 'var(--ds-color-text-disabled)'};
-          opacity: ${isUnlocked ? 1 : 0.7};
-          display: flex; flex-direction: column; gap: 1rem;">
+        <div style="background: ${isUnlocked ? 'var(--ds-color-surface)' : 'var(--ds-color-surface-2)'};
+                    padding: 1.5rem; border-radius: var(--ds-radius-lg);
+                    border: 1px solid ${isUnlocked ? 'var(--ds-color-border)' : 'var(--ds-color-text-disabled)'};
+                    opacity: ${isUnlocked ? 1 : 0.7};
+                    display: flex; flex-direction: column; gap: 1rem;">
 
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div style="display:flex; align-items:center; gap: 1.2rem;">
-              <!-- ✅ ICÔNE AVEC ANIMATION DE FLOTTEMENT -->
-              <div class="icon-float" style="font-size: 3.5rem; line-height: 1;">
-                ${level.id === 'A0' ? '🌱' : '📚'}
-              </div>
-              <div>
-                <h3 style="margin:0; color: ${isUnlocked ? 'var(--ds-color-primary)' : 'var(--ds-color-text-muted)'};">
-                  Ambaratonga ${level.id} : ${titleInfo.fr}
-                </h3>
-                <p style="margin:4px 0 0 0; font-size: 0.85rem; color: var(--ds-color-text-muted); font-style:italic;">
-                  (${titleInfo.mg})
-                </p>
-              </div>
+            <div>
+              <!-- ✅ CORRECTION : Utiliser titleInfo, pas info -->
+              <h3 style="margin:0; color: ${isUnlocked ? 'var(--ds-color-primary)' : 'var(--ds-color-text-muted)'};">
+                Ambaratonga ${level.id} : ${titleInfo.fr}
+              </h3>
+              <p style="margin:4px 0 0 0; font-size: 0.85rem; color: var(--ds-color-text-muted); font-style:italic;">
+                (${titleInfo.mg})
+              </p>
             </div>
             ${!isUnlocked ? '<span style="font-size:1.5rem;">🔒</span>' : '<span style="font-size:1.5rem;">🔓</span>'}
           </div>
 
-          <!-- ✅ DESCRIPTIONS SÉPARÉES PAR UNE LIGNE -->
-          <div style="border-top: 1px solid var(--ds-color-border); padding-top: 1rem; margin-top: 0.5rem;">
-            <p style="margin:0; font-size: 0.95rem; color: var(--ds-color-text); line-height: 1.4;">
-              ${info.descFr}
+          <div>
+            <p style="margin:0; font-size: 0.9rem; color: var(--ds-color-text-muted);">
+              ${levelDescriptions[level.id]?.fr || level.description}
             </p>
-            <p style="margin:6px 0 0 0; font-size: 0.85rem; color: var(--ds-color-text-muted); font-style:italic; line-height: 1.4;">
-              ${info.descMg}
+            <p style="margin:4px 0 0 0; font-size: 0.85rem; color: var(--ds-color-text-muted); font-style:italic;">
+              ${levelDescriptions[level.id]?.mg || ''}
             </p>
           </div>
+
+          ${isUnlocked && level.units ? `
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 0.75rem; margin-top: 0.5rem;">
+              ${level.units.map(unitId => {
+                // ✅ ICI, `info` est bien définie (dans le scope de cette map)
+                const info = themeInfo[unitId] || { mg: unitId, fr: '', icon: '📁' };
+                return `
+                  <div class="btn-select-theme" data-theme="${unitId}" style="
+                    background: var(--ds-color-surface-2);
+                    padding: 1rem 0.5rem;
+                    border-radius: var(--ds-radius-md);
+                    text-align: center;
+                    border: 1px solid var(--ds-color-border);
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                  " onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.1)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem; animation: float 3s ease-in-out infinite;">${info.icon}</div>
+                    <div style="font-weight: 600; font-size: 0.85rem; color: var(--ds-color-text); line-height: 1.2;">${info.mg}</div>
+                    <div style="font-size: 0.7rem; color: var(--ds-color-primary); font-style: italic; margin-top: 4px;">${info.fr}</div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          ` : ''}
+
+          ${isUnlocked ? `
+            <ds-button class="btn-select-level" data-level="${level.id}" variant="${level.id === 'A0' ? 'success' : 'primary'}" size="sm" style="margin-top: 0.5rem;">
+              Jereo ny lohahevitra (Voir les thèmes)
+            </ds-button>
+          ` : `
+            <ds-button class="btn-upgrade" data-level="${level.id}" variant="accent" size="sm">
+              Havaozina ho Premium (Débloquer avec Premium)
+            </ds-button>
+          `}
         </div>
       `;
     }).join('');
