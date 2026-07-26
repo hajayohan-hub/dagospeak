@@ -204,141 +204,57 @@ async function renderHome() {
     const profile = await gamification.getProfile();
     const manifest = await content.loadManifest('fr');
 
-    // ✅ 1. HERO SECTION (Injectée correctement + fallback gradient)
+    // ✅ 1. HERO SECTION
     const heroHtml = `
       <div style="
-        background:
-          linear-gradient(135deg, rgba(37, 99, 235, 0.85) 0%, rgba(245, 158, 11, 0.85) 100%),
-          url('/assets/hero-bg.png');
-        background-size: cover;
-        background-position: center;
-        background-blend-mode: overlay;
-        border-radius: var(--ds-radius-lg);
-        padding: 2.5rem 1.5rem;
-        margin-bottom: 2rem;
-        text-align: center;
-        color: white;
-        position: relative;
-        overflow: hidden;
-        box-shadow: var(--ds-shadow-lg);
-        min-height: 200px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        background: linear-gradient(135deg, rgba(37, 99, 235, 0.85) 0%, rgba(245, 158, 11, 0.85) 100%), url('/assets/hero-bg.png');
+        background-size: cover; background-position: center; background-blend-mode: overlay;
+        border-radius: var(--ds-radius-lg); padding: 2.5rem 1.5rem; margin-bottom: 2rem;
+        text-align: center; color: white; position: relative; overflow: hidden;
+        box-shadow: var(--ds-shadow-lg); min-height: 200px; display: flex;
+        flex-direction: column; justify-content: center; align-items: center;
       ">
-        <h1 style="font-size: 2.5rem; margin: 0 0 0.5rem 0; text-shadow: 0 2px 4px rgba(0,0,0,0.8); animation: fadeIn 1s ease-out;">
-          Manahoana ! 👋
-        </h1>
-        <p style="font-size: 1.1rem; margin: 0; opacity: 0.95; text-shadow: 0 1px 2px rgba(0,0,0,0.9); font-weight: 600;">
-          Apprenez les langues avec IA
-        </p>
-        <p style="font-size: 0.95rem; margin-top: 0.5rem; opacity: 0.9; font-style: italic;">
-          Mianara fiteny miaraka amin'ny IA
-        </p>
+        <h1 style="font-size: 2.5rem; margin: 0 0 0.5rem 0; text-shadow: 0 2px 4px rgba(0,0,0,0.8); animation: fadeIn 1s ease-out;">Manahoana ! 👋</h1>
+        <p style="font-size: 1.1rem; margin: 0; opacity: 0.95; text-shadow: 0 1px 2px rgba(0,0,0,0.9); font-weight: 600;">Apprenez les langues avec IA</p>
+        <p style="font-size: 0.95rem; margin-top: 0.5rem; opacity: 0.9; font-style: italic;">Mianara fiteny miaraka amin'ny IA</p>
       </div>
     `;
 
-    // ✅ 2. DICTIONNAIRE DES NIVEAUX (Icônes, Titres, Descriptions)
+    // ✅ 2. DICTIONNAIRE DES NIVEAUX
     const levelInfo = {
-      'A0': {
-        icon: '🌱',
-        titleFr: 'Niveau A0 : Débutant',
-        titleMg: 'Ambaratonga A0 : Mpianatra',
-        descFr: 'Les premiers mots pour survivre au quotidien',
-        descMg: 'Ny teny voalohany hahafahana miaina isan\'andro'
-      },
-      'A1': {
-        icon: '📚',
-        titleFr: 'Niveau A1 : Élémentaire',
-        titleMg: 'Ambaratonga A1 : Fototra',
-        descFr: 'Vocabulaire essentiel : famille, marché, couleurs',
-        descMg: 'Teny ilaina : fianakaviana, tsena, loko'
-      }
+      'A0': { icon: '🌱', titleFr: 'Niveau A0 : Débutant', titleMg: 'Ambaratonga A0 : Mpianatra', descFr: 'Les premiers mots pour survivre au quotidien', descMg: 'Ny teny voalohany hahafahana miaina isan\'andro' },
+      'A1': { icon: '📚', titleFr: 'Niveau A1 : Élémentaire', titleMg: 'Ambaratonga A1 : Fototra', descFr: 'Vocabulaire essentiel : famille, marché, couleurs', descMg: 'Teny ilaina : fianakaviana, tsena, loko' }
     };
 
-    const levelTitles = {
-      'A0': { fr: 'Débutant', mg: 'Mpianatra' },
-      'A1': { fr: 'Élémentaire', mg: 'Fototra' }
-    };
-
-    // ✅ 3. DICTIONNAIRE DES THÈMES (C'EST CELUI QUI MANQUAIT !)
-    const themeInfo = {
-      'survival':  { mg: 'Teny fototra', fr: 'Mots de survie', icon: '🆘' },
-      'family':    { mg: 'Fianakaviana', fr: 'La Famille', icon: '👨‍👩‍👧' },
-      'market':    { mg: 'Ny Tsena', fr: 'Le Marché', icon: '🛒' },
-      'numbers':   { mg: 'Ny Isa (1-10)', fr: 'Nombres (1-10)', icon: '🔢' },
-      'numbers2':  { mg: 'Ny Isa (11-20)', fr: 'Nombres (11-20)', icon: '🧮' },
-      'colors':    { mg: 'Ny Loko', fr: 'Les Couleurs', icon: '🎨' },
-      'days':      { mg: 'Ny Andro', fr: 'Les Jours', icon: '📅' },
-      'months':    { mg: 'Ny Volana', fr: 'Les Mois', icon: '🗓️' },
-      'greetings': { mg: 'Fiarahabana', fr: 'Salutations', icon: '👋' },
-      'body':      { mg: 'Ny Vatana', fr: 'Le Corps', icon: '🧍' }
-    };
-
-    // ✅ 4. GÉNÉRATION DES CARTES DE NIVEAUX ET THÈMES
+    // ✅ 3. GÉNÉRATION DES CARTES DE NIVEAUX (SANS LES THÈMES)
     const levelsHtml = manifest.levels.map(level => {
       const isFree = level.id === 'A0' || level.id === 'A1';
       const isUnlocked = isFree || profile.isPremium;
-      const titleInfo = levelTitles[level.id] || { fr: level.title, mg: '' };
-      const levelDescriptions = {
-        'A0': { fr: 'Les premiers mots pour survivre au quotidien', mg: 'Ny teny voalohany hahafahana miaina isan\'andro' },
-        'A1': { fr: 'Vocabulaire essentiel : famille, marché, couleurs', mg: 'Teny ilaina : fianakaviana, tsena, loko' }
-      };
+      const info = levelInfo[level.id] || { icon: '📁', titleFr: `Niveau ${level.id}`, titleMg: '', descFr: level.description || '', descMg: '' };
 
       return `
-        <div style="background: ${isUnlocked ? 'var(--ds-color-surface)' : 'var(--ds-color-surface-2)'};
-                    padding: 1.5rem; border-radius: var(--ds-radius-lg);
-                    border: 1px solid ${isUnlocked ? 'var(--ds-color-border)' : 'var(--ds-color-text-disabled)'};
-                    opacity: ${isUnlocked ? 1 : 0.7};
-                    display: flex; flex-direction: column; gap: 1rem;">
+        <div class="card-animate interactive-tap btn-select-level" data-level="${level.id}" style="
+          background: ${isUnlocked ? 'var(--ds-color-surface)' : 'var(--ds-color-surface-2)'};
+          padding: 1.5rem; border-radius: var(--ds-radius-lg);
+          border: 2px solid ${isUnlocked ? 'var(--ds-color-primary)' : 'var(--ds-color-text-disabled)'};
+          opacity: ${isUnlocked ? 1 : 0.7}; display: flex; flex-direction: column; gap: 1rem;
+          box-shadow: ${isUnlocked ? 'var(--ds-shadow-md)' : 'none'};">
 
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div style="display:flex; align-items:center; gap: 1rem;">
-              <div style="font-size: 2.5rem;">${levelInfo[level.id]?.icon || '📁'}</div>
+          <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+            <div style="display:flex; align-items:center; gap: 1.2rem;">
+              <div class="icon-float" style="font-size: 3rem; line-height: 1;">${info.icon}</div>
               <div>
-                <h3 style="margin:0; color: ${isUnlocked ? 'var(--ds-color-primary)' : 'var(--ds-color-text-muted)'};">
-                  ${levelInfo[level.id]?.titleFr || `Niveau ${level.id}`}
-                </h3>
-                <p style="margin:4px 0 0 0; font-size: 0.85rem; color: var(--ds-color-text-muted); font-style:italic;">
-                  (${levelInfo[level.id]?.titleMg || ''})
-                </p>
+                <h3 style="margin:0; color: var(--ds-color-primary); font-size: 1.3rem; font-weight: 800;">${info.titleFr}</h3>
+                <p style="margin:4px 0 0 0; font-size: 1rem; color: var(--ds-color-text-muted); font-weight: 600;">${info.titleMg}</p>
               </div>
             </div>
             ${!isUnlocked ? '<span style="font-size:1.5rem;">🔒</span>' : '<span style="font-size:1.5rem;">🔓</span>'}
           </div>
 
-          <div style="border-top: 1px solid var(--ds-color-border); padding-top: 1rem;">
-            <p style="margin:0; font-size: 0.9rem; color: var(--ds-color-text);">
-              ${levelDescriptions[level.id]?.fr || level.description}
-            </p>
-            <p style="margin:4px 0 0 0; font-size: 0.85rem; color: var(--ds-color-text-muted); font-style:italic;">
-              ${levelDescriptions[level.id]?.mg || ''}
-            </p>
+          <div style="border-top: 1px solid var(--ds-color-border); padding-top: 1rem; margin-top: 0.5rem;">
+            <p style="margin:0; font-size: 0.95rem; color: var(--ds-color-text); line-height: 1.4;">${info.descFr}</p>
+            <p style="margin:6px 0 0 0; font-size: 0.85rem; color: var(--ds-color-text-muted); font-style:italic; line-height: 1.4;">${info.descMg}</p>
           </div>
-
-          ${isUnlocked && level.units ? `
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 0.75rem; margin-top: 0.5rem;">
-              ${level.units.map(unitId => {
-                const info = themeInfo[unitId] || { mg: unitId, fr: unitId, icon: '📁' };
-                return `
-                  <div class="btn-select-theme" data-theme="${unitId}" style="
-                    background: var(--ds-color-surface-2);
-                    padding: 1rem 0.5rem;
-                    border-radius: var(--ds-radius-md);
-                    text-align: center;
-                    border: 1px solid var(--ds-color-border);
-                    cursor: pointer;
-                    transition: all 0.2s ease;
-                  " onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.1)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
-                    <div style="font-size: 2rem; margin-bottom: 0.5rem; animation: float 3s ease-in-out infinite;">${info.icon}</div>
-                    <div style="font-weight: 600; font-size: 0.85rem; color: var(--ds-color-text); line-height: 1.2;">${info.mg}</div>
-                    <div style="font-size: 0.7rem; color: var(--ds-color-primary); font-style: italic; margin-top: 4px;">${info.fr}</div>
-                  </div>
-                `;
-              }).join('')}
-            </div>
-          ` : ''}
 
           ${isUnlocked ? `
             <ds-button class="btn-select-level" data-level="${level.id}" variant="${level.id === 'A0' ? 'success' : 'primary'}" size="sm" style="margin-top: 0.5rem;">
@@ -353,15 +269,13 @@ async function renderHome() {
       `;
     }).join('');
 
-    // ✅ 5. INJECTION DANS LE DOM
+    // ✅ 4. INJECTION DANS LE DOM
     main.innerHTML = `
       <section class="ds-home" style="padding: 1rem; max-width: 800px; margin: 0 auto;">
         ${heroHtml}
         <div style="text-align:center; margin-bottom: 1.5rem;">
           <h2 style="margin:0; color: var(--ds-color-text); font-size: 1.5rem;">Safidio ny ambaratonga</h2>
-          <p style="margin:4px 0 0 0; font-size:1rem; color:var(--ds-color-text-muted); font-style:italic;">
-            (Choisissez votre niveau d'apprentissage)
-          </p>
+          <p style="margin:4px 0 0 0; font-size:1rem; color:var(--ds-color-text-muted); font-style:italic;">(Choisissez votre niveau d'apprentissage)</p>
         </div>
         <div id="levels-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
           ${levelsHtml}
@@ -369,35 +283,22 @@ async function renderHome() {
       </section>
     `;
 
-    // ✅ 6. ÉCOUTEURS D'ÉVÉNEMENTS COMPLETS
+    // ✅ 5. ÉCOUTEURS D'ÉVÉNEMENTS (Uniquement pour les niveaux ici)
     document.getElementById('levels-container').addEventListener('click', (e) => {
-      // A. Clic sur un THÈME
-      const themeBtn = e.target.closest('.btn-select-theme');
-      if (themeBtn) {
-        currentTheme = themeBtn.dataset.theme;
-        currentLevel = currentLevel || 'A0';
-        localStorage.setItem('dagospeak:theme', currentTheme);
-        localStorage.setItem('dagospeak:level', currentLevel);
-        updateLevelUI();
-        router.navigate('/theme-detail');
-        return;
-      }
-
-      // B. Clic sur un NIVEAU
       const levelBtn = e.target.closest('.btn-select-level');
       if (levelBtn) {
         currentLevel = levelBtn.dataset.level;
         currentTheme = null;
         localStorage.setItem('dagospeak:level', currentLevel);
         updateLevelUI();
-        router.navigate('/themes');
+        router.navigate('/themes'); // ✅ Redirection propre vers la page des thèmes
         return;
       }
     });
 
     window.teacherAvatar.show('home');
     renderFloatingHomeButtons();
-    logger.info('✅ Page d\'accueil rendue (Niveaux)');
+    logger.info('✅ Page d\'accueil rendue (Niveaux uniquement)');
 
   } catch (e) {
     console.error('❌ Erreur renderHome:', e);
