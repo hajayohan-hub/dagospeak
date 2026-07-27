@@ -742,7 +742,7 @@ syncProfileWithJourneys();
               const u = new SpeechSynthesisUtterance(btn.dataset.target);
               u.lang = 'fr-FR'; u.rate = 0.9;
               u.onend = () => {
-                btn.textContent = '🔊 Mihainoa & Mitenena';
+                btn.textContent = '🔊 Mitenena';
                 btn.classList.remove('guide-active');
                 btn.style.animation = 'none';
 
