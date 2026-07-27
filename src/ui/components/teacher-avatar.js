@@ -97,16 +97,36 @@ export class TeacherAvatar {
   }
 
   show(tipKey) {
-    const tips = {
-      'home': { fr: "Bienvenue ! Choisissez un niveau pour commencer votre apprentissage du français.", mg: "Tongasoa ! Safidio ny ambaratonga mba hanombohana ny fianarana teny frantsay." },
-      'themes': { fr: "Choisissez un thème pour voir les leçons, révisions et dialogues disponibles.", mg: "Safidio lohahevitra iray mba hahitana ny lesona, fanadiniana ary resaka." },
-      'theme-detail': { fr: "Choisissez une activité : Leçon, Révisions, ou Dialogues.", mg: "Safidio hetsika iray : Lesona, Fanadiniana, na Resaka." },
-      'lesson': { fr: "Écoutez chaque mot en cliquant sur le bouton audio, puis répétez-le à voix haute.", mg: "Hihainoa ny teny tsirairay amin'ny bokotra audio, ary avereno am-peo avo." },
-      'practice': { fr: "Suivez les étapes guidées : Écoutez, Répondez au quiz, puis Prononcez.", mg: "Araho ny dingana : Mihainoa, Valio ny quiz, ary Mitenena." },
-      'dialogues': { fr: "Lisez la conversation et écoutez chaque ligne. Vous êtes prêt pour le Role Play !", mg: "Vakio ny resaka ary mihainoa ny andalana tsirairay. Vonona ho an'ny Role Play !" },
-      'roleplay': { fr: "Jouez les deux rôles. Écoutez, puis parlez à votre tour.", mg: "Milalao anjara asa roa. Mihainoa, ary mitenena ianao." },
-      'challenge': { fr: "Défi ! Parlez sans voir les réponses. Si vous bloquez, retournez au Role Play Guidé.", mg: "Fanamby ! Mitenena tsy mijery ny valiny." }
-    };
+          const tips = {
+        'home': { fr: "Bienvenue ! Choisissez un niveau pour commencer.", mg: "Tongasoa ! Safidio ny ambaratonga." },
+        'themes': { fr: "Choisissez un thème pour voir les leçons.", mg: "Safidio lohahevitra iray." },
+        'theme-detail': {
+          fr: "Choisissez une activité : Leçon, Révisions, Phrases ou Dialogues.",
+          mg: "Safidio hetsika iray : Lesona, Fanadiniana, Fehezanteny, na Resaka."
+        },
+        'lesson': {
+          fr: "Écoutez et répétez chaque mot à voix haute.",
+          mg: "Hihainoa ary avereno ny teny tsirairay."
+        },
+        'lesson-phrases': {  // ✅ NOUVEAU
+          fr: "Écoutez et répétez chaque phrase de contexte à voix haute.",
+          mg: "Hihainoa ary avereno ny fehezanteny tsirairay."
+        },
+        'practice': {
+          fr: "Suivez les étapes : Écoutez, Répondez au quiz, puis Prononcez.",
+          mg: "Araho ny dingana : Mihainoa, Valio, Mitenena."
+        },
+        'practice-phrases': {  // ✅ NOUVEAU
+          fr: "Révision des phrases : écoutez, traduisez, puis prononcez la phrase complète.",
+          mg: "Fanadinana ny fehezanteny : mihainoa, adino, ary mitenena."
+        },
+        'dialogues': {
+          fr: "Lisez et écoutez la conversation. Vous êtes prêt pour le Role Play !",
+          mg: "Vakio ary mihainoa ny resaka. Vonona ho an'ny Role Play !"
+        },
+        'roleplay': { fr: "Jouez les deux rôles.", mg: "Milalao anjara asa roa." },
+        'challenge': { fr: "Défi ! Parlez sans voir les réponses.", mg: "Fanamby ! Mitenena tsy mijery." }
+      };
 
     this.#currentTip = tips[tipKey] || { fr: "Continuez, vous faites du bon travail !", mg: "Tohizo, tsara ny ataonao !" };
     this.render();
@@ -116,6 +136,11 @@ export class TeacherAvatar {
       if (this.#isFirstUser) setTimeout(() => this.#startSignAnimation(), 1000);
       return;
     }
+
+    setAutoSpeak(enabled) {
+        this.#autoSpeakEnabled = enabled;
+        console.log('[TeacherAvatar] Auto-parole:', enabled ? 'activée' : 'désactivée');
+      }
 
     // ✅ Pour les autres pages, parole automatique en FRANÇAIS UNIQUEMENT
     if (this.#autoSpeakEnabled) {

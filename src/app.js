@@ -76,7 +76,7 @@ const journeyTracker = {
 // ═══════════════════════════════════════════════════════════
 const i18n = {
   chooseAnswer: "Safidio ny valiny marina :",
-  listen: "🔊 Hihaino",
+  listen: "🔊 Mihainoa",
   speak: "🎤 Mitenena (Shadowing)",
   speakNow: "🎙️ Mitenena izao...",
   stopRecording: "⏹️ Ajanony",
@@ -699,7 +699,10 @@ syncProfileWithJourneys();
           ${vocabData.items.map(item => `
             <div style="background:var(--ds-color-surface); padding:1.2rem; border-radius:var(--ds-radius-md); display:flex; justify-content:space-between; align-items:center; box-shadow:var(--ds-shadow-sm); border:1px solid var(--ds-color-border);">
               <div style="flex:1;">
-                <strong style="font-size:1.2rem; color:var(--ds-color-primary);">${item.target}</strong>
+                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 2rem;">${item.icon || '📝'}</span>
+                  <strong style="font-size:1.2rem; color:var(--ds-color-primary);">${item.target}</strong>
+                </div>
                 <!-- ✅ AFFICHAGE DE LA PHONÉTIQUE -->
                 <span style="display:block; font-size:0.9rem; color:var(--ds-color-accent); font-family:monospace; margin: 4px 0; font-weight:600;">
                   [ ${item.phonetic || '...'} ]
@@ -837,7 +840,7 @@ async function renderLessonPhrases() {
                 </div>
               </div>
               <ds-button variant="primary" size="sm" class="play-phrase" data-phrase="${item.context}" style="min-width: 90px; margin-left:1rem;">
-                🔊 Hihainoa
+                🔊 Mihainoa
               </ds-button>
             </div>
           `).join('')}
@@ -845,7 +848,7 @@ async function renderLessonPhrases() {
 
         <div style="margin-top:2rem; text-align:center;">
           <ds-button id="btn-start-practice-phrases" size="lg" variant="success">
-            🎯 Hihainoa ny fanazaran-tena (Commencer la révision des phrases)
+            🎯 Mihainoa ny fanazaran-tena (Commencer la révision des phrases)
           </ds-button>
         </div>
       </section>
@@ -867,7 +870,7 @@ async function renderLessonPhrases() {
           const u = new SpeechSynthesisUtterance(btn.dataset.phrase);
           u.lang = 'fr-FR'; u.rate = 0.9;
           u.onend = () => {
-            btn.textContent = ' Hihainoa';
+            btn.textContent = ' Mihainoa';
             btn.classList.remove('guide-active');
             btn.style.animation = 'none';
             currentPhraseIndex = index + 1;
@@ -888,9 +891,9 @@ async function renderLessonPhrases() {
     }
 
     document.getElementById('btn-start-practice-phrases')?.addEventListener('click', () => {
-      journeyTracker.markJourneyComplete('phraseLessons', unitId);
-      router.navigate('/practice-phrases');
-    });
+        journeyTracker.markJourneyComplete('phraseLessons', unitId);
+        router.navigate('/practice-phrases'); // ✅ Doit rediriger vers /practice-phrases
+      });
 
     window.teacherAvatar.show('lesson');
     logger.info(`✅ Page Leçon Phrases rendue pour le thème: ${unitId}`);
@@ -1388,9 +1391,9 @@ async function renderPracticePhrases() {
           <div style="display:flex; flex-direction:column; gap:1rem;">
             <div id="step-listen" class="guide-active" style="text-align:center; padding:1rem; background:var(--ds-color-surface-2); border-radius:var(--ds-radius-md);">
               <div style="font-size:0.75rem; text-transform:uppercase; color:var(--ds-color-text-muted); margin-bottom:0.5rem;">
-                Étape 1 : Hihainoa ny fehezanteny (Écoutez la phrase)
+                Étape 1 : Mihainoa ny fehezanteny (Écoutez la phrase)
               </div>
-              <ds-button variant="primary" size="md" id="btn-listen" class="guide-active">🔊 Hihainoa</ds-button>
+              <ds-button variant="primary" size="md" id="btn-listen" class="guide-active">🔊 Mihainoa</ds-button>
             </div>
 
             <div id="step-quiz" style="text-align:center; padding:1rem; background:var(--ds-color-surface-2); border-radius:var(--ds-radius-md); opacity:0.5; pointer-events:none; transition:all 0.3s;">
@@ -2574,47 +2577,73 @@ async function renderThemeDetail() {
               </ds-button>
             </div>
 
+            <!-- SECTION 1 : LEÇON - MOTS -->
+            <div style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:1px solid var(--ds-color-border);">
+              <h3 style="margin:0 0 0.5rem 0; color:var(--ds-color-text); font-size:1rem;">📖 Étape 1 : Les Mots</h3>
+              <p style="margin:0 0 0.25rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">
+                Écoutez et répétez chaque mot
+              </p>
+              <p style="margin:0 0 1rem 0; font-size:0.8rem; color:var(--ds-color-text-muted); font-style:italic;">
+                (Mihainoa ary avereno ny teny tsirairay)
+              </p>
+              <ds-button id="btn-lesson-words" variant="primary" size="md" style="width:100%;">
+                1. Apprendre les mots (Mianatra ny teny)
+              </ds-button>
+            </div>
+
             <!-- SECTION 2 : RÉVISION - MOTS -->
             <div style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:1px solid var(--ds-color-border);">
-              <h3 style="margin:0 0 0.5rem 0; color:var(--ds-color-text); font-size:1rem;"> Étape 2 : Révision des Mots</h3>
-              <p style="margin:0 0 1rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">
+              <h3 style="margin:0 0 0.5rem 0; color:var(--ds-color-text); font-size:1rem;">🎯 Étape 2 : Révision des Mots</h3>
+              <p style="margin:0 0 0.25rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">
                 Quiz + Shadowing sur les mots
               </p>
+              <p style="margin:0 0 1rem 0; font-size:0.8rem; color:var(--ds-color-text-muted); font-style:italic;">
+                (Fanadinana + Fitenenana ny teny)
+              </p>
               <ds-button id="btn-practice-words" variant="success" size="md" style="width:100%;">
-                2. Réviser les mots
+                2. Réviser les mots (Adinao ny teny)
               </ds-button>
             </div>
 
             <!-- SECTION 3 : LEÇON - PHRASES -->
             <div style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:1px solid var(--ds-color-border);">
               <h3 style="margin:0 0 0.5rem 0; color:var(--ds-color-text); font-size:1rem;">📝 Étape 3 : Les Phrases de contexte</h3>
-              <p style="margin:0 0 1rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">
+              <p style="margin:0 0 0.25rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">
                 Écoutez et répétez les phrases complètes
               </p>
+              <p style="margin:0 0 1rem 0; font-size:0.8rem; color:var(--ds-color-text-muted); font-style:italic;">
+                (Mihainoa ary avereno ny fehezanteny)
+              </p>
               <ds-button id="btn-lesson-phrases" variant="primary" size="md" style="width:100%;">
-                3. Apprendre les phrases
+                3. Apprendre les phrases (Mianatra ny fehezanteny)
               </ds-button>
             </div>
 
             <!-- SECTION 4 : RÉVISION - PHRASES -->
             <div style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:1px solid var(--ds-color-border);">
-              <h3 style="margin:0 0 0.5rem 0; color:var(--ds-color-text); font-size:1rem;"> Étape 4 : Révision des Phrases</h3>
-              <p style="margin:0 0 1rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">
+              <h3 style="margin:0 0 0.5rem 0; color:var(--ds-color-text); font-size:1rem;">🎯 Étape 4 : Révision des Phrases</h3>
+              <p style="margin:0 0 0.25rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">
                 Quiz + Shadowing sur les phrases
               </p>
+              <p style="margin:0 0 1rem 0; font-size:0.8rem; color:var(--ds-color-text-muted); font-style:italic;">
+                (Fanadinana + Fitenenana ny fehezanteny)
+              </p>
               <ds-button id="btn-practice-phrases" variant="success" size="md" style="width:100%;">
-                4. Réviser les phrases
+                4. Réviser les phrases (Adinao ny fehezanteny)
               </ds-button>
             </div>
 
             <!-- SECTION 5 : DIALOGUE -->
             <div style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:1px solid var(--ds-color-border);">
               <h3 style="margin:0 0 0.5rem 0; color:var(--ds-color-text); font-size:1rem;">💬 Étape 5 : Dialogue</h3>
-              <p style="margin:0 0 1rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">
+              <p style="margin:0 0 0.25rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">
                 Conversation complète avec Role Play
               </p>
+              <p style="margin:0 0 1rem 0; font-size:0.8rem; color:var(--ds-color-text-muted); font-style:italic;">
+                (Resaka feno miaraka amin'ny Role Play)
+              </p>
               <ds-button id="btn-dialogues" variant="accent" size="md" style="width:100%;">
-                5. Faire le dialogue
+                5. Faire le dialogue (Atao ny resaka)
               </ds-button>
             </div>
 
@@ -2704,20 +2733,24 @@ function renderProgressHeader() {
   const data = getProfileData();
 
   // ✅ Icônes flottantes sans background, juste les emojis + textes
-  header.innerHTML = `
-    <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-accent); text-shadow: 0 1px 2px rgba(255,255,255,0.8);">
-      <span style="font-size:1.3rem;"></span>
-      <span>3</span>
-    </div>
-    <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-primary); text-shadow: 0 1px 2px rgba(255,255,255,0.8);">
-      <span style="font-size:1.3rem;">⭐</span>
-      <span>${data.xp} XP</span>
-    </div>
-    <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-text); text-shadow: 0 1px 2px rgba(255,255,255,0.8);">
-      <span style="font-size:1.3rem;">📊</span>
-      <span>${data.percentage}%</span>
-    </div>
-  `;
+      header.innerHTML = `
+        <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-accent); text-shadow: 0 1px 2px rgba(255,255,255,0.8);">
+          <span style="font-size:1.3rem;">🔥</span>
+          <span>${data.streak || 0}</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-primary); text-shadow: 0 1px 2px rgba(255,255,255,0.8);">
+          <span style="font-size:1.3rem;">⭐</span>
+          <span>${data.xp} XP</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-success); text-shadow: 0 1px 2px rgba(255,255,255,0.8);">
+          <span style="font-size:1.3rem;">🏆</span>
+          <span>Niv. ${data.level || 'A0'}</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-text); text-shadow: 0 1px 2px rgba(255,255,255,0.8);">
+          <span style="font-size:1.3rem;"></span>
+          <span>${data.percentage}%</span>
+        </div>
+      `;
 
   document.body.appendChild(header);
 
@@ -2815,12 +2848,11 @@ function renderFloatingHomeButtons() {
   document.body.appendChild(container);
 
   // Action du bouton Commencer
-  document.getElementById('btn-float-start').addEventListener('click', () => {
-    window.teacherAvatar.speak("Bienvenue ! Choisissez un niveau pour commencer votre apprentissage du français.");
-    setTimeout(() => {
-      router.navigate('/themes');
-    }, 2500);
-  });
+document.getElementById('btn-float-start').addEventListener('click', () => {
+  // ✅ PLUS DE REDIRECTION AUTOMATIQUE - Juste un message vocal
+  window.teacherAvatar.speak("Bienvenue ! Choisissez un niveau pour commencer votre apprentissage du français. Cliquez sur une carte de niveau.");
+  // Pas de setTimeout avec router.navigate()
+});
 
   // Action du bouton Guide
   document.getElementById('btn-float-guide').addEventListener('click', () => {
@@ -2937,6 +2969,135 @@ router.addRoute('/about', renderAbout);
 
 initTheme();
 updateLevelUI();
+
+
+// ═══════════════════════════════════════════════════════════
+// ÉCOUTEURS GLOBAUX DU HEADER (fonctionnent sur toutes les pages)
+// ═══════════════════════════════════════════════════════════
+document.getElementById('header-logo')?.addEventListener('click', () => {
+  router.navigate('/');
+});
+
+document.getElementById('btn-languages')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  showLanguageSelector();
+});
+
+document.getElementById('btn-about')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  router.navigate('/about');
+});
+
+document.getElementById('btn-settings')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  showSettingsModal();
+});
+
+// ═══════════════════════════════════════════════════════════
+// MODAL DE RÉGLAGES
+// ═══════════════════════════════════════════════════════════
+function showSettingsModal() {
+  if (document.getElementById('settings-modal')) {
+    document.getElementById('settings-modal').remove();
+    return;
+  }
+
+  // Lire les préférences sauvegardées
+  const settings = JSON.parse(localStorage.getItem('dagospeak:settings') || '{}');
+  const autoSpeak = settings.autoSpeak !== false; // Activé par défaut
+  const guidePulse = settings.guidePulse !== false;
+  const sounds = settings.sounds !== false;
+  const fontSize = settings.fontSize || 'normal';
+
+  const modal = document.createElement('div');
+  modal.id = 'settings-modal';
+  modal.style.cssText = `position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 10001; display: flex; align-items: center; justify-content: center; padding: 1rem;`;
+
+  modal.innerHTML = `
+    <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: 16px; max-width: 500px; width: 100%; max-height: 85vh; overflow-y: auto; position: relative;">
+      <button id="close-settings-btn" style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 1.8rem; cursor: pointer;">×</button>
+      <h2 style="color: var(--ds-color-primary); margin-bottom: 1.5rem; text-align: center;">⚙️ Réglages (Fandrindrana)</h2>
+
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <label style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--ds-color-surface-2); border-radius: 12px; cursor: pointer;">
+          <div>
+            <div style="font-weight: 600;"> Auto-parole Teacher Avatar</div>
+            <div style="font-size: 0.85rem; color: var(--ds-color-text-muted); font-style: italic;">Ny feon'ny mpampianatra (Voix automatique)</div>
+          </div>
+          <input type="checkbox" id="setting-autoSpeak" ${autoSpeak ? 'checked' : ''} style="width: 20px; height: 20px;">
+        </label>
+
+        <label style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--ds-color-surface-2); border-radius: 12px; cursor: pointer;">
+          <div>
+            <div style="font-weight: 600;">💡 Guidage par allumage</div>
+            <div style="font-size: 0.85rem; color: var(--ds-color-text-muted); font-style: italic;">Ny fitarihana (Pulse sur les boutons)</div>
+          </div>
+          <input type="checkbox" id="setting-guidePulse" ${guidePulse ? 'checked' : ''} style="width: 20px; height: 20px;">
+        </label>
+
+        <label style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--ds-color-surface-2); border-radius: 12px; cursor: pointer;">
+          <div>
+            <div style="font-weight: 600;"> Sons de feedback</div>
+            <div style="font-size: 0.85rem; color: var(--ds-color-text-muted); font-style: italic;">Ny feo (Succès/Erreur)</div>
+          </div>
+          <input type="checkbox" id="setting-sounds" ${sounds ? 'checked' : ''} style="width: 20px; height: 20px;">
+        </label>
+
+        <div style="padding: 1rem; background: var(--ds-color-surface-2); border-radius: 12px;">
+          <div style="font-weight: 600; margin-bottom: 0.5rem;">🔤 Taille de police</div>
+          <div style="font-size: 0.85rem; color: var(--ds-color-text-muted); font-style: italic; margin-bottom: 0.75rem;">Ny haben'ny soratra</div>
+          <select id="setting-fontSize" style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid var(--ds-color-border);">
+            <option value="small" ${fontSize === 'small' ? 'selected' : ''}>Petite (Kely)</option>
+            <option value="normal" ${fontSize === 'normal' ? 'selected' : ''}>Normale (Antonony)</option>
+            <option value="large" ${fontSize === 'large' ? 'selected' : ''}>Grande (Lehibe)</option>
+          </select>
+        </div>
+      </div>
+
+      <button id="btn-save-settings" style="width: 100%; background: var(--ds-color-primary); color: white; border: none; padding: 14px; border-radius: 12px; font-weight: bold; font-size: 1rem; cursor: pointer; margin-top: 1.5rem;">
+        Enregistrer (Tehirizo)
+      </button>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  const closeModal = () => {
+    const el = document.getElementById('settings-modal');
+    if (el) el.remove();
+  };
+
+  document.getElementById('close-settings-btn').addEventListener('click', closeModal);
+  document.getElementById('btn-save-settings').addEventListener('click', () => {
+    const newSettings = {
+      autoSpeak: document.getElementById('setting-autoSpeak').checked,
+      guidePulse: document.getElementById('setting-guidePulse').checked,
+      sounds: document.getElementById('setting-sounds').checked,
+      fontSize: document.getElementById('setting-fontSize').value
+    };
+    localStorage.setItem('dagospeak:settings', JSON.stringify(newSettings));
+
+    // Appliquer immédiatement
+    if (window.teacherAvatar) {
+      window.teacherAvatar.setAutoSpeak(newSettings.autoSpeak);
+    }
+
+    // Appliquer la taille de police
+    document.documentElement.style.fontSize =
+      newSettings.fontSize === 'small' ? '14px' :
+      newSettings.fontSize === 'large' ? '18px' : '16px';
+
+    closeModal();
+  });
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+}
+
 
 // ✅ ONBOARDING DÉSACTIVÉ TEMPORAIREMENT (Vosk désactivé)
 // Démarrage direct de l'application
