@@ -742,7 +742,7 @@ syncProfileWithJourneys();
               const u = new SpeechSynthesisUtterance(btn.dataset.target);
               u.lang = 'fr-FR'; u.rate = 0.9;
               u.onend = () => {
-                btn.textContent = '🔊 Mihainoa';
+                btn.textContent = '🔊 Mihainoa & Mitenena';
                 btn.classList.remove('guide-active');
                 btn.style.animation = 'none';
 
@@ -840,7 +840,7 @@ async function renderLessonPhrases() {
                 </div>
               </div>
               <ds-button variant="primary" size="sm" class="play-phrase" data-phrase="${item.context}" style="min-width: 90px; margin-left:1rem;">
-                🔊 Mihainoa
+                🔊 Mihainoa & Mitenena
               </ds-button>
             </div>
           `).join('')}
