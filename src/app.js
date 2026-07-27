@@ -39,17 +39,27 @@ function isThemeLocked(themeId, profile) {
 }
 
 
-// ═══════════════════════════════════════════════════════════
-// SUIVI DE PROGRESSION DES PARCOURS
+/// ═══════════════════════════════════════════════════════════
+// SUIVI DE PROGRESSION DES PARCOURS (VERSION CENTRALISÉE)
 // ═══════════════════════════════════════════════════════════
 const journeyTracker = {
+  // ✅ TOUS les types de parcours (y compris phrases)
   getCompletedJourneys() {
     const saved = localStorage.getItem('dagospeak:completedJourneys');
-    return saved ? JSON.parse(saved) : { lessons: [], practices: [], dialogues: [], roleplays: [], challenges: [] };
+    return saved ? JSON.parse(saved) : {
+      lessons: [],
+      practices: [],
+      dialogues: [],
+      roleplays: [],
+      challenges: [],
+      phraseLessons: [],      // ✅ AJOUTÉ
+      phrasePractices: []     // ✅ AJOUTÉ
+    };
   },
 
   markJourneyComplete(type, themeId) {
     const journeys = this.getCompletedJourneys();
+    if (!journeys[type]) journeys[type] = []; // Sécurité
     if (!journeys[type].includes(themeId)) {
       journeys[type].push(themeId);
       localStorage.setItem('dagospeak:completedJourneys', JSON.stringify(journeys));
@@ -58,18 +68,121 @@ const journeyTracker = {
 
   isJourneyComplete(type, themeId) {
     const journeys = this.getCompletedJourneys();
-    return journeys[type].includes(themeId);
+    return journeys[type] && journeys[type].includes(themeId);
   },
 
+  // ✅ Calcul UNIFIÉ (utilisé partout)
   getCompletionStats() {
     const journeys = this.getCompletedJourneys();
-    const totalTypes = 5; // lessons, practices, dialogues, roleplays, challenges
-    const totalThemes = 5; // survival, numbers, family, market, colors
-    const totalJourneys = totalTypes * totalThemes;
-    const completedJourneys = Object.values(journeys).reduce((sum, arr) => sum + arr.length, 0);
-    return { completedJourneys, totalJourneys, percentage: (completedJourneys / totalJourneys) * 100 };
+    const allTypes = ['lessons', 'practices', 'dialogues', 'roleplays', 'challenges', 'phraseLessons', 'phrasePractices'];
+    const completedJourneys = allTypes.reduce((sum, type) => sum + (journeys[type]?.length || 0), 0);
+    const totalJourneys = 70; // 10 thèmes × 7 types
+    return {
+      completedJourneys,
+      totalJourneys,
+      percentage: Math.round((completedJourneys / totalJourneys) * 100)
+    };
   }
 };
+
+// ═══════════════════════════════════════════════════════════
+// GESTION CENTRALISÉE DU PROFIL (Source de vérité unique)
+// ═══════════════════════════════════════════════════════════
+function getProfileData() {
+  try {
+    const journeys = journeyTracker.getCompletedJourneys();
+    const allTypes = ['lessons', 'practices', 'dialogues', 'roleplays', 'challenges', 'phraseLessons', 'phrasePractices'];
+    const completedCount = allTypes.reduce((sum, type) => sum + (journeys[type]?.length || 0), 0);
+
+    // ✅ Calcul XP UNIFIÉ
+    const xpWeights = {
+      lessons: 20,
+      practices: 30,
+      dialogues: 25,
+      roleplays: 40,
+      challenges: 50,
+      phraseLessons: 25,
+      phrasePractices: 35
+    };
+    const totalXP = allTypes.reduce((sum, type) => {
+      return sum + ((journeys[type]?.length || 0) * (xpWeights[type] || 0));
+    }, 0);
+
+    // ✅ Calcul du streak (jours consécutifs)
+    const lastActivity = localStorage.getItem('dagospeak:lastActivity');
+    let streak = parseInt(localStorage.getItem('dagospeak:streak') || '0');
+    if (lastActivity) {
+      const lastDate = new Date(lastActivity);
+      const today = new Date();
+      const diffDays = Math.floor((today - lastDate) / (1000 * 60 * 60 * 24));
+      if (diffDays > 1) {
+        streak = 0; // Reset si plus d'un jour sans activité
+        localStorage.setItem('dagospeak:streak', '0');
+      }
+    }
+
+    // ✅ Calcul du niveau CECR
+    let level = 'A0';
+    if (totalXP >= 500) level = 'A2';
+    else if (totalXP >= 300) level = 'A1';
+    else if (totalXP >= 100) level = 'A0+';
+
+    // ✅ Badges basés sur les thèmes complétés
+    const themesCompleted = new Set();
+    allTypes.forEach(type => {
+      if (journeys[type]) journeys[type].forEach(t => themesCompleted.add(t));
+    });
+    const badges = [];
+    if (themesCompleted.size >= 1) badges.push('🌱');
+    if (themesCompleted.size >= 3) badges.push('⭐');
+    if (themesCompleted.size >= 5) badges.push('🏆');
+    if (themesCompleted.size >= 10) badges.push('👑');
+
+    // ✅ Pourcentage UNIFIÉ
+    const totalJourneys = 70; // 10 thèmes × 7 types
+    const percentage = Math.round((completedCount / totalJourneys) * 100);
+
+    return {
+      xp: totalXP,
+      level: level,
+      streak: streak,
+      badges: badges,
+      completedJourneys: completedCount,
+      totalJourneys: totalJourneys,
+      percentage: percentage,
+      themesCompleted: themesCompleted.size,
+      lastActivity: lastActivity
+    };
+  } catch (e) {
+    console.error('Erreur getProfileData:', e);
+    return { xp: 0, level: 'A0', streak: 0, badges: [], completedJourneys: 0, totalJourneys: 70, percentage: 0, themesCompleted: 0 };
+  }
+}
+
+// ✅ Sauvegarde du profil (appelée après chaque parcours)
+function saveProfile() {
+  const profile = getProfileData();
+  localStorage.setItem('dagospeak:profile', JSON.stringify(profile));
+  localStorage.setItem('dagospeak:lastActivity', new Date().toISOString());
+
+  // Incrémenter le streak si pas déjà fait aujourd'hui
+  const lastActivity = localStorage.getItem('dagospeak:lastActivity');
+  const today = new Date().toDateString();
+  if (lastActivity && new Date(lastActivity).toDateString() !== today) {
+    const streak = parseInt(localStorage.getItem('dagospeak:streak') || '0');
+    localStorage.setItem('dagospeak:streak', String(streak + 1));
+  } else if (!lastActivity) {
+    localStorage.setItem('dagospeak:streak', '1');
+  }
+
+  console.log('[Profile] Sauvegardé:', profile);
+  return profile;
+}
+
+// ✅ Ancienne fonction (pour compatibilité)
+function syncProfileWithJourneys() {
+  return saveProfile();
+}
 
 // ═══════════════════════════════════════════════════════════
 // TRADUCTION DE L'INTERFACE (FR → MG)
@@ -768,6 +881,7 @@ syncProfileWithJourneys();
         // ✅ TRADUCTION MALGACHE DU BOUTON DE FIN
         document.getElementById('btn-start-practice')?.addEventListener('click', () => {
           journeyTracker.markJourneyComplete('lessons', unitId);
+          saveProfile();
           router.navigate('/practice');
         });
 
@@ -892,6 +1006,7 @@ async function renderLessonPhrases() {
 
     document.getElementById('btn-start-practice-phrases')?.addEventListener('click', () => {
         journeyTracker.markJourneyComplete('phraseLessons', unitId);
+        saveProfile();
         router.navigate('/practice-phrases'); // ✅ Doit rediriger vers /practice-phrases
       });
 
@@ -1268,6 +1383,7 @@ syncProfileWithJourneys();
       if (typeof feedbackSounds !== 'undefined') feedbackSounds.playCelebration();
       await gamification.addXP(50, 'Session de révision terminée');
       journeyTracker.markJourneyComplete('practices', unitId);
+      saveProfile();
 
       // Voix du Teacher Avatar pour féliciter
       setTimeout(() => {
@@ -1556,6 +1672,7 @@ async function renderPracticePhrases() {
       if (typeof feedbackSounds !== 'undefined') feedbackSounds.playCelebration();
       await gamification.addXP(50, 'Révision phrases terminée');
       journeyTracker.markJourneyComplete('phrasePractices', unitId);
+      saveProfile();
 
       setTimeout(() => {
         window.teacherAvatar.speak("Félicitations ! Vous maîtrisez les phrases. Passons maintenant au dialogue !");
@@ -1710,6 +1827,7 @@ syncProfileWithJourneys();
     logger.info(`✅ Page Dialogues rendue pour le thème: ${unitId}`);
 
     journeyTracker.markJourneyComplete('dialogues', unitId);
+    saveProfile();
 
     window.teacherAvatar.show('dialogues');
 
@@ -1992,6 +2110,7 @@ async function renderRolePlay() {
     renderLine();
 
     journeyTracker.markJourneyComplete('roleplays', unitId);
+    saveProfile();
 
     window.teacherAvatar.show('roleplay');
 
@@ -2318,6 +2437,7 @@ async function renderChallenge() {
     renderLine();
 
     journeyTracker.markJourneyComplete('challenges', unitId);
+    saveProfile();
 
     window.teacherAvatar.show('challenge');
 
@@ -2371,8 +2491,9 @@ async function renderProfile() {
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement du profil...</div>';
 
   try {
-    const profile = await gamification.getProfile();
-    const stats = journeyTracker.getCompletionStats();
+    // ✅ Utilise la fonction centralisée
+    const profile = getProfileData();
+    const journeys = journeyTracker.getCompletedJourneys();
 
     main.innerHTML = `
       <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem;">
@@ -2381,41 +2502,60 @@ async function renderProfile() {
 
         <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); box-shadow: var(--ds-shadow-md); text-align:center; margin-bottom: 2rem;">
           <div style="font-size: 3rem; margin-bottom: 0.5rem;"></div>
-          <h3 style="color: var(--ds-color-primary);">Ambaratonga ${profile.level}</h3>
+          <h3 style="color: var(--ds-color-primary);">Niveau ${profile.level}</h3>
           <p style="color: var(--ds-color-text-muted);">${profile.xp} XP azo</p>
-          <div style="margin-top: 1rem; font-size: 1.5rem; color: var(--ds-color-accent); font-weight: bold;">🔥 ${profile.streak} andro</div>
+          <div style="margin-top: 1rem; font-size: 1.5rem; color: var(--ds-color-accent); font-weight: bold;">🔥 ${profile.streak} jours</div>
+
+          <!-- ✅ Badges -->
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--ds-color-border);">
+            <div style="font-size: 0.9rem; color: var(--ds-color-text-muted); margin-bottom: 0.5rem;">Badges obtenus</div>
+            <div style="font-size: 2rem;">
+              ${profile.badges.length > 0 ? profile.badges.join(' ') : '—'}
+            </div>
+          </div>
         </div>
 
         <div style="background: var(--ds-color-primary-soft); padding: 1.5rem; border-radius: var(--ds-radius-lg); border: 1px solid var(--ds-color-primary); margin-bottom: 1.5rem;">
           <h3 style="color: var(--ds-color-primary); margin-bottom: 1rem;">📊 Fandrosoana (Progression)</h3>
-          <div style="font-size: 2rem; font-weight: bold; color: var(--ds-color-primary); margin-bottom: 0.5rem;">${Math.round(stats.percentage)}%</div>
+          <div style="font-size: 2rem; font-weight: bold; color: var(--ds-color-primary); margin-bottom: 0.5rem;">${profile.percentage}%</div>
           <div style="color: var(--ds-color-text-muted); font-size: 0.9rem;">
-            ${stats.completedJourneys} / ${stats.totalJourneys} parcours terminés
+            ${profile.completedJourneys} / ${profile.totalJourneys} parcours terminés
+          </div>
+          <div style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--ds-color-text-muted);">
+            ${profile.themesCompleted} thèmes complétés sur 10
           </div>
         </div>
 
         <div style="background: var(--ds-color-surface); padding: 1.5rem; border-radius: var(--ds-radius-lg); border: 1px solid var(--ds-color-border);">
-          <h3 style="color: var(--ds-color-text); margin-bottom: 1rem;"> Tatitra (Rapports)</h3>
+          <h3 style="color: var(--ds-color-text); margin-bottom: 1rem;">📋 Tatitra (Rapports détaillés)</h3>
           <div style="display: grid; gap: 0.75rem;">
             <div style="display: flex; justify-content: space-between; padding: 0.75rem; background: var(--ds-color-surface-2); border-radius: var(--ds-radius-md);">
-              <span>📖 Leçons</span>
-              <strong>${journeyTracker.getCompletedJourneys().lessons.length} / 5</strong>
+              <span> Leçons (Mots)</span>
+              <strong>${journeys.lessons?.length || 0} / 10</strong>
             </div>
             <div style="display: flex; justify-content: space-between; padding: 0.75rem; background: var(--ds-color-surface-2); border-radius: var(--ds-radius-md);">
-              <span>🎯 Révisions</span>
-              <strong>${journeyTracker.getCompletedJourneys().practices.length} / 5</strong>
+              <span>🎯 Révisions (Mots)</span>
+              <strong>${journeys.practices?.length || 0} / 10</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 0.75rem; background: var(--ds-color-surface-2); border-radius: var(--ds-radius-md);">
+              <span> Leçons (Phrases)</span>
+              <strong>${journeys.phraseLessons?.length || 0} / 10</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 0.75rem; background: var(--ds-color-surface-2); border-radius: var(--ds-radius-md);">
+              <span>🎯 Révisions (Phrases)</span>
+              <strong>${journeys.phrasePractices?.length || 0} / 10</strong>
             </div>
             <div style="display: flex; justify-content: space-between; padding: 0.75rem; background: var(--ds-color-surface-2); border-radius: var(--ds-radius-md);">
               <span>💬 Dialogues</span>
-              <strong>${journeyTracker.getCompletedJourneys().dialogues.length} / 5</strong>
+              <strong>${journeys.dialogues?.length || 0} / 10</strong>
             </div>
             <div style="display: flex; justify-content: space-between; padding: 0.75rem; background: var(--ds-color-surface-2); border-radius: var(--ds-radius-md);">
               <span>🎭 Role Play</span>
-              <strong>${journeyTracker.getCompletedJourneys().roleplays.length} / 5</strong>
+              <strong>${journeys.roleplays?.length || 0} / 10</strong>
             </div>
             <div style="display: flex; justify-content: space-between; padding: 0.75rem; background: var(--ds-color-surface-2); border-radius: var(--ds-radius-md);">
-              <span> Défis</span>
-              <strong>${journeyTracker.getCompletedJourneys().challenges.length} / 5</strong>
+              <span>🏆 Défis</span>
+              <strong>${journeys.challenges?.length || 0} / 10</strong>
             </div>
           </div>
         </div>
@@ -2569,17 +2709,6 @@ async function renderThemeDetail() {
             <!-- SECTION 1 : LEÇON - MOTS -->
             <div style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:1px solid var(--ds-color-border);">
               <h3 style="margin:0 0 0.5rem 0; color:var(--ds-color-text); font-size:1rem;">📖 Étape 1 : Les Mots</h3>
-              <p style="margin:0 0 1rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">
-                Écoutez et répétez chaque mot
-              </p>
-              <ds-button id="btn-lesson-words" variant="primary" size="md" style="width:100%;">
-                1. Apprendre les mots
-              </ds-button>
-            </div>
-
-            <!-- SECTION 1 : LEÇON - MOTS -->
-            <div style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:1px solid var(--ds-color-border);">
-              <h3 style="margin:0 0 0.5rem 0; color:var(--ds-color-text); font-size:1rem;">📖 Étape 1 : Les Mots</h3>
               <p style="margin:0 0 0.25rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">
                 Écoutez et répétez chaque mot
               </p>
@@ -2684,7 +2813,7 @@ async function renderThemeDetail() {
 }
 
 
-// ✅ HEADER DE PROGRESSION FLOTTANT (Pour Leçons, Pratique, Dialogues)
+// ✅ HEADER DE PROGRESSION FLOTTANT (Utilise getProfileData)
 function renderProgressHeader() {
   if (window.location.hash === '#' || window.location.hash === '#/' || window.location.hash === '') return;
 
@@ -2693,68 +2822,39 @@ function renderProgressHeader() {
 
   const header = document.createElement('div');
   header.id = 'floating-progress-header';
-  header.style.cssText = `
-    position: fixed;
-    top: 65px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: transparent;
-    padding: 8px 16px;
-    z-index: 999;
-    display: flex;
-    gap: 16px;
-    align-items: center;
-    font-size: 0.95rem;
-    font-weight: 700;
-    animation: slideDown 0.4s ease-out;
-  `;
+  header.style.cssText = `position: fixed; top: 65px; left: 50%; transform: translateX(-50%); background: transparent; padding: 8px 16px; z-index: 999; display: flex; gap: 16px; align-items: center; font-size: 0.95rem; font-weight: 700; animation: slideDown 0.4s ease-out;`;
 
-  const getProfileData = () => {
-    try {
-      const journeys = JSON.parse(localStorage.getItem('dagospeak:completedJourneys') ||
-        '{"lessons":[],"practices":[],"dialogues":[],"roleplays":[],"challenges":[]}');
-      const completedCount = Object.values(journeys).reduce((sum, arr) => sum + arr.length, 0);
-      const totalCount = 50; // 10 thèmes × 5 types
-      const percentage = Math.round((completedCount / totalCount) * 100);
-
-      const totalXP =
-        (journeys.lessons.length * 20) +
-        (journeys.practices.length * 30) +
-        (journeys.dialogues.length * 25) +
-        (journeys.roleplays.length * 40) +
-        (journeys.challenges.length * 50);
-
-      return { xp: totalXP, percentage, completedCount };
-    } catch (e) {
-      return { xp: 0, percentage: 0, completedCount: 0 };
-    }
-  };
-
+  // ✅ Utilise la fonction centralisée
   const data = getProfileData();
 
-  // ✅ Icônes flottantes sans background, juste les emojis + textes
-      header.innerHTML = `
-        <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-accent); text-shadow: 0 1px 2px rgba(255,255,255,0.8);">
-          <span style="font-size:1.3rem;">🔥</span>
-          <span>${data.streak || 0}</span>
-        </div>
-        <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-primary); text-shadow: 0 1px 2px rgba(255,255,255,0.8);">
-          <span style="font-size:1.3rem;">⭐</span>
-          <span>${data.xp} XP</span>
-        </div>
-        <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-success); text-shadow: 0 1px 2px rgba(255,255,255,0.8);">
-          <span style="font-size:1.3rem;">🏆</span>
-          <span>Niv. ${data.level || 'A0'}</span>
-        </div>
-        <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-text); text-shadow: 0 1px 2px rgba(255,255,255,0.8);">
-          <span style="font-size:1.3rem;"></span>
-          <span>${data.percentage}%</span>
-        </div>
-      `;
+  header.innerHTML = `
+    <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-accent); text-shadow: 0 1px 2px rgba(255,255,255,0.8);">
+      <span style="font-size:1.3rem;"></span>
+      <span>${data.streak}</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-primary); text-shadow: 0 1px 2px rgba(255,255,255,0.8);">
+      <span style="font-size:1.3rem;">⭐</span>
+      <span>${data.xp} XP</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-success); text-shadow: 0 1px 2px rgba(255,255,255,0.8);">
+      <span style="font-size:1.3rem;">🏆</span>
+      <span>Niv. ${data.level}</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-text); text-shadow: 0 1px 2px rgba(255,255,255,0.8);">
+      <span style="font-size:1.3rem;">📊</span>
+      <span>${data.percentage}%</span>
+    </div>
+    ${data.badges.length > 0 ? `
+    <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-accent); text-shadow: 0 1px 2px rgba(255,255,255,0.8);">
+      <span style="font-size:1.3rem;">🎖️</span>
+      <span>${data.badges.length}</span>
+    </div>
+    ` : ''}
+  `;
 
   document.body.appendChild(header);
 
-  // Rafraîchissement
+  // Rafraîchissement toutes les 2 secondes
   if (!window._progressHeaderInterval) {
     window._progressHeaderInterval = setInterval(() => {
       const currentHeader = document.getElementById('floating-progress-header');
@@ -2766,51 +2866,37 @@ function renderProgressHeader() {
       const newData = getProfileData();
       currentHeader.innerHTML = `
         <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-accent); text-shadow: 0 1px 2px rgba(255,255,255,0.8);">
-          <span style="font-size:1.3rem;">🔥</span>
-          <span>3</span>
+          <span style="font-size:1.3rem;"></span>
+          <span>${newData.streak}</span>
         </div>
         <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-primary); text-shadow: 0 1px 2px rgba(255,255,255,0.8);">
           <span style="font-size:1.3rem;">⭐</span>
           <span>${newData.xp} XP</span>
         </div>
+        <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-success); text-shadow: 0 1px 2px rgba(255,255,255,0.8);">
+          <span style="font-size:1.3rem;">🏆</span>
+          <span>Niv. ${newData.level}</span>
+        </div>
         <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-text); text-shadow: 0 1px 2px rgba(255,255,255,0.8);">
           <span style="font-size:1.3rem;">📊</span>
           <span>${newData.percentage}%</span>
         </div>
+        ${newData.badges.length > 0 ? `
+        <div style="display:flex; align-items:center; gap:4px; color: var(--ds-color-accent); text-shadow: 0 1px 2px rgba(255,255,255,0.8);">
+          <span style="font-size:1.3rem;">🎖️</span>
+          <span>${newData.badges.length}</span>
+        </div>
+        ` : ''}
       `;
     }, 2000);
   }
 }
 
-  // ✅ ÉCOUTER LE BUS D'ÉVÉNEMENTS EXISTANT (si disponible)
-  if (typeof bus !== 'undefined') {
-    const refreshOnEvent = () => {
-      const currentHeader = document.getElementById('floating-progress-header');
-      if (currentHeader) {
-        // Forcer un rafraîchissement immédiat
-        const newData = getProfileData();
-        currentHeader.querySelector('div:nth-child(2) span:last-child').textContent = `${newData.xp} XP`;
-        currentHeader.querySelector('div:nth-child(4) span:last-child').textContent = `${newData.percentage}%`;
-      }
-    };
-
-    // Écouter les événements de gamification existants
-    bus.on('gamification:xp-added', refreshOnEvent);
-    bus.on('gamification:level-up', refreshOnEvent);
-    bus.on('gamification:badge-earned', refreshOnEvent);
-  }
-
-
-// ✅ CSS pour l'animation (à ajouter une seule fois)
+// ✅ CSS pour l'animation
 if (!document.getElementById('progress-header-style')) {
   const style = document.createElement('style');
   style.id = 'progress-header-style';
-  style.innerHTML = `
-    @keyframes slideDown {
-      from { transform: translateY(-100%); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-  `;
+  style.innerHTML = `@keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }`;
   document.head.appendChild(style);
 }
 
