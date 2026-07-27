@@ -1315,7 +1315,681 @@ syncProfileWithJourneys();
   }
 }
 
+// ═══════════════════════════════════════════════════════════
+// VUE : LEÇON - PHRASES DE CONTEXTE (Écouter et répéter les phrases)
+// ═══════════════════════════════════════════════════════════
+async function renderLessonPhrases() {
+  const main = document.getElementById('app');
+  main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement des phrases...</div>';
+  renderProgressHeader();
 
+  try {
+    const floatActions = document.getElementById('floating-home-actions');
+    if (floatActions) floatActions.remove();
+
+    const manifest = await content.loadManifest('fr');
+    const levelData = manifest.levels.find(l => l.id === currentLevel);
+    const unitId = currentTheme || levelData.units[0];
+    currentTheme = unitId;
+    const vocabData = await content.loadSection('fr', 'vocabulary', unitId);
+
+    const themeNames = {
+      'survival': 'Mots de survie', 'numbers': 'Les Nombres',
+      'family': 'La Famille', 'market': 'Au Marché', 'colors': 'Les Couleurs',
+      'numbers2': 'Nombres (11-20)', 'days': 'Les Jours', 'months': 'Les Mois',
+      'greetings': 'Salutations', 'body': 'Le Corps'
+    };
+    const themeName = themeNames[unitId] || unitId;
+
+    main.innerHTML = `
+      <section style="max-width: 700px; margin: 0 auto; padding: 2rem 1rem;">
+        <ds-button variant="ghost" size="sm" id="btn-back" style="margin-bottom: 1rem;">← Retour au thème</ds-button>
+        <div style="margin-bottom: 0.5rem;">
+          <span style="background:var(--ds-color-accent); color:white; padding:4px 10px; border-radius:20px; font-weight:600; font-size:0.8rem;">Niveau ${currentLevel}</span>
+        </div>
+        <h2 style="margin-bottom: 0.5rem;">📝 Phrases : ${themeName}</h2>
+        <p style="color:var(--ds-color-text-muted); margin-bottom: 2rem;">
+          Écoutez et répétez chaque phrase de contexte
+        </p>
+
+        <div style="display:grid; gap:1rem;">
+          ${vocabData.items.map((item, idx) => `
+            <div style="background:var(--ds-color-surface); padding:1.2rem; border-radius:var(--ds-radius-md); display:flex; justify-content:space-between; align-items:center; box-shadow:var(--ds-shadow-sm); border:1px solid var(--ds-color-border);">
+              <div style="flex:1;">
+                <div style="font-size:0.8rem; color:var(--ds-color-text-muted); margin-bottom:4px;">
+                  ${item.icon || '📝'} ${item.target} → ${item.source}
+                </div>
+                <strong style="font-size:1.1rem; color:var(--ds-color-primary); display:block; margin-bottom:4px;">
+                  "${item.context}"
+                </strong>
+                <div style="font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">
+                  (${item.contextTranslation})
+                </div>
+              </div>
+              <ds-button variant="primary" size="sm" class="play-phrase" data-phrase="${item.context}" style="min-width: 90px; margin-left:1rem;">
+                🔊 Hihainoa
+              </ds-button>
+            </div>
+          `).join('')}
+        </div>
+
+        <div style="margin-top:2rem; text-align:center;">
+          <ds-button id="btn-start-practice-phrases" size="lg" variant="success">
+            🎯 Hihainoa ny fanazaran-tena (Commencer la révision des phrases)
+          </ds-button>
+        </div>
+      </section>
+    `;
+
+    document.getElementById('btn-back').addEventListener('click', () => router.navigate('/theme-detail'));
+
+    // Allumage progressif des phrases
+    let currentPhraseIndex = 0;
+    const phraseButtons = document.querySelectorAll('.play-phrase');
+    if (phraseButtons.length > 0) {
+      phraseButtons[0].classList.add('guide-active');
+      phraseButtons[0].style.animation = 'pulse-guide 2s infinite';
+
+      phraseButtons.forEach((btn, index) => {
+        btn.addEventListener('click', () => {
+          speechSynthesis.cancel();
+          btn.textContent = '🔊 ...';
+          const u = new SpeechSynthesisUtterance(btn.dataset.phrase);
+          u.lang = 'fr-FR'; u.rate = 0.9;
+          u.onend = () => {
+            btn.textContent = '🔊 Hihainoa';
+            btn.classList.remove('guide-active');
+            btn.style.animation = 'none';
+            currentPhraseIndex = index + 1;
+            if (currentPhraseIndex < phraseButtons.length) {
+              phraseButtons[currentPhraseIndex].classList.add('guide-active');
+              phraseButtons[currentPhraseIndex].style.animation = 'pulse-guide 2s infinite';
+            } else {
+              const btnStart = document.getElementById('btn-start-practice-phrases');
+              if (btnStart) {
+                btnStart.classList.add('guide-active');
+                btnStart.style.animation = 'pulse-green 1.5s infinite';
+              }
+            }
+          };
+          speechSynthesis.speak(u);
+        });
+      });
+    }
+
+    document.getElementById('btn-start-practice-phrases')?.addEventListener('click', () => {
+      journeyTracker.markJourneyComplete('phraseLessons', unitId);
+      router.navigate('/practice-phrases');
+    });
+
+    window.teacherAvatar.show('lesson');
+    logger.info(`✅ Page Leçon Phrases rendue pour le thème: ${unitId}`);
+    setTimeout(() => {
+      window.teacherAvatar.speak("Écoutez chaque phrase de contexte et répétez-la à voix haute !");
+    }, 1000);
+  } catch (e) {
+    main.innerHTML = `<p style="color:red; text-align:center;">Erreur: ${e.message}</p>`;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// VUE : RÉVISION - PHRASES (Quiz + Shadowing sur les phrases)
+// ═══════════════════════════════════════════════════════════
+async function renderPracticePhrases() {
+  const main = document.getElementById('app');
+  main.innerHTML = '<div style="text-align:center; padding:2rem;">Miomana ny fanazaran-tena amin\'ny fehezanteny...</div>';
+  renderProgressHeader();
+
+  try {
+    const floatActions = document.getElementById('floating-home-actions');
+    if (floatActions) floatActions.remove();
+
+    const manifest = await content.loadManifest('fr');
+    const levelData = manifest.levels.find(l => l.id === currentLevel);
+    const unitId = currentTheme || levelData.units[0];
+    currentTheme = unitId;
+    const vocabData = await content.loadSection('fr', 'vocabulary', unitId);
+
+    const sessionQueue = [...vocabData.items].sort(() => Math.random() - 0.5);
+    let currentIndex = 0;
+    let themeScore = 0;
+    let shadowEvalHandler = null;
+    let currentCorrectAnswer = "";
+    let quizAnswered = false;
+
+    const renderQuestion = (index) => {
+      if (index >= sessionQueue.length) {
+        renderSessionComplete();
+        return;
+      }
+      shadowing.forceStop();
+      speechSynthesis.cancel();
+      if (shadowEvalHandler) {
+        bus.off('pronunciation:evaluated', shadowEvalHandler);
+        shadowEvalHandler = null;
+      }
+      quizAnswered = false;
+      const itemData = sessionQueue[index];
+      const progressPercent = (index / sessionQueue.length) * 100;
+
+      const questionText = `Comment dit-on en français : "<strong>${itemData.contextTranslation}</strong>" ?`;
+      currentCorrectAnswer = itemData.context;
+
+      const pool = vocabData.items
+        .filter(i => i.id !== itemData.id && i.context)
+        .map(i => i.context);
+      let options = [currentCorrectAnswer, ...pool.sort(() => Math.random() - 0.5).slice(0, 2)];
+      options = [...new Set(options)].sort(() => Math.random() - 0.5);
+      while (options.length < 3) options.push("Phrase supplémentaire");
+
+      main.innerHTML = `
+        <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem; padding-top: 1rem;">
+          <div style="background:var(--ds-color-border); height:8px; border-radius:4px; margin-bottom:1rem; overflow:hidden;">
+            <div style="background:var(--ds-color-primary); height:100%; width:${progressPercent}%; transition: width 0.3s ease;"></div>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:1rem; align-items:center;">
+            <ds-button variant="ghost" size="sm" id="btn-back-practice">← Hiverina</ds-button>
+            <span style="font-weight:600; color:var(--ds-color-text-muted);">
+              Fehezanteny ${index + 1} / ${sessionQueue.length}
+            </span>
+          </div>
+          <div style="text-align:center; margin-bottom:1rem;">
+            <span style="background:var(--ds-color-primary); color:white; padding:4px 12px; border-radius:20px; font-weight:600; font-size:0.8rem;">
+              📝 Fanazaran-tena amin'ny fehezanteny (Révision des phrases)
+            </span>
+          </div>
+          <h2 style="text-align:center; margin-bottom:1.5rem; font-size:1.2rem;">${questionText}</h2>
+
+          <div style="display:flex; flex-direction:column; gap:1rem;">
+            <div id="step-listen" class="guide-active" style="text-align:center; padding:1rem; background:var(--ds-color-surface-2); border-radius:var(--ds-radius-md);">
+              <div style="font-size:0.75rem; text-transform:uppercase; color:var(--ds-color-text-muted); margin-bottom:0.5rem;">
+                Étape 1 : Hihainoa ny fehezanteny (Écoutez la phrase)
+              </div>
+              <ds-button variant="primary" size="md" id="btn-listen" class="guide-active">🔊 Hihainoa</ds-button>
+            </div>
+
+            <div id="step-quiz" style="text-align:center; padding:1rem; background:var(--ds-color-surface-2); border-radius:var(--ds-radius-md); opacity:0.5; pointer-events:none; transition:all 0.3s;">
+              <div style="font-size:0.75rem; text-transform:uppercase; color:var(--ds-color-text-muted); margin-bottom:0.5rem;">
+                Étape 2 : Safidio ny valiny (Choisissez la réponse)
+              </div>
+              <ds-quiz id="active-quiz" item-id="${itemData.id}" options="${JSON.stringify(options).replace(/"/g, '&quot;')}" correct="${currentCorrectAnswer}"></ds-quiz>
+            </div>
+
+            <div id="step-shadow" style="text-align:center; padding:1rem; background:var(--ds-color-primary-soft); border-radius:var(--ds-radius-md); border: 1px dashed var(--ds-color-primary); opacity:0.5; pointer-events:none; transition:all 0.3s;">
+              <div style="font-size:0.75rem; text-transform:uppercase; color:var(--ds-color-primary); margin-bottom:0.5rem; font-weight:bold;">
+                Étape 3 : Mitenena ny fehezanteny (Prononcez la phrase)
+              </div>
+              <ds-button variant="primary" size="lg" id="btn-shadow">🎤 Mitenena izao</ds-button>
+              <div id="shadow-feedback" style="margin-top:0.75rem; font-size:0.9rem; font-weight:600; min-height:1.5em;"></div>
+            </div>
+
+            <div id="step-next" style="text-align:center; margin-top:0.5rem; opacity:0.5; pointer-events:none; transition:all 0.3s;">
+              <ds-button id="btn-next" disabled variant="success" size="lg" style="width:100%;">
+                Manaraka → (Suivant)
+              </ds-button>
+            </div>
+          </div>
+        </section>
+      `;
+
+      document.getElementById('btn-back-practice').addEventListener('click', () => {
+        shadowing.forceStop();
+        speechSynthesis.cancel();
+        router.navigate('/theme-detail');
+      });
+
+      const stepQuiz = document.getElementById('step-quiz');
+      const stepShadow = document.getElementById('step-shadow');
+      const btnNext = document.getElementById('btn-next');
+      const unlockNext = () => {
+        btnNext.disabled = false;
+        btnNext.removeAttribute('disabled');
+        document.getElementById('step-next').style.opacity = '1';
+        document.getElementById('step-next').style.pointerEvents = 'auto';
+        btnNext.style.animation = "pulse-green 1.5s infinite";
+      };
+
+      document.getElementById('btn-listen').addEventListener('click', () => {
+        const btnListen = document.getElementById('btn-listen');
+        const originalText = btnListen.textContent;
+        speakWithFeedback(itemData.context, {
+          onStart: () => {
+            btnListen.textContent = '🔊 ...';
+            btnListen.classList.remove('guide-active');
+            document.getElementById('step-listen').classList.remove('guide-active');
+          },
+          onEnd: () => {
+            btnListen.textContent = originalText;
+            stepQuiz.style.opacity = '1';
+            stepQuiz.style.pointerEvents = 'auto';
+            document.getElementById('active-quiz').classList.add('guide-active');
+          }
+        });
+      });
+
+      const quizEl = document.getElementById('active-quiz');
+      quizEl.addEventListener('quiz:answered', async (e) => {
+        if (quizAnswered) return;
+        quizAnswered = true;
+        await srs.schedule(e.detail.itemId, e.detail.isCorrect ? 4 : 1);
+
+        if (e.detail.isCorrect) {
+          quizEl.classList.add('correct-answer');
+          setTimeout(() => quizEl.classList.remove('correct-answer'), 500);
+          themeScore += 15;
+          await gamification.addXP(15, 'Quiz phrase réussi');
+          if (typeof feedbackSounds !== 'undefined') feedbackSounds.playSuccess();
+          setTimeout(() => window.teacherAvatar.speak("Excellent !"), 500);
+        } else {
+          quizEl.classList.add('wrong-answer');
+          setTimeout(() => quizEl.classList.remove('wrong-answer'), 400);
+          if (typeof feedbackSounds !== 'undefined') feedbackSounds.playRetry();
+          setTimeout(() => {
+            window.teacherAvatar.speak(`Faux. La bonne phrase est : ${currentCorrectAnswer}`);
+          }, 500);
+        }
+
+        stepQuiz.classList.remove('guide-active');
+        stepShadow.style.opacity = '1';
+        stepShadow.style.pointerEvents = 'auto';
+        document.getElementById('btn-shadow').classList.add('guide-active');
+      });
+
+      const btnShadow = document.getElementById('btn-shadow');
+      const shadowFeedback = document.getElementById('shadow-feedback');
+      let isRecording = false;
+
+      btnShadow.addEventListener('click', () => {
+        if (isRecording) {
+          shadowing.forceStop();
+          isRecording = false;
+          btnShadow.textContent = '🎤 Mitenena izao';
+          return;
+        }
+        btnShadow.setAttribute('disabled', '');
+        btnShadow.textContent = '🎙️ Mandre...';
+        shadowFeedback.innerHTML = '<span style="color:var(--ds-color-accent);">Mitenena izao...</span>';
+        isRecording = true;
+        shadowing.startRecording();
+      });
+
+      shadowEvalHandler = (data) => {
+        isRecording = false;
+        btnShadow.removeAttribute('disabled');
+        if (data.error === 'not_supported') {
+          shadowFeedback.innerHTML = '<span style="color:var(--ds-color-danger);">️ Micro non supporté</span>';
+          btnShadow.textContent = '🎤 Mitenena izao';
+          unlockNext();
+          return;
+        }
+        if (data.transcript) {
+          const similarity = calculateSimilarity(data.transcript.toLowerCase(), itemData.context.toLowerCase());
+          if (similarity > 0.60) {
+            if (typeof feedbackSounds !== 'undefined') feedbackSounds.playSuccess();
+            shadowFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Tena tsara ! (Très bien !)</span>`;
+            btnShadow.textContent = '✅ Vita';
+            gamification.addXP(10, 'Shadowing phrase - excellente');
+            document.getElementById('btn-shadow').classList.remove('guide-active');
+            unlockNext();
+          } else if (similarity > 0.40) {
+            if (typeof feedbackSounds !== 'undefined') feedbackSounds.playSuccess();
+            shadowFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Tsara ! (Bien !)</span>`;
+            btnShadow.textContent = '✅ Vita';
+            gamification.addXP(5, 'Shadowing phrase - bonne');
+            document.getElementById('btn-shadow').classList.remove('guide-active');
+            unlockNext();
+          } else {
+            if (typeof feedbackSounds !== 'undefined') feedbackSounds.playRetry();
+            shadowFeedback.innerHTML = `<span style="color:var(--ds-color-accent);">🔄 Havereno (À répéter)</span>`;
+            btnShadow.textContent = '🎤 Mitenena indray';
+          }
+        } else {
+          shadowFeedback.innerHTML = '<span style="color:var(--ds-color-text-muted);">⚠️ Aucune voix détectée</span>';
+          btnShadow.textContent = '🎤 Mitenena izao';
+        }
+      };
+      bus.on('pronunciation:evaluated', shadowEvalHandler);
+
+      btnNext.addEventListener('click', () => {
+        if (shadowEvalHandler) {
+          bus.off('pronunciation:evaluated', shadowEvalHandler);
+          shadowEvalHandler = null;
+        }
+        currentIndex++;
+        renderQuestion(currentIndex);
+      });
+    };
+
+    const renderSessionComplete = async () => {
+      if (shadowEvalHandler) {
+        bus.off('pronunciation:evaluated', shadowEvalHandler);
+        shadowEvalHandler = null;
+      }
+      if (typeof feedbackSounds !== 'undefined') feedbackSounds.playCelebration();
+      await gamification.addXP(50, 'Révision phrases terminée');
+      journeyTracker.markJourneyComplete('phrasePractices', unitId);
+
+      setTimeout(() => {
+        window.teacherAvatar.speak("Félicitations ! Vous maîtrisez les phrases. Passons maintenant au dialogue !");
+      }, 800);
+
+      main.innerHTML = `
+        <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem; text-align:center;">
+          <div style="font-size:4rem; margin-bottom:1rem;">📝</div>
+          <h2 style="color:var(--ds-color-success);">Fanazaran-tena amin'ny fehezanteny Vita !</h2>
+          <p style="color:var(--ds-color-text-muted); margin-bottom:0.5rem;">
+            Révision des phrases terminée pour "${unitId}".
+          </p>
+          <p style="color:var(--ds-color-accent); font-weight:bold; margin-bottom:2rem;">
+            Score : ${themeScore} XP
+          </p>
+          <div style="background:var(--ds-color-primary-soft); padding:1.5rem; border-radius:var(--ds-radius-lg); border:1px solid var(--ds-color-primary); margin-bottom:1.5rem;">
+            <h3 style="color:var(--ds-color-primary); margin-bottom:0.5rem;">Vonona ho an'ny Dialogue ?</h3>
+            <p style="color:var(--ds-color-text-muted); font-size:0.9rem; margin-bottom:1rem;">
+              Pratiquez maintenant avec une conversation complète !
+            </p>
+            <ds-button id="btn-go-dialogues" size="lg" variant="success" class="guide-active" style="width:100%;">
+              Manomboka ny Dialogue →
+            </ds-button>
+          </div>
+          <ds-button id="btn-back-themes" variant="ghost" size="sm" style="width:100%;">
+            ← Hiverina amin'ny lohahevitra
+          </ds-button>
+        </section>
+      `;
+      document.getElementById('btn-go-dialogues').addEventListener('click', () => router.navigate('/dialogues'));
+      document.getElementById('btn-back-themes').addEventListener('click', () => router.navigate('/themes'));
+    };
+
+    renderQuestion(currentIndex);
+    window.teacherAvatar.show('practice');
+    logger.info(`✅ Session révision phrases démarrée pour: ${unitId}`);
+  } catch (error) {
+    console.error('❌ Erreur renderPracticePhrases:', error);
+    main.innerHTML = `<div style="text-align:center; padding:2rem; color:var(--ds-color-danger);"> <p>Erreur: ${error.message}</p> <ds-button onclick="location.hash='/theme-detail'">Retour</ds-button> </div>`;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// VUE : RÉVISION - PHRASES (Quiz + Shadowing sur les phrases)
+// ═══════════════════════════════════════════════════════════
+async function renderPracticePhrases() {
+  const main = document.getElementById('app');
+  main.innerHTML = '<div style="text-align:center; padding:2rem;">Miomana ny fanazaran-tena amin\'ny fehezanteny...</div>';
+  renderProgressHeader();
+
+  try {
+    const floatActions = document.getElementById('floating-home-actions');
+    if (floatActions) floatActions.remove();
+
+    const manifest = await content.loadManifest('fr');
+    const levelData = manifest.levels.find(l => l.id === currentLevel);
+    const unitId = currentTheme || levelData.units[0];
+    currentTheme = unitId;
+    const vocabData = await content.loadSection('fr', 'vocabulary', unitId);
+
+    const sessionQueue = [...vocabData.items].sort(() => Math.random() - 0.5);
+    let currentIndex = 0;
+    let themeScore = 0;
+    let shadowEvalHandler = null;
+    let currentCorrectAnswer = "";
+    let quizAnswered = false;
+
+    const renderQuestion = (index) => {
+      if (index >= sessionQueue.length) {
+        renderSessionComplete();
+        return;
+      }
+      shadowing.forceStop();
+      speechSynthesis.cancel();
+      if (shadowEvalHandler) {
+        bus.off('pronunciation:evaluated', shadowEvalHandler);
+        shadowEvalHandler = null;
+      }
+      quizAnswered = false;
+      const itemData = sessionQueue[index];
+      const progressPercent = (index / sessionQueue.length) * 100;
+
+      const questionText = `Comment dit-on en français : "<strong>${itemData.contextTranslation}</strong>" ?`;
+      currentCorrectAnswer = itemData.context;
+
+      const pool = vocabData.items
+        .filter(i => i.id !== itemData.id && i.context)
+        .map(i => i.context);
+      let options = [currentCorrectAnswer, ...pool.sort(() => Math.random() - 0.5).slice(0, 2)];
+      options = [...new Set(options)].sort(() => Math.random() - 0.5);
+      while (options.length < 3) options.push("Phrase supplémentaire");
+
+      main.innerHTML = `
+        <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem; padding-top: 1rem;">
+          <div style="background:var(--ds-color-border); height:8px; border-radius:4px; margin-bottom:1rem; overflow:hidden;">
+            <div style="background:var(--ds-color-primary); height:100%; width:${progressPercent}%; transition: width 0.3s ease;"></div>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:1rem; align-items:center;">
+            <ds-button variant="ghost" size="sm" id="btn-back-practice">← Hiverina</ds-button>
+            <span style="font-weight:600; color:var(--ds-color-text-muted);">
+              Fehezanteny ${index + 1} / ${sessionQueue.length}
+            </span>
+          </div>
+          <div style="text-align:center; margin-bottom:1rem;">
+            <span style="background:var(--ds-color-primary); color:white; padding:4px 12px; border-radius:20px; font-weight:600; font-size:0.8rem;">
+              📝 Fanazaran-tena amin'ny fehezanteny (Révision des phrases)
+            </span>
+          </div>
+          <h2 style="text-align:center; margin-bottom:1.5rem; font-size:1.2rem;">${questionText}</h2>
+
+          <div style="display:flex; flex-direction:column; gap:1rem;">
+            <div id="step-listen" class="guide-active" style="text-align:center; padding:1rem; background:var(--ds-color-surface-2); border-radius:var(--ds-radius-md);">
+              <div style="font-size:0.75rem; text-transform:uppercase; color:var(--ds-color-text-muted); margin-bottom:0.5rem;">
+                Étape 1 : Hihainoa ny fehezanteny (Écoutez la phrase)
+              </div>
+              <ds-button variant="primary" size="md" id="btn-listen" class="guide-active">🔊 Hihainoa</ds-button>
+            </div>
+
+            <div id="step-quiz" style="text-align:center; padding:1rem; background:var(--ds-color-surface-2); border-radius:var(--ds-radius-md); opacity:0.5; pointer-events:none; transition:all 0.3s;">
+              <div style="font-size:0.75rem; text-transform:uppercase; color:var(--ds-color-text-muted); margin-bottom:0.5rem;">
+                Étape 2 : Safidio ny valiny (Choisissez la réponse)
+              </div>
+              <ds-quiz id="active-quiz" item-id="${itemData.id}" options="${JSON.stringify(options).replace(/"/g, '&quot;')}" correct="${currentCorrectAnswer}"></ds-quiz>
+            </div>
+
+            <div id="step-shadow" style="text-align:center; padding:1rem; background:var(--ds-color-primary-soft); border-radius:var(--ds-radius-md); border: 1px dashed var(--ds-color-primary); opacity:0.5; pointer-events:none; transition:all 0.3s;">
+              <div style="font-size:0.75rem; text-transform:uppercase; color:var(--ds-color-primary); margin-bottom:0.5rem; font-weight:bold;">
+                Étape 3 : Mitenena ny fehezanteny (Prononcez la phrase)
+              </div>
+              <ds-button variant="primary" size="lg" id="btn-shadow">🎤 Mitenena izao</ds-button>
+              <div id="shadow-feedback" style="margin-top:0.75rem; font-size:0.9rem; font-weight:600; min-height:1.5em;"></div>
+            </div>
+
+            <div id="step-next" style="text-align:center; margin-top:0.5rem; opacity:0.5; pointer-events:none; transition:all 0.3s;">
+              <ds-button id="btn-next" disabled variant="success" size="lg" style="width:100%;">
+                Manaraka → (Suivant)
+              </ds-button>
+            </div>
+          </div>
+        </section>
+      `;
+
+      document.getElementById('btn-back-practice').addEventListener('click', () => {
+        shadowing.forceStop();
+        speechSynthesis.cancel();
+        router.navigate('/theme-detail');
+      });
+
+      const stepQuiz = document.getElementById('step-quiz');
+      const stepShadow = document.getElementById('step-shadow');
+      const btnNext = document.getElementById('btn-next');
+      const unlockNext = () => {
+        btnNext.disabled = false;
+        btnNext.removeAttribute('disabled');
+        document.getElementById('step-next').style.opacity = '1';
+        document.getElementById('step-next').style.pointerEvents = 'auto';
+        btnNext.style.animation = "pulse-green 1.5s infinite";
+      };
+
+      document.getElementById('btn-listen').addEventListener('click', () => {
+        const btnListen = document.getElementById('btn-listen');
+        const originalText = btnListen.textContent;
+        speakWithFeedback(itemData.context, {
+          onStart: () => {
+            btnListen.textContent = '🔊 ...';
+            btnListen.classList.remove('guide-active');
+            document.getElementById('step-listen').classList.remove('guide-active');
+          },
+          onEnd: () => {
+            btnListen.textContent = originalText;
+            stepQuiz.style.opacity = '1';
+            stepQuiz.style.pointerEvents = 'auto';
+            document.getElementById('active-quiz').classList.add('guide-active');
+          }
+        });
+      });
+
+      const quizEl = document.getElementById('active-quiz');
+      quizEl.addEventListener('quiz:answered', async (e) => {
+        if (quizAnswered) return;
+        quizAnswered = true;
+        await srs.schedule(e.detail.itemId, e.detail.isCorrect ? 4 : 1);
+
+        if (e.detail.isCorrect) {
+          quizEl.classList.add('correct-answer');
+          setTimeout(() => quizEl.classList.remove('correct-answer'), 500);
+          themeScore += 15;
+          await gamification.addXP(15, 'Quiz phrase réussi');
+          if (typeof feedbackSounds !== 'undefined') feedbackSounds.playSuccess();
+          setTimeout(() => window.teacherAvatar.speak("Excellent !"), 500);
+        } else {
+          quizEl.classList.add('wrong-answer');
+          setTimeout(() => quizEl.classList.remove('wrong-answer'), 400);
+          if (typeof feedbackSounds !== 'undefined') feedbackSounds.playRetry();
+          setTimeout(() => {
+            window.teacherAvatar.speak(`Faux. La bonne phrase est : ${currentCorrectAnswer}`);
+          }, 500);
+        }
+
+        stepQuiz.classList.remove('guide-active');
+        stepShadow.style.opacity = '1';
+        stepShadow.style.pointerEvents = 'auto';
+        document.getElementById('btn-shadow').classList.add('guide-active');
+      });
+
+      const btnShadow = document.getElementById('btn-shadow');
+      const shadowFeedback = document.getElementById('shadow-feedback');
+      let isRecording = false;
+
+      btnShadow.addEventListener('click', () => {
+        if (isRecording) {
+          shadowing.forceStop();
+          isRecording = false;
+          btnShadow.textContent = '🎤 Mitenena izao';
+          return;
+        }
+        btnShadow.setAttribute('disabled', '');
+        btnShadow.textContent = '🎙️ Mandre...';
+        shadowFeedback.innerHTML = '<span style="color:var(--ds-color-accent);">Mitenena izao...</span>';
+        isRecording = true;
+        shadowing.startRecording();
+      });
+
+      shadowEvalHandler = (data) => {
+        isRecording = false;
+        btnShadow.removeAttribute('disabled');
+        if (data.error === 'not_supported') {
+          shadowFeedback.innerHTML = '<span style="color:var(--ds-color-danger);">️ Micro non supporté</span>';
+          btnShadow.textContent = '🎤 Mitenena izao';
+          unlockNext();
+          return;
+        }
+        if (data.transcript) {
+          const similarity = calculateSimilarity(data.transcript.toLowerCase(), itemData.context.toLowerCase());
+          if (similarity > 0.60) {
+            if (typeof feedbackSounds !== 'undefined') feedbackSounds.playSuccess();
+            shadowFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Tena tsara ! (Très bien !)</span>`;
+            btnShadow.textContent = '✅ Vita';
+            gamification.addXP(10, 'Shadowing phrase - excellente');
+            document.getElementById('btn-shadow').classList.remove('guide-active');
+            unlockNext();
+          } else if (similarity > 0.40) {
+            if (typeof feedbackSounds !== 'undefined') feedbackSounds.playSuccess();
+            shadowFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Tsara ! (Bien !)</span>`;
+            btnShadow.textContent = '✅ Vita';
+            gamification.addXP(5, 'Shadowing phrase - bonne');
+            document.getElementById('btn-shadow').classList.remove('guide-active');
+            unlockNext();
+          } else {
+            if (typeof feedbackSounds !== 'undefined') feedbackSounds.playRetry();
+            shadowFeedback.innerHTML = `<span style="color:var(--ds-color-accent);">🔄 Havereno (À répéter)</span>`;
+            btnShadow.textContent = '🎤 Mitenena indray';
+          }
+        } else {
+          shadowFeedback.innerHTML = '<span style="color:var(--ds-color-text-muted);">⚠️ Aucune voix détectée</span>';
+          btnShadow.textContent = '🎤 Mitenena izao';
+        }
+      };
+      bus.on('pronunciation:evaluated', shadowEvalHandler);
+
+      btnNext.addEventListener('click', () => {
+        if (shadowEvalHandler) {
+          bus.off('pronunciation:evaluated', shadowEvalHandler);
+          shadowEvalHandler = null;
+        }
+        currentIndex++;
+        renderQuestion(currentIndex);
+      });
+    };
+
+    const renderSessionComplete = async () => {
+      if (shadowEvalHandler) {
+        bus.off('pronunciation:evaluated', shadowEvalHandler);
+        shadowEvalHandler = null;
+      }
+      if (typeof feedbackSounds !== 'undefined') feedbackSounds.playCelebration();
+      await gamification.addXP(50, 'Révision phrases terminée');
+      journeyTracker.markJourneyComplete('phrasePractices', unitId);
+
+      setTimeout(() => {
+        window.teacherAvatar.speak("Félicitations ! Vous maîtrisez les phrases. Passons maintenant au dialogue !");
+      }, 800);
+
+      main.innerHTML = `
+        <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem; text-align:center;">
+          <div style="font-size:4rem; margin-bottom:1rem;">📝</div>
+          <h2 style="color:var(--ds-color-success);">Fanazaran-tena amin'ny fehezanteny Vita !</h2>
+          <p style="color:var(--ds-color-text-muted); margin-bottom:0.5rem;">
+            Révision des phrases terminée pour "${unitId}".
+          </p>
+          <p style="color:var(--ds-color-accent); font-weight:bold; margin-bottom:2rem;">
+            Score : ${themeScore} XP
+          </p>
+          <div style="background:var(--ds-color-primary-soft); padding:1.5rem; border-radius:var(--ds-radius-lg); border:1px solid var(--ds-color-primary); margin-bottom:1.5rem;">
+            <h3 style="color:var(--ds-color-primary); margin-bottom:0.5rem;">Vonona ho an'ny Dialogue ?</h3>
+            <p style="color:var(--ds-color-text-muted); font-size:0.9rem; margin-bottom:1rem;">
+              Pratiquez maintenant avec une conversation complète !
+            </p>
+            <ds-button id="btn-go-dialogues" size="lg" variant="success" class="guide-active" style="width:100%;">
+              Manomboka ny Dialogue →
+            </ds-button>
+          </div>
+          <ds-button id="btn-back-themes" variant="ghost" size="sm" style="width:100%;">
+            ← Hiverina amin'ny lohahevitra
+          </ds-button>
+        </section>
+      `;
+      document.getElementById('btn-go-dialogues').addEventListener('click', () => router.navigate('/dialogues'));
+      document.getElementById('btn-back-themes').addEventListener('click', () => router.navigate('/themes'));
+    };
+
+    renderQuestion(currentIndex);
+    window.teacherAvatar.show('practice');
+    logger.info(`✅ Session révision phrases démarrée pour: ${unitId}`);
+  } catch (error) {
+    console.error('❌ Erreur renderPracticePhrases:', error);
+    main.innerHTML = `<div style="text-align:center; padding:2rem; color:var(--ds-color-danger);"> <p>Erreur: ${error.message}</p> <ds-button onclick="location.hash='/theme-detail'">Retour</ds-button> </div>`;
+  }
+}
+
+
+// Activité Dialogue
 async function renderDialogues() {
 
   const main = document.getElementById('app');
@@ -2644,9 +3318,9 @@ router.addRoute('/', renderHome);
 router.addRoute('/themes', renderThemes);
 router.addRoute('/theme-detail', renderThemeDetail);
 router.addRoute('/lesson', renderLesson);
-router.addRoute('/lesson-phrases', renderLessonPhrases); // ✅ NOUVEAU
+router.addRoute('/lesson-phrases', renderLessonPhrases);      // ✅ AJOUTER
 router.addRoute('/practice', renderPractice);
-router.addRoute('/practice-phrases', renderPracticePhrases); // ✅ NOUVEAU
+router.addRoute('/practice-phrases', renderPracticePhrases);  // ✅ AJOUTER
 router.addRoute('/dialogues', renderDialogues);
 router.addRoute('/profile', renderProfile);
 router.addRoute('/roleplay', renderRolePlay);
