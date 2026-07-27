@@ -39,6 +39,7 @@ function isThemeLocked(themeId, profile) {
 }
 
 
+
 /// ═══════════════════════════════════════════════════════════
 // SUIVI DE PROGRESSION DES PARCOURS (VERSION CENTRALISÉE)
 // ═══════════════════════════════════════════════════════════
@@ -183,6 +184,42 @@ function saveProfile() {
 function syncProfileWithJourneys() {
   return saveProfile();
 }
+
+
+// ═══════════════════════════════════════════════════════════
+// FLUX PÉDAGOGIQUE CENTRALISÉ
+// ═══════════════════════════════════════════════════════════
+const JOURNEY_FLOW = [
+  'lesson',
+  'practice',
+  'lesson-phrases',
+  'practice-phrases',
+  'dialogues',
+  'roleplay',
+  'challenge'
+];
+
+// Fonction pour obtenir l'étape suivante
+function getNextJourney(currentStep) {
+  const currentIndex = JOURNEY_FLOW.indexOf(currentStep);
+  if (currentIndex === -1 || currentIndex >= JOURNEY_FLOW.length - 1) {
+    return null; // Dernière étape ou étape invalide
+  }
+  return JOURNEY_FLOW[currentIndex + 1];
+}
+
+// Fonction pour naviguer vers l'étape suivante
+function goToNextJourney(currentStep) {
+  const nextStep = getNextJourney(currentStep);
+  if (nextStep) {
+    console.log(`[Flux] Navigation: ${currentStep} → ${nextStep}`);
+    router.navigate(`/${nextStep}`);
+  } else {
+    console.log(`[Flux] Thème terminé! Retour aux thèmes.`);
+    router.navigate('/themes');
+  }
+}
+
 
 // ═══════════════════════════════════════════════════════════
 // TRADUCTION DE L'INTERFACE (FR → MG)
@@ -882,7 +919,7 @@ syncProfileWithJourneys();
         document.getElementById('btn-start-practice')?.addEventListener('click', () => {
           journeyTracker.markJourneyComplete('lessons', unitId);
           saveProfile();
-          router.navigate('/practice');
+          goToNextJourney('lesson'); // → va automatiquement vers 'practice'
         });
 
     document.getElementById('btn-start-practice')?.addEventListener('click', () => router.navigate('/practice'));
@@ -1004,11 +1041,12 @@ async function renderLessonPhrases() {
       });
     }
 
-    document.getElementById('btn-start-practice-phrases')?.addEventListener('click', () => {
-        journeyTracker.markJourneyComplete('phraseLessons', unitId);
-        saveProfile();
-        router.navigate('/practice-phrases'); // ✅ Doit rediriger vers /practice-phrases
-      });
+    // ✅ NOUVEAU CODE :
+        document.getElementById('btn-start-practice-phrases')?.addEventListener('click', () => {
+          journeyTracker.markJourneyComplete('phraseLessons', unitId);
+          saveProfile();
+          goToNextJourney('lesson-phrases'); // → va automatiquement vers 'practice-phrases'
+        });
 
     window.teacherAvatar.show('lesson');
     logger.info(`✅ Page Leçon Phrases rendue pour le thème: ${unitId}`);
@@ -1417,9 +1455,12 @@ syncProfileWithJourneys();
         </section>
       `;
 
-      document.getElementById('btn-go-dialogues').addEventListener('click', () => router.navigate('/dialogues'));
-      document.getElementById('btn-back-themes').addEventListener('click', () => router.navigate('/themes'));
-    };
+      // ✅ NOUVEAU CODE avec flux centralisé :
+        document.getElementById('btn-go-dialogues').addEventListener('click', () => {
+          goToNextJourney('practice'); // → va automatiquement vers 'lesson-phrases'
+        });
+        document.getElementById('btn-back-themes').addEventListener('click', () => router.navigate('/themes'));
+      };
 
     renderQuestion(currentIndex);
     window.teacherAvatar.show('practice');
@@ -1702,9 +1743,12 @@ async function renderPracticePhrases() {
           </ds-button>
         </section>
       `;
-      document.getElementById('btn-go-dialogues').addEventListener('click', () => router.navigate('/dialogues'));
-      document.getElementById('btn-back-themes').addEventListener('click', () => router.navigate('/themes'));
-    };
+     // ✅ NOUVEAU CODE :
+          document.getElementById('btn-go-dialogues').addEventListener('click', () => {
+            goToNextJourney('practice-phrases'); // → va automatiquement vers 'dialogues'
+          });
+          document.getElementById('btn-back-themes').addEventListener('click', () => router.navigate('/themes'));
+      };
 
     renderQuestion(currentIndex);
     window.teacherAvatar.show('practice');
@@ -1802,17 +1846,16 @@ syncProfileWithJourneys();
     // Écouteurs d'événements
     document.getElementById('btn-back').addEventListener('click', () => router.navigate('/themes'));
 
-    document.getElementById('btn-go-roleplay').addEventListener('click', () => {
-      router.navigate('/roleplay');
-    });
-
-    document.getElementById('btn-restart-practice').addEventListener('click', () => {
-      router.navigate('/practice');
-    });
-
-    document.getElementById('btn-dialogue-next').addEventListener('click', () => {
-      router.navigate('/themes');
-    });
+    // ✅ NOUVEAU CODE :
+      document.getElementById('btn-go-roleplay').addEventListener('click', () => {
+        goToNextJourney('dialogues'); // → va automatiquement vers 'roleplay'
+      });
+      document.getElementById('btn-restart-practice').addEventListener('click', () => {
+        router.navigate('/practice'); // Retour à la révision (optionnel)
+      });
+      document.getElementById('btn-dialogue-next').addEventListener('click', () => {
+        router.navigate('/themes'); // Retour aux thèmes
+      });
 
     document.querySelectorAll('.play-dialog-audio').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -1917,8 +1960,11 @@ async function renderRolePlay() {
         </section>
       `;
 
-      document.getElementById('btn-go-challenge').addEventListener('click', () => router.navigate('/challenge'));
-      document.getElementById('btn-back-themes').addEventListener('click', () => router.navigate('/themes'));
+      // ✅ NOUVEAU CODE :
+        document.getElementById('btn-go-challenge').addEventListener('click', () => {
+          goToNextJourney('roleplay'); // → va automatiquement vers 'challenge'
+        });
+        document.getElementById('btn-back-themes').addEventListener('click', () => router.navigate('/themes'));
     };
 
     const renderLine = () => {
@@ -2431,7 +2477,10 @@ async function renderChallenge() {
         </section>
       `;
 
-      document.getElementById('btn-back-themes').addEventListener('click', () => router.navigate('/themes'));
+      // ✅ NOUVEAU CODE :
+      document.getElementById('btn-back-themes').addEventListener('click', () => {
+        goToNextJourney('challenge'); // → retourne aux thèmes (dernière étape)
+      });
     };
 
     renderLine();
