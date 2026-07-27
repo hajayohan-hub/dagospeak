@@ -137,10 +137,7 @@ export class TeacherAvatar {
       return;
     }
 
-    setAutoSpeak(enabled) {
-        this.#autoSpeakEnabled = enabled;
-        console.log('[TeacherAvatar] Auto-parole:', enabled ? 'activée' : 'désactivée');
-      }
+
 
     // ✅ Pour les autres pages, parole automatique en FRANÇAIS UNIQUEMENT
     if (this.#autoSpeakEnabled) {
