@@ -2822,7 +2822,7 @@ function renderProgressHeader() {
 
   const header = document.createElement('div');
   header.id = 'floating-progress-header';
-  header.style.cssText = `position: fixed; top: 60px; left: 50%; transform: translateX(-50%); background: transparent; padding: 8px 16px; z-index: 999; display: flex; gap: 16px; align-items: center; font-size: 0.95rem; font-weight: 700; animation: slideDown 0.4s ease-out;`;
+  header.style.cssText = `position: fixed; top: 65px; left: 50%; transform: translateX(-50%); background: transparent; padding: 8px 16px; z-index: 999; display: flex; gap: 16px; align-items: center; font-size: 0.95rem; font-weight: 700; animation: slideDown 0.4s ease-out;`;
 
   // ✅ Utilise la fonction centralisée
   const data = getProfileData();
