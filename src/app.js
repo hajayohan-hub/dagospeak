@@ -24,6 +24,21 @@ import { FeedbackSounds } from './engines/audio/feedback-sounds.js';
 import { OnboardingScreen } from './ui/components/onboarding-screen.js';
 
 
+
+// ═══════════════════════════════════════════════════════════
+// MODÈLE FREEMIUM : 5 premiers thèmes gratuits, les autres Premium
+// ═══════════════════════════════════════════════════════════
+const FREE_THEMES = ['survival', 'family', 'market', 'numbers', 'colors'];
+
+function isThemeFree(themeId) {
+  return FREE_THEMES.includes(themeId);
+}
+
+function isThemeLocked(themeId, profile) {
+  return !isThemeFree(themeId) && !profile.isPremium;
+}
+
+
 // ═══════════════════════════════════════════════════════════
 // SUIVI DE PROGRESSION DES PARCOURS
 // ═══════════════════════════════════════════════════════════
@@ -638,6 +653,7 @@ async function handleUpgrade(btn, profile) {
   }
 }
 
+// Activité Leçon
 async function renderLesson() {
 
   const main = document.getElementById('app');
@@ -765,6 +781,124 @@ syncProfileWithJourneys();
 
   } catch (e) {
     main.innerHTML = `<p style="color:red; text-align:center;">Erreur leçon: ${e.message}</p>`;
+  }
+}
+
+
+// ═══════════════════════════════════════════════════════════
+// VUE : LEÇON - PHRASES DE CONTEXTE (Écouter et répéter les phrases)
+// ═══════════════════════════════════════════════════════════
+async function renderLessonPhrases() {
+  const main = document.getElementById('app');
+  main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement des phrases...</div>';
+  renderProgressHeader();
+
+  try {
+    const floatActions = document.getElementById('floating-home-actions');
+    if (floatActions) floatActions.remove();
+
+    const manifest = await content.loadManifest('fr');
+    const levelData = manifest.levels.find(l => l.id === currentLevel);
+    const unitId = currentTheme || levelData.units[0];
+    currentTheme = unitId;
+    const vocabData = await content.loadSection('fr', 'vocabulary', unitId);
+
+    const themeNames = {
+      'survival': 'Mots de survie', 'numbers': 'Les Nombres',
+      'family': 'La Famille', 'market': 'Au Marché', 'colors': 'Les Couleurs',
+      'numbers2': 'Nombres (11-20)', 'days': 'Les Jours', 'months': 'Les Mois',
+      'greetings': 'Salutations', 'body': 'Le Corps'
+    };
+    const themeName = themeNames[unitId] || unitId;
+
+    main.innerHTML = `
+      <section style="max-width: 700px; margin: 0 auto; padding: 2rem 1rem;">
+        <ds-button variant="ghost" size="sm" id="btn-back" style="margin-bottom: 1rem;">← Retour au thème</ds-button>
+        <div style="margin-bottom: 0.5rem;">
+          <span style="background:var(--ds-color-accent); color:white; padding:4px 10px; border-radius:20px; font-weight:600; font-size:0.8rem;">Niveau ${currentLevel}</span>
+        </div>
+        <h2 style="margin-bottom: 0.5rem;">📝 Phrases : ${themeName}</h2>
+        <p style="color:var(--ds-color-text-muted); margin-bottom: 2rem;">
+          Écoutez et répétez chaque phrase de contexte
+        </p>
+
+        <div style="display:grid; gap:1rem;">
+          ${vocabData.items.map((item, idx) => `
+            <div style="background:var(--ds-color-surface); padding:1.2rem; border-radius:var(--ds-radius-md); display:flex; justify-content:space-between; align-items:center; box-shadow:var(--ds-shadow-sm); border:1px solid var(--ds-color-border);">
+              <div style="flex:1;">
+                <div style="font-size:0.8rem; color:var(--ds-color-text-muted); margin-bottom:4px;">
+                  ${item.icon || '📝'} ${item.target} → ${item.source}
+                </div>
+                <strong style="font-size:1.1rem; color:var(--ds-color-primary); display:block; margin-bottom:4px;">
+                  "${item.context}"
+                </strong>
+                <div style="font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">
+                  (${item.contextTranslation})
+                </div>
+              </div>
+              <ds-button variant="primary" size="sm" class="play-phrase" data-phrase="${item.context}" style="min-width: 90px; margin-left:1rem;">
+                🔊 Hihainoa
+              </ds-button>
+            </div>
+          `).join('')}
+        </div>
+
+        <div style="margin-top:2rem; text-align:center;">
+          <ds-button id="btn-start-practice-phrases" size="lg" variant="success">
+            🎯 Hihainoa ny fanazaran-tena (Commencer la révision des phrases)
+          </ds-button>
+        </div>
+      </section>
+    `;
+
+    document.getElementById('btn-back').addEventListener('click', () => router.navigate('/theme-detail'));
+
+    // Allumage progressif des phrases
+    let currentPhraseIndex = 0;
+    const phraseButtons = document.querySelectorAll('.play-phrase');
+    if (phraseButtons.length > 0) {
+      phraseButtons[0].classList.add('guide-active');
+      phraseButtons[0].style.animation = 'pulse-guide 2s infinite';
+
+      phraseButtons.forEach((btn, index) => {
+        btn.addEventListener('click', () => {
+          speechSynthesis.cancel();
+          btn.textContent = '🔊 ...';
+          const u = new SpeechSynthesisUtterance(btn.dataset.phrase);
+          u.lang = 'fr-FR'; u.rate = 0.9;
+          u.onend = () => {
+            btn.textContent = ' Hihainoa';
+            btn.classList.remove('guide-active');
+            btn.style.animation = 'none';
+            currentPhraseIndex = index + 1;
+            if (currentPhraseIndex < phraseButtons.length) {
+              phraseButtons[currentPhraseIndex].classList.add('guide-active');
+              phraseButtons[currentPhraseIndex].style.animation = 'pulse-guide 2s infinite';
+            } else {
+              const btnStart = document.getElementById('btn-start-practice-phrases');
+              if (btnStart) {
+                btnStart.classList.add('guide-active');
+                btnStart.style.animation = 'pulse-green 1.5s infinite';
+              }
+            }
+          };
+          speechSynthesis.speak(u);
+        });
+      });
+    }
+
+    document.getElementById('btn-start-practice-phrases')?.addEventListener('click', () => {
+      journeyTracker.markJourneyComplete('phraseLessons', unitId);
+      router.navigate('/practice-phrases');
+    });
+
+    window.teacherAvatar.show('lesson');
+    logger.info(`✅ Page Leçon Phrases rendue pour le thème: ${unitId}`);
+    setTimeout(() => {
+      window.teacherAvatar.speak("Écoutez chaque phrase de contexte et répétez-la à voix haute !");
+    }, 1000);
+  } catch (e) {
+    main.innerHTML = `<p style="color:red; text-align:center;">Erreur: ${e.message}</p>`;
   }
 }
 
@@ -936,9 +1070,9 @@ syncProfileWithJourneys();
             <!-- ÉTAPE 1 : Écoute -->
             <div id="step-listen" class="guide-active" style="text-align:center; padding:1rem; background:var(--ds-color-surface-2); border-radius:var(--ds-radius-md);">
               <div style="font-size:0.75rem; text-transform:uppercase; color:var(--ds-color-text-muted); margin-bottom:0.5rem;">
-                Étape 1 : Hihainoa (Écoutez)
+                Étape 1 : Mihainoa (Écoutez)
               </div>
-              <ds-button variant="primary" size="md" id="btn-listen" class="guide-active">🔊 Hihainoa (Écouter)</ds-button>
+              <ds-button variant="primary" size="md" id="btn-listen" class="guide-active">🔊 Mihainoa (Écouter)</ds-button>
             </div>
 
             <!-- ÉTAPE 2 : Quiz -->
@@ -1429,8 +1563,8 @@ async function renderRolePlay() {
 
           <div style="display:flex; flex-direction:column; gap:0.75rem;">
             <div id="step-listen" class="${!isUserTurn ? 'guide-active' : ''}" style="text-align:center; padding:1rem; background:var(--ds-color-surface-2); border-radius:var(--ds-radius-md);">
-              <div style="font-size:0.75rem; text-transform:uppercase; color:var(--ds-color-text-muted); margin-bottom:0.5rem;">Étape 1 : Hihainoa (Écoutez)</div>
-              <ds-button variant="primary" size="md" id="btn-listen" class="${!isUserTurn ? 'guide-active' : ''}">🔊 Hihainoa (Écouter)</ds-button>
+              <div style="font-size:0.75rem; text-transform:uppercase; color:var(--ds-color-text-muted); margin-bottom:0.5rem;">Étape 1 : Mihainoa (Écoutez)</div>
+              <ds-button variant="primary" size="md" id="btn-listen" class="${!isUserTurn ? 'guide-active' : ''}">🔊 Mihainoa (Écouter)</ds-button>
             </div>
 
             ${isUserTurn ? `
@@ -1441,7 +1575,7 @@ async function renderRolePlay() {
               </div>
             ` : `
               <div style="text-align:center; padding:1rem; background:var(--ds-color-surface-2); border-radius:var(--ds-radius-md); color:var(--ds-color-text-muted);">
-                👂 Hihainoa an'i ${speaker.name} (Écoutez ${speaker.name})
+                👂 Mihainoa an'i ${speaker.name} (Écoutez ${speaker.name})
               </div>
             `}
 
@@ -1698,7 +1832,7 @@ async function renderChallenge() {
             ${!isUserTurn ? `
               <div id="step-listen" class="guide-active" style="text-align:center; padding:1.5rem; background:var(--ds-color-surface-2); border-radius:var(--ds-radius-md);">
                 <div style="font-size:0.75rem; text-transform:uppercase; color:var(--ds-color-text-muted); margin-bottom:0.5rem;">
-                  👂 Hihainoa an'i ${speaker.name} (Écoutez ${speaker.name})
+                  👂 Mihainoa an'i ${speaker.name} (Écoutez ${speaker.name})
                 </div>
                 <div id="partner-speaking-indicator" style="font-size:2rem; margin:1rem 0;">🔊</div>
                 <div style="font-size:0.9rem; color:var(--ds-color-text-muted);">
@@ -2020,6 +2154,7 @@ async function renderThemes() {
   try {
     const manifest = await content.loadManifest('fr');
     const levelData = manifest.levels.find(l => l.id === currentLevel);
+    const profile = await gamification.getProfile();
     currentTheme = null;
 
     // ✅ DICTIONNAIRE EXPLICITE AVEC TOUTES LES ICÔNES
@@ -2036,11 +2171,12 @@ async function renderThemes() {
       'body':      { icon: '🧍', fr: 'Le Corps', mg: 'Ny Vatana' }
     };
 
-    const journeys = journeyTracker.getCompletedJourneys();
+   const journeys = journeyTracker.getCompletedJourneys();
     const journeyTypes = ['lessons', 'practices', 'dialogues', 'roleplays', 'challenges'];
 
-       const themesHtml = levelData.units.map(unitId => {
+    const themesHtml = levelData.units.map(unitId => {
       const info = themeInfo[unitId] || { icon: '📁', fr: unitId, mg: unitId };
+      const locked = isThemeLocked(unitId, profile);
 
       let doneCount = 0;
       journeyTypes.forEach(type => {
@@ -2048,28 +2184,22 @@ async function renderThemes() {
       });
 
       let statusDot = '⚪';
-      let statusText = 'Non commencé';
-      if (doneCount === 5) { statusDot = '🟢'; statusText = 'Terminé (100%)'; }
-      else if (doneCount > 0) { statusDot = '🟠'; statusText = `En cours (${doneCount}/5)`; }
+      if (doneCount === 5) statusDot = '🟢';
+      else if (doneCount > 0) statusDot = '🟠';
 
       return `
-        <!-- ✅ CLASSES card-animate ET interactive-tap AJOUTÉES -->
         <div class="card-animate interactive-tap btn-select-theme" data-theme="${unitId}" style="
-          background:var(--ds-color-surface);
-          padding:1.5rem;
-          border-radius:var(--ds-radius-lg);
-          border:1px solid var(--ds-color-border);
-          display:flex;
-          flex-direction:column;
-          gap:0.5rem;">
-
+          background:var(--ds-color-surface); padding:1.5rem; border-radius:var(--ds-radius-lg);
+          border:1px solid var(--ds-color-border); display:flex; flex-direction:column; gap:0.5rem;
+          opacity: ${locked ? 0.6 : 1}; position: relative;">
+          ${locked ? '<div style="position:absolute; top:10px; right:10px; font-size:1.5rem;">🔒</div>' : ''}
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <!-- ✅ ICÔNE AVEC ANIMATION DE FLOTTEMENT -->
             <div class="icon-float" style="font-size: 2.5rem;">${info.icon}</div>
-            <div style="font-size: 1.5rem;" title="${statusText}">${statusDot}</div>
+            <div style="font-size: 1.5rem;" title="${doneCount}/5">${statusDot}</div>
           </div>
           <h3 style="color:var(--ds-color-primary); margin:0.5rem 0 0 0; font-size: 1.1rem;">${info.fr}</h3>
           <p style="color:var(--ds-color-text-muted); font-size:0.85rem; margin:0; font-style:italic;">${info.mg}</p>
+          ${locked ? '<p style="font-size:0.75rem; color:var(--ds-color-accent); margin-top:4px;">⭐ Premium</p>' : ''}
         </div>
       `;
     }).join('');
@@ -2089,7 +2219,13 @@ async function renderThemes() {
     document.getElementById('themes-container').addEventListener('click', (e) => {
       const card = e.target.closest('.btn-select-theme');
       if (card) {
-        currentTheme = card.dataset.theme;
+        const themeId = card.dataset.theme;
+        if (isThemeLocked(themeId, profile)) {
+          // Rediriger vers la page Premium
+          alert('Ce thème est réservé aux utilisateurs Premium. Passez à Premium pour le débloquer !');
+          return;
+        }
+        currentTheme = themeId;
         localStorage.setItem('dagospeak:theme', currentTheme);
         router.navigate('/theme-detail');
       }
@@ -2103,18 +2239,24 @@ async function renderThemes() {
 // --- VUE : DÉTAIL D'UN THÈME (Les 3 actions) ---
 async function renderThemeDetail() {
   const main = document.getElementById('app');
-  if (!currentTheme) { router.navigate('/themes'); return; }
-
+  if (!currentTheme) {
+    router.navigate('/themes');
+    return;
+  }
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement...</div>';
 
   try {
     const unitData = await content.loadSection('fr', 'vocabulary', currentTheme);
-    const themeInfo = {
-      'survival': 'Mots de survie', 'numbers': 'Nombres (1-10)', 'family': 'La Famille',
-      'market': 'Le Marché', 'colors': 'Les Couleurs', 'numbers2': 'Nombres (11-20)',
-      'days': 'Les Jours', 'months': 'Les Mois', 'greetings': 'Salutations', 'body': 'Le Corps'
+    const profile = await gamification.getProfile();
+
+    const themeNames = {
+      'survival': 'Mots de survie', 'numbers': 'Les Nombres',
+      'family': 'La Famille', 'market': 'Au Marché', 'colors': 'Les Couleurs',
+      'numbers2': 'Nombres (11-20)', 'days': 'Les Jours', 'months': 'Les Mois',
+      'greetings': 'Salutations', 'body': 'Le Corps'
     };
-    const themeName = themeInfo[currentTheme] || currentTheme;
+    const themeName = themeNames[currentTheme] || currentTheme;
+    const locked = isThemeLocked(currentTheme, profile);
 
     main.innerHTML = `
       <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem; text-align:center;">
@@ -2125,48 +2267,108 @@ async function renderThemeDetail() {
         <h1 style="margin-top:1rem; color:var(--ds-color-primary);">${themeName}</h1>
         <p style="color:var(--ds-color-text-muted); margin-bottom: 2rem;">${unitData.themeMg || ''} • ${unitData.items.length} mots</p>
 
-            <div style="display:flex; flex-direction:column; gap:1rem; text-align:left;">
+        ${locked ? `
+          <div style="background:var(--ds-color-primary-soft); padding:2rem; border-radius:var(--ds-radius-lg); border:2px solid var(--ds-color-primary); margin-bottom:2rem;">
+            <div style="font-size:3rem; margin-bottom:1rem;">🔒</div>
+            <h3 style="color:var(--ds-color-primary); margin-bottom:0.5rem;">Thème Premium</h3>
+            <p style="color:var(--ds-color-text-muted); margin-bottom:1rem;">
+              Passez à Premium pour débloquer ce thème et tous les autres.
+            </p>
+            <ds-button id="btn-unlock-theme" variant="primary" size="lg" style="width:100%;">
+              Débloquer (15 000 Ar / mois)
+            </ds-button>
+          </div>
+        ` : `
+          <div style="display:flex; flex-direction:column; gap:1rem; text-align:left;">
 
-               <!-- SECTION LEÇON -->
-               <div style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:1px solid var(--ds-color-border);">
-                 <h3 style="margin:0 0 1rem 0; color:var(--ds-color-text);">📖 Leçon (Fianarana)</h3>
-                 <ds-button variant="primary" size="md" style="width:100%; margin-bottom:0.5rem;" onclick="window.location.hash='/lesson'">
-                   1. Les Mots (Ny Teny) - <span style="font-size:0.8em; opacity:0.8;">Gratuit</span>
-                 </ds-button>
-                 <!-- ✅ CADENAS OUVERT ET BOUTON ALLUMÉ POUR LE TEST -->
-                 <ds-button variant="accent" size="md" style="width:100%; border: 2px solid var(--ds-color-accent);" onclick="alert('Module Phrases en cours de production. Redirection vers la leçon de mots pour le test.')">
-                   🔓 2. Les Phrases & Contextes - <span style="font-size:0.8em;">Premium (Mode Test)</span>
-                 </ds-button>
-               </div>
-
-               <!-- SECTION RÉVISIONS -->
-               <div style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:1px solid var(--ds-color-border);">
-                 <h3 style="margin:0 0 1rem 0; color:var(--ds-color-text);">🎯 Révisions (Fanazaran-tena)</h3>
-                 <ds-button variant="success" size="md" style="width:100%; margin-bottom:0.5rem;" onclick="window.location.hash='/practice'">
-                   1. Quiz & Shadowing (Mots) - <span style="font-size:0.8em; opacity:0.8;">Gratuit</span>
-                 </ds-button>
-                 <!-- ✅ CADENAS OUVERT ET BOUTON ALLUMÉ POUR LE TEST -->
-                 <ds-button variant="accent" size="md" style="width:100%; border: 2px solid var(--ds-color-accent);" onclick="alert('Module Phrases en cours de production. Redirection vers les révisions de mots pour le test.')">
-                   🔓 2. Quiz & Shadowing (Phrases) - <span style="font-size:0.8em;">Premium (Mode Test)</span>
-                 </ds-button>
-               </div>
-
-               <!-- SECTION DIALOGUE -->
-               <div style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:1px solid var(--ds-color-border);">
-                 <h3 style="margin:0 0 1rem 0; color:var(--ds-color-text);">💬 Dialogue (Resaka)</h3>
-                 <ds-button variant="primary" size="md" style="width:100%;" onclick="window.location.hash='/dialogues'">
-                   Écouter et jouer le dialogue - <span style="font-size:0.8em; opacity:0.8;">Gratuit</span>
-                 </ds-button>
+            <!-- SECTION 1 : LEÇON - MOTS -->
+            <div style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:1px solid var(--ds-color-border);">
+              <h3 style="margin:0 0 0.5rem 0; color:var(--ds-color-text); font-size:1rem;">📖 Étape 1 : Les Mots</h3>
+              <p style="margin:0 0 1rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">
+                Écoutez et répétez chaque mot
+              </p>
+              <ds-button id="btn-lesson-words" variant="primary" size="md" style="width:100%;">
+                1. Apprendre les mots
+              </ds-button>
             </div>
 
-     </div>
+            <!-- SECTION 2 : RÉVISION - MOTS -->
+            <div style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:1px solid var(--ds-color-border);">
+              <h3 style="margin:0 0 0.5rem 0; color:var(--ds-color-text); font-size:1rem;"> Étape 2 : Révision des Mots</h3>
+              <p style="margin:0 0 1rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">
+                Quiz + Shadowing sur les mots
+              </p>
+              <ds-button id="btn-practice-words" variant="success" size="md" style="width:100%;">
+                2. Réviser les mots
+              </ds-button>
+            </div>
+
+            <!-- SECTION 3 : LEÇON - PHRASES -->
+            <div style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:1px solid var(--ds-color-border);">
+              <h3 style="margin:0 0 0.5rem 0; color:var(--ds-color-text); font-size:1rem;">📝 Étape 3 : Les Phrases de contexte</h3>
+              <p style="margin:0 0 1rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">
+                Écoutez et répétez les phrases complètes
+              </p>
+              <ds-button id="btn-lesson-phrases" variant="primary" size="md" style="width:100%;">
+                3. Apprendre les phrases
+              </ds-button>
+            </div>
+
+            <!-- SECTION 4 : RÉVISION - PHRASES -->
+            <div style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:1px solid var(--ds-color-border);">
+              <h3 style="margin:0 0 0.5rem 0; color:var(--ds-color-text); font-size:1rem;"> Étape 4 : Révision des Phrases</h3>
+              <p style="margin:0 0 1rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">
+                Quiz + Shadowing sur les phrases
+              </p>
+              <ds-button id="btn-practice-phrases" variant="success" size="md" style="width:100%;">
+                4. Réviser les phrases
+              </ds-button>
+            </div>
+
+            <!-- SECTION 5 : DIALOGUE -->
+            <div style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:1px solid var(--ds-color-border);">
+              <h3 style="margin:0 0 0.5rem 0; color:var(--ds-color-text); font-size:1rem;">💬 Étape 5 : Dialogue</h3>
+              <p style="margin:0 0 1rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">
+                Conversation complète avec Role Play
+              </p>
+              <ds-button id="btn-dialogues" variant="accent" size="md" style="width:100%;">
+                5. Faire le dialogue
+              </ds-button>
+            </div>
+
+          </div>
+        `}
       </section>
     `;
 
     document.getElementById('btn-back-themes').addEventListener('click', () => router.navigate('/themes'));
+
+    if (locked) {
+      document.getElementById('btn-unlock-theme').addEventListener('click', () => {
+        handleUpgrade(document.getElementById('btn-unlock-theme'), profile);
+      });
+    } else {
+      document.getElementById('btn-lesson-words').addEventListener('click', () => {
+        router.navigate('/lesson');
+      });
+      document.getElementById('btn-practice-words').addEventListener('click', () => {
+        router.navigate('/practice');
+      });
+      document.getElementById('btn-lesson-phrases').addEventListener('click', () => {
+        router.navigate('/lesson-phrases');
+      });
+      document.getElementById('btn-practice-phrases').addEventListener('click', () => {
+        router.navigate('/practice-phrases');
+      });
+      document.getElementById('btn-dialogues').addEventListener('click', () => {
+        router.navigate('/dialogues');
+      });
+    }
+
     window.teacherAvatar.show('theme-detail');
   } catch (e) {
-    main.innerHTML = `<div style="text-align:center; padding:2rem; color:var(--ds-color-danger);"> <p>Erreur: ${e.message}</p> <ds-button onclick="window.location.hash='/themes'">Retour</ds-button> </div>`;
+    console.error(' Erreur renderThemeDetail:', e);
+    main.innerHTML = `<div style="text-align:center; padding:2rem; color:var(--ds-color-danger);"> <p>Erreur : ${e.message}</p> <ds-button onclick="window.location.hash='/themes'">Retour</ds-button> </div>`;
   }
 }
 
@@ -2442,7 +2644,9 @@ router.addRoute('/', renderHome);
 router.addRoute('/themes', renderThemes);
 router.addRoute('/theme-detail', renderThemeDetail);
 router.addRoute('/lesson', renderLesson);
+router.addRoute('/lesson-phrases', renderLessonPhrases); // ✅ NOUVEAU
 router.addRoute('/practice', renderPractice);
+router.addRoute('/practice-phrases', renderPracticePhrases); // ✅ NOUVEAU
 router.addRoute('/dialogues', renderDialogues);
 router.addRoute('/profile', renderProfile);
 router.addRoute('/roleplay', renderRolePlay);
