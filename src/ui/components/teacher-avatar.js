@@ -137,13 +137,16 @@ export class TeacherAvatar {
       return;
     }
 
-
-
     // ✅ Pour les autres pages, parole automatique en FRANÇAIS UNIQUEMENT
     if (this.#autoSpeakEnabled) {
       setTimeout(() => this.speak(this.#currentTip.fr), 600);
     }
   }
+
+  setAutoSpeak(enabled) {
+      this.#autoSpeakEnabled = enabled;
+      console.log('[TeacherAvatar] Auto-parole:', enabled ? 'activée' : 'désactivée');
+    }
 
   render() {
     const oldAvatar = document.getElementById('teacher-avatar-container');
