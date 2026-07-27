@@ -3000,42 +3000,6 @@ function showAppGuide() {
 }
 
 
-// ✅ SYNCHRONISATION AUTOMATIQUE DU PROFIL
-function syncProfileWithJourneys() {
-  const journeys = JSON.parse(localStorage.getItem('dagospeak:completedJourneys') ||
-    '{"lessons":[],"practices":[],"dialogues":[],"roleplays":[],"challenges":[]}');
-
-  const completedCount = Object.values(journeys).reduce((sum, arr) => sum + arr.length, 0);
-
-  // Calculer les XP
-  const totalXP =
-    (journeys.lessons.length * 20) +
-    (journeys.practices.length * 30) +
-    (journeys.dialogues.length * 25) +
-    (journeys.roleplays.length * 40) +
-    (journeys.challenges.length * 50);
-
-  // Déterminer le niveau
-  let level = 'A0';
-  if (totalXP >= 500) level = 'A2';
-  else if (totalXP >= 300) level = 'A1';
-  else if (totalXP >= 100) level = 'A0+';
-
-  // Mettre à jour le profil dans localStorage
-  const profile = {
-    xp: totalXP,
-    level: level,
-    streak: parseInt(localStorage.getItem('dagospeak:streak') || '0'),
-    badges: [],
-    completedJourneys: completedCount,
-    lastActivity: new Date().toISOString()
-  };
-
-  localStorage.setItem('dagospeak:profile', JSON.stringify(profile));
-  localStorage.setItem('dagospeak:lastActivity', new Date().toISOString());
-
-  console.log('[Profile] Synchronisé:', profile);
-}
 
 // ═══════════════════════════════════════════════════════════
 // ROUTEUR & DÉMARRAGE (Onboarding temporairement désactivé)
