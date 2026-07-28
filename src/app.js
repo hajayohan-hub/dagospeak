@@ -378,11 +378,6 @@ async function renderHome() {
     console.log('[renderHome] 5. Manifeste chargé avec succès:', manifest);
 
 
-
-    await roleManager.init();
-    const profile = await gamification.getProfile();
-    const manifest = await content.loadManifest('fr');
-
     // ✅ 1. HERO SECTION
     const heroHtml = `
       <div style="
