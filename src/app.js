@@ -3222,18 +3222,22 @@ function showSettingsModal() {
 // ═══════════════════════════════════════════════════════════
 // GESTION SÉCURISÉE DU DÉMARRAGE ET ONBOARDING
 // ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
+// DÉMARRAGE AVEC ONBOARDING
+// ═══════════════════════════════════════════════════════════
 const onboardingScreen = localStorage.getItem('dagospeak:onboardingComplete');
 
 if (onboardingScreen === 'true') {
-  console.log('[App] ✅ Onboarding déjà vu, démarrage direct du routeur...');
+  // L'utilisateur a déjà vu l'onboarding → démarrage direct
   router.start();
+  logger.info('✅ Application démarrée (onboarding déjà vu)');
 } else {
-  console.log('[App] 🎬 Premier lancement, affichage de l\'onboarding...');
+  // Premier lancement → créer l'instance et afficher l'onboarding
+  const onboarding = new OnboardingScreen();
   onboarding.show(() => {
-    // Cette fonction est appelée quand l'utilisateur clique sur "Continuer"
-    localStorage.setItem('dagospeak:onboardingComplete', 'true');
-    console.log('[App] ✅ Onboarding terminé, démarrage du routeur...');
+    // Cette fonction s'exécute quand l'utilisateur termine l'onboarding
     router.start();
+    logger.info('✅ Application démarrée (après onboarding)');
   });
 }
 
