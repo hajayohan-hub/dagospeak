@@ -312,15 +312,15 @@ export class OnboardingScreen {
     if (isLowEnd) {
       offerTitle = ' DagoSpeak Lite (Recommandé)';
       offerDesc = 'Fonctionne 100% hors-ligne avec le moteur vocal léger.';
-      offerPrice = '9 000 Ar / mois';
+      offerPrice = '15 000 Ar / mois';
     } else if (!isOnline) {
       offerTitle = '📶 DagoSpeak Standard';
       offerDesc = 'Moteur vocal local + synchronisation automatique.';
-      offerPrice = '15 000 Ar / mois';
-    } else {
-      offerTitle = '🚀 DagoSpeak Premium Cloud';
-      offerDesc = 'Reconnaissance vocale avancée par IA Cloud.';
       offerPrice = '25 000 Ar / mois';
+    } else {
+      offerTitle = '🚀 DagoSpeak Premium';
+      offerDesc = 'Reconnaissance vocale avancée par IA Cloud.';
+      offerPrice = '30 000 Ar / mois';
     }
 
     detailEl.innerHTML = `
