@@ -3211,12 +3211,23 @@ function showSettingsModal() {
 
 
 // ✅ ONBOARDING DÉSACTIVÉ TEMPORAIREMENT (Vosk désactivé)
-// Démarrage direct de l'application
-// Démarrer l'app APRÈS l'onboarding
-onboarding.show(() => {
+// ═══════════════════════════════════════════════════════════
+// DÉMARRAGE AVEC ONBOARDING
+// ═══════════════════════════════════════════════════════════
+const onboardingSeen = localStorage.getItem('dagospeak:onboardingComplete');
+
+if (onboardingSeen) {
+  // L'utilisateur a déjà vu l'onboarding → démarrage direct
   router.start();
-  logger.info('✅ Application démarrée (après onboarding)');
-});
+  logger.info('✅ Application démarrée (onboarding déjà vu)');
+} else {
+  // Premier lancement → afficher l'onboarding
+  const onboarding = new OnboardingScreen(() => {
+    // Callback appelé après l'onboarding terminé
+    router.start();
+    logger.info('✅ Application démarrée (après onboarding)');
+  });
+}
 
 // ... (Gardez tout votre code existant concernant le Service Worker et le bandeau de mise à jour PWA en dessous)
 
