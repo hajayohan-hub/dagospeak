@@ -361,10 +361,24 @@ document.getElementById('theme-toggle')?.addEventListener('click', () => {
 // ═══════════════════════════════════════════════════════════
 
 async function renderHome() {
+  console.log('[renderHome] 1. Début de la fonction');
   const main = document.getElementById('app');
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Mamakiana...</div>';
 
   try {
+
+    console.log('[renderHome] 2. Chargement de roleManager...');
+    await roleManager.init();
+
+    console.log('[renderHome] 3. Chargement du profil...');
+    const profile = await gamification.getProfile();
+
+    console.log('[renderHome] 4. Chargement du manifeste...');
+    const manifest = await content.loadManifest('fr');
+    console.log('[renderHome] 5. Manifeste chargé avec succès:', manifest);
+
+
+
     await roleManager.init();
     const profile = await gamification.getProfile();
     const manifest = await content.loadManifest('fr');
@@ -3211,14 +3225,22 @@ function showSettingsModal() {
 
 
 // ═══════════════════════════════════════════════════════════
-// DÉMARRAGE AVEC ONBOARDING FORCÉ (POUR TEST)
+// GESTION SÉCURISÉE DU DÉMARRAGE ET ONBOARDING
 // ═══════════════════════════════════════════════════════════
-const onboarding = new OnboardingScreen();
+const onboardingSeen = localStorage.getItem('dagospeak:onboardingComplete');
 
-onboarding.show(() => {
-  window.location.hash = '/';
-  logger.info('✅ Onboarding terminé, redirection vers l\'accueil');
-});
+if (onboardingSeen === 'true') {
+  console.log('[App] ✅ Onboarding déjà vu, démarrage direct du routeur...');
+  router.start();
+} else {
+  console.log('[App] 🎬 Premier lancement, affichage de l\'onboarding...');
+  onboarding.show(() => {
+    // Cette fonction est appelée quand l'utilisateur clique sur "Continuer"
+    localStorage.setItem('dagospeak:onboardingComplete', 'true');
+    console.log('[App] ✅ Onboarding terminé, démarrage du routeur...');
+    router.start();
+  });
+}
 
 // Mise à jour de l'état actif de la barre de navigation mobile
 function updateMobileNavActiveState() {
@@ -3228,10 +3250,9 @@ function updateMobileNavActiveState() {
   });
 }
 
-
-// Appeler cette fonction à chaque changement de route
 window.addEventListener('hashchange', updateMobileNavActiveState);
 updateMobileNavActiveState(); // Appel initial
+
 
 // ═══════════════════════════════════════════════════════════
 // GESTION AUTOMATIQUE DES MISES À JOUR PWA
