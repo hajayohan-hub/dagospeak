@@ -3212,24 +3212,11 @@ function showSettingsModal() {
 
 // ✅ ONBOARDING DÉSACTIVÉ TEMPORAIREMENT (Vosk désactivé)
 // ═══════════════════════════════════════════════════════════
-// DÉMARRAGE AVEC ONBOARDING
-// ═══════════════════════════════════════════════════════════
-const onboardingSeen = localStorage.getItem('dagospeak:onboardingComplete');
-
-if (onboardingSeen) {
-  // L'utilisateur a déjà vu l'onboarding → démarrage direct
+// On crée l'instance. Le code entre parenthèses s'exécutera quand l'utilisateur aura fini l'onboarding.
+const onboarding = new OnboardingScreen(() => {
   router.start();
-  logger.info('✅ Application démarrée (onboarding déjà vu)');
-} else {
-  // Premier lancement → afficher l'onboarding
-  const onboarding = new OnboardingScreen(() => {
-    // Callback appelé après l'onboarding terminé
-    router.start();
-    logger.info('✅ Application démarrée (après onboarding)');
-  });
-}
-
-// ... (Gardez tout votre code existant concernant le Service Worker et le bandeau de mise à jour PWA en dessous)
+  logger.info('✅ Application démarrée (après onboarding)');
+});
 
 // Mise à jour de l'état actif de la barre de navigation mobile
 function updateMobileNavActiveState() {
@@ -3238,6 +3225,7 @@ function updateMobileNavActiveState() {
     link.classList.toggle('active', link.dataset.route === currentHash);
   });
 }
+
 
 // Appeler cette fonction à chaque changement de route
 window.addEventListener('hashchange', updateMobileNavActiveState);
