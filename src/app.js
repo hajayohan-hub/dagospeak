@@ -929,8 +929,8 @@ syncProfileWithJourneys();
     logger.info(`✅ Page Leçon rendue pour le thème: ${unitId}`);
 
     setTimeout(() => {
-      window.teacherAvatar.speak("Vous avez appris les mots de ce thème. Maintenant, cliquez sur Commencer la pratique pour tester vos connaissances !");
-    }, 1000);
+        window.teacherAvatar.speak("Vous avez appris les mots. Cliquez sur Commencer la pratique pour tester vos connaissances !");
+      }, 1000);
 
 
   } catch (e) {
@@ -1425,8 +1425,8 @@ syncProfileWithJourneys();
 
       // Voix du Teacher Avatar pour féliciter
       setTimeout(() => {
-        window.teacherAvatar.speak("Félicitations ! Vous avez terminé la session de révision. Passons aux dialogues maintenant !");
-      }, 800);
+          window.teacherAvatar.speak("Excellent ! Vous maîtrisez les mots. Passons maintenant à l'apprentissage des phrases !");
+        }, 800);
 
       main.innerHTML = `
         <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem; text-align:center;">
@@ -1735,7 +1735,7 @@ async function renderPracticePhrases() {
               Pratiquez maintenant avec une conversation complète !
             </p>
             <ds-button id="btn-go-dialogues" size="lg" variant="success" class="guide-active" style="width:100%;">
-              Manomboka ny Dialogue →
+              💬 Manomboka ny Dialogue → (Commencer le dialogue)
             </ds-button>
           </div>
           <ds-button id="btn-back-themes" variant="ghost" size="sm" style="width:100%;">
