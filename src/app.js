@@ -3235,7 +3235,26 @@ updateMobileNavActiveState(); // Appel initial
 // GESTION AUTOMATIQUE DES MISES À JOUR PWA
 // ═══════════════════════════════════════════════════════════
 // ═══════════════════════════════════════════════════════════
-// GESTION DES MISES À JOUR AUTOMATIQUES
+// DÉMARRAGE DE L'APPLICATION AVEC ONBOARDING
+// ═══════════════════════════════════════════════════════════
+const onboarding = new OnboardingScreen(() => {
+  router.start();
+  logger.info('✅ Application démarrée (après onboarding)');
+});
+
+// Mise à jour de l'état actif de la barre de navigation mobile
+function updateMobileNavActiveState() {
+  const currentHash = window.location.hash.slice(1) || '/';
+  document.querySelectorAll('.ds-mobile-nav a').forEach(link => {
+    link.classList.toggle('active', link.dataset.route === currentHash);
+  });
+}
+
+window.addEventListener('hashchange', updateMobileNavActiveState);
+updateMobileNavActiveState(); // Appel initial
+
+// ═══════════════════════════════════════════════════════════
+// GESTION DES MISES À JOUR PWA (Service Worker)
 // ═══════════════════════════════════════════════════════════
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
@@ -3243,72 +3262,21 @@ if ('serviceWorker' in navigator) {
       const registration = await navigator.serviceWorker.register('/sw.js');
       console.log('[App] ✅ SW enregistré:', registration.scope);
 
-      // Écouter les messages du SW (nouvelle version disponible)
       navigator.serviceWorker.addEventListener('message', (event) => {
         if (event.data && event.data.type === 'NEW_VERSION') {
-          console.log('[App] 🔄 Nouvelle version détectée, reload dans 3 secondes...');
-
-          // Affiche un bandeau discret
-          const banner = document.createElement('div');
-          banner.id = 'update-banner';
-          banner.style.cssText = `
-            position: fixed;
-            bottom: 90px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--ds-color-primary, #2563eb);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            z-index: 9999;
-            font-size: 0.9rem;
-            font-weight: 500;
-            animation: slideUp 0.3s ease-out;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-          `;
-          banner.innerHTML = `
-            <span>🔄 Mise à jour disponible</span>
-            <button id="btn-reload-now" style="background:white; color:var(--ds-color-primary,#2563eb); border:none; padding:6px 12px; border-radius:20px; font-weight:bold; cursor:pointer;">Actualiser</button>
-          `;
-          document.body.appendChild(banner);
-
-          // Style pour l'animation
-          if (!document.getElementById('update-banner-style')) {
-            const style = document.createElement('style');
-            style.id = 'update-banner-style';
-            style.innerHTML = `@keyframes slideUp { from { transform: translate(-50%, 100%); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }`;
-            document.head.appendChild(style);
-          }
-
-          // Bouton reload manuel
-          document.getElementById('btn-reload-now').addEventListener('click', () => {
-            window.location.reload();
-          });
-
-          // Auto-reload après 3 secondes si l'utilisateur ne clique pas
-          setTimeout(() => {
-            if (document.getElementById('update-banner')) {
-              window.location.reload();
-            }
-          }, 3000);
+          console.log('[App] 🔄 Nouvelle version détectée, reload...');
+          setTimeout(() => window.location.reload(), 3000);
         }
       });
 
-      // Vérifie les mises à jour toutes les 5 minutes
-      setInterval(() => {
-        registration.update().then(() => {
-          console.log('[App] 🔄 Vérification des mises à jour...');
-        });
-      }, 5 * 60 * 1000);
-
+      setInterval(() => registration.update(), 5 * 60 * 1000);
     } catch (error) {
       console.warn('[App] ⚠️ Échec SW:', error);
     }
   });
 }
+
+logger.info('✅ Initialisation de DagoSpeak terminée');
 
 function showUpdateBanner() {
   if (document.getElementById('pwa-update-banner')) return;
