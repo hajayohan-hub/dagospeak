@@ -2652,31 +2652,43 @@ async function renderThemes() {
       const info = themeInfo[unitId] || { icon: '📁', fr: unitId, mg: unitId };
       const locked = isThemeLocked(unitId, profile);
 
+      // ✅ Calcul de la progression (uniquement si déverrouillé)
       let doneCount = 0;
-      journeyTypes.forEach(type => {
-        if (journeys[type] && journeys[type].includes(unitId)) doneCount++;
-      });
+      if (!locked) {
+        journeyTypes.forEach(type => {
+          if (journeys[type] && journeys[type].includes(unitId)) doneCount++;
+        });
+      }
 
-      let statusDot = '⚪';
-      if (doneCount === 5) statusDot = '🟢';
-      else if (doneCount > 0) statusDot = '🟠';
+      // ✅ Afficher le cadenas OU le point de progression, jamais les deux
+      let statusIndicator = '';
+      if (locked) {
+        statusIndicator = '<div style="font-size: 1.8rem;" title="Premium">🔒</div>';
+      } else {
+        let statusDot = '⚪';
+        if (doneCount === 5) statusDot = '🟢';
+        else if (doneCount > 0) statusDot = '🟠';
+        statusIndicator = `<div style="font-size: 1.5rem;" title="${doneCount}/5">${statusDot}</div>`;
+      }
 
-      return `
-        <div class="card-animate interactive-tap btn-select-theme" data-theme="${unitId}" style="
-          background:var(--ds-color-surface); padding:1.5rem; border-radius:var(--ds-radius-lg);
-          border:1px solid var(--ds-color-border); display:flex; flex-direction:column; gap:0.5rem;
-          opacity: ${locked ? 0.6 : 1}; position: relative;">
-          ${locked ? '<div style="position:absolute; top:10px; right:10px; font-size:1.5rem;">🔒</div>' : ''}
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div class="icon-float" style="font-size: 2.5rem;">${info.icon}</div>
-            <div style="font-size: 1.5rem;" title="${doneCount}/5">${statusDot}</div>
-          </div>
-          <h3 style="color:var(--ds-color-primary); margin:0.5rem 0 0 0; font-size: 1.1rem;">${info.fr}</h3>
-          <p style="color:var(--ds-color-text-muted); font-size:0.85rem; margin:0; font-style:italic;">${info.mg}</p>
-          ${locked ? '<p style="font-size:0.75rem; color:var(--ds-color-accent); margin-top:4px;">⭐ Premium</p>' : ''}
-        </div>
-      `;
-    }).join('');
+            return `
+              <div class="card-animate interactive-tap btn-select-theme" data-theme="${unitId}" style="
+                background:var(--ds-color-surface); padding:1.5rem; border-radius:var(--ds-radius-lg);
+                border:1px solid var(--ds-color-border); display:flex; flex-direction:column; gap:0.5rem;
+                opacity: ${locked ? 0.6 : 1}; position: relative; cursor: ${locked ? 'not-allowed' : 'pointer'};">
+
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <div class="icon-float" style="font-size: 2.5rem;">${info.icon}</div>
+                  ${statusIndicator}
+                </div>
+
+                <h3 style="color:var(--ds-color-primary); margin:0.5rem 0 0 0; font-size: 1.1rem;">${info.fr}</h3>
+                <p style="color:var(--ds-color-text-muted); font-size:0.85rem; margin:0; font-style:italic;">${info.mg}</p>
+
+                ${locked ? '<p style="font-size:0.75rem; color:var(--ds-color-accent); margin-top:4px; font-weight:600;">⭐ Premium requis</p>' : ''}
+              </div>
+            `;
+          }).join('');
 
     main.innerHTML = `
       <section style="max-width: 700px; margin: 0 auto; padding: 2rem 1rem;">
