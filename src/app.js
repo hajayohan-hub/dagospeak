@@ -3212,8 +3212,11 @@ function showSettingsModal() {
 
 // ✅ ONBOARDING DÉSACTIVÉ TEMPORAIREMENT (Vosk désactivé)
 // Démarrage direct de l'application
-router.start();
-logger.info('✅ Application démarrée (mode normal)');
+// Démarrer l'app APRÈS l'onboarding
+onboarding.show(() => {
+  router.start();
+  logger.info('✅ Application démarrée (après onboarding)');
+});
 
 // ... (Gardez tout votre code existant concernant le Service Worker et le bandeau de mise à jour PWA en dessous)
 
