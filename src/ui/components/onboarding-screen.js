@@ -9,7 +9,7 @@ export class OnboardingScreen {
     {
       icon: '🇲🇬',
       title: 'Manahoana ! Bienvenue sur DagoSpeak',
-      text: 'Apprenez le malgache à votre rythme, où que vous soyez, même sans internet.',
+      text: 'Apprenez le français à votre rythme, où que vous soyez, même sans internet.',
       action: 'Suivant'
     },
     {
@@ -26,36 +26,66 @@ export class OnboardingScreen {
     }
   ];
 
-  constructor(onCompleteCallback) {
+  constructor() {
+    // Le constructeur ne fait rien - on attend l'appel à show()
+  }
+
+  show(onCompleteCallback) {
     this.#onComplete = onCompleteCallback;
+    this.#currentSlide = 0;
     this.#render();
   }
 
   #render() {
+    // Supprimer l'ancien container s'il existe
+    if (this.#container) {
+      this.#container.remove();
+    }
+
     this.#container = document.createElement('div');
     this.#container.id = 'onboarding-screen';
     this.#container.style.cssText = `
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: var(--ds-color-bg); z-index: 10000;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      padding: 2rem; text-align: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--ds-color-bg);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
     `;
-    this.#updateSlide();
+
     document.body.appendChild(this.#container);
+    this.#updateSlide();
   }
 
   #updateSlide() {
     const slide = this.#slides[this.#currentSlide];
 
     if (this.#currentSlide < 2) {
-      // ✅ Slides 0 et 1 : Afficher le bouton "Suivant"
+      // Slides 0 et 1 : Afficher le bouton "Suivant"
       this.#container.innerHTML = `
         <div style="font-size: 5rem; margin-bottom: 1rem;">${slide.icon}</div>
         <h2 style="color: var(--ds-color-primary); margin-bottom: 1rem;">${slide.title}</h2>
         <p style="color: var(--ds-color-text-muted); font-size: 1.1rem; margin-bottom: 2rem; line-height: 1.6;">${slide.text}</p>
-        <ds-button id="btn-next-slide" size="lg" variant="primary" style="width: 100%; max-width: 300px;">
+        <button id="btn-next-slide" style="
+          background: var(--ds-color-primary);
+          color: white;
+          border: none;
+          padding: 14px 32px;
+          border-radius: 50px;
+          font-weight: bold;
+          font-size: 1rem;
+          cursor: pointer;
+          min-width: 200px;
+        ">
           ${slide.action} →
-        </ds-button>
+        </button>
         <div style="margin-top: 2rem; display: flex; gap: 0.5rem;">
           ${this.#slides.map((_, i) => `
             <div style="width: 10px; height: 10px; border-radius: 50%; background: ${i === this.#currentSlide ? 'var(--ds-color-primary)' : 'var(--ds-color-border)'}; transition: background 0.3s;"></div>
@@ -63,7 +93,7 @@ export class OnboardingScreen {
         </div>
       `;
 
-      // ✅ Attacher l'event listener UNIQUEMENT si le bouton existe
+      // Attacher l'event listener AU BOUTON
       const btnNext = document.getElementById('btn-next-slide');
       if (btnNext) {
         btnNext.addEventListener('click', () => {
@@ -72,7 +102,7 @@ export class OnboardingScreen {
         });
       }
     } else {
-      // ✅ Slide 2 : Afficher la zone de téléchargement
+      // Slide 2 : Afficher la zone de téléchargement
       this.#container.innerHTML = `
         <div style="font-size: 5rem; margin-bottom: 1rem;">${slide.icon}</div>
         <h2 style="color: var(--ds-color-primary); margin-bottom: 1rem;">${slide.title}</h2>
@@ -86,52 +116,52 @@ export class OnboardingScreen {
         </div>
       `;
 
-      // ✅ Démarrer le setup intelligent
+      // Démarrer le setup intelligent
       this.#startSmartSetup();
     }
   }
 
- async #startSmartSetup() {
-  const statusEl = document.getElementById('setup-status');
-  const progressEl = document.getElementById('setup-progress');
-  const detailEl = document.getElementById('setup-detail');
+  async #startSmartSetup() {
+    const statusEl = document.getElementById('setup-status');
+    const progressEl = document.getElementById('setup-progress');
+    const detailEl = document.getElementById('setup-detail');
 
-  try {
-    // Étape 1 : Vérification espace
-    detailEl.textContent = 'Vérification de l\'espace disponible...';
-    progressEl.style.width = '10%';
-    await new Promise(r => setTimeout(r, 500));
+    try {
+      detailEl.textContent = 'Vérification de l\'espace disponible...';
+      if (navigator.storage && navigator.storage.estimate) {
+        const estimate = await navigator.storage.estimate();
+        const availableMB = (estimate.quota - estimate.usage) / (1024 * 1024);
+        if (availableMB < 60) {
+          throw new Error('Espace insuffisant. Libérez environ 60 Mo pour activer le mode hors-ligne.');
+        }
+      }
 
-    // Étape 2 : Sécurisation stockage
-    detailEl.textContent = 'Sécurisation du stockage...';
-    progressEl.style.width = '30%';
-    if (navigator.storage && navigator.storage.persist) {
-      await navigator.storage.persist();
+      detailEl.textContent = 'Sécurisation du stockage...';
+      if (navigator.storage && navigator.storage.persist) {
+        await navigator.storage.persist();
+      }
+
+      detailEl.textContent = 'Téléchargement du moteur vocal (~40 Mo)...';
+      progressEl.style.width = '10%';
+
+      // Simuler le téléchargement (à remplacer par le vrai téléchargement Vosk/Whisper)
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      progressEl.style.width = '50%';
+      detailEl.textContent = 'Optimisation pour votre appareil...';
+
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      progressEl.style.width = '100%';
+      detailEl.textContent = 'Préparation terminée !';
+
+      // Afficher l'offre dynamique
+      this.#showDynamicOffer();
+    } catch (error) {
+      statusEl.textContent = 'Configuration interrompue';
+      statusEl.style.color = 'var(--ds-color-danger)';
+      detailEl.textContent = error.message + ' Vous pourrez réessayer plus tard dans les paramètres.';
+      setTimeout(() => this.#finishOnboarding(), 5000);
     }
-    await new Promise(r => setTimeout(r, 500));
-
-    // Étape 3 : Préparation cache
-    detailEl.textContent = 'Préparation du mode hors-ligne...';
-    progressEl.style.width = '60%';
-    await new Promise(r => setTimeout(r, 800));
-
-    // Étape 4 : Chargement des contenus
-    detailEl.textContent = 'Chargement des leçons...';
-    progressEl.style.width = '90%';
-    await new Promise(r => setTimeout(r, 600));
-
-    // Terminé !
-    progressEl.style.width = '100%';
-    await new Promise(r => setTimeout(r, 300));
-
-    this.#showDynamicOffer();
-  } catch (error) {
-    statusEl.textContent = 'Configuration interrompue';
-    statusEl.style.color = 'var(--ds-color-danger)';
-    detailEl.textContent = error.message + ' Vous pourrez réessayer plus tard.';
-    setTimeout(() => this.#finishOnboarding(), 3000);
   }
-}
 
   #showDynamicOffer() {
     const statusEl = document.getElementById('setup-status');
@@ -166,8 +196,28 @@ export class OnboardingScreen {
         <h3 style="color: var(--ds-color-primary); margin-bottom: 0.5rem;">${offerTitle}</h3>
         <p style="font-size: 0.9rem; color: var(--ds-color-text-muted); margin-bottom: 1rem;">${offerDesc}</p>
         <div style="font-size: 1.5rem; font-weight: bold; color: var(--ds-color-text); margin-bottom: 1rem;">${offerPrice}</div>
-        <ds-button id="btn-claim-offer" size="lg" variant="success" style="width: 100%;">Choisir cette offre</ds-button>
-        <ds-button id="btn-skip-offer" size="md" variant="ghost" style="width: 100%; margin-top: 0.5rem;">Continuer gratuitement (Fonctions limitées)</ds-button>
+        <button id="btn-claim-offer" style="
+          width: 100%;
+          background: var(--ds-color-success);
+          color: white;
+          border: none;
+          padding: 14px;
+          border-radius: 12px;
+          font-weight: bold;
+          font-size: 1rem;
+          cursor: pointer;
+          margin-bottom: 0.5rem;
+        ">Choisir cette offre</button>
+        <button id="btn-skip-offer" style="
+          width: 100%;
+          background: transparent;
+          color: var(--ds-color-text-muted);
+          border: 1px solid var(--ds-color-border);
+          padding: 12px;
+          border-radius: 12px;
+          font-size: 0.9rem;
+          cursor: pointer;
+        ">Continuer gratuitement (Fonctions limitées)</button>
       </div>
     `;
 
@@ -182,11 +232,19 @@ export class OnboardingScreen {
 
   #finishOnboarding() {
     localStorage.setItem('dagospeak:onboardingComplete', 'true');
-    this.#container.style.opacity = '0';
-    this.#container.style.transition = 'opacity 0.5s';
-    setTimeout(() => {
-      this.#container.remove();
-      if (this.#onComplete) this.#onComplete();
-    }, 500);
+
+    if (this.#container) {
+      this.#container.style.opacity = '0';
+      this.#container.style.transition = 'opacity 0.5s';
+
+      setTimeout(() => {
+        if (this.#container) {
+          this.#container.remove();
+        }
+        if (this.#onComplete) {
+          this.#onComplete();
+        }
+      }, 500);
+    }
   }
 }
