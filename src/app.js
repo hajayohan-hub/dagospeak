@@ -3214,8 +3214,9 @@ function showSettingsModal() {
 // DÉMARRAGE AVEC ONBOARDING FORCÉ (POUR TEST)
 // ═══════════════════════════════════════════════════════════
 const onboarding = new OnboardingScreen(() => {
-  router.start();
-  logger.info('✅ Application démarrée (après onboarding)');
+  // Force explicitement le hash sur '/' pour déclencher le rendu de renderHome()
+  window.location.hash = '/';
+  logger.info('✅ Onboarding terminé, redirection vers l\'accueil');
 });
 
 // ⚠️ POUR TEST : Affiche l'onboarding à CHAQUE ouverture
