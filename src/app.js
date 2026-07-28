@@ -3213,14 +3213,12 @@ function showSettingsModal() {
 // ═══════════════════════════════════════════════════════════
 // DÉMARRAGE AVEC ONBOARDING FORCÉ (POUR TEST)
 // ═══════════════════════════════════════════════════════════
-const onboarding = new OnboardingScreen(() => {
-  // Force explicitement le hash sur '/' pour déclencher le rendu de renderHome()
+const onboarding = new OnboardingScreen();
+
+onboarding.show(() => {
   window.location.hash = '/';
   logger.info('✅ Onboarding terminé, redirection vers l\'accueil');
 });
-
-// ⚠️ POUR TEST : Affiche l'onboarding à CHAQUE ouverture
-onboarding.show();
 
 // Mise à jour de l'état actif de la barre de navigation mobile
 function updateMobileNavActiveState() {

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  <!-- Fond blanc brillant -->
+  <circle cx="50" cy="50" r="48" fill="#ffffff" filter="url(#glow)" />
+  <!-- Lettre D brillante, agrandie et parfaitement centrée -->
+  <text x="50" y="66" font-family="Arial, sans-serif" font-size="80" font-weight="900" fill="#2563eb" text-anchor="middle" filter="url(#glow)">D</text>
+  <!-- Bande du drapeau malgache en bas -->
+  <path d="M 10 80 A 40 40 0 0 0 90 80 L 90 88 A 40 40 0 0 1 10 88 Z" fill="#FC3D28" />
+  <path d="M 10 80 A 40 40 0 0 0 50 80 L 50 88 A 40 40 0 0 1 10 88 Z" fill="#FFFFFF" />
+</svg>
