@@ -3210,13 +3210,17 @@ function showSettingsModal() {
 }
 
 
-// ✅ ONBOARDING DÉSACTIVÉ TEMPORAIREMENT (Vosk désactivé)
 // ═══════════════════════════════════════════════════════════
-// On crée l'instance. Le code entre parenthèses s'exécutera quand l'utilisateur aura fini l'onboarding.
+// DÉMARRAGE AVEC ONBOARDING FORCÉ (À chaque ouverture)
+// ═══════════════════════════════════════════════════════════
 const onboarding = new OnboardingScreen(() => {
+  // Cette fonction s'exécute uniquement quand l'utilisateur a cliqué sur "Continuer"
   router.start();
   logger.info('✅ Application démarrée (après onboarding)');
 });
+
+// On l'affiche systématiquement à chaque chargement de la page, sans condition
+onboarding.show();
 
 // Mise à jour de l'état actif de la barre de navigation mobile
 function updateMobileNavActiveState() {

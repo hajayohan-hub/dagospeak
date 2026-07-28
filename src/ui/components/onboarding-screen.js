@@ -230,19 +230,19 @@ export class OnboardingScreen {
     });
   }
 
-  #finishOnboarding() {
-    localStorage.setItem('dagospeak:onboardingComplete', 'true');
+    #finishOnboarding() {
+    // On ne sauvegarde PAS dans le localStorage, ainsi il s'affichera à chaque fois
+    // localStorage.removeItem('dagospeak:onboardingComplete');
 
     if (this.#container) {
       this.#container.style.opacity = '0';
       this.#container.style.transition = 'opacity 0.5s';
-
       setTimeout(() => {
         if (this.#container) {
           this.#container.remove();
         }
         if (this.#onComplete) {
-          this.#onComplete();
+          this.#onComplete(); // Déclenche le router.start()
         }
       }, 500);
     }
