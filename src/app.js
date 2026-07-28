@@ -672,89 +672,94 @@ async function renderAbout() {
         </section>
       `;
     } else if (tab === 'offers') {
-      main.innerHTML = `
-        <section style="max-width: 700px; margin: 0 auto; padding: 2rem 1rem;">
-          <ds-button variant="ghost" size="sm" id="btn-back" style="margin-bottom: 1rem;">← Miverina (Retour)</ds-button>
-          <h1 style="text-align: center; margin-bottom: 2rem;">💰 Tolotra (Offres)</h1>
+  main.innerHTML = `
+    <section style="max-width: 700px; margin: 0 auto; padding: 2rem 1rem;">
+      <ds-button variant="ghost" size="sm" id="btn-back" style="margin-bottom: 1rem;">← Miverina (Retour)</ds-button>
+      <h1 style="text-align: center; margin-bottom: 2rem;">💰 Tolotra (Offres)</h1>
 
-          <div style="display: grid; gap: 1.5rem;">
-            <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); border: 2px solid var(--ds-color-border);">
-              <h3 style="color: var(--ds-color-text); margin-bottom: 0.5rem;">🆓 Version Gratuite</h3>
-              <p style="color: var(--ds-color-text-muted); margin-bottom: 1rem;">Pour toujours</p>
-              <ul style="line-height: 1.8; padding-left: 1.5rem; margin-bottom: 1rem;">
-                <li>✅ Niveau A0 complet</li>
-                <li>✅ 5 thèmes de base</li>
-                <li>✅ Mode hors-ligne</li>
-                <li>❌ Niveaux avancés (A1, A2, B1, B2, C1, C2)</li>
-                <li>❌ IA de correction avancée</li>
-              </ul>
-              <div style="font-size: 1.5rem; font-weight: bold; color: var(--ds-color-text);">0 Ar / mois</div>
-            </div>
+      <div style="background: var(--ds-color-primary-soft); padding: 1.5rem; border-radius: var(--ds-radius-lg); border: 1px solid var(--ds-color-primary); margin-bottom: 2rem; text-align: center;">
+        <h3 style="color: var(--ds-color-primary); margin-bottom: 0.5rem;">🎓 Offres basées sur les niveaux d'apprentissage</h3>
+        <p style="color: var(--ds-color-text-muted); font-size: 0.9rem; margin: 0;">
+          Notre plateforme évolue avec vous. Commencez gratuitement et passez au Premium quand vous êtes prêt.
+        </p>
+      </div>
 
-            <div style="background: var(--ds-color-primary-soft); padding: 2rem; border-radius: var(--ds-radius-lg); border: 2px solid var(--ds-color-primary); position: relative;">
-              <div style="position: absolute; top: -10px; right: 20px; background: var(--ds-color-accent); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">POPULAIRE</div>
-              <h3 style="color: var(--ds-color-primary); margin-bottom: 0.5rem;">⭐ Premium</h3>
-              <p style="color: var(--ds-color-text-muted); margin-bottom: 1rem;">Abonnement mensuel</p>
-              <ul style="line-height: 1.8; padding-left: 1.5rem; margin-bottom: 1rem;">
-                <li>✅ Tous les niveaux (A0 à C2)</li>
-                <li>✅ Une langue séléctionnée</li>
-                <li>✅ IA de correction avancée</li>
-                <li>✅ Certifications officielles</li>
-                <li>✅ Support prioritaire</li>
-              </ul>
-              <div style="font-size: 1.5rem; font-weight: bold; color: var(--ds-color-primary);">15 000 Ar / mois</div>
-              <ds-button size="lg" variant="primary" style="width: 100%; margin-top: 1rem;">Manomboka (Commencer)</ds-button>
-            </div>
+      <div style="display: grid; gap: 1.5rem;">
+        <!-- Option Gratuite -->
+        <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 2rem; border-radius: var(--ds-radius-lg); box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);">
+          <h3 style="margin-bottom: 0.5rem; font-size: 1.5rem;">🆓 Option Gratuite</h3>
+          <p style="margin-bottom: 1rem; opacity: 0.95;">Accès complet au niveau A0 (Débutant)</p>
+          <ul style="line-height: 1.8; padding-left: 1.5rem; margin-bottom: 1rem;">
+            <li>✅ 5 thèmes de base (Survie, Famille, Marché, Nombres, Couleurs)</li>
+            <li>✅ Mode hors-ligne complet</li>
+            <li>✅ Teacher Avatar IA</li>
+            <li>✅ Progression gamifiée</li>
+            <li>❌ Niveaux avancés (A1, A2, B1, B2, C1, C2)</li>
+            <li>❌ Certifications officielles</li>
+          </ul>
+          <div style="font-size: 1.5rem; font-weight: bold;">0 Ar / mois</div>
+        </div>
 
-            <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); border: 2px solid var(--ds-color-border);">
-              <h3 style="color: var(--ds-color-text); margin-bottom: 0.5rem;"> Certification Uniquement</h3>
-              <p style="color: var(--ds-color-text-muted); margin-bottom: 1rem;">Paiement unique</p>
-              <ul style="line-height: 1.8; padding-left: 1.5rem; margin-bottom: 1rem;">
-                <li>✅ Examen de certification A2, B2 ou C2</li>
-                <li>✅ Certificat officiel PDF</li>
-                <li>✅ Reconnaissance internationale</li>
-              </ul>
-              <div style="font-size: 1.5rem; font-weight: bold; color: var(--ds-color-text);">50 000 Ar / certification</div>
-            </div>
+        <!-- Premium Starter A0-A2 -->
+        <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); border: 2px solid var(--ds-color-primary); position: relative;">
+          <div style="position: absolute; top: -10px; right: 20px; background: var(--ds-color-accent); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">POPULAIRE</div>
+          <h3 style="color: var(--ds-color-primary); margin-bottom: 0.5rem;">⭐ Premium Starter (A0-A2)</h3>
+          <p style="color: var(--ds-color-text-muted); margin-bottom: 1rem;">Niveaux Débutant à Intermédiaire</p>
+          <ul style="line-height: 1.8; padding-left: 1.5rem; margin-bottom: 1rem;">
+            <li>✅ Tous les thèmes A0, A1, A2</li>
+            <li>✅ Dictionnaire intelligent</li>
+            <li>✅ Conversations semi-libres avec Teacher IA</li>
+            <li>✅ Examens de certification interne</li>
+            <li>✅ Certifications reconnues (World Of Training, Yelandar)</li>
+          </ul>
+          <div style="font-size: 1.3rem; font-weight: bold; color: var(--ds-color-primary); margin-bottom: 0.5rem;">
+            15 000 Ar / mois <span style="font-size: 0.9rem; font-weight: normal;">(Étudiants partenaires)</span>
           </div>
-        </section>
-      `;
-    } else if (tab === 'certification') {
-      main.innerHTML = `
-        <section style="max-width: 700px; margin: 0 auto; padding: 2rem 1rem;">
-          <ds-button variant="ghost" size="sm" id="btn-back" style="margin-bottom: 1rem;">← Miverina (Retour)</ds-button>
-          <h1 style="text-align: center; margin-bottom: 2rem;"> Certificat (Certification)</h1>
-
-          <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); box-shadow: var(--ds-shadow-md); margin-bottom: 2rem;">
-            <h2 style="color: var(--ds-color-primary); margin-bottom: 1rem;"> Niveaux de Certification</h2>
-            <div style="display: grid; gap: 1rem;">
-              <div style="padding: 1.5rem; background: var(--ds-color-success-soft); border-radius: var(--ds-radius-md); border-left: 4px solid var(--ds-color-success);">
-                <h3 style="color: var(--ds-color-success); margin-bottom: 0.5rem;">A2 - Débutant</h3>
-                <p style="font-size: 0.9rem; line-height: 1.6;">Capable de communiquer dans des situations simples du quotidien.</p>
-              </div>
-              <div style="padding: 1.5rem; background: var(--ds-color-accent-soft); border-radius: var(--ds-radius-md); border-left: 4px solid var(--ds-color-accent);">
-                <h3 style="color: var(--ds-color-accent); margin-bottom: 0.5rem;">B2 - Intermédiaire</h3>
-                <p style="font-size: 0.9rem; line-height: 1.6;">Capable de comprendre et participer à des conversations complexes.</p>
-              </div>
-              <div style="padding: 1.5rem; background: var(--ds-color-primary-soft); border-radius: var(--ds-radius-md); border-left: 4px solid var(--ds-color-primary);">
-                <h3 style="color: var(--ds-color-primary); margin-bottom: 0.5rem;">C2 - Avancé</h3>
-                <p style="font-size: 0.9rem; line-height: 1.6;">Maîtrise complète de la langue, niveau expert.</p>
-              </div>
-            </div>
+          <div style="font-size: 1.3rem; font-weight: bold; color: var(--ds-color-primary); margin-bottom: 1rem;">
+            20 000 Ar / mois <span style="font-size: 0.9rem; font-weight: normal;">(Travailleurs)</span>
           </div>
-
-          <div style="background: var(--ds-color-primary-soft); padding: 2rem; border-radius: var(--ds-radius-lg); border: 1px solid var(--ds-color-primary);">
-            <h3 style="color: var(--ds-color-primary); margin-bottom: 1rem;">📝 Comment obtenir votre certification ?</h3>
-            <ol style="line-height: 1.8; padding-left: 1.5rem;">
-              <li>Complétez tous les parcours du niveau souhaité</li>
-              <li>Atteignez un score minimum de 80% aux révisions</li>
-              <li>Passez l'examen de certification (50 000 Ar)</li>
-              <li>Recevez votre certificat officiel par email</li>
-            </ol>
+          <div style="font-size: 0.9rem; color: var(--ds-color-text-muted); margin-bottom: 1rem;">
+            Certification A2 : 50 000 Ar (une fois)
           </div>
-        </section>
-      `;
-    }
+          <ds-button size="lg" variant="primary" style="width: 100%;">Manomboka (Commencer)</ds-button>
+        </div>
+
+        <!-- Premium B1-B2 -->
+        <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); border: 2px solid var(--ds-color-border);">
+          <h3 style="color: var(--ds-color-text); margin-bottom: 0.5rem;">🎯 Premium Intermédiaire (B1-B2)</h3>
+          <p style="color: var(--ds-color-text-muted); margin-bottom: 1rem;">Niveau Intermédiaire à Avancé</p>
+          <ul style="line-height: 1.8; padding-left: 1.5rem; margin-bottom: 1rem;">
+            <li>✅ Tous les thèmes B1, B2</li>
+            <li>✅ Conversations avancées</li>
+            <li>✅ Certification B2 reconnue</li>
+          </ul>
+          <div style="font-size: 1.5rem; font-weight: bold; color: var(--ds-color-text);">25 000 Ar / mois</div>
+        </div>
+
+        <!-- Premium C1-C2 -->
+        <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); border: 2px solid var(--ds-color-border);">
+          <h3 style="color: var(--ds-color-text); margin-bottom: 0.5rem;">🏆 Premium Expert (C1-C2)</h3>
+          <p style="color: var(--ds-color-text-muted); margin-bottom: 1rem;">Niveau Expert à Maîtrise</p>
+          <ul style="line-height: 1.8; padding-left: 1.5rem; margin-bottom: 1rem;">
+            <li>✅ Tous les thèmes C1, C2</li>
+            <li>✅ Conversations libres avec IA</li>
+            <li>✅ Certification C2 reconnue</li>
+          </ul>
+          <div style="font-size: 1.5rem; font-weight: bold; color: var(--ds-color-text);">30 000 Ar / mois</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 2rem; padding: 1.5rem; background: var(--ds-color-surface-2); border-radius: var(--ds-radius-lg); text-align: center;">
+        <p style="margin: 0; font-size: 0.9rem; color: var(--ds-color-text-muted);">
+           Propulsé par <strong>CPA Madagascar</strong> et les équipes de <strong>Web Services Mada</strong>, <strong>Mobile Services Mada</strong> de <strong>MDS (Mada Digital Services)</strong>
+        </p>
+        <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: var(--ds-color-text-muted);">
+          🎓 Partenaires de certification : <strong>World Of Training</strong> et <strong>Yelandar</strong>
+        </p>
+      </div>
+    </section>
+  `;
+}
 
     // Ajouter les onglets de navigation
     const tabsHtml = `
@@ -3223,30 +3228,33 @@ function showSettingsModal() {
 // GESTION SÉCURISÉE DU DÉMARRAGE ET ONBOARDING
 // ═══════════════════════════════════════════════════════════
 // ═══════════════════════════════════════════════════════════
-// DÉMARRAGE AVEC ONBOARDING
+// DÉMARRAGE AVEC ONBOARDING TOUJOURS ACTIF
+// L'onboarding s'exécute toujours si l'app a été fermée
 // ═══════════════════════════════════════════════════════════
-const onboardingScreen = localStorage.getItem('dagospeak:onboardingComplete');
+const onboarding = new OnboardingScreen();
 
-if (onboardingScreen === 'true') {
-  // L'utilisateur a déjà vu l'onboarding → démarrage direct
+// Vérifier si l'utilisateur est Premium pour reconnexion automatique
+const userType = localStorage.getItem('dagospeak:userType');
+const isPremium = localStorage.getItem('dagospeak:isPremium') === 'true';
+
+if (isPremium) {
+  // Reconnexion automatique pour les Premium
+  logger.info('✅ Reconnexion automatique Premium');
   router.start();
-  logger.info('✅ Application démarrée (onboarding déjà vu)');
 } else {
-  // Premier lancement → créer l'instance et afficher l'onboarding
-  const onboarding = new OnboardingScreen();
-  onboarding.show(() => {
-    // Cette fonction s'exécute quand l'utilisateur termine l'onboarding
-    router.start();
-    logger.info('✅ Application démarrée (après onboarding)');
-  });
-}
-
-// Mise à jour de l'état actif de la barre de navigation mobile
-function updateMobileNavActiveState() {
-  const currentHash = window.location.hash.slice(1) || '/';
-  document.querySelectorAll('.ds-mobile-nav a').forEach(link => {
-    link.classList.toggle('active', link.dataset.route === currentHash);
-  });
+  // Afficher l'onboarding
+  onboarding.show(
+    () => {
+      // Callback quand l'onboarding est terminé
+      router.start();
+      logger.info('✅ Application démarrée (après onboarding)');
+    },
+    () => {
+      // Callback quand l'utilisateur skip l'onboarding
+      router.start();
+      logger.info('✅ Application démarrée (onboarding skipé)');
+    }
+  );
 }
 
 window.addEventListener('hashchange', updateMobileNavActiveState);
