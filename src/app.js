@@ -3211,15 +3211,14 @@ function showSettingsModal() {
 
 
 // ═══════════════════════════════════════════════════════════
-// DÉMARRAGE AVEC ONBOARDING FORCÉ (À chaque ouverture)
+// DÉMARRAGE AVEC ONBOARDING FORCÉ (POUR TEST)
 // ═══════════════════════════════════════════════════════════
 const onboarding = new OnboardingScreen(() => {
-  // Cette fonction s'exécute uniquement quand l'utilisateur a cliqué sur "Continuer"
   router.start();
   logger.info('✅ Application démarrée (après onboarding)');
 });
 
-// On l'affiche systématiquement à chaque chargement de la page, sans condition
+// ⚠️ POUR TEST : Affiche l'onboarding à CHAQUE ouverture
 onboarding.show();
 
 // Mise à jour de l'état actif de la barre de navigation mobile
