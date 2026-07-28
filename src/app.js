@@ -3257,6 +3257,14 @@ if (isPremium) {
   );
 }
 
+// Mise à jour de l'état actif de la barre de navigation mobile
+function updateMobileNavActiveState() {
+  const currentHash = window.location.hash.slice(1) || '/';
+  document.querySelectorAll('.ds-mobile-nav a').forEach(link => {
+    link.classList.toggle('active', link.dataset.route === currentHash);
+  });
+}
+
 window.addEventListener('hashchange', updateMobileNavActiveState);
 updateMobileNavActiveState(); // Appel initial
 
