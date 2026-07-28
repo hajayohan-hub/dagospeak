@@ -3222,9 +3222,9 @@ function showSettingsModal() {
 // ═══════════════════════════════════════════════════════════
 // GESTION SÉCURISÉE DU DÉMARRAGE ET ONBOARDING
 // ═══════════════════════════════════════════════════════════
-const onboardingSeen = localStorage.getItem('dagospeak:onboardingComplete');
+const onboardingScreen = localStorage.getItem('dagospeak:onboardingComplete');
 
-if (onboardingSeen === 'true') {
+if (onboardingScreen === 'true') {
   console.log('[App] ✅ Onboarding déjà vu, démarrage direct du routeur...');
   router.start();
 } else {
