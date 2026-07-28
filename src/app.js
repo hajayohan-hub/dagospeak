@@ -3228,33 +3228,25 @@ function showSettingsModal() {
 // GESTION SÉCURISÉE DU DÉMARRAGE ET ONBOARDING
 // ═══════════════════════════════════════════════════════════
 // ═══════════════════════════════════════════════════════════
-// DÉMARRAGE AVEC ONBOARDING TOUJOURS ACTIF
-// L'onboarding s'exécute toujours si l'app a été fermée
+// DÉMARRAGE AVEC ONBOARDING ACTIVÉ
 // ═══════════════════════════════════════════════════════════
-const onboarding = new OnboardingScreen();
 
-// Vérifier si l'utilisateur est Premium pour reconnexion automatique
-const userType = localStorage.getItem('dagospeak:userType');
-const isPremium = localStorage.getItem('dagospeak:isPremium') === 'true';
+// Vérifier si l'utilisateur a déjà vu l'onboarding
+const onboardingSeen = localStorage.getItem('dagospeak:onboardingComplete');
 
-if (isPremium) {
-  // Reconnexion automatique pour les Premium
-  logger.info('✅ Reconnexion automatique Premium');
+if (onboardingSeen === 'true') {
+  // L'utilisateur a déjà vu l'onboarding → démarrage direct
+  console.log('[App] ✅ Onboarding déjà vu, démarrage direct');
   router.start();
 } else {
-  // Afficher l'onboarding
-  onboarding.show(
-    () => {
-      // Callback quand l'onboarding est terminé
-      router.start();
-      logger.info('✅ Application démarrée (après onboarding)');
-    },
-    () => {
-      // Callback quand l'utilisateur skip l'onboarding
-      router.start();
-      logger.info('✅ Application démarrée (onboarding skipé)');
-    }
-  );
+  // Premier lancement → afficher l'onboarding
+  console.log('[App]  Premier lancement, affichage de l\'onboarding...');
+  const onboarding = new OnboardingScreen(() => {
+    // Cette fonction s'exécute quand l'utilisateur termine l'onboarding
+    router.start();
+    logger.info('✅ Application démarrée (après onboarding)');
+  });
+  onboarding.show();
 }
 
 // Mise à jour de l'état actif de la barre de navigation mobile
