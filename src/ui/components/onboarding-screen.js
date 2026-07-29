@@ -114,7 +114,7 @@ export class OnboardingScreen {
       /* Image plus petite pour le dernier slide pour éviter le débordement */
       .ob-offer-image {
         max-width: 500px width: 100%; height: auto; !important;
-        margin-top: 5px;
+        margin-top: -5px;
       }
 
       .ob-logo {
