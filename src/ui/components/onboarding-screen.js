@@ -1,34 +1,44 @@
 /**
- * OnboardingScreen - Page d'intro avec images 3D, animations et offres dynamiques
+ * OnboardingScreen - Page d'intro avec images 3D, animations et offres.
  */
 export class OnboardingScreen {
   #container = null;
   #currentSlide = 0;
   #onComplete = null;
+
   #slides = [
     {
-      title: 'Manahoana ! Bienvenue sur DagoSpeak',
-      subtitle: 'Votre professeur personnel propulsé par IA',
-      text: 'Apprenez le français à votre rythme, où que vous soyez, même sans internet.',
-      action: 'Suivant',
       image: '/assets/teacher-3d.png',
-      imageAlt: 'Teacher AI'
+      fallback: '👩‍',
+      title: 'Manahoana ! Bienvenue sur DagoSpeak',
+      titleMg: '(Tonga soa eto DagoSpeak)',
+      text: 'La première plateforme d\'apprentissage des langues 100% hors-ligne pour les locuteurs Malgaches.',
+      textMg: '(Ny sehatra voalohany mianarana fiteny 100% offline ho an\'ny Malagasy)',
+      action: 'Suivant'
     },
     {
-      title: 'Apprenez plusieurs langues',
-      subtitle: 'Français, Anglais, Allemand, Espagnol et plus',
-      text: 'Sur PC ou mobile, avec un dictionnaire intelligent et des conversations guidées.',
-      action: 'Suivant',
       image: '/assets/users-3d.png',
-      imageAlt: 'Utilisateurs multilingues',
-      showLangIcons: true
+      fallback: '👥',
+      showLangIcons: true,
+      title: 'Écoutez, Parlez, Progressez',
+      titleMg: '(Mihainoa, Mitenena, Miroborobo)',
+      text: 'Une méthode immersive avec un tuteur vocal intelligent et des certifications reconnues.',
+      textMg: '(Fomba fianarana lalina miaraka amin\'ny mpampianatra intelligent sy fahazoana mari-pahaizana)',
+      action: 'Suivant'
     },
     {
-      title: 'Préparation du mode 100% Hors-ligne',
-      subtitle: 'Configuration intelligente',
-      text: 'Nous adaptons l\'application à votre appareil pour une expérience optimale.',
-      action: 'Préparer mon espace',
-      image: null
+      title: 'Mode 100% Hors-ligne',
+      titleMg: '(Mode 100% Offline)',
+      text: 'DagoSpeak s\'adapte à votre appareil. Nous préparons votre espace d\'apprentissage.',
+      textMg: '(DagoSpeak mifanaraka amin\'ny findainao. Efa manomana ny toerana fianarana)',
+      isSetupSlide: true
+    },
+    {
+      title: 'Choisissez votre parcours',
+      titleMg: '(Safidio ny lalanao)',
+      text: 'Notre plateforme évolue avec vous. Commencez gratuitement et passez au Premium.',
+      textMg: '(Mandroso miaraka aminao ny platformanay. Atombohy maimaim-poana)',
+      isOfferSlide: true
     }
   ];
 
@@ -37,22 +47,67 @@ export class OnboardingScreen {
   show(onCompleteCallback) {
     this.#onComplete = onCompleteCallback;
     this.#currentSlide = 0;
+    this.#injectStyles();
     this.#render();
+  }
+
+  #injectStyles() {
+    if (document.getElementById('ob-styles')) return;
+    const style = document.createElement('style');
+    style.id = 'ob-styles';
+    style.innerHTML = `
+      @keyframes obZoomIn {
+        0% { transform: scale(0.6) translateY(30px); opacity: 0; }
+        100% { transform: scale(1) translateY(0); opacity: 1; }
+      }
+      @keyframes obFloat {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-15px); }
+      }
+      @keyframes obFloatLang1 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-15px, -20px); } }
+      @keyframes obFloatLang2 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(20px, -15px); } }
+      @keyframes obFloatLang3 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-10px, 20px); } }
+      @keyframes obFloatLang4 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(15px, 15px); } }
+      @keyframes obFloatLang5 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(15px, 15px); } }
+      @keyframes obSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+      @keyframes obFadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+      .ob-image {
+        max-width: 260px; width: 100%; height: auto;
+        animation: obZoomIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, obFloat 4s ease-in-out infinite 0.8s;
+        filter: drop-shadow(0 15px 30px rgba(0,0,0,0.15));
+      }
+      .ob-lang-badge {
+        position: absolute; background: white; padding: 6px 12px; border-radius: 12px;
+        font-weight: 800; font-size: 0.85rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        border: 2px solid #e0e7ff; color: #0A8A6E;
+      }
+      .ob-lang-1 { top: 10%; left: 5%; animation: obFloatLang1 4s ease-in-out infinite; }
+      .ob-lang-2 { top: 15%; right: 5%; animation: obFloatLang2 5s ease-in-out infinite 0.5s; }
+      .ob-lang-3 { bottom: 20%; left: 10%; animation: obFloatLang3 4.5s ease-in-out infinite 1s; }
+      .ob-lang-4 { bottom: 15%; right: 10%; animation: obFloatLang4 5.5s ease-in-out infinite 1.5s; }
+      .ob-lang-5 { top: 40%; left: 30%; animation: obFloatLang5 5.5s ease-in-out infinite 1.s; }
+
+      .ob-spinner {
+        width: 50px; height: 50px; border: 5px solid rgba(10, 138, 110, 0.2);
+        border-top-color: #0A8A6E; border-radius: 50%; animation: obSpin 1s linear infinite;
+        margin: 0 auto 1.5rem;
+      }
+    `;
+    document.head.appendChild(style);
   }
 
   #render() {
     if (this.#container) this.#container.remove();
-
     this.#container = document.createElement('div');
     this.#container.id = 'onboarding-screen';
     this.#container.style.cssText = `
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: linear-gradient(135deg, #f0f4ff 0%, #e0e7ff 100%);
+      background: linear-gradient(135deg, #f0fdf4 0%, #e0e7ff 100%);
       z-index: 10000; display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      padding: 2rem; text-align: center; overflow: hidden;
+      align-items: center; justify-content: center; padding: 2rem;
+      text-align: center; overflow-y: auto;
     `;
-
     document.body.appendChild(this.#container);
     this.#updateSlide();
   }
@@ -62,300 +117,142 @@ export class OnboardingScreen {
     const isFirst = this.#currentSlide === 0;
     const isLast = this.#currentSlide === this.#slides.length - 1;
 
-    // Injecter les styles d'animation une seule fois
-    if (!document.getElementById('onboarding-animations')) {
-      const style = document.createElement('style');
-      style.id = 'onboarding-animations';
-      style.innerHTML = `
-        @keyframes zoomIn {
-          0% { transform: scale(0.3) rotate(-5deg); opacity: 0; }
-          60% { transform: scale(1.05) rotate(2deg); opacity: 1; }
-          100% { transform: scale(1) rotate(0deg); opacity: 1; }
-        }
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-15px); }
-        }
-        @keyframes floatLang1 {
-          0%, 100% { transform: translate(0, 0) rotate(0deg); }
-          50% { transform: translate(-20px, -25px) rotate(10deg); }
-        }
-        @keyframes floatLang2 {
-          0%, 100% { transform: translate(0, 0) rotate(0deg); }
-          50% { transform: translate(25px, -20px) rotate(-8deg); }
-        }
-        @keyframes floatLang3 {
-          0%, 100% { transform: translate(0, 0) rotate(0deg); }
-          50% { transform: translate(-15px, 20px) rotate(5deg); }
-        }
-        @keyframes floatLang4 {
-          0%, 100% { transform: translate(0, 0) rotate(0deg); }
-          50% { transform: translate(20px, 25px) rotate(-5deg); }
-        }
-        @keyframes floatLang5 {
-          0%, 100% { transform: translate(0, 0) rotate(0deg); }
-          50% { transform: translate(-25px, 10px) rotate(8deg); }
-        }
-        @keyframes floatLang6 {
-          0%, 100% { transform: translate(0, 0) rotate(0deg); }
-          50% { transform: translate(15px, -30px) rotate(-10deg); }
-        }
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(30px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes pulseBtn {
-          0%, 100% { transform: scale(1); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); }
-          50% { transform: scale(1.03); box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5); }
-        }
-        .ob-image {
-          animation: zoomIn 0.8s ease-out, float 4s ease-in-out infinite 0.8s;
-          max-width: 280px; width: 100%; height: auto;
-          filter: drop-shadow(0 20px 40px rgba(0,0,0,0.15));
-        }
-        .ob-title { animation: fadeInUp 0.6s ease-out 0.2s backwards; }
-        .ob-subtitle { animation: fadeInUp 0.6s ease-out 0.3s backwards; }
-        .ob-text { animation: fadeInUp 0.6s ease-out 0.4s backwards; }
-        .ob-btn { animation: fadeInUp 0.6s ease-out 0.5s backwards; }
-        .ob-btn:hover { animation: pulseBtn 1.5s ease-in-out infinite; }
-        .ob-dots { animation: fadeInUp 0.6s ease-out 0.6s backwards; }
-        .lang-badge {
-          position: absolute; background: white; padding: 8px 14px;
-          border-radius: 16px; font-weight: 800; font-size: 1rem;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-          border: 2px solid #e0e7ff;
-        }
-        .lang-fr { top: 10%; left: 5%; animation: floatLang1 4s ease-in-out infinite; color: #2563eb; }
-        .lang-en { top: 5%; right: 10%; animation: floatLang2 5s ease-in-out infinite 0.5s; color: #dc2626; }
-        .lang-mg { top: 40%; right: 0%; animation: floatLang3 4.5s ease-in-out infinite 1s; color: #16a34a; }
-        .lang-de { bottom: 30%; left: 0%; animation: floatLang4 5.5s ease-in-out infinite 1.5s; color: #1f2937; }
-        .lang-es { bottom: 15%; right: 5%; animation: floatLang5 4s ease-in-out infinite 2s; color: #ea580c; }
-        .lang-jp { top: 45%; left: 0%; animation: floatLang6 5s ease-in-out infinite 2.5s; color: #be123c; }
-      `;
-      document.head.appendChild(style);
-    }
+    // Boutons de navigation
+    const backButton = isFirst ? '' : `<button id="ob-btn-back" style="position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.8); border: none; border-radius: 50%; width: 44px; height: 44px; font-size: 1.5rem; cursor: pointer; color: #0A8A6E; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">←</button>`;
+    const skipButton = isLast ? '' : `<button id="ob-btn-skip" style="position: absolute; top: 20px; right: 20px; background: transparent; border: none; font-size: 0.9rem; cursor: pointer; color: #64748b; padding: 8px 16px;">Passer</button>`;
 
-    // Bouton retour (caché sur le premier slide)
-    const backButton = isFirst ? '' : `
-      <button id="btn-back-slide" style="
-        position: absolute; top: 20px; left: 20px;
-        background: var(--ds-color-surface-2); border: none;
-        border-radius: 50%; width: 44px; height: 44px;
-        font-size: 1.5rem; cursor: pointer; color: var(--ds-color-text);
-        display: flex; align-items: center; justify-content: center;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      ">←</button>
-    `;
+    let visualContent = '';
 
-    // Bouton passer (toujours visible)
-    const skipButton = `
-      <button id="btn-skip-onboarding" style="
-        position: absolute; top: 20px; right: 20px;
-        background: transparent; border: none;
-        font-size: 0.9rem; cursor: pointer;
-        color: var(--ds-color-text-muted); padding: 8px 16px;
-      ">Passer</button>
-    `;
-
-    if (slide.image) {
-      // Slides avec images 3D (0 et 1)
+    if (slide.isSetupSlide) {
+      visualContent = `<div class="ob-spinner"></div>`;
+    } else if (slide.image) {
+      // Slides avec images 3D
       let langIcons = '';
       if (slide.showLangIcons) {
         langIcons = `
-          <div class="lang-badge lang-fr">🇫🇷 FR</div>
-          <div class="lang-badge lang-en">🇬🇧 EN</div>
-          <div class="lang-badge lang-mg">🇲🇬 MG</div>
-          <div class="lang-badge lang-de">🇪 DE</div>
-          <div class="lang-badge lang-es">🇪🇸 ES</div>
-          <div class="lang-badge lang-jp">🇵 JP</div>
+          <div class="ob-lang-badge ob-lang-1">🇫🇷 FR</div>
+          <div class="ob-lang-badge ob-lang-2">🇬🇧 EN</div>
+          <div class="ob-lang-badge ob-lang-3">🇲🇬 MG</div>
+          <div class="ob-lang-badge ob-lang-4">🇩🇪 DE</div>
+          <div class="ob-lang-badge ob-lang-5">🇪🇸 ES</div>
         `;
       }
-
-      this.#container.innerHTML = `
-        ${backButton}
-        ${skipButton}
-        <div style="position: relative; display: inline-block; margin-bottom: 1rem;">
-          <img src="${slide.image}" alt="${slide.imageAlt}" class="ob-image"
-               onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-          <div style="display:none; font-size: 6rem;">${isFirst ? '👩🏫' : '👫'}</div>
+      visualContent = `
+        <div style="position: relative; display: inline-block; margin-bottom: 1.5rem;">
+          <img src="${slide.image}" alt="3D" class="ob-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+          <div style="display:none; font-size: 5rem; animation: obZoomIn 0.8s forwards;">${slide.fallback}</div>
           ${langIcons}
         </div>
-        <h2 class="ob-title" style="color: var(--ds-color-primary); margin-bottom: 0.5rem; font-size: 1.8rem;">
-          ${slide.title}
-        </h2>
-        <p class="ob-subtitle" style="color: var(--ds-color-accent); font-size: 1rem; margin-bottom: 1rem; font-weight: 600;">
-          ${slide.subtitle}
-        </p>
-        <p class="ob-text" style="color: var(--ds-color-text-muted); font-size: 1.05rem; margin-bottom: 2rem; line-height: 1.6; max-width: 500px;">
-          ${slide.text}
-        </p>
-        <button id="btn-next-slide" class="ob-btn" style="
-          background: var(--ds-color-primary); color: white; border: none;
-          padding: 16px 40px; border-radius: 50px; font-weight: bold;
-          font-size: 1.05rem; cursor: pointer; min-width: 200px;
-        ">
-          ${slide.action} →
-        </button>
-        <div class="ob-dots" style="margin-top: 2rem; display: flex; gap: 0.5rem;">
-          ${this.#slides.map((_, i) => `
-            <div style="width: ${i === this.#currentSlide ? '24px' : '8px'}; height: 8px;
-              border-radius: 4px;
-              background: ${i === this.#currentSlide ? 'var(--ds-color-primary)' : 'var(--ds-color-border)'};
-              transition: all 0.3s;"></div>
-          `).join('')}
+      `;
+    }
+
+    // Construction du HTML principal
+    if (slide.isOfferSlide) {
+      this.#container.innerHTML = `
+        ${backButton}
+        <div style="max-width: 500px; width: 100%; animation: obFadeInUp 0.6s ease-out;">
+          <h2 style="color: #0A8A6E; margin-bottom: 0.5rem; font-size: 1.8rem;">${slide.title}</h2>
+          <p style="color: #059669; font-size: 0.95rem; font-style: italic; margin-bottom: 1.5rem;">${slide.titleMg}</p>
+
+          <!-- Option Gratuite -->
+          <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 1.5rem; border-radius: 16px; margin-bottom: 1rem; box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3); border: 3px solid #059669;">
+            <div style="font-size: 1.3rem; font-weight: bold; margin-bottom: 0.5rem;">🆓 Option Gratuite</div>
+            <div style="font-size: 0.9rem; margin-bottom: 1rem; opacity: 0.95;">Accès complet au niveau A0</div>
+            <button id="ob-btn-free" style="width: 100%; background: white; color: #059669; border: none; padding: 12px; border-radius: 12px; font-weight: bold; font-size: 1rem; cursor: pointer;">Commencer gratuitement</button>
+          </div>
+
+          <!-- Option Premium -->
+          <div style="background: white; color: #334155; padding: 1.5rem; border-radius: 16px; border: 2px solid #e2e8f0;">
+            <div style="font-size: 1.2rem; font-weight: bold; margin-bottom: 0.5rem; color: #0A8A6E;">⭐ Premium Starter (A0-A2)</div>
+            <div style="font-size: 0.85rem; margin-bottom: 1rem; color: #64748b;">Dictionnaire intelligent, Conversations IA, Certifications</div>
+            <div style="font-size: 1.1rem; font-weight: bold; color: #0A8A6E; margin-bottom: 1rem;">15 000 Ar/mois (Étudiants) / 20 000 Ar/mois</div>
+            <button id="ob-btn-premium" style="width: 100%; background: #0A8A6E; color: white; border: none; padding: 12px; border-radius: 12px; font-weight: bold; font-size: 1rem; cursor: pointer;">Voir les offres Premium</button>
+          </div>
         </div>
       `;
 
-      // Attacher les event listeners
-      const btnNext = document.getElementById('btn-next-slide');
-      if (btnNext) {
-        btnNext.addEventListener('click', () => {
-          this.#currentSlide++;
-          this.#updateSlide();
-        });
-      }
-      const btnBack = document.getElementById('btn-back-slide');
-      if (btnBack) {
-        btnBack.addEventListener('click', () => {
-          this.#currentSlide--;
-          this.#updateSlide();
-        });
-      }
-      const btnSkip = document.getElementById('btn-skip-onboarding');
-      if (btnSkip) {
-        btnSkip.addEventListener('click', () => this.#finishOnboarding());
-      }
-    } else {
-      // Slide 2 : Setup intelligent
+      // Listeners pour les offres
+      document.getElementById('ob-btn-free')?.addEventListener('click', () => { localStorage.setItem('dagospeak:userType', 'free'); this.#finishOnboarding(); });
+      document.getElementById('ob-btn-premium')?.addEventListener('click', () => { localStorage.setItem('dagospeak:userType', 'premium-interested'); this.#finishOnboarding(); });
+
+    } else if (slide.isSetupSlide) {
       this.#container.innerHTML = `
         ${backButton}
-        ${skipButton}
-        <div style="font-size: 5rem; margin-bottom: 1rem; animation: zoomIn 0.8s ease-out;">${slide.title.includes('Hors-ligne') ? '' : '⚙️'}</div>
-        <h2 class="ob-title" style="color: var(--ds-color-primary); margin-bottom: 0.5rem; font-size: 1.8rem;">
-          ${slide.title}
-        </h2>
-        <p class="ob-subtitle" style="color: var(--ds-color-accent); font-size: 1rem; margin-bottom: 1rem; font-weight: 600;">
-          ${slide.subtitle}
-        </p>
-        <p class="ob-text" style="color: var(--ds-color-text-muted); font-size: 1.05rem; margin-bottom: 2rem; line-height: 1.6;">
-          ${slide.text}
-        </p>
-        <div id="setup-area" style="width: 100%; max-width: 350px; animation: fadeInUp 0.6s ease-out 0.3s backwards;">
-          <div id="setup-status" style="margin-bottom: 1rem; font-weight: 600; color: var(--ds-color-text);">
-            Vérification de l'appareil...
+        <div style="max-width: 400px; width: 100%; animation: obFadeInUp 0.6s ease-out;">
+          ${visualContent}
+          <h2 style="color: #0A8A6E; margin-bottom: 0.5rem; font-size: 1.6rem;">${slide.title}</h2>
+          <p style="color: #059669; font-size: 0.9rem; font-style: italic; margin-bottom: 1.5rem;">${slide.titleMg}</p>
+
+          <div id="ob-setup-area" style="width: 100%; background: white; padding: 1.5rem; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+            <div id="ob-setup-status" style="margin-bottom: 1rem; font-weight: 600; color: #334155;">Vérification de l'appareil...</div>
+            <div style="width: 100%; height: 10px; background: #e2e8f0; border-radius: 5px; overflow: hidden; margin-bottom: 1rem;">
+              <div id="ob-setup-progress" style="width: 0%; height: 100%; background: #0A8A6E; transition: width 0.5s ease;"></div>
+            </div>
+            <p id="ob-setup-detail" style="font-size: 0.85rem; color: #64748b; margin: 0;"></p>
           </div>
-          <div style="width: 100%; height: 12px; background: var(--ds-color-border); border-radius: 6px; overflow: hidden; margin-bottom: 1rem;">
-            <div id="setup-progress" style="width: 0%; height: 100%; background: linear-gradient(90deg, var(--ds-color-primary), var(--ds-color-accent)); transition: width 0.5s ease;"></div>
-          </div>
-          <p id="setup-detail" style="font-size: 0.85rem; color: var(--ds-color-text-muted);"></p>
         </div>
       `;
       this.#startSmartSetup();
+
+    } else {
+      // Slides normaux (0 et 1)
+      this.#container.innerHTML = `
+        ${backButton}
+        ${skipButton}
+        <div style="max-width: 500px; width: 100%; animation: obFadeInUp 0.6s ease-out;">
+          ${visualContent}
+          <h2 style="color: #0A8A6E; margin-bottom: 0.5rem; font-size: 1.8rem;">${slide.title}</h2>
+          <p style="color: #059669; font-size: 0.95rem; font-style: italic; margin-bottom: 1rem;">${slide.titleMg}</p>
+          <p style="color: #475569; font-size: 1.05rem; margin-bottom: 0.5rem; line-height: 1.5;">${slide.text}</p>
+          <p style="color: #64748b; font-size: 0.9rem; font-style: italic; margin-bottom: 2rem; line-height: 1.5;">${slide.textMg}</p>
+
+          <button id="ob-btn-next" style="background: #0A8A6E; color: white; border: none; padding: 14px 40px; border-radius: 50px; font-weight: bold; font-size: 1.05rem; cursor: pointer; min-width: 200px; box-shadow: 0 4px 12px rgba(10, 138, 110, 0.3); transition: transform 0.2s;">
+            ${slide.action} →
+          </button>
+
+          <div style="margin-top: 2rem; display: flex; gap: 0.5rem; justify-content: center;">
+            ${this.#slides.map((_, i) => `<div style="width: ${i === this.#currentSlide ? '24px' : '8px'}; height: 8px; border-radius: 4px; background: ${i === this.#currentSlide ? '#0A8A6E' : '#cbd5e1'}; transition: all 0.3s;"></div>`).join('')}
+          </div>
+        </div>
+      `;
+
+      document.getElementById('ob-btn-next')?.addEventListener('click', () => { this.#currentSlide++; this.#updateSlide(); });
     }
+
+    // Listeners globaux
+    document.getElementById('ob-btn-back')?.addEventListener('click', () => { this.#currentSlide--; this.#updateSlide(); });
+    document.getElementById('ob-btn-skip')?.addEventListener('click', () => { this.#finishOnboarding(); });
   }
 
   async #startSmartSetup() {
-    const statusEl = document.getElementById('setup-status');
-    const progressEl = document.getElementById('setup-progress');
-    const detailEl = document.getElementById('setup-detail');
+    const statusEl = document.getElementById('ob-setup-status');
+    const progressEl = document.getElementById('ob-setup-progress');
+    const detailEl = document.getElementById('ob-setup-detail');
 
-    try {
-      detailEl.textContent = 'Vérification de l\'espace disponible...';
-      if (navigator.storage && navigator.storage.estimate) {
-        const estimate = await navigator.storage.estimate();
-        const availableMB = (estimate.quota - estimate.usage) / (1024 * 1024);
-        if (availableMB < 60) {
-          throw new Error('Espace insuffisant. Libérez environ 60 Mo.');
-        }
-      }
+    const steps = [
+      { p: 20, s: 'Vérification de l\'espace...', d: 'Manamarina ny toerana...' },
+      { p: 50, s: 'Sécurisation du stockage...', d: 'Miaro ny toerana fitehirizana...' },
+      { p: 80, s: 'Optimisation pour votre appareil...', d: 'Manamboatra ho an\'ny findainao...' },
+      { p: 100, s: 'Préparation terminée !', d: 'Vita ny fanomanana !' }
+    ];
 
-      progressEl.style.width = '20%';
-      await new Promise(r => setTimeout(r, 600));
-
-      detailEl.textContent = 'Sécurisation du stockage...';
-      if (navigator.storage && navigator.storage.persist) {
-        await navigator.storage.persist();
-      }
-
-      progressEl.style.width = '50%';
+    for (const step of steps) {
       await new Promise(r => setTimeout(r, 800));
-
-      detailEl.textContent = 'Optimisation pour votre appareil...';
-      progressEl.style.width = '80%';
-      await new Promise(r => setTimeout(r, 800));
-
-      progressEl.style.width = '100%';
-      detailEl.textContent = 'Préparation terminée !';
-      await new Promise(r => setTimeout(r, 500));
-
-      this.#showDynamicOffer();
-    } catch (error) {
-      statusEl.textContent = 'Configuration interrompue';
-      statusEl.style.color = 'var(--ds-color-danger)';
-      detailEl.textContent = error.message + ' Vous pourrez réessayer plus tard.';
-      setTimeout(() => this.#finishOnboarding(), 5000);
-    }
-  }
-
-  #showDynamicOffer() {
-    const statusEl = document.getElementById('setup-status');
-    const detailEl = document.getElementById('setup-detail');
-    const progressEl = document.getElementById('setup-progress');
-
-    statusEl.textContent = '🎉 Préparation terminée !';
-    progressEl.style.background = 'var(--ds-color-success)';
-
-    const isLowEnd = (navigator.deviceMemory || 4) < 4 || (navigator.hardwareConcurrency || 4) < 4;
-    const isOnline = navigator.onLine;
-
-    let offerTitle = '', offerDesc = '', offerPrice = '';
-    if (isLowEnd) {
-      offerTitle = ' DagoSpeak Lite (Recommandé)';
-      offerDesc = 'Fonctionne 100% hors-ligne avec le moteur vocal léger.';
-      offerPrice = '15 000 Ar / mois';
-    } else if (!isOnline) {
-      offerTitle = '📶 DagoSpeak Standard';
-      offerDesc = 'Moteur vocal local + synchronisation automatique.';
-      offerPrice = '25 000 Ar / mois';
-    } else {
-      offerTitle = '🚀 DagoSpeak Premium';
-      offerDesc = 'Reconnaissance vocale avancée par IA Cloud.';
-      offerPrice = '30 000 Ar / mois';
+      progressEl.style.width = `${step.p}%`;
+      statusEl.textContent = step.s;
+      detailEl.textContent = step.d;
     }
 
-    detailEl.innerHTML = `
-      <div style="background: var(--ds-color-surface); padding: 1.5rem; border-radius: var(--ds-radius-lg);
-        border: 2px solid var(--ds-color-primary); margin-top: 1rem; text-align: left;
-        animation: fadeInUp 0.6s ease-out;">
-        <h3 style="color: var(--ds-color-primary); margin-bottom: 0.5rem;">${offerTitle}</h3>
-        <p style="font-size: 0.9rem; color: var(--ds-color-text-muted); margin-bottom: 1rem;">${offerDesc}</p>
-        <div style="font-size: 1.5rem; font-weight: bold; color: var(--ds-color-text); margin-bottom: 1rem;">${offerPrice}</div>
-        <button id="btn-claim-offer" style="
-          width: 100%; background: var(--ds-color-success); color: white;
-          border: none; padding: 14px; border-radius: 12px;
-          font-weight: bold; font-size: 1rem; cursor: pointer; margin-bottom: 0.5rem;
-        ">Choisir cette offre</button>
-        <button id="btn-skip-offer" style="
-          width: 100%; background: transparent; color: var(--ds-color-text-muted);
-          border: 1px solid var(--ds-color-border); padding: 12px;
-          border-radius: 12px; font-size: 0.9rem; cursor: pointer;
-        ">Continuer gratuitement</button>
-      </div>
-    `;
-
-    document.getElementById('btn-claim-offer').addEventListener('click', () => {
-      alert('Redirection vers le paiement pour : ' + offerTitle);
-    });
-    document.getElementById('btn-skip-offer').addEventListener('click', () => {
-      this.#finishOnboarding();
-    });
+    await new Promise(r => setTimeout(r, 500));
+    this.#currentSlide++;
+    this.#updateSlide();
   }
 
   #finishOnboarding() {
     localStorage.setItem('dagospeak:onboardingComplete', 'true');
     if (this.#container) {
       this.#container.style.opacity = '0';
-      this.#container.style.transition = 'opacity 0.5s';
+      this.#container.style.transition = 'opacity 0.5s ease';
       setTimeout(() => {
         if (this.#container) this.#container.remove();
         if (this.#onComplete) this.#onComplete();
