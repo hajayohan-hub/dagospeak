@@ -142,19 +142,6 @@ pre {
   }
 }
 
-@keyframes logoGlow {
-  0%, 100% {
-    filter: drop-shadow(0 0 4px rgba(10, 138, 110, 0.6))
-            drop-shadow(0 0 8px rgba(10, 138, 110, 0.4));
-    transform: scale(1);
-  }
-  50% {
-    filter: drop-shadow(0 0 12px rgba(10, 138, 110, 1))
-            drop-shadow(0 0 24px rgba(232, 163, 61, 0.8))
-            drop-shadow(0 0 36px rgba(10, 138, 110, 0.6));
-    transform: scale(1.05);
-  }
-}
 
 #logo-svg {
   animation: logoGlow 2s ease-in-out infinite;
