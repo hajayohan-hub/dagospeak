@@ -113,7 +113,7 @@ export class OnboardingScreen {
 
       /* Image plus petite pour le dernier slide pour éviter le débordement */
       .ob-offer-image {
-        max-width: 180px !important;
+        max-width: 240px !important;
         margin-top: 5px;
       }
 
@@ -246,7 +246,7 @@ export class OnboardingScreen {
           <div style="background: white; color: #334155; padding: 1.5rem; border-radius: 16px; border: 2px solid #e2e8f0; position: relative;">
             <div style="font-size: 1.2rem; font-weight: bold; margin-bottom: 0.5rem; color: #2a9d8f;">⭐ Premium Starter (A0-A2)</div>
             <div style="font-size: 0.85rem; margin-bottom: 1rem; color: #64748b;">Dictionnaire intelligent, Conversations IA, Certifications</div>
-            <div style="font-size: 1.1rem; font-weight: bold; color: #f4a261; margin-bottom: 1rem;">15 000 Ar/mois (Étudiants) / 20 000 Ar/mois</div>
+            <div style="font-size: 1.1rem; font-weight: bold; color: #f4a261; margin-bottom: 1rem;">15 000 Ar/mois (Mpianatra) / 20 000 Ar/mois (Mpiasa)</div>
             <button id="ob-btn-premium" class="ob-offer-btn ob-premium-btn" style="width: 100%; background: #2a9d8f; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: bold; font-size: 1rem; cursor: pointer; box-shadow: 0 4px 12px rgba(42, 157, 143, 0.4);">Voir les offres Premium</button>
           </div>
         </div>
