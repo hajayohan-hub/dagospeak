@@ -132,6 +132,18 @@ pre {
 /* Animation d'allumage continu du logo DagoSpeak */
 @keyframes logoGlow {
   0%, 100% {
+    filter: drop-shadow(0 0 6px rgba(10, 138, 110, 0.7));
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 18px rgba(232, 163, 61, 1))
+            drop-shadow(0 0 30px rgba(10, 138, 110, 0.8));
+    transform: scale(1.06);
+  }
+}
+
+@keyframes logoGlow {
+  0%, 100% {
     filter: drop-shadow(0 0 4px rgba(10, 138, 110, 0.6))
             drop-shadow(0 0 8px rgba(10, 138, 110, 0.4));
     transform: scale(1);
