@@ -129,19 +129,23 @@ pre {
 
 
 
-/* Logo Dagospeak */
-/* Animation 3D du logo DagoSpeak */
-@keyframes logo3D {
-  0% {
-    transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+/* Animation d'allumage continu du logo DagoSpeak */
+@keyframes logoGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px rgba(10, 138, 110, 0.6))
+            drop-shadow(0 0 8px rgba(10, 138, 110, 0.4));
+    transform: scale(1);
   }
-  100% {
-    transform: perspective(1000px) rotateY(360deg) rotateX(360deg);
+  50% {
+    filter: drop-shadow(0 0 12px rgba(10, 138, 110, 1))
+            drop-shadow(0 0 24px rgba(232, 163, 61, 0.8))
+            drop-shadow(0 0 36px rgba(10, 138, 110, 0.6));
+    transform: scale(1.05);
   }
 }
 
 #logo-svg {
-  animation: logo3D 3s linear infinite;
+  animation: logoGlow 2s ease-in-out infinite;
   transform-origin: center center;
   display: inline-block;
 }
