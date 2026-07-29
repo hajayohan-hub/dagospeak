@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Générateur d'icônes PWA</title>
+</head>
+<body>
+  <h1>Générateur d'icônes PWA DagoSpeak</h1>
+  <p>Ouvrez la console (F12) et copiez le code ci-dessous :</p>
+  
+  <script>
+    // Créer un canvas pour générer les icônes
+    function generateIcon(size) {
+      const canvas = document.createElement('canvas');
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d');
+      
+      // Background avec border-radius
+      const radius = size * 0.2; // 20% border-radius
+      ctx.beginPath();
+      ctx.moveTo(radius, 0);
+      ctx.lineTo(size - radius, 0);
+      ctx.quadraticCurveTo(size, 0, size, radius);
+      ctx.lineTo(size, size - radius);
+      ctx.quadraticCurveTo(size, size, size - radius, size);
+      ctx.lineTo(radius, size);
+      ctx.quadraticCurveTo(0, size, 0, size - radius);
+      ctx.lineTo(0, radius);
+      ctx.quadraticCurveTo(0, 0, radius, 0);
+      ctx.closePath();
+      
+      // Dégradé vert
+      const gradient = ctx.createLinearGradient(0, 0, size, size);
+      gradient.addColorStop(0, '#0A8A6E');
+      gradient.addColorStop(0.5, '#0d9e7f');
+      gradient.addColorStop(1, '#087a62');
+      ctx.fillStyle = gradient;
+      ctx.fill();
+      
+      // Texte DS
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = `bold ${size * 0.43}px Arial`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('DS', size / 2, size / 2);
+      
+      // Cercle orange
+      const circleSize = size * 0.1;
+      ctx.beginPath();
+      ctx.arc(size * 0.78, size * 0.24, circleSize, 0, Math.PI * 2);
+      ctx.fillStyle = '#E8A33D';
+      ctx.fill();
+      
+      return canvas.toDataURL('image/png');
+    }
+    
+    // Générer et télécharger toutes les tailles
+    const sizes = [192, 512];
+    sizes.forEach(size => {
+      const dataUrl = generateIcon(size);
+      const link = document.createElement('a');
+      link.download = `icon-${size}x${size}.png`;
+      link.href = dataUrl;
+      link.click();
+    });
+    
+    console.log('Icônes générées !');
+  </script>
+</body>
+</html>

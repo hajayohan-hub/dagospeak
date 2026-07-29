@@ -7,21 +7,21 @@
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "orientation": "portrait",
+  "orientation": "portrait-primary",
   "theme_color": "#2563eb",
   "background_color": "#ffffff",
   "categories": ["education", "productivity"],
   "icons": [
     {
-      "src": "/assets/dagospeak-logo.svg",
+      "src": "/assets/icon-192x192.png",
       "sizes": "192x192",
-      "type": "image/svg+xml",
-      "purpose": "any"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "/assets/dagospeak-logo.svg",
+      "src": "/assets/icon-512x512.png",
       "sizes": "512x512",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ],

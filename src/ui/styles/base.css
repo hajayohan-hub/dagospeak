@@ -126,3 +126,22 @@ pre {
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0,0,0,0.2);
 }
+
+
+
+/* Logo Dagospeak */
+/* Animation 3D du logo DagoSpeak */
+@keyframes logo3D {
+  0% {
+    transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+  }
+  100% {
+    transform: perspective(1000px) rotateY(360deg) rotateX(360deg);
+  }
+}
+
+#logo-svg {
+  animation: logo3D 3s linear infinite;
+  transform-origin: center center;
+  display: inline-block;
+}

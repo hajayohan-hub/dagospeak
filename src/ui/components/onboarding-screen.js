@@ -13,7 +13,7 @@ export class OnboardingScreen {
       title: 'Manahoana ! Bienvenue sur DagoSpeak',
       titleMg: '(Tonga soa eto DagoSpeak)',
       text: 'La première plateforme d\'apprentissage des langues 100% hors-ligne pour les locuteurs Malgaches.',
-      textMg: '(Ny sehatra voalohany mianarana fiteny 100% offline ho an\'ny Malagasy)',
+      textMg: '(Ny sehatra voalohany fianarana fiteny 100% offline ho an\'ny Malagasy)',
       action: 'Suivant'
     },
     {
@@ -119,7 +119,7 @@ export class OnboardingScreen {
 
     // Boutons de navigation
     const backButton = isFirst ? '' : `<button id="ob-btn-back" style="position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.8); border: none; border-radius: 50%; width: 44px; height: 44px; font-size: 1.5rem; cursor: pointer; color: #0A8A6E; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">←</button>`;
-    const skipButton = isLast ? '' : `<button id="ob-btn-skip" style="position: absolute; top: 20px; right: 20px; background: transparent; border: none; font-size: 0.9rem; cursor: pointer; color: #64748b; padding: 8px 16px;">Passer</button>`;
+    const skipButton = isLast ? '' : `<button id="ob-btn-skip" style="position: absolute; top: 20px; right: 20px; background: transparent; border: none; font-size: 0.9rem; cursor: pointer; color: Orange; padding: 8px 16px;">Passer</button>`;
 
     let visualContent = '';
 
@@ -152,7 +152,7 @@ export class OnboardingScreen {
         ${backButton}
         <div style="max-width: 500px; width: 100%; animation: obFadeInUp 0.6s ease-out;">
           <h2 style="color: #0A8A6E; margin-bottom: 0.5rem; font-size: 1.8rem;">${slide.title}</h2>
-          <p style="color: #059669; font-size: 0.95rem; font-style: italic; margin-bottom: 1.5rem;">${slide.titleMg}</p>
+          <p style="color: Orange; font-size: 0.95rem; font-style: italic; margin-bottom: 1.5rem;">${slide.titleMg}</p>
 
           <!-- Option Gratuite -->
           <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 1.5rem; border-radius: 16px; margin-bottom: 1rem; box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3); border: 3px solid #059669;">
@@ -166,7 +166,7 @@ export class OnboardingScreen {
             <div style="font-size: 1.2rem; font-weight: bold; margin-bottom: 0.5rem; color: #0A8A6E;">⭐ Premium Starter (A0-A2)</div>
             <div style="font-size: 0.85rem; margin-bottom: 1rem; color: #64748b;">Dictionnaire intelligent, Conversations IA, Certifications</div>
             <div style="font-size: 1.1rem; font-weight: bold; color: #0A8A6E; margin-bottom: 1rem;">15 000 Ar/mois (Étudiants) / 20 000 Ar/mois</div>
-            <button id="ob-btn-premium" style="width: 100%; background: #0A8A6E; color: white; border: none; padding: 12px; border-radius: 12px; font-weight: bold; font-size: 1rem; cursor: pointer;">Voir les offres Premium</button>
+            <button id="ob-btn-premium" style="width: 100%; background: #0A8A6E; color: Orange; border: none; padding: 12px; border-radius: 12px; font-weight: bold; font-size: 1rem; cursor: pointer;">Voir les offres Premium</button>
           </div>
         </div>
       `;
@@ -202,9 +202,9 @@ export class OnboardingScreen {
         <div style="max-width: 500px; width: 100%; animation: obFadeInUp 0.6s ease-out;">
           ${visualContent}
           <h2 style="color: #0A8A6E; margin-bottom: 0.5rem; font-size: 1.8rem;">${slide.title}</h2>
-          <p style="color: #059669; font-size: 0.95rem; font-style: italic; margin-bottom: 1rem;">${slide.titleMg}</p>
+          <p style="color: Orange; font-size: 0.95rem; font-style: italic; margin-bottom: 1rem;">${slide.titleMg}</p>
           <p style="color: #475569; font-size: 1.05rem; margin-bottom: 0.5rem; line-height: 1.5;">${slide.text}</p>
-          <p style="color: #64748b; font-size: 0.9rem; font-style: italic; margin-bottom: 2rem; line-height: 1.5;">${slide.textMg}</p>
+          <p style="color: Orange; font-size: 0.9rem; font-style: italic; margin-bottom: 2rem; line-height: 1.5;">${slide.textMg}</p>
 
           <button id="ob-btn-next" style="background: #0A8A6E; color: white; border: none; padding: 14px 40px; border-radius: 50px; font-weight: bold; font-size: 1.05rem; cursor: pointer; min-width: 200px; box-shadow: 0 4px 12px rgba(10, 138, 110, 0.3); transition: transform 0.2s;">
             ${slide.action} →
