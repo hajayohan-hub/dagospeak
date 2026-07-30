@@ -3546,34 +3546,34 @@ function showSettingsModal() {
 // ═══════════════════════════════════════════════════════════
 // GESTION SÉCURISÉE DU DÉMARRAGE ET ONBOARDING
 // ═══════════════════════════════════════════════════════════
-// ═══════════════════════════════════════════════════════════
-// DÉMARRAGE AVEC ONBOARDING TOUJOURS ACTIF
-// L'onboarding s'exécute toujours si l'app a été fermée
-// ═══════════════════════════════════════════════════════════
-const onboarding = new OnboardingScreen();
 
-// Vérifier si l'utilisateur est Premium pour reconnexion automatique
-const userType = localStorage.getItem('dagospeak:userType');
-const isPremium = localStorage.getItem('dagospeak:isPremium') === 'true';
+// Vérifier si l'utilisateur a déjà un profil enregistré
+const userProfile = localStorage.getItem('dagospeak:userProfile');
+const onboardingSeen = localStorage.getItem('dagospeak:onboardingComplete');
 
-if (isPremium) {
-  // Reconnexion automatique pour les Premium
-  logger.info('✅ Reconnexion automatique Premium');
+if (userProfile && onboardingSeen === 'true') {
+  // Utilisateur déjà inscrit et onboarding terminé → Démarrage direct
+  console.log('[App] ✅ Utilisateur reconnu, démarrage direct...');
+
+  // Mise à jour du profil global pour que l'app sache si c'est Premium ou Gratuit
+  const parsedProfile = JSON.parse(userProfile);
+  if (parsedProfile.isPremium) {
+    localStorage.setItem('dagospeak:isPremium', 'true');
+  }
+
   router.start();
+  logger.info('✅ Application démarrée (Utilisateur connecté)');
 } else {
-  // Afficher l'onboarding
-  onboarding.show(
-    () => {
-      // Callback quand l'onboarding est terminé
-      router.start();
-      logger.info('✅ Application démarrée (après onboarding)');
-    },
-    () => {
-      // Callback quand l'utilisateur skip l'onboarding
-      router.start();
-      logger.info('✅ Application démarrée (onboarding skipé)');
-    }
-  );
+  // Premier lancement ou compte supprimé → Afficher l'onboarding complet
+  console.log('[App] 🎬 Premier lancement ou déconnexion, affichage de l\'onboarding...');
+
+  const onboarding = new OnboardingScreen(() => {
+    // Callback exécuté après la création du compte dans le formulaire
+    router.start();
+    logger.info('✅ Application démarrée (après création de compte)');
+  });
+
+  onboarding.show();
 }
 
 // Mise à jour de l'état actif de la barre de navigation mobile
@@ -3732,17 +3732,19 @@ function showUpdateBanner() {
     document.head.appendChild(style);
   }
 
-  // ───────────────────────────────────────────────────
-  // ✅ BOUTON ACTUALISER : le vrai flux correct
-  // ───────────────────────────────────────────────────
-  document.getElementById('btn-reload-app').addEventListener('click', () => {
-    console.log('[App] ⚡ Clic sur Actualiser → on réveille le SW en attente');
+ // ───────────────────────────────────────────────────
+// ✅ BOUTON ACTUALISER : Flux PWA sécurisé et fiable
+// ───────────────────────────────────────────────────
+const btnReload = document.getElementById('btn-reload-app');
+if (btnReload) {
+  btnReload.addEventListener('click', () => {
+    console.log('[App] ⚡ Clic sur Actualiser → Activation de la nouvelle version');
 
-    // 1. Envoyer SKIP_WAITING au SW pour qu'il passe en "active"
+    // 1. Envoyer SKIP_WAITING au Service Worker pour qu'il passe en état "active"
     if (navigator.serviceWorker.controller) {
       navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });
     } else {
-      // Fallback : si pas de controller, on demande à tous les SW
+      // Fallback : si aucun controller actif, on cible directement le SW en attente
       navigator.serviceWorker.getRegistrations().then(registrations => {
         registrations.forEach(reg => {
           if (reg.waiting) {
@@ -3752,17 +3754,22 @@ function showUpdateBanner() {
       });
     }
 
-    // 2. Le reload sera déclenché AUTOMATIQUEMENT par controllerchange
-    //    (pas besoin de window.location.reload() ici)
-    //    → voir l'écouteur controllerchange ci-dessus
+    // 2. Masquer immédiatement la bannière pour éviter les clics multiples
+    const banner = document.getElementById('pwa-update-banner');
+    if (banner) {
+      banner.style.opacity = '0';
+      banner.style.transition = 'opacity 0.3s ease-out';
+      setTimeout(() => {
+        if (banner.parentNode) banner.parentNode.removeChild(banner);
+      }, 300);
+    }
 
-    // 3. Sécurité : si controllerchange ne se déclenche pas sous 2s, on force
+    // 3. Sécurité : Forcer le rechargement de la page après un court délai
+    // Le 'true' force le navigateur à ignorer son cache HTTP et à utiliser le nouveau SW
     setTimeout(() => {
-      if (document.getElementById('pwa-update-banner')) {
-        console.warn('[App] ⚠️ controllerchange non détecté, reload forcé');
-        window.location.reload();
-      }
-    }, 2000);
+      console.log('[App] 🔄 Rechargement de la page avec la nouvelle version...');
+      window.location.reload(true);
+    }, 500);
   });
 }
 
