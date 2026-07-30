@@ -1,0 +1,21 @@
+{
+  "id": "alphabet2",
+  "level": "A0",
+  "theme": "Alphabet - Partie 2",
+  "themeMg": "Alfabe - Ampahany 2",
+  "items": [
+    { "id": "n1", "target": "N", "source": "N", "phonetic": "ɛn", "context": "Nuage", "contextTranslation": "Rahona", "icon": "☁️" },
+    { "id": "n2", "target": "O", "source": "O", "phonetic": "o", "context": "Oiseau", "contextTranslation": "Vorona", "icon": "🐦" },
+    { "id": "n3", "target": "P", "source": "P", "phonetic": "pe", "context": "Pomme", "contextTranslation": "Paoma", "icon": "🍎" },
+    { "id": "n4", "target": "Q", "source": "Q", "phonetic": "ky", "context": "Question", "contextTranslation": "Fanontaniana", "icon": "❓" },
+    { "id": "n5", "target": "R", "source": "R", "phonetic": "ɛʁ", "context": "Rivière", "contextTranslation": "Ony", "icon": "🏞️" },
+    { "id": "n6", "target": "S", "source": "S", "phonetic": "ɛs", "context": "Soleil", "contextTranslation": "Masoandro", "icon": "☀️" },
+    { "id": "n7", "target": "T", "source": "T", "phonetic": "te", "context": "Tortue", "contextTranslation": "Fano", "icon": "🐢" },
+    { "id": "n8", "target": "U", "source": "U", "phonetic": "y", "context": "Université", "contextTranslation": "Oniversite", "icon": "🎓" },
+    { "id": "n9", "target": "V", "source": "V", "phonetic": "ve", "context": "Voiture", "contextTranslation": "Fiara", "icon": "" },
+    { "id": "n10", "target": "W", "source": "W", "phonetic": "dublave", "context": "Week-end", "contextTranslation": "Tratra herinandro", "icon": "🎉" },
+    { "id": "n11", "target": "X", "source": "X", "phonetic": "iks", "context": "Xylophone", "contextTranslation": "Xylophone", "icon": "🎵" },
+    { "id": "n12", "target": "Y", "source": "Y", "phonetic": "iɡʁɛk", "context": "Yacht", "contextTranslation": "Sambo", "icon": "⛵" },
+    { "id": "n13", "target": "Z", "source": "Z", "phonetic": "zɛd", "context": "Zèbre", "contextTranslation": "Zebra", "icon": "🦓" }
+  ]
+}

@@ -6,6 +6,8 @@
       "title": "Débutant",
       "description": "Les 10 bases essentielles pour commencer",
       "units": [
+        "alphabet1",
+        "alphabet2",
         "survival",
         "family",
         "market",

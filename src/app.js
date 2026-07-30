@@ -1106,6 +1106,192 @@ async function renderLessonPhrases() {
 }
 
 
+  // ═══════════════════════════════════════════════════════════
+// VUE : ALPHABET (Écoute et répétition uniquement - pas de révision/dialogue)
+// ═══════════════════════════════════════════════════════════
+async function renderAlphabet() {
+  const main = document.getElementById('app');
+  main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement de l\'alphabet...</div>';
+  renderProgressHeader();
+
+  try {
+    const floatActions = document.getElementById('floating-home-actions');
+    if (floatActions) floatActions.remove();
+
+    const vocabData = await content.loadSection('fr', 'vocabulary', currentTheme);
+    const isPart1 = currentTheme === 'alphabet1';
+    const nextPart = isPart1 ? 'alphabet2' : null;
+
+    const title = isPart1 ? 'Alphabet - Partie 1 (A-M)' : 'Alphabet - Partie 2 (N-Z)';
+    const titleMg = isPart1 ? 'Alfabe - Ampahany 1 (A-M)' : 'Alfabe - Ampahany 2 (N-Z)';
+
+    main.innerHTML = `
+      <section style="max-width: 800px; margin: 0 auto; padding: 2rem 1rem;">
+        <ds-button variant="ghost" size="sm" id="btn-back" style="margin-bottom: 1rem;">← Retour aux thèmes</ds-button>
+        <div style="text-align:center; margin-bottom: 1.5rem;">
+          <span style="background:var(--ds-color-accent); color:white; padding:4px 12px; border-radius:20px; font-weight:600; font-size:0.8rem;">Niveau A0</span>
+        </div>
+        <h2 style="text-align:center; margin-bottom: 0.5rem;">🔤 ${title}</h2>
+        <p style="text-align:center; color:var(--ds-color-text-muted); font-style:italic; margin-bottom: 2rem;">${titleMg}</p>
+
+        <div style="background:var(--ds-color-primary-soft); padding:1rem; border-radius:var(--ds-radius-md); margin-bottom:2rem; text-align:center; border:1px solid var(--ds-color-primary);">
+          <p style="margin:0; color:var(--ds-color-primary); font-weight:600;">
+             Cliquez sur chaque carte pour écouter et répéter la lettre
+          </p>
+          <p style="margin:0.25rem 0 0 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">
+            (Tsindrio ny karatra tsirairay hihainoana sy hamerena ny litera)
+          </p>
+        </div>
+
+        <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap:1rem;">
+          ${vocabData.items.map((item, idx) => `
+            <div class="alphabet-card card-animate" data-index="${idx}" style="
+              background:var(--ds-color-surface);
+              padding:1rem;
+              border-radius:var(--ds-radius-md);
+              border:2px solid var(--ds-color-border);
+              cursor:pointer;
+              transition: all 0.3s;
+              text-align:center;
+            ">
+              <div style="font-size:2.5rem; margin-bottom:0.5rem;">${item.icon}</div>
+              <div style="font-size:1.8rem; font-weight:bold; color:var(--ds-color-primary); margin-bottom:0.25rem;">${item.target}</div>
+              <div style="font-size:0.8rem; color:var(--ds-color-accent); font-family:monospace; margin-bottom:0.5rem;">[${item.phonetic}]</div>
+              <div style="font-size:0.85rem; font-weight:600; color:var(--ds-color-text); margin-bottom:0.25rem;">${item.context}</div>
+              <div style="font-size:0.75rem; color:var(--ds-color-text-muted); font-style:italic;">${item.contextTranslation}</div>
+              <div class="listen-indicator" style="margin-top:0.5rem; font-size:1.2rem; opacity:0.3;"></div>
+            </div>
+          `).join('')}
+        </div>
+
+        <div id="alphabet-complete-section" style="display:none; margin-top:2rem; text-align:center;">
+          <div style="background:var(--ds-color-success-soft); padding:1.5rem; border-radius:var(--ds-radius-lg); border:2px solid var(--ds-color-success); margin-bottom:1rem;">
+            <div style="font-size:3rem; margin-bottom:0.5rem;">🎉</div>
+            <h3 style="color:var(--ds-color-success); margin-bottom:0.5rem;">Très bien !</h3>
+            <p style="color:var(--ds-color-text); margin-bottom:0.25rem;">
+              ${isPart1
+                ? 'Vous avez terminé la première moitié de l\'alphabet !'
+                : 'Vous avez terminé l\'alphabet complet !'}
+            </p>
+            <p style="color:var(--ds-color-text-muted); font-size:0.9rem; font-style:italic; margin-bottom:1rem;">
+              ${isPart1
+                ? '(Vita ny ampahany voalohany ny alfabe !)'
+                : '(Vita ny alfabe manontolo !)'}
+            </p>
+          </div>
+
+          ${isPart1 ? `
+            <ds-button id="btn-go-part2" class="guide-active" size="lg" variant="success" style="width:100%; animation: pulse-green 1.5s infinite;">
+              📝 Apprendre la 2ème partie (N-Z) →
+            </ds-button>
+          ` : `
+            <ds-button id="btn-go-first-theme" class="guide-active" size="lg" variant="primary" style="width:100%; animation: pulse-green 1.5s infinite;">
+              🚀 Commencer le premier thème (Survie) →
+            </ds-button>
+          `}
+        </div>
+      </section>
+    `;
+
+    document.getElementById('btn-back').addEventListener('click', () => router.navigate('/themes'));
+
+    // ✅ Gestion des cartes alphabet
+    let currentCardIndex = 0;
+    const cards = document.querySelectorAll('.alphabet-card');
+    const totalCards = cards.length;
+    let completedCount = 0;
+
+    // Allumer la première carte
+    if (cards.length > 0) {
+      cards[0].style.borderColor = 'var(--ds-color-primary)';
+      cards[0].style.animation = 'pulse-guide 2s infinite';
+    }
+
+    cards.forEach((card, index) => {
+      card.addEventListener('click', () => {
+        // Ne permettre que le clic sur la carte active
+        if (index !== currentCardIndex) return;
+
+        const item = vocabData.items[index];
+        const indicator = card.querySelector('.listen-indicator');
+
+        // Animation de clic
+        card.style.transform = 'scale(0.95)';
+        setTimeout(() => { card.style.transform = 'scale(1)'; }, 150);
+
+        // Écouter la lettre
+        speechSynthesis.cancel();
+        indicator.style.opacity = '1';
+        indicator.textContent = '🔊 ...';
+
+        const utterance = new SpeechSynthesisUtterance(item.target);
+        utterance.lang = 'fr-FR';
+        utterance.rate = 0.8;
+
+        utterance.onend = () => {
+          indicator.textContent = '✅';
+          indicator.style.opacity = '1';
+          card.style.borderColor = 'var(--ds-color-success)';
+          card.style.animation = 'none';
+          card.style.pointerEvents = 'none';
+
+          completedCount++;
+          currentCardIndex = index + 1;
+
+          // Allumer la carte suivante
+          if (currentCardIndex < cards.length) {
+            setTimeout(() => {
+              cards[currentCardIndex].style.borderColor = 'var(--ds-color-primary)';
+              cards[currentCardIndex].style.animation = 'pulse-guide 2s infinite';
+              cards[currentCardIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 500);
+          } else {
+            // Toutes les cartes terminées
+            setTimeout(() => {
+              document.getElementById('alphabet-complete-section').style.display = 'block';
+              document.getElementById('alphabet-complete-section').scrollIntoView({ behavior: 'smooth' });
+
+              // Feedback vocal du Teacher Avatar
+              if (isPart1) {
+                window.teacherAvatar.speak("Très bien ! Vous avez terminé la première moitié de l'alphabet. Maintenant, cliquez sur le bouton qui s'allume pour apprendre la deuxième partie !");
+              } else {
+                window.teacherAvatar.speak("Félicitations ! Vous avez terminé l'alphabet complet ! Maintenant, cliquez sur le bouton pour commencer votre premier thème !");
+              }
+            }, 800);
+          }
+        };
+
+        speechSynthesis.speak(utterance);
+      });
+    });
+
+    // Bouton vers partie 2 ou premier thème
+    const btnNext = document.getElementById(isPart1 ? 'btn-go-part2' : 'btn-go-first-theme');
+    if (btnNext) {
+      btnNext.addEventListener('click', () => {
+        if (isPart1) {
+          currentTheme = 'alphabet2';
+          localStorage.setItem('dagospeak:theme', currentTheme);
+          router.navigate('/alphabet');
+        } else {
+          currentTheme = 'survival';
+          localStorage.setItem('dagospeak:theme', currentTheme);
+          router.navigate('/theme-detail');
+        }
+      });
+    }
+
+    window.teacherAvatar.show('lesson');
+    setTimeout(() => {
+      window.teacherAvatar.speak("Cliquez sur chaque carte pour écouter et répéter chaque lettre de l'alphabet !");
+    }, 1000);
+
+    logger.info(`✅ Page Alphabet rendue: ${currentTheme}`);
+  } catch (e) {
+    main.innerHTML = `<p style="color:red; text-align:center;">Erreur: ${e.message}</p>`;
+  }
+}
+
 // ═══════════════════════════════════════════════════════════
 // HELPER TTS : Synthèse vocale avec gestion d'événements précise
 // ═══════════════════════════════════════════════════════════
@@ -2680,6 +2866,8 @@ async function renderThemes() {
 
     // ✅ DICTIONNAIRE EXPLICITE AVEC TOUTES LES ICÔNES
     const themeInfo = {
+      'alphabet1': { icon: '🔤', fr: 'Alphabet (A-M)', mg: 'Alfabe (A-M)' },
+      'alphabet2': { icon: '🔡', fr: 'Alphabet (N-Z)', mg: 'Alfabe (N-Z)' },
       'survival':  { icon: '🆘', fr: 'Mots de survie', mg: 'Teny fototra' },
       'family':    { icon: '👨‍👩‍👧', fr: 'La Famille', mg: 'Ny Fianakaviana' },
       'market':    { icon: '🛒', fr: 'Le Marché', mg: 'Ny Tsena' },
@@ -2695,7 +2883,11 @@ async function renderThemes() {
    const journeys = journeyTracker.getCompletedJourneys();
     const journeyTypes = ['lessons', 'practices', 'dialogues', 'roleplays', 'challenges'];
 
-    const themesHtml = levelData.units.map(unitId => {
+   // ✅ AJOUTER : Mettre alphabet1 et alphabet2 en premier (sans doublons)
+      const otherUnits = levelData.units.filter(u => u !== 'alphabet1' && u !== 'alphabet2');
+      const orderedUnits = ['alphabet1', 'alphabet2', ...otherUnits];
+
+      const themesHtml = orderedUnits.map(unitId => {
       const info = themeInfo[unitId] || { icon: '📁', fr: unitId, mg: unitId };
       const locked = isThemeLocked(unitId, profile);
 
@@ -2777,6 +2969,43 @@ async function renderThemeDetail() {
     return;
   }
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement...</div>';
+
+  // ✅ FLUX SPÉCIAL POUR L'ALPHABET (pas de révision/dialogue)
+if (currentTheme === 'alphabet1' || currentTheme === 'alphabet2') {
+  const isPart1 = currentTheme === 'alphabet1';
+  main.innerHTML = `
+    <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem; text-align:center;">
+      <ds-button variant="ghost" size="sm" id="btn-back-themes" style="margin-bottom: 1rem; float:left;">← Thèmes</ds-button>
+      <div style="clear:both; padding-top:1rem;">
+        <span style="background:var(--ds-color-accent); color:white; padding:4px 12px; border-radius:20px; font-weight:600; font-size:0.8rem;">Niveau A0</span>
+      </div>
+      <h1 style="margin-top:1rem; color:var(--ds-color-primary);">${themeName}</h1>
+      <p style="color:var(--ds-color-text-muted); margin-bottom: 2rem;">${unitData.themeMg} • ${unitData.items.length} lettres</p>
+
+      <div style="background:var(--ds-color-primary-soft); padding:2rem; border-radius:var(--ds-radius-lg); border:2px solid var(--ds-color-primary); margin-bottom:1.5rem;">
+        <div style="font-size:4rem; margin-bottom:1rem;">🔤</div>
+        <h3 style="color:var(--ds-color-primary); margin-bottom:0.5rem;">Écoute et répétition uniquement</h3>
+        <p style="color:var(--ds-color-text-muted); margin-bottom:1rem; font-style:italic;">
+          (Mihainoa ary avereno ihany - tsy misy fanadinana na resaka)
+        </p>
+        <p style="color:var(--ds-color-text); font-size:0.95rem;">
+          Ce thème spécial ne contient pas de révision ni de dialogue.
+          Vous allez simplement écouter et répéter chaque lettre.
+        </p>
+      </div>
+
+      <ds-button id="btn-start-alphabet" variant="success" size="lg" class="guide-active" style="width:100%; animation: pulse-green 1.5s infinite;">
+        🎯 Commencer l'alphabet →
+      </ds-button>
+    </section>
+  `;
+
+  document.getElementById('btn-back-themes').addEventListener('click', () => router.navigate('/themes'));
+  document.getElementById('btn-start-alphabet').addEventListener('click', () => router.navigate('/alphabet'));
+
+  window.teacherAvatar.show('theme-detail');
+  return; // ⚠️ IMPORTANT : sortir de la fonction ici
+}
 
   try {
     const unitData = await content.loadSection('fr', 'vocabulary', currentTheme);
@@ -3124,6 +3353,7 @@ router.addRoute('/profile', renderProfile);
 router.addRoute('/roleplay', renderRolePlay);
 router.addRoute('/challenge', renderChallenge);
 router.addRoute('/about', renderAbout);
+router.addRoute('/alphabet', renderAlphabet);  // ✅ AJOUTER
 
 initTheme();
 updateLevelUI();

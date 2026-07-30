@@ -1,0 +1,21 @@
+{
+  "id": "alphabet1",
+  "level": "A0",
+  "theme": "Alphabet - Partie 1",
+  "themeMg": "Alfabe - Ampahany 1",
+  "items": [
+    { "id": "a1", "target": "A", "source": "A", "phonetic": "a", "context": "Avion", "contextTranslation": "Fiaramanidina", "icon": "️" },
+    { "id": "a2", "target": "B", "source": "B", "phonetic": "be", "context": "Ballon", "contextTranslation": "Balaonina", "icon": "" },
+    { "id": "a3", "target": "C", "source": "C", "phonetic": "se", "context": "Chat", "contextTranslation": "Saka", "icon": "🐱" },
+    { "id": "a4", "target": "D", "source": "D", "phonetic": "de", "context": "Drapeau", "contextTranslation": "Sainam-pirenena", "icon": "" },
+    { "id": "a5", "target": "E", "source": "E", "phonetic": "e", "context": "Étoile", "contextTranslation": "Kintana", "icon": "⭐" },
+    { "id": "a6", "target": "F", "source": "F", "phonetic": "ɛf", "context": "Fleur", "contextTranslation": "Voninkazo", "icon": "🌸" },
+    { "id": "a7", "target": "G", "source": "G", "phonetic": "e", "context": "Gâteau", "contextTranslation": "Mofomamy", "icon": "🎂" },
+    { "id": "a8", "target": "H", "source": "H", "phonetic": "a", "context": "Hibiscus", "contextTranslation": "Voninkazo hibiscus", "icon": "🌺" },
+    { "id": "a9", "target": "I", "source": "I", "phonetic": "i", "context": "Île", "contextTranslation": "Nosy", "icon": "🏝️" },
+    { "id": "a10", "target": "J", "source": "J", "phonetic": "ʒi", "context": "Jardin", "contextTranslation": "Zaridaina", "icon": "🌳" },
+    { "id": "a11", "target": "K", "source": "K", "phonetic": "ka", "context": "Kangourou", "contextTranslation": "Kangaroo", "icon": "" },
+    { "id": "a12", "target": "L", "source": "L", "phonetic": "l", "context": "Lune", "contextTranslation": "Volana", "icon": "🌙" },
+    { "id": "a13", "target": "M", "source": "M", "phonetic": "ɛm", "context": "Maison", "contextTranslation": "Trano", "icon": "🏠" }
+  ]
+}
