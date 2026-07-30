@@ -878,7 +878,10 @@ syncProfileWithJourneys();
     const vocabData = await content.loadSection('fr', 'vocabulary', unitId);
 
     const themeNames = {
-      'survival': 'Mots de survie', 'numbers': 'Les Nombres',
+      'alphabet1': 'Alphabet - Partie 1',
+      'alphabet2': 'Alphabet - Partie 2',
+      'survival': 'Mots de survie',
+      'numbers': 'Les Nombres',
       'family': 'La Famille', 'market': 'Au Marché', 'colors': 'Les Couleurs'
     };
     const themeName = themeNames[unitId] || unitId;
@@ -2866,9 +2869,9 @@ async function renderThemes() {
 
     // ✅ DICTIONNAIRE EXPLICITE AVEC TOUTES LES ICÔNES
     const themeInfo = {
-      'alphabet1': { icon: '🔤', fr: 'Alphabet (A-M)', mg: 'Alfabe (A-M)' },
-      'alphabet2': { icon: '🔡', fr: 'Alphabet (N-Z)', mg: 'Alfabe (N-Z)' },
-      'survival':  { icon: '🆘', fr: 'Mots de survie', mg: 'Teny fototra' },
+      'alphabet1': { icon: '🔤', fr: 'Alphabet - Partie 1', mg: 'Alfabe - Ampahany 1' },
+      'alphabet2': { icon: '🔡', fr: 'Alphabet - Partie 2', mg: 'Alfabe - Ampahany 2' },
+      'survival':  { icon: '', fr: 'Mots de survie', mg: 'Teny fototra' },
       'family':    { icon: '👨‍👩‍👧', fr: 'La Famille', mg: 'Ny Fianakaviana' },
       'market':    { icon: '🛒', fr: 'Le Marché', mg: 'Ny Tsena' },
       'numbers':   { icon: '🔢', fr: 'Nombres (1-10)', mg: 'Ny Isa (1-10)' },
@@ -3012,7 +3015,10 @@ if (currentTheme === 'alphabet1' || currentTheme === 'alphabet2') {
     const profile = await gamification.getProfile();
 
     const themeNames = {
-      'survival': 'Mots de survie', 'numbers': 'Les Nombres',
+      'alphabet1': 'Alphabet - Partie 1',
+      'alphabet2': 'Alphabet - Partie 2',
+      'survival': 'Mots de survie',
+      'numbers': 'Les Nombres',
       'family': 'La Famille', 'market': 'Au Marché', 'colors': 'Les Couleurs',
       'numbers2': 'Nombres (11-20)', 'days': 'Les Jours', 'months': 'Les Mois',
       'greetings': 'Salutations', 'body': 'Le Corps'
