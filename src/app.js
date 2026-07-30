@@ -3567,14 +3567,14 @@ if (userProfile && onboardingSeen === 'true') {
   // Premier lancement ou compte supprimé → Afficher l'onboarding complet
   console.log('[App] 🎬 Premier lancement ou déconnexion, affichage de l\'onboarding...');
 
-  const onboarding = new OnboardingScreen(() => {
-    // Callback exécuté après la création du compte dans le formulaire
-    router.start();
-    logger.info('✅ Application démarrée (après création de compte)');
-  });
-
-  onboarding.show();
-}
+  // ═══════════════════════════════════════════════════════════
+// GESTION SÉCURISÉE DU DÉMARRAGE ET ONBOARDING
+// ═══════════════════════════════════════════════════════════
+const onboarding = new OnboardingScreen(() => {
+  router.start();
+  logger.info('✅ Application démarrée (après onboarding)');
+});
+onboarding.show();
 
 // Mise à jour de l'état actif de la barre de navigation mobile
 function updateMobileNavActiveState() {
@@ -3583,13 +3583,12 @@ function updateMobileNavActiveState() {
     link.classList.toggle('active', link.dataset.route === currentHash);
   });
 }
-
 window.addEventListener('hashchange', updateMobileNavActiveState);
-updateMobileNavActiveState(); // Appel initial
+updateMobileNavActiveState();
 
 
 // ═══════════════════════════════════════════════════════════
-// GESTION DES MISES À JOUR PWA (Non-intrusif et contrôlé par l'utilisateur)
+// GESTION DES MISES À JOUR PWA (Non-intrusif)
 // ═══════════════════════════════════════════════════════════
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
@@ -3597,65 +3596,26 @@ if ('serviceWorker' in navigator) {
       const registration = await navigator.serviceWorker.register('/sw.js');
       console.log('[App] ✅ SW enregistré:', registration.scope);
 
-      // Écouter les messages du SW (nouvelle version disponible)
       navigator.serviceWorker.addEventListener('message', (event) => {
         if (event.data && event.data.type === 'NEW_VERSION') {
           console.log('[App] 🔄 Nouvelle version détectée');
-
-          // Vérifier si le bandeau existe déjà pour éviter les doublons
           if (document.getElementById('update-banner')) return;
 
           const banner = document.createElement('div');
           banner.id = 'update-banner';
           banner.style.cssText = `
-            position: fixed;
-            bottom: 100px; /* Au-dessus de la nav mobile */
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--ds-color-primary, #0A8A6E);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 50px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            z-index: 9999;
-            font-size: 0.9rem;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            animation: slideUp 0.4s ease-out;
+            position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
+            background: #0A8A6E; color: white; padding: 12px 20px; border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999;
+            font-size: 0.9rem; font-weight: 500; display: flex; align-items: center; gap: 12px;
           `;
           banner.innerHTML = `
             <span>✨ Mise à jour disponible</span>
-            <button id="btn-reload-now" style="
-              background: white;
-              color: var(--ds-color-primary, #0A8A6E);
-              border: none;
-              padding: 6px 14px;
-              border-radius: 20px;
-              font-weight: bold;
-              font-size: 0.85rem;
-              cursor: pointer;
-              transition: transform 0.2s;
-            " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-              Actualiser
-            </button>
+            <button id="btn-reload-now" style="background: white; color: #0A8A6E; border: none; padding: 6px 14px; border-radius: 20px; font-weight: bold; cursor: pointer;">Actualiser</button>
           `;
           document.body.appendChild(banner);
 
-          // Style pour l'animation
-          if (!document.getElementById('update-banner-style')) {
-            const style = document.createElement('style');
-            style.id = 'update-banner-style';
-            style.innerHTML = `@keyframes slideUp { from { transform: translate(-50%, 100%); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }`;
-            document.head.appendChild(style);
-          }
-
-          // ✅ ACTION UNIQUEMENT AU CLIC DE L'UTILISATEUR (Plus de setTimeout agressif)
           document.getElementById('btn-reload-now').addEventListener('click', () => {
-            console.log('[App] 🔄 Rechargement manuel demandé par l\'utilisateur');
-
-            // On dit au SW de s'activer immédiatement avant de recharger
             if (registration.waiting) {
               registration.waiting.postMessage({ type: 'SKIP_WAITING' });
             }
@@ -3664,112 +3624,14 @@ if ('serviceWorker' in navigator) {
         }
       });
 
-      // Vérifie les mises à jour toutes les 5 minutes en arrière-plan (sans forcer le reload)
       setInterval(() => {
         registration.update().then(() => {
-          console.log('[App] 🔄 Vérification des mises à jour en arrière-plan...');
+          console.log('[App] 🔄 Vérification des mises à jour...');
         });
       }, 5 * 60 * 1000);
-
     } catch (error) {
       console.warn('[App] ⚠️ Échec SW:', error);
     }
-  });
-}
-
-// ═══════════════════════════════════════════════════════════
-// BANDEAU DE MISE À JOUR (version unique et propre)
-// ═══════════════════════════════════════════════════════════
-function showUpdateBanner() {
-  // Éviter les doublons
-  if (document.getElementById('pwa-update-banner')) return;
-
-  const banner = document.createElement('div');
-  banner.id = 'pwa-update-banner';
-  banner.style.cssText = `
-    position: fixed;
-    bottom: 90px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--ds-color-primary, #2563eb);
-    color: white;
-    padding: 12px 20px;
-    border-radius: 50px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    z-index: 9999;
-    font-size: 0.9rem;
-    font-weight: 500;
-    animation: slideUp 0.3s ease-out;
-  `;
-  banner.innerHTML = `
-    <span>🔄 Nouvelle version disponible !</span>
-    <button id="btn-reload-app" style="
-      background: white;
-      color: var(--ds-color-primary, #2563eb);
-      border: none;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 0.85rem;
-    ">Actualiser</button>
-  `;
-  document.body.appendChild(banner);
-
-  // Injection du CSS d'animation (une seule fois)
-  if (!document.getElementById('slide-up-style')) {
-    const style = document.createElement('style');
-    style.id = 'slide-up-style';
-    style.innerHTML = `
-      @keyframes slideUp {
-        from { transform: translate(-50%, 100%); opacity: 0; }
-        to   { transform: translate(-50%, 0);    opacity: 1; }
-      }
-    `;
-    document.head.appendChild(style);
-  }
-
- // ───────────────────────────────────────────────────
-// ✅ BOUTON ACTUALISER : Flux PWA sécurisé et fiable
-// ───────────────────────────────────────────────────
-const btnReload = document.getElementById('btn-reload-app');
-if (btnReload) {
-  btnReload.addEventListener('click', () => {
-    console.log('[App] ⚡ Clic sur Actualiser → Activation de la nouvelle version');
-
-    // 1. Envoyer SKIP_WAITING au Service Worker pour qu'il passe en état "active"
-    if (navigator.serviceWorker.controller) {
-      navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });
-    } else {
-      // Fallback : si aucun controller actif, on cible directement le SW en attente
-      navigator.serviceWorker.getRegistrations().then(registrations => {
-        registrations.forEach(reg => {
-          if (reg.waiting) {
-            reg.waiting.postMessage({ type: 'SKIP_WAITING' });
-          }
-        });
-      });
-    }
-
-    // 2. Masquer immédiatement la bannière pour éviter les clics multiples
-    const banner = document.getElementById('pwa-update-banner');
-    if (banner) {
-      banner.style.opacity = '0';
-      banner.style.transition = 'opacity 0.3s ease-out';
-      setTimeout(() => {
-        if (banner.parentNode) banner.parentNode.removeChild(banner);
-      }, 300);
-    }
-
-    // 3. Sécurité : Forcer le rechargement de la page après un court délai
-    // Le 'true' force le navigateur à ignorer son cache HTTP et à utiliser le nouveau SW
-    setTimeout(() => {
-      console.log('[App] 🔄 Rechargement de la page avec la nouvelle version...');
-      window.location.reload(true);
-    }, 500);
   });
 }
 
