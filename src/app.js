@@ -356,6 +356,56 @@ document.getElementById('theme-toggle')?.addEventListener('click', () => {
   logger.info(`Thème basculé : ${next}`);
 });
 
+
+// ═══════════════════════════════════════════════════════════
+// GESTION DU STATUT RÉSEAU (UX Offline Clair)
+// ═══════════════════════════════════════════════════════════
+function showNetworkStatus(isOnline) {
+  // Supprimer l'ancienne notification si elle existe
+  const existing = document.getElementById('network-toast');
+  if (existing) existing.remove();
+
+  if (!isOnline) {
+    const toast = document.createElement('div');
+    toast.id = 'network-toast';
+    toast.style.cssText = `
+      position: fixed; top: 80px; left: 50%; transform: translateX(-50%);
+      background: #f59e0b; color: white; padding: 8px 16px; border-radius: 20px;
+      font-size: 0.85rem; font-weight: 600; z-index: 9998;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      display: flex; align-items: center; gap: 8px;
+      animation: slideDown 0.3s ease-out;
+    `;
+    toast.innerHTML = `<span>📶</span> Mode hors-ligne (Vos progrès sont sauvegardés)`;
+    document.body.appendChild(toast);
+
+    // Disparaît après 4 secondes
+    setTimeout(() => {
+      if (toast.parentNode) {
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.5s';
+        setTimeout(() => toast.remove(), 500);
+      }
+    }, 4000);
+  }
+}
+
+// Écouteurs globaux
+window.addEventListener('online', () => {
+  console.log('✅ Connexion rétablie');
+  // Optionnel : déclencher une sync ici si tu as des données en attente
+});
+
+window.addEventListener('offline', () => {
+  console.log('⚠️ Mode hors-ligne activé');
+  showNetworkStatus(false);
+});
+
+// Vérifier l'état au démarrage
+if (!navigator.onLine) {
+  showNetworkStatus(false);
+}
+
 // ═══════════════════════════════════════════════════════════
 // VUES
 // ═══════════════════════════════════════════════════════════
@@ -3542,7 +3592,7 @@ updateMobileNavActiveState(); // Appel initial
 // GESTION AUTOMATIQUE DES MISES À JOUR PWA
 // ═══════════════════════════════════════════════════════════
 // ═══════════════════════════════════════════════════════════
-// GESTION DES MISES À JOUR AUTOMATIQUES
+// GESTION AUTOMATIQUE DES MISES À JOUR PWA (v2 - CORRIGÉ)
 // ═══════════════════════════════════════════════════════════
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
@@ -3550,61 +3600,31 @@ if ('serviceWorker' in navigator) {
       const registration = await navigator.serviceWorker.register('/sw.js');
       console.log('[App] ✅ SW enregistré:', registration.scope);
 
-      // Écouter les messages du SW (nouvelle version disponible)
+      // ───────────────────────────────────────────────────
+      // 1. ÉCOUTER les messages du SW (nouvelle version dispo)
+      // ───────────────────────────────────────────────────
       navigator.serviceWorker.addEventListener('message', (event) => {
         if (event.data && event.data.type === 'NEW_VERSION') {
-          console.log('[App] 🔄 Nouvelle version détectée, reload dans 3 secondes...');
-
-          // Affiche un bandeau discret
-          const banner = document.createElement('div');
-          banner.id = 'update-banner';
-          banner.style.cssText = `
-            position: fixed;
-            bottom: 90px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--ds-color-primary, #2563eb);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            z-index: 9999;
-            font-size: 0.9rem;
-            font-weight: 500;
-            animation: slideUp 0.3s ease-out;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-          `;
-          banner.innerHTML = `
-            <span>🔄 Mise à jour disponible</span>
-            <button id="btn-reload-now" style="background:white; color:var(--ds-color-primary,#2563eb); border:none; padding:6px 12px; border-radius:20px; font-weight:bold; cursor:pointer;">Actualiser</button>
-          `;
-          document.body.appendChild(banner);
-
-          // Style pour l'animation
-          if (!document.getElementById('update-banner-style')) {
-            const style = document.createElement('style');
-            style.id = 'update-banner-style';
-            style.innerHTML = `@keyframes slideUp { from { transform: translate(-50%, 100%); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }`;
-            document.head.appendChild(style);
-          }
-
-          // Bouton reload manuel
-          document.getElementById('btn-reload-now').addEventListener('click', () => {
-            window.location.reload();
-          });
-
-          // Auto-reload après 3 secondes si l'utilisateur ne clique pas
-          setTimeout(() => {
-            if (document.getElementById('update-banner')) {
-              window.location.reload();
-            }
-          }, 3000);
+          console.log('[App] 🔄 Nouvelle version détectée via message SW');
+          showUpdateBanner();
         }
       });
 
-      // Vérifie les mises à jour toutes les 5 minutes
+      // ───────────────────────────────────────────────────
+      // 2. ÉCOUTER controllerchange (le SW a pris le contrôle)
+      //    → C'est le signal fiable pour recharger
+      // ───────────────────────────────────────────────────
+      let refreshing = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (refreshing) return; // Évite les rechargements en boucle
+        refreshing = true;
+        console.log('[App] 🎯 Nouveau SW actif → rechargement');
+        window.location.reload();
+      });
+
+      // ───────────────────────────────────────────────────
+      // 3. Vérification périodique (toutes les 5 min)
+      // ───────────────────────────────────────────────────
       setInterval(() => {
         registration.update().then(() => {
           console.log('[App] 🔄 Vérification des mises à jour...');
@@ -3617,25 +3637,93 @@ if ('serviceWorker' in navigator) {
   });
 }
 
+// ═══════════════════════════════════════════════════════════
+// BANDEAU DE MISE À JOUR (version unique et propre)
+// ═══════════════════════════════════════════════════════════
 function showUpdateBanner() {
+  // Éviter les doublons
   if (document.getElementById('pwa-update-banner')) return;
+
   const banner = document.createElement('div');
   banner.id = 'pwa-update-banner';
+  banner.style.cssText = `
+    position: fixed;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ds-color-primary, #2563eb);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 50px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 9999;
+    font-size: 0.9rem;
+    font-weight: 500;
+    animation: slideUp 0.3s ease-out;
+  `;
   banner.innerHTML = `
-    <div style="position:fixed; bottom:80px; left:50%; transform:translateX(-50%); background:var(--ds-color-primary,#2563eb); color:white; padding:12px 20px; border-radius:50px; box-shadow:0 4px 12px rgba(0,0,0,0.2); display:flex; align-items:center; gap:12px; z-index:9999; font-size:0.9rem; font-weight:500; animation:slideUp 0.3s ease-out;">
-      <span>🔄 Nouvelle version disponible !</span>
-      <button id="btn-reload-app" style="background:white; color:var(--ds-color-primary,#2563eb); border:none; padding:6px 12px; border-radius:20px; font-weight:bold; cursor:pointer; font-size:0.85rem;">Actualiser</button>
-    </div>`;
+    <span>🔄 Nouvelle version disponible !</span>
+    <button id="btn-reload-app" style="
+      background: white;
+      color: var(--ds-color-primary, #2563eb);
+      border: none;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 0.85rem;
+    ">Actualiser</button>
+  `;
   document.body.appendChild(banner);
 
+  // Injection du CSS d'animation (une seule fois)
   if (!document.getElementById('slide-up-style')) {
     const style = document.createElement('style');
     style.id = 'slide-up-style';
-    style.innerHTML = `@keyframes slideUp { from { transform: translate(-50%, 100%); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }`;
+    style.innerHTML = `
+      @keyframes slideUp {
+        from { transform: translate(-50%, 100%); opacity: 0; }
+        to   { transform: translate(-50%, 0);    opacity: 1; }
+      }
+    `;
     document.head.appendChild(style);
   }
 
-  document.getElementById('btn-reload-app').addEventListener('click', () => window.location.reload(true));
+  // ───────────────────────────────────────────────────
+  // ✅ BOUTON ACTUALISER : le vrai flux correct
+  // ───────────────────────────────────────────────────
+  document.getElementById('btn-reload-app').addEventListener('click', () => {
+    console.log('[App] ⚡ Clic sur Actualiser → on réveille le SW en attente');
+
+    // 1. Envoyer SKIP_WAITING au SW pour qu'il passe en "active"
+    if (navigator.serviceWorker.controller) {
+      navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });
+    } else {
+      // Fallback : si pas de controller, on demande à tous les SW
+      navigator.serviceWorker.getRegistrations().then(registrations => {
+        registrations.forEach(reg => {
+          if (reg.waiting) {
+            reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+          }
+        });
+      });
+    }
+
+    // 2. Le reload sera déclenché AUTOMATIQUEMENT par controllerchange
+    //    (pas besoin de window.location.reload() ici)
+    //    → voir l'écouteur controllerchange ci-dessus
+
+    // 3. Sécurité : si controllerchange ne se déclenche pas sous 2s, on force
+    setTimeout(() => {
+      if (document.getElementById('pwa-update-banner')) {
+        console.warn('[App] ⚠️ controllerchange non détecté, reload forcé');
+        window.location.reload();
+      }
+    }, 2000);
+  });
 }
 
 logger.info('✅ Application démarrée');

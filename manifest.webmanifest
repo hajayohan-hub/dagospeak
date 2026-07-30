@@ -2,13 +2,13 @@
   "name": "DagoSpeak",
   "short_name": "DagoSpeak",
   "description": "Apprenez à parler français naturellement. Conçu pour les apprenants malgaches.",
-  "lang": "mg-FR",
+  "lang": "fr",
   "dir": "ltr",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "theme_color": "#2563eb",
+  "theme_color": "#0A8A6E",
   "background_color": "#ffffff",
   "categories": ["education", "productivity"],
   "icons": [
@@ -29,8 +29,10 @@
     {
       "name": "Pratique du jour",
       "short_name": "Pratique",
-      "url": "/#practice",
-      "icons": [{ "src": "/assets/dagospeak-logo.svg", "sizes": "192x192" }]
+      "url": "/#/practice",
+      "icons": [
+        { "src": "/assets/icon-192x192.png", "sizes": "192x192", "type": "image/png" }
+      ]
     }
   ]
 }

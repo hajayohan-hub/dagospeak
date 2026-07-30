@@ -1,9 +1,8 @@
 // ═══════════════════════════════════════════════════════════
-// DAGOSPEAK SERVICE WORKER v17
+// DAGOSPEAK SERVICE WORKER v18
 // Stratégie Hybride : Cache-First + Stale-While-Revalidate + Network-First
 // ══════════════════════════════════════════════════════════
-
-const CACHE_NAME = 'dagospeak-v17'; // ⚠️ Incrémenter à chaque déploiement majeur
+const CACHE_NAME = 'dagospeak-v18'; // ⚠️ Incrémenter à chaque déploiement majeur
 
 // Liste des assets critiques à pré-cacher (Cache-First)
 const STATIC_ASSETS = [
@@ -25,6 +24,8 @@ const STATIC_ASSETS = [
   '/content/fr/vocabulary/months.json',
   '/content/fr/vocabulary/greetings.json',
   '/content/fr/vocabulary/body.json',
+  '/content/fr/vocabulary/alphabet1.json', // ✅ Ajouté
+  '/content/fr/vocabulary/alphabet2.json', // ✅ Ajouté
   '/content/fr/dialogues/survival_dialogue.json',
   '/content/fr/dialogues/family_dialogue.json',
   '/content/fr/dialogues/market_dialogue.json',
@@ -39,51 +40,51 @@ const STATIC_ASSETS = [
 
 // ═══════════════════════════════════════════════════════════
 // 1. INSTALL : Pré-cache les assets statiques
-// ═══════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════
 self.addEventListener('install', (event) => {
-  console.log('[SW v17] 📦 Installation...');
+  console.log('[SW v18] 📦 Installation...');
   event.waitUntil(
     caches.open(CACHE_NAME).then(async (cache) => {
-      console.log('[SW v17] 📂 Ouverture du cache:', CACHE_NAME);
+      console.log('[SW v18] 📂 Ouverture du cache:', CACHE_NAME);
       for (const url of STATIC_ASSETS) {
         try {
           await cache.add(url);
-          console.log('[SW v17] ✅ Caché:', url);
+          console.log('[SW v18] ✅ Caché:', url);
         } catch (err) {
-          console.warn('[SW v17] ⚠️ Échec cache:', url, err.message);
+          console.warn('[SW v18] ️ Échec cache:', url, err.message);
         }
       }
     }).then(() => {
-      console.log('[SW v17] ⚡ skipWaiting()');
+      console.log('[SW v18]  skipWaiting()');
       return self.skipWaiting();
     })
   );
 });
 
-// ═══════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════
 // 2. ACTIVATE : Nettoie les vieux caches + prend le contrôle
-// ═══════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════
 self.addEventListener('activate', (event) => {
-  console.log('[SW v17] 🚀 Activation...');
+  console.log('[SW v18] 🚀 Activation...');
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames
           .filter((name) => name !== CACHE_NAME)
           .map((name) => {
-            console.log('[SW v17] 🗑️ Suppression:', name);
+            console.log('[SW v18] 🗑️ Suppression:', name);
             return caches.delete(name);
           })
       );
     }).then(() => {
-      console.log('[SW v17] 🎯 clients.claim()');
+      console.log('[SW v18] 🎯 clients.claim()');
       return self.clients.claim();
     }).then(() => {
       // Notifie toutes les pages ouvertes qu'une nouvelle version est prête
       return self.clients.matchAll({ type: 'window', includeUncontrolled: true })
         .then((clients) => {
           clients.forEach((client) => {
-            console.log('[SW v17] 📢 Notification NEW_VERSION à:', client.url);
+            console.log('[SW v18] 📢 Notification NEW_VERSION à:', client.url);
             client.postMessage({ type: 'NEW_VERSION' });
           });
         });
@@ -123,10 +124,8 @@ self.addEventListener('fetch', (event) => {
             }
             return networkResponse;
           }).catch(() => null);
-
           return cached; // ✅ Retourne le cache SANS attendre
         }
-
         // Pas en cache, on fetch et on cache pour la prochaine fois
         return fetch(request).then((response) => {
           if (response && response.ok) {
@@ -156,7 +155,7 @@ self.addEventListener('fetch', (event) => {
         }).catch(() => {
           // Si le réseau échoue et qu'on a le cache, on le retourne
           if (cached) return cached;
-          // Sinon, fallback vide (✅ Coquille corrigée ici : '/* offline */')
+          // Sinon, fallback vide (✅ Coquille corrigée : '/* offline */')
           return new Response(
             '/* offline */',
             {
@@ -165,7 +164,6 @@ self.addEventListener('fetch', (event) => {
             }
           );
         });
-
         // Retourne le cache s'il existe, sinon attend le réseau
         return cached || fetchPromise;
       })
@@ -196,7 +194,7 @@ self.addEventListener('fetch', (event) => {
   // ───────────────────────────────────────────────────────
   // STRATÉGIE D : FALLBACK
   // Pour : Tout le reste
-  // ───────────────────────────────────────────────────────
+  // ──────────────────────────────────────────────────────
   event.respondWith(
     caches.match(request).then((cached) => {
       if (cached) return cached;
@@ -210,6 +208,7 @@ self.addEventListener('fetch', (event) => {
 // ═══════════════════════════════════════════════════════════
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
+    console.log('[SW v18] ⏭️ Skip waiting activé par l\'utilisateur');
     self.skipWaiting();
   }
 });
