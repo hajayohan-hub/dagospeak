@@ -3636,3 +3636,4 @@ if ('serviceWorker' in navigator) {
 }
 
 logger.info('✅ Application démarrée');
+}
