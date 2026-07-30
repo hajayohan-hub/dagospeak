@@ -3589,10 +3589,7 @@ updateMobileNavActiveState(); // Appel initial
 
 
 // ═══════════════════════════════════════════════════════════
-// GESTION AUTOMATIQUE DES MISES À JOUR PWA
-// ═══════════════════════════════════════════════════════════
-// ═══════════════════════════════════════════════════════════
-// GESTION AUTOMATIQUE DES MISES À JOUR PWA (v2 - CORRIGÉ)
+// GESTION DES MISES À JOUR PWA (Non-intrusif et contrôlé par l'utilisateur)
 // ═══════════════════════════════════════════════════════════
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
@@ -3600,34 +3597,77 @@ if ('serviceWorker' in navigator) {
       const registration = await navigator.serviceWorker.register('/sw.js');
       console.log('[App] ✅ SW enregistré:', registration.scope);
 
-      // ───────────────────────────────────────────────────
-      // 1. ÉCOUTER les messages du SW (nouvelle version dispo)
-      // ───────────────────────────────────────────────────
+      // Écouter les messages du SW (nouvelle version disponible)
       navigator.serviceWorker.addEventListener('message', (event) => {
         if (event.data && event.data.type === 'NEW_VERSION') {
-          console.log('[App] 🔄 Nouvelle version détectée via message SW');
-          showUpdateBanner();
+          console.log('[App] 🔄 Nouvelle version détectée');
+
+          // Vérifier si le bandeau existe déjà pour éviter les doublons
+          if (document.getElementById('update-banner')) return;
+
+          const banner = document.createElement('div');
+          banner.id = 'update-banner';
+          banner.style.cssText = `
+            position: fixed;
+            bottom: 100px; /* Au-dessus de la nav mobile */
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--ds-color-primary, #0A8A6E);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 9999;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideUp 0.4s ease-out;
+          `;
+          banner.innerHTML = `
+            <span>✨ Mise à jour disponible</span>
+            <button id="btn-reload-now" style="
+              background: white;
+              color: var(--ds-color-primary, #0A8A6E);
+              border: none;
+              padding: 6px 14px;
+              border-radius: 20px;
+              font-weight: bold;
+              font-size: 0.85rem;
+              cursor: pointer;
+              transition: transform 0.2s;
+            " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+              Actualiser
+            </button>
+          `;
+          document.body.appendChild(banner);
+
+          // Style pour l'animation
+          if (!document.getElementById('update-banner-style')) {
+            const style = document.createElement('style');
+            style.id = 'update-banner-style';
+            style.innerHTML = `@keyframes slideUp { from { transform: translate(-50%, 100%); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }`;
+            document.head.appendChild(style);
+          }
+
+          // ✅ ACTION UNIQUEMENT AU CLIC DE L'UTILISATEUR (Plus de setTimeout agressif)
+          document.getElementById('btn-reload-now').addEventListener('click', () => {
+            console.log('[App] 🔄 Rechargement manuel demandé par l\'utilisateur');
+
+            // On dit au SW de s'activer immédiatement avant de recharger
+            if (registration.waiting) {
+              registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+            }
+            window.location.reload();
+          });
         }
       });
 
-      // ───────────────────────────────────────────────────
-      // 2. ÉCOUTER controllerchange (le SW a pris le contrôle)
-      //    → C'est le signal fiable pour recharger
-      // ───────────────────────────────────────────────────
-      let refreshing = false;
-      navigator.serviceWorker.addEventListener('controllerchange', () => {
-        if (refreshing) return; // Évite les rechargements en boucle
-        refreshing = true;
-        console.log('[App] 🎯 Nouveau SW actif → rechargement');
-        window.location.reload();
-      });
-
-      // ───────────────────────────────────────────────────
-      // 3. Vérification périodique (toutes les 5 min)
-      // ───────────────────────────────────────────────────
+      // Vérifie les mises à jour toutes les 5 minutes en arrière-plan (sans forcer le reload)
       setInterval(() => {
         registration.update().then(() => {
-          console.log('[App] 🔄 Vérification des mises à jour...');
+          console.log('[App] 🔄 Vérification des mises à jour en arrière-plan...');
         });
       }, 5 * 60 * 1000);
 
