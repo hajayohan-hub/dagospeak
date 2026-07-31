@@ -3641,79 +3641,63 @@ if (userProfile && onboardingSeen === 'true') {
 }
 
 // ═══════════════════════════════════════════════════════════
-// GESTION DES MISES À JOUR PWA (Version Finale Absolue)
+// GESTION DES MISES À JOUR PWA (UX : Relance l'onboarding)
 // ═══════════════════════════════════════════════════════════
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
     try {
       const registration = await navigator.serviceWorker.register('/sw.js');
-      console.log('[App] ✅ SW enregistré:', registration.scope);
+      console.log('[App] ✅ SW enregistré');
 
-      // ✅ 1. NETTOYAGE RADICAL : Supprimer tout ancien bandeau fantôme au démarrage
-      const oldBanner = document.getElementById('update-banner');
-      if (oldBanner) {
-        console.log('[App] 🧹 Suppression d\'un ancien bandeau fantôme...');
-        oldBanner.remove();
-      }
-
-      // ✅ 2. ÉCOUTE CLÉ : Nouveau SW détecté
       registration.addEventListener('updatefound', () => {
-        console.log('[App] 🔄 Nouveau SW en cours d\'installation...');
         const newWorker = registration.installing;
-
         newWorker.addEventListener('statechange', () => {
-          console.log('[App] 📊 État du SW:', newWorker.state);
-
-          // ✅ Si installé ET qu'un ancien SW contrôle déjà la page
           if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-            console.log('[App] ✨ Nouvelle version prête ! Affichage du bandeau...');
+            console.log('[App] ✨ Nouvelle version prête !');
+
+            // Supprime tout ancien bandeau
+            document.getElementById('update-banner')?.remove();
 
             const banner = document.createElement('div');
             banner.id = 'update-banner';
             banner.style.cssText = `
               position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
-              background: #0A8A6E; color: white; padding: 12px 24px; border-radius: 50px;
-              box-shadow: 0 8px 24px rgba(10, 138, 110, 0.4); z-index: 99999;
-              font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: 12px;
-              animation: slideUp 0.4s ease-out;
+              background: #0A8A6E; color: white; padding: 14px 28px; border-radius: 50px;
+              box-shadow: 0 8px 24px rgba(10, 138, 110, 0.5); z-index: 99999;
+              font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: 14px;
+              border: 2px solid #E8A33D; animation: slideUp 0.4s ease-out;
             `;
             banner.innerHTML = `
-              <span>✨ Fanavaozana misy (Mise à jour prête)</span>
-              <button id="btn-reload-now" style="
+              <span>🚀 Fanavaozana misy ! (Mise à jour prête)</span>
+              <button id="btn-update-now" style="
                 background: white; color: #0A8A6E; border: none;
-                padding: 6px 16px; border-radius: 20px; font-weight: 800;
-                cursor: pointer; font-size: 0.85rem;
+                padding: 8px 18px; border-radius: 20px; font-weight: 800;
+                cursor: pointer; font-size: 0.9rem;
               ">Averina (Actualiser)</button>
             `;
             document.body.appendChild(banner);
 
-            // ✅ 3. ÉCOUTEUR DE CLIC INFAILLIBLE
-            document.getElementById('btn-reload-now').addEventListener('click', (e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              console.log('[App] 🔄 Bouton Actualiser cliqué ! Forçage de la mise à jour...');
+            // ✅ LE COMPORTEMENT SOUHAITÉ : Clic = Relance de l'onboarding
+            document.getElementById('btn-update-now').addEventListener('click', () => {
+              console.log('[App] 🔄 Installation de la mise à jour...');
 
-              // 1. Forcer le nouveau SW à s'activer immédiatement
+              // 1. Active le nouveau SW
               if (registration.waiting) {
                 registration.waiting.postMessage({ type: 'SKIP_WAITING' });
               }
 
-              // 2. Rechargement FORCÉ de la page pour appliquer la nouvelle version
-              setTimeout(() => {
-                window.location.reload(true); // 'true' force le navigateur à ignorer le cache
-              }, 200);
+              // 2. Efface l'onboarding pour qu'il se relance au prochain chargement
+              //    (C'est ça qui crée l'effet "Installation de la mise à jour")
+              localStorage.removeItem('dagospeak:onboardingComplete');
+
+              // 3. Recharge la page (l'onboarding va se relancer automatiquement)
+              window.location.reload();
             });
           }
         });
       });
-
-      // Vérification périodique (toutes les 5 min)
-      setInterval(() => {
-        registration.update().catch(err => console.warn('[App] Échec update SW:', err));
-      }, 5 * 60 * 1000);
-
     } catch (error) {
-      console.warn('[App] ⚠️ Échec enregistrement SW:', error);
+      console.warn('[App] ⚠️ SW error:', error);
     }
   });
 }
