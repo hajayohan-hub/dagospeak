@@ -545,7 +545,12 @@ async function renderHome() {
       }
     });
 
-    window.teacherAvatar.show('home');
+   // ✅ SÉCURITÉ : Vérifier que l'avatar est bien initialisé avant de l'appeler
+    if (window.teacherAvatar) {
+      window.teacherAvatar.show('home');
+    } else {
+      console.warn('[renderHome] TeacherAvatar pas encore initialisé, rendu quand même effectué');
+    }
     renderFloatingHomeButtons();
     logger.info('✅ Page d\'accueil rendue (Niveaux uniquement)');
 
@@ -3571,22 +3576,49 @@ function showSettingsModal() {
 // ═══════════════════════════════════════════════════════════
 // GESTION SÉCURISÉE DU DÉMARRAGE ET ONBOARDING (CORRIGÉ)
 // ═══════════════════════════════════════════════════════════
-const userProfile = localStorage.getItem('dagospeak:userProfile');
-const onboardingSeen = localStorage.getItem('dagospeak:onboardingComplete');
 
-// Fonction centrale pour démarrer et FORCER le rendu de l'accueil
-function startAppAndRenderHome() {
+// ✅ FONCTION DE DÉMARRAGE UNIFIÉE
+function startApp() {
+  console.log('[App] 🚀 Démarrage de l\'application...');
+
+  // 1. Démarrer le routeur
   router.start();
-  // 1. Forcer le hash à '/' s'il est vide
-  if (!window.location.hash || window.location.hash === '#' || window.location.hash === '#/') {
+
+  // 2. Forcer la navigation vers l'accueil
+  if (window.location.hash === '' || window.location.hash === '#' || window.location.hash === '#/') {
     window.location.hash = '/';
   }
-  // 2. Forcer l'appel de renderHome après un court délai pour laisser le DOM se préparer
+
+  // 3. Rendre la page d'accueil (avec un petit délai pour laisser le routeur s'initialiser)
   setTimeout(() => {
     renderHome();
-    logger.info('✅ Page d\'accueil rendue avec succès');
-  }, 50);
+    console.log('[App] ✅ Page d\'accueil rendue');
+    updateMobileNavActiveState();
+  }, 100);
 }
+
+// ✅ Gestion du clic sur le bouton "Accueil" dans la barre de navigation mobile
+document.addEventListener('click', (e) => {
+  const homeLink = e.target.closest('a[href="#/"], a[href="#"]');
+  if (homeLink) {
+    e.preventDefault();
+    e.stopPropagation();
+    router.navigate('/');
+  }
+});
+
+// ✅ Synchronisation de l'état actif de la barre de navigation
+function updateMobileNavActiveState() {
+  const currentHash = window.location.hash.slice(1) || '/';
+  document.querySelectorAll('.ds-mobile-nav a').forEach(link => {
+    link.classList.toggle('active', link.dataset.route === currentHash || (currentHash === '/' && link.dataset.route === '/'));
+  });
+}
+window.addEventListener('hashchange', updateMobileNavActiveState);
+
+// Vérifier si l'utilisateur a déjà un profil enregistré
+const userProfile = localStorage.getItem('dagospeak:userProfile');
+const onboardingSeen = localStorage.getItem('dagospeak:onboardingComplete');
 
 if (userProfile && onboardingSeen === 'true') {
   console.log('[App] ✅ Utilisateur reconnu, démarrage direct...');
@@ -3594,31 +3626,18 @@ if (userProfile && onboardingSeen === 'true') {
   if (parsedProfile.isPremium) {
     localStorage.setItem('dagospeak:isPremium', 'true');
   }
-  startAppAndRenderHome();
+  startApp();
 } else {
-  console.log('[App] 🎬 Premier lancement ou déconnexion, affichage de l\'onboarding...');
-
+  console.log('[App] 🎬 Premier lancement, affichage de l\'onboarding...');
   const onboarding = new OnboardingScreen(() => {
-    console.log('[App] ✅ Onboarding terminé, démarrage de l\'app...');
-    // C'est ici que la magie opère pour les nouveaux utilisateurs
-    startAppAndRenderHome();
+    console.log('[App] ✅ Onboarding terminé, démarrage...');
+    startApp(); // 🚨 C'EST ICI QUE renderHome() SERA ENFIN APPELÉ
   });
-
   onboarding.show();
 }
 
-// Mise à jour de l'état actif de la barre de navigation mobile
-function updateMobileNavActiveState() {
-  const currentHash = window.location.hash.slice(1) || '/';
-  document.querySelectorAll('.ds-mobile-nav a').forEach(link => {
-    link.classList.toggle('active', link.dataset.route === currentHash);
-  });
-}
-window.addEventListener('hashchange', updateMobileNavActiveState);
-updateMobileNavActiveState();
-
 // ═══════════════════════════════════════════════════════════
-// GESTION DES MISES À JOUR PWA (Méthode updatefound)
+// GESTION DES MISES À JOUR PWA (Non-intrusif & Thémé)
 // ═══════════════════════════════════════════════════════════
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
