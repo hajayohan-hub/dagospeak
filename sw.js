@@ -1,7 +1,7 @@
 // ═══════════════════════════════════════════════════════════
-// DAGOSPEAK SERVICE WORKER v24 (Corrigé)
+// DAGOSPEAK SERVICE WORKER v20 (CORRIGÉ)
 // ══════════════════════════════════════════════════════════
-const CACHE_NAME = 'dagospeak-v24';
+const CACHE_NAME = 'dagospeak-v20';
 const STATIC_ASSETS = [
   '/', '/index.html', '/manifest.webmanifest',
   '/assets/dagospeak-logo.svg', '/assets/hero-bg.png',
@@ -23,26 +23,35 @@ const STATIC_ASSETS = [
 
 // 1. INSTALLATION
 self.addEventListener('install', (event) => {
-  console.log('[SW v24] 📦 Installation...');
+  console.log('[SW v20] 📦 Installation...');
   event.waitUntil(
     caches.open(CACHE_NAME).then(async (cache) => {
       for (const url of STATIC_ASSETS) {
         try { await cache.add(url); }
-        catch (err) { console.warn('[SW v24] ⚠️ Échec cache:', url); }
+        catch (err) { console.warn('[SW v20] ⚠️ Échec cache:', url); }
       }
-    }).then(() => self.skipWaiting()) // ✅ AJOUTÉ : Permet au SW de s'activer immédiatement
+    }).then(() => self.skipWaiting()) // ✅ AJOUTÉ : Permet l'activation immédiate
   );
 });
 
 // 2. ACTIVATION
 self.addEventListener('activate', (event) => {
-  console.log('[SW v24] 🚀 Activation...');
+  console.log('[SW v20] 🚀 Activation...');
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.filter((name) => name !== CACHE_NAME).map((name) => caches.delete(name))
       );
     }).then(() => self.clients.claim())
+    .then(() => {
+      // ✅ ENVOI DU MESSAGE À TOUS LES CLIENTS
+      return self.clients.matchAll({ type: 'window', includeUncontrolled: true })
+        .then((clients) => {
+          clients.forEach((client) => {
+            client.postMessage({ type: 'NEW_VERSION' });
+          });
+        });
+    })
   );
 });
 
@@ -73,7 +82,12 @@ self.addEventListener('fetch', (event) => {
       caches.match(request).then((cached) => {
         const fetchPromise = fetch(request).then((networkResponse) => {
           if (networkResponse && networkResponse.ok) {
-            caches.open(CACHE_NAME).then((cache) => cache.put(request, networkResponse.clone()));
+            try {
+              const responseToCache = networkResponse.clone();
+              caches.open(CACHE_NAME).then((cache) => cache.put(request, responseToCache));
+            } catch (e) {
+              console.warn('[SW v20] ⚠️ Échec clone:', e);
+            }
           }
           return networkResponse;
         }).catch(() => cached);
@@ -90,4 +104,11 @@ self.addEventListener('fetch', (event) => {
       cached || fetch(request).catch(() => new Response('', { status: 503 }))
     )
   );
+});
+
+// 4. MESSAGE : Écoute la commande de l'utilisateur
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
