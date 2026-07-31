@@ -3580,7 +3580,7 @@ if (userProfile && onboardingSeen === 'true') {
   if (parsedProfile.isPremium) localStorage.setItem('dagospeak:isPremium', 'true');
 
   router.start();
-  // Force l'affichage de l'accueil si l'URL est vide
+  // ✅ FORCER la route Accueil si le hash est vide
   if (!window.location.hash || window.location.hash === '#' || window.location.hash === '#/') {
     router.navigate('/');
   }
@@ -3609,7 +3609,7 @@ if (userProfile && onboardingSeen === 'true') {
   updateMobileNavActiveState();
 
   // ═══════════════════════════════════════════════════════════
-  // GESTION DES MISES À JOUR PWA (Méthode updatefound CORRECTE)
+  // GESTION DES MISES À JOUR PWA (Méthode updatefound)
   // ═══════════════════════════════════════════════════════════
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', async () => {
@@ -3617,13 +3617,11 @@ if (userProfile && onboardingSeen === 'true') {
         const registration = await navigator.serviceWorker.register('/sw.js');
         console.log('[App] ✅ SW enregistré:', registration.scope);
 
-        // Écoute la détection d'un NOUVEAU Service Worker
         registration.addEventListener('updatefound', () => {
           console.log('[App] 🔄 Nouveau SW en cours d\'installation...');
           const newWorker = registration.installing;
 
           newWorker.addEventListener('statechange', () => {
-            // Si le nouveau SW est installé ET qu'un ancien contrôle déjà la page
             if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
               console.log('[App] ✨ Nouvelle version prête !');
               if (document.getElementById('update-banner')) return;
@@ -3662,7 +3660,6 @@ if (userProfile && onboardingSeen === 'true') {
           });
         });
 
-        // Vérification périodique (toutes les 30 min)
         setInterval(() => {
           registration.update().catch(err => console.warn('[App] Échec update SW:', err));
         }, 30 * 60 * 1000);

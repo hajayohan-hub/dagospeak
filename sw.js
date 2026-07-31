@@ -1,7 +1,7 @@
 // ═══════════════════════════════════════════════════════════
-// DAGOSPEAK SERVICE WORKER v21 (Corrigé & Stabilisé)
+// DAGOSPEAK SERVICE WORKER v22 (Ultra-Stable)
 // ══════════════════════════════════════════════════════════
-const CACHE_NAME = 'dagospeak-v21';
+const CACHE_NAME = 'dagospeak-v22';
 const STATIC_ASSETS = [
   '/', '/index.html', '/manifest.webmanifest',
   '/assets/dagospeak-logo.svg', '/assets/hero-bg.png',
@@ -23,12 +23,12 @@ const STATIC_ASSETS = [
 
 // 1. INSTALLATION
 self.addEventListener('install', (event) => {
-  console.log('[SW v21] 📦 Installation...');
+  console.log('[SW v22] 📦 Installation...');
   event.waitUntil(
     caches.open(CACHE_NAME).then(async (cache) => {
       for (const url of STATIC_ASSETS) {
         try { await cache.add(url); }
-        catch (err) { console.warn('[SW v21] ⚠️ Échec cache:', url); }
+        catch (err) { console.warn('[SW v22] ⚠️ Échec cache:', url); }
       }
     })
   );
@@ -36,7 +36,7 @@ self.addEventListener('install', (event) => {
 
 // 2. ACTIVATION
 self.addEventListener('activate', (event) => {
-  console.log('[SW v21] 🚀 Activation...');
+  console.log('[SW v22] 🚀 Activation...');
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
@@ -46,7 +46,7 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// 3. INTERCEPTION DES REQUÊTES (Sans erreur de clone)
+// 3. INTERCEPTION DES REQUÊTES (Blindée)
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
@@ -59,11 +59,37 @@ self.addEventListener('fetch', (event) => {
       fetch(request).catch(() => caches.match('/index.html'))
     );
     return;
- are;
-    }
+  }
 
-    // Retourne le cache immédiatement, met à jour en arrière-plan
-    return cachedResponse;
+  // Assets statiques (Stale-While-Revalidate sécurisé)
+  if (
+    request.destination === 'script' ||
+    request.destination === 'style' ||
+    request.destination === 'image' ||
+    url.pathname.includes('/content/') ||
+    STATIC_ASSETS.includes(url.pathname)
+  ) {
+    event.respondWith(
+      caches.match(request).then((cached) => {
+        const fetchPromise = fetch(request).then((networkResponse) => {
+          if (networkResponse && networkResponse.ok) {
+            try {
+              // ✅ SÉCURITÉ MAXIMALE : try/catch pour éviter le crash "body already used"
+              const responseToCache = networkResponse.clone();
+              caches.open(CACHE_NAME).then((cache) => {
+                cache.put(request, responseToCache);
+              });
+            } catch (e) {
+              console.warn('[SW v22] ⚠️ Échec clone cache (ignoré):', e);
+            }
+          }
+          return networkResponse;
+        }).catch(() => cached);
+
+        return cached || fetchPromise;
+      })
+    );
+    return;
   }
 
   // Fallback par défaut
