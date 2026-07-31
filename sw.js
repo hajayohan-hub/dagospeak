@@ -1,7 +1,7 @@
 // ═══════════════════════════════════════════════════════════
 // DAGOSPEAK SERVICE WORKER v26
 // ══════════════════════════════════════════════════════════
-const CACHE_NAME = "dagospeak-v27";
+const CACHE_NAME = "dagospeak-v28";
 const STATIC_ASSETS = [
   "/", "/index.html", "/manifest.webmanifest",
   "/assets/dagospeak-logo.svg", "/assets/hero-bg.png",
