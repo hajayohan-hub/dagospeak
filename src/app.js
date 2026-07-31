@@ -401,6 +401,31 @@ window.addEventListener('offline', () => {
   showNetworkStatus(false);
 });
 
+// Écouteurs globaux de réseau (à placer avec votre showNetworkStatus existant)
+window.addEventListener('online', () => {
+  console.log('✅ Connexion rétablie');
+  const existing = document.getElementById('network-toast');
+  if (existing) existing.remove();
+
+  // Toast de synchronisation
+  const toast = document.createElement('div');
+  toast.id = 'network-toast';
+  toast.style.cssText = `position: fixed; top: 80px; left: 50%; transform: translateX(-50%); background: var(--ds-color-primary, #0A8A6E); color: white; padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; z-index: 9998; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 8px; animation: slideDown 0.3s ease-out;`;
+  toast.innerHTML = `<span>🔄</span> Synchronisation des progrès...`;
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    if (toast.parentNode) {
+      toast.style.opacity = '0';
+      toast.style.transition = 'opacity 0.5s';
+      setTimeout(() => toast.remove(), 500);
+    }
+  }, 3000);
+
+  // TODO: Ici, appeler votre fonction de sync IndexedDB vers le backend si elle existe
+  // ex: syncOfflineDataToServer();
+});
+
 // Vérifier l'état au démarrage
 if (!navigator.onLine) {
   showNetworkStatus(false);
@@ -3588,7 +3613,7 @@ updateMobileNavActiveState();
 
 
 // ═══════════════════════════════════════════════════════════
-// GESTION DES MISES À JOUR PWA (Non-intrusif)
+// GESTION DES MISES À JOUR PWA (Non-intrusif & Thémé)
 // ═══════════════════════════════════════════════════════════
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
@@ -3596,41 +3621,56 @@ if ('serviceWorker' in navigator) {
       const registration = await navigator.serviceWorker.register('/sw.js');
       console.log('[App] ✅ SW enregistré:', registration.scope);
 
+      // Écoute les messages du Service Worker
       navigator.serviceWorker.addEventListener('message', (event) => {
-        if (event.data && event.data.type === 'NEW_VERSION') {
-          console.log('[App] 🔄 Nouvelle version détectée');
+        if (event.data && event.data.type === 'NEW_VERSION_AVAILABLE') {
+          console.log('[App] 🔄 Nouvelle version détectée en arrière-plan');
+
+          // Évite les doublons de bannières
           if (document.getElementById('update-banner')) return;
 
           const banner = document.createElement('div');
           banner.id = 'update-banner';
           banner.style.cssText = `
-            position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
-            background: #0A8A6E; color: white; padding: 12px 20px; border-radius: 50px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999;
-            font-size: 0.9rem; font-weight: 500; display: flex; align-items: center; gap: 12px;
+            position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%);
+            background: var(--ds-color-primary, #0A8A6E); color: white;
+            padding: 12px 24px; border-radius: 50px;
+            box-shadow: 0 8px 24px rgba(10, 138, 110, 0.4); z-index: 10000;
+            font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: 12px;
+            animation: slideUp 0.4s ease-out;
           `;
           banner.innerHTML = `
-            <span>✨ Mise à jour disponible</span>
-            <button id="btn-reload-now" style="background: white; color: #0A8A6E; border: none; padding: 6px 14px; border-radius: 20px; font-weight: bold; cursor: pointer;">Actualiser</button>
+            <span>✨ Fanavaozana misy (Mise à jour prête)</span>
+            <button id="btn-reload-now" style="
+              background: white; color: #0A8A6E; border: none;
+              padding: 6px 16px; border-radius: 20px; font-weight: 800;
+              cursor: pointer; font-size: 0.85rem; transition: transform 0.2s;
+            " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+              Averina (Actualiser)
+            </button>
           `;
           document.body.appendChild(banner);
 
           document.getElementById('btn-reload-now').addEventListener('click', () => {
+            // 1. Demande au SW de s'activer immédiatement
             if (registration.waiting) {
-              registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+              registration.waiting.postMessage({ type: 'SKIP_WAITING_AND_RELOAD' });
             }
-            window.location.reload();
+            // 2. Recharge la page après un court délai pour laisser le SW prendre le contrôle
+            setTimeout(() => {
+              window.location.reload(true); // true force le bypass du cache navigateur
+            }, 300);
           });
         }
       });
 
+      // Vérification périodique discrète (toutes les 30 min)
       setInterval(() => {
-        registration.update().then(() => {
-          console.log('[App] 🔄 Vérification des mises à jour...');
-        });
-      }, 5 * 60 * 1000);
+        registration.update().catch(err => console.warn('[App] Échec update SW:', err));
+      }, 30 * 60 * 1000);
+
     } catch (error) {
-      console.warn('[App] ⚠️ Échec SW:', error);
+      console.warn('[App] ⚠️ Échec enregistrement SW:', error);
     }
   });
 }

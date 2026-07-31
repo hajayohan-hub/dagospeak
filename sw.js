@@ -1,8 +1,7 @@
 // ═══════════════════════════════════════════════════════════
-// DAGOSPEAK SERVICE WORKER v18
+// DAGOSPEAK SERVICE WORKER v19 (Optimisé & Robuste)
 // ══════════════════════════════════════════════════════════
-const CACHE_NAME = 'dagospeak-v18';
-
+const CACHE_NAME = 'dagospeak-v19';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -38,76 +37,76 @@ const STATIC_ASSETS = [
   '/content/fr/dialogues/body_dialogue.json'
 ];
 
+// 1. INSTALLATION : Mise en cache agressive des assets critiques
 self.addEventListener('install', (event) => {
-  console.log('[SW v18] 📦 Installation...');
+  console.log('[SW v19] 📦 Installation...');
   event.waitUntil(
     caches.open(CACHE_NAME).then(async (cache) => {
-      for (const url of STATIC_ASSETS) {
-        try {
-          await cache.add(url);
-        } catch (err) {
-          console.warn('[SW v18] ⚠️ Échec cache:', url);
-        }
-      }
-    }).then(() => self.skipWaiting())
+      // addAll est plus robuste et atomique que la boucle for
+      await cache.addAll(STATIC_ASSETS).catch(err => {
+        console.warn('[SW v19] ⚠️ Échec partiel du cache:', err);
+      });
+    }).then(() => self.skipWaiting()) // Force l'activation immédiate
   );
 });
 
+// 2. ACTIVATION : Nettoyage des anciens caches et prise de contrôle
 self.addEventListener('activate', (event) => {
-  console.log('[SW v18] 🚀 Activation...');
+  console.log('[SW v19] 🚀 Activation et nettoyage...');
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
-        cacheNames.filter((name) => name !== CACHE_NAME).map((name) => caches.delete(name))
+        cacheNames
+          .filter((name) => name !== CACHE_NAME)
+          .map((name) => caches.delete(name))
       );
-    }).then(() => self.clients.claim())
-      .then(() => {
-        return self.clients.matchAll({ type: 'window', includeUncontrolled: true })
-          .then((clients) => {
-            clients.forEach((client) => {
-              client.postMessage({ type: 'NEW_VERSION' });
-            });
+    }).then(() => self.clients.claim()) // Prend le contrôle des pages ouvertes
+    .then(() => {
+      // Notifie toutes les fenêtres ouvertes qu'une nouvelle version est prête
+      return self.clients.matchAll({ type: 'window', includeUncontrolled: true })
+        .then((clients) => {
+          clients.forEach((client) => {
+            client.postMessage({ type: 'NEW_VERSION_AVAILABLE' });
           });
-      })
+        });
+    })
   );
 });
 
+// 3. INTERCEPTION : Stratégies de cache intelligentes
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
-  if (request.method !== 'GET') return;
-  if (url.origin !== self.location.origin) return;
+  // Ignorer les requêtes non-GET ou externes
+  if (request.method !== 'GET' || url.origin !== self.location.origin) return;
 
-  if (
-    request.destination === 'image' ||
-    request.destination === 'font' ||
-    url.pathname.includes('/content/') ||
-    STATIC_ASSETS.includes(url.pathname)
-  ) {
+  // STRATÉGIE A : Navigation (SPA Fallback)
+  // Network-first, sinon sert index.html (évite l'écran "Hors ligne" du navigateur)
+  if (request.mode === 'navigate' || request.headers.get('accept')?.includes('text/html')) {
     event.respondWith(
-      caches.match(request).then((cached) => {
-        if (cached) {
-          fetch(request).then((networkResponse) => {
-            if (networkResponse && networkResponse.ok) {
-              caches.open(CACHE_NAME).then((cache) => cache.put(request, networkResponse.clone()));
-            }
-          }).catch(() => null);
-          return cached;
-        }
-        return fetch(request).then((response) => {
-          if (response && response.ok) {
+      fetch(request)
+        .then((response) => {
+          if (response.ok) {
             const clone = response.clone();
             caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
           }
           return response;
-        }).catch(() => new Response('', { status: 503 }));
-      })
+        })
+        .catch(() => caches.match('/index.html')) // Fallback ultime pour SPA
     );
     return;
   }
 
-  if (request.destination === 'script' || request.destination === 'style') {
+  // STRATÉGIE B : Assets Statiques (JS, CSS, Images, JSON)
+  // Stale-While-Revalidate : Rapide (cache) + Mise à jour en arrière-plan
+  if (
+    request.destination === 'script' ||
+    request.destination === 'style' ||
+    request.destination === 'image' ||
+    url.pathname.includes('/content/') ||
+    STATIC_ASSETS.includes(url.pathname)
+  ) {
     event.respondWith(
       caches.match(request).then((cached) => {
         const fetchPromise = fetch(request).then((networkResponse) => {
@@ -115,38 +114,26 @@ self.addEventListener('fetch', (event) => {
             caches.open(CACHE_NAME).then((cache) => cache.put(request, networkResponse.clone()));
           }
           return networkResponse;
-        }).catch(() => {
-          if (cached) return cached;
-          return new Response('/* offline */', {
-            status: 503,
-            headers: { 'Content-Type': request.destination === 'script' ? 'application/javascript' : 'text/css' }
-          });
-        });
+        }).catch(() => cached); // Si échec réseau, on garde le cache
+
+        // Renvoie le cache immédiatement s'il existe, sinon attend le réseau
         return cached || fetchPromise;
       })
     );
     return;
   }
 
-  if (request.mode === 'navigate') {
-    event.respondWith(
-      fetch(request).then((response) => {
-        if (response && response.ok) {
-          caches.open(CACHE_NAME).then((cache) => cache.put(request, response.clone()));
-        }
-        return response;
-      }).catch(() => caches.match('/index.html') || new Response('Page hors-ligne', { status: 503 }))
-    );
-    return;
-  }
-
+  // STRATÉGIE C : Tout le reste (Fallback sécurisé)
   event.respondWith(
-    caches.match(request).then((cached) => cached || fetch(request).catch(() => new Response('', { status: 503 })))
+    caches.match(request).then((cached) =>
+      cached || fetch(request).catch(() => new Response('', { status: 503 }))
+    )
   );
 });
 
+// 4. MESSAGE : Écoute la commande de l'utilisateur pour forcer la mise à jour
 self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
+  if (event.data && event.data.type === 'SKIP_WAITING_AND_RELOAD') {
     self.skipWaiting();
   }
 });
