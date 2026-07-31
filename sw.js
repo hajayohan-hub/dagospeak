@@ -1,7 +1,7 @@
 // ═══════════════════════════════════════════════════════════
-// DAGOSPEAK SERVICE WORKER v20 (CORRIGÉ)
+// DAGOSPEAK SERVICE WORKER v24 (Ultra-Fiable)
 // ══════════════════════════════════════════════════════════
-const CACHE_NAME = 'dagospeak-v20';
+const CACHE_NAME = 'dagospeak-v24';
 const STATIC_ASSETS = [
   '/', '/index.html', '/manifest.webmanifest',
   '/assets/dagospeak-logo.svg', '/assets/hero-bg.png',
@@ -23,35 +23,26 @@ const STATIC_ASSETS = [
 
 // 1. INSTALLATION
 self.addEventListener('install', (event) => {
-  console.log('[SW v20] 📦 Installation...');
+  console.log('[SW v24] 📦 Installation...');
   event.waitUntil(
     caches.open(CACHE_NAME).then(async (cache) => {
       for (const url of STATIC_ASSETS) {
         try { await cache.add(url); }
-        catch (err) { console.warn('[SW v20] ⚠️ Échec cache:', url); }
+        catch (err) { console.warn('[SW v24] ⚠️ Échec cache:', url); }
       }
-    }).then(() => self.skipWaiting()) // ✅ AJOUTÉ : Permet l'activation immédiate
+    })
   );
 });
 
 // 2. ACTIVATION
 self.addEventListener('activate', (event) => {
-  console.log('[SW v20] 🚀 Activation...');
+  console.log('[SW v24] 🚀 Activation...');
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.filter((name) => name !== CACHE_NAME).map((name) => caches.delete(name))
       );
     }).then(() => self.clients.claim())
-    .then(() => {
-      // ✅ ENVOI DU MESSAGE À TOUS LES CLIENTS
-      return self.clients.matchAll({ type: 'window', includeUncontrolled: true })
-        .then((clients) => {
-          clients.forEach((client) => {
-            client.postMessage({ type: 'NEW_VERSION' });
-          });
-        });
-    })
   );
 });
 
@@ -59,25 +50,14 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
-
   if (request.method !== 'GET' || url.origin !== self.location.origin) return;
 
-  // Navigation (SPA Fallback)
   if (request.mode === 'navigate') {
-    event.respondWith(
-      fetch(request).catch(() => caches.match('/index.html'))
-    );
+    event.respondWith(fetch(request).catch(() => caches.match('/index.html')));
     return;
   }
 
-  // Assets statiques (Stale-While-Revalidate)
-  if (
-    request.destination === 'script' ||
-    request.destination === 'style' ||
-    request.destination === 'image' ||
-    url.pathname.includes('/content/') ||
-    STATIC_ASSETS.includes(url.pathname)
-  ) {
+  if (request.destination === 'script' || request.destination === 'style' || request.destination === 'image' || url.pathname.includes('/content/') || STATIC_ASSETS.includes(url.pathname)) {
     event.respondWith(
       caches.match(request).then((cached) => {
         const fetchPromise = fetch(request).then((networkResponse) => {
@@ -85,30 +65,23 @@ self.addEventListener('fetch', (event) => {
             try {
               const responseToCache = networkResponse.clone();
               caches.open(CACHE_NAME).then((cache) => cache.put(request, responseToCache));
-            } catch (e) {
-              console.warn('[SW v20] ⚠️ Échec clone:', e);
-            }
+            } catch (e) { console.warn('[SW v24] ⚠️ Échec clone:', e); }
           }
           return networkResponse;
         }).catch(() => cached);
-
         return cached || fetchPromise;
       })
     );
     return;
   }
 
-  // Fallback par défaut
-  event.respondWith(
-    caches.match(request).then((cached) =>
-      cached || fetch(request).catch(() => new Response('', { status: 503 }))
-    )
-  );
+  event.respondWith(caches.match(request).then((cached) => cached || fetch(request).catch(() => new Response('', { status: 503 }))));
 });
 
-// 4. MESSAGE : Écoute la commande de l'utilisateur
+// 4. MESSAGE : Activation forcée par l'utilisateur
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
+    console.log('[SW v24] 🚀 SKIP_WAITING reçu, activation immédiate...');
     self.skipWaiting();
   }
 });
