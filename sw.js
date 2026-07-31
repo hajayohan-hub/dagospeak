@@ -1,7 +1,7 @@
 // ═══════════════════════════════════════════════════════════
 // DAGOSPEAK SERVICE WORKER v19
 // ══════════════════════════════════════════════════════════
-const CACHE_NAME = 'dagospeak-v19';
+const CACHE_NAME = 'dagospeak-v20';
 const STATIC_ASSETS = [
   '/',
   '/index.html',

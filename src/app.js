@@ -3621,7 +3621,7 @@ if ('serviceWorker' in navigator) {
       const registration = await navigator.serviceWorker.register('/sw.js');
       console.log('[App] ✅ SW enregistré:', registration.scope);
 
-      // ✅ ÉCOUTE L'ÉVÉNEMENT CRÉ : Nouveau SW détecté
+      // ✅ ÉCOUTE L'ÉVÉNEMENT CLÉ : Nouveau SW détecté
       registration.addEventListener('updatefound', () => {
         console.log('[App] 🔄 Nouveau SW en cours d\'installation...');
         const newWorker = registration.installing;
@@ -3663,8 +3663,7 @@ if ('serviceWorker' in navigator) {
               if (registration.waiting) {
                 registration.waiting.postMessage({ type: 'SKIP_WAITING' });
               }
-
-              // 2. Écoute le changement de contrôleur pour recharger au bon moment
+              // 2. Recharge la page quand le nouveau SW prend le contrôle
               navigator.serviceWorker.addEventListener('controllerchange', () => {
                 window.location.reload();
               });
