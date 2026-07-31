@@ -1,7 +1,7 @@
 // ═══════════════════════════════════════════════════════════
 // DAGOSPEAK SERVICE WORKER v25 (FINAL - UX Onboarding Update)
 // ══════════════════════════════════════════════════════════
-const CACHE_NAME = 'dagospeak-v25';
+const CACHE_NAME = 'dagospeak-v26';
 const STATIC_ASSETS = [
   '/', '/index.html', '/manifest.webmanifest',
   '/assets/dagospeak-logo.svg', '/assets/hero-bg.png',
