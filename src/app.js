@@ -3641,7 +3641,7 @@ if (userProfile && onboardingSeen === 'true') {
 }
 
 // ═══════════════════════════════════════════════════════════
-// GESTION DES MISES À JOUR PWA (Méthode updatefound CORRECTE)
+// GESTION DES MISES À JOUR PWA (Version Finale Corrigée)
 // ═══════════════════════════════════════════════════════════
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
@@ -3649,9 +3649,9 @@ if ('serviceWorker' in navigator) {
       const registration = await navigator.serviceWorker.register('/sw.js');
       console.log('[App] ✅ SW enregistré:', registration.scope);
 
-      // ✅ ÉCOUTE CLÉ : Nouveau SW détecté (déclenché AVANT l'activation)
+      // ✅ ÉCOUTE CLÉ : Nouveau SW détecté
       registration.addEventListener('updatefound', () => {
-        console.log('[App] 🔄 Nouveau SW détecté, installation en cours...');
+        console.log('[App] 🔄 Nouveau SW en cours d\'installation...');
         const newWorker = registration.installing;
 
         newWorker.addEventListener('statechange', () => {
@@ -3687,14 +3687,8 @@ if ('serviceWorker' in navigator) {
             document.body.appendChild(banner);
 
             document.getElementById('btn-reload-now').addEventListener('click', () => {
-              // 1. Demande au nouveau SW de s'activer immédiatement
-              if (registration.waiting) {
-                registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-              }
-              // 2. Recharge la page quand le nouveau SW prend le contrôle
-              navigator.serviceWorker.addEventListener('controllerchange', () => {
-                window.location.reload();
-              });
+              // Recharge la page (le nouveau SW prendra le contrôle automatiquement grâce à skipWaiting)
+              window.location.reload();
             });
           }
         });

@@ -1,7 +1,7 @@
 // ═══════════════════════════════════════════════════════════
-// DAGOSPEAK SERVICE WORKER v22 (Ultra-Stable)
+// DAGOSPEAK SERVICE WORKER v24 (Corrigé)
 // ══════════════════════════════════════════════════════════
-const CACHE_NAME = 'dagospeak-v22';
+const CACHE_NAME = 'dagospeak-v24';
 const STATIC_ASSETS = [
   '/', '/index.html', '/manifest.webmanifest',
   '/assets/dagospeak-logo.svg', '/assets/hero-bg.png',
@@ -23,20 +23,20 @@ const STATIC_ASSETS = [
 
 // 1. INSTALLATION
 self.addEventListener('install', (event) => {
-  console.log('[SW v22] 📦 Installation...');
+  console.log('[SW v24] 📦 Installation...');
   event.waitUntil(
     caches.open(CACHE_NAME).then(async (cache) => {
       for (const url of STATIC_ASSETS) {
         try { await cache.add(url); }
-        catch (err) { console.warn('[SW v22] ⚠️ Échec cache:', url); }
+        catch (err) { console.warn('[SW v24] ⚠️ Échec cache:', url); }
       }
-    })
+    }).then(() => self.skipWaiting()) // ✅ AJOUTÉ : Permet au SW de s'activer immédiatement
   );
 });
 
 // 2. ACTIVATION
 self.addEventListener('activate', (event) => {
-  console.log('[SW v22] 🚀 Activation...');
+  console.log('[SW v24] 🚀 Activation...');
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
@@ -46,7 +46,7 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// 3. INTERCEPTION DES REQUÊTES (Blindée)
+// 3. INTERCEPTION DES REQUÊTES
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
@@ -61,7 +61,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Assets statiques (Stale-While-Revalidate sécurisé)
+  // Assets statiques (Stale-While-Revalidate)
   if (
     request.destination === 'script' ||
     request.destination === 'style' ||
@@ -73,15 +73,7 @@ self.addEventListener('fetch', (event) => {
       caches.match(request).then((cached) => {
         const fetchPromise = fetch(request).then((networkResponse) => {
           if (networkResponse && networkResponse.ok) {
-            try {
-              // ✅ SÉCURITÉ MAXIMALE : try/catch pour éviter le crash "body already used"
-              const responseToCache = networkResponse.clone();
-              caches.open(CACHE_NAME).then((cache) => {
-                cache.put(request, responseToCache);
-              });
-            } catch (e) {
-              console.warn('[SW v22] ⚠️ Échec clone cache (ignoré):', e);
-            }
+            caches.open(CACHE_NAME).then((cache) => cache.put(request, networkResponse.clone()));
           }
           return networkResponse;
         }).catch(() => cached);
@@ -98,11 +90,4 @@ self.addEventListener('fetch', (event) => {
       cached || fetch(request).catch(() => new Response('', { status: 503 }))
     )
   );
-});
-
-// 4. MESSAGE : Activation forcée par l'utilisateur
-self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
-    self.skipWaiting();
-  }
 });
