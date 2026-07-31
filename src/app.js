@@ -3577,37 +3577,28 @@ const onboardingSeen = localStorage.getItem('dagospeak:onboardingComplete');
 if (userProfile && onboardingSeen === 'true') {
   console.log('[App] ✅ Utilisateur reconnu, démarrage direct...');
   const parsedProfile = JSON.parse(userProfile);
-  if (parsedProfile.isPremium) {
-    localStorage.setItem('dagospeak:isPremium', 'true');
-  }
+  if (parsedProfile.isPremium) localStorage.setItem('dagospeak:isPremium', 'true');
 
-  // 1. Démarrer le routeur
   router.start();
-
-  // 2. Forcer la route Accueil si le hash est vide (corrige l'écran blanc)
-  if (!window.location.hash || window.location.hash === '#') {
+  // Force l'affichage de l'accueil si l'URL est vide
+  if (!window.location.hash || window.location.hash === '#' || window.location.hash === '#/') {
     router.navigate('/');
   }
-
   logger.info('✅ Application démarrée (Utilisateur connecté)');
 } else {
-  console.log('[App] 🎬 Premier lancement ou déconnexion, affichage de l\'onboarding...');
+  console.log('[App] 🎬 Premier lancement, affichage de l\'onboarding...');
 
   const onboarding = new OnboardingScreen(() => {
     console.log('[App] 🎬 Onboarding terminé, initialisation...');
-
-    // 1. Démarrer le routeur pour qu'il écoute les changements d'URL
     router.start();
-
-    // 2. Forcer la navigation vers l'Accueil pour garantir le rendu immédiat
+    // 🚨 C'EST CETTE LIGNE QUI CORRIGE L'ÉCRAN BLANC :
     router.navigate('/');
-
     logger.info('✅ Application démarrée (après onboarding)');
   });
 
   onboarding.show();
 
-  // Mise à jour de l'état actif de la barre de navigation mobile
+  // Gestion de la navigation mobile
   function updateMobileNavActiveState() {
     const currentHash = window.location.hash.slice(1) || '/';
     document.querySelectorAll('.ds-mobile-nav a').forEach(link => {
@@ -3618,7 +3609,7 @@ if (userProfile && onboardingSeen === 'true') {
   updateMobileNavActiveState();
 
   // ═══════════════════════════════════════════════════════════
-  // GESTION DES MISES À JOUR PWA (Non-intrusif & Thémé)
+  // GESTION DES MISES À JOUR PWA (Méthode updatefound CORRECTE)
   // ═══════════════════════════════════════════════════════════
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', async () => {
@@ -3626,19 +3617,15 @@ if (userProfile && onboardingSeen === 'true') {
         const registration = await navigator.serviceWorker.register('/sw.js');
         console.log('[App] ✅ SW enregistré:', registration.scope);
 
-        // ✅ ÉCOUTE L'ÉVÉNEMENT CLÉ : Nouveau SW détecté
+        // Écoute la détection d'un NOUVEAU Service Worker
         registration.addEventListener('updatefound', () => {
           console.log('[App] 🔄 Nouveau SW en cours d\'installation...');
           const newWorker = registration.installing;
 
           newWorker.addEventListener('statechange', () => {
-            console.log('[App] 📊 État du SW:', newWorker.state);
-
-            // ✅ Si le SW est installé ET qu'il y a déjà un SW actif (donc c'est une mise à jour)
+            // Si le nouveau SW est installé ET qu'un ancien contrôle déjà la page
             if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
               console.log('[App] ✨ Nouvelle version prête !');
-
-              // Évite les doublons de bannières
               if (document.getElementById('update-banner')) return;
 
               const banner = document.createElement('div');
@@ -3664,11 +3651,9 @@ if (userProfile && onboardingSeen === 'true') {
               document.body.appendChild(banner);
 
               document.getElementById('btn-reload-now').addEventListener('click', () => {
-                // 1. Demande au nouveau SW de s'activer immédiatement
                 if (registration.waiting) {
                   registration.waiting.postMessage({ type: 'SKIP_WAITING' });
                 }
-                // 2. Recharge la page quand le nouveau SW prend le contrôle
                 navigator.serviceWorker.addEventListener('controllerchange', () => {
                   window.location.reload();
                 });
@@ -3677,7 +3662,7 @@ if (userProfile && onboardingSeen === 'true') {
           });
         });
 
-        // Vérification périodique discrète (toutes les 30 min)
+        // Vérification périodique (toutes les 30 min)
         setInterval(() => {
           registration.update().catch(err => console.warn('[App] Échec update SW:', err));
         }, 30 * 60 * 1000);
