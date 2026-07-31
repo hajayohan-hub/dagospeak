@@ -3642,23 +3642,19 @@ if (userProfile && onboardingSeen === 'true') {
   });
 }
 
-// ═══════════════════════════════════════════════════════════
-// GESTION DES MISES À JOUR PWA (UX : Relance l'onboarding)
-// ═══════════════════════════════════════════════════════════
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
     try {
       const registration = await navigator.serviceWorker.register('/sw.js');
-      console.log('[App] ✅ SW enregistré');
+      console.log('[App] SW enregistré');
 
       registration.addEventListener('updatefound', () => {
         const newWorker = registration.installing;
         newWorker.addEventListener('statechange', () => {
           if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-            console.log('[App] ✨ Nouvelle version prête !');
+            console.log('[App] Nouvelle version prête');
 
-            // Supprime tout ancien bandeau
-            document.getElementById('update-banner')?.remove();
+            if (document.getElementById('update-banner')) return;
 
             const banner = document.createElement('div');
             banner.id = 'update-banner';
@@ -3667,38 +3663,30 @@ if ('serviceWorker' in navigator) {
               background: #0A8A6E; color: white; padding: 14px 28px; border-radius: 50px;
               box-shadow: 0 8px 24px rgba(10, 138, 110, 0.5); z-index: 99999;
               font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: 14px;
-              border: 2px solid #E8A33D; animation: slideUp 0.4s ease-out;
+              border: 2px solid #E8A33D;
             `;
             banner.innerHTML = `
-              <span>🚀 Fanavaozana misy ! (Mise à jour prête)</span>
+              <span>🚀 Fanavaozana misy !</span>
               <button id="btn-update-now" style="
                 background: white; color: #0A8A6E; border: none;
                 padding: 8px 18px; border-radius: 20px; font-weight: 800;
                 cursor: pointer; font-size: 0.9rem;
-              ">Averina (Actualiser)</button>
+              ">Averina</button>
             `;
             document.body.appendChild(banner);
 
-            // ✅ LE COMPORTEMENT SOUHAITÉ : Clic = Relance de l'onboarding
             document.getElementById('btn-update-now').addEventListener('click', () => {
-              console.log('[App] 🔄 Installation de la mise à jour...');
-
-              // 1. Active le nouveau SW
               if (registration.waiting) {
                 registration.waiting.postMessage({ type: 'SKIP_WAITING' });
               }
-
-              // 2. Efface l'onboarding pour qu'il se relance au prochain chargement
               localStorage.removeItem('dagospeak:onboardingComplete');
-
-              // 3. Recharge la page (l'onboarding va se relancer automatiquement)
               window.location.reload();
             });
           }
         });
       });
     } catch (error) {
-      console.warn('[App] ⚠️ SW error:', error);
+      console.warn('[App] SW error:', error);
     }
   });
 }
