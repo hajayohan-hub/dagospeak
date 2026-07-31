@@ -3576,87 +3576,55 @@ function showSettingsModal() {
 // ═══════════════════════════════════════════════════════════
 // GESTION SÉCURISÉE DU DÉMARRAGE ET ONBOARDING
 // ═══════════════════════════════════════════════════════════
-function startAppAndShowHome() {
-  console.log("[App] 🚀 Démarrage de l'application...");
-  if (!window.location.hash || window.location.hash === "#" || window.location.hash === "#/") {
-    window.location.hash = "/";
-  }
-  router.start();
-  setTimeout(() => {
-    renderHome();
-    console.log("[App] ✅ renderHome() exécuté");
-    updateMobileNavActiveState();
-  }, 100);
-}
+const userProfile = localStorage.getItem('dagospeak:userProfile');
+const onboardingSeen = localStorage.getItem('dagospeak:onboardingComplete');
 
-document.addEventListener("click", (e) => {
-  const homeLink = e.target.closest('a[href="#/"], a[href="#"]');
-  if (homeLink) {
-    e.preventDefault();
-    e.stopPropagation();
-    router.navigate("/");
-  }
-});
-
-function updateMobileNavActiveState() {
-  const currentHash = window.location.hash.slice(1) || "/";
-  document.querySelectorAll(".ds-mobile-nav a").forEach(link => {
-    link.classList.toggle("active", link.dataset.route === currentHash || (currentHash === "/" && link.dataset.route === "/"));
-  });
-}
-window.addEventListener("hashchange", updateMobileNavActiveState);
-
-const userProfile = localStorage.getItem("dagospeak:userProfile");
-const onboardingSeen = localStorage.getItem("dagospeak:onboardingComplete");
-
-if (userProfile && onboardingSeen === "true") {
-  console.log("[App] ✅ Utilisateur reconnu, démarrage direct...");
+if (userProfile && onboardingSeen === 'true') {
+  console.log('[App] ✅ Utilisateur reconnu, démarrage direct...');
   const parsedProfile = JSON.parse(userProfile);
   if (parsedProfile.isPremium) {
-    localStorage.setItem("dagospeak:isPremium", "true");
+    localStorage.setItem('dagospeak:isPremium', 'true');
   }
   startAppAndShowHome();
 } else {
-  console.log("[App] 🎬 Premier lancement ou mise à jour, affichage de l'onboarding...");
+  console.log('[App] 🎬 Premier lancement ou mise à jour...');
 
   // ✅ DÉTECTION DU MODE : Si un profil existe déjà, c'est une MAJ
   const isUpdate = !!userProfile;
-  const onboardingMode = isUpdate ? "update" : "first-launch";
+  const onboardingMode = isUpdate ? 'update' : 'first-launch';
   console.log(`[App] 📍 Mode onboarding : ${onboardingMode}`);
 
   const onboarding = new OnboardingScreen(onboardingMode);
   onboarding.show(() => {
-    console.log("[App] ✅ Onboarding terminé, démarrage...");
+    console.log('[App] ✅ Onboarding terminé, démarrage...');
     startAppAndShowHome();
   });
 }
 
 // ═══════════════════════════════════════════════════════════
-// GESTION DES MISES À JOUR PWA (UX : Relance l'onboarding)
+// GESTION DES MISES À JOUR PWA
 // ═══════════════════════════════════════════════════════════
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", async () => {
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', async () => {
     try {
-      const registration = await navigator.serviceWorker.register("/sw.js");
-      console.log("[App] ✅ SW enregistré");
+      const registration = await navigator.serviceWorker.register('/sw.js');
+      console.log('[App] ✅ SW enregistré');
 
-      registration.addEventListener("updatefound", () => {
+      registration.addEventListener('updatefound', () => {
         const newWorker = registration.installing;
-        newWorker.addEventListener("statechange", () => {
-          if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
-            console.log("[App] ✨ Nouvelle version prête !");
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            console.log('[App] ✨ Nouvelle version prête !');
+            document.getElementById('update-banner')?.remove();
 
-            // Supprime tout ancien bandeau
-            document.getElementById("update-banner")?.remove();
-
-            const banner = document.createElement("div");
-            banner.id = "update-banner";
+            const banner = document.createElement('div');
+            banner.id = 'update-banner';
             banner.style.cssText = `
               position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
               background: #0A8A6E; color: white; padding: 14px 28px; border-radius: 50px;
               box-shadow: 0 8px 24px rgba(10, 138, 110, 0.5); z-index: 99999;
               font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: 14px;
-              border: 2px solid #E8A33D; animation: slideUp 0.4s ease-out;
+              border: 2px solid #E8A33D;
             `;
             banner.innerHTML = `
               <span>🚀 Fanavaozana misy ! (Mise à jour prête)</span>
@@ -3668,31 +3636,20 @@ if ("serviceWorker" in navigator) {
             `;
             document.body.appendChild(banner);
 
-            // ✅ LE COMPORTEMENT SOUHAITÉ : Clic = Relance de l'onboarding
-            document.getElementById("btn-update-now").addEventListener("click", () => {
-              console.log("[App] 🔄 Installation de la mise à jour...");
-
-              // 1. Active le nouveau SW
+            document.getElementById('btn-update-now').addEventListener('click', () => {
+              console.log('[App] 🔄 Installation de la mise à jour...');
               if (registration.waiting) {
-                registration.waiting.postMessage({ type: "SKIP_WAITING" });
+                registration.waiting.postMessage({ type: 'SKIP_WAITING' });
               }
-
-              // 2. Efface l'onboarding pour qu'il se relance au prochain chargement
-              localStorage.removeItem("dagospeak:onboardingComplete");
-
-              // 3. Recharge la page (l'onboarding va se relancer automatiquement)
+              // ✅ NE PAS effacer onboardingComplete ici
+              // Le code de démarrage détectera automatiquement le mode "update"
               window.location.reload();
             });
           }
         });
       });
-
-      // Vérification toutes les 5 minutes
-      setInterval(() => {
-        registration.update().catch(err => console.warn("[App] Échec update SW:", err));
-      }, 5 * 60 * 1000);
     } catch (error) {
-      console.warn("[App] ⚠️ SW error:", error);
+      console.warn('[App] ⚠️ SW error:', error);
     }
   });
 }
