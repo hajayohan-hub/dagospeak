@@ -3706,4 +3706,3 @@ if ('serviceWorker' in navigator) {
     }
   });
 }
-logger.info('✅ Application démarrée (après onboarding)');
