@@ -3641,7 +3641,7 @@ if (userProfile && onboardingSeen === 'true') {
 }
 
 // ═══════════════════════════════════════════════════════════
-// GESTION DES MISES À JOUR PWA (Version Finale Corrigée)
+// GESTION DES MISES À JOUR PWA (Méthode updatefound)
 // ═══════════════════════════════════════════════════════════
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
@@ -3649,19 +3649,18 @@ if ('serviceWorker' in navigator) {
       const registration = await navigator.serviceWorker.register('/sw.js');
       console.log('[App] ✅ SW enregistré:', registration.scope);
 
-      // ✅ ÉCOUTE CLÉ : Nouveau SW détecté
+      // ✅ MÉTHODE CORRECTE : Écouter updatefound (pas message)
       registration.addEventListener('updatefound', () => {
-        console.log('[App] 🔄 Nouveau SW en cours d\'installation...');
+        console.log('[App] 🔄 Nouveau SW détecté');
         const newWorker = registration.installing;
 
         newWorker.addEventListener('statechange', () => {
-          console.log('[App] 📊 État du SW:', newWorker.state);
+          console.log('[App] 📊 État SW:', newWorker.state);
 
-          // ✅ Si installé ET qu'un ancien SW contrôle déjà la page (donc c'est une MAJ)
+          // ✅ Si installé ET qu'un ancien SW contrôle la page
           if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
             console.log('[App] ✨ Nouvelle version prête !');
 
-            // Évite les doublons de bannières
             if (document.getElementById('update-banner')) return;
 
             const banner = document.createElement('div');
@@ -3679,28 +3678,30 @@ if ('serviceWorker' in navigator) {
               <button id="btn-reload-now" style="
                 background: white; color: #0A8A6E; border: none;
                 padding: 6px 16px; border-radius: 20px; font-weight: 800;
-                cursor: pointer; font-size: 0.85rem; transition: transform 0.2s;
-              " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                Averina (Actualiser)
-              </button>
+                cursor: pointer; font-size: 0.85rem;
+              ">Averina (Actualiser)</button>
             `;
             document.body.appendChild(banner);
 
             document.getElementById('btn-reload-now').addEventListener('click', () => {
-              // Recharge la page (le nouveau SW prendra le contrôle automatiquement grâce à skipWaiting)
-              window.location.reload();
+              if (registration.waiting) {
+                registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+              }
+              navigator.serviceWorker.addEventListener('controllerchange', () => {
+                window.location.reload();
+              });
             });
           }
         });
       });
 
-      // Vérification périodique discrète (toutes les 30 min)
+      // Vérification périodique (toutes les 30 min)
       setInterval(() => {
-        registration.update().catch(err => console.warn('[App] Échec update SW:', err));
+        registration.update().catch(err => console.warn('[App] Échec update:', err));
       }, 30 * 60 * 1000);
 
     } catch (error) {
-      console.warn('[App] ⚠️ Échec enregistrement SW:', error);
+      console.warn('[App] ⚠️ Échec SW:', error);
     }
   });
 }
