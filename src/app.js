@@ -3573,9 +3573,25 @@ function showSettingsModal() {
 }
 
 
+
 // ═══════════════════════════════════════════════════════════
 // GESTION SÉCURISÉE DU DÉMARRAGE ET ONBOARDING
 // ═══════════════════════════════════════════════════════════
+
+// ✅ FONCTION MANQUANTE - À AJOUTER ICI
+function startAppAndShowHome() {
+  console.log("[App] Démarrage...");
+  if (!window.location.hash || window.location.hash === "#" || window.location.hash === "#/") {
+    window.location.hash = "/";
+  }
+  router.start();
+  setTimeout(function() {
+    renderHome();
+    console.log("[App] renderHome() exécuté");
+  }, 100);
+}
+
+
 const userProfile = localStorage.getItem('dagospeak:userProfile');
 const onboardingSeen = localStorage.getItem('dagospeak:onboardingComplete');
 
