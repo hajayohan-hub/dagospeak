@@ -3641,7 +3641,7 @@ if (userProfile && onboardingSeen === 'true') {
 }
 
 // ═══════════════════════════════════════════════════════════
-// GESTION DES MISES À JOUR PWA (Non-intrusif & Thémé)
+// GESTION DES MISES À JOUR PWA (Méthode updatefound CORRECTE)
 // ═══════════════════════════════════════════════════════════
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
@@ -3649,17 +3649,19 @@ if ('serviceWorker' in navigator) {
       const registration = await navigator.serviceWorker.register('/sw.js');
       console.log('[App] ✅ SW enregistré:', registration.scope);
 
-      // ✅ ÉCOUTE L'ÉVÉNEMENT CLÉ : Nouveau SW détecté
+      // ✅ ÉCOUTE CLÉ : Nouveau SW détecté (déclenché AVANT l'activation)
       registration.addEventListener('updatefound', () => {
-        console.log('[App] 🔄 Nouveau SW en cours d\'installation...');
+        console.log('[App] 🔄 Nouveau SW détecté, installation en cours...');
         const newWorker = registration.installing;
 
         newWorker.addEventListener('statechange', () => {
           console.log('[App] 📊 État du SW:', newWorker.state);
 
-          // ✅ Si le SW est installé ET qu'il y a déjà un SW actif (mise à jour)
+          // ✅ Si installé ET qu'un ancien SW contrôle déjà la page (donc c'est une MAJ)
           if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
             console.log('[App] ✨ Nouvelle version prête !');
+
+            // Évite les doublons de bannières
             if (document.getElementById('update-banner')) return;
 
             const banner = document.createElement('div');
@@ -3685,9 +3687,11 @@ if ('serviceWorker' in navigator) {
             document.body.appendChild(banner);
 
             document.getElementById('btn-reload-now').addEventListener('click', () => {
+              // 1. Demande au nouveau SW de s'activer immédiatement
               if (registration.waiting) {
                 registration.waiting.postMessage({ type: 'SKIP_WAITING' });
               }
+              // 2. Recharge la page quand le nouveau SW prend le contrôle
               navigator.serviceWorker.addEventListener('controllerchange', () => {
                 window.location.reload();
               });
