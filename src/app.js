@@ -3641,7 +3641,7 @@ if (userProfile && onboardingSeen === 'true') {
 }
 
 // ═══════════════════════════════════════════════════════════
-// GESTION DES MISES À JOUR PWA (Version Ultra-Fiable)
+// GESTION DES MISES À JOUR PWA (Version Finale Absolue)
 // ═══════════════════════════════════════════════════════════
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
@@ -3649,65 +3649,71 @@ if ('serviceWorker' in navigator) {
       const registration = await navigator.serviceWorker.register('/sw.js');
       console.log('[App] ✅ SW enregistré:', registration.scope);
 
-      // ✅ Fonction pour afficher le bandeau (supprime d'abord l'ancien pour éviter les doublons)
-      const showUpdateBanner = () => {
-        const oldBanner = document.getElementById('update-banner');
-        if (oldBanner) oldBanner.remove();
+      // ✅ 1. NETTOYAGE RADICAL : Supprimer tout ancien bandeau fantôme au démarrage
+      const oldBanner = document.getElementById('update-banner');
+      if (oldBanner) {
+        console.log('[App] 🧹 Suppression d\'un ancien bandeau fantôme...');
+        oldBanner.remove();
+      }
 
-        const banner = document.createElement('div');
-        banner.id = 'update-banner';
-        banner.style.cssText = `
-          position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
-          background: #0A8A6E; color: white; padding: 12px 24px; border-radius: 50px;
-          box-shadow: 0 8px 24px rgba(10, 138, 110, 0.4); z-index: 99999;
-          font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: 12px;
-        `;
-        banner.innerHTML = `
-          <span>✨ Fanavaozana misy (Mise à jour prête)</span>
-          <button id="btn-reload-now" style="
-            background: white; color: #0A8A6E; border: none;
-            padding: 6px 16px; border-radius: 20px; font-weight: 800;
-            cursor: pointer; font-size: 0.85rem;
-          ">Averina (Actualiser)</button>
-        `;
-        document.body.appendChild(banner);
-
-        // ✅ ÉCOUTEUR DE CLIC DIRECT ET SIMPLE
-        document.getElementById('btn-reload-now').addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          console.log('[App] 🔄 Bouton Actualiser cliqué !');
-
-          // 1. Forcer le nouveau SW à s'activer
-          if (registration.waiting) {
-            registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-          }
-
-          // 2. Rechargement FORCÉ de la page (bypass le cache pour appliquer la MAJ)
-          setTimeout(() => {
-            window.location.reload(true);
-          }, 200);
-        });
-      };
-
-      // Écouter les changements d'état du nouveau SW
+      // ✅ 2. ÉCOUTE CLÉ : Nouveau SW détecté
       registration.addEventListener('updatefound', () => {
+        console.log('[App] 🔄 Nouveau SW en cours d\'installation...');
         const newWorker = registration.installing;
+
         newWorker.addEventListener('statechange', () => {
+          console.log('[App] 📊 État du SW:', newWorker.state);
+
+          // ✅ Si installé ET qu'un ancien SW contrôle déjà la page
           if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-            console.log('[App] ✨ Nouvelle version prête !');
-            showUpdateBanner();
+            console.log('[App] ✨ Nouvelle version prête ! Affichage du bandeau...');
+
+            const banner = document.createElement('div');
+            banner.id = 'update-banner';
+            banner.style.cssText = `
+              position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
+              background: #0A8A6E; color: white; padding: 12px 24px; border-radius: 50px;
+              box-shadow: 0 8px 24px rgba(10, 138, 110, 0.4); z-index: 99999;
+              font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: 12px;
+              animation: slideUp 0.4s ease-out;
+            `;
+            banner.innerHTML = `
+              <span>✨ Fanavaozana misy (Mise à jour prête)</span>
+              <button id="btn-reload-now" style="
+                background: white; color: #0A8A6E; border: none;
+                padding: 6px 16px; border-radius: 20px; font-weight: 800;
+                cursor: pointer; font-size: 0.85rem;
+              ">Averina (Actualiser)</button>
+            `;
+            document.body.appendChild(banner);
+
+            // ✅ 3. ÉCOUTEUR DE CLIC INFAILLIBLE
+            document.getElementById('btn-reload-now').addEventListener('click', (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              console.log('[App] 🔄 Bouton Actualiser cliqué ! Forçage de la mise à jour...');
+
+              // 1. Forcer le nouveau SW à s'activer immédiatement
+              if (registration.waiting) {
+                registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+              }
+
+              // 2. Rechargement FORCÉ de la page pour appliquer la nouvelle version
+              setTimeout(() => {
+                window.location.reload(true); // 'true' force le navigateur à ignorer le cache
+              }, 200);
+            });
           }
         });
       });
 
-      // Vérification périodique (toutes les heures)
+      // Vérification périodique (toutes les 5 min)
       setInterval(() => {
-        registration.update();
-      }, 60 * 60 * 1000);
+        registration.update().catch(err => console.warn('[App] Échec update SW:', err));
+      }, 5 * 60 * 1000);
 
     } catch (error) {
-      console.warn('[App] ⚠️ Échec SW:', error);
+      console.warn('[App] ⚠️ Échec enregistrement SW:', error);
     }
   });
 }
