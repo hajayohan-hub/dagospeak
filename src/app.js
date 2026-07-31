@@ -3571,116 +3571,121 @@ function showSettingsModal() {
 // ═══════════════════════════════════════════════════════════
 // GESTION SÉCURISÉE DU DÉMARRAGE ET ONBOARDING
 // ═══════════════════════════════════════════════════════════
-
-// Vérifier si l'utilisateur a déjà un profil enregistré
 const userProfile = localStorage.getItem('dagospeak:userProfile');
 const onboardingSeen = localStorage.getItem('dagospeak:onboardingComplete');
 
 if (userProfile && onboardingSeen === 'true') {
-  // Utilisateur déjà inscrit et onboarding terminé → Démarrage direct
   console.log('[App] ✅ Utilisateur reconnu, démarrage direct...');
-
-  // Mise à jour du profil global pour que l'app sache si c'est Premium ou Gratuit
   const parsedProfile = JSON.parse(userProfile);
   if (parsedProfile.isPremium) {
     localStorage.setItem('dagospeak:isPremium', 'true');
   }
 
+  // 1. Démarrer le routeur
   router.start();
+
+  // 2. Forcer la route Accueil si le hash est vide (corrige l'écran blanc)
+  if (!window.location.hash || window.location.hash === '#') {
+    router.navigate('/');
+  }
+
   logger.info('✅ Application démarrée (Utilisateur connecté)');
 } else {
-  // Premier lancement ou compte supprimé → Afficher l'onboarding complet
   console.log('[App] 🎬 Premier lancement ou déconnexion, affichage de l\'onboarding...');
 
+  const onboarding = new OnboardingScreen(() => {
+    console.log('[App] 🎬 Onboarding terminé, initialisation...');
+
+    // 1. Démarrer le routeur pour qu'il écoute les changements d'URL
+    router.start();
+
+    // 2. Forcer la navigation vers l'Accueil pour garantir le rendu immédiat
+    router.navigate('/');
+
+    logger.info('✅ Application démarrée (après onboarding)');
+  });
+
+  onboarding.show();
+
+  // Mise à jour de l'état actif de la barre de navigation mobile
+  function updateMobileNavActiveState() {
+    const currentHash = window.location.hash.slice(1) || '/';
+    document.querySelectorAll('.ds-mobile-nav a').forEach(link => {
+      link.classList.toggle('active', link.dataset.route === currentHash);
+    });
+  }
+  window.addEventListener('hashchange', updateMobileNavActiveState);
+  updateMobileNavActiveState();
+
   // ═══════════════════════════════════════════════════════════
-// GESTION SÉCURISÉE DU DÉMARRAGE ET ONBOARDING
-// ═══════════════════════════════════════════════════════════
-const onboarding = new OnboardingScreen(() => {
-  router.start();
-  logger.info('✅ Application démarrée (après onboarding)');
-});
-onboarding.show();
+  // GESTION DES MISES À JOUR PWA (Non-intrusif & Thémé)
+  // ═══════════════════════════════════════════════════════════
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', async () => {
+      try {
+        const registration = await navigator.serviceWorker.register('/sw.js');
+        console.log('[App] ✅ SW enregistré:', registration.scope);
 
-// Mise à jour de l'état actif de la barre de navigation mobile
-function updateMobileNavActiveState() {
-  const currentHash = window.location.hash.slice(1) || '/';
-  document.querySelectorAll('.ds-mobile-nav a').forEach(link => {
-    link.classList.toggle('active', link.dataset.route === currentHash);
-  });
-}
-window.addEventListener('hashchange', updateMobileNavActiveState);
-updateMobileNavActiveState();
+        // ✅ ÉCOUTE L'ÉVÉNEMENT CLÉ : Nouveau SW détecté
+        registration.addEventListener('updatefound', () => {
+          console.log('[App] 🔄 Nouveau SW en cours d\'installation...');
+          const newWorker = registration.installing;
 
+          newWorker.addEventListener('statechange', () => {
+            console.log('[App] 📊 État du SW:', newWorker.state);
 
-// ═══════════════════════════════════════════════════════════
-// GESTION DES MISES À JOUR PWA (Non-intrusif & Thémé)
-// ═══════════════════════════════════════════════════════════
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', async () => {
-    try {
-      const registration = await navigator.serviceWorker.register('/sw.js');
-      console.log('[App] ✅ SW enregistré:', registration.scope);
+            // ✅ Si le SW est installé ET qu'il y a déjà un SW actif (donc c'est une mise à jour)
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              console.log('[App] ✨ Nouvelle version prête !');
 
-      // ✅ ÉCOUTE L'ÉVÉNEMENT CLÉ : Nouveau SW détecté
-      registration.addEventListener('updatefound', () => {
-        console.log('[App] 🔄 Nouveau SW en cours d\'installation...');
-        const newWorker = registration.installing;
+              // Évite les doublons de bannières
+              if (document.getElementById('update-banner')) return;
 
-        newWorker.addEventListener('statechange', () => {
-          console.log('[App] 📊 État du SW:', newWorker.state);
+              const banner = document.createElement('div');
+              banner.id = 'update-banner';
+              banner.style.cssText = `
+                position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
+                background: var(--ds-color-primary, #0A8A6E); color: white;
+                padding: 12px 24px; border-radius: 50px;
+                box-shadow: 0 8px 24px rgba(10, 138, 110, 0.4); z-index: 10000;
+                font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: 12px;
+                animation: slideUp 0.4s ease-out;
+              `;
+              banner.innerHTML = `
+                <span>✨ Fanavaozana misy (Mise à jour prête)</span>
+                <button id="btn-reload-now" style="
+                  background: white; color: #0A8A6E; border: none;
+                  padding: 6px 16px; border-radius: 20px; font-weight: 800;
+                  cursor: pointer; font-size: 0.85rem; transition: transform 0.2s;
+                " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                  Averina (Actualiser)
+                </button>
+              `;
+              document.body.appendChild(banner);
 
-          // ✅ Si le SW est installé ET qu'il y a déjà un SW actif (donc c'est une mise à jour)
-          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-            console.log('[App] ✨ Nouvelle version prête !');
-
-            // Évite les doublons de bannières
-            if (document.getElementById('update-banner')) return;
-
-            const banner = document.createElement('div');
-            banner.id = 'update-banner';
-            banner.style.cssText = `
-              position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
-              background: var(--ds-color-primary, #0A8A6E); color: white;
-              padding: 12px 24px; border-radius: 50px;
-              box-shadow: 0 8px 24px rgba(10, 138, 110, 0.4); z-index: 10000;
-              font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: 12px;
-              animation: slideUp 0.4s ease-out;
-            `;
-            banner.innerHTML = `
-              <span>✨ Fanavaozana misy (Mise à jour prête)</span>
-              <button id="btn-reload-now" style="
-                background: white; color: #0A8A6E; border: none;
-                padding: 6px 16px; border-radius: 20px; font-weight: 800;
-                cursor: pointer; font-size: 0.85rem; transition: transform 0.2s;
-              " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                Averina (Actualiser)
-              </button>
-            `;
-            document.body.appendChild(banner);
-
-            document.getElementById('btn-reload-now').addEventListener('click', () => {
-              // 1. Demande au nouveau SW de s'activer immédiatement
-              if (registration.waiting) {
-                registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-              }
-              // 2. Recharge la page quand le nouveau SW prend le contrôle
-              navigator.serviceWorker.addEventListener('controllerchange', () => {
-                window.location.reload();
+              document.getElementById('btn-reload-now').addEventListener('click', () => {
+                // 1. Demande au nouveau SW de s'activer immédiatement
+                if (registration.waiting) {
+                  registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+                }
+                // 2. Recharge la page quand le nouveau SW prend le contrôle
+                navigator.serviceWorker.addEventListener('controllerchange', () => {
+                  window.location.reload();
+                });
               });
-            });
-          }
+            }
+          });
         });
-      });
 
-      // Vérification périodique discrète (toutes les 30 min)
-      setInterval(() => {
-        registration.update().catch(err => console.warn('[App] Échec update SW:', err));
-      }, 30 * 60 * 1000);
+        // Vérification périodique discrète (toutes les 30 min)
+        setInterval(() => {
+          registration.update().catch(err => console.warn('[App] Échec update SW:', err));
+        }, 30 * 60 * 1000);
 
-    } catch (error) {
-      console.warn('[App] ⚠️ Échec enregistrement SW:', error);
-    }
-  });
-}
-logger.info('✅ Application démarrée');
+      } catch (error) {
+        console.warn('[App] ⚠️ Échec enregistrement SW:', error);
+      }
+    });
+  }
+  logger.info('✅ Application démarrée');
 }
