@@ -3641,7 +3641,7 @@ if (userProfile && onboardingSeen === 'true') {
 }
 
 // ═══════════════════════════════════════════════════════════
-// GESTION DES MISES À JOUR PWA (Version Finale Corrigée)
+// GESTION DES MISES À JOUR PWA (Version Ultra-Visible)
 // ═══════════════════════════════════════════════════════════
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
@@ -3649,15 +3649,6 @@ if ('serviceWorker' in navigator) {
       const registration = await navigator.serviceWorker.register('/sw.js');
       console.log('[App] ✅ SW enregistré:', registration.scope);
 
-      // ✅ MÉTHODE 1 : Écouter les messages du SW (NEW_VERSION)
-      navigator.serviceWorker.addEventListener('message', (event) => {
-        if (event.data && event.data.type === 'NEW_VERSION') {
-          console.log('[App] 🔄 Nouvelle version détectée via message');
-          showUpdateBanner(registration);
-        }
-      });
-
-      // ✅ MÉTHODE 2 : Écouter updatefound (plus fiable)
       registration.addEventListener('updatefound', () => {
         console.log('[App] 🔄 Nouveau SW en cours d\'installation...');
         const newWorker = registration.installing;
@@ -3665,14 +3656,46 @@ if ('serviceWorker' in navigator) {
         newWorker.addEventListener('statechange', () => {
           console.log('[App] 📊 État du SW:', newWorker.state);
 
+          // ✅ Si installé ET qu'un ancien SW contrôle déjà la page
           if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
             console.log('[App] ✨ Nouvelle version prête !');
-            showUpdateBanner(registration);
+            if (document.getElementById('update-banner')) return;
+
+            const banner = document.createElement('div');
+            banner.id = 'update-banner';
+            // ✅ STYLE EXAGÉRÉMENT VISIBLE pour éliminer tout doute
+            banner.style.cssText = `
+              position: fixed; bottom: 120px; left: 50%; transform: translateX(-50%);
+              background: #0A8A6E; color: white;
+              padding: 16px 32px; border-radius: 50px;
+              box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 99999;
+              font-size: 1rem; font-weight: 800; display: flex; align-items: center; gap: 16px;
+              border: 3px solid #E8A33D;
+            `;
+            banner.innerHTML = `
+              <span>🚀 Fanavaozana misy (Mise à jour prête)</span>
+              <button id="btn-reload-now" style="
+                background: white; color: #0A8A6E; border: none;
+                padding: 8px 20px; border-radius: 20px; font-weight: 900;
+                cursor: pointer; font-size: 0.9rem; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+              ">
+                Averina (Actualiser)
+              </button>
+            `;
+            document.body.appendChild(banner);
+            console.log('[App] ✅ BANDEAU AJOUTÉ AU DOM AVEC SUCCÈS !');
+
+            document.getElementById('btn-reload-now').addEventListener('click', () => {
+              if (registration.waiting) {
+                registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+              }
+              window.location.reload();
+            });
           }
         });
       });
 
-      // Vérification périodique (toutes les 5 min)
+      // Vérification toutes les 5 minutes
       setInterval(() => {
         registration.update().catch(err => console.warn('[App] Échec update SW:', err));
       }, 5 * 60 * 1000);
