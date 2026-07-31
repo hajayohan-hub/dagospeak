@@ -3569,10 +3569,24 @@ function showSettingsModal() {
 
 
 // ═══════════════════════════════════════════════════════════
-// GESTION SÉCURISÉE DU DÉMARRAGE ET ONBOARDING (Version Fusionnée)
+// GESTION SÉCURISÉE DU DÉMARRAGE ET ONBOARDING (CORRIGÉ)
 // ═══════════════════════════════════════════════════════════
 const userProfile = localStorage.getItem('dagospeak:userProfile');
 const onboardingSeen = localStorage.getItem('dagospeak:onboardingComplete');
+
+// Fonction centrale pour démarrer et FORCER le rendu de l'accueil
+function startAppAndRenderHome() {
+  router.start();
+  // 1. Forcer le hash à '/' s'il est vide
+  if (!window.location.hash || window.location.hash === '#' || window.location.hash === '#/') {
+    window.location.hash = '/';
+  }
+  // 2. Forcer l'appel de renderHome après un court délai pour laisser le DOM se préparer
+  setTimeout(() => {
+    renderHome();
+    logger.info('✅ Page d\'accueil rendue avec succès');
+  }, 50);
+}
 
 if (userProfile && onboardingSeen === 'true') {
   console.log('[App] ✅ Utilisateur reconnu, démarrage direct...');
@@ -3580,32 +3594,14 @@ if (userProfile && onboardingSeen === 'true') {
   if (parsedProfile.isPremium) {
     localStorage.setItem('dagospeak:isPremium', 'true');
   }
-
-  // 1. Forcer la navigation vers la page d'accueil
-  window.location.hash = '/';
-  router.start();
-
-  // 2. S'assurer que renderHome est appelé après un court délai
-  setTimeout(() => {
-    renderHome();
-    logger.info('✅ Application démarrée (Utilisateur connecté)');
-  }, 50);
-
+  startAppAndRenderHome();
 } else {
   console.log('[App] 🎬 Premier lancement ou déconnexion, affichage de l\'onboarding...');
 
   const onboarding = new OnboardingScreen(() => {
     console.log('[App] ✅ Onboarding terminé, démarrage de l\'app...');
-
-    // 1. Forcer la navigation vers la page d'accueil
-    window.location.hash = '/';
-    router.start();
-
-    // 2. Forcer le rendu de la page d'accueil après un court délai
-    setTimeout(() => {
-      renderHome();
-      logger.info('✅ Application démarrée (après onboarding)');
-    }, 100);
+    // C'est ici que la magie opère pour les nouveaux utilisateurs
+    startAppAndRenderHome();
   });
 
   onboarding.show();
@@ -3622,7 +3618,7 @@ window.addEventListener('hashchange', updateMobileNavActiveState);
 updateMobileNavActiveState();
 
 // ═══════════════════════════════════════════════════════════
-// GESTION DES MISES À JOUR PWA (Non-intrusif & Thémé)
+// GESTION DES MISES À JOUR PWA (Méthode updatefound)
 // ═══════════════════════════════════════════════════════════
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
@@ -3630,15 +3626,11 @@ if ('serviceWorker' in navigator) {
       const registration = await navigator.serviceWorker.register('/sw.js');
       console.log('[App] ✅ SW enregistré:', registration.scope);
 
-      // ✅ ÉCOUTE L'ÉVÉNEMENT CLÉ : Nouveau SW détecté
       registration.addEventListener('updatefound', () => {
         console.log('[App] 🔄 Nouveau SW en cours d\'installation...');
         const newWorker = registration.installing;
 
         newWorker.addEventListener('statechange', () => {
-          console.log('[App] 📊 État du SW:', newWorker.state);
-
-          // ✅ Si le SW est installé ET qu'il y a déjà un SW actif (mise à jour)
           if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
             console.log('[App] ✨ Nouvelle version prête !');
             if (document.getElementById('update-banner')) return;
@@ -3677,7 +3669,6 @@ if ('serviceWorker' in navigator) {
         });
       });
 
-      // Vérification périodique discrète (toutes les 30 min)
       setInterval(() => {
         registration.update().catch(err => console.warn('[App] Échec update SW:', err));
       }, 30 * 60 * 1000);
@@ -3687,3 +3678,4 @@ if ('serviceWorker' in navigator) {
     }
   });
 }
+logger.info('✅ Application démarrée');
