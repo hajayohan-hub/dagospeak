@@ -3569,7 +3569,7 @@ function showSettingsModal() {
 
 
 // ═══════════════════════════════════════════════════════════
-// GESTION SÉCURISÉE DU DÉMARRAGE ET ONBOARDING
+// GESTION SÉCURISÉE DU DÉMARRAGE ET ONBOARDING (Version Fusionnée)
 // ═══════════════════════════════════════════════════════════
 const userProfile = localStorage.getItem('dagospeak:userProfile');
 const onboardingSeen = localStorage.getItem('dagospeak:onboardingComplete');
@@ -3577,97 +3577,113 @@ const onboardingSeen = localStorage.getItem('dagospeak:onboardingComplete');
 if (userProfile && onboardingSeen === 'true') {
   console.log('[App] ✅ Utilisateur reconnu, démarrage direct...');
   const parsedProfile = JSON.parse(userProfile);
-  if (parsedProfile.isPremium) localStorage.setItem('dagospeak:isPremium', 'true');
-
-  router.start();
-  // ✅ FORCER la route Accueil si le hash est vide
-  if (!window.location.hash || window.location.hash === '#' || window.location.hash === '#/') {
-    router.navigate('/');
+  if (parsedProfile.isPremium) {
+    localStorage.setItem('dagospeak:isPremium', 'true');
   }
-  logger.info('✅ Application démarrée (Utilisateur connecté)');
+
+  // 1. Forcer la navigation vers la page d'accueil
+  window.location.hash = '/';
+  router.start();
+
+  // 2. S'assurer que renderHome est appelé après un court délai
+  setTimeout(() => {
+    renderHome();
+    logger.info('✅ Application démarrée (Utilisateur connecté)');
+  }, 50);
+
 } else {
-  console.log('[App] 🎬 Premier lancement, affichage de l\'onboarding...');
+  console.log('[App] 🎬 Premier lancement ou déconnexion, affichage de l\'onboarding...');
 
   const onboarding = new OnboardingScreen(() => {
-    console.log('[App] 🎬 Onboarding terminé, initialisation...');
+    console.log('[App] ✅ Onboarding terminé, démarrage de l\'app...');
+
+    // 1. Forcer la navigation vers la page d'accueil
+    window.location.hash = '/';
     router.start();
-    // 🚨 C'EST CETTE LIGNE QUI CORRIGE L'ÉCRAN BLANC :
-    router.navigate('/');
-    logger.info('✅ Application démarrée (après onboarding)');
+
+    // 2. Forcer le rendu de la page d'accueil après un court délai
+    setTimeout(() => {
+      renderHome();
+      logger.info('✅ Application démarrée (après onboarding)');
+    }, 100);
   });
 
   onboarding.show();
+}
 
-  // Gestion de la navigation mobile
-  function updateMobileNavActiveState() {
-    const currentHash = window.location.hash.slice(1) || '/';
-    document.querySelectorAll('.ds-mobile-nav a').forEach(link => {
-      link.classList.toggle('active', link.dataset.route === currentHash);
-    });
-  }
-  window.addEventListener('hashchange', updateMobileNavActiveState);
-  updateMobileNavActiveState();
+// Mise à jour de l'état actif de la barre de navigation mobile
+function updateMobileNavActiveState() {
+  const currentHash = window.location.hash.slice(1) || '/';
+  document.querySelectorAll('.ds-mobile-nav a').forEach(link => {
+    link.classList.toggle('active', link.dataset.route === currentHash);
+  });
+}
+window.addEventListener('hashchange', updateMobileNavActiveState);
+updateMobileNavActiveState();
 
-  // ═══════════════════════════════════════════════════════════
-  // GESTION DES MISES À JOUR PWA (Méthode updatefound)
-  // ═══════════════════════════════════════════════════════════
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', async () => {
-      try {
-        const registration = await navigator.serviceWorker.register('/sw.js');
-        console.log('[App] ✅ SW enregistré:', registration.scope);
+// ═══════════════════════════════════════════════════════════
+// GESTION DES MISES À JOUR PWA (Non-intrusif & Thémé)
+// ═══════════════════════════════════════════════════════════
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', async () => {
+    try {
+      const registration = await navigator.serviceWorker.register('/sw.js');
+      console.log('[App] ✅ SW enregistré:', registration.scope);
 
-        registration.addEventListener('updatefound', () => {
-          console.log('[App] 🔄 Nouveau SW en cours d\'installation...');
-          const newWorker = registration.installing;
+      // ✅ ÉCOUTE L'ÉVÉNEMENT CLÉ : Nouveau SW détecté
+      registration.addEventListener('updatefound', () => {
+        console.log('[App] 🔄 Nouveau SW en cours d\'installation...');
+        const newWorker = registration.installing;
 
-          newWorker.addEventListener('statechange', () => {
-            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              console.log('[App] ✨ Nouvelle version prête !');
-              if (document.getElementById('update-banner')) return;
+        newWorker.addEventListener('statechange', () => {
+          console.log('[App] 📊 État du SW:', newWorker.state);
 
-              const banner = document.createElement('div');
-              banner.id = 'update-banner';
-              banner.style.cssText = `
-                position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
-                background: var(--ds-color-primary, #0A8A6E); color: white;
-                padding: 12px 24px; border-radius: 50px;
-                box-shadow: 0 8px 24px rgba(10, 138, 110, 0.4); z-index: 10000;
-                font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: 12px;
-                animation: slideUp 0.4s ease-out;
-              `;
-              banner.innerHTML = `
-                <span>✨ Fanavaozana misy (Mise à jour prête)</span>
-                <button id="btn-reload-now" style="
-                  background: white; color: #0A8A6E; border: none;
-                  padding: 6px 16px; border-radius: 20px; font-weight: 800;
-                  cursor: pointer; font-size: 0.85rem; transition: transform 0.2s;
-                " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                  Averina (Actualiser)
-                </button>
-              `;
-              document.body.appendChild(banner);
+          // ✅ Si le SW est installé ET qu'il y a déjà un SW actif (mise à jour)
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            console.log('[App] ✨ Nouvelle version prête !');
+            if (document.getElementById('update-banner')) return;
 
-              document.getElementById('btn-reload-now').addEventListener('click', () => {
-                if (registration.waiting) {
-                  registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-                }
-                navigator.serviceWorker.addEventListener('controllerchange', () => {
-                  window.location.reload();
-                });
+            const banner = document.createElement('div');
+            banner.id = 'update-banner';
+            banner.style.cssText = `
+              position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
+              background: var(--ds-color-primary, #0A8A6E); color: white;
+              padding: 12px 24px; border-radius: 50px;
+              box-shadow: 0 8px 24px rgba(10, 138, 110, 0.4); z-index: 10000;
+              font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: 12px;
+              animation: slideUp 0.4s ease-out;
+            `;
+            banner.innerHTML = `
+              <span>✨ Fanavaozana misy (Mise à jour prête)</span>
+              <button id="btn-reload-now" style="
+                background: white; color: #0A8A6E; border: none;
+                padding: 6px 16px; border-radius: 20px; font-weight: 800;
+                cursor: pointer; font-size: 0.85rem; transition: transform 0.2s;
+              " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                Averina (Actualiser)
+              </button>
+            `;
+            document.body.appendChild(banner);
+
+            document.getElementById('btn-reload-now').addEventListener('click', () => {
+              if (registration.waiting) {
+                registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+              }
+              navigator.serviceWorker.addEventListener('controllerchange', () => {
+                window.location.reload();
               });
-            }
-          });
+            });
+          }
         });
+      });
 
-        setInterval(() => {
-          registration.update().catch(err => console.warn('[App] Échec update SW:', err));
-        }, 30 * 60 * 1000);
+      // Vérification périodique discrète (toutes les 30 min)
+      setInterval(() => {
+        registration.update().catch(err => console.warn('[App] Échec update SW:', err));
+      }, 30 * 60 * 1000);
 
-      } catch (error) {
-        console.warn('[App] ⚠️ Échec enregistrement SW:', error);
-      }
-    });
-  }
-  logger.info('✅ Application démarrée');
+    } catch (error) {
+      console.warn('[App] ⚠️ Échec enregistrement SW:', error);
+    }
+  });
 }
