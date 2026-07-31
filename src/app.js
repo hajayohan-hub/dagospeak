@@ -3574,122 +3574,129 @@ function showSettingsModal() {
 
 
 // ═══════════════════════════════════════════════════════════
-// GESTION SÉCURISÉE DU DÉMARRAGE ET ONBOARDING (CORRECTION FINALE)
+// GESTION SÉCURISÉE DU DÉMARRAGE ET ONBOARDING
 // ═══════════════════════════════════════════════════════════
-
-// ✅ Fonction unique pour démarrer l'app et FORCER l'affichage de l'accueil
 function startAppAndShowHome() {
-  // ✅ CORRECTION : Utilisation de guillemets doubles pour éviter le conflit avec l'apostrophe
-  console.log("[App] 🚀 Démarrage de l'application et affichage de l'accueil...");
-
-  // 1. Forcer le hash à '/' pour que le routeur sache où on est
-  if (!window.location.hash || window.location.hash === '#' || window.location.hash === '#/') {
-    window.location.hash = '/';
+  console.log("[App] 🚀 Démarrage de l'application...");
+  if (!window.location.hash || window.location.hash === "#" || window.location.hash === "#/") {
+    window.location.hash = "/";
   }
-
-  // 2. Démarrer le routeur
   router.start();
-
-  // 3. FORCER l'appel de renderHome() après un court délai (garanti)
   setTimeout(() => {
     renderHome();
-    console.log('[App] ✅ renderHome() exécuté avec succès');
-    logger.info('✅ Page d\'accueil rendue');
+    console.log("[App] ✅ renderHome() exécuté");
     updateMobileNavActiveState();
   }, 100);
 }
 
-// ✅ Gestion du clic sur le bouton "Accueil" dans la barre de navigation mobile
-document.addEventListener('click', (e) => {
+document.addEventListener("click", (e) => {
   const homeLink = e.target.closest('a[href="#/"], a[href="#"]');
   if (homeLink) {
     e.preventDefault();
     e.stopPropagation();
-    router.navigate('/');
+    router.navigate("/");
   }
 });
 
-// ✅ Synchronisation de l'état actif de la barre de navigation
 function updateMobileNavActiveState() {
-  const currentHash = window.location.hash.slice(1) || '/';
-  document.querySelectorAll('.ds-mobile-nav a').forEach(link => {
-    link.classList.toggle('active', link.dataset.route === currentHash || (currentHash === '/' && link.dataset.route === '/'));
+  const currentHash = window.location.hash.slice(1) || "/";
+  document.querySelectorAll(".ds-mobile-nav a").forEach(link => {
+    link.classList.toggle("active", link.dataset.route === currentHash || (currentHash === "/" && link.dataset.route === "/"));
   });
 }
-window.addEventListener('hashchange', updateMobileNavActiveState);
+window.addEventListener("hashchange", updateMobileNavActiveState);
 
-// Vérifier si l'utilisateur a déjà un profil enregistré
-const userProfile = localStorage.getItem('dagospeak:userProfile');
-const onboardingSeen = localStorage.getItem('dagospeak:onboardingComplete');
+const userProfile = localStorage.getItem("dagospeak:userProfile");
+const onboardingSeen = localStorage.getItem("dagospeak:onboardingComplete");
 
-if (userProfile && onboardingSeen === 'true') {
-  console.log('[App] ✅ Utilisateur reconnu, démarrage direct...');
+if (userProfile && onboardingSeen === "true") {
+  console.log("[App] ✅ Utilisateur reconnu, démarrage direct...");
   const parsedProfile = JSON.parse(userProfile);
   if (parsedProfile.isPremium) {
-    localStorage.setItem('dagospeak:isPremium', 'true');
+    localStorage.setItem("dagospeak:isPremium", "true");
   }
   startAppAndShowHome();
 } else {
-  // ✅ CORRECTION : Utilisation de guillemets doubles ici aussi
-  console.log("[App] 🎬 Premier lancement, affichage de l'onboarding...");
+  console.log("[App] 🎬 Premier lancement ou mise à jour, affichage de l'onboarding...");
 
-  // ✅ CORRECTION CRITIQUE : Le callback doit être passé à show(), PAS au constructeur !
-  const onboarding = new OnboardingScreen();
+  // ✅ DÉTECTION DU MODE : Si un profil existe déjà, c'est une MAJ
+  const isUpdate = !!userProfile;
+  const onboardingMode = isUpdate ? "update" : "first-launch";
+  console.log(`[App] 📍 Mode onboarding : ${onboardingMode}`);
+
+  const onboarding = new OnboardingScreen(onboardingMode);
   onboarding.show(() => {
-    console.log('[App] ✅ Onboarding terminé, démarrage...');
-    // C'EST ICI QUE renderHome() SERA ENFIN APPELÉ
+    console.log("[App] ✅ Onboarding terminé, démarrage...");
     startAppAndShowHome();
   });
 }
 
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', async () => {
+// ═══════════════════════════════════════════════════════════
+// GESTION DES MISES À JOUR PWA (UX : Relance l'onboarding)
+// ═══════════════════════════════════════════════════════════
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", async () => {
     try {
-      const registration = await navigator.serviceWorker.register('/sw.js');
-      console.log('[App] SW enregistré');
+      const registration = await navigator.serviceWorker.register("/sw.js");
+      console.log("[App] ✅ SW enregistré");
 
-      registration.addEventListener('updatefound', () => {
+      registration.addEventListener("updatefound", () => {
         const newWorker = registration.installing;
-        newWorker.addEventListener('statechange', () => {
-          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-            console.log('[App] Nouvelle version prête');
+        newWorker.addEventListener("statechange", () => {
+          if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
+            console.log("[App] ✨ Nouvelle version prête !");
 
-            if (document.getElementById('update-banner')) return;
+            // Supprime tout ancien bandeau
+            document.getElementById("update-banner")?.remove();
 
-            const banner = document.createElement('div');
-            banner.id = 'update-banner';
+            const banner = document.createElement("div");
+            banner.id = "update-banner";
             banner.style.cssText = `
               position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
               background: #0A8A6E; color: white; padding: 14px 28px; border-radius: 50px;
               box-shadow: 0 8px 24px rgba(10, 138, 110, 0.5); z-index: 99999;
               font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: 14px;
-              border: 2px solid #E8A33D;
+              border: 2px solid #E8A33D; animation: slideUp 0.4s ease-out;
             `;
             banner.innerHTML = `
-              <span>🚀 Fanavaozana misy !</span>
+              <span>🚀 Fanavaozana misy ! (Mise à jour prête)</span>
               <button id="btn-update-now" style="
                 background: white; color: #0A8A6E; border: none;
                 padding: 8px 18px; border-radius: 20px; font-weight: 800;
                 cursor: pointer; font-size: 0.9rem;
-              ">Averina</button>
+              ">Averina (Actualiser)</button>
             `;
             document.body.appendChild(banner);
 
-            document.getElementById('btn-update-now').addEventListener('click', () => {
+            // ✅ LE COMPORTEMENT SOUHAITÉ : Clic = Relance de l'onboarding
+            document.getElementById("btn-update-now").addEventListener("click", () => {
+              console.log("[App] 🔄 Installation de la mise à jour...");
+
+              // 1. Active le nouveau SW
               if (registration.waiting) {
-                registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+                registration.waiting.postMessage({ type: "SKIP_WAITING" });
               }
-              localStorage.removeItem('dagospeak:onboardingComplete');
+
+              // 2. Efface l'onboarding pour qu'il se relance au prochain chargement
+              localStorage.removeItem("dagospeak:onboardingComplete");
+
+              // 3. Recharge la page (l'onboarding va se relancer automatiquement)
               window.location.reload();
             });
           }
         });
       });
+
+      // Vérification toutes les 5 minutes
+      setInterval(() => {
+        registration.update().catch(err => console.warn("[App] Échec update SW:", err));
+      }, 5 * 60 * 1000);
     } catch (error) {
-      console.warn('[App] SW error:', error);
+      console.warn("[App] ⚠️ SW error:", error);
     }
   });
 }
+
 logger.info('✅ Application démarrée');
 
 // ✅ FONCTION CENTRALISÉE POUR AFFICHER LE BANDEAU

@@ -1,52 +1,96 @@
-const CACHE_NAME = 'dagospeak-v28';
+// ═══════════════════════════════════════════════════════════
+// DAGOSPEAK SERVICE WORKER v26
+// ══════════════════════════════════════════════════════════
+const CACHE_NAME = "dagospeak-v26";
 const STATIC_ASSETS = [
-  '/',
-  '/index.html',
-  '/manifest.webmanifest'
+  "/", "/index.html", "/manifest.webmanifest",
+  "/assets/dagospeak-logo.svg", "/assets/hero-bg.png",
+  "/assets/teacher-3d.png", "/assets/users-3d.png",
+  "/src/ui/styles/tokens.css", "/src/ui/styles/base.css",
+  "/content/fr/manifest.json",
+  "/content/fr/vocabulary/alphabet1.json", "/content/fr/vocabulary/alphabet2.json",
+  "/content/fr/vocabulary/survival.json", "/content/fr/vocabulary/family.json",
+  "/content/fr/vocabulary/market.json", "/content/fr/vocabulary/numbers.json",
+  "/content/fr/vocabulary/numbers2.json", "/content/fr/vocabulary/colors.json",
+  "/content/fr/vocabulary/days.json", "/content/fr/vocabulary/months.json",
+  "/content/fr/vocabulary/greetings.json", "/content/fr/vocabulary/body.json",
+  "/content/fr/dialogues/survival_dialogue.json", "/content/fr/dialogues/family_dialogue.json",
+  "/content/fr/dialogues/market_dialogue.json", "/content/fr/dialogues/numbers_dialogue.json",
+  "/content/fr/dialogues/numbers2_dialogue.json", "/content/fr/dialogues/colors_dialogue.json",
+  "/content/fr/dialogues/days_dialogue.json", "/content/fr/dialogues/months_dialogue.json",
+  "/content/fr/dialogues/greetings_dialogue.json", "/content/fr/dialogues/body_dialogue.json"
 ];
 
-self.addEventListener('install', (event) => {
-  console.log('[SW v28] Installation');
+self.addEventListener("install", (event) => {
+  console.log("[SW v26] 📦 Installation...");
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(STATIC_ASSETS))
-      .then(() => self.skipWaiting())
+    caches.open(CACHE_NAME).then(async (cache) => {
+      for (const url of STATIC_ASSETS) {
+        try { await cache.add(url); }
+        catch (err) { console.warn("[SW v26] ⚠️ Échec cache:", url); }
+      }
+    })
   );
 });
 
-self.addEventListener('activate', (event) => {
-  console.log('[SW v28] Activation');
+self.addEventListener("activate", (event) => {
+  console.log("[SW v26] 🚀 Activation...");
   event.waitUntil(
-    caches.keys()
-      .then((names) => Promise.all(
-        names.filter((name) => name !== CACHE_NAME).map((name) => caches.delete(name))
-      ))
-      .then(() => self.clients.claim())
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.filter((name) => name !== CACHE_NAME).map((name) => caches.delete(name))
+      );
+    }).then(() => self.clients.claim())
   );
 });
 
-self.addEventListener('fetch', (event) => {
-  if (event.request.method !== 'GET') return;
+self.addEventListener("fetch", (event) => {
+  const { request } = event;
+  const url = new URL(request.url);
+  if (request.method !== "GET" || url.origin !== self.location.origin) return;
+
+  if (request.mode === "navigate") {
+    event.respondWith(
+      fetch(request).catch(() => caches.match("/index.html"))
+    );
+    return;
+  }
+
+  if (
+    request.destination === "script" ||
+    request.destination === "style" ||
+    request.destination === "image" ||
+    url.pathname.includes("/content/") ||
+    STATIC_ASSETS.includes(url.pathname)
+  ) {
+    event.respondWith(
+      caches.match(request).then((cached) => {
+        const fetchPromise = fetch(request).then((networkResponse) => {
+          if (networkResponse && networkResponse.ok) {
+            try {
+              const responseToCache = networkResponse.clone();
+              caches.open(CACHE_NAME).then((cache) => cache.put(request, responseToCache));
+            } catch (e) {
+              console.warn("[SW v26] ⚠️ Échec clone:", e);
+            }
+          }
+          return networkResponse;
+        }).catch(() => cached);
+        return cached || fetchPromise;
+      })
+    );
+    return;
+  }
 
   event.respondWith(
-    caches.match(event.request)
-      .then((cached) => {
-        if (cached) return cached;
-
-        return fetch(event.request)
-          .then((response) => {
-            if (response.ok) {
-              const clone = response.clone();
-              caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-            }
-            return response;
-          })
-          .catch(() => {
-            if (event.request.mode === 'navigate') {
-              return caches.match('/index.html');
-            }
-            return new Response('', { status: 503 });
-          });
-      })
+    caches.match(request).then((cached) =>
+      cached || fetch(request).catch(() => new Response("", { status: 503 }))
+    )
   );
+});
+
+self.addEventListener("message", (event) => {
+  if (event.data && event.data.type === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
 });
