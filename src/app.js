@@ -3621,47 +3621,56 @@ if ('serviceWorker' in navigator) {
       const registration = await navigator.serviceWorker.register('/sw.js');
       console.log('[App] ✅ SW enregistré:', registration.scope);
 
-      // Écoute les messages du Service Worker
-      navigator.serviceWorker.addEventListener('message', (event) => {
-        if (event.data && event.data.type === 'NEW_VERSION_AVAILABLE') {
-          console.log('[App] 🔄 Nouvelle version détectée en arrière-plan');
+      // ✅ ÉCOUTE L'ÉVÉNEMENT CRÉ : Nouveau SW détecté
+      registration.addEventListener('updatefound', () => {
+        console.log('[App] 🔄 Nouveau SW en cours d\'installation...');
+        const newWorker = registration.installing;
 
-          // Évite les doublons de bannières
-          if (document.getElementById('update-banner')) return;
+        newWorker.addEventListener('statechange', () => {
+          console.log('[App] 📊 État du SW:', newWorker.state);
 
-          const banner = document.createElement('div');
-          banner.id = 'update-banner';
-          banner.style.cssText = `
-            position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%);
-            background: var(--ds-color-primary, #0A8A6E); color: white;
-            padding: 12px 24px; border-radius: 50px;
-            box-shadow: 0 8px 24px rgba(10, 138, 110, 0.4); z-index: 10000;
-            font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: 12px;
-            animation: slideUp 0.4s ease-out;
-          `;
-          banner.innerHTML = `
-            <span>✨ Fanavaozana misy (Mise à jour prête)</span>
-            <button id="btn-reload-now" style="
-              background: white; color: #0A8A6E; border: none;
-              padding: 6px 16px; border-radius: 20px; font-weight: 800;
-              cursor: pointer; font-size: 0.85rem; transition: transform 0.2s;
-            " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-              Averina (Actualiser)
-            </button>
-          `;
-          document.body.appendChild(banner);
+          // ✅ Si le SW est installé ET qu'il y a déjà un SW actif (donc c'est une mise à jour)
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            console.log('[App] ✨ Nouvelle version prête !');
 
-          document.getElementById('btn-reload-now').addEventListener('click', () => {
-            // 1. Demande au SW de s'activer immédiatement
-            if (registration.waiting) {
-              registration.waiting.postMessage({ type: 'SKIP_WAITING_AND_RELOAD' });
-            }
-            // 2. Recharge la page après un court délai pour laisser le SW prendre le contrôle
-            setTimeout(() => {
-              window.location.reload(true); // true force le bypass du cache navigateur
-            }, 300);
-          });
-        }
+            // Évite les doublons de bannières
+            if (document.getElementById('update-banner')) return;
+
+            const banner = document.createElement('div');
+            banner.id = 'update-banner';
+            banner.style.cssText = `
+              position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
+              background: var(--ds-color-primary, #0A8A6E); color: white;
+              padding: 12px 24px; border-radius: 50px;
+              box-shadow: 0 8px 24px rgba(10, 138, 110, 0.4); z-index: 10000;
+              font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: 12px;
+              animation: slideUp 0.4s ease-out;
+            `;
+            banner.innerHTML = `
+              <span>✨ Fanavaozana misy (Mise à jour prête)</span>
+              <button id="btn-reload-now" style="
+                background: white; color: #0A8A6E; border: none;
+                padding: 6px 16px; border-radius: 20px; font-weight: 800;
+                cursor: pointer; font-size: 0.85rem; transition: transform 0.2s;
+              " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                Averina (Actualiser)
+              </button>
+            `;
+            document.body.appendChild(banner);
+
+            document.getElementById('btn-reload-now').addEventListener('click', () => {
+              // 1. Demande au nouveau SW de s'activer immédiatement
+              if (registration.waiting) {
+                registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+              }
+
+              // 2. Écoute le changement de contrôleur pour recharger au bon moment
+              navigator.serviceWorker.addEventListener('controllerchange', () => {
+                window.location.reload();
+              });
+            });
+          }
+        });
       });
 
       // Vérification périodique discrète (toutes les 30 min)
@@ -3674,6 +3683,5 @@ if ('serviceWorker' in navigator) {
     }
   });
 }
-
 logger.info('✅ Application démarrée');
 }
