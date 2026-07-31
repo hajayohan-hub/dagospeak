@@ -3574,12 +3574,12 @@ function showSettingsModal() {
 
 
 // ═══════════════════════════════════════════════════════════
-// GESTION SÉCURISÉE DU DÉMARRAGE ET ONBOARDING (CORRECTION FINALE)
+// GESTION SÉCURISÉE DU DÉMARRAGE ET ONBOARDING (VERSION ADAPTATIVE)
 // ═══════════════════════════════════════════════════════════
 
 // ✅ Fonction unique pour démarrer l'app et FORCER l'affichage de l'accueil
 function startAppAndShowHome() {
-  console.log('[App] 🚀 Démarrage de l\'application et affichage de l\'accueil...');
+  console.log('[App] 🚀 Démarrage de l'application et affichage de l'accueil...');
 
   // 1. Forcer le hash à '/' pour que le routeur sache où on est
   if (!window.location.hash || window.location.hash === '#' || window.location.hash === '#/') {
@@ -3593,7 +3593,7 @@ function startAppAndShowHome() {
   setTimeout(() => {
     renderHome();
     console.log('[App] ✅ renderHome() exécuté avec succès');
-    logger.info('✅ Page d\'accueil rendue');
+    logger.info('✅ Page d'accueil rendue');
     updateMobileNavActiveState();
   }, 100);
 }
@@ -3615,6 +3615,7 @@ function updateMobileNavActiveState() {
     link.classList.toggle('active', link.dataset.route === currentHash || (currentHash === '/' && link.dataset.route === '/'));
   });
 }
+
 window.addEventListener('hashchange', updateMobileNavActiveState);
 
 // Vérifier si l'utilisateur a déjà un profil enregistré
@@ -3629,10 +3630,11 @@ if (userProfile && onboardingSeen === 'true') {
   }
   startAppAndShowHome();
 } else {
-  console.log('[App] 🎬 Premier lancement, affichage de l\'onboarding...');
+  console.log('[App] 🎬 Premier lancement, affichage de l'onboarding...');
 
   // ✅ CORRECTION CRITIQUE : Le callback doit être passé à show(), PAS au constructeur !
-  const onboarding = new OnboardingScreen();
+  // Mode 'first-launch' pour les nouveaux utilisateurs
+  const onboarding = new OnboardingScreen('first-launch');
   onboarding.show(() => {
     console.log('[App] ✅ Onboarding terminé, démarrage...');
     // C'EST ICI QUE renderHome() SERA ENFIN APPELÉ
@@ -3641,7 +3643,7 @@ if (userProfile && onboardingSeen === 'true') {
 }
 
 // ═══════════════════════════════════════════════════════════
-// GESTION DES MISES À JOUR PWA (UX : Relance l'onboarding)
+// GESTION DES MISES À JOUR PWA (UX : Relance l'onboarding en mode update)
 // ═══════════════════════════════════════════════════════════
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
@@ -3661,23 +3663,40 @@ if ('serviceWorker' in navigator) {
             const banner = document.createElement('div');
             banner.id = 'update-banner';
             banner.style.cssText = `
-              position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
-              background: #0A8A6E; color: white; padding: 14px 28px; border-radius: 50px;
-              box-shadow: 0 8px 24px rgba(10, 138, 110, 0.5); z-index: 99999;
-              font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: 14px;
-              border: 2px solid #E8A33D; animation: slideUp 0.4s ease-out;
+              position: fixed;
+              bottom: 100px;
+              left: 50%;
+              transform: translateX(-50%);
+              background: #0A8A6E;
+              color: white;
+              padding: 14px 28px;
+              border-radius: 50px;
+              box-shadow: 0 8px 24px rgba(10, 138, 110, 0.5);
+              z-index: 99999;
+              font-size: 1rem;
+              font-weight: 600;
+              display: flex;
+              align-items: center;
+              gap: 14px;
+              border: 2px solid #E8A33D;
+              animation: slideUp 0.4s ease-out;
             `;
             banner.innerHTML = `
               <span>🚀 Fanavaozana misy ! (Mise à jour prête)</span>
               <button id="btn-update-now" style="
-                background: white; color: #0A8A6E; border: none;
-                padding: 8px 18px; border-radius: 20px; font-weight: 800;
-                cursor: pointer; font-size: 0.9rem;
+                background: white;
+                color: #0A8A6E;
+                border: none;
+                padding: 8px 18px;
+                border-radius: 20px;
+                font-weight: 800;
+                cursor: pointer;
+                font-size: 0.9rem;
               ">Averina (Actualiser)</button>
             `;
             document.body.appendChild(banner);
 
-            // ✅ LE COMPORTEMENT SOUHAITÉ : Clic = Relance de l'onboarding
+            // ✅ LE COMPORTEMENT SOUHAITÉ : Clic = Relance de l'onboarding en mode update
             document.getElementById('btn-update-now').addEventListener('click', () => {
               console.log('[App] 🔄 Installation de la mise à jour...');
 
@@ -3687,10 +3706,9 @@ if ('serviceWorker' in navigator) {
               }
 
               // 2. Efface l'onboarding pour qu'il se relance au prochain chargement
-              //    (C'est ça qui crée l'effet "Installation de la mise à jour")
               localStorage.removeItem('dagospeak:onboardingComplete');
 
-              // 3. Recharge la page (l'onboarding va se relancer automatiquement)
+              // 3. Recharge la page (l'onboarding va se relancer automatiquement en mode update)
               window.location.reload();
             });
           }
@@ -3719,7 +3737,7 @@ function showUpdateBanner(registration) {
   banner.innerHTML = `
     <span>✨ Fanavaozana misy (Mise à jour prête)</span>
     <button id="btn-reload-now" style="
-      background: white; color: #0A8A6E; border: none;
+      background: white; color: #0A8A6E; border: #E8A33D;
       padding: 6px 16px; border-radius: 20px; font-weight: 800;
       cursor: pointer; font-size: 0.85rem; transition: transform 0.2s;
     " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
