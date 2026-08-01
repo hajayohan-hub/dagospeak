@@ -2857,22 +2857,71 @@ async function renderProfile() {
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement du profil...</div>';
 
   try {
-    // ✅ Utilise la fonction centralisée
+    // ✅ 1. Charger les données personnelles (depuis l'onboarding)
+    const userProfileRaw = localStorage.getItem('dagospeak:userProfile');
+    const userProfile = userProfileRaw ? JSON.parse(userProfileRaw) : {
+      firstName: 'Utilisateur',
+      lastName: '',
+      region: '',
+      status: '',
+      tier: 'free',
+      isPremium: false
+    };
+
+    // ✅ 2. Charger les stats de progression
     const profile = getProfileData();
     const journeys = journeyTracker.getCompletedJourneys();
+
+    // ✅ 3. Formater le nom complet
+    const fullName = `${userProfile.firstName} ${userProfile.lastName}`.trim();
+
+    // ✅ 4. Formater le statut
+    const statusLabels = {
+      'student': 'Étudiant (Mpianatra)',
+      'worker': 'Travailleur (Mpiasa)',
+      'other': 'Autre (Hafa)'
+    };
+    const statusLabel = statusLabels[userProfile.status] || 'Non défini';
+
+    // ✅ 5. Déterminer le type de compte
+    const accountType = userProfile.isPremium ? '⭐ Premium' : '🆓 Gratuit';
+    const accountColor = userProfile.isPremium ? 'var(--ds-color-accent)' : 'var(--ds-color-text-muted)';
 
     main.innerHTML = `
       <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem;">
         <ds-button variant="ghost" size="sm" id="btn-back" style="margin-bottom: 1rem;">← Miverina (Retour)</ds-button>
-        <h2 style="text-align: center; margin-bottom: 2rem;">👤 Mombamomba ahy (Mon Profil)</h2>
 
+        <!-- ✅ SECTION 1 : INFORMATIONS PERSONNELLES -->
         <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); box-shadow: var(--ds-shadow-md); text-align:center; margin-bottom: 2rem;">
-          <div style="font-size: 3rem; margin-bottom: 0.5rem;"></div>
-          <h3 style="color: var(--ds-color-primary);">Niveau ${profile.level}</h3>
+          <div style="font-size: 3rem; margin-bottom: 0.5rem;">👤</div>
+          <h3 style="color: var(--ds-color-primary); margin-bottom: 0.5rem;">${fullName}</h3>
+          <div style="font-size: 1rem; color: ${accountColor}; font-weight: bold; margin-bottom: 1rem;">${accountType}</div>
+
+          <div style="text-align: left; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--ds-color-border);">
+            <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid var(--ds-color-border);">
+              <span style="color: var(--ds-color-text-muted);">📍 Région</span>
+              <strong>${userProfile.region || 'Non définie'}</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid var(--ds-color-border);">
+              <span style="color: var(--ds-color-text-muted);">💼 Statut</span>
+              <strong>${statusLabel}</strong>
+            </div>
+            ${userProfile.isPremium && userProfile.phone ? `
+              <div style="display: flex; justify-content: space-between; padding: 0.5rem 0;">
+                <span style="color: var(--ds-color-text-muted);">📱 Téléphone</span>
+                <strong>${userProfile.phone}</strong>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+
+        <!-- ✅ SECTION 2 : PROGRESSION (existante) -->
+        <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); box-shadow: var(--ds-shadow-md); text-align:center; margin-bottom: 2rem;">
+          <h3 style="color: var(--ds-color-primary); margin-bottom: 0.5rem;">Niveau ${profile.level}</h3>
           <p style="color: var(--ds-color-text-muted);">${profile.xp} XP azo</p>
           <div style="margin-top: 1rem; font-size: 1.5rem; color: var(--ds-color-accent); font-weight: bold;">🔥 ${profile.streak} jours</div>
 
-          <!-- ✅ Badges -->
+          <!-- Badges -->
           <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--ds-color-border);">
             <div style="font-size: 0.9rem; color: var(--ds-color-text-muted); margin-bottom: 0.5rem;">Badges obtenus</div>
             <div style="font-size: 2rem;">
@@ -2881,6 +2930,7 @@ async function renderProfile() {
           </div>
         </div>
 
+        <!-- ✅ SECTION 3 : STATISTIQUES (existante) -->
         <div style="background: var(--ds-color-primary-soft); padding: 1.5rem; border-radius: var(--ds-radius-lg); border: 1px solid var(--ds-color-primary); margin-bottom: 1.5rem;">
           <h3 style="color: var(--ds-color-primary); margin-bottom: 1rem;">📊 Fandrosoana (Progression)</h3>
           <div style="font-size: 2rem; font-weight: bold; color: var(--ds-color-primary); margin-bottom: 0.5rem;">${profile.percentage}%</div>
@@ -2892,11 +2942,12 @@ async function renderProfile() {
           </div>
         </div>
 
+        <!-- ✅ SECTION 4 : RAPPORTS DÉTAILLÉS (existante) -->
         <div style="background: var(--ds-color-surface); padding: 1.5rem; border-radius: var(--ds-radius-lg); border: 1px solid var(--ds-color-border);">
           <h3 style="color: var(--ds-color-text); margin-bottom: 1rem;">📋 Tatitra (Rapports détaillés)</h3>
           <div style="display: grid; gap: 0.75rem;">
             <div style="display: flex; justify-content: space-between; padding: 0.75rem; background: var(--ds-color-surface-2); border-radius: var(--ds-radius-md);">
-              <span> Leçons (Mots)</span>
+              <span>📖 Leçons (Mots)</span>
               <strong>${journeys.lessons?.length || 0} / 10</strong>
             </div>
             <div style="display: flex; justify-content: space-between; padding: 0.75rem; background: var(--ds-color-surface-2); border-radius: var(--ds-radius-md);">
@@ -2904,7 +2955,7 @@ async function renderProfile() {
               <strong>${journeys.practices?.length || 0} / 10</strong>
             </div>
             <div style="display: flex; justify-content: space-between; padding: 0.75rem; background: var(--ds-color-surface-2); border-radius: var(--ds-radius-md);">
-              <span> Leçons (Phrases)</span>
+              <span>📝 Leçons (Phrases)</span>
               <strong>${journeys.phraseLessons?.length || 0} / 10</strong>
             </div>
             <div style="display: flex; justify-content: space-between; padding: 0.75rem; background: var(--ds-color-surface-2); border-radius: var(--ds-radius-md);">
@@ -2929,8 +2980,9 @@ async function renderProfile() {
     `;
 
     document.getElementById('btn-back').addEventListener('click', () => router.navigate('/'));
-    logger.info('✅ Page Profil rendue');
+    logger.info('✅ Page Profil rendue avec données personnelles');
   } catch (e) {
+    console.error('❌ Erreur renderProfile:', e);
     main.innerHTML = `<p style="color:red; text-align:center;">Erreur profil: ${e.message}</p>`;
   }
 }
