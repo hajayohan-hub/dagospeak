@@ -3634,7 +3634,7 @@ if (userProfile && onboardingSeen === 'true') {
 }
 
 // ═══════════════════════════════════════════════════════════
-// GESTION DES MISES À JOUR PWA (STABLE)
+// GESTION DES MISES À JOUR PWA (CORRIGÉ : Attente du controllerchange)
 // ═══════════════════════════════════════════════════════════
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
@@ -3642,24 +3642,55 @@ if ('serviceWorker' in navigator) {
       const registration = await navigator.serviceWorker.register('/sw.js');
       console.log('[App] ✅ SW enregistré');
 
+      // ✅ NOUVEAU : Écouter le changement de contrôleur pour recharger APRÈS l'activation
+      let refreshing = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (refreshing) return;
+        refreshing = true;
+        console.log('[App] 🔄 Nouveau SW activé, rechargement de la page...');
+        window.location.reload();
+      });
+
       registration.addEventListener('updatefound', () => {
         const newWorker = registration.installing;
         newWorker.addEventListener('statechange', () => {
           if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-            console.log('[App] ✨ Nouvelle version prête !');
+            console.log('[App] ✨ Nouvelle version prête et en attente (waiting) !');
+
             document.getElementById('update-banner')?.remove();
 
             const banner = document.createElement('div');
             banner.id = 'update-banner';
-            banner.style.cssText = `position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: #0A8A6E; color: white; padding: 14px 28px; border-radius: 50px; box-shadow: 0 8px 24px rgba(10, 138, 110, 0.5); z-index: 99999; font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: 14px; border: 2px solid #E8A33D; animation: slideUp 0.4s ease-out;`;
-            banner.innerHTML = `<span>🚀 Fanavaozana misy ! (Mise à jour prête)</span><button id="btn-update-now" style="background: white; color: #0A8A6E; border: none; padding: 8px 18px; border-radius: 20px; font-weight: 800; cursor: pointer; font-size: 0.9rem;">Averina (Actualiser)</button>`;
+            banner.style.cssText = `
+              position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
+              background: #0A8A6E; color: white; padding: 14px 28px; border-radius: 50px;
+              box-shadow: 0 8px 24px rgba(10, 138, 110, 0.5); z-index: 99999;
+              font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: 14px;
+              border: 2px solid #E8A33D; animation: slideUp 0.4s ease-out;
+            `;
+            banner.innerHTML = `
+              <span>🚀 Fanavaozana misy ! (Mise à jour prête)</span>
+              <button id="btn-update-now" style="
+                background: white; color: #0A8A6E; border: none;
+                padding: 8px 18px; border-radius: 20px; font-weight: 800;
+                cursor: pointer; font-size: 0.9rem;
+              ">Averina (Actualiser)</button>
+            `;
             document.body.appendChild(banner);
 
             document.getElementById('btn-update-now').addEventListener('click', () => {
-              console.log('[App] 🔄 Installation de la mise à jour...');
-              if (registration.waiting) registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+              console.log('[App] 🔄 Clic sur Actualiser : envoi de SKIP_WAITING...');
+
+              // 1. Demande au SW de s'activer (déclenchera 'controllerchange' ensuite)
+              if (registration.waiting) {
+                registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+              }
+
+              // 2. Efface l'onboarding pour qu'il se relance au prochain chargement
               localStorage.removeItem('dagospeak:onboardingComplete');
-              window.location.reload();
+
+              // NOTE : On NE fait PAS window.location.reload() ici.
+              // On laisse l'événement 'controllerchange' ci-dessus s'en charger.
             });
           }
         });
