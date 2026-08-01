@@ -192,7 +192,7 @@ export class OnboardingScreen {
     this.#updateSlide();
   }
 
-  #saveUserProfile() {
+   #saveUserProfile() {
     const isPremium = this.#userData.tier === 'premium-interested';
     const profile = {
       firstName: this.#userData.firstName || 'Utilisateur',
@@ -204,8 +204,17 @@ export class OnboardingScreen {
       isPremium: isPremium,
       createdAt: new Date().toISOString()
     };
+
+    // 1. Sauvegarde dans le localStorage (pour le header et le profil)
     localStorage.setItem('dagospeak:userProfile', JSON.stringify(profile));
-    if (isPremium) localStorage.setItem('dagospeak:isPremium', 'true');
+    if (isPremium) {
+      localStorage.setItem('dagospeak:isPremium', 'true');
+    }
+
+    // ✅ 2. CORRECTION CRITIQUE : Synchroniser avec le moteur de gamification (IndexedDB)
+    if (typeof window.syncPremiumToDB === 'function') {
+      window.syncPremiumToDB(isPremium);
+    }
   }
 
   #finishOnboarding() {

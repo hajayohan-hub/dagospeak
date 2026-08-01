@@ -308,6 +308,29 @@ container.register('ai', () => aiManager);
 aiManager.initialize().catch(err => console.warn('Init AI échouée:', err));
 
 
+// ═══════════════════════════════════════════════════════════
+// PONT DE SYNCHRONISATION PREMIUM (Onboarding -> Gamification)
+// ═══════════════════════════════════════════════════════════
+// Cette fonction permet à l'onboarding de mettre à jour le statut Premium
+// dans la base de données (IndexedDB) utilisée par GamificationEngine.
+window.syncPremiumToDB = async (isPremium) => {
+  try {
+    // 1. On récupère le profil actuel depuis le moteur de gamification
+    const currentProfile = await gamification.getProfile();
+
+    // 2. On met à jour le flag isPremium
+    currentProfile.isPremium = isPremium;
+
+    // 3. On sauvegarde dans IndexedDB (exactement comme dans handleUpgrade)
+    await db.put('progress', currentProfile);
+
+    console.log(`[App] ✅ Statut Premium synchronisé dans la DB: ${isPremium}`);
+  } catch (err) {
+    console.warn('[App] ⚠️ Échec synchronisation Premium DB:', err);
+  }
+};
+
+
 // ✅ Barre de progression pour Vosk
 const downloadProgress = new DownloadProgress();
 window.downloadProgress = downloadProgress;
