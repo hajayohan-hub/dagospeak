@@ -7,7 +7,7 @@ export class OnboardingScreen {
   #currentSlide = 0;
   #onComplete = null;
   #userData = {};
-  #regions = [
+   #regions = [
     "Analamanga (Antananarivo)", "Diana (Antsiranana)", "Haute Matsiatra (Fianarantsoa)",
     "Boeny (Mahajanga)", "Atsinanana (Toamasina)", "Atsimo-Andrefana (Toliara)",
     "Alaotra-Mangoro", "Amoron'i Mania", "Analanjirofo", "Androy", "Anosy",
@@ -15,59 +15,61 @@ export class OnboardingScreen {
     "Melaky", "Menabe", "Sava", "Sofia", "Vakinankaratra", "Vatovavy-Fitovinany"
   ];
 
-  #slides = [
+  #mode = 'first-launch';
+
+  #firstLaunchSlides = [
     {
-      image: '/assets/teacher-3d.png',
-      fallback: '👩‍🏫',
-      title: 'Manahoana ! Bienvenue sur DagoSpeak',
-      titleMg: '(Tonga soa eto DagoSpeak)',
+      image: '/assets/teacher-3d.png', fallback: '👩‍🏫',
+      title: 'Manahoana ! Bienvenue sur DagoSpeak', titleMg: '(Tonga soa eto DagoSpeak)',
       text: 'La première plateforme d\'apprentissage des langues 100% hors-ligne pour les locuteurs Malgaches.',
-      textMg: '(Ny sehatra voalohany fianarana fiteny 100% offline ho an\'ny Malagasy)',
-      action: 'Suivant'
+      textMg: '(Ny sehatra voalohany fianarana fiteny 100% offline ho an\'ny Malagasy)', action: 'Suivant'
     },
     {
-      image: '/assets/users-3d.png',
-      fallback: '👥',
-      showLangIcons: true,
-      title: 'Écoutez, Parlez, Progressez',
-      titleMg: '(Mihainoa, Mitenena, Miroborobo)',
+      image: '/assets/users-3d.png', fallback: '👥', showLangIcons: true,
+      title: 'Écoutez, Parlez, Progressez', titleMg: '(Mihainoa, Mitenena, Miroborobo)',
       text: 'Une méthode immersive avec un tuteur vocal intelligent et des certifications reconnues.',
-      textMg: '(Fomba fianarana lalina miaraka amin\'ny mpampianatra intelligent)',
-      action: 'Suivant'
+      textMg: '(Fomba fianarana lalina miaraka amin\'ny mpampianatra intelligent)', action: 'Suivant'
     },
     {
-      title: 'Choisissez votre parcours',
-      titleMg: '(Safidio ny lalanao)',
+      title: 'Choisissez votre parcours', titleMg: '(Safidio ny lalanao)',
       text: 'Commencez gratuitement et passez au Premium quand vous serez prêt.',
-      textMg: '(Atombohy maimaim-poana, miakara rehefa vonona ianao)',
-      isOfferSlide: true
+      textMg: '(Atombohy maimaim-poana, miakara rehefa vonona ianao)', isOfferSlide: true
     },
     {
-      title: 'Créez votre profil',
-      titleMg: '(Mamorona ny mombamomba anao)',
+      title: 'Créez votre profil', titleMg: '(Mamorona ny mombamomba anao)',
       text: 'Personnalisez votre expérience d\'apprentissage.',
-      textMg: '(Manokana ny fianaranao)',
-      isFormSlide: true
+      textMg: '(Manokana ny fianaranao)', isFormSlide: true
     },
     {
-      title: 'Mode 100% Hors-ligne',
-      titleMg: '(Mode 100% Offline)',
+      title: 'Mode 100% Hors-ligne', titleMg: '(Mode 100% Offline)',
       text: 'DagoSpeak s\'adapte à votre appareil. Nous préparons votre espace.',
-      textMg: '(DagoSpeak mifanaraka amin\'ny findainao. Efa manomana ny toerana)',
-      isSetupSlide: true
+      textMg: '(DagoSpeak mifanaraka amin\'ny findainao. Efa manomana ny toerana)', isSetupSlide: true
     },
     {
-      image: '/assets/teacher-3d.png',
-      fallback: '🎉',
-      title: 'Tout est prêt !',
-      titleMg: '(Vita ny fanomanana !)',
+      image: '/assets/teacher-3d.png', fallback: '🎉',
+      title: 'Tout est prêt !', titleMg: '(Vita ny fanomanana !)',
       text: 'Votre espace d\'apprentissage est configuré. Prêt à commencer ?',
-      textMg: '(Vonona ny toerana fianarana. Vonona hanomboka ?)',
-      isFinalSlide: true
+      textMg: '(Vonona ny toerana fianarana. Vonona hanomboka ?)', isFinalSlide: true
     }
   ];
 
-  constructor() {}
+  #updateSlides = [
+    {
+      title: 'Mise à jour en cours...', titleMg: '(Fanavaozana atao...)',
+      text: 'Nous installons les dernières améliorations.',
+      textMg: '(Mametaka ny fanatsarana farany izahay)', isSetupSlide: true
+    },
+    {
+      image: '/assets/teacher-3d.png', fallback: '🎉',
+      title: 'Mise à jour effectuée !', titleMg: '(Vita ny fanavaozana !)',
+      text: 'Votre application est prête avec les dernières nouveautés.',
+      textMg: '(Efa vonona ny fampiharana)', isFinalSlide: true // Réutilise le rendu qui contient le bouton Démarrer !
+    }
+  ];
+
+  constructor(mode = 'first-launch') {
+    this.#mode = mode;
+  }
 
   show(onCompleteCallback) {
     this.#onComplete = onCompleteCallback;
@@ -128,10 +130,14 @@ export class OnboardingScreen {
     this.#updateSlide();
   }
 
-  #updateSlide() {
-    const slide = this.#slides[this.#currentSlide];
+    #updateSlide() {
+    // ✅ CORRECTION : Choisir le bon tableau de slides selon le mode
+    const slides = this.#mode === 'update' ? this.#updateSlides : this.#firstLaunchSlides;
+    const slide = slides[this.#currentSlide];
     const isFirst = this.#currentSlide === 0;
-    const isLast = this.#currentSlide === this.#slides.length - 1;
+    const isLast = this.#currentSlide === slides.length - 1;
+
+    // ... (le reste de la méthode #updateSlide() reste inchangé jusqu'à la fin)
 
     const backButton = isFirst ? '' : `
       <button id="ob-btn-back" style="position: absolute; top: 24px; left: 90px; background: rgba(255,255,255,0.8); border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 1.2rem; cursor: pointer; color: #0A8A6E; box-shadow: 0 2px 8px rgba(0,0,0,0.1); z-index: 101;">←</button>
@@ -358,7 +364,8 @@ export class OnboardingScreen {
     });
   }
 
-  async #startSmartSetup() {
+    async #startSmartSetup() {
+    const startedOn = this.#currentSlide; // ✅ Mémorise la position de départ
     const statusEl = document.getElementById('ob-setup-status');
     const progressEl = document.getElementById('ob-setup-progress');
     const detailEl = document.getElementById('ob-setup-detail');
@@ -372,12 +379,17 @@ export class OnboardingScreen {
 
     for (const step of steps) {
       await new Promise(r => setTimeout(r, 800));
+      // ✅ Si l'utilisateur a cliqué sur "Retour" pendant l'attente, on annule tout
+      if (this.#currentSlide !== startedOn) return;
+
       progressEl.style.width = `${step.p}%`;
       statusEl.textContent = step.s;
       detailEl.textContent = step.d;
     }
 
-    await new Promise(r => setTimeout(r, 500));
+    // ✅ Vérification finale de sécurité avant d'avancer
+    if (this.#currentSlide !== startedOn) return;
+
     this.#currentSlide++;
     this.#updateSlide();
   }
