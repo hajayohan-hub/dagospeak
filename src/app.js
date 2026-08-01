@@ -23,7 +23,8 @@ import { DownloadProgress } from './ui/components/download-progress.js';
 import { FeedbackSounds } from './engines/audio/feedback-sounds.js';
 import { OnboardingScreen } from './ui/components/onboarding-screen.js';
 
-
+const teacherAvatar = new TeacherAvatar();
+window.teacherAvatar = teacherAvatar;
 
 // ═══════════════════════════════════════════════════════════
 // MODÈLE FREEMIUM : 5 premiers thèmes gratuits, les autres Premium
