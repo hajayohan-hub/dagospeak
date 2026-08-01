@@ -2941,7 +2941,17 @@ async function renderProfile() {
 
         <!-- ✅ SECTION 1 : INFORMATIONS PERSONNELLES -->
         <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); box-shadow: var(--ds-shadow-md); text-align:center; margin-bottom: 2rem;">
-          <div style="font-size: 3rem; margin-bottom: 0.5rem;">👤</div>
+               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                 <h2 style="margin: 0;">👤 Mombamomba ahy (Mon Profil)</h2>
+                 <button id="btn-gamification-guide" style="
+                   background: linear-gradient(135deg, #0A8A6E 0%, #087a62 100%);
+                   color: white; border: none; border-radius: 50%;
+                   width: 40px; height: 40px; font-size: 1.2rem;
+                   cursor: pointer; box-shadow: 0 4px 12px rgba(10, 138, 110, 0.3);
+                   display: flex; align-items: center; justify-content: center;
+                   transition: transform 0.2s;
+                 " onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">❓</button>
+               </div>
           <h3 style="color: var(--ds-color-primary); margin-bottom: 0.5rem;">${fullName}</h3>
           <div style="font-size: 1rem; color: ${accountColor}; font-weight: bold; margin-bottom: 1rem;">${accountType}</div>
 
@@ -2965,8 +2975,16 @@ async function renderProfile() {
 
         <!-- ✅ SECTION 2 : PROGRESSION (existante) -->
         <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); box-shadow: var(--ds-shadow-md); text-align:center; margin-bottom: 2rem;">
-          <h3 style="color: var(--ds-color-primary); margin-bottom: 0.5rem;">Niveau ${profile.level}</h3>
-          <p style="color: var(--ds-color-text-muted);">${profile.xp} XP azo</p>
+          <div style="font-size: 3rem; margin-bottom: 0.5rem;">👤</div>
+
+          <!-- ✅ AFFICHAGE DU VRAI NIVEAU PÉDAGOGIQUE -->
+          <h3 style="color: var(--ds-color-primary); margin-bottom: 0.25rem;">Niveau CECR : ${profile.level}</h3>
+
+          <!-- ✅ AFFICHAGE DU RANG GAMIFIÉ (basé sur les XP) -->
+          <p style="color: ${profile.rankColor}; font-weight: bold; font-size: 1.1rem; margin-bottom: 0.5rem;">
+            ${profile.rank} (${profile.xp} XP)
+          </p>
+
           <div style="margin-top: 1rem; font-size: 1.5rem; color: var(--ds-color-accent); font-weight: bold;">🔥 ${profile.streak} jours</div>
 
           <!-- Badges -->
@@ -3028,11 +3046,222 @@ async function renderProfile() {
     `;
 
     document.getElementById('btn-back').addEventListener('click', () => router.navigate('/'));
+
+         document.getElementById('btn-gamification-guide')?.addEventListener('click', () => {
+       showGamificationGuide();
+     });
+
     logger.info('✅ Page Profil rendue avec données personnelles');
   } catch (e) {
     console.error('❌ Erreur renderProfile:', e);
     main.innerHTML = `<p style="color:red; text-align:center;">Erreur profil: ${e.message}</p>`;
   }
+}
+
+
+// ═══════════════════════════════════════════════════════════
+// MODAL DE GAMIFICATION (Explication des concepts)
+// ═══════════════════════════════════════════════════════════
+function showGamificationGuide() {
+  if (document.getElementById('gamification-modal')) {
+    document.getElementById('gamification-modal').remove();
+    return;
+  }
+
+  const modal = document.createElement('div');
+  modal.id = 'gamification-modal';
+  modal.style.cssText = `
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.75); z-index: 10002;
+    display: flex; align-items: center; justify-content: center;
+    padding: 1rem; animation: fadeIn 0.3s ease-out;
+  `;
+
+  modal.innerHTML = `
+    <div style="
+      background: white; padding: 0; border-radius: 20px;
+      max-width: 480px; width: 100%; max-height: 85vh;
+      overflow-y: auto; position: relative;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      animation: slideUp 0.4s ease-out;
+    ">
+      <!-- HEADER -->
+      <div style="
+        background: linear-gradient(135deg, #0A8A6E 0%, #087a62 100%);
+        padding: 1.5rem 2rem; border-radius: 20px 20px 0 0;
+        position: relative; text-align: center;
+      ">
+        <button id="close-gamification-btn" style="
+          position: absolute; top: 12px; right: 12px;
+          background: rgba(255,255,255,0.2); border: none;
+          border-radius: 50%; width: 32px; height: 32px;
+          font-size: 1.2rem; cursor: pointer; color: white;
+          display: flex; align-items: center; justify-content: center;
+        ">×</button>
+        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🎮</div>
+        <h2 style="color: white; margin: 0; font-size: 1.3rem;">
+          Fomba fiasan'ny lalao
+        </h2>
+        <p style="color: rgba(255,255,255,0.85); margin: 0.25rem 0 0 0; font-size: 0.9rem; font-style: italic;">
+          (Comment fonctionne la gamification)
+        </p>
+      </div>
+
+      <!-- CONTENU -->
+      <div style="padding: 1.5rem 2rem 2rem 2rem;">
+
+        <!-- 1. XP -->
+        <div style="
+          background: linear-gradient(135deg, rgba(10,138,110,0.08) 0%, rgba(10,138,110,0.03) 100%);
+          padding: 1.25rem; border-radius: 16px; margin-bottom: 1rem;
+          border-left: 4px solid #0A8A6E;
+        ">
+          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+            <span style="font-size: 1.8rem;">⭐</span>
+            <div>
+              <h3 style="margin: 0; color: #0A8A6E; font-size: 1.1rem;">XP <span style="font-size: 0.85rem; color: #64748b; font-style: italic;">(Points d'Expérience)</span></h3>
+              <p style="margin: 0; font-size: 0.8rem; color: #E8A33D; font-style: italic;">(Ny isa maneho ny ezaka nataonao)</p>
+            </div>
+          </div>
+          <p style="margin: 0; font-size: 0.9rem; color: #475569; line-height: 1.6;">
+            Isaky ny mianatra ianao dia mahazo XP. Ny lesona dia <strong>+20 XP</strong>, ny fanazaran-tena <strong>+30 XP</strong>, ny dialogue <strong>+25 XP</strong>, ary ny défi <strong>+50 XP</strong>.
+            <br><span style="font-size: 0.8rem; color: #94a3b8; font-style: italic;">(Chaque activité vous rapporte des XP. Plus c'est difficile, plus vous en gagnez.)</span>
+          </p>
+        </div>
+
+        <!-- 2. NIVEAU CECR -->
+        <div style="
+          background: linear-gradient(135deg, rgba(232,163,61,0.08) 0%, rgba(232,163,61,0.03) 100%);
+          padding: 1.25rem; border-radius: 16px; margin-bottom: 1rem;
+          border-left: 4px solid #E8A33D;
+        ">
+          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+            <span style="font-size: 1.8rem;">📈</span>
+            <div>
+              <h3 style="margin: 0; color: #E8A33D; font-size: 1.1rem;">Niveau CECR <span style="font-size: 0.85rem; color: #64748b; font-style: italic;">(A0 → A1 → A2)</span></h3>
+              <p style="margin: 0; font-size: 0.8rem; color: #0A8A6E; font-style: italic;">(Ny ambaratonga ara-pianarana)</p>
+            </div>
+          </div>
+          <p style="margin: 0; font-size: 0.9rem; color: #475569; line-height: 1.6;">
+            Ny niveau dia mifandray amin'ny fandrosoanao tena izy, fa tsy ny XP. Tsy afaka mihoatra ny A0 ianao raha tsy vita ny lohahevitra A0 rehetra.
+            <br><span style="font-size: 0.8rem; color: #94a3b8; font-style: italic;">(Le niveau reflète votre progression réelle, pas vos XP. Vous ne pouvez pas sauter d'étape.)</span>
+          </p>
+        </div>
+
+        <!-- 3. BADGES -->
+        <div style="
+          background: linear-gradient(135deg, rgba(10,138,110,0.08) 0%, rgba(10,138,110,0.03) 100%);
+          padding: 1.25rem; border-radius: 16px; margin-bottom: 1rem;
+          border-left: 4px solid #0A8A6E;
+        ">
+          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+            <span style="font-size: 1.8rem;">🏅</span>
+            <div>
+              <h3 style="margin: 0; color: #0A8A6E; font-size: 1.1rem;">Badges <span style="font-size: 0.85rem; color: #64748b; font-style: italic;">(Marika fahombiazana)</span></h3>
+              <p style="margin: 0; font-size: 0.8rem; color: #E8A33D; font-style: italic;">(Ny valisoa ho an'ny fahavitan'ny lohahevitra)</p>
+            </div>
+          </div>
+          <p style="margin: 0; font-size: 0.9rem; color: #475569; line-height: 1.6;">
+            🌱 1 lohahevitra vita · ⭐ 3 lohahevitra · 🏆 5 lohahevitra · 👑 10 lohahevitra
+            <br><span style="font-size: 0.8rem; color: #94a3b8; font-style: italic;">(Débloquez des badges en complétant des thèmes différents.)</span>
+          </p>
+        </div>
+
+        <!-- 4. STREAK -->
+        <div style="
+          background: linear-gradient(135deg, rgba(232,163,61,0.08) 0%, rgba(232,163,61,0.03) 100%);
+          padding: 1.25rem; border-radius: 16px; margin-bottom: 1rem;
+          border-left: 4px solid #E8A33D;
+        ">
+          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+            <span style="font-size: 1.8rem;">🔥</span>
+            <div>
+              <h3 style="margin: 0; color: #E8A33D; font-size: 1.1rem;">Streak <span style="font-size: 0.85rem; color: #64748b; font-style: italic;">(Andro mifanesy)</span></h3>
+              <p style="margin: 0; font-size: 0.8rem; color: #0A8A6E; font-style: italic;">(Ny isan'ny andro nianaranao tsy tapaka)</p>
+            </div>
+          </div>
+          <p style="margin: 0; font-size: 0.9rem; color: #475569; line-height: 1.6;">
+            Isan'andro mianatra ianao dia mitombo ny streak. Raha tsy mianatra ianao mandritra ny 1 andro, dia miverina 0 ny streak.
+            <br><span style="font-size: 0.8rem; color: #94a3b8; font-style: italic;">(Apprenez chaque jour pour garder votre série. Un jour manqué = retour à zéro !)</span>
+          </p>
+        </div>
+
+        <!-- 5. POINTS DE PROGRESSION -->
+        <div style="
+          background: linear-gradient(135deg, rgba(10,138,110,0.08) 0%, rgba(10,138,110,0.03) 100%);
+          padding: 1.25rem; border-radius: 16px; margin-bottom: 1rem;
+          border-left: 4px solid #0A8A6E;
+        ">
+          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+            <span style="font-size: 1.8rem;">📊</span>
+            <div>
+              <h3 style="margin: 0; color: #0A8A6E; font-size: 1.1rem;">Fandrosoana <span style="font-size: 0.85rem; color: #64748b; font-style: italic;">(Progression des thèmes)</span></h3>
+              <p style="margin: 0; font-size: 0.8rem; color: #E8A33D; font-style: italic;">(Ny teboka eo amin'ny karatra lohahevitra)</p>
+            </div>
+          </div>
+          <p style="margin: 0 0 0.75rem 0; font-size: 0.9rem; color: #475569; line-height: 1.6;">
+            Ny teboka eo amin'ny karatra lohahevitra dia mampiseho ny fandrosoanao :
+            <br><span style="font-size: 0.8rem; color: #94a3b8; font-style: italic;">(Les points sur les cartes de thèmes montrent votre avancement :)</span>
+          </p>
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0.75rem; background: white; border-radius: 10px;">
+              <span style="font-size: 1.5rem;">⚪</span>
+              <div>
+                <strong style="color: #475569; font-size: 0.9rem;">Tsy mbola nanomboka</strong>
+                <p style="margin: 0; font-size: 0.8rem; color: #94a3b8; font-style: italic;">(Pas encore commencé)</p>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0.75rem; background: white; border-radius: 10px;">
+              <span style="font-size: 1.5rem;">🟠</span>
+              <div>
+                <strong style="color: #E8A33D; font-size: 0.9rem;">Eo am-pianarana</strong>
+                <p style="margin: 0; font-size: 0.8rem; color: #94a3b8; font-style: italic;">(En cours d'apprentissage)</p>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0.75rem; background: white; border-radius: 10px;">
+              <span style="font-size: 1.5rem;">🟢</span>
+              <div>
+                <strong style="color: #0A8A6E; font-size: 0.9rem;">Vita tanteraka !</strong>
+                <p style="margin: 0; font-size: 0.8rem; color: #94a3b8; font-style: italic;">(Complètement terminé !)</p>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0.75rem; background: white; border-radius: 10px;">
+              <span style="font-size: 1.5rem;">🔒</span>
+              <div>
+                <strong style="color: #94a3b8; font-size: 0.9rem;">Premium ihany</strong>
+                <p style="margin: 0; font-size: 0.8rem; color: #94a3b8; font-style: italic;">(Réservé aux abonnés Premium)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOUTON FERMER -->
+        <button id="btn-understand-gamification" style="
+          width: 100%; padding: 14px;
+          background: linear-gradient(135deg, #E8A33D 0%, #d4922e 100%);
+          color: white; border: none; border-radius: 12px;
+          font-weight: bold; font-size: 1rem; cursor: pointer;
+          box-shadow: 0 4px 12px rgba(232, 163, 61, 0.3);
+          margin-top: 0.5rem;
+        ">
+          Azoko tsara ! (J'ai bien compris !)
+        </button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  const closeModal = () => {
+    const el = document.getElementById('gamification-modal');
+    if (el) el.remove();
+  };
+
+  document.getElementById('close-gamification-btn').addEventListener('click', closeModal);
+  document.getElementById('btn-understand-gamification').addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
 }
 
 
