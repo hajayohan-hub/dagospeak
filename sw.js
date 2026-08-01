@@ -1,7 +1,7 @@
 // ═══════════════════════════════════════════════════════════
 // DAGOSPEAK SERVICE WORKER v21 (STABLE & FINAL)
 // ══════════════════════════════════════════════════════════
-const CACHE_NAME = 'dagospeak-v25'; // ← Passez de v20/v21 à v22
+const CACHE_NAME = 'dagospeak-v26'; // ← Passez de v20/v21 à v22
 const STATIC_ASSETS = [
   '/', '/index.html', '/manifest.webmanifest',
   '/assets/dagospeak-logo.svg', '/assets/hero-bg.png',
