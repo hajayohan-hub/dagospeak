@@ -98,19 +98,14 @@ function getProfileData() {
 
     // ✅ Calcul XP UNIFIÉ
     const xpWeights = {
-      lessons: 20,
-      practices: 30,
-      dialogues: 25,
-      roleplays: 40,
-      challenges: 50,
-      phraseLessons: 25,
-      phrasePractices: 35
+      lessons: 20, practices: 30, dialogues: 25, roleplays: 40,
+      challenges: 50, phraseLessons: 25, phrasePractices: 35
     };
     const totalXP = allTypes.reduce((sum, type) => {
       return sum + ((journeys[type]?.length || 0) * (xpWeights[type] || 0));
     }, 0);
 
-    // ✅ Calcul du streak (jours consécutifs)
+    // ✅ Calcul du streak
     const lastActivity = localStorage.getItem('dagospeak:lastActivity');
     let streak = parseInt(localStorage.getItem('dagospeak:streak') || '0');
     if (lastActivity) {
@@ -118,7 +113,7 @@ function getProfileData() {
       const today = new Date();
       const diffDays = Math.floor((today - lastDate) / (1000 * 60 * 60 * 24));
       if (diffDays > 1) {
-        streak = 0; // Reset si plus d'un jour sans activité
+        streak = 0;
         localStorage.setItem('dagospeak:streak', '0');
       }
     }
@@ -141,8 +136,27 @@ function getProfileData() {
     if (themesCompleted.size >= 10) badges.push('👑');
 
     // ✅ Pourcentage UNIFIÉ
-    const totalJourneys = 70; // 10 thèmes × 7 types
+    const totalJourneys = 70;
     const percentage = Math.round((completedCount / totalJourneys) * 100);
+
+    // ✅✅✅ CORRECTION CRITIQUE : Fusionner avec le profil utilisateur de l'onboarding
+    // pour récupérer isPremium, firstName, lastName, etc.
+    let isPremium = false;
+    let userProfile = {};
+    try {
+      const userProfileRaw = localStorage.getItem('dagospeak:userProfile');
+      if (userProfileRaw) {
+        userProfile = JSON.parse(userProfileRaw);
+        isPremium = userProfile.isPremium === true;
+      }
+    } catch (e) {
+      console.warn('[Profile] Erreur lecture userProfile:', e);
+    }
+
+    // ✅ Vérifier aussi le flag direct (pour compatibilité)
+    if (localStorage.getItem('dagospeak:isPremium') === 'true') {
+      isPremium = true;
+    }
 
     return {
       xp: totalXP,
@@ -153,11 +167,22 @@ function getProfileData() {
       totalJourneys: totalJourneys,
       percentage: percentage,
       themesCompleted: themesCompleted.size,
-      lastActivity: lastActivity
+      lastActivity: lastActivity,
+      // ✅✅✅ NOUVEAU : Inclure les données Premium et utilisateur
+      isPremium: isPremium,
+      firstName: userProfile.firstName || 'Utilisateur',
+      lastName: userProfile.lastName || '',
+      region: userProfile.region || '',
+      status: userProfile.status || '',
+      tier: userProfile.tier || 'free'
     };
   } catch (e) {
     console.error('Erreur getProfileData:', e);
-    return { xp: 0, level: 'A0', streak: 0, badges: [], completedJourneys: 0, totalJourneys: 70, percentage: 0, themesCompleted: 0 };
+    return {
+      xp: 0, level: 'A0', streak: 0, badges: [],
+      completedJourneys: 0, totalJourneys: 70, percentage: 0,
+      themesCompleted: 0, isPremium: false
+    };
   }
 }
 
