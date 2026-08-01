@@ -3616,8 +3616,14 @@ if (userProfile && onboardingSeen === 'true') {
   if (parsedProfile.isPremium) localStorage.setItem('dagospeak:isPremium', 'true');
   startAppAndShowHome();
 } else {
-  console.log("[App] 🎬 Premier lancement, affichage de l'onboarding...");
-  const onboarding = new OnboardingScreen();
+  // Si on a un profil utilisateur mais pas de "onboardingComplete", c'est une MISE À JOUR !
+  const isUpdate = !!userProfile;
+  const mode = isUpdate ? 'update' : 'first-launch';
+
+  console.log(`[App] 🎬 Lancement en mode : ${mode}`);
+
+  // On passe le mode ('update' ou 'first-launch') au constructeur
+  const onboarding = new OnboardingScreen(mode);
   onboarding.show(() => {
     console.log('[App] ✅ Onboarding terminé, démarrage...');
     startAppAndShowHome();
