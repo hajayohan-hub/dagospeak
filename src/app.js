@@ -3608,23 +3608,25 @@ document.addEventListener('click', (e) => {
   }
 });
 
+// Vérifier si l'utilisateur a déjà un profil enregistré
 const userProfile = localStorage.getItem('dagospeak:userProfile');
 const onboardingSeen = localStorage.getItem('dagospeak:onboardingComplete');
 
 if (userProfile && onboardingSeen === 'true') {
   console.log('[App] ✅ Utilisateur reconnu, démarrage direct...');
   const parsedProfile = JSON.parse(userProfile);
-  if (parsedProfile.isPremium) localStorage.setItem('dagospeak:isPremium', 'true');
+  if (parsedProfile.isPremium) {
+    localStorage.setItem('dagospeak:isPremium', 'true');
+  }
   startAppAndShowHome();
 } else {
-  // Si on a un profil utilisateur mais pas de "onboardingComplete", c'est une MISE À JOUR !
+  // ✅ DÉTECTION DU MODE : Si un profil existe mais que l'onboarding n'est pas vu, c'est une MAJ
   const isUpdate = !!userProfile;
-  const mode = isUpdate ? 'update' : 'first-launch';
+  const onboardingMode = isUpdate ? 'update' : 'first-launch';
+  console.log(`[App] 📍 Mode onboarding détecté : ${onboardingMode}`);
 
-  console.log(`[App] 🎬 Lancement en mode : ${mode}`);
-
-  // On passe le mode ('update' ou 'first-launch') au constructeur
-  const onboarding = new OnboardingScreen(mode);
+  // ✅ On passe le mode au constructeur pour avoir le bon onboarding (2 slides pour update)
+  const onboarding = new OnboardingScreen(onboardingMode);
   onboarding.show(() => {
     console.log('[App] ✅ Onboarding terminé, démarrage...');
     startAppAndShowHome();
