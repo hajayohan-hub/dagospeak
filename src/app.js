@@ -612,14 +612,18 @@ async function renderHome() {
       </section>
     `;
 
-     // Au lieu d'attacher directement au bouton, attachez à un parent qui existe déjà
-        // Par exemple, attachez à 'main' ou 'document'
-
-        main.addEventListener('click', (event) => {
-          if (event.target.id === 'btn-test-conversation' || event.target.closest('#btn-test-conversation')) {
-            router.navigate('/conversation?dialogue=market_01');
-          }
-        });
+     // ✅ AJOUTER L'ÉCOUTEUR UNIQUEMENT UNE FOIS, PAS DANS renderHome()
+          // Utilisez la délégation d'événements ou un écouteur global
+          document.addEventListener('click', (event) => {
+            const btn = event.target.closest('#btn-test-conversation');
+            if (btn) {
+              console.log('[App] 💬 Clic sur "Tester la conversation" - Navigation');
+              // Utilisez window.location ou votre router
+              window.location.hash = '/conversation?dialogue=market_01';
+              // OU
+              // router.navigate('/conversation?dialogue=market_01');
+            }
+          });
 
     // ✅ 5. ÉCOUTEURS D'ÉVÉNEMENTS (Uniquement pour les niveaux ici)
     document.getElementById('levels-container').addEventListener('click', (e) => {
