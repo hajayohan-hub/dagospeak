@@ -609,6 +609,8 @@ async function renderHome() {
           ${levelsHtml}
         </div>
 
+      ${testConversationHtml}
+
       </section>
     `;
 
