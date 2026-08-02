@@ -599,7 +599,7 @@ async function renderHome() {
             router.navigate('/conversation?dialogue=market_01');
           });
 
-    // ✅ 4. INJECTION DANS LE DOM
+    // ✅ 4. INJECTION DANS LE DOM (MODIFIÉ ICI)
     main.innerHTML = `
       <section class="ds-home" style="padding: 1rem; max-width: 800px; margin: 0 auto;">
         ${heroHtml}
@@ -610,7 +610,7 @@ async function renderHome() {
         <div id="levels-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
           ${levelsHtml}
         </div>
-
+        ${testConversationHtml}  <!-- AJOUT ICI : le bouton de test -->
       </section>
     `;
 
