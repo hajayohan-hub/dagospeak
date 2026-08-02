@@ -638,7 +638,45 @@ async function renderHome() {
       console.warn('[renderHome] TeacherAvatar pas encore initialisé, rendu quand même effectué');
     }
     renderFloatingHomeButtons();
-    logger.info('✅ Page d\'accueil rendue (Niveaux uniquement)');
+
+// ✅ BOUTON DE TEST : Conversation semi-libre (Teacher Avatar IA)
+if (!document.getElementById('btn-test-conversation')) {
+  const testConvDiv = document.createElement('div');
+  testConvDiv.style.cssText = 'max-width: 800px; margin: 2rem auto 0 auto;';
+  testConvDiv.innerHTML = `
+    <div style="
+      background: linear-gradient(135deg, #0A8A6E 0%, #E8A33D 100%);
+      padding: 1.5rem; border-radius: 16px;
+      text-align: center; box-shadow: 0 8px 24px rgba(10, 138, 110, 0.3);
+    ">
+      <div style="font-size: 3rem; margin-bottom: 0.5rem;">💬</div>
+      <h3 style="color: white; margin-bottom: 0.5rem;">
+        Conversation avec le Teacher Avatar
+      </h3>
+      <p style="color: rgba(255,255,255,0.9); margin-bottom: 1rem; font-size: 0.9rem;">
+        Testez la nouvelle fonctionnalité de conversation semi-libre !
+      </p>
+      <button id="btn-test-conversation" style="
+        background: white; color: #0A8A6E;
+        border: none; padding: 12px 24px; border-radius: 12px;
+        font-weight: 700; cursor: pointer; font-size: 1rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      ">
+        🚀 Tester la conversation (Marché)
+      </button>
+    </div>
+  `;
+  document.querySelector('.ds-home')?.appendChild(testConvDiv);
+
+  // ✅ ATTACHER LE LISTENER (c'est ce qui manquait !)
+  document.getElementById('btn-test-conversation')?.addEventListener('click', () => {
+    console.log('[App] 💬 Clic sur "Tester la conversation"');
+    router.navigate('/conversation?dialogue=market_01');
+  });
+}
+
+logger.info('✅ Page d\'accueil rendue (Niveaux uniquement)');
+
 
   } catch (e) {
     console.error('❌ Erreur renderHome:', e);
@@ -3793,19 +3831,191 @@ function showAppGuide() {
 // ═══════════════════════════════════════════════════════════
 // VUE : CONVERSATION SEMI-LIBRE (Teacher Avatar IA)
 // ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
+// VUE : CONVERSATION SEMI-LIBRE (Teacher Avatar IA)
+// ═══════════════════════════════════════════════════════════
 async function renderConversation() {
   const main = document.getElementById('app');
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement de la conversation...</div>';
 
-  // Récupérer l'ID du dialogue depuis l'URL (ex: ?dialogue=market_01)
+  // Récupérer l'ID du dialogue depuis l'URL
   const urlParams = new URLSearchParams(window.location.search);
   const dialogueId = urlParams.get('dialogue') || 'market_01';
 
-  const conversation = new ConversationEngine(dialogueId, () => {
-    console.log('[App] Conversation terminée');
-  });
+  try {
+    const response = await fetch(`/content/fr/conversations/${dialogueId}.json`);
+    if (!response.ok) throw new Error(`Dialogue introuvable : ${dialogueId}`);
+    const dialogue = await response.json();
 
-  await conversation.start('app');
+    console.log(`[Conversation] ✅ Dialogue chargé : ${dialogue.titleFr}`);
+
+    // Afficher le premier nœud
+    let currentNodeId = dialogue.nodes[0].id;
+    let attempts = {};
+
+    const renderNode = () => {
+      const node = dialogue.nodes.find(n => n.id === currentNodeId);
+      if (!node) {
+        main.innerHTML = `<p style="color:red; text-align:center;">Nœud introuvable : ${currentNodeId}</p>`;
+        return;
+      }
+
+      if (node.isEnd) {
+        main.innerHTML = `
+          <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem; text-align: center;">
+            <div style="font-size: 5rem; margin-bottom: 1rem;">🎉</div>
+            <h2 style="color: var(--ds-color-success);">Conversation terminée !</h2>
+            <p style="color: var(--ds-color-text); font-size: 1.1rem; margin-bottom: 0.5rem;">${node.textFr}</p>
+            <p style="color: var(--ds-color-text-muted); font-style: italic;">(${node.textMg})</p>
+            <button onclick="location.hash='/themes'" style="
+              margin-top: 2rem; background: var(--ds-color-primary); color: white;
+              border: none; padding: 14px 28px; border-radius: 12px;
+              font-weight: 600; cursor: pointer; font-size: 1rem; width: 100%;
+            ">← Retour aux thèmes</button>
+          </section>
+        `;
+        return;
+      }
+
+      if (node.speaker === 'teacher') {
+        main.innerHTML = `
+          <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem;">
+            <button id="btn-quit" style="background: transparent; border: none; color: var(--ds-color-text-muted); cursor: pointer; margin-bottom: 1rem;">← Quitter</button>
+            <div style="text-align:center; margin-bottom:1.5rem;">
+              <span style="background:var(--ds-color-primary); color:white; padding:4px 12px; border-radius:20px; font-weight:600; font-size:0.8rem;">💬 ${dialogue.titleFr}</span>
+            </div>
+            <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: 16px; border: 2px solid var(--ds-color-primary); text-align: center;">
+              <div style="font-size: 4rem; margin-bottom: 1rem;">👩‍🏫</div>
+              <p style="font-size: 1.2rem; color: var(--ds-color-text); margin-bottom: 0.5rem; font-weight: 500;">"${node.textFr}"</p>
+              <p style="font-size: 0.95rem; color: var(--ds-color-text-muted); font-style: italic; margin-bottom: 1.5rem;">(${node.textMg})</p>
+              <button id="btn-play" style="background: var(--ds-color-primary); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; margin-bottom: 1rem;">🔊 Mihainoa</button>
+              <div><button id="btn-next" style="background: var(--ds-color-success); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; font-size: 1rem;" disabled>Manaraka →</button></div>
+            </div>
+          </section>
+        `;
+
+        let hasPlayed = false;
+        document.getElementById('btn-play').addEventListener('click', () => {
+          if (hasPlayed) return;
+          hasPlayed = true;
+          const u = new SpeechSynthesisUtterance(node.audio.ttsTextFr);
+          u.lang = 'fr-FR'; u.rate = node.audio.ttsRate || 0.9;
+          u.onend = () => {
+            const btnNext = document.getElementById('btn-next');
+            btnNext.disabled = false;
+            btnNext.style.opacity = '1';
+          };
+          speechSynthesis.speak(u);
+        });
+
+        document.getElementById('btn-next').addEventListener('click', () => {
+          currentNodeId = node.nextNode;
+          renderNode();
+        });
+
+        document.getElementById('btn-quit').addEventListener('click', () => {
+          if (confirm('Quitter la conversation ?')) location.hash = '/themes';
+        });
+
+      } else if (node.speaker === 'user') {
+        if (!attempts[node.id]) attempts[node.id] = 0;
+
+        main.innerHTML = `
+          <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem;">
+            <button id="btn-quit" style="background: transparent; border: none; color: var(--ds-color-text-muted); cursor: pointer; margin-bottom: 1rem;">← Quitter</button>
+            <div style="text-align:center; margin-bottom:1.5rem;">
+              <span style="background:var(--ds-color-accent); color:white; padding:4px 12px; border-radius:20px; font-weight:600; font-size:0.8rem;">🎯 À votre tour !</span>
+              ${attempts[node.id] > 0 ? `<div style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--ds-color-accent);">Tentative ${attempts[node.id]} / ${node.maxAttempts}</div>` : ''}
+            </div>
+            <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: 16px; border: 2px solid var(--ds-color-accent); text-align: center;">
+              <div style="font-size: 4rem; margin-bottom: 1rem;">🗣️</div>
+              <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">Que voulez-vous répondre ?</p>
+              <div style="display: flex; flex-direction: column; gap: 1rem;">
+                ${node.responseOptions.map((opt, idx) => `
+                  <button class="btn-option" data-idx="${idx}" style="
+                    background: var(--ds-color-surface-2); color: var(--ds-color-text);
+                    border: 2px solid var(--ds-color-border); padding: 1rem;
+                    border-radius: 12px; cursor: pointer; text-align: left;
+                    transition: all 0.2s; font-size: 1rem;
+                  ">
+                    <div style="font-weight: 600;">${idx === 0 ? '🅰️' : '🅱️'} ${opt.textFr}</div>
+                    <div style="font-size: 0.85rem; color: var(--ds-color-text-muted); font-style: italic;">(${opt.textMg})</div>
+                  </button>
+                `).join('')}
+              </div>
+              <div id="feedback" style="margin-top: 1.5rem; min-height: 80px;"></div>
+            </div>
+          </section>
+        `;
+
+        document.querySelectorAll('.btn-option').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const idx = parseInt(btn.dataset.idx);
+            const selected = node.responseOptions[idx];
+            attempts[node.id]++;
+
+            document.querySelectorAll('.btn-option').forEach(b => b.disabled = true);
+            const feedback = document.getElementById('feedback');
+
+            if (selected.isCorrect) {
+              btn.style.borderColor = 'var(--ds-color-success)';
+              feedback.innerHTML = `
+                <div style="background: var(--ds-color-success-soft, #d1fae5); padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-success);">
+                  <div style="font-size: 2rem;">✅</div>
+                  <p style="color: var(--ds-color-success); font-weight: 600;">${node.feedbackOnSuccess.textFr}</p>
+                  <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${node.feedbackOnSuccess.textMg})</p>
+                </div>
+                <button id="btn-continue" style="margin-top: 1rem; background: var(--ds-color-success); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">Manaraka →</button>
+              `;
+              const u = new SpeechSynthesisUtterance(node.feedbackOnSuccess.audio.ttsTextFr);
+              u.lang = 'fr-FR'; u.rate = 0.9;
+              speechSynthesis.speak(u);
+              document.getElementById('btn-continue').addEventListener('click', () => {
+                currentNodeId = node.nextNodeOnSuccess;
+                renderNode();
+              });
+            } else {
+              btn.style.borderColor = 'var(--ds-color-danger, #ef4444)';
+              if (attempts[node.id] >= node.maxAttempts) {
+                const correct = node.responseOptions.find(o => o.isCorrect);
+                feedback.innerHTML = `
+                  <div style="background: #fef3c7; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-accent);">
+                    <div style="font-size: 2rem;">💡</div>
+                    <p>La bonne réponse était : <strong>${correct.textFr}</strong></p>
+                  </div>
+                  <button id="btn-continue" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">Manaraka →</button>
+                `;
+                document.getElementById('btn-continue').addEventListener('click', () => {
+                  currentNodeId = node.nextNodeOnMaxAttemptsReached;
+                  renderNode();
+                });
+              } else {
+                feedback.innerHTML = `
+                  <div style="background: #fee2e2; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-danger, #ef4444);">
+                    <div style="font-size: 2rem;">🔄</div>
+                    <p style="color: var(--ds-color-danger); font-weight: 600;">${node.feedbackOnFail.textFr}</p>
+                    <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${node.feedbackOnFail.textMg})</p>
+                  </div>
+                  <button id="btn-retry" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">🔁 Réessayer</button>
+                `;
+                document.getElementById('btn-retry').addEventListener('click', renderNode);
+              }
+            }
+          });
+        });
+
+        document.getElementById('btn-quit').addEventListener('click', () => {
+          if (confirm('Quitter la conversation ?')) location.hash = '/themes';
+        });
+      }
+    };
+
+    renderNode();
+
+  } catch (e) {
+    console.error('[Conversation] ❌ Erreur:', e);
+    main.innerHTML = `<p style="color:red; text-align:center;">Erreur : ${e.message}</p>`;
+  }
 }
 
 
