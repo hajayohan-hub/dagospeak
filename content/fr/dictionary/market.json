@@ -1,0 +1,132 @@
+[
+  {
+    "id": "market_001",
+    "level": "A0",
+    "category": "market",
+    "pos": "nom",
+    "wordFr": "Banane",
+    "wordMg": "Akondro",
+    "phonetic": "/aˈkʷnɖʐʷ/",
+    "visual": { "icon": "🍌", "iconClass": "icon-banana", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Une banane.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/market/banane.mp3",
+      "estimatedDurationMs": 800
+    },
+    "context": {
+      "exampleFr": "Je veux acheter une banane.",
+      "exampleMg": "Te hividy akondro aho.",
+      "situation": "Au marché, pour demander un fruit."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["levelUp"],
+      "distractors": ["Paoma", "Voankazo", "Hena"]
+    }
+  },
+  {
+    "id": "market_002",
+    "level": "A0",
+    "category": "market",
+    "pos": "nom",
+    "wordFr": "Pomme",
+    "wordMg": "Paoma",
+    "phonetic": "/pawm/",
+    "visual": { "icon": "🍎", "iconClass": "icon-apple", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Une pomme.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/market/pomme.mp3",
+      "estimatedDurationMs": 800
+    },
+    "context": {
+      "exampleFr": "La pomme est rouge.",
+      "exampleMg": "Mena ny paoma.",
+      "situation": "Décrire un fruit au marché."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["levelUp"],
+      "distractors": ["Akondro", "Voankazo", "Hena"]
+    }
+  },
+  {
+    "id": "market_003",
+    "level": "A0",
+    "category": "market",
+    "pos": "nom",
+    "wordFr": "Légumes",
+    "wordMg": "Legioma",
+    "phonetic": "/leˈɡjum/",
+    "visual": { "icon": "🥬", "iconClass": "icon-vegetables", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Des légumes.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/market/legumes.mp3",
+      "estimatedDurationMs": 800
+    },
+    "context": {
+      "exampleFr": "Nous sommes au marché.",
+      "exampleMg": "Ety an-tsena izahay.",
+      "situation": "Phrase d'introduction au marché."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["levelUp"],
+      "distractors": ["Voankazo", "Hena", "Akondro"]
+    }
+  },
+  {
+    "id": "market_004",
+    "level": "A0",
+    "category": "market",
+    "pos": "nom",
+    "wordFr": "Viande",
+    "wordMg": "Hena",
+    "phonetic": "/ˈhen/",
+    "visual": { "icon": "🥩", "iconClass": "icon-meat", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "De la viande.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/market/viande.mp3",
+      "estimatedDurationMs": 800
+    },
+    "context": {
+      "exampleFr": "Je veux acheter de la viande.",
+      "exampleMg": "Te hividy hena aho.",
+      "situation": "Au stand des bouchers."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["levelUp"],
+      "distractors": ["Legioma", "Voankazo", "Paoma"]
+    }
+  },
+  {
+    "id": "market_005",
+    "level": "A0",
+    "category": "market",
+    "pos": "nom",
+    "wordFr": "Fruits",
+    "wordMg": "Voankazo",
+    "phonetic": "/vuanˈkaz/",
+    "visual": { "icon": "🍇", "iconClass": "icon-fruits", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Des fruits.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/market/fruits.mp3",
+      "estimatedDurationMs": 800
+    },
+    "context": {
+      "exampleFr": "Les fruits sont frais.",
+      "exampleMg": "Vaovao ny voankazo.",
+      "situation": "Au stand des fruits."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["levelUp"],
+      "distractors": ["Legioma", "Hena", "Akondro"]
+    }
+  }
+]

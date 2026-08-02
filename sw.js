@@ -1,7 +1,14 @@
 // ═══════════════════════════════════════════════════════════
-// DAGOSPEAK SERVICE WORKER v25 (CORRIGÉ - Attente du clic utilisateur)
+// DAGOSPEAK SERVICE WORKER v28 — PRODUCTION
+// Offline-first + détection de mise à jour quasi instantanée en ligne
 // ══════════════════════════════════════════════════════════
-const CACHE_NAME = 'dagospeak-v25';
+
+// ⚠️ Change ce numéro à CHAQUE déploiement — c'est ce qui déclenche
+// la détection de mise à jour (le navigateur compare ce fichier octet
+// par octet à la version active).
+const CACHE_VERSION = 'v27';
+const CACHE_NAME = `dagospeak-${CACHE_VERSION}`;
+
 const STATIC_ASSETS = [
   '/', '/index.html', '/manifest.webmanifest',
   '/assets/dagospeak-logo.svg', '/assets/hero-bg.png',
@@ -14,6 +21,7 @@ const STATIC_ASSETS = [
   '/content/fr/vocabulary/numbers2.json', '/content/fr/vocabulary/colors.json',
   '/content/fr/vocabulary/days.json', '/content/fr/vocabulary/months.json',
   '/content/fr/vocabulary/greetings.json', '/content/fr/vocabulary/body.json',
+  '/content/fr/dictionary/market.json', '/content/fr/conversations/market_01.json'
   '/content/fr/dialogues/survival_dialogue.json', '/content/fr/dialogues/family_dialogue.json',
   '/content/fr/dialogues/market_dialogue.json', '/content/fr/dialogues/numbers_dialogue.json',
   '/content/fr/dialogues/numbers2_dialogue.json', '/content/fr/dialogues/colors_dialogue.json',
@@ -21,45 +29,116 @@ const STATIC_ASSETS = [
   '/content/fr/dialogues/greetings_dialogue.json', '/content/fr/dialogues/body_dialogue.json'
 ];
 
-// 1. INSTALLATION (SANS skipWaiting - on attend le clic utilisateur)
+// ═══════════════════════════════════════════════════════════
+// 1. INSTALLATION — pré-cache résilient, PAS de skipWaiting()
+// ═══════════════════════════════════════════════════════════
+// Le SW reste volontairement en état "waiting" tant que l'utilisateur
+// n'a pas cliqué sur le bouton de mise à jour. C'est la garantie
+// anti-perte-de-données (voir explication précédente).
 self.addEventListener('install', (event) => {
-  console.log('[SW v25] 📦 Installation en cours...');
+  console.log(`[SW ${CACHE_VERSION}] 📦 Installation...`);
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(STATIC_ASSETS))
-    // ✅ PAS de self.skipWaiting() ici ! Le SW reste en état 'waiting'
-  );
-});
-
-// 2. ACTIVATION
-self.addEventListener('activate', (event) => {
-  console.log('[SW v25] 🚀 Activation...');
-  event.waitUntil(
-    caches.keys().then((names) => Promise.all(
-      names.filter(n => n !== CACHE_NAME).map(n => caches.delete(n))
-    )).then(() => self.clients.claim())
-  );
-});
-
-// 3. INTERCEPTION DES REQUÊTES
-self.addEventListener('fetch', (event) => {
-  if (event.request.method !== 'GET') return;
-  event.respondWith(
-    caches.match(event.request).then((cached) => {
-      return cached || fetch(event.request).then((response) => {
-        if (response.ok) {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+    caches.open(CACHE_NAME).then(async (cache) => {
+      const results = await Promise.allSettled(
+        STATIC_ASSETS.map((url) => cache.add(url))
+      );
+      results.forEach((r, i) => {
+        if (r.status === 'rejected') {
+          console.warn(`[SW ${CACHE_VERSION}] ⚠️ Échec cache:`, STATIC_ASSETS[i]);
         }
-        return response;
-      }).catch(() => cached || caches.match('/index.html'));
+      });
+      console.log(`[SW ${CACHE_VERSION}] ✅ Pré-cache terminé (en attente du clic utilisateur)`);
     })
   );
 });
 
-// 4. MESSAGE : Activation UNIQUEMENT quand l'utilisateur clique "Averina"
+// ═══════════════════════════════════════════════════════════
+// 2. ACTIVATION — nettoyage des vieux caches + prise de contrôle
+// ═══════════════════════════════════════════════════════════
+self.addEventListener('activate', (event) => {
+  console.log(`[SW ${CACHE_VERSION}] 🚀 Activation...`);
+  event.waitUntil(
+    (async () => {
+      const names = await caches.keys();
+      await Promise.all(
+        names.filter((n) => n !== CACHE_NAME).map((n) => {
+          console.log(`[SW ${CACHE_VERSION}] 🗑️ Suppression ancien cache:`, n);
+          return caches.delete(n);
+        })
+      );
+      await self.clients.claim();
+      console.log(`[SW ${CACHE_VERSION}] ✅ Actif et aux commandes`);
+    })()
+  );
+});
+
+// ═══════════════════════════════════════════════════════════
+// 3. FETCH — stratégies différenciées par type de ressource
+// ═══════════════════════════════════════════════════════════
+self.addEventListener('fetch', (event) => {
+  const { request } = event;
+  const url = new URL(request.url);
+
+  // On ne gère que le GET same-origin — le reste part au réseau normalement
+  if (request.method !== 'GET' || url.origin !== self.location.origin) return;
+
+  // --- Navigations (HTML) : network-first ---
+  // "Instantané en ligne" = toujours essayer le réseau en premier pour le HTML,
+  // afin que la page elle-même reflète la dernière version dès qu'elle est en ligne.
+  // Fallback sur le cache uniquement hors-ligne.
+  if (request.mode === 'navigate') {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
+          return response;
+        })
+        .catch(() => caches.match(request).then((cached) => cached || caches.match('/index.html')))
+    );
+    return;
+  }
+
+  // --- Assets statiques (JS, CSS, images, contenu JSON) : stale-while-revalidate ---
+  // Réponse instantanée depuis le cache (perçu comme "instantané"),
+  // tout en revalidant en tâche de fond dès que le réseau est disponible.
+  const isStaticAsset =
+    ['script', 'style', 'image'].includes(request.destination) ||
+    url.pathname.startsWith('/content/') ||
+    STATIC_ASSETS.includes(url.pathname);
+
+  if (isStaticAsset) {
+    event.respondWith(
+      caches.match(request).then((cached) => {
+        const networkFetch = fetch(request)
+          .then((response) => {
+            if (response && response.ok) {
+              const clone = response.clone();
+              caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
+            }
+            return response;
+          })
+          .catch(() => cached); // hors-ligne → on retombe sur le cache
+        return cached || networkFetch;
+      })
+    );
+    return;
+  }
+
+  // --- Tout le reste : cache-first avec fallback réseau ---
+  event.respondWith(
+    caches.match(request).then(
+      (cached) => cached || fetch(request).catch(() => new Response('', { status: 503 }))
+    )
+  );
+});
+
+// ═══════════════════════════════════════════════════════════
+// 4. MESSAGES — le seul déclencheur de skipWaiting()
+// ═══════════════════════════════════════════════════════════
 self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
-    console.log('[SW v25] ✅ Message SKIP_WAITING reçu. Activation...');
-    self.skipWaiting(); // ✅ ICI seulement, après le clic
+  if (event.data?.type === 'SKIP_WAITING') {
+    console.log(`[SW ${CACHE_VERSION}] ✅ SKIP_WAITING reçu → activation`);
+    self.skipWaiting();
   }
 });

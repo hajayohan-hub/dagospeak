@@ -1,0 +1,96 @@
+{
+  "id": "market_dialogue_01",
+  "level": "A0",
+  "theme": "market",
+  "titleFr": "Acheter des fruits au marché",
+  "titleMg": "Mividy voankazo eny an-tsena",
+
+  "nodes": [
+    {
+      "id": "node_1",
+      "speaker": "teacher",
+      "textFr": "Bonjour ! Que voulez-vous acheter aujourd'hui ?",
+      "textMg": "Manahoana ! Inona no tianao hividy androany ?",
+      "audio": {
+        "ttsTextFr": "Bonjour ! Que voulez-vous acheter aujourd'hui ?",
+        "ttsRate": 0.9,
+        "fallbackMp3": "/assets/audio/fr/dialogues/market_01_node1.mp3",
+        "estimatedDurationMs": 2500
+      },
+      "svgState": "smile",
+      "nextNode": "node_2"
+    },
+    {
+      "id": "node_2",
+      "speaker": "user",
+      "responseOptions": [
+        {
+          "textFr": "Je veux une banane.",
+          "textMg": "Te hividy akondro aho.",
+          "corpusId": "market_001",
+          "isCorrect": true
+        },
+        {
+          "textFr": "Je veux une pomme.",
+          "textMg": "Te hividy paoma aho.",
+          "corpusId": "market_002",
+          "isCorrect": false
+        }
+      ],
+      "feedbackOnSuccess": {
+        "textFr": "Très bien ! La banane coûte 500 Ariary.",
+        "textMg": "Tena tsara ! Ny akondro dia 500 Ariary.",
+        "svgState": "happy",
+        "audio": {
+          "ttsTextFr": "Très bien ! La banane coûte 500 Ariary.",
+          "ttsRate": 0.9,
+          "fallbackMp3": "/assets/audio/fr/dialogues/market_01_success.mp3",
+          "estimatedDurationMs": 2200
+        }
+      },
+      "feedbackOnFail": {
+        "textFr": "Je n'ai pas compris. Voulez-vous des bananes ou des pommes ?",
+        "textMg": "Tsy azoko. Te hividy akondro na paoma ve ianao ?",
+        "svgState": "thinking",
+        "audio": {
+          "ttsTextFr": "Je n'ai pas compris. Voulez-vous des bananes ou des pommes ?",
+          "ttsRate": 0.9,
+          "fallbackMp3": "/assets/audio/fr/dialogues/market_01_fail.mp3",
+          "estimatedDurationMs": 2800
+        }
+      },
+      "maxAttempts": 2,
+      "nextNodeOnSuccess": "node_3",
+      "nextNodeOnFail": "node_2",
+      "nextNodeOnMaxAttemptsReached": "node_2_reveal"
+    },
+    {
+      "id": "node_2_reveal",
+      "speaker": "teacher",
+      "textFr": "La réponse attendue était : Je veux une banane. Continuons.",
+      "textMg": "Ny valiny andrasana dia : Te hividy akondro aho. Andeha isika.",
+      "audio": {
+        "ttsTextFr": "La réponse attendue était : Je veux une banane. Continuons.",
+        "ttsRate": 0.9,
+        "fallbackMp3": "/assets/audio/fr/dialogues/market_01_reveal.mp3",
+        "estimatedDurationMs": 3000
+      },
+      "svgState": "encouraging",
+      "nextNode": "node_3"
+    },
+    {
+      "id": "node_3",
+      "speaker": "teacher",
+      "textFr": "Voici vos bananes. 500 Ariary, merci !",
+      "textMg": "Ity ny akondro. 500 Ariary, misaotra !",
+      "audio": {
+        "ttsTextFr": "Voici vos bananes. 500 Ariary, merci !",
+        "ttsRate": 0.9,
+        "fallbackMp3": "/assets/audio/fr/dialogues/market_01_end.mp3",
+        "estimatedDurationMs": 2000
+      },
+      "svgState": "neutral",
+      "isEnd": true
+    }
+  ]
+}
