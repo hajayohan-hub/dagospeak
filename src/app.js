@@ -22,6 +22,7 @@ import { TeacherAvatar } from './ui/components/teacher-avatar.js';
 import { DownloadProgress } from './ui/components/download-progress.js';
 import { FeedbackSounds } from './engines/audio/feedback-sounds.js';
 import { OnboardingScreen } from './ui/components/onboarding-screen.js';
+import { ConversationEngine } from './ui/components/conversation-engine.js';
 
 const teacherAvatar = new TeacherAvatar();
 window.teacherAvatar = teacherAvatar;
@@ -567,6 +568,37 @@ async function renderHome() {
       `;
     }).join('');
 
+
+    // ✅ BOUTON DE TEST : Conversation semi-libre
+      const testConversationHtml = `
+        <div style="
+          background: linear-gradient(135deg, var(--ds-color-primary) 0%, var(--ds-color-accent) 100%);
+          padding: 1.5rem; border-radius: var(--ds-radius-lg);
+          text-align: center; margin-top: 2rem;
+          box-shadow: var(--ds-shadow-lg);
+        ">
+          <div style="font-size: 3rem; margin-bottom: 0.5rem;">💬</div>
+          <h3 style="color: white; margin-bottom: 0.5rem;">
+            Conversation avec le Teacher Avatar
+          </h3>
+          <p style="color: rgba(255,255,255,0.9); margin-bottom: 1rem; font-size: 0.9rem;">
+            Testez la nouvelle fonctionnalité de conversation semi-libre !
+          </p>
+          <button id="btn-test-conversation" style="
+            background: white; color: var(--ds-color-primary);
+            border: none; padding: 12px 24px; border-radius: 12px;
+            font-weight: 700; cursor: pointer; font-size: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+          ">
+            🚀 Tester la conversation (Marché)
+          </button>
+        </div>
+      `;
+
+          document.getElementById('btn-test-conversation')?.addEventListener('click', () => {
+            router.navigate('/conversation?dialogue=market_01');
+          });
+
     // ✅ 4. INJECTION DANS LE DOM
     main.innerHTML = `
       <section class="ds-home" style="padding: 1rem; max-width: 800px; margin: 0 auto;">
@@ -578,6 +610,7 @@ async function renderHome() {
         <div id="levels-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
           ${levelsHtml}
         </div>
+
       </section>
     `;
 
@@ -3753,6 +3786,24 @@ function showAppGuide() {
 }
 
 
+// ═══════════════════════════════════════════════════════════
+// VUE : CONVERSATION SEMI-LIBRE (Teacher Avatar IA)
+// ═══════════════════════════════════════════════════════════
+async function renderConversation() {
+  const main = document.getElementById('app');
+  main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement de la conversation...</div>';
+
+  // Récupérer l'ID du dialogue depuis l'URL (ex: ?dialogue=market_01)
+  const urlParams = new URLSearchParams(window.location.search);
+  const dialogueId = urlParams.get('dialogue') || 'market_01';
+
+  const conversation = new ConversationEngine(dialogueId, () => {
+    console.log('[App] Conversation terminée');
+  });
+
+  await conversation.start('app');
+}
+
 
 // ═══════════════════════════════════════════════════════════
 // ROUTEUR & DÉMARRAGE (Onboarding temporairement désactivé)
@@ -3770,6 +3821,7 @@ router.addRoute('/roleplay', renderRolePlay);
 router.addRoute('/challenge', renderChallenge);
 router.addRoute('/about', renderAbout);
 router.addRoute('/alphabet', renderAlphabet);  // ✅ AJOUTER
+router.addRoute('/conversation', renderConversation);
 
 initTheme();
 updateLevelUI();

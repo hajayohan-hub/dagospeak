@@ -21,7 +21,7 @@ const STATIC_ASSETS = [
   '/content/fr/vocabulary/numbers2.json', '/content/fr/vocabulary/colors.json',
   '/content/fr/vocabulary/days.json', '/content/fr/vocabulary/months.json',
   '/content/fr/vocabulary/greetings.json', '/content/fr/vocabulary/body.json',
-  '/content/fr/dictionary/market.json', '/content/fr/conversations/market_01.json'
+  '/content/fr/dictionary/market.json', '/content/fr/conversations/market_01.json',
   '/content/fr/dialogues/survival_dialogue.json', '/content/fr/dialogues/family_dialogue.json',
   '/content/fr/dialogues/market_dialogue.json', '/content/fr/dialogues/numbers_dialogue.json',
   '/content/fr/dialogues/numbers2_dialogue.json', '/content/fr/dialogues/colors_dialogue.json',
