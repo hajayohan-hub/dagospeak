@@ -614,6 +614,10 @@ async function renderHome() {
       </section>
     `;
 
+     document.getElementById('btn-test-conversation')?.addEventListener('click', () => {
+            router.navigate('/conversation?dialogue=market_01');
+          });
+
     // ✅ 5. ÉCOUTEURS D'ÉVÉNEMENTS (Uniquement pour les niveaux ici)
     document.getElementById('levels-container').addEventListener('click', (e) => {
       const levelBtn = e.target.closest('.btn-select-level');
