@@ -595,9 +595,7 @@ async function renderHome() {
         </div>
       `;
 
-          document.getElementById('btn-test-conversation')?.addEventListener('click', () => {
-            router.navigate('/conversation?dialogue=market_01');
-          });
+
 
     // ✅ 4. INJECTION DANS LE DOM (MODIFIÉ ICI)
     main.innerHTML = `
@@ -614,9 +612,14 @@ async function renderHome() {
       </section>
     `;
 
-     document.getElementById('btn-test-conversation')?.addEventListener('click', () => {
+     // Au lieu d'attacher directement au bouton, attachez à un parent qui existe déjà
+        // Par exemple, attachez à 'main' ou 'document'
+
+        main.addEventListener('click', (event) => {
+          if (event.target.id === 'btn-test-conversation' || event.target.closest('#btn-test-conversation')) {
             router.navigate('/conversation?dialogue=market_01');
-          });
+          }
+        });
 
     // ✅ 5. ÉCOUTEURS D'ÉVÉNEMENTS (Uniquement pour les niveaux ici)
     document.getElementById('levels-container').addEventListener('click', (e) => {
