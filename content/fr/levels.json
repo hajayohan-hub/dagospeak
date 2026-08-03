@@ -1,0 +1,62 @@
+{
+  "tierHierarchy": ["free", "premium-standard", "premium-intermediate", "premium-expert"],
+  "levels": {
+    "A0": {
+      "defaultTier": "premium-standard",
+      "published": true,
+      "freeThemes": ["survival", "family", "market", "numbers", "colors"],
+      "grammarModulesEnabled": false,
+      "advancedMiniGamesEnabled": false,
+      "nextLevel": "A1",
+      "levelUpExam": "exam_a0_a1"
+    },
+    "A1": {
+      "defaultTier": "premium-standard",
+      "published": false,
+      "grammarModulesEnabled": false,
+      "advancedMiniGamesEnabled": false,
+      "nextLevel": "A2",
+      "levelUpExam": "exam_a1_a2"
+    },
+    "A2": {
+      "defaultTier": "premium-standard",
+      "published": false,
+      "grammarModulesEnabled": false,
+      "advancedMiniGamesEnabled": false,
+      "nextLevel": "B1",
+      "levelUpExam": "exam_a2_b1"
+    },
+    "B1": {
+      "defaultTier": "premium-intermediate",
+      "published": false,
+      "grammarModulesEnabled": true,
+      "advancedMiniGamesEnabled": true,
+      "nextLevel": "B2",
+      "levelUpExam": "exam_b1_b2"
+    },
+    "B2": {
+      "defaultTier": "premium-intermediate",
+      "published": false,
+      "grammarModulesEnabled": true,
+      "advancedMiniGamesEnabled": true,
+      "nextLevel": "C1",
+      "levelUpExam": "exam_b2_c1"
+    },
+    "C1": {
+      "defaultTier": "premium-expert",
+      "published": false,
+      "grammarModulesEnabled": true,
+      "advancedMiniGamesEnabled": true,
+      "nextLevel": "C2",
+      "levelUpExam": "exam_c1_c2"
+    },
+    "C2": {
+      "defaultTier": "premium-expert",
+      "published": false,
+      "grammarModulesEnabled": true,
+      "advancedMiniGamesEnabled": true,
+      "nextLevel": null,
+      "levelUpExam": "exam_c2_final"
+    }
+  }
+}

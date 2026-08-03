@@ -6,7 +6,7 @@
 // ⚠️ Change ce numéro à CHAQUE déploiement — c'est ce qui déclenche
 // la détection de mise à jour (le navigateur compare ce fichier octet
 // par octet à la version active).
-const CACHE_VERSION = 'v27';
+const CACHE_VERSION = 'v30';
 const CACHE_NAME = `dagospeak-${CACHE_VERSION}`;
 
 const STATIC_ASSETS = [
@@ -22,6 +22,7 @@ const STATIC_ASSETS = [
   '/content/fr/vocabulary/days.json', '/content/fr/vocabulary/months.json',
   '/content/fr/vocabulary/greetings.json', '/content/fr/vocabulary/body.json',
   '/content/fr/dictionary/market.json', '/content/fr/conversations/market_01.json',
+  '/content/fr/levels.json', '/content/fr/exams.json',
   '/content/fr/dialogues/survival_dialogue.json', '/content/fr/dialogues/family_dialogue.json',
   '/content/fr/dialogues/market_dialogue.json', '/content/fr/dialogues/numbers_dialogue.json',
   '/content/fr/dialogues/numbers2_dialogue.json', '/content/fr/dialogues/colors_dialogue.json',

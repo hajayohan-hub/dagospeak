@@ -1,0 +1,64 @@
+[
+  {
+    "id": "exam_a0_a1",
+    "fromLevel": "A0",
+    "toLevel": "A1",
+    "access": "free",
+    "price": null,
+    "passThreshold": 0.7,
+    "durationMinutes": 30,
+    "questionPool": { "levels": ["A0"] },
+    "certifiesCompletion": false
+  },
+  {
+    "id": "exam_a1_a2",
+    "fromLevel": "A1",
+    "toLevel": "A2",
+    "access": "free",
+    "price": null,
+    "passThreshold": 0.75,
+    "durationMinutes": 45,
+    "questionPool": { "levels": ["A0", "A1"] },
+    "certifiesCompletion": false
+  },
+  {
+    "id": "exam_a2_b1",
+    "fromLevel": "A2",
+    "toLevel": "B1",
+    "access": "paid",
+    "price": { "amount": null, "currency": "Ariary", "status": "à définir" },
+    "passThreshold": 0.8,
+    "durationMinutes": 60,
+    "questionPool": { "levels": ["A0", "A1", "A2"] },
+    "certifiesCompletion": true,
+    "note": "Déclenche aussi la bascule tarifaire vers Premium Intermédiaire"
+  },
+  {
+    "id": "exam_b1_b2",
+    "fromLevel": "B1",
+    "toLevel": "B2",
+    "access": "tbd",
+    "note": "Décision de tarification à prendre en phase 2 (Intermédiaire)"
+  },
+  {
+    "id": "exam_b2_c1",
+    "fromLevel": "B2",
+    "toLevel": "C1",
+    "access": "tbd",
+    "note": "Décision de tarification à prendre en phase 2 (Intermédiaire)"
+  },
+  {
+    "id": "exam_c1_c2",
+    "fromLevel": "C1",
+    "toLevel": "C2",
+    "access": "tbd",
+    "note": "Décision de tarification à prendre en phase 3 (Expert)"
+  },
+  {
+    "id": "exam_c2_final",
+    "fromLevel": "C2",
+    "toLevel": null,
+    "access": "tbd",
+    "note": "Certification finale — décision de tarification à prendre en phase 3 (Expert)"
+  }
+]
