@@ -21,7 +21,7 @@
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["levelUp"],
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
       "distractors": ["Paoma", "Voankazo", "Hena"]
     }
   },
@@ -47,7 +47,7 @@
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["levelUp"],
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
       "distractors": ["Akondro", "Voankazo", "Hena"]
     }
   },
@@ -73,7 +73,7 @@
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["levelUp"],
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
       "distractors": ["Voankazo", "Hena", "Akondro"]
     }
   },
@@ -99,7 +99,7 @@
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["levelUp"],
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
       "distractors": ["Legioma", "Voankazo", "Paoma"]
     }
   },
@@ -125,7 +125,7 @@
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["levelUp"],
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
       "distractors": ["Legioma", "Hena", "Akondro"]
     }
   }
