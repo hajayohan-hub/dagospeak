@@ -260,7 +260,7 @@ export class DictionarySearch {
             <span style="background:rgba(255,255,255,0.2); padding:4px 12px; border-radius:12px; font-size:0.85rem;">${posLabel}</span>
             <span style="background:rgba(255,255,255,0.2); padding:4px 12px; border-radius:12px; font-size:0.85rem;">Niveau ${entry.level}</span>
           </div>
-          ${entry.phonetic ? `<p style="margin:0.75rem 0 0 0; font-family:monospace; font-size:1rem; opacity:0.8;">${entry.phonetic}</p>` : ''}
+         ${entry.phonetic ? `<p style="margin:0.75rem 0 0 0; font-family:monospace; font-size:1rem; opacity:0.9; background: rgba(255,255,255,0.15); display: inline-block; padding: 4px 12px; border-radius: 8px;">🗣️ Prononciation (FR) : ${entry.phonetic}</p>` : ''}
           <button id="btn-play-detail" style="margin-top:1rem; background:white; color:var(--ds-color-primary); border:none; padding:12px 28px; border-radius:12px; font-weight:700; font-size:1rem; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.2);">🔊 Mihainoa (Écouter)</button>
         </div>
         ${entry.context ? `
@@ -301,7 +301,164 @@ export class DictionarySearch {
 
   #getPosLabel(pos) {
     const labels = { 'nom': 'Nom (Anarana)', 'verbe': 'Verbe (Matoanteny)', 'adjectif': 'Adj. (Mpamaritra)', 'adverbe': 'Adv. (Mpamari-toetra)', 'interjection': 'Interj. (Fihobiana)', 'pronom': 'Pronom (Mpisolo)', 'préposition': 'Prép. (Mpampiankin-teny)', 'conjonction': 'Conj. (Mpampitohy)', 'article': 'Article (Mpanoritra)' };
-    return labels[pos] || pos || '—';
+    return labels[pos][
+  {
+    "id": "family_001",
+    "level": "A0",
+    "category": "family",
+    "pos": "nom",
+    "wordFr": "Père",
+    "wordMg": "Ray",
+    "phonetic": "/pɛʁ/",
+    "visual": { "icon": "👨", "iconClass": "icon-father", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Le père.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/family/pere.mp3",
+      "estimatedDurationMs": 800
+    },
+    "context": {
+      "exampleFr": "Mon père est gentil.",
+      "exampleMg": "Tsara ny raiko.",
+      "situation": "Présenter son père."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Reny", "Rahalay", "Zaza"]
+    }
+  },
+  {
+    "id": "family_002",
+    "level": "A0",
+    "category": "family",
+    "pos": "nom",
+    "wordFr": "Mère",
+    "wordMg": "Reny",
+    "phonetic": "/mɛʁ/",
+    "visual": { "icon": "👩", "iconClass": "icon-mother", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "La mère.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/family/mere.mp3",
+      "estimatedDurationMs": 800
+    },
+    "context": {
+      "exampleFr": "Ma mère cuisine bien.",
+      "exampleMg": "Mahay mandahatra sakafo ny renyko.",
+      "situation": "Parler des tâches de la mère."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Ray", "Rahavavy", "Fianakaviana"]
+    }
+  },
+  {
+    "id": "family_003",
+    "level": "A0",
+    "category": "family",
+    "pos": "nom",
+    "wordFr": "Frère",
+    "wordMg": "Rahalay",
+    "phonetic": "/fʁɛʁ/",
+    "visual": { "icon": "👦", "iconClass": "icon-brother", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Le frère.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/family/frere.mp3",
+      "estimatedDurationMs": 800
+    },
+    "context": {
+      "exampleFr": "Mon frère est grand.",
+      "exampleMg": "Lehibe ny rahalahiko.",
+      "situation": "Décrire son frère."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Ray", "Reny", "Zaza"]
+    }
+  },
+  {
+    "id": "family_004",
+    "level": "A0",
+    "category": "family",
+    "pos": "nom",
+    "wordFr": "Sœur",
+    "wordMg": "Rahavavy",
+    "phonetic": "/sœʁ/",
+    "visual": { "icon": "👧", "iconClass": "icon-sister", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "La sœur.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/family/soeur.mp3",
+      "estimatedDurationMs": 800
+    },
+    "context": {
+      "exampleFr": "Ma sœur est petite.",
+      "exampleMg": "Kely ny rahavaviko.",
+      "situation": "Décrire sa sœur."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Rahalay", "Reny", "Zaza"]
+    }
+  },
+  {
+    "id": "family_005",
+    "level": "A0",
+    "category": "family",
+    "pos": "nom",
+    "wordFr": "Famille",
+    "wordMg": "Fianakaviana",
+    "phonetic": "/fa.mij/",
+    "visual": { "icon": "👨‍👩‍👧‍👦", "iconClass": "icon-family", "svgState": "happy" },
+    "audio": {
+      "ttsTextFr": "La famille.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/family/famille.mp3",
+      "estimatedDurationMs": 800
+    },
+    "context": {
+      "exampleFr": "J'aime ma famille.",
+      "exampleMg": "Tiako ny fianakaviako.",
+      "situation": "Exprimer son amour pour sa famille."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Ray", "Reny", "Zaza"]
+    }
+  },
+  {
+    "id": "family_006",
+    "level": "A0",
+    "category": "family",
+    "pos": "nom",
+    "wordFr": "Enfant",
+    "wordMg": "Zaza",
+    "phonetic": "/ɑ̃.fɑ̃/",
+    "visual": { "icon": "👶", "iconClass": "icon-child", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "L'enfant.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/family/enfant.mp3",
+      "estimatedDurationMs": 800
+    },
+    "context": {
+      "exampleFr": "L'enfant joue.",
+      "exampleMg": "Milalao ny zaza.",
+      "situation": "Décrire une activité d'un enfant."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Ray", "Reny", "Fianakaviana"]
+    }
+  }
+] || pos || '—';
   }
 
   #getThemeIcon(theme) {

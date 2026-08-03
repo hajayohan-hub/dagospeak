@@ -6,7 +6,7 @@
     "pos": "nom",
     "wordFr": "Banane",
     "wordMg": "Akondro",
-    "phonetic": "/aˈkʷnɖʐʷ/",
+    "phonetic": "/ba.nan/",
     "visual": { "icon": "🍌", "iconClass": "icon-banana", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "Une banane.",
@@ -32,7 +32,7 @@
     "pos": "nom",
     "wordFr": "Pomme",
     "wordMg": "Paoma",
-    "phonetic": "/pawm/",
+    "phonetic": "/pɔm/",
     "visual": { "icon": "🍎", "iconClass": "icon-apple", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "Une pomme.",
@@ -58,7 +58,7 @@
     "pos": "nom",
     "wordFr": "Légumes",
     "wordMg": "Legioma",
-    "phonetic": "/leˈɡjum/",
+    "phonetic": "/le.ɡym/",
     "visual": { "icon": "🥬", "iconClass": "icon-vegetables", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "Des légumes.",
@@ -84,7 +84,7 @@
     "pos": "nom",
     "wordFr": "Viande",
     "wordMg": "Hena",
-    "phonetic": "/ˈhen/",
+    "phonetic": "/vjɑ̃d/",
     "visual": { "icon": "🥩", "iconClass": "icon-meat", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "De la viande.",
@@ -110,7 +110,7 @@
     "pos": "nom",
     "wordFr": "Fruits",
     "wordMg": "Voankazo",
-    "phonetic": "/vuanˈkaz/",
+    "phonetic": "/fʁɥi/",
     "visual": { "icon": "🍇", "iconClass": "icon-fruits", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "Des fruits.",

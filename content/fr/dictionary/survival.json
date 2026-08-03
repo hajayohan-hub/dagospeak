@@ -1,0 +1,158 @@
+[
+  {
+    "id": "survival_001",
+    "level": "A0",
+    "category": "survival",
+    "pos": "nom",
+    "wordFr": "Eau",
+    "wordMg": "Rano",
+    "phonetic": "/o/",
+    "visual": { "icon": "💧", "iconClass": "icon-water", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "De l'eau.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/survival/eau.mp3",
+      "estimatedDurationMs": 800
+    },
+    "context": {
+      "exampleFr": "Je veux boire de l'eau.",
+      "exampleMg": "Te misotro rano aho.",
+      "situation": "Demander de l'eau à boire."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Mofo", "Trano", "Vola"]
+    }
+  },
+  {
+    "id": "survival_002",
+    "level": "A0",
+    "category": "survival",
+    "pos": "nom",
+    "wordFr": "Pain",
+    "wordMg": "Mofo",
+    "phonetic": "/pɛ̃/",
+    "visual": { "icon": "🍞", "iconClass": "icon-bread", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Du pain.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/survival/pain.mp3",
+      "estimatedDurationMs": 800
+    },
+    "context": {
+      "exampleFr": "Je mange du pain le matin.",
+      "exampleMg": "Mihinana mofo maraina aho.",
+      "situation": "Parler du petit-déjeuner."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Rano", "Trano", "Vola"]
+    }
+  },
+  {
+    "id": "survival_003",
+    "level": "A0",
+    "category": "survival",
+    "pos": "nom",
+    "wordFr": "Maison",
+    "wordMg": "Trano",
+    "phonetic": "/mɛ.zɔ̃/",
+    "visual": { "icon": "🏠", "iconClass": "icon-house", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Une maison.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/survival/maison.mp3",
+      "estimatedDurationMs": 800
+    },
+    "context": {
+      "exampleFr": "Ma maison est grande.",
+      "exampleMg": "Lehibe ny tranoko.",
+      "situation": "Décrire sa maison."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Rano", "Mofo", "Lalana"]
+    }
+  },
+  {
+    "id": "survival_004",
+    "level": "A0",
+    "category": "survival",
+    "pos": "nom",
+    "wordFr": "Route",
+    "wordMg": "Lalana",
+    "phonetic": "/ʁut/",
+    "visual": { "icon": "🛣️", "iconClass": "icon-road", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "La route.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/survival/route.mp3",
+      "estimatedDurationMs": 800
+    },
+    "context": {
+      "exampleFr": "Où est la route ?",
+      "exampleMg": "Aiza ny lalana ?",
+      "situation": "Demander son chemin."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Trano", "Hopitaly", "Vola"]
+    }
+  },
+  {
+    "id": "survival_005",
+    "level": "A0",
+    "category": "survival",
+    "pos": "nom",
+    "wordFr": "Hôpital",
+    "wordMg": "Hopitaly",
+    "phonetic": "/o.pi.tal/",
+    "visual": { "icon": "🏥", "iconClass": "icon-hospital", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "L'hôpital.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/survival/hopital.mp3",
+      "estimatedDurationMs": 800
+    },
+    "context": {
+      "exampleFr": "Je vais à l'hôpital.",
+      "exampleMg": "Mankany amin'ny hopitaly aho.",
+      "situation": "En cas de maladie ou d'accident."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Polisy", "Lalana", "Trano"]
+    }
+  },
+  {
+    "id": "survival_006",
+    "level": "A0",
+    "category": "survival",
+    "pos": "nom",
+    "wordFr": "Argent",
+    "wordMg": "Vola",
+    "phonetic": "/aʁ.ʒɑ̃/",
+    "visual": { "icon": "💰", "iconClass": "icon-money", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "De l'argent.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/survival/argent.mp3",
+      "estimatedDurationMs": 800
+    },
+    "context": {
+      "exampleFr": "Je n'ai pas d'argent.",
+      "exampleMg": "Tsy manam-bola aho.",
+      "situation": "Parler de ses finances."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Rano", "Mofo", "Trano"]
+    }
+  }
+]
