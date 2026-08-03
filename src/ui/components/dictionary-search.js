@@ -1,7 +1,7 @@
 /**
- * DictionarySearch - Dictionnaire intelligent FR↔MG (OPTIMISÉ)
- * - Chargement parallèle des fichiers (x10 plus rapide)
- * - Mise à jour de la liste sans recréer le champ de recherche (pas de perte de focus)
+ * DictionarySearch - Dictionnaire intelligent FR↔MG (VERSION CORRIGÉE)
+ * - Gère les 404 silencieusement (thèmes pas encore créés)
+ * - Ne re-rend que la liste lors de la recherche (pas de perte de focus clavier)
  */
 export class DictionarySearch {
   #container = null;
@@ -30,7 +30,7 @@ export class DictionarySearch {
       this.#filteredEntries = this.#entries;
       this.#renderLayout();
       this.#renderList();
-      console.log(`[DictionarySearch] ✅ ${this.#entries.length} entrées chargées en parallèle`);
+      console.log(`[DictionarySearch] ✅ ${this.#entries.length} entrées chargées avec succès`);
     } catch (e) {
       console.error('[DictionarySearch] ❌ Erreur:', e);
       this.#container.innerHTML = `
@@ -45,30 +45,32 @@ export class DictionarySearch {
   async #loadAllDictionaries() {
     const themes = ['market', 'family', 'survival', 'numbers', 'colors', 'days', 'months', 'greetings', 'body', 'alphabet1', 'alphabet2', 'numbers2'];
 
-    // ✅ CHARGEMENT PARALLÈLE (beaucoup plus rapide)
-    const promises = themes.map(async (theme) => {
-        try {
-          const response = await fetch(`/content/fr/dictionary/${theme}.json`);
-          if (response.ok) {
-            const data = await response.json();
-            return Array.isArray(data) ? data : [];
-            // are ignored  // ✅ Maintenant c'est un vrai commentaire
+    for (const theme of themes) {
+      try {
+        const response = await fetch(`/content/fr/dictionary/${theme}.json`);
+        // ✅ CORRECTION CRITIQUE : On ne traite que si la réponse est OK (200)
+        // Les 404 sont ignorés silencieusement, ce qui est le comportement attendu
+        if (response.ok) {
+          const data = await response.json();
+          if (Array.isArray(data)) {
+            this.#entries = this.#entries.concat(data);
           }
-        } catch {
-          return [];
         }
-      });
-
-    const results = await Promise.all(promises);
-    this.#entries = results.flat();
+      } catch (e) {
+        // Ignorer les erreurs de fetch (fichier non trouvé)
+        console.log(`[DictionarySearch] ℹ️ ${theme}.json non trouvé (sera ajouté plus tard)`);
+      }
+    }
 
     if (this.#entries.length === 0) {
-      throw new Error('Aucun dictionnaire trouvé. Créez des fichiers dans content/fr/dictionary/');
+      throw new Error('Aucun dictionnaire trouvé. Le fichier market.json est-il bien dans content/fr/dictionary/ ?');
     }
   }
 
   #renderLayout() {
-    const themes = [...new Set(this.#entries.map(e => e.category))];
+    // ✅ SÉCURITÉ : On filtre pour être sûr qu'aucun 'undefined' ne passe
+    const validEntries = this.#entries.filter(e => e && e.category);
+    const themes = [...new Set(validEntries.map(e => e.category))];
 
     this.#container.innerHTML = `
       <section style="max-width: 700px; margin: 0 auto; padding: 1rem;">
@@ -82,7 +84,7 @@ export class DictionarySearch {
         <h2 style="text-align:center; color:var(--ds-color-primary); margin-bottom:0.25rem;">📖 Rakibolana (Dictionnaire)</h2>
         <p style="text-align:center; color:var(--ds-color-text-muted); font-size:0.9rem; margin-bottom:1.5rem; font-style:italic;">Dikanteny FR ↔ MG • Tsindrio ny teny hihainoana</p>
 
-        <!-- BARRE DE RECHERCHE (Ne sera plus recréée à la frappe) -->
+        <!-- BARRE DE RECHERCHE (Ne sera JAMAIS recréée à la frappe) -->
         <div style="position:relative; margin-bottom:1rem;">
           <input type="text" id="dict-search-input" placeholder="Tadiavo... (Rechercher un mot)"
             style="width:100%; padding:14px 16px 14px 44px; border:2px solid var(--ds-color-border); border-radius:14px; font-size:1rem; outline:none; box-sizing:border-box; background:var(--ds-color-surface); color:var(--ds-color-text); transition: border-color 0.3s;"
@@ -102,7 +104,7 @@ export class DictionarySearch {
           `).join('')}
         </div>
 
-        <!-- LISTE DES MOTS (mise à jour dynamiquement sans toucher au reste) -->
+        <!-- LISTE DES MOTS (mise à jour dynamiquement SANS toucher au reste) -->
         <div id="dict-entries-list" style="display:flex; flex-direction:column; gap:0.75rem; margin-bottom:1.5rem;"></div>
         <div id="dict-pagination" style="display:flex; justify-content:center; gap:0.5rem; margin-bottom:1rem;"></div>
       </section>
@@ -174,7 +176,7 @@ export class DictionarySearch {
   #attachEventListeners() {
     document.getElementById('btn-back-dict')?.addEventListener('click', () => { location.hash = '/'; });
 
-    // ✅ RECHERCHE SANS PERTE DE FOCUS (ne recrée pas le layout)
+    // ✅ RECHERCHE SANS PERTE DE FOCUS : appelle #applyFilters (qui ne touche pas à l'input)
     const searchInput = document.getElementById('dict-search-input');
     let searchTimeout;
     searchInput?.addEventListener('input', (e) => {
@@ -242,7 +244,7 @@ export class DictionarySearch {
       );
     });
     this.#currentPage = 0;
-    this.#renderList(); // ✅ Ne met à jour QUE la liste, pas tout le layout (pas de perte de focus)
+    this.#renderList(); // ✅ Ne met à jour QUE la liste, l'input garde le focus
   }
 
   #renderEntryDetail(entry) {
