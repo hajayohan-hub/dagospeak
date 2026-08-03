@@ -30,16 +30,29 @@ window.teacherAvatar = teacherAvatar;
 // ═══════════════════════════════════════════════════════════
 // MODÈLE FREEMIUM : 5 premiers thèmes gratuits, les autres Premium
 // ═══════════════════════════════════════════════════════════
-const FREE_THEMES = ['survival', 'family', 'market', 'numbers', 'colors'];
-
-function isThemeFree(themeId) {
-  return FREE_THEMES.includes(themeId);
-}
+let levelsConfig = null;
 
 function isThemeLocked(themeId, profile) {
-  return !isThemeFree(themeId) && !profile.isPremium;
-}
+  // Fallback si levels.json n'est pas encore chargé
+  if (!levelsConfig || !levelsConfig.levels) {
+    const freeThemes = ['survival', 'family', 'market', 'numbers', 'colors'];
+    return !freeThemes.includes(themeId) && !profile.isPremium;
+  }
 
+  const levelConfig = levelsConfig.levels[currentLevel] || levelsConfig.levels['A0'];
+  if (!levelConfig) return true;
+
+  // Si le niveau n'est pas publié, tout est verrouillé
+  if (levelConfig.published === false) return true;
+
+  // Vérifier si le thème est dans la liste des thèmes gratuits
+  const isFreeTheme = levelConfig.freeThemes?.includes(themeId);
+  if (isFreeTheme) return false;
+
+  // Sinon, vérifier si l'utilisateur est Premium
+  const userProfile = JSON.parse(localStorage.getItem('dagospeak:userProfile') || '{}');
+  return !userProfile.isPremium;
+}
 
 
 /// ═══════════════════════════════════════════════════════════
@@ -499,7 +512,10 @@ async function renderHome() {
     const profile = await gamification.getProfile();
 
     console.log('[renderHome] 4. Chargement du manifeste...');
+
     const manifest = await content.loadManifest('fr');
+
+
     console.log('[renderHome] 5. Manifeste chargé avec succès:', manifest);
 
 
@@ -4184,6 +4200,25 @@ function showSettingsModal() {
 // ═══════════════════════════════════════════════════════════
 function startAppAndShowHome() {
   console.log("[App] 🚀 Démarrage de l'application...");
+
+  // ✅ NOUVEAU : Charger levels.json AU DÉMARRAGE (pas dans renderHome)
+  if (!levelsConfig) {
+    fetch('/content/fr/levels.json')
+      .then(r => r.json())
+      .then(data => {
+        levelsConfig = data;
+        console.log('[App] ✅ levels.json chargé au démarrage');
+      })
+      .catch(e => {
+        console.warn('[App] ⚠️ Impossible de charger levels.json:', e);
+        levelsConfig = {
+          levels: {
+            A0: { published: true, freeThemes: ['survival', 'family', 'market', 'numbers', 'colors'] }
+          }
+        };
+      });
+  }
+
   if (!window.location.hash || window.location.hash === '#' || window.location.hash === '#/') {
     window.location.hash = '/';
   }
