@@ -631,17 +631,14 @@ async function renderHome() {
     `;
 
      // ✅ AJOUTER L'ÉCOUTEUR UNIQUEMENT UNE FOIS, PAS DANS renderHome()
-          // Utilisez la délégation d'événements ou un écouteur global
-          document.addEventListener('click', (event) => {
-            const btn = event.target.closest('#btn-test-conversation');
-            if (btn) {
-              console.log('[App] 💬 Clic sur "Tester la conversation" - Navigation');
-              // Utilisez window.location ou votre router
-              window.location.hash = '/conversation?dialogue=market_01';
-              // OU
-              // router.navigate('/conversation?dialogue=market_01');
-            }
-          });
+         document.addEventListener('click', (event) => {
+          const btn = event.target.closest('#btn-test-conversation');
+          if (btn) {
+            console.log('[App] 💬 Clic sur "Tester la conversation"');
+            window.dagospeakPendingDialogue = 'market_01';
+            router.navigate('/conversation'); // chemin propre, garanti de matcher la route enregistrée ligne 4063
+          }
+        });
 
     // ✅ 5. ÉCOUTEURS D'ÉVÉNEMENTS (Uniquement pour les niveaux ici)
     document.getElementById('levels-container').addEventListener('click', (e) => {
