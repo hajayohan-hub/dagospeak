@@ -47,14 +47,17 @@ export class DictionarySearch {
 
     // ✅ CHARGEMENT PARALLÈLE (beaucoup plus rapide)
     const promises = themes.map(async (theme) => {
-      try {
-        const response = await fetch(`/content/fr/dictionary/${theme}.json`);
-        if (response.ok) {
-          const data = await response.json();
-          return Array.isArray(data) ? data : [];
- are ignored
-      }
-    });
+        try {
+          const response = await fetch(`/content/fr/dictionary/${theme}.json`);
+          if (response.ok) {
+            const data = await response.json();
+            return Array.isArray(data) ? data : [];
+            // are ignored  // ✅ Maintenant c'est un vrai commentaire
+          }
+        } catch {
+          return [];
+        }
+      });
 
     const results = await Promise.all(promises);
     this.#entries = results.flat();
