@@ -1,0 +1,158 @@
+[
+  {
+    "id": "numbers_001",
+    "level": "A0",
+    "category": "numbers",
+    "pos": "nom",
+    "wordFr": "Un",
+    "wordMg": "Iray",
+    "phonetic": "/œ̃/",
+    "visual": { "icon": "1️⃣", "iconClass": "icon-one", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Un.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/numbers/un.mp3",
+      "estimatedDurationMs": 600
+    },
+    "context": {
+      "exampleFr": "J'ai un enfant.",
+      "exampleMg": "Zaza iray no mananako.",
+      "situation": "Compter ou exprimer une quantité simple."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Roa", "Telo", "Efatra"]
+    }
+  },
+  {
+    "id": "numbers_002",
+    "level": "A0",
+    "category": "numbers",
+    "pos": "nom",
+    "wordFr": "Deux",
+    "wordMg": "Roa",
+    "phonetic": "/dø/",
+    "visual": { "icon": "2️⃣", "iconClass": "icon-two", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Deux.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/numbers/deux.mp3",
+      "estimatedDurationMs": 600
+    },
+    "context": {
+      "exampleFr": "J'ai deux frères.",
+      "exampleMg": "Rahalay roa no mananako.",
+      "situation": "Compter les membres de la famille."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Iray", "Telo", "Dimy"]
+    }
+  },
+  {
+    "id": "numbers_003",
+    "level": "A0",
+    "category": "numbers",
+    "pos": "nom",
+    "wordFr": "Trois",
+    "wordMg": "Telo",
+    "phonetic": "/tʁwa/",
+    "visual": { "icon": "3️⃣", "iconClass": "icon-three", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Trois.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/numbers/trois.mp3",
+      "estimatedDurationMs": 600
+    },
+    "context": {
+      "exampleFr": "Il y a trois bananes.",
+      "exampleMg": "Akondro telo no misy.",
+      "situation": "Compter des objets au marché."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Roa", "Efatra", "Enina"]
+    }
+  },
+  {
+    "id": "numbers_004",
+    "level": "A0",
+    "category": "numbers",
+    "pos": "nom",
+    "wordFr": "Quatre",
+    "wordMg": "Efatra",
+    "phonetic": "/katʁ/",
+    "visual": { "icon": "4️⃣", "iconClass": "icon-four", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Quatre.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/numbers/quatre.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Il est quatre heures.",
+      "exampleMg": "Efatra ora.",
+      "situation": "Indiquer l'heure."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Telo", "Dimy", "Enina"]
+    }
+  },
+  {
+    "id": "numbers_005",
+    "level": "A0",
+    "category": "numbers",
+    "pos": "nom",
+    "wordFr": "Cinq",
+    "wordMg": "Dimy",
+    "phonetic": "/sɛ̃k/",
+    "visual": { "icon": "5️⃣", "iconClass": "icon-five", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Cinq.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/numbers/cinq.mp3",
+      "estimatedDurationMs": 600
+    },
+    "context": {
+      "exampleFr": "Cela coûte cinq cents Ariary.",
+      "exampleMg": "Dimy hatoa Ariary ny vidiny.",
+      "situation": "Exprimer un prix au marché."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Efatra", "Enina", "Iray"]
+    }
+  },
+  {
+    "id": "numbers_006",
+    "level": "A0",
+    "category": "numbers",
+    "pos": "nom",
+    "wordFr": "Six",
+    "wordMg": "Enina",
+    "phonetic": "/sis/",
+    "visual": { "icon": "6️⃣", "iconClass": "icon-six", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Six.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/numbers/six.mp3",
+      "estimatedDurationMs": 600
+    },
+    "context": {
+      "exampleFr": "J'ai six ans.",
+      "exampleMg": "Enina taona aho.",
+      "situation": "Exprimer son âge."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Dimy", "Telo", "Roa"]
+    }
+  }
+]
