@@ -30,7 +30,7 @@ window.teacherAvatar = teacherAvatar;
 // ═══════════════════════════════════════════════════════════
 // MODÈLE FREEMIUM : 5 premiers thèmes gratuits, les autres Premium
 // ═══════════════════════════════════════════════════════════
-let levelsConfig = null;
+let levelsConfig = null; // Sera chargé depuis levels.json
 
 function isThemeLocked(themeId, profile) {
   // Fallback si levels.json n'est pas encore chargé
