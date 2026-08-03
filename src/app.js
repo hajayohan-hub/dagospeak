@@ -23,6 +23,7 @@ import { DownloadProgress } from './ui/components/download-progress.js';
 import { FeedbackSounds } from './engines/audio/feedback-sounds.js';
 import { OnboardingScreen } from './ui/components/onboarding-screen.js';
 import { ConversationEngine } from './ui/components/conversation-engine.js';
+import { DictionarySearch } from './ui/components/dictionary-search.js';
 
 const teacherAvatar = new TeacherAvatar();
 window.teacherAvatar = teacherAvatar;
@@ -3779,21 +3780,33 @@ function renderFloatingHomeButtons() {
     <button id="btn-float-guide" style="background: var(--ds-color-primary, #2563eb); color: white; border: none; padding: 12px 20px; border-radius: 50px; font-weight: bold; font-size: 0.95rem; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 8px; min-width: 150px; justify-content: center;">
       ❓ Guide
     </button>
+        <button id="btn-float-dict" style="
+      background: var(--ds-color-accent, #E8A33D); color: white; border: none;
+      padding: 12px 20px; border-radius: 50px; font-weight: bold;
+      font-size: 0.95rem; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      display: flex; align-items: center; gap: 8px; min-width: 150px; justify-content: center;
+    ">📖 Dictionnaire</button>
   `;
 
   document.body.appendChild(container);
 
   // Action du bouton Commencer
-document.getElementById('btn-float-start').addEventListener('click', () => {
-  // ✅ PLUS DE REDIRECTION AUTOMATIQUE - Juste un message vocal
-  window.teacherAvatar.speak("Bienvenue ! Choisissez un niveau pour commencer votre apprentissage du français. Cliquez sur une carte de niveau.");
-  // Pas de setTimeout avec router.navigate()
-});
+  document.getElementById('btn-float-start').addEventListener('click', () => {
+    // ✅ PLUS DE REDIRECTION AUTOMATIQUE - Juste un message vocal
+    window.teacherAvatar.speak("Bienvenue ! Choisissez un niveau pour commencer votre apprentissage du français. Cliquez sur une carte de niveau.");
+    // Pas de setTimeout avec router.navigate()
+  });
 
   // Action du bouton Guide
   document.getElementById('btn-float-guide').addEventListener('click', () => {
     showAppGuide();
   });
+
+  // Dictionnaire intélligent
+  document.getElementById('btn-float-dict')?.addEventListener('click', () => {
+  router.navigate('/dictionary');
+  });
+
 }
 
 // ✅ MODAL DE GUIDE D'UTILISATION (Version blindée)
@@ -4040,6 +4053,14 @@ async function renderConversation() {
   }
 }
 
+  // ═══════════════════════════════════════════════════════════
+// VUE : DICTIONNAIRE INTELLIGENT FR↔MG
+// ═══════════════════════════════════════════════════════════
+async function renderDictionary() {
+  const dict = new DictionarySearch('app');
+  await dict.init();
+}
+
 
 // ═══════════════════════════════════════════════════════════
 // ROUTEUR & DÉMARRAGE (Onboarding temporairement désactivé)
@@ -4058,6 +4079,7 @@ router.addRoute('/challenge', renderChallenge);
 router.addRoute('/about', renderAbout);
 router.addRoute('/alphabet', renderAlphabet);  // ✅ AJOUTER
 router.addRoute('/conversation', renderConversation);
+router.addRoute('/dictionary', renderDictionary);
 
 initTheme();
 updateLevelUI();
