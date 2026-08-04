@@ -1,0 +1,158 @@
+[
+  {
+    "id": "body_001",
+    "level": "A0",
+    "category": "body",
+    "pos": "nom",
+    "wordFr": "Tête",
+    "wordMg": "Loha",
+    "phonetic": "/tɛt/",
+    "visual": { "icon": "🗣️", "iconClass": "icon-head", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "La tête.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/body/tete.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "J'ai mal à la tête.",
+      "exampleMg": "Mianjera ny lohako.",
+      "situation": "Exprimer une douleur à la tête (maux de tête)."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Tànana", "Tongotra", "Maso"]
+    }
+  },
+  {
+    "id": "body_002",
+    "level": "A0",
+    "category": "body",
+    "pos": "nom",
+    "wordFr": "Main",
+    "wordMg": "Tànana",
+    "phonetic": "/mɛ̃/",
+    "visual": { "icon": "✋", "iconClass": "icon-hand", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "La main.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/body/main.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Lavez-vous les mains.",
+      "exampleMg": "Sasao ny tananao.",
+      "situation": "Instruction d'hygiène (se laver les mains)."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Loha", "Tongotra", "Vava"]
+    }
+  },
+  {
+    "id": "body_003",
+    "level": "A0",
+    "category": "body",
+    "pos": "nom",
+    "wordFr": "Pied",
+    "wordMg": "Tongotra",
+    "phonetic": "/pje/",
+    "visual": { "icon": "🦶", "iconClass": "icon-foot", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Le pied.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/body/pied.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Je marche à pied.",
+      "exampleMg": "Mandeha an-tongotra aho.",
+      "situation": "Parler du mode de déplacement."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Tànana", "Loha", "Sofina"]
+    }
+  },
+  {
+    "id": "body_004",
+    "level": "A0",
+    "category": "body",
+    "pos": "nom",
+    "wordFr": "Yeux",
+    "wordMg": "Maso",
+    "phonetic": "/jø/",
+    "visual": { "icon": "👁️", "iconClass": "icon-eyes", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Les yeux.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/body/yeux.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Elle a les yeux bleus.",
+      "exampleMg": "Manga ny masony.",
+      "situation": "Décrire la couleur des yeux."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Vava", "Sofina", "Tànana"]
+    }
+  },
+  {
+    "id": "body_005",
+    "level": "A0",
+    "category": "body",
+    "pos": "nom",
+    "wordFr": "Bouche",
+    "wordMg": "Vava",
+    "phonetic": "/buʃ/",
+    "visual": { "icon": "👄", "iconClass": "icon-mouth", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "La bouche.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/body/bouche.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Ouvre la bouche.",
+      "exampleMg": "Sokafy ny vavao.",
+      "situation": "Chez le médecin ou le dentiste."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Maso", "Sofina", "Loha"]
+    }
+  },
+  {
+    "id": "body_006",
+    "level": "A0",
+    "category": "body",
+    "pos": "nom",
+    "wordFr": "Oreille",
+    "wordMg": "Sofina",
+    "phonetic": "/ɔ.ʁɛj/",
+    "visual": { "icon": "👂", "iconClass": "icon-ear", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "L'oreille.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/body/oreille.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "J'ai mal à l'oreille.",
+      "exampleMg": "Mianjera ny sofiko.",
+      "situation": "Exprimer une douleur à l'oreille."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Maso", "Vava", "Tongotra"]
+    }
+  }
+]
