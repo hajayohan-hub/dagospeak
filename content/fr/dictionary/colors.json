@@ -1,0 +1,158 @@
+[
+  {
+    "id": "colors_001",
+    "level": "A0",
+    "category": "colors",
+    "pos": "adjectif",
+    "wordFr": "Rouge",
+    "wordMg": "Mena",
+    "phonetic": "/ʁuʒ/",
+    "visual": { "icon": "🔴", "iconClass": "icon-red", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Rouge.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/colors/rouge.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "La voiture est rouge.",
+      "exampleMg": "Mena ny fiara.",
+      "situation": "Décrire la couleur d'un objet."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Manga", "Maitso", "Mavo"]
+    }
+  },
+  {
+    "id": "colors_002",
+    "level": "A0",
+    "category": "colors",
+    "pos": "adjectif",
+    "wordFr": "Bleu",
+    "wordMg": "Manga",
+    "phonetic": "/blø/",
+    "visual": { "icon": "🔵", "iconClass": "icon-blue", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Bleu.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/colors/bleu.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Le ciel est bleu.",
+      "exampleMg": "Manga ny lanitra.",
+      "situation": "Décrire le ciel ou la mer."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Mena", "Maitso", "Fotsy"]
+    }
+  },
+  {
+    "id": "colors_003",
+    "level": "A0",
+    "category": "colors",
+    "pos": "adjectif",
+    "wordFr": "Vert",
+    "wordMg": "Maitso",
+    "phonetic": "/vɛʁ/",
+    "visual": { "icon": "🟢", "iconClass": "icon-green", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Vert.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/colors/vert.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "L'herbe est verte.",
+      "exampleMg": "Maitso ny ahitra.",
+      "situation": "Décrire la nature."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Mena", "Manga", "Mainty"]
+    }
+  },
+  {
+    "id": "colors_004",
+    "level": "A0",
+    "category": "colors",
+    "pos": "adjectif",
+    "wordFr": "Jaune",
+    "wordMg": "Mavo",
+    "phonetic": "/ʒon/",
+    "visual": { "icon": "🟡", "iconClass": "icon-yellow", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Jaune.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/colors/jaune.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Le soleil est jaune.",
+      "exampleMg": "Mavo ny masoandro.",
+      "situation": "Décrire le soleil ou un fruit."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Mena", "Maitso", "Fotsy"]
+    }
+  },
+  {
+    "id": "colors_005",
+    "level": "A0",
+    "category": "colors",
+    "pos": "adjectif",
+    "wordFr": "Noir",
+    "wordMg": "Mainty",
+    "phonetic": "/nwaʁ/",
+    "visual": { "icon": "⚫", "iconClass": "icon-black", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Noir.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/colors/noir.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "La nuit est noire.",
+      "exampleMg": "Mainty ny alina.",
+      "situation": "Décrire l'obscurité ou un objet sombre."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Fotsy", "Mena", "Manga"]
+    }
+  },
+  {
+    "id": "colors_006",
+    "level": "A0",
+    "category": "colors",
+    "pos": "adjectif",
+    "wordFr": "Blanc",
+    "wordMg": "Fotsy",
+    "phonetic": "/blɑ̃/",
+    "visual": { "icon": "⚪", "iconClass": "icon-white", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Blanc.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/colors/blanc.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "La neige est blanche.",
+      "exampleMg": "Fotsy ny oram-panala.",
+      "situation": "Décrire la neige ou un objet clair."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Mainty", "Mena", "Mavo"]
+    }
+  }
+]
