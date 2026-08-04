@@ -1,0 +1,314 @@
+[
+  {
+    "id": "months_001",
+    "level": "A0",
+    "category": "months",
+    "pos": "nom",
+    "wordFr": "Janvier",
+    "wordMg": "Janoary",
+    "phonetic": "/ʒɑ̃.vje/",
+    "visual": { "icon": "🗓️", "iconClass": "icon-january", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Janvier.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/months/janvier.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Je suis né en janvier.",
+      "exampleMg": "Tamin'ny janoary aho no teraka.",
+      "situation": "Parler de sa date de naissance."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Febroary", "Jona", "Desambra"]
+    }
+  },
+  {
+    "id": "months_002",
+    "level": "A0",
+    "category": "months",
+    "pos": "nom",
+    "wordFr": "Février",
+    "wordMg": "Febroary",
+    "phonetic": "/fe.vʁi.je/",
+    "visual": { "icon": "🗓️", "iconClass": "icon-february", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Février.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/months/fevrier.mp3",
+      "estimatedDurationMs": 800
+    },
+    "context": {
+      "exampleFr": "Février est le mois de l'amour.",
+      "exampleMg": "Febroary no volan'ny fitiavana.",
+      "situation": "Parler de la Saint-Valentin (14 février)."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Janoary", "Martsa", "Oktobra"]
+    }
+  },
+  {
+    "id": "months_003",
+    "level": "A0",
+    "category": "months",
+    "pos": "nom",
+    "wordFr": "Mars",
+    "wordMg": "Martsa",
+    "phonetic": "/maʁs/",
+    "visual": { "icon": "🗓️", "iconClass": "icon-march", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Mars.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/months/mars.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Le printemps commence en mars.",
+      "exampleMg": "Miroborobo ny lohatao amin'ny martsa.",
+      "situation": "Parler des saisons."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Febroary", "Aprily", "Septambra"]
+    }
+  },
+  {
+    "id": "months_004",
+    "level": "A0",
+    "category": "months",
+    "pos": "nom",
+    "wordFr": "Avril",
+    "wordMg": "Aprily",
+    "phonetic": "/a.vʁil/",
+    "visual": { "icon": "🗓️", "iconClass": "icon-april", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Avril.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/months/avril.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Le premier avril est le jour des poissons.",
+      "exampleMg": "Ny voalohany aprily no andron'ny trondro.",
+      "situation": "Parler du poisson d'avril (1er avril)."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Martsa", "Mey", "Novambra"]
+    }
+  },
+  {
+    "id": "months_005",
+    "level": "A0",
+    "category": "months",
+    "pos": "nom",
+    "wordFr": "Mai",
+    "wordMg": "Mey",
+    "phonetic": "/mɛ/",
+    "visual": { "icon": "🗓️", "iconClass": "icon-may", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Mai.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/months/mai.mp3",
+      "estimatedDurationMs": 600
+    },
+    "context": {
+      "exampleFr": "Le premier mai est la fête du travail.",
+      "exampleMg": "Ny voalohany mey no fetin'ny asa.",
+      "situation": "Parler de la fête du Travail (1er mai)."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Aprily", "Jona", "Desambra"]
+    }
+  },
+  {
+    "id": "months_006",
+    "level": "A0",
+    "category": "months",
+    "pos": "nom",
+    "wordFr": "Juin",
+    "wordMg": "Jona",
+    "phonetic": "/ʒɥɛ̃/",
+    "visual": { "icon": "🗓️", "iconClass": "icon-june", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Juin.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/months/juin.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Les vacances commencent en juin.",
+      "exampleMg": "Manomboka amin'ny jona ny fialan-tsasatra.",
+      "situation": "Parler des vacances scolaires."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Mey", "Jolay", "Oktobra"]
+    }
+  },
+  {
+    "id": "months_007",
+    "level": "A0",
+    "category": "months",
+    "pos": "nom",
+    "wordFr": "Juillet",
+    "wordMg": "Jolay",
+    "phonetic": "/ʒɥi.jɛ/",
+    "visual": { "icon": "🗓️", "iconClass": "icon-july", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Juillet.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/months/juillet.mp3",
+      "estimatedDurationMs": 800
+    },
+    "context": {
+      "exampleFr": "Le quatorze juillet est la fête nationale.",
+      "exampleMg": "Ny efatra ambin'ny folo jolay no fetim-pirenena.",
+      "situation": "Parler de la fête nationale française (14 juillet)."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Jona", "Aogositra", "Janoary"]
+    }
+  },
+  {
+    "id": "months_008",
+    "level": "A0",
+    "category": "months",
+    "pos": "nom",
+    "wordFr": "Août",
+    "wordMg": "Aogositra",
+    "phonetic": "/ut/",
+    "visual": { "icon": "🗓️", "iconClass": "icon-august", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Août.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/months/aout.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Je pars en vacances en août.",
+      "exampleMg": "Miala sasatra amin'ny aogositra aho.",
+      "situation": "Parler des vacances d'été."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Jolay", "Septambra", "Febroary"]
+    }
+  },
+  {
+    "id": "months_009",
+    "level": "A0",
+    "category": "months",
+    "pos": "nom",
+    "wordFr": "Septembre",
+    "wordMg": "Septambra",
+    "phonetic": "/sɛp.tɑ̃bʁ/",
+    "visual": { "icon": "🗓️", "iconClass": "icon-september", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Septembre.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/months/septembre.mp3",
+      "estimatedDurationMs": 900
+    },
+    "context": {
+      "exampleFr": "L'école recommence en septembre.",
+      "exampleMg": "Miverina mianatra amin'ny septambra.",
+      "situation": "Parler de la rentrée scolaire."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Aogositra", "Oktobra", "Martsa"]
+    }
+  },
+  {
+    "id": "months_010",
+    "level": "A0",
+    "category": "months",
+    "pos": "nom",
+    "wordFr": "Octobre",
+    "wordMg": "Oktobra",
+    "phonetic": "/ɔk.tɔbʁ/",
+    "visual": { "icon": "🗓️", "iconClass": "icon-october", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Octobre.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/months/octobre.mp3",
+      "estimatedDurationMs": 800
+    },
+    "context": {
+      "exampleFr": "Octobre est le mois de la récolte.",
+      "exampleMg": "Oktobra no volan'ny fijinjana.",
+      "situation": "Parler des saisons et de l'agriculture."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Septambra", "Novambra", "Aprily"]
+    }
+  },
+  {
+    "id": "months_011",
+    "level": "A0",
+    "category": "months",
+    "pos": "nom",
+    "wordFr": "Novembre",
+    "wordMg": "Novambra",
+    "phonetic": "/nɔ.vɑ̃bʁ/",
+    "visual": { "icon": "🗓️", "iconClass": "icon-november", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Novembre.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/months/novembre.mp3",
+      "estimatedDurationMs": 800
+    },
+    "context": {
+      "exampleFr": "Le premier novembre est la Toussaint.",
+      "exampleMg": "Ny voalohany novambra no fetin'ny olo-masina.",
+      "situation": "Parler de la Toussaint (1er novembre)."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Oktobra", "Desambra", "Jona"]
+    }
+  },
+  {
+    "id": "months_012",
+    "level": "A0",
+    "category": "months",
+    "pos": "nom",
+    "wordFr": "Décembre",
+    "wordMg": "Desambra",
+    "phonetic": "/de.sɑ̃bʁ/",
+    "visual": { "icon": "🎄", "iconClass": "icon-december", "svgState": "happy" },
+    "audio": {
+      "ttsTextFr": "Décembre.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/months/decembre.mp3",
+      "estimatedDurationMs": 800
+    },
+    "context": {
+      "exampleFr": "Noël est le vingt-cinq décembre.",
+      "exampleMg": "Ny Krismasy no amin'ny roa amby efatra desambra.",
+      "situation": "Parler de Noël (25 décembre)."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Novambra", "Janoary", "Jolay"]
+    }
+  }
+]
