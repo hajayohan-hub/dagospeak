@@ -1,0 +1,340 @@
+[
+  {
+    "id": "alphabet1_001",
+    "level": "A0",
+    "category": "alphabet1",
+    "pos": "lettre",
+    "wordFr": "A",
+    "wordMg": "A",
+    "phonetic": "/a/",
+    "visual": { "icon": "🅰️", "iconClass": "icon-letter-a", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "A.",
+      "ttsRate": 0.8,
+      "fallbackMp3": "/assets/audio/fr/alphabet1/a.mp3",
+      "estimatedDurationMs": 500
+    },
+    "context": {
+      "exampleFr": "A comme Avion.",
+      "exampleMg": "A ho an'ny Fiaramanidina.",
+      "situation": "Apprendre la lettre A avec un mot associé."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["B", "C", "D"]
+    }
+  },
+  {
+    "id": "alphabet1_002",
+    "level": "A0",
+    "category": "alphabet1",
+    "pos": "lettre",
+    "wordFr": "B",
+    "wordMg": "Bé",
+    "phonetic": "/be/",
+    "visual": { "icon": "🅱️", "iconClass": "icon-letter-b", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "B.",
+      "ttsRate": 0.8,
+      "fallbackMp3": "/assets/audio/fr/alphabet1/b.mp3",
+      "estimatedDurationMs": 500
+    },
+    "context": {
+      "exampleFr": "B comme Banane.",
+      "exampleMg": "B ho an'ny Akondro.",
+      "situation": "Apprendre la lettre B avec un mot associé."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["A", "P", "D"]
+    }
+  },
+  {
+    "id": "alphabet1_003",
+    "level": "A0",
+    "category": "alphabet1",
+    "pos": "lettre",
+    "wordFr": "C",
+    "wordMg": "Sé",
+    "phonetic": "/se/",
+    "visual": { "icon": "©️", "iconClass": "icon-letter-c", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "C.",
+      "ttsRate": 0.8,
+      "fallbackMp3": "/assets/audio/fr/alphabet1/c.mp3",
+      "estimatedDurationMs": 500
+    },
+    "context": {
+      "exampleFr": "C comme Chat.",
+      "exampleMg": "C ho an'ny Saka.",
+      "situation": "Apprendre la lettre C avec un mot associé."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["K", "S", "G"]
+    }
+  },
+  {
+    "id": "alphabet1_004",
+    "level": "A0",
+    "category": "alphabet1",
+    "pos": "lettre",
+    "wordFr": "D",
+    "wordMg": "Dé",
+    "phonetic": "/de/",
+    "visual": { "icon": "🎲", "iconClass": "icon-letter-d", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "D.",
+      "ttsRate": 0.8,
+      "fallbackMp3": "/assets/audio/fr/alphabet1/d.mp3",
+      "estimatedDurationMs": 500
+    },
+    "context": {
+      "exampleFr": "D comme Dictionnaire.",
+      "exampleMg": "D ho an'ny Rakibolana.",
+      "situation": "Apprendre la lettre D avec un mot associé."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["T", "B", "P"]
+    }
+  },
+  {
+    "id": "alphabet1_005",
+    "level": "A0",
+    "category": "alphabet1",
+    "pos": "lettre",
+    "wordFr": "E",
+    "wordMg": "Euh",
+    "phonetic": "/ə/",
+    "visual": { "icon": "📧", "iconClass": "icon-letter-e", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "E.",
+      "ttsRate": 0.8,
+      "fallbackMp3": "/assets/audio/fr/alphabet1/e.mp3",
+      "estimatedDurationMs": 500
+    },
+    "context": {
+      "exampleFr": "E comme École.",
+      "exampleMg": "E ho an'ny Sekoly.",
+      "situation": "Apprendre la lettre E avec un mot associé."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["A", "I", "O"]
+    }
+  },
+  {
+    "id": "alphabet1_006",
+    "level": "A0",
+    "category": "alphabet1",
+    "pos": "lettre",
+    "wordFr": "F",
+    "wordMg": "Èf",
+    "phonetic": "/ɛf/",
+    "visual": { "icon": "🎏", "iconClass": "icon-letter-f", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "F.",
+      "ttsRate": 0.8,
+      "fallbackMp3": "/assets/audio/fr/alphabet1/f.mp3",
+      "estimatedDurationMs": 500
+    },
+    "context": {
+      "exampleFr": "F comme Famille.",
+      "exampleMg": "F ho an'ny Fianakaviana.",
+      "situation": "Apprendre la lettre F avec un mot associé."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["V", "P", "S"]
+    }
+  },
+  {
+    "id": "alphabet1_007",
+    "level": "A0",
+    "category": "alphabet1",
+    "pos": "lettre",
+    "wordFr": "G",
+    "wordMg": "Jé",
+    "phonetic": "/ʒe/",
+    "visual": { "icon": "🚂", "iconClass": "icon-letter-g", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "G.",
+      "ttsRate": 0.8,
+      "fallbackMp3": "/assets/audio/fr/alphabet1/g.mp3",
+      "estimatedDurationMs": 500
+    },
+    "context": {
+      "exampleFr": "G comme Gare.",
+      "exampleMg": "G ho an'ny Fiantsonan'ny fiaran-dalamby.",
+      "situation": "Apprendre la lettre G avec un mot associé."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["J", "K", "C"]
+    }
+  },
+  {
+    "id": "alphabet1_008",
+    "level": "A0",
+    "category": "alphabet1",
+    "pos": "lettre",
+    "wordFr": "H",
+    "wordMg": "Ash",
+    "phonetic": "/aʃ/",
+    "visual": { "icon": "🏥", "iconClass": "icon-letter-h", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "H.",
+      "ttsRate": 0.8,
+      "fallbackMp3": "/assets/audio/fr/alphabet1/h.mp3",
+      "estimatedDurationMs": 500
+    },
+    "context": {
+      "exampleFr": "H comme Hôpital.",
+      "exampleMg": "H ho an'ny Hopitaly.",
+      "situation": "Apprendre la lettre H avec un mot associé."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["A", "N", "X"]
+    }
+  },
+  {
+    "id": "alphabet1_009",
+    "level": "A0",
+    "category": "alphabet1",
+    "pos": "lettre",
+    "wordFr": "I",
+    "wordMg": "I",
+    "phonetic": "/i/",
+    "visual": { "icon": "ℹ️", "iconClass": "icon-letter-i", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "I.",
+      "ttsRate": 0.8,
+      "fallbackMp3": "/assets/audio/fr/alphabet1/i.mp3",
+      "estimatedDurationMs": 500
+    },
+    "context": {
+      "exampleFr": "I comme Île.",
+      "exampleMg": "I ho an'ny Nosy.",
+      "situation": "Apprendre la lettre I avec un mot associé."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["E", "Y", "U"]
+    }
+  },
+  {
+    "id": "alphabet1_010",
+    "level": "A0",
+    "category": "alphabet1",
+    "pos": "lettre",
+    "wordFr": "J",
+    "wordMg": "Ji",
+    "phonetic": "/ʒi/",
+    "visual": { "icon": "📅", "iconClass": "icon-letter-j", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "J.",
+      "ttsRate": 0.8,
+      "fallbackMp3": "/assets/audio/fr/alphabet1/j.mp3",
+      "estimatedDurationMs": 500
+    },
+    "context": {
+      "exampleFr": "J comme Jour.",
+      "exampleMg": "J ho an'ny Andro.",
+      "situation": "Apprendre la lettre J avec un mot associé."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["G", "D", "S"]
+    }
+  },
+  {
+    "id": "alphabet1_011",
+    "level": "A0",
+    "category": "alphabet1",
+    "pos": "lettre",
+    "wordFr": "K",
+    "wordMg": "Ka",
+    "phonetic": "/ka/",
+    "visual": { "icon": "🛖", "iconClass": "icon-letter-k", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "K.",
+      "ttsRate": 0.8,
+      "fallbackMp3": "/assets/audio/fr/alphabet1/k.mp3",
+      "estimatedDurationMs": 500
+    },
+    "context": {
+      "exampleFr": "K comme Kiosque.",
+      "exampleMg": "K ho an'ny Kiosque.",
+      "situation": "Apprendre la lettre K avec un mot associé."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["C", "Q", "G"]
+    }
+  },
+  {
+    "id": "alphabet1_012",
+    "level": "A0",
+    "category": "alphabet1",
+    "pos": "lettre",
+    "wordFr": "L",
+    "wordMg": "Èl",
+    "phonetic": "/ɛl/",
+    "visual": { "icon": "📖", "iconClass": "icon-letter-l", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "L.",
+      "ttsRate": 0.8,
+      "fallbackMp3": "/assets/audio/fr/alphabet1/l.mp3",
+      "estimatedDurationMs": 500
+    },
+    "context": {
+      "exampleFr": "L comme Livre.",
+      "exampleMg": "L ho an'ny Boky.",
+      "situation": "Apprendre la lettre L avec un mot associé."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["R", "I", "M"]
+    }
+  },
+  {
+    "id": "alphabet1_013",
+    "level": "A0",
+    "category": "alphabet1",
+    "pos": "lettre",
+    "wordFr": "M",
+    "wordMg": "Èm",
+    "phonetic": "/ɛm/",
+    "visual": { "icon": "🛒", "iconClass": "icon-letter-m", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "M.",
+      "ttsRate": 0.8,
+      "fallbackMp3": "/assets/audio/fr/alphabet1/m.mp3",
+      "estimatedDurationMs": 500
+    },
+    "context": {
+      "exampleFr": "M comme Marché.",
+      "exampleMg": "M ho an'ny Tsena.",
+      "situation": "Apprendre la lettre M avec un mot associé."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["N", "L", "P"]
+    }
+  }
+]
