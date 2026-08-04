@@ -1,0 +1,158 @@
+[
+  {
+    "id": "greetings_001",
+    "level": "A0",
+    "category": "greetings",
+    "pos": "interjection",
+    "wordFr": "Bonjour",
+    "wordMg": "Manahoana",
+    "phonetic": "/bɔ̃.ʒuʁ/",
+    "visual": { "icon": "👋", "iconClass": "icon-hello", "svgState": "smile" },
+    "audio": {
+      "ttsTextFr": "Bonjour.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/greetings/bonjour.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Bonjour, comment allez-vous ?",
+      "exampleMg": "Manahoana, manao ahoana ianao ?",
+      "situation": "Saluer quelqu'un en journée."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Veloma", "Misaotra", "Azafady"]
+    }
+  },
+  {
+    "id": "greetings_002",
+    "level": "A0",
+    "category": "greetings",
+    "pos": "interjection",
+    "wordFr": "Bonsoir",
+    "wordMg": "Tsara hariva",
+    "phonetic": "/bɔ̃.swaʁ/",
+    "visual": { "icon": "🌙", "iconClass": "icon-evening", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Bonsoir.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/greetings/bonsoir.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Bonsoir, bonne nuit.",
+      "exampleMg": "Tsara hariva, matory tsara.",
+      "situation": "Saluer quelqu'un en fin de journée ou le soir."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Manahoana", "Veloma", "Salama"]
+    }
+  },
+  {
+    "id": "greetings_003",
+    "level": "A0",
+    "category": "greetings",
+    "pos": "nom",
+    "wordFr": "Merci",
+    "wordMg": "Misaotra",
+    "phonetic": "/mɛʁ.si/",
+    "visual": { "icon": "🙏", "iconClass": "icon-thanks", "svgState": "happy" },
+    "audio": {
+      "ttsTextFr": "Merci.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/greetings/merci.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Merci beaucoup.",
+      "exampleMg": "Misaotra betsaka.",
+      "situation": "Remercier quelqu'un pour un service ou un cadeau."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Azafady", "Eny", "Veloma"]
+    }
+  },
+  {
+    "id": "greetings_004",
+    "level": "A0",
+    "category": "greetings",
+    "pos": "locution",
+    "wordFr": "S'il vous plaît",
+    "wordMg": "Azafady",
+    "phonetic": "/sil vu plɛ/",
+    "visual": { "icon": "🤲", "iconClass": "icon-please", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "S'il vous plaît.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/greetings/svp.mp3",
+      "estimatedDurationMs": 900
+    },
+    "context": {
+      "exampleFr": "Un verre d'eau, s'il vous plaît.",
+      "exampleMg": "Rano iray, azafady.",
+      "situation": "Faire une demande polie."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Misaotra", "Eny", "Veloma"]
+    }
+  },
+  {
+    "id": "greetings_005",
+    "level": "A0",
+    "category": "greetings",
+    "pos": "interjection",
+    "wordFr": "Au revoir",
+    "wordMg": "Veloma",
+    "phonetic": "/o ʁə.vwaʁ/",
+    "visual": { "icon": "👋🚶", "iconClass": "icon-goodbye", "svgState": "smile" },
+    "audio": {
+      "ttsTextFr": "Au revoir.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/greetings/aurevoir.mp3",
+      "estimatedDurationMs": 800
+    },
+    "context": {
+      "exampleFr": "Au revoir, à demain.",
+      "exampleMg": "Veloma, rahampitso.",
+      "situation": "Prendre congé de quelqu'un."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Manahoana", "Misaotra", "Salama"]
+    }
+  },
+  {
+    "id": "greetings_006",
+    "level": "A0",
+    "category": "greetings",
+    "pos": "interjection",
+    "wordFr": "Salut",
+    "wordMg": "Salama",
+    "phonetic": "/sa.ly/",
+    "visual": { "icon": "✌️", "iconClass": "icon-hi", "svgState": "happy" },
+    "audio": {
+      "ttsTextFr": "Salut.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/greetings/salut.mp3",
+      "estimatedDurationMs": 600
+    },
+    "context": {
+      "exampleFr": "Salut, ça va ?",
+      "exampleMg": "Salama, manao ahoana ?",
+      "situation": "Saluer un ami ou un proche de manière informelle."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "distractors": ["Veloma", "Misaotra", "Azafady"]
+    }
+  }
+]
