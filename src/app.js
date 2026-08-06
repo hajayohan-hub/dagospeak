@@ -1621,20 +1621,21 @@ async function renderAlphabet() {
     });
 
     // Bouton vers partie 2 ou premier thème
-    const btnNext = document.getElementById(isPart1 ? 'btn-go-part2' : 'btn-go-first-theme');
-    if (btnNext) {
-      btnNext.addEventListener('click', () => {
-        if (isPart1) {
-          currentTheme = 'alphabet2';
-          localStorage.setItem('dagospeak:theme', currentTheme);
-          router.navigate('/alphabet');
-        } else {
-          currentTheme = 'survival';
-          localStorage.setItem('dagospeak:theme', currentTheme);
-          router.navigate('/theme-detail');
-        }
-      });
-    }
+   const btnNext = document.getElementById(isPart1 ? 'btn-go-part2' : 'btn-go-first-theme');
+      if (btnNext) {
+        btnNext.addEventListener('click', () => {
+          if (isPart1) {
+            currentTheme = 'alphabet2';
+            localStorage.setItem('dagospeak:theme', currentTheme);
+            // ✅ Appel direct de renderAlphabet() pour re-rendre avec le nouveau thème
+            renderAlphabet();
+          } else {
+            currentTheme = 'survival';
+            localStorage.setItem('dagospeak:theme', currentTheme);
+            router.navigate('/theme-detail');
+          }
+        });
+      }
 
     window.teacherAvatar.show('lesson');
     setTimeout(() => {
