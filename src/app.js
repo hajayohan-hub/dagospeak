@@ -1336,8 +1336,8 @@ async function renderLessonPhrases() {
 }
 
 
-  // ═══════════════════════════════════════════════════════════
-// VUE : ALPHABET (Écoute et répétition uniquement - pas de révision/dialogue)
+ // ═══════════════════════════════════════════════════════════
+// VUE : ALPHABET (Écoute et répétition - Version améliorée)
 // ═══════════════════════════════════════════════════════════
 async function renderAlphabet() {
   const main = document.getElementById('app');
@@ -1350,52 +1350,95 @@ async function renderAlphabet() {
 
     const vocabData = await content.loadSection('fr', 'vocabulary', currentTheme);
     const isPart1 = currentTheme === 'alphabet1';
-    const nextPart = isPart1 ? 'alphabet2' : null;
-
     const title = isPart1 ? 'Alphabet - Partie 1 (A-M)' : 'Alphabet - Partie 2 (N-Z)';
     const titleMg = isPart1 ? 'Alfabe - Ampahany 1 (A-M)' : 'Alfabe - Ampahany 2 (N-Z)';
+
+    // ✅ COULEURS ATTRAYANTES POUR CHAQUE LETTRE (cycle de 8 couleurs)
+    const letterColors = [
+      '#ef4444', '#f97316', '#eab308', '#22c55e',
+      '#06b6d4', '#3b82f6', '#8b5cf6', '#ec4899'
+    ];
+
+    // ✅ FONCTION HELPER : Récupérer la lettre (supporte ancien + nouveau format)
+    const getLetter = (item) => item.target || item.wordFr || '?';
+    const getPhonetic = (item) => item.phonetic || '';
+    const getContext = (item) => item.context || '';
+    const getContextTranslation = (item) => item.contextTranslation || item.context?.exampleMg || '';
+    const getAudioText = (item) => item.audio?.ttsTextFr || item.target || item.wordFr || '';
 
     main.innerHTML = `
       <section style="max-width: 800px; margin: 0 auto; padding: 2rem 1rem;">
         <ds-button variant="ghost" size="sm" id="btn-back" style="margin-bottom: 1rem;">← Retour aux thèmes</ds-button>
+
         <div style="text-align:center; margin-bottom: 1.5rem;">
           <span style="background:var(--ds-color-accent); color:white; padding:4px 12px; border-radius:20px; font-weight:600; font-size:0.8rem;">Niveau A0</span>
         </div>
-        <h2 style="text-align:center; margin-bottom: 0.5rem;">🔤 ${title}</h2>
+
+        <h2 class="alphabet-title-float" style="text-align:center; margin-bottom: 0.5rem;">🔤 ${title}</h2>
         <p style="text-align:center; color:var(--ds-color-text-muted); font-style:italic; margin-bottom: 2rem;">${titleMg}</p>
 
-        <div style="background:var(--ds-color-primary-soft); padding:1rem; border-radius:var(--ds-radius-md); margin-bottom:2rem; text-align:center; border:1px solid var(--ds-color-primary);">
+        <div class="alphabet-instruction-bounce" style="background:var(--ds-color-primary-soft); padding:1rem; border-radius:var(--ds-radius-md); margin-bottom:2rem; text-align:center; border:1px solid var(--ds-color-primary);">
           <p style="margin:0; color:var(--ds-color-primary); font-weight:600;">
-             Cliquez sur chaque carte pour écouter et répéter la lettre
+            👆 Tsindrio ny karatra tsirairay hihainoana sy hamerena ny litera
           </p>
           <p style="margin:0.25rem 0 0 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">
-            (Tsindrio ny karatra tsirairay hihainoana sy hamerena ny litera)
+            (Cliquez sur chaque carte pour écouter et répéter la lettre)
           </p>
         </div>
 
         <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap:1rem;">
-          ${vocabData.items.map((item, idx) => `
-            <div class="alphabet-card card-animate" data-index="${idx}" style="
-              background:var(--ds-color-surface);
-              padding:1rem;
-              border-radius:var(--ds-radius-md);
-              border:2px solid var(--ds-color-border);
-              cursor:pointer;
-              transition: all 0.3s;
-              text-align:center;
-            ">
-              <div style="font-size:2.5rem; margin-bottom:0.5rem;">${item.icon}</div>
-              <div style="font-size:1.8rem; font-weight:bold; color:var(--ds-color-primary); margin-bottom:0.25rem;">${item.target}</div>
-              <div style="font-size:0.8rem; color:var(--ds-color-accent); font-family:monospace; margin-bottom:0.5rem;">[${item.phonetic}]</div>
-              <div style="font-size:0.85rem; font-weight:600; color:var(--ds-color-text); margin-bottom:0.25rem;">${item.context}</div>
-              <div style="font-size:0.75rem; color:var(--ds-color-text-muted); font-style:italic;">${item.contextTranslation}</div>
-              <div class="listen-indicator" style="margin-top:0.5rem; font-size:1.2rem; opacity:0.3;"></div>
-            </div>
-          `).join('')}
+          ${vocabData.items.map((item, idx) => {
+            const letter = getLetter(item);
+            const phonetic = getPhonetic(item);
+            const context = getContext(item);
+            const contextTranslation = getContextTranslation(item);
+            const color = letterColors[idx % letterColors.length];
+
+            return `
+              <div class="alphabet-card card-animate" data-index="${idx}" data-letter="${letter}" style="
+                background:var(--ds-color-surface);
+                padding:1.2rem 0.8rem;
+                border-radius:var(--ds-radius-md);
+                border:3px solid var(--ds-color-border);
+                cursor:pointer;
+                transition: all 0.3s ease;
+                text-align:center;
+                position:relative;
+                overflow:hidden;
+                animation: cardAppear 0.5s ease-out ${idx * 0.05}s both;
+              ">
+                <!-- ✅ LETTRE STYLISÉE (plus fiable que les emojis) -->
+                <div class="letter-display" style="
+                  width:70px; height:70px; margin:0 auto 0.5rem auto;
+                  background: linear-gradient(135deg, ${color} 0%, ${color}dd 100%);
+                  color:white;
+                  border-radius:16px;
+                  display:flex; align-items:center; justify-content:center;
+                  font-size:2.5rem; font-weight:900;
+                  box-shadow: 0 4px 12px ${color}66;
+                  font-family: 'Arial Black', sans-serif;
+                  letter-spacing:-2px;
+                ">${letter}</div>
+
+                <div style="font-size:0.8rem; color:var(--ds-color-accent); font-family:monospace; margin-bottom:0.5rem; font-weight:600;">
+                  [${phonetic}]
+                </div>
+
+                <div style="font-size:0.85rem; font-weight:600; color:var(--ds-color-text); margin-bottom:0.25rem; line-height:1.3;">
+                  ${context}
+                </div>
+                <div style="font-size:0.75rem; color:var(--ds-color-text-muted); font-style:italic; line-height:1.3;">
+                  ${contextTranslation}
+                </div>
+
+                <div class="listen-indicator" style="margin-top:0.5rem; font-size:1.2rem; opacity:0.3; transition: all 0.3s;">🔊</div>
+              </div>
+            `;
+          }).join('')}
         </div>
 
         <div id="alphabet-complete-section" style="display:none; margin-top:2rem; text-align:center;">
-          <div style="background:var(--ds-color-success-soft); padding:1.5rem; border-radius:var(--ds-radius-lg); border:2px solid var(--ds-color-success); margin-bottom:1rem;">
+          <div class="celebration-bounce" style="background:var(--ds-color-success-soft); padding:1.5rem; border-radius:var(--ds-radius-lg); border:2px solid var(--ds-color-success); margin-bottom:1rem;">
             <div style="font-size:3rem; margin-bottom:0.5rem;">🎉</div>
             <h3 style="color:var(--ds-color-success); margin-bottom:0.5rem;">Très bien !</h3>
             <p style="color:var(--ds-color-text); margin-bottom:0.25rem;">
@@ -1409,7 +1452,6 @@ async function renderAlphabet() {
                 : '(Vita ny alfabe manontolo !)'}
             </p>
           </div>
-
           ${isPart1 ? `
             <ds-button id="btn-go-part2" class="guide-active" size="lg" variant="success" style="width:100%; animation: pulse-green 1.5s infinite;">
               📝 Apprendre la 2ème partie (N-Z) →
@@ -1423,18 +1465,102 @@ async function renderAlphabet() {
       </section>
     `;
 
+    // ✅ INJECTION DU CSS D'ANIMATION (une seule fois)
+    if (!document.getElementById('alphabet-animations-style')) {
+      const style = document.createElement('style');
+      style.id = 'alphabet-animations-style';
+      style.innerHTML = `
+        /* Apparition progressive des cartes au chargement */
+        @keyframes cardAppear {
+          from { opacity: 0; transform: translateY(20px) scale(0.9); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Flottement doux sur les cartes non écoutées */
+        @keyframes gentleFloat {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-4px); }
+        }
+
+        /* Pulsation subtile de la lettre */
+        @keyframes letterPulse {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.05); }
+        }
+
+        /* Rebond de célébration */
+        @keyframes celebrationBounce {
+          0%, 100% { transform: translateY(0); }
+          25% { transform: translateY(-10px); }
+          75% { transform: translateY(-5px); }
+        }
+
+        /* Titre qui flotte doucement */
+        @keyframes titleFloat {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-3px); }
+        }
+
+        /* Instruction qui rebondit légèrement */
+        @keyframes instructionBounce {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.02); }
+        }
+
+        .alphabet-card:not(.completed):not(.active) {
+          animation: gentleFloat 3s ease-in-out infinite, cardAppear 0.5s ease-out both;
+        }
+
+        .alphabet-card.active {
+          border-color: var(--ds-color-primary) !important;
+          box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+          transform: scale(1.05);
+        }
+
+        .alphabet-card.active .letter-display {
+          animation: letterPulse 1.5s ease-in-out infinite;
+        }
+
+        .alphabet-card.completed {
+          border-color: var(--ds-color-success) !important;
+          opacity: 0.85;
+        }
+
+        .alphabet-card.completed .letter-display {
+          filter: brightness(1.1);
+        }
+
+        .alphabet-title-float {
+          animation: titleFloat 3s ease-in-out infinite;
+        }
+
+        .alphabet-instruction-bounce {
+          animation: instructionBounce 2.5s ease-in-out infinite;
+        }
+
+        .celebration-bounce {
+          animation: celebrationBounce 2s ease-in-out infinite;
+        }
+
+        /* Effet de brillance au survol */
+        .alphabet-card:hover:not(.completed):not(.active) {
+          transform: translateY(-4px) scale(1.02);
+          box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
     document.getElementById('btn-back').addEventListener('click', () => router.navigate('/themes'));
 
-    // ✅ Gestion des cartes alphabet
+    // ✅ GESTION DES CARTES ALPHABET
     let currentCardIndex = 0;
     const cards = document.querySelectorAll('.alphabet-card');
     const totalCards = cards.length;
-    let completedCount = 0;
 
     // Allumer la première carte
     if (cards.length > 0) {
-      cards[0].style.borderColor = 'var(--ds-color-primary)';
-      cards[0].style.animation = 'pulse-guide 2s infinite';
+      cards[0].classList.add('active');
     }
 
     cards.forEach((card, index) => {
@@ -1443,36 +1569,36 @@ async function renderAlphabet() {
         if (index !== currentCardIndex) return;
 
         const item = vocabData.items[index];
+        const letter = getLetter(item);
+        const audioText = getAudioText(item);
         const indicator = card.querySelector('.listen-indicator');
 
         // Animation de clic
         card.style.transform = 'scale(0.95)';
-        setTimeout(() => { card.style.transform = 'scale(1)'; }, 150);
+        setTimeout(() => { card.style.transform = ''; }, 150);
 
         // Écouter la lettre
         speechSynthesis.cancel();
         indicator.style.opacity = '1';
         indicator.textContent = '🔊 ...';
 
-        const utterance = new SpeechSynthesisUtterance(item.target);
+        const utterance = new SpeechSynthesisUtterance(audioText);
         utterance.lang = 'fr-FR';
         utterance.rate = 0.8;
 
         utterance.onend = () => {
           indicator.textContent = '✅';
           indicator.style.opacity = '1';
-          card.style.borderColor = 'var(--ds-color-success)';
-          card.style.animation = 'none';
+          card.classList.remove('active');
+          card.classList.add('completed');
           card.style.pointerEvents = 'none';
 
-          completedCount++;
           currentCardIndex = index + 1;
 
           // Allumer la carte suivante
           if (currentCardIndex < cards.length) {
             setTimeout(() => {
-              cards[currentCardIndex].style.borderColor = 'var(--ds-color-primary)';
-              cards[currentCardIndex].style.animation = 'pulse-guide 2s infinite';
+              cards[currentCardIndex].classList.add('active');
               cards[currentCardIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
             }, 500);
           } else {
@@ -1481,7 +1607,6 @@ async function renderAlphabet() {
               document.getElementById('alphabet-complete-section').style.display = 'block';
               document.getElementById('alphabet-complete-section').scrollIntoView({ behavior: 'smooth' });
 
-              // Feedback vocal du Teacher Avatar
               if (isPart1) {
                 window.teacherAvatar.speak("Très bien ! Vous avez terminé la première moitié de l'alphabet. Maintenant, cliquez sur le bouton qui s'allume pour apprendre la deuxième partie !");
               } else {
