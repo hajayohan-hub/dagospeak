@@ -3481,9 +3481,26 @@ async function renderThemeDetail() {
   }
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement...</div>';
 
-  // ✅ FLUX SPÉCIAL POUR L'ALPHABET (pas de révision/dialogue)
+
+// ✅ FLUX SPÉCIAL POUR L'ALPHABET (pas de révision/dialogue)
 if (currentTheme === 'alphabet1' || currentTheme === 'alphabet2') {
   const isPart1 = currentTheme === 'alphabet1';
+  const themeName = isPart1 ? 'Alphabet - Partie 1 (A-M)' : 'Alphabet - Partie 2 (N-Z)';
+  const titleMg = isPart1 ? 'Alfabe - Ampahany 1 (A-M)' : 'Alfabe - Ampahany 2 (N-Z)';
+
+  // ✅ Charger les données AVANT de les utiliser
+  let itemCount = 13; // Valeur par défaut
+  let themeMg = titleMg;
+  try {
+    const unitData = await content.loadSection('fr', 'vocabulary', currentTheme);
+    if (unitData && unitData.items) {
+      itemCount = unitData.items.length;
+      themeMg = unitData.themeMg || titleMg;
+    }
+  } catch (e) {
+    console.warn(`[Alphabet] Impossible de charger ${currentTheme}:`, e.message);
+  }
+
   main.innerHTML = `
     <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem; text-align:center;">
       <ds-button variant="ghost" size="sm" id="btn-back-themes" style="margin-bottom: 1rem; float:left;">← Thèmes</ds-button>
@@ -3491,8 +3508,7 @@ if (currentTheme === 'alphabet1' || currentTheme === 'alphabet2') {
         <span style="background:var(--ds-color-accent); color:white; padding:4px 12px; border-radius:20px; font-weight:600; font-size:0.8rem;">Niveau A0</span>
       </div>
       <h1 style="margin-top:1rem; color:var(--ds-color-primary);">${themeName}</h1>
-      <p style="color:var(--ds-color-text-muted); margin-bottom: 2rem;">${unitData.themeMg} • ${unitData.items.length} lettres</p>
-
+      <p style="color:var(--ds-color-text-muted); margin-bottom: 2rem;">${themeMg} • ${itemCount} lettres</p>
       <div style="background:var(--ds-color-primary-soft); padding:2rem; border-radius:var(--ds-radius-lg); border:2px solid var(--ds-color-primary); margin-bottom:1.5rem;">
         <div style="font-size:4rem; margin-bottom:1rem;">🔤</div>
         <h3 style="color:var(--ds-color-primary); margin-bottom:0.5rem;">Écoute et répétition uniquement</h3>
@@ -3504,16 +3520,13 @@ if (currentTheme === 'alphabet1' || currentTheme === 'alphabet2') {
           Vous allez simplement écouter et répéter chaque lettre.
         </p>
       </div>
-
       <ds-button id="btn-start-alphabet" variant="success" size="lg" class="guide-active" style="width:100%; animation: pulse-green 1.5s infinite;">
         🎯 Commencer l'alphabet →
       </ds-button>
     </section>
   `;
-
   document.getElementById('btn-back-themes').addEventListener('click', () => router.navigate('/themes'));
   document.getElementById('btn-start-alphabet').addEventListener('click', () => router.navigate('/alphabet'));
-
   window.teacherAvatar.show('theme-detail');
   return; // ⚠️ IMPORTANT : sortir de la fonction ici
 }
