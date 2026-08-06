@@ -505,143 +505,222 @@ async function renderHome() {
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Mamakiana...</div>';
 
   try {
-
     console.log('[renderHome] 2. Chargement de roleManager...');
     await roleManager.init();
 
     console.log('[renderHome] 3. Chargement du profil...');
     const profile = await gamification.getProfile();
+    const profileData = getProfileData();
 
     console.log('[renderHome] 4. Chargement du manifeste...');
-
     const manifest = await content.loadManifest('fr');
 
+    // Charger la configuration des niveaux
+    if (!levelsConfig) {
+      try {
+        const response = await fetch('/content/fr/levels.json');
+        levelsConfig = await response.json();
+        console.log('[App] ✅ levels.json chargé');
+      } catch (e) {
+        console.warn('[App] ⚠️ Impossible de charger levels.json:', e);
+        levelsConfig = {
+          levels: {
+            A0: { freeThemes: ['survival', 'family', 'market', 'numbers', 'colors'] }
+          }
+        };
+      }
+    }
 
     console.log('[renderHome] 5. Manifeste chargé avec succès:', manifest);
 
-
-    // ✅ 1. HERO SECTION
+    // ✅ 1. HERO SECTION AMÉLIORÉ
     const heroHtml = `
-      <div style="
-        background: linear-gradient(135deg, rgba(37, 99, 235, 0.85) 0%, rgba(245, 158, 11, 0.85) 100%), url('/assets/hero-bg.png');
-        background-size: cover; background-position: center; background-blend-mode: overlay;
-        border-radius: var(--ds-radius-lg); padding: 2.5rem 1.5rem; margin-bottom: 2rem;
-        text-align: center; color: white; position: relative; overflow: hidden;
-        box-shadow: var(--ds-shadow-lg); min-height: 200px; display: flex;
-        flex-direction: column; justify-content: center; align-items: center;
-      ">
-        <h1 style="font-size: 2.5rem; margin: 0 0 0.5rem 0; text-shadow: 0 2px 4px rgba(0,0,0,0.8); animation: fadeIn 1s ease-out;">Manahoana ! 👋</h1>
-        <p style="font-size: 1.1rem; margin: 0; opacity: 0.95; text-shadow: 0 1px 2px rgba(0,0,0,0.9); font-weight: 600;">Apprenez les langues avec IA</p>
-        <p style="font-size: 0.95rem; margin-top: 0.5rem; opacity: 0.9; font-style: italic;">Mianara fiteny miaraka amin'ny IA</p>
+      <div class="home-hero">
+        <h1>Manahoana ! 👋</h1>
+        <p class="hero-subtitle">Apprenez les langues avec l'IA</p>
+        <p class="hero-subtitle-mg">Mianara fiteny miaraka amin'ny IA</p>
       </div>
     `;
 
-    // ✅ 2. DICTIONNAIRE DES NIVEAUX
+    // ✅ 2. CARTE "REPRENDRE L'APPRENTISSAGE" (si progression existe)
+    let resumeCardHtml = '';
+    if (profileData.completedJourneys > 0) {
+      const lastTheme = localStorage.getItem('dagospeak:theme') || 'survival';
+      const themeNames = {
+        'survival': 'Mots de survie', 'family': 'Famille', 'market': 'Marché',
+        'numbers': 'Nombres', 'colors': 'Couleurs', 'days': 'Jours',
+        'months': 'Mois', 'greetings': 'Salutations', 'body': 'Corps',
+        'alphabet1': 'Alphabet (A-M)', 'alphabet2': 'Alphabet (N-Z)', 'numbers2': 'Nombres (11-20)'
+      };
+      const themeName = themeNames[lastTheme] || lastTheme;
+
+      resumeCardHtml = `
+        <div class="home-resume-card" id="btn-resume-learning">
+          <div class="home-resume-icon">🎯</div>
+          <div class="home-resume-content">
+            <p class="home-resume-title">Reprendre : ${themeName}</p>
+            <p class="home-resume-subtitle">${profileData.completedJourneys} parcours terminés • ${profileData.percentage}% complété</p>
+          </div>
+          <div class="home-resume-arrow">→</div>
+        </div>
+      `;
+    }
+
+    // ✅ 3. STATISTIQUES RAPIDES
+    const statsHtml = `
+      <div class="home-stats-grid">
+        <div class="home-stat-card">
+          <span class="home-stat-icon">⭐</span>
+          <div class="home-stat-value">${profileData.xp}</div>
+          <div class="home-stat-label">XP Total</div>
+        </div>
+        <div class="home-stat-card">
+          <span class="home-stat-icon">🔥</span>
+          <div class="home-stat-value">${profileData.streak}</div>
+          <div class="home-stat-label">Jours</div>
+        </div>
+        <div class="home-stat-card">
+          <span class="home-stat-icon">🏆</span>
+          <div class="home-stat-value">${profileData.level}</div>
+          <div class="home-stat-label">Niveau</div>
+        </div>
+        <div class="home-stat-card">
+          <span class="home-stat-icon">📊</span>
+          <div class="home-stat-value">${profileData.percentage}%</div>
+          <div class="home-stat-label">Progression</div>
+        </div>
+      </div>
+    `;
+
+    // ✅ 4. BOUTON DICTIONNAIRE
+    const dictionaryBtnHtml = `
+      <button class="home-dictionary-btn" id="btn-open-dictionary">
+        <span class="home-dictionary-icon">📖</span>
+        <p class="home-dictionary-title">Dictionnaire Intelligent</p>
+        <p class="home-dictionary-subtitle">Rakibolana FR ↔ MG • 102 mots disponibles</p>
+      </button>
+    `;
+
+    // ✅ 5. CARTES DE NIVEAUX AMÉLIORÉES
     const levelInfo = {
-      'A0': { icon: '🌱', titleFr: 'Niveau A0 : Débutant', titleMg: 'Ambaratonga A0 : Mpianatra', descFr: 'Les premiers mots pour survivre au quotidien', descMg: 'Ny teny voalohany hahafahana miaina isan\'andro' },
-      'A1': { icon: '📚', titleFr: 'Niveau A1 : Élémentaire', titleMg: 'Ambaratonga A1 : Fototra', descFr: 'Vocabulaire essentiel : famille, marché, couleurs', descMg: 'Teny ilaina : fianakaviana, tsena, loko' }
+      'A0': {
+        icon: '🌱',
+        titleFr: 'Niveau A0',
+        titleMg: 'Ambaratonga A0 : Mpianatra',
+        descFr: 'Les premiers mots pour survivre au quotidien',
+        descMg: 'Ny teny voalohany hahafahana miaina isan\'andro'
+      },
+      'A1': {
+        icon: '📚',
+        titleFr: 'Niveau A1',
+        titleMg: 'Ambaratonga A1 : Fototra',
+        descFr: 'Vocabulaire essentiel : famille, marché, couleurs',
+        descMg: 'Teny ilaina : fianakaviana, tsena, loko'
+      }
     };
 
-    // ✅ 3. GÉNÉRATION DES CARTES DE NIVEAUX (SANS LES THÈMES)
-    const levelsHtml = manifest.levels.map(level => {
+    const levelsHtml = manifest.levels.map((level, idx) => {
       const isFree = level.id === 'A0' || level.id === 'A1';
       const isUnlocked = isFree || profile.isPremium;
-      const info = levelInfo[level.id] || { icon: '📁', titleFr: `Niveau ${level.id}`, titleMg: '', descFr: level.description || '', descMg: '' };
+      const info = levelInfo[level.id] || {
+        icon: '📁',
+        titleFr: `Niveau ${level.id}`,
+        titleMg: '',
+        descFr: level.description || '',
+        descMg: ''
+      };
 
       return `
-        <div class="card-animate interactive-tap btn-select-level" data-level="${level.id}" style="
-          background: ${isUnlocked ? 'var(--ds-color-surface)' : 'var(--ds-color-surface-2)'};
-          padding: 1.5rem; border-radius: var(--ds-radius-lg);
-          border: 2px solid ${isUnlocked ? 'var(--ds-color-primary)' : 'var(--ds-color-text-disabled)'};
-          opacity: ${isUnlocked ? 1 : 0.7}; display: flex; flex-direction: column; gap: 1rem;
-          box-shadow: ${isUnlocked ? 'var(--ds-shadow-md)' : 'none'};">
-
+        <div class="home-level-card ${!isUnlocked ? 'locked' : ''} btn-select-level"
+             data-level="${level.id}"
+             style="animation-delay: ${1.1 + idx * 0.1}s">
           <div style="display:flex; justify-content:space-between; align-items:flex-start;">
             <div style="display:flex; align-items:center; gap: 1.2rem;">
-              <div class="icon-float" style="font-size: 3rem; line-height: 1;">${info.icon}</div>
+              <div class="home-level-icon">${info.icon}</div>
               <div>
-                <h3 style="margin:0; color: var(--ds-color-primary); font-size: 1.3rem; font-weight: 800;">${info.titleFr}</h3>
-                <p style="margin:4px 0 0 0; font-size: 1rem; color: var(--ds-color-text-muted); font-weight: 600;">${info.titleMg}</p>
+                <h3 class="home-level-title">${info.titleFr}</h3>
+                <p class="home-level-title-mg">${info.titleMg}</p>
               </div>
             </div>
-            ${!isUnlocked ? '<span style="font-size:1.5rem;">🔒</span>' : '<span style="font-size:1.5rem;">🔓</span>'}
+            <span style="font-size:1.8rem;">${isUnlocked ? '🔓' : '🔒'}</span>
           </div>
-
-          <div style="border-top: 1px solid var(--ds-color-border); padding-top: 1rem; margin-top: 0.5rem;">
-            <p style="margin:0; font-size: 0.95rem; color: var(--ds-color-text); line-height: 1.4;">${info.descFr}</p>
-            <p style="margin:6px 0 0 0; font-size: 0.85rem; color: var(--ds-color-text-muted); font-style:italic; line-height: 1.4;">${info.descMg}</p>
+          <div>
+            <p class="home-level-desc">${info.descFr}</p>
+            <p class="home-level-desc-mg">${info.descMg}</p>
           </div>
-
           ${isUnlocked ? `
-            <ds-button class="btn-select-level" data-level="${level.id}" variant="${level.id === 'A0' ? 'success' : 'primary'}" size="sm" style="margin-top: 0.5rem;">
+            <ds-button class="btn-select-level" data-level="${level.id}"
+                       variant="${level.id === 'A0' ? 'success' : 'primary'}" size="sm"
+                       style="margin-top: 0.5rem;">
               Jereo ny lohahevitra (Voir les thèmes)
             </ds-button>
           ` : `
             <ds-button class="btn-upgrade" data-level="${level.id}" variant="accent" size="sm">
-              Havaozina ho Premium (Débloquer avec Premium)
+              ⭐ Débloquer avec Premium
             </ds-button>
           `}
         </div>
       `;
     }).join('');
 
-
-    // ✅ BOUTON DE TEST : Conversation semi-libre
-      const testConversationHtml = `
-        <div style="
-          background: linear-gradient(135deg, var(--ds-color-primary) 0%, var(--ds-color-accent) 100%);
-          padding: 1.5rem; border-radius: var(--ds-radius-lg);
-          text-align: center; margin-top: 2rem;
-          box-shadow: var(--ds-shadow-lg);
-        ">
-          <div style="font-size: 3rem; margin-bottom: 0.5rem;">💬</div>
-          <h3 style="color: white; margin-bottom: 0.5rem;">
-            Conversation avec le Teacher Avatar
-          </h3>
-          <p style="color: rgba(255,255,255,0.9); margin-bottom: 1rem; font-size: 0.9rem;">
-            Testez la nouvelle fonctionnalité de conversation semi-libre !
-          </p>
-          <button id="btn-test-conversation" style="
-            background: white; color: var(--ds-color-primary);
-            border: none; padding: 12px 24px; border-radius: 12px;
-            font-weight: 700; cursor: pointer; font-size: 1rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-          ">
-            🚀 Tester la conversation (Marché)
-          </button>
+    // ✅ 6. SECTION FONCTIONNALITÉS CLÉS
+    const featuresHtml = `
+      <div class="home-features-section">
+        <h3 class="home-features-title">✨ Pourquoi DagoSpeak ?</h3>
+        <div class="home-features-grid">
+          <div class="home-feature-item">
+            <span class="home-feature-icon">📴</span>
+            <p class="home-feature-text">100% Hors-ligne</p>
+          </div>
+          <div class="home-feature-item">
+            <span class="home-feature-icon">🤖</span>
+            <p class="home-feature-text">Teacher Avatar IA</p>
+          </div>
+          <div class="home-feature-item">
+            <span class="home-feature-icon">🎤</span>
+            <p class="home-feature-text">Reconnaissance vocale</p>
+          </div>
+          <div class="home-feature-item">
+            <span class="home-feature-icon">📱</span>
+            <p class="home-feature-text">Appareils modestes</p>
+          </div>
         </div>
-      `;
+      </div>
+    `;
 
-
-
-    // ✅ 4. INJECTION DANS LE DOM (MODIFIÉ ICI)
+    // ✅ 7. INJECTION DANS LE DOM
     main.innerHTML = `
       <section class="ds-home" style="padding: 1rem; max-width: 800px; margin: 0 auto;">
         ${heroHtml}
-        <div style="text-align:center; margin-bottom: 1.5rem;">
-          <h2 style="margin:0; color: var(--ds-color-text); font-size: 1.5rem;">Safidio ny ambaratonga</h2>
-          <p style="margin:4px 0 0 0; font-size:1rem; color:var(--ds-color-text-muted); font-style:italic;">(Choisissez votre niveau d'apprentissage)</p>
-        </div>
+        ${resumeCardHtml}
+        ${statsHtml}
+        ${dictionaryBtnHtml}
+
+        <h2 class="home-levels-title">Safidio ny ambaratonga</h2>
+        <p class="home-levels-subtitle">(Choisissez votre niveau d'apprentissage)</p>
+
         <div id="levels-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
           ${levelsHtml}
         </div>
 
-      ${testConversationHtml}
-
+        ${featuresHtml}
       </section>
     `;
 
-     // ✅ AJOUTER L'ÉCOUTEUR UNIQUEMENT UNE FOIS, PAS DANS renderHome()
-         document.addEventListener('click', (event) => {
-          const btn = event.target.closest('#btn-test-conversation');
-          if (btn) {
-            console.log('[App] 💬 Clic sur "Tester la conversation"');
-            window.dagospeakPendingDialogue = 'market_01';
-            router.navigate('/conversation'); // chemin propre, garanti de matcher la route enregistrée ligne 4063
-          }
-        });
+    // ✅ 8. ÉCOUTEURS D'ÉVÉNEMENTS
+    // Bouton "Reprendre l'apprentissage"
+    document.getElementById('btn-resume-learning')?.addEventListener('click', () => {
+      const lastTheme = localStorage.getItem('dagospeak:theme') || 'survival';
+      currentTheme = lastTheme;
+      router.navigate('/theme-detail');
+    });
 
-    // ✅ 5. ÉCOUTEURS D'ÉVÉNEMENTS (Uniquement pour les niveaux ici)
+    // Bouton Dictionnaire
+    document.getElementById('btn-open-dictionary')?.addEventListener('click', () => {
+      router.navigate('/dictionary');
+    });
+
+    // Cartes de niveaux
     document.getElementById('levels-container').addEventListener('click', (e) => {
       const levelBtn = e.target.closest('.btn-select-level');
       if (levelBtn) {
@@ -649,58 +728,21 @@ async function renderHome() {
         currentTheme = null;
         localStorage.setItem('dagospeak:level', currentLevel);
         updateLevelUI();
-        router.navigate('/themes'); // ✅ Redirection propre vers la page des thèmes
+        router.navigate('/themes');
         return;
       }
     });
 
-   // ✅ SÉCURITÉ : Vérifier que l'avatar est bien initialisé avant de l'appeler
+    // ✅ SÉCURITÉ : Vérifier que l'avatar est bien initialisé
     if (window.teacherAvatar) {
       window.teacherAvatar.show('home');
     } else {
-      console.warn('[renderHome] TeacherAvatar pas encore initialisé, rendu quand même effectué');
+      console.warn('[renderHome] TeacherAvatar pas encore initialisé');
     }
+
     renderFloatingHomeButtons();
 
-// ✅ BOUTON DE TEST : Conversation semi-libre (Teacher Avatar IA)
-if (!document.getElementById('btn-test-conversation')) {
-  const testConvDiv = document.createElement('div');
-  testConvDiv.style.cssText = 'max-width: 800px; margin: 2rem auto 0 auto;';
-  testConvDiv.innerHTML = `
-    <div style="
-      background: linear-gradient(135deg, #0A8A6E 0%, #E8A33D 100%);
-      padding: 1.5rem; border-radius: 16px;
-      text-align: center; box-shadow: 0 8px 24px rgba(10, 138, 110, 0.3);
-    ">
-      <div style="font-size: 3rem; margin-bottom: 0.5rem;">💬</div>
-      <h3 style="color: white; margin-bottom: 0.5rem;">
-        Conversation avec le Teacher Avatar
-      </h3>
-      <p style="color: rgba(255,255,255,0.9); margin-bottom: 1rem; font-size: 0.9rem;">
-        Testez la nouvelle fonctionnalité de conversation semi-libre !
-      </p>
-      <button id="btn-test-conversation" style="
-        background: white; color: #0A8A6E;
-        border: none; padding: 12px 24px; border-radius: 12px;
-        font-weight: 700; cursor: pointer; font-size: 1rem;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      ">
-        🚀 Tester la conversation (Marché)
-      </button>
-    </div>
-  `;
-  document.querySelector('.ds-home')?.appendChild(testConvDiv);
-
-  // ✅ ATTACHER LE LISTENER (c'est ce qui manquait !)
-  document.getElementById('btn-test-conversation')?.addEventListener('click', () => {
-    console.log('[App] 💬 Clic sur "Tester la conversation"');
-    router.navigate('/conversation?dialogue=market_01');
-  });
-}
-
-logger.info('✅ Page d\'accueil rendue (Niveaux uniquement)');
-
-
+    logger.info('✅ Page d\'accueil rendue (version améliorée)');
   } catch (e) {
     console.error('❌ Erreur renderHome:', e);
     main.innerHTML = `<p style="color:red; text-align:center; padding:2rem;">Hadisoana: ${e.message}</p>`;
