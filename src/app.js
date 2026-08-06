@@ -3643,10 +3643,16 @@ async function renderThemes() {
 // --- VUE : DÉTAIL D'UN THÈME (Les 3 actions) ---
 async function renderThemeDetail() {
   const main = document.getElementById('app');
-  if (!currentTheme) { router.navigate('/themes'); return; }
+  if (!currentTheme) {
+    console.warn('[ThemeDetail] ⚠️ currentTheme est null, redirection vers /themes');
+    router.navigate('/themes');
+    return;
+  }
+
+  console.log(`[ThemeDetail] 📍 Thème actuel : ${currentTheme}`);
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement...</div>';
 
-  // FLUX SPÉCIAL ALPHABET
+  // ✅ FLUX SPÉCIAL POUR L'ALPHABET
   if (currentTheme === 'alphabet1' || currentTheme === 'alphabet2') {
     const isPart1 = currentTheme === 'alphabet1';
     const themeName = isPart1 ? 'Alphabet - Partie 1 (A-M)' : 'Alphabet - Partie 2 (N-Z)';
@@ -3670,7 +3676,10 @@ async function renderThemeDetail() {
       </section>
     `;
     document.getElementById('btn-back-themes').addEventListener('click', () => router.navigate('/themes'));
-    document.getElementById('btn-start-alphabet').addEventListener('click', () => router.navigate('/alphabet'));
+    document.getElementById('btn-start-alphabet').addEventListener('click', () => {
+      console.log('[ThemeDetail] 🎯 Clic sur "Commencer l\'alphabet"');
+      router.navigate('/alphabet');
+    });
     window.teacherAvatar.show('theme-detail');
     return;
   }
@@ -3751,7 +3760,7 @@ async function renderThemeDetail() {
                   ${isCompleted ? `
                     <div class="step-badge sparkle-animation">✅</div>
                   ` : `
-                    <ds-button id="btn-${step.id}" variant="${step.id === 'dialogues' ? 'accent' : 'primary'}" size="md" class="btn-step">
+                    <ds-button id="btn-${step.id}" variant="${step.id === 'dialogues' ? 'accent' : 'primary'}" size="md" class="btn-step" data-action="${step.action}">
                       ${step.id === 'dialogues' ? 'Commencer' : 'Démarrer'} →
                     </ds-button>
                   `}
@@ -3770,15 +3779,27 @@ async function renderThemeDetail() {
         handleUpgrade(document.getElementById('btn-unlock-theme'), profile);
       });
     } else {
+      // ✅ CORRECTION CRITIQUE : Attacher les écouteurs avec data-action
       steps.forEach(step => {
         const btn = document.getElementById(`btn-${step.id}`);
-        if (btn) btn.addEventListener('click', () => router.navigate(step.action));
+        if (btn) {
+          btn.addEventListener('click', () => {
+            console.log(`[ThemeDetail] 🎯 Clic sur "${step.title}" → ${step.action}`);
+            console.log(`[ThemeDetail] 📍 currentTheme = ${currentTheme}`);
+
+            // Sauvegarder currentTheme dans localStorage avant de naviguer
+            localStorage.setItem('dagospeak:theme', currentTheme);
+
+            // Naviguer vers la page cible
+            router.navigate(step.action);
+          });
+        }
       });
     }
 
     window.teacherAvatar.show('theme-detail');
   } catch (e) {
-    console.error('Erreur renderThemeDetail:', e);
+    console.error('[ThemeDetail] ❌ Erreur:', e);
     main.innerHTML = `<div style="text-align:center; padding:2rem; color:var(--ds-color-danger);">
       <p>Erreur : ${e.message}</p>
       <ds-button onclick="window.location.hash='/themes'">Retour</ds-button>
