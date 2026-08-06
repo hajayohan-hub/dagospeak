@@ -3778,35 +3778,42 @@ async function renderThemeDetail() {
       document.getElementById('btn-unlock-theme').addEventListener('click', () => {
         handleUpgrade(document.getElementById('btn-unlock-theme'), profile);
       });
-    } else {
-      // ✅ CORRECTION CRITIQUE : Attacher les écouteurs avec data-action
-      steps.forEach(step => {
-        const btn = document.getElementById(`btn-${step.id}`);
-        if (btn) {
-          btn.addEventListener('click', () => {
-            console.log(`[ThemeDetail] 🎯 Clic sur "${step.title}" → ${step.action}`);
-            console.log(`[ThemeDetail] 📍 currentTheme = ${currentTheme}`);
+      } else {
+    console.log('[ThemeDetail] ✅ Attachement des écouteurs sur les boutons...');
 
-            // Sauvegarder currentTheme dans localStorage avant de naviguer
-            localStorage.setItem('dagospeak:theme', currentTheme);
+    document.getElementById('btn-lesson-words')?.addEventListener('click', () => {
+      console.log('[ThemeDetail] 🎯 Clic détecté : Apprendre les mots -> /lesson');
+      router.navigate('/lesson');
+    });
 
-            // Naviguer vers la page cible
-            router.navigate(step.action);
-          });
-        }
-      });
-    }
+    document.getElementById('btn-practice-words')?.addEventListener('click', () => {
+      console.log('[ThemeDetail] 🎯 Clic détecté : Réviser les mots -> /practice');
+      router.navigate('/practice');
+    });
 
-    window.teacherAvatar.show('theme-detail');
-  } catch (e) {
-    console.error('[ThemeDetail] ❌ Erreur:', e);
-    main.innerHTML = `<div style="text-align:center; padding:2rem; color:var(--ds-color-danger);">
-      <p>Erreur : ${e.message}</p>
-      <ds-button onclick="window.location.hash='/themes'">Retour</ds-button>
-    </div>`;
+    document.getElementById('btn-lesson-phrases')?.addEventListener('click', () => {
+      console.log('[ThemeDetail] 🎯 Clic détecté : Apprendre les phrases -> /lesson-phrases');
+      router.navigate('/lesson-phrases');
+    });
+
+    document.getElementById('btn-practice-phrases')?.addEventListener('click', () => {
+      console.log('[ThemeDetail] 🎯 Clic détecté : Réviser les phrases -> /practice-phrases');
+      router.navigate('/practice-phrases');
+    });
+
+    document.getElementById('btn-dialogues')?.addEventListener('click', () => {
+      console.log('[ThemeDetail] 🎯 Clic détecté : Faire le dialogue -> /dialogues');
+      router.navigate('/dialogues');
+    });
   }
-}
 
+  // ⚠️ TEST DE CLAUDE : Désactivé temporairement pour vérifier s'il bloque les clics
+  // window.teacherAvatar.show('theme-detail');
+
+} catch (e) {
+  console.error('❌ Erreur renderThemeDetail:', e);
+  main.innerHTML = `<div style="text-align:center; padding:2rem; color:var(--ds-color-danger);"> <p>Erreur : ${e.message}</p> <ds-button onclick="window.location.hash='/themes'">Retour</ds-button> </div>`;
+}
 
 // ✅ HEADER DE PROGRESSION FLOTTANT (Utilise getProfileData)
 function renderProgressHeader() {
