@@ -1248,10 +1248,12 @@ syncProfileWithJourneys();
        window.teacherAvatar.speak("Vous avez appris les mots. Cliquez sur Commencer la pratique pour tester vos connaissances !");
      }, 1000);
 
-   } catch (e) {
-     main.innerHTML = `<p style="color:red; text-align:center;">Erreur leçon: ${e.message}</p>`;
    }
- } // ← ✅ Fermeture correcte de renderLesson()
+
+ } catch (e) {
+     main.innerHTML = `<p style="color:red; text-align:center;">Erreur leçon: ${e.message}</p>`;
+  }
+} // ← ✅ Fermeture correcte de renderLesson()
 
 
 // ═══════════════════════════════════════════════════════════
