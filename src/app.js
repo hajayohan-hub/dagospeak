@@ -1692,54 +1692,73 @@ async function renderAlphabet() {
 
 
 // ═══════════════════════════════════════════════════════════
-// GESTIONNAIRE DE VOIX PAR GENRE (Homme, Femme, Garçon, Fille)
+// GESTIONNAIRE DE VOIX PAR GENRE - VERSION OPTIMISÉE
 // ═══════════════════════════════════════════════════════════
 function getVoiceByGender(gender, lang = 'fr-FR') {
   const voices = speechSynthesis.getVoices();
   const frenchVoices = voices.filter(v => v.lang.startsWith('fr'));
 
-  const keywords = {
-    male: ['thomas', 'paul', 'daniel', 'pierre', 'male', 'homme'],
-    female: ['julie', 'alice', 'amelie', 'marie', 'virginie', 'female', 'femme'],
-    boy: ['thomas', 'paul', 'male'],
-    girl: ['julie', 'alice', 'female']
-  };
+  if (frenchVoices.length === 0) return voices[0] || null;
 
-  const targetKeywords = keywords[gender] || keywords.female;
+  // Stratégie : essayer de trouver DEUX voix différentes pour homme/femme
+  // Sur certains appareils, il y a "Google français" ET "Google français (France)"
+  // ou une voix "male" et une voix "female" dans le nom
 
-  for (let kw of targetKeywords) {
-    const match = frenchVoices.find(v => v.name.toLowerCase().includes(kw));
-    if (match) return match;
-    const genericMatch = frenchVoices.find(v => v.name.toLowerCase().includes('french') || v.name.toLowerCase().includes('français'));
-    if (genericMatch) return genericMatch;
+  const maleKeywords = ['male', 'homme', 'thomas', 'paul', 'daniel', 'henri'];
+  const femaleKeywords = ['female', 'femme', 'julie', 'alice', 'amelie', 'marie', 'virginie', 'audrey'];
+
+  if (gender === 'male' || gender === 'boy') {
+    for (let kw of maleKeywords) {
+      const match = frenchVoices.find(v => v.name.toLowerCase().includes(kw));
+      if (match) return match;
+    }
   }
 
-  return frenchVoices[0] || voices[0];
+  if (gender === 'female' || gender === 'girl') {
+    for (let kw of femaleKeywords) {
+      const match = frenchVoices.find(v => v.name.toLowerCase().includes(kw));
+      if (match) return match;
+    }
+  }
+
+  // Fallback : si 2+ voix françaises existent, utiliser la 1ère pour homme, 2ème pour femme
+  if (frenchVoices.length >= 2) {
+    if (gender === 'male' || gender === 'boy') return frenchVoices[0];
+    if (gender === 'female' || gender === 'girl') return frenchVoices[1];
+  }
+
+  return frenchVoices[0];
 }
 
 // ═══════════════════════════════════════════════════════════
-// HELPER TTS : Synthèse vocale avec gestion du genre et du pitch
+// PROFILS VOCAUX : Combinaison pitch + rate pour distinction MAXIMALE
 // ═══════════════════════════════════════════════════════════
-function speakWithFeedback(text, { onStart, onEnd, lang = 'fr-FR', rate = 0.9, gender = 'female' } = {}) {
+const VOICE_PROFILES = {
+  male:   { pitch: 0.55, rate: 0.82, volume: 1.0 },  // Grave + lent = homme adulte
+  female: { pitch: 1.25, rate: 0.95, volume: 1.0 },  // Aiguë + normal = femme adulte
+  boy:    { pitch: 1.55, rate: 1.0,  volume: 0.9 },  // Très aigu + normal = garçon
+  girl:   { pitch: 1.75, rate: 1.05, volume: 0.9 }   // Encore plus aigu + rapide = fille
+};
+
+function speakWithFeedback(text, { onStart, onEnd, lang = 'fr-FR', rate, gender = 'female' } = {}) {
   speechSynthesis.cancel();
 
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = lang;
-  utterance.rate = rate;
 
+  // Appliquer le profil vocal
+  const profile = VOICE_PROFILES[gender] || VOICE_PROFILES.female;
+  utterance.pitch = profile.pitch;
+  utterance.rate = rate || profile.rate;  // rate paramètre > profil par défaut
+  utterance.volume = profile.volume;
+
+  // Sélection de la voix
   const selectedVoice = getVoiceByGender(gender, lang);
   if (selectedVoice) {
     utterance.voice = selectedVoice;
   }
 
-  // Ajustement de la hauteur (pitch) pour différencier les âges
-  switch (gender) {
-    case 'male': utterance.pitch = 0.85; break;   // Voix plus grave
-    case 'female': utterance.pitch = 1.1; break;  // Voix légèrement plus aiguë
-    case 'boy': utterance.pitch = 1.3; break;     // Voix d'enfant
-    case 'girl': utterance.pitch = 1.4; break;    // Voix d'enfant
-    default: utterance.pitch = 1.0;
-  }
+  console.log(`[TTS] 🎙️ gender=${gender}, pitch=${utterance.pitch}, rate=${utterance.rate}, voice=${selectedVoice?.name || 'default'}`);
 
   let finished = false;
 
@@ -1757,7 +1776,6 @@ function speakWithFeedback(text, { onStart, onEnd, lang = 'fr-FR', rate = 0.9, g
 
   speechSynthesis.speak(utterance);
 
-  // Sécurité : si onend ne se déclenche jamais (bug Chrome connu)
   setTimeout(() => {
     if (!finished) {
       finished = true;
