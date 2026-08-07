@@ -5,15 +5,15 @@
   "title": "Quel jour sommes-nous ?",
   "titleMg": "Inona ny andro anio?",
   "participants": {
-    "A": { "name": "Claire", "avatar": "🏻" },
-    "B": { "name": "Lucas", "avatar": "👦🏼" }
+    "A": { "name": "Claire", "avatar": "🏻", "gender": "female" },
+    "B": { "name": "Lucas", "avatar": "👦🏼", "gender": "boy" }
   },
   "lines": [
     { "speaker": "A", "text": "Quel jour sommes-nous aujourd'hui ?", "translation": "Inona ny andro anio?", "highlight": "Quel jour" },
     { "speaker": "B", "text": "Aujourd'hui c'est lundi.", "translation": "Alatsinainy anio.", "highlight": "lundi" },
     { "speaker": "A", "text": "Et demain ?", "translation": "Ary rahampitso?", "highlight": "demain" },
     { "speaker": "B", "text": "Demain c'est mardi.", "translation": "Talata rahampitso.", "highlight": "mardi" },
-    { "speaker": "A", "text": "Quel jour tu ne travailles pas ?", "translation": "Inona ny andro tsy miasa ianao?", "highlight": "travailles" },
+    { "speaker": "A", "text": "Quel jour tu ne travailles pas ?", "translation": "Inona ny andro tsy iasanao?", "highlight": "travailles" },
     { "speaker": "B", "text": "Je ne travaille pas le dimanche.", "translation": "Tsy miasa alahady aho.", "highlight": "dimanche" },
     { "speaker": "A", "text": "Moi non plus ! C'est le jour de repos.", "translation": "Izaho koa ! Andro fialan-tsasatra izany.", "highlight": "repos" }
   ]

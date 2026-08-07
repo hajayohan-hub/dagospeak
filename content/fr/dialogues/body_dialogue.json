@@ -5,8 +5,8 @@
   "title": "Mon corps",
   "titleMg": "Ny vatana",
   "participants": {
-    "A": { "name": "M. Martin", "avatar": "👨‍🏫" },
-    "B": { "name": "Emma", "avatar": "👧🏼" }
+    "A": { "name": "M. Martin", "avatar": "👨‍🏫", "gender": "male" },
+    "B": { "name": "Emma", "avatar": "👧🏼", "gender": "girl" }
   },
   "lines": [
     { "speaker": "A", "text": "Montrez-moi votre tête.", "translation": "Asehoy ahy ny lohanao.", "highlight": "tête" },

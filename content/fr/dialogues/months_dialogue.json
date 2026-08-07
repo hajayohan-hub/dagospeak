@@ -5,8 +5,8 @@
   "title": "Quel mois sommes-nous ?",
   "titleMg": "Inona ny volana anio?",
   "participants": {
-    "A": { "name": "Marie", "avatar": "👩🏼" },
-    "B": { "name": "Pierre", "avatar": "👨🏻" }
+    "A": { "name": "Marie", "avatar": "👩🏼", "gender": "girl" },
+    "B": { "name": "Pierre", "avatar": "👨🏻", "gender": "boy" }
   },
   "lines": [
     { "speaker": "A", "text": "En quel mois sommes-nous ?", "translation": "Inona ny volana anio?", "highlight": "mois" },
@@ -15,6 +15,6 @@
     { "speaker": "B", "text": "Mon mois préféré est décembre.", "translation": "Desambra no volana ankafiziko.", "highlight": "décembre" },
     { "speaker": "A", "text": "Pourquoi décembre ?", "translation": "Nahoana ny desambra?", "highlight": "Pourquoi" },
     { "speaker": "B", "text": "Parce que c'est Noël et les vacances !", "translation": "Satria Krismasy sy fialan-tsasatra !", "highlight": "Noël" },
-    { "speaker": "A", "text": "Moi, j'aime juillet pour la plage.", "translation": "Izaho, tiako ny jolay ho an'ny morontsiraka.", "highlight": "juillet" }
+    { "speaker": "A", "text": "Moi, j'aime juillet pour la plage.", "translation": "Izaho indray, tiako ny jolay ho an'ny morontsiraka.", "highlight": "juillet" }
   ]
 }

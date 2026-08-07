@@ -5,15 +5,15 @@
   "title": "Se saluer",
   "titleMg": "Miarahaba",
   "participants": {
-    "A": { "name": "Marie", "avatar": "👩🏼" },
-    "B": { "name": "Jean", "avatar": "👨🏻" }
+    "A": { "name": "Marie", "avatar": "👩🏼", "gender": "female" },
+    "B": { "name": "Jean", "avatar": "👨🏻", "gender": "male" }
   },
   "lines": [
     { "speaker": "A", "text": "Bonjour !", "translation": "Manahoana !", "highlight": "Bonjour" },
     { "speaker": "B", "text": "Bonjour ! Comment allez-vous ?", "translation": "Manahoana ! Manao ahoana ianao?", "highlight": "Comment" },
     { "speaker": "A", "text": "Je vais bien, merci. Et vous ?", "translation": "Tsara aho, misaotra. Ary ianao?", "highlight": "merci" },
-    { "speaker": "B", "text": "Je vais bien aussi. Merci !", "translation": "Tsara aho koa. Misaotra !", "highlight": "Merci" },
-    { "speaker": "A", "text": "Au revoir et bonne journée !", "translation": "Veloma ary andro tsara !", "highlight": "Au revoir" },
+    { "speaker": "B", "text": "Je vais bien aussi. Merci !", "translation": "Tsara koa aho. Misaotra !", "highlight": "Merci" },
+    { "speaker": "A", "text": "Au revoir et bonne journée !", "translation": "Veloma dia mirary andro tsara !", "highlight": "Au revoir" },
     { "speaker": "B", "text": "Au revoir !", "translation": "Veloma !", "highlight": "Au revoir" }
   ]
 }

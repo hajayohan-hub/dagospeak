@@ -5,12 +5,12 @@
   "title": "Ma famille",
   "titleMg": "Ny fianakaviako",
   "participants": {
-    "A": { "name": "Jean", "avatar": "👨🏽" },
-    "B": { "name": "Sophie", "avatar": "👩🏻" }
+    "A": { "name": "Jean", "avatar": "👨🏽", "gender": "boy" },
+    "B": { "name": "Sophie", "avatar": "👩🏻", "gender": "girl" }
   },
   "lines": [
-    { "speaker": "B", "text": "Qui est-ce ?", "translation": "Iza izany?", "highlight": "Qui" },
-    { "speaker": "A", "text": "C'est mon père. Et elle, c'est ma mère.", "translation": "Ny raiko izany. Ary izy kosa, ny reniko.", "highlight": "père" },
+    { "speaker": "B", "text": "Qui est-ce ?", "translation": "Iza io?", "highlight": "Qui" },
+    { "speaker": "A", "text": "C'est mon père. Et elle, c'est ma mère.", "translation": "Ny raiko io. Ary izy kosa, ny reniko.", "highlight": "père" },
     { "speaker": "B", "text": "Et ton frère ?", "translation": "Ary ny anadahinao?", "highlight": "frère" },
     { "speaker": "A", "text": "Il est grand. Ma sœur est petite.", "translation": "Lehibe izy. Kely ny anabaviko.", "highlight": "grand" },
     { "speaker": "B", "text": "Ils sont gentils !", "translation": "Tsara fanahy izy ireo!", "highlight": "gentils" }

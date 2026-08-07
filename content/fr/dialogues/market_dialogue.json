@@ -5,12 +5,12 @@
   "title": "Au marché",
   "titleMg": "Any an-tsena",
   "participants": {
-    "A": { "name": "M. Dupont", "avatar": "👨‍🦳" },
-    "B": { "name": "Lucas", "avatar": "👦🏻" }
+    "A": { "name": "M. Dupont", "avatar": "👨‍🦳", "gender": "male" },
+    "B": { "name": "Lucas", "avatar": "👦🏻", "gender": "female" }
   },
   "lines": [
     { "speaker": "B", "text": "Bonjour, je voudrais du riz.", "translation": "Manahoana, te hividy vary aho.", "highlight": "riz" },
-    { "speaker": "A", "text": "Voilà. Et avec ça ?", "translation": "Izao. Ary inona koa?", "highlight": "Voilà" },
+    { "speaker": "A", "text": "Voilà. Et avec ça ?", "translation": "Ito tompoko. Ary inona koa?", "highlight": "Voilà" },
     { "speaker": "B", "text": "Aussi du poisson, s'il vous plaît.", "translation": "Trondro koa, azafady.", "highlight": "poisson" },
     { "speaker": "A", "text": "Ça fait 5000 Ariary.", "translation": "5000 Ariary.", "highlight": "5000" },
     { "speaker": "B", "text": "Merci, au revoir !", "translation": "Misaotra, veloma!", "highlight": "Merci" }

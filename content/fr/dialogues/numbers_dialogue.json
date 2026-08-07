@@ -5,13 +5,13 @@
   "title": "Calculs simples",
   "titleMg": "Kajy tsotra",
   "participants": {
-    "A": { "name": "M. Martin", "avatar": "👨🏻‍🏫" },
-    "B": { "name": "Emma", "avatar": "👧🏼" }
+    "A": { "name": "M. Martin", "avatar": "👨🏻‍🏫", "gender": "male" },
+    "B": { "name": "Emma", "avatar": "👧🏼", "gender": "female" }
   },
   "lines": [
-    { "speaker": "A", "text": "Combien font un et deux ?", "translation": "Inona no iray sy roa?", "highlight": "Combien" },
-    { "speaker": "B", "text": "Un et deux font trois.", "translation": "Iray sy roa dia telo.", "highlight": "trois" },
-    { "speaker": "A", "text": "Bravo ! Et quatre plus trois ?", "translation": "Tsara! Ary efatra sy telo?", "highlight": "plus" },
+    { "speaker": "A", "text": "Combien font un et deux ?", "translation": "Firy ny iray ampiana roa?", "highlight": "Combien" },
+    { "speaker": "B", "text": "Un et deux font trois.", "translation": "Iray ampiana roa dia telo.", "highlight": "trois" },
+    { "speaker": "A", "text": "Bravo ! Et quatre plus trois ?", "translation": "Tsara! Ary efatra ampiana telo?", "highlight": "plus" },
     { "speaker": "B", "text": "Ça fait sept.", "translation": "Fito.", "highlight": "sept" },
     { "speaker": "A", "text": "Excellent !", "translation": "Tena tsara!", "highlight": "Excellent" }
   ]

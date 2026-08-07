@@ -1690,6 +1690,102 @@ async function renderAlphabet() {
   }
 }
 
+
+// ═══════════════════════════════════════════════════════════
+// GESTIONNAIRE DE VOIX PAR GENRE (Homme, Femme, Garçon, Fille)
+// ═══════════════════════════════════════════════════════════
+function getVoiceByGender(gender, lang = 'fr-FR') {
+  const voices = speechSynthesis.getVoices();
+  const frenchVoices = voices.filter(v => v.lang.startsWith('fr'));
+
+  // Mots-clés pour identifier les voix françaises (varie selon Windows/Mac/Android)
+  const keywords = {
+    male: ['thomas', 'paul', 'daniel', 'pierre', 'male', 'homme'],
+    female: ['julie', 'alice', 'amelie', 'marie', 'virginie', 'female', 'femme'],
+    boy: ['thomas', 'paul', 'male'], // On utilisera le pitch pour l'effet "garçon"
+    girl: ['julie', 'alice', 'female'] // On utilisera le pitch pour l'effet "fille"
+  };
+
+  const targetKeywords = keywords[gender] || keywords.female;
+
+  // 1. Essayer de trouver une voix correspondant au mot-clé
+  for (let kw of targetKeywords) {
+    const match = frenchVoices.find(v => v.name.toLowerCase().includes(kw));
+    if (match) return match;
+    // Fallback sur la langue générique si le nom contient "French" ou "Français"
+    const genericMatch = frenchVoices.find(v => v.name.toLowerCase().includes('french') || v.name.toLowerCase().includes('français'));
+    if (genericMatch) return genericMatch;
+  }
+
+  // 2. Fallback : retourner la première voix française disponible
+  return frenchVoices[0] || voices[0];
+}
+
+// ═══════════════════════════════════════════════════════════
+// HELPER TTS : Synthèse vocale avec gestion du genre et du pitch
+// ═══════════════════════════════════════════════════════════
+function speakWithFeedback(text, { onStart, onEnd, lang = 'fr-FR', rate = 0.9, gender = 'female' } = {}) {
+  speechSynthesis.cancel(); // Annule toute voix en cours
+
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = lang;
+  utterance.rate = rate;
+
+  // 1. Attribution de la voix
+  const selectedVoice = getVoiceByGender(gender, lang);
+  if (selectedVoice) {
+    utterance.voice = selectedVoice;
+  }
+
+  // 2. Ajustement de la hauteur (pitch) pour différencier les âges
+  // L'échelle standard est de 0.1 à 2.0 (1.0 est la normale)
+  switch (gender) {
+    case 'male':
+      utterance.pitch = 0.85; // Voix plus grave
+      break;
+    case 'female':
+      utterance.pitch = 1.1;  // Voix légèrement plus aiguë
+      break;
+    case 'boy':
+      utterance.pitch = 1.3;  // Voix d'enfant (plus aiguë)
+      break;
+    case 'girl':
+      utterance.pitch = 1.4;  // Voix d'enfant (plus aiguë)
+      break;
+    default:
+      utterance.pitch = 1.0;
+  }
+
+  let finished = false;
+
+  utterance.onstart = () => {
+    if (onStart) onStart();
+  };
+
+  utterance.onend = () => {
+    if (finished) return;
+    finished = true;
+    if (onEnd) onEnd();
+  };
+
+  utterance.onerror = () => {
+    if (finished) return;
+    finished = true;
+    if (onEnd) onEnd(); // Débloque quand même en cas d'erreur
+  };
+
+  speechSynthesis.speak(utterance);
+
+  // 🔒 Sécurité : si onend ne se déclenche jamais (bug Chrome connu), on débloque après 10s
+  setTimeout(() => {
+    if (!finished) {
+      finished = true;
+      if (onEnd) onEnd();
+    }
+  }, 10000);
+}
+
+
 // ═══════════════════════════════════════════════════════════
 // HELPER TTS : Synthèse vocale avec gestion d'événements précise
 // ═══════════════════════════════════════════════════════════
@@ -2437,7 +2533,8 @@ syncProfileWithJourneys();
             <div style="font-size:1.05rem; font-weight:500;">${line.text}</div>
             <div style="font-size:0.85em; opacity:0.8; margin-top:4px; font-style:italic;">${line.translation}</div>
           </div>
-          <ds-button variant="ghost" size="sm" class="play-dialog-audio" data-text="${line.text}" style="margin-top:4px; min-height:28px; padding:4px 8px;">🔊 Écouter</ds-button>
+
+          <ds-button variant="ghost" size="sm" class="play-dialog-audio" data-text="${line.text}" data-speaker="${line.speaker}" style="margin-top:4px; min-height:28px; padding:4px 8px;">🔊 Écouter</ds-button>
         </div>
       `;
     }).join('');
@@ -2491,7 +2588,13 @@ syncProfileWithJourneys();
     document.querySelectorAll('.play-dialog-audio').forEach(btn => {
       btn.addEventListener('click', () => {
         const originalText = btn.textContent;
+        // Récupérer le genre du participant qui parle (A ou B)
+        const speakerKey = btn.dataset.speaker; // Nous allons ajouter cet attribut data
+        const speaker = dialogue.participants[speakerKey];
+        const gender = speaker?.gender || 'female'; // Défaut : femme
+
         speakWithFeedback(btn.dataset.text, {
+          gender: gender, // ✅ Transmission du genre
           onStart: () => { btn.textContent = '🔊 ...'; },
           onEnd: () => { btn.textContent = originalText; }
         });
@@ -2689,29 +2792,33 @@ async function renderRolePlay() {
       };
 
       document.getElementById('btn-listen').addEventListener('click', () => {
-        const btnListen = document.getElementById('btn-listen');
-        const originalText = btnListen.textContent;
+          const btnListen = document.getElementById('btn-listen');
+          const originalText = btnListen.textContent;
 
-        speakWithFeedback(line.text, {
-          onStart: () => {
-            btnListen.textContent = '🔊 ...';
-            btnListen.classList.remove('guide-active');
-            document.getElementById('step-listen').classList.remove('guide-active');
-            if (isUserTurn) {
-              const stepSpeak = document.getElementById('step-speak');
-              stepSpeak.style.opacity = '1';
-              stepSpeak.style.pointerEvents = 'auto';
-              document.getElementById('btn-speak').classList.add('guide-active');
+          // ✅ Récupérer le genre du personnage qui parle
+          const speakerGender = speaker.gender || 'female';
+
+          speakWithFeedback(line.text, {
+            gender: speakerGender, // ✅ Transmission du genre
+            onStart: () => {
+              btnListen.textContent = '🔊 ...';
+              btnListen.classList.remove('guide-active');
+              document.getElementById('step-listen').classList.remove('guide-active');
+              if (isUserTurn) {
+                const stepSpeak = document.getElementById('step-speak');
+                stepSpeak.style.opacity = '1';
+                stepSpeak.style.pointerEvents = 'auto';
+                document.getElementById('btn-speak').classList.add('guide-active');
+              }
+            },
+            onEnd: () => {
+              btnListen.textContent = originalText;
+              if (!isUserTurn) {
+                unlockNext();
+              }
             }
-          },
-          onEnd: () => {
-            btnListen.textContent = originalText;
-            if (!isUserTurn) {
-              unlockNext();
-            }
-          }
+          });
         });
-      });
 
       if (isUserTurn) {
         const btnSpeak = document.getElementById('btn-speak');

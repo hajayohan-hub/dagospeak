@@ -5,15 +5,15 @@
   "title": "Première rencontre",
   "titleMg": "Fifanerasana voalohany",
   "participants": {
-    "A": { "name": "Pierre", "avatar": "👨" },
-    "B": { "name": "Marie", "avatar": "👩" }
+    "A": { "name": "Pierre", "avatar": "👨", "gender": "male" },
+    "B": { "name": "Marie", "avatar": "👩", "gender": "female" }
   },
   "lines": [
     { "speaker": "A", "text": "Bonjour !", "translation": "Manahoana !", "highlight": "Bonjour" },
     { "speaker": "B", "text": "Bonjour ! Comment ça va ?", "translation": "Manahoana ! Manao ahoana?", "highlight": "Comment ça va" },
-    { "speaker": "A", "text": "Ça va bien, merci. Et vous ?", "translation": "Tsara, misaotra. Ary ianao?", "highlight": "merci" },
-    { "speaker": "B", "text": "Ça va bien aussi. Merci !", "translation": "Tsara aho koa. Misaotra!", "highlight": "Merci" },
+    { "speaker": "A", "text": "Ça va bien, merci. Et vous ?", "translation": "Tsara fa misaotra. Ary ianao?", "highlight": "merci" },
+    { "speaker": "B", "text": "Ça va bien aussi. Merci !", "translation": "Tsara koa aho fa Misaotra!", "highlight": "Merci" },
     { "speaker": "A", "text": "Au revoir !", "translation": "Veloma!", "highlight": "Au revoir" },
-    { "speaker": "B", "text": "Au revoir et à bientôt !", "translation": "Veloma ary hihaona indray!", "highlight": "à bientôt" }
+    { "speaker": "B", "text": "Au revoir et à bientôt !", "translation": "Veloma dia rehefa mihaona indray!", "highlight": "à bientôt" }
   ]
 }

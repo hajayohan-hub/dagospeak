@@ -5,8 +5,8 @@
   "title": "Les grands nombres",
   "titleMg": "Ny isa lehibe",
   "participants": {
-    "A": { "name": "M. Martin", "avatar": "👨🏻‍🏫" },
-    "B": { "name": "Emma", "avatar": "👧🏼" }
+    "A": { "name": "M. Martin", "avatar": "👨🏻‍🏫", "gender": "boy" },
+    "B": { "name": "Emma", "avatar": "👧🏼", "gender": "girl" }
   },
   "lines": [
     { "speaker": "A", "text": "Quel âge as-tu ?", "translation": "Firy taona ianao?", "highlight": "âge" },

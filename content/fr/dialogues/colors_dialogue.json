@@ -5,8 +5,8 @@
   "title": "De quelle couleur ?",
   "titleMg": "Inona ny lokony?",
   "participants": {
-    "A": { "name": "Sophie", "avatar": "🏼" },
-    "B": { "name": "Thomas", "avatar": "👦🏻" }
+    "A": { "name": "Sophie", "avatar": "🏼", "gender": "female" },
+    "B": { "name": "Thomas", "avatar": "👦🏻", "gender": "boy" }
   },
   "lines": [
     { "speaker": "A", "text": "Quelle est ta couleur préférée ?", "translation": "Inona ny loko ankafizinao?", "highlight": "couleur" },
