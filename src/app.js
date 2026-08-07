@@ -1698,26 +1698,22 @@ function getVoiceByGender(gender, lang = 'fr-FR') {
   const voices = speechSynthesis.getVoices();
   const frenchVoices = voices.filter(v => v.lang.startsWith('fr'));
 
-  // Mots-clés pour identifier les voix françaises (varie selon Windows/Mac/Android)
   const keywords = {
     male: ['thomas', 'paul', 'daniel', 'pierre', 'male', 'homme'],
     female: ['julie', 'alice', 'amelie', 'marie', 'virginie', 'female', 'femme'],
-    boy: ['thomas', 'paul', 'male'], // On utilisera le pitch pour l'effet "garçon"
-    girl: ['julie', 'alice', 'female'] // On utilisera le pitch pour l'effet "fille"
+    boy: ['thomas', 'paul', 'male'],
+    girl: ['julie', 'alice', 'female']
   };
 
   const targetKeywords = keywords[gender] || keywords.female;
 
-  // 1. Essayer de trouver une voix correspondant au mot-clé
   for (let kw of targetKeywords) {
     const match = frenchVoices.find(v => v.name.toLowerCase().includes(kw));
     if (match) return match;
-    // Fallback sur la langue générique si le nom contient "French" ou "Français"
     const genericMatch = frenchVoices.find(v => v.name.toLowerCase().includes('french') || v.name.toLowerCase().includes('français'));
     if (genericMatch) return genericMatch;
   }
 
-  // 2. Fallback : retourner la première voix française disponible
   return frenchVoices[0] || voices[0];
 }
 
@@ -1725,98 +1721,43 @@ function getVoiceByGender(gender, lang = 'fr-FR') {
 // HELPER TTS : Synthèse vocale avec gestion du genre et du pitch
 // ═══════════════════════════════════════════════════════════
 function speakWithFeedback(text, { onStart, onEnd, lang = 'fr-FR', rate = 0.9, gender = 'female' } = {}) {
-  speechSynthesis.cancel(); // Annule toute voix en cours
+  speechSynthesis.cancel();
 
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = lang;
   utterance.rate = rate;
 
-  // 1. Attribution de la voix
   const selectedVoice = getVoiceByGender(gender, lang);
   if (selectedVoice) {
     utterance.voice = selectedVoice;
   }
 
-  // 2. Ajustement de la hauteur (pitch) pour différencier les âges
-  // L'échelle standard est de 0.1 à 2.0 (1.0 est la normale)
+  // Ajustement de la hauteur (pitch) pour différencier les âges
   switch (gender) {
-    case 'male':
-      utterance.pitch = 0.85; // Voix plus grave
-      break;
-    case 'female':
-      utterance.pitch = 1.1;  // Voix légèrement plus aiguë
-      break;
-    case 'boy':
-      utterance.pitch = 1.3;  // Voix d'enfant (plus aiguë)
-      break;
-    case 'girl':
-      utterance.pitch = 1.4;  // Voix d'enfant (plus aiguë)
-      break;
-    default:
-      utterance.pitch = 1.0;
+    case 'male': utterance.pitch = 0.85; break;   // Voix plus grave
+    case 'female': utterance.pitch = 1.1; break;  // Voix légèrement plus aiguë
+    case 'boy': utterance.pitch = 1.3; break;     // Voix d'enfant
+    case 'girl': utterance.pitch = 1.4; break;    // Voix d'enfant
+    default: utterance.pitch = 1.0;
   }
 
   let finished = false;
 
-  utterance.onstart = () => {
-    if (onStart) onStart();
-  };
-
+  utterance.onstart = () => { if (onStart) onStart(); };
   utterance.onend = () => {
     if (finished) return;
     finished = true;
     if (onEnd) onEnd();
   };
-
   utterance.onerror = () => {
-    if (finished) return;
-    finished = true;
-    if (onEnd) onEnd(); // Débloque quand même en cas d'erreur
-  };
-
-  speechSynthesis.speak(utterance);
-
-  // 🔒 Sécurité : si onend ne se déclenche jamais (bug Chrome connu), on débloque après 10s
-  setTimeout(() => {
-    if (!finished) {
-      finished = true;
-      if (onEnd) onEnd();
-    }
-  }, 10000);
-}
-
-
-// ═══════════════════════════════════════════════════════════
-// HELPER TTS : Synthèse vocale avec gestion d'événements précise
-// ═══════════════════════════════════════════════════════════
-function speakWithFeedback(text, { onStart, onEnd, lang = 'fr-FR', rate = 0.9 } = {}) {
-  speechSynthesis.cancel(); // Annule toute voix en cours
-
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = lang;
-  utterance.rate = rate;
-
-  let finished = false;
-
-  utterance.onstart = () => {
-    if (onStart) onStart();
-  };
-
-  utterance.onend = () => {
     if (finished) return;
     finished = true;
     if (onEnd) onEnd();
   };
 
-  utterance.onerror = () => {
-    if (finished) return;
-    finished = true;
-    if (onEnd) onEnd(); // Débloque quand même en cas d'erreur
-  };
-
   speechSynthesis.speak(utterance);
 
-  // 🔒 Sécurité : si onend ne se déclenche jamais (bug Chrome connu), on débloque après 10s
+  // Sécurité : si onend ne se déclenche jamais (bug Chrome connu)
   setTimeout(() => {
     if (!finished) {
       finished = true;
