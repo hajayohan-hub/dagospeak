@@ -721,14 +721,30 @@ async function renderHome() {
     });
 
     // Cartes de niveaux
+        // ✅ ÉCOUTEUR ROBUSTE POUR LES NIVEAUX (gère les Web Components)
     document.getElementById('levels-container').addEventListener('click', (e) => {
-      const levelBtn = e.target.closest('.btn-select-level');
-      if (levelBtn) {
-        currentLevel = levelBtn.dataset.level;
-        currentTheme = null;
+      // On cherche si le clic vient d'un bouton ou de la carte elle-même
+      const clickedElement = e.target;
+      const levelBtn = clickedElement.closest('.btn-select-level') || clickedElement.closest('ds-button.btn-select-level');
+      const levelCard = clickedElement.closest('.home-level-card');
+
+      // On récupère le niveau depuis le bouton, ou depuis la carte si on a cliqué dessus
+      const selectedLevel = levelBtn ? levelBtn.dataset.level : (levelCard ? levelCard.dataset.level : null);
+
+      if (selectedLevel) {
+        console.log(`[Home] ✅ Clic détecté sur le niveau : ${selectedLevel}`);
+
+        currentLevel = selectedLevel;
+        currentTheme = null; // Réinitialise le thème quand on change de niveau
         localStorage.setItem('dagospeak:level', currentLevel);
         updateLevelUI();
+
+        console.log('[Home] 🚀 Navigation vers /themes en cours...');
         router.navigate('/themes');
+
+        // Empêche le clic de se propager et de déclencher d'autres actions
+        e.preventDefault();
+        e.stopPropagation();
         return;
       }
     });
