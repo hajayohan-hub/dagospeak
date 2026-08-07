@@ -1234,15 +1234,14 @@ syncProfileWithJourneys();
            });
         }
 
-            // ✅ BOUTON DE FIN : Marquer la leçon comme terminée et passer à la pratique
+      }
+
+        // ✅ BOUTON DE FIN : Marquer la leçon comme terminée et passer à la pratique
          document.getElementById('btn-start-practice')?.addEventListener('click', () => {
            journeyTracker.markJourneyComplete('lessons', unitId);
            saveProfile();
            goToNextJourney('lesson'); // → va automatiquement vers 'practice'
          });
-      }
-
-
 
      window.teacherAvatar.show('lesson');
      logger.info(`✅ Page Leçon rendue pour le thème: ${unitId}`);
