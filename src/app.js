@@ -1607,61 +1607,60 @@ async function renderAlphabet() {
       cards[0].classList.add('active');
     }
 
-    cards.forEach((card, index) => {
-      card.addEventListener('click', () => {
-        // Ne permettre que le clic sur la carte active
-        if (index !== currentCardIndex) return;
+         cards.forEach((card, index) => {
+        card.addEventListener('click', () => {
+          // Ne permettre que le clic sur la carte active
+          if (index !== currentCardIndex) return;
 
-        const item = vocabData.items[index];
-        const letter = getLetter(item);
-        const audioText = getAudioText(item);
-        const indicator = card.querySelector('.listen-indicator');
+          const item = vocabData.items[index];
+          const indicator = card.querySelector('.listen-indicator');
 
-        // Animation de clic
-        card.style.transform = 'scale(0.95)';
-        setTimeout(() => { card.style.transform = ''; }, 150);
+          // Animation de clic
+          card.style.transform = 'scale(0.95)';
+          setTimeout(() => { card.style.transform = ''; }, 150);
 
-        // Écouter la lettre
-                 // Écouter la lettre
-         speechSynthesis.cancel();
-         indicator.style.opacity = '1';
-         indicator.textContent = '🔊 ...';
+          // Écouter la lettre
+          speechSynthesis.cancel();
+          indicator.style.opacity = '1';
+          indicator.textContent = '🔊 ...';
 
-         // ✅ REMPLACEMENT SÉCURISÉ
-         speakWithFeedback(item.target, {
-           rate: 0.8,
-           gender: 'female', // Voix par défaut pour l'alphabet
-           onEnd: () => {
-             indicator.textContent = '✅';
-             indicator.style.opacity = '1';
-             card.style.borderColor = 'var(--ds-color-success)';
-             card.style.animation = 'none';
-             card.style.pointerEvents = 'none';
-             completedCount++;
-             currentCardIndex = index + 1;
-             // Allumer la carte suivante
-             if (currentCardIndex < cards.length) {
-               setTimeout(() => {
-                 cards[currentCardIndex].style.borderColor = 'var(--ds-color-primary)';
-                 cards[currentCardIndex].style.animation = 'pulse-guide 2s infinite';
-                 cards[currentCardIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
-               }, 500);
-             } else {
-               // Toutes les cartes terminées
-               setTimeout(() => {
-                 document.getElementById('alphabet-complete-section').style.display = 'block';
-                 document.getElementById('alphabet-complete-section').scrollIntoView({ behavior: 'smooth' });
-                 // Feedback vocal du Teacher Avatar
-                 if (isPart1) {
-                   window.teacherAvatar.speak("Très bien ! Vous avez terminé la première moitié de l'alphabet. Maintenant, cliquez sur le bouton qui s'allume pour apprendre la deuxième partie !");
-                 } else {
-                   window.teacherAvatar.speak("Félicitations ! Vous avez terminé l'alphabet complet ! Maintenant, cliquez sur le bouton pour commencer votre premier thème !");
-                 }
-               }, 800);
-             }
-           }
-         });
-    });
+          speakWithFeedback(item.target, {
+            rate: 0.8,
+            gender: 'female',
+            onEnd: () => {
+              indicator.textContent = '✅';
+              indicator.style.opacity = '1';
+              card.classList.remove('active');
+              card.classList.add('completed');
+              card.style.pointerEvents = 'none';
+
+              currentCardIndex = index + 1;
+
+              // Allumer la carte suivante
+              if (currentCardIndex < cards.length) {
+                setTimeout(() => {
+                  cards[currentCardIndex].classList.add('active');
+                  cards[currentCardIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 500);
+              } else {
+                // Toutes les cartes terminées
+                setTimeout(() => {
+                  document.getElementById('alphabet-complete-section').style.display = 'block';
+                  document.getElementById('alphabet-complete-section').scrollIntoView({ behavior: 'smooth' });
+
+                  if (isPart1) {
+                    window.teacherAvatar.speak("Très bien ! Vous avez terminé la première moitié de l'alphabet. Maintenant, cliquez sur le bouton qui s'allume pour apprendre la deuxième partie !");
+                  } else {
+                    window.teacherAvatar.speak("Félicitations ! Vous avez terminé l'alphabet complet ! Maintenant, cliquez sur le bouton pour commencer votre premier thème !");
+                  }
+                }, 800);
+              }
+            }
+          });
+        }); // ✅ Ferme addEventListener
+      }); // ✅ Ferme forEach
+
+
 
     // Bouton vers partie 2 ou premier thème
    const btnNext = document.getElementById(isPart1 ? 'btn-go-part2' : 'btn-go-first-theme');
