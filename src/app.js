@@ -2460,6 +2460,13 @@ async function renderPracticePhrases() {
 // Activité Dialogue
 async function renderDialogues() {
 
+  // ✅ BARRIÈRE DE SÉCURITÉ : Les thèmes alphabet n'ont pas de dialogue
+  if (currentTheme === 'alphabet1' || currentTheme === 'alphabet2') {
+    console.log('[Dialogues] ⚠️ Thème alphabet détecté, redirection vers les thèmes.');
+    router.navigate('/themes');
+    return;
+  }
+
   const main = document.getElementById('app');
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement des dialogues...</div>';
 
