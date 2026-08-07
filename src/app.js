@@ -1204,37 +1204,35 @@ syncProfileWithJourneys();
           wordButtons[0].classList.add('guide-active');
           wordButtons[0].style.animation = 'pulse-guide 2s infinite';
 
-          wordButtons.forEach((btn, index) => {
+                    wordButtons.forEach((btn, index) => {
             btn.addEventListener('click', () => {
-                         speechSynthesis.cancel();
-           btn.textContent = '🔊 ...';
+              speechSynthesis.cancel();
+              btn.textContent = '🔊 ...';
 
-           // ✅ REMPLACEMENT SÉCURISÉ : On garde toute votre logique dans onEnd
-           speakWithFeedback(btn.dataset.target, {
-             rate: 0.9,
-             gender: 'female', // Voix par défaut pour les mots (changez en 'male' si vous préférez)
-             onEnd: () => {
-               btn.textContent = '🔊 Mitenena';
-               btn.classList.remove('guide-active');
-               btn.style.animation = 'none';
-               // ✅ Allumer le mot suivant
-               currentWordIndex = index + 1;
-               if (currentWordIndex < wordButtons.length) {
-                 wordButtons[currentWordIndex].classList.add('guide-active');
-                 wordButtons[currentWordIndex].style.animation = 'pulse-guide 2s infinite';
-               } else {
-                 // ✅ Tous les mots écoutés : allumer le bouton de fin
-                 const btnStartPractice = document.getElementById('btn-start-practice');
-                 if (btnStartPractice) {
-                   btnStartPractice.classList.add('guide-active');
-                   btnStartPractice.style.animation = 'pulse-green 1.5s infinite';
-                 }
-               }
-             }
-           });
-        }
+              speakWithFeedback(btn.dataset.target, {
+                rate: 0.9,
+                gender: 'female',
+                onEnd: () => {
+                  btn.textContent = '🔊 Mitenena';
+                  btn.classList.remove('guide-active');
+                  btn.style.animation = 'none';
 
-      }
+                  currentWordIndex = index + 1;
+
+                  if (currentWordIndex < wordButtons.length) {
+                    wordButtons[currentWordIndex].classList.add('guide-active');
+                    wordButtons[currentWordIndex].style.animation = 'pulse-guide 2s infinite';
+                  } else {
+                    const btnStartPractice = document.getElementById('btn-start-practice');
+                    if (btnStartPractice) {
+                      btnStartPractice.classList.add('guide-active');
+                      btnStartPractice.style.animation = 'pulse-green 1.5s infinite';
+                    }
+                  }
+                }
+              });
+            }); // ← ✅ AJOUTEZ CETTE LIGNE MANQUANTE
+          });
 
         // ✅ BOUTON DE FIN : Marquer la leçon comme terminée et passer à la pratique
          document.getElementById('btn-start-practice')?.addEventListener('click', () => {
