@@ -1206,32 +1206,32 @@ syncProfileWithJourneys();
 
           wordButtons.forEach((btn, index) => {
             btn.addEventListener('click', () => {
-              speechSynthesis.cancel();
-              btn.textContent = '🔊 ...';
-              const u = new SpeechSynthesisUtterance(btn.dataset.target);
-              u.lang = 'fr-FR'; u.rate = 0.9;
-              u.onend = () => {
-                btn.textContent = '🔊 Mitenena';
-                btn.classList.remove('guide-active');
-                btn.style.animation = 'none';
+                         speechSynthesis.cancel();
+           btn.textContent = '🔊 ...';
 
-                // ✅ Allumer le mot suivant
-                currentWordIndex = index + 1;
-                if (currentWordIndex < wordButtons.length) {
-                  wordButtons[currentWordIndex].classList.add('guide-active');
-                  wordButtons[currentWordIndex].style.animation = 'pulse-guide 2s infinite';
-                } else {
-                  // ✅ Tous les mots écoutés : allumer le bouton de fin
-                  const btnStartPractice = document.getElementById('btn-start-practice');
-                  if (btnStartPractice) {
-                    btnStartPractice.classList.add('guide-active');
-                    btnStartPractice.style.animation = 'pulse-green 1.5s infinite';
-                  }
-                }
-              };
-              speechSynthesis.speak(u);
-            });
-          });
+           // ✅ REMPLACEMENT SÉCURISÉ : On garde toute votre logique dans onEnd
+           speakWithFeedback(btn.dataset.target, {
+             rate: 0.9,
+             gender: 'female', // Voix par défaut pour les mots (changez en 'male' si vous préférez)
+             onEnd: () => {
+               btn.textContent = '🔊 Mitenena';
+               btn.classList.remove('guide-active');
+               btn.style.animation = 'none';
+               // ✅ Allumer le mot suivant
+               currentWordIndex = index + 1;
+               if (currentWordIndex < wordButtons.length) {
+                 wordButtons[currentWordIndex].classList.add('guide-active');
+                 wordButtons[currentWordIndex].style.animation = 'pulse-guide 2s infinite';
+               } else {
+                 // ✅ Tous les mots écoutés : allumer le bouton de fin
+                 const btnStartPractice = document.getElementById('btn-start-practice');
+                 if (btnStartPractice) {
+                   btnStartPractice.classList.add('guide-active');
+                   btnStartPractice.style.animation = 'pulse-green 1.5s infinite';
+                 }
+               }
+             }
+           });
         }
 
         // ✅ TRADUCTION MALGACHE DU BOUTON DE FIN
@@ -1335,29 +1335,30 @@ async function renderLessonPhrases() {
 
       phraseButtons.forEach((btn, index) => {
         btn.addEventListener('click', () => {
-          speechSynthesis.cancel();
-          btn.textContent = '🔊 ...';
-          const u = new SpeechSynthesisUtterance(btn.dataset.phrase);
-          u.lang = 'fr-FR'; u.rate = 0.9;
-          u.onend = () => {
-            btn.textContent = ' Mihainoa';
-            btn.classList.remove('guide-active');
-            btn.style.animation = 'none';
-            currentPhraseIndex = index + 1;
-            if (currentPhraseIndex < phraseButtons.length) {
-              phraseButtons[currentPhraseIndex].classList.add('guide-active');
-              phraseButtons[currentPhraseIndex].style.animation = 'pulse-guide 2s infinite';
-            } else {
-              const btnStart = document.getElementById('btn-start-practice-phrases');
-              if (btnStart) {
-                btnStart.classList.add('guide-active');
-                btnStart.style.animation = 'pulse-green 1.5s infinite';
-              }
-            }
-          };
-          speechSynthesis.speak(u);
-        });
-      });
+                 speechSynthesis.cancel();
+       btn.textContent = '🔊 ...';
+
+       // ✅ REMPLACEMENT SÉCURISÉ
+       speakWithFeedback(btn.dataset.phrase, {
+         rate: 0.9,
+         gender: 'female',
+         onEnd: () => {
+           btn.textContent = '🔊 Mihainoa'; // J'ai corrigé l'espace en trop ici
+           btn.classList.remove('guide-active');
+           btn.style.animation = 'none';
+           currentPhraseIndex = index + 1;
+           if (currentPhraseIndex < phraseButtons.length) {
+             phraseButtons[currentPhraseIndex].classList.add('guide-active');
+             phraseButtons[currentPhraseIndex].style.animation = 'pulse-guide 2s infinite';
+           } else {
+             const btnStart = document.getElementById('btn-start-practice-phrases');
+             if (btnStart) {
+               btnStart.classList.add('guide-active');
+               btnStart.style.animation = 'pulse-green 1.5s infinite';
+             }
+           }
+         }
+       });
     }
 
     // ✅ NOUVEAU CODE :
@@ -1620,46 +1621,45 @@ async function renderAlphabet() {
         setTimeout(() => { card.style.transform = ''; }, 150);
 
         // Écouter la lettre
-        speechSynthesis.cancel();
-        indicator.style.opacity = '1';
-        indicator.textContent = '🔊 ...';
+                 // Écouter la lettre
+         speechSynthesis.cancel();
+         indicator.style.opacity = '1';
+         indicator.textContent = '🔊 ...';
 
-        const utterance = new SpeechSynthesisUtterance(audioText);
-        utterance.lang = 'fr-FR';
-        utterance.rate = 0.8;
-
-        utterance.onend = () => {
-          indicator.textContent = '✅';
-          indicator.style.opacity = '1';
-          card.classList.remove('active');
-          card.classList.add('completed');
-          card.style.pointerEvents = 'none';
-
-          currentCardIndex = index + 1;
-
-          // Allumer la carte suivante
-          if (currentCardIndex < cards.length) {
-            setTimeout(() => {
-              cards[currentCardIndex].classList.add('active');
-              cards[currentCardIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 500);
-          } else {
-            // Toutes les cartes terminées
-            setTimeout(() => {
-              document.getElementById('alphabet-complete-section').style.display = 'block';
-              document.getElementById('alphabet-complete-section').scrollIntoView({ behavior: 'smooth' });
-
-              if (isPart1) {
-                window.teacherAvatar.speak("Très bien ! Vous avez terminé la première moitié de l'alphabet. Maintenant, cliquez sur le bouton qui s'allume pour apprendre la deuxième partie !");
-              } else {
-                window.teacherAvatar.speak("Félicitations ! Vous avez terminé l'alphabet complet ! Maintenant, cliquez sur le bouton pour commencer votre premier thème !");
-              }
-            }, 800);
-          }
-        };
-
-        speechSynthesis.speak(utterance);
-      });
+         // ✅ REMPLACEMENT SÉCURISÉ
+         speakWithFeedback(item.target, {
+           rate: 0.8,
+           gender: 'female', // Voix par défaut pour l'alphabet
+           onEnd: () => {
+             indicator.textContent = '✅';
+             indicator.style.opacity = '1';
+             card.style.borderColor = 'var(--ds-color-success)';
+             card.style.animation = 'none';
+             card.style.pointerEvents = 'none';
+             completedCount++;
+             currentCardIndex = index + 1;
+             // Allumer la carte suivante
+             if (currentCardIndex < cards.length) {
+               setTimeout(() => {
+                 cards[currentCardIndex].style.borderColor = 'var(--ds-color-primary)';
+                 cards[currentCardIndex].style.animation = 'pulse-guide 2s infinite';
+                 cards[currentCardIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+               }, 500);
+             } else {
+               // Toutes les cartes terminées
+               setTimeout(() => {
+                 document.getElementById('alphabet-complete-section').style.display = 'block';
+                 document.getElementById('alphabet-complete-section').scrollIntoView({ behavior: 'smooth' });
+                 // Feedback vocal du Teacher Avatar
+                 if (isPart1) {
+                   window.teacherAvatar.speak("Très bien ! Vous avez terminé la première moitié de l'alphabet. Maintenant, cliquez sur le bouton qui s'allume pour apprendre la deuxième partie !");
+                 } else {
+                   window.teacherAvatar.speak("Félicitations ! Vous avez terminé l'alphabet complet ! Maintenant, cliquez sur le bouton pour commencer votre premier thème !");
+                 }
+               }, 800);
+             }
+           }
+         });
     });
 
     // Bouton vers partie 2 ou premier thème
@@ -1691,42 +1691,52 @@ async function renderAlphabet() {
 }
 
 
+// ✅ CHARGEMENT ASYNCHRONE DES VOIX (Correction du bug Chrome mobile)
+let voicesAreLoaded = false;
+function loadVoices() {
+  speechSynthesis.getVoices();
+  voicesAreLoaded = true;
+}
+if (speechSynthesis.onvoiceschanged !== undefined) {
+  speechSynthesis.onvoiceschanged = loadVoices;
+}
+loadVoices(); // Appel immédiat au démarrage
+
 // ═══════════════════════════════════════════════════════════
 // GESTIONNAIRE DE VOIX PAR GENRE - VERSION OPTIMISÉE
 // ═══════════════════════════════════════════════════════════
+
 function getVoiceByGender(gender, lang = 'fr-FR') {
-  const voices = speechSynthesis.getVoices();
+  let voices = speechSynthesis.getVoices();
+  if (voices.length === 0) {
+    voices = speechSynthesis.getVoices(); // Force reload si vide (quirk Chrome)
+  }
   const frenchVoices = voices.filter(v => v.lang.startsWith('fr'));
 
   if (frenchVoices.length === 0) return voices[0] || null;
 
-  // Stratégie : essayer de trouver DEUX voix différentes pour homme/femme
-  // Sur certains appareils, il y a "Google français" ET "Google français (France)"
-  // ou une voix "male" et une voix "female" dans le nom
+  const maleKeywords = ['male', 'homme', 'thomas', 'paul', 'daniel', 'henri', 'google français'];
+  const femaleKeywords = ['female', 'femme', 'julie', 'alice', 'amelie', 'marie', 'virginie', 'audrey', 'google français'];
 
-  const maleKeywords = ['male', 'homme', 'thomas', 'paul', 'daniel', 'henri'];
-  const femaleKeywords = ['female', 'femme', 'julie', 'alice', 'amelie', 'marie', 'virginie', 'audrey'];
-
-  if (gender === 'male' || gender === 'boy') {
-    for (let kw of maleKeywords) {
-      const match = frenchVoices.find(v => v.name.toLowerCase().includes(kw));
-      if (match) return match;
-    }
-  }
-
-  if (gender === 'female' || gender === 'girl') {
-    for (let kw of femaleKeywords) {
-      const match = frenchVoices.find(v => v.name.toLowerCase().includes(kw));
-      if (match) return match;
-    }
-  }
-
-  // Fallback : si 2+ voix françaises existent, utiliser la 1ère pour homme, 2ème pour femme
   if (frenchVoices.length >= 2) {
-    if (gender === 'male' || gender === 'boy') return frenchVoices[0];
-    if (gender === 'female' || gender === 'girl') return frenchVoices[1];
+    if (gender === 'male' || gender === 'boy') {
+      for (let kw of maleKeywords) {
+        const match = frenchVoices.find(v => v.name.toLowerCase().includes(kw));
+        if (match) return match;
+      }
+      return frenchVoices[0]; // Fallback sur la 1ère voix
+    }
+    if (gender === 'female' || gender === 'girl') {
+      for (let kw of femaleKeywords) {
+        const match = frenchVoices.find(v => v.name.toLowerCase().includes(kw));
+        if (match) return match;
+      }
+      return frenchVoices[1]; // Fallback sur la 2ème voix
+    }
   }
 
+  // ⚠️ Si une seule voix existe, on la retourne.
+  // La différenciation se fera UNIQUEMENT via les profils PITCH/RATE dans speakWithFeedback.
   return frenchVoices[0];
 }
 
@@ -2547,10 +2557,9 @@ syncProfileWithJourneys();
     document.querySelectorAll('.play-dialog-audio').forEach(btn => {
       btn.addEventListener('click', () => {
         const originalText = btn.textContent;
-        // Récupérer le genre du participant qui parle (A ou B)
-        const speakerKey = btn.dataset.speaker; // Nous allons ajouter cet attribut data
+        const speakerKey = btn.dataset.speaker;
         const speaker = dialogue.participants[speakerKey];
-        const gender = speaker?.gender || 'female'; // Défaut : femme
+        const gender = speaker?.gender || 'female'; // ✅ Récupération du genre
 
         speakWithFeedback(btn.dataset.text, {
           gender: gender, // ✅ Transmission du genre
@@ -4111,15 +4120,27 @@ async function renderConversation() {
         document.getElementById('btn-play').addEventListener('click', () => {
           if (hasPlayed) return;
           hasPlayed = true;
-          const u = new SpeechSynthesisUtterance(node.audio.ttsTextFr);
-          u.lang = 'fr-FR'; u.rate = node.audio.ttsRate || 0.9;
-          u.onend = () => {
-            const btnNext = document.getElementById('btn-next');
-            btnNext.disabled = false;
-            btnNext.style.opacity = '1';
-          };
-          speechSynthesis.speak(u);
-        });
+          speakWithFeedback(btn.dataset.target, {
+            rate: 0.9,
+            gender: 'female', // Par défaut pour les mots isolés
+            onStart: () => { btn.textContent = '🔊 ...'; },
+            onEnd: () => {
+              btn.textContent = '🔊 Mitenena';
+              btn.classList.remove('guide-active');
+              btn.style.animation = 'none';
+              currentWordIndex = index + 1;
+              if (currentWordIndex < wordButtons.length) {
+                wordButtons[currentWordIndex].classList.add('guide-active');
+                wordButtons[currentWordIndex].style.animation = 'pulse-guide 2s infinite';
+              } else {
+                const btnStartPractice = document.getElementById('btn-start-practice');
+                if (btnStartPractice) {
+                  btnStartPractice.classList.add('guide-active');
+                  btnStartPractice.style.animation = 'pulse-green 1.5s infinite';
+                }
+              }
+            }
+          });
 
         document.getElementById('btn-next').addEventListener('click', () => {
           currentNodeId = node.nextNode;
