@@ -4117,30 +4117,27 @@ async function renderConversation() {
         `;
 
         let hasPlayed = false;
-        document.getElementById('btn-play').addEventListener('click', () => {
-          if (hasPlayed) return;
-          hasPlayed = true;
-          speakWithFeedback(btn.dataset.target, {
-            rate: 0.9,
-            gender: 'female', // Par défaut pour les mots isolés
-            onStart: () => { btn.textContent = '🔊 ...'; },
+               document.getElementById('btn-play').addEventListener('click', () => {
+          const btn = document.getElementById('btn-play');
+          btn.textContent = '🔊 ...';
+
+          speakWithFeedback(node.audio.ttsTextFr, {
+            rate: node.audio.ttsRate || 0.9,
+            gender: 'female', // ou 'male' selon le personnage
+            onStart: () => {
+              btn.textContent = '🔊 ...';
+            },
             onEnd: () => {
-              btn.textContent = '🔊 Mitenena';
-              btn.classList.remove('guide-active');
-              btn.style.animation = 'none';
-              currentWordIndex = index + 1;
-              if (currentWordIndex < wordButtons.length) {
-                wordButtons[currentWordIndex].classList.add('guide-active');
-                wordButtons[currentWordIndex].style.animation = 'pulse-guide 2s infinite';
-              } else {
-                const btnStartPractice = document.getElementById('btn-start-practice');
-                if (btnStartPractice) {
-                  btnStartPractice.classList.add('guide-active');
-                  btnStartPractice.style.animation = 'pulse-green 1.5s infinite';
-                }
+              btn.textContent = '🔊 Écouter';
+              // Débloquer le bouton suivant ou passer à l'étape suivante
+              const btnNext = document.getElementById('btn-next');
+              if (btnNext) {
+                btnNext.classList.add('guide-active');
+                btnNext.style.animation = 'pulse-green 1.5s infinite';
               }
             }
           });
+        }); // ✅ AJOUTEZ CE `});` POUR FERMER addEventListener
 
         document.getElementById('btn-next').addEventListener('click', () => {
           currentNodeId = node.nextNode;
