@@ -1234,20 +1234,15 @@ syncProfileWithJourneys();
            });
         }
 
-        // ✅ TRADUCTION MALGACHE DU BOUTON DE FIN
-        document.getElementById('btn-start-practice')?.addEventListener('click', () => {
-          journeyTracker.markJourneyComplete('lessons', unitId);
-          saveProfile();
-          goToNextJourney('lesson'); // → va automatiquement vers 'practice'
-        });
+            // ✅ BOUTON DE FIN : Marquer la leçon comme terminée et passer à la pratique
+         document.getElementById('btn-start-practice')?.addEventListener('click', () => {
+           journeyTracker.markJourneyComplete('lessons', unitId);
+           saveProfile();
+           goToNextJourney('lesson'); // → va automatiquement vers 'practice'
+         });
       }
 
-         // ✅ BOUTON DE FIN : Marquer la leçon comme terminée et passer à la pratique
-     document.getElementById('btn-start-practice')?.addEventListener('click', () => {
-       journeyTracker.markJourneyComplete('lessons', unitId);
-       saveProfile();
-       goToNextJourney('lesson'); // → va automatiquement vers 'practice'
-     });
+
 
      window.teacherAvatar.show('lesson');
      logger.info(`✅ Page Leçon rendue pour le thème: ${unitId}`);
@@ -2182,7 +2177,7 @@ syncProfileWithJourneys();
 // ═══════════════════════════════════════════════════════════
 async function renderPracticePhrases() {
   const main = document.getElementById('app');
-  main.innerHTML = '<div style="text-align:center; padding:2rem;">Miomana ny fanazaran-tena amin\'ny fehezanteny...</div>';
+  main.innerHTML = `<div style="text-align:center; padding:2rem;">Miomana ny fanazaran-tena amin\'ny fehezanteny...</div>`;
   renderProgressHeader();
 
   try {
