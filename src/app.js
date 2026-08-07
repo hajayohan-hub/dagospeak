@@ -1240,6 +1240,7 @@ syncProfileWithJourneys();
           saveProfile();
           goToNextJourney('lesson'); // → va automatiquement vers 'practice'
         });
+      }
 
     document.getElementById('btn-start-practice')?.addEventListener('click', () => router.navigate('/practice'));
 
