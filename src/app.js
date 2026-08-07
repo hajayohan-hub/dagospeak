@@ -1242,21 +1242,24 @@ syncProfileWithJourneys();
         });
       }
 
-    document.getElementById('btn-start-practice')?.addEventListener('click', () => router.navigate('/practice'));
+         // ✅ BOUTON DE FIN : Marquer la leçon comme terminée et passer à la pratique
+     document.getElementById('btn-start-practice')?.addEventListener('click', () => {
+       journeyTracker.markJourneyComplete('lessons', unitId);
+       saveProfile();
+       goToNextJourney('lesson'); // → va automatiquement vers 'practice'
+     });
 
-    window.teacherAvatar.show('lesson');
+     window.teacherAvatar.show('lesson');
+     logger.info(`✅ Page Leçon rendue pour le thème: ${unitId}`);
 
-    logger.info(`✅ Page Leçon rendue pour le thème: ${unitId}`);
+     setTimeout(() => {
+       window.teacherAvatar.speak("Vous avez appris les mots. Cliquez sur Commencer la pratique pour tester vos connaissances !");
+     }, 1000);
 
-    setTimeout(() => {
-        window.teacherAvatar.speak("Vous avez appris les mots. Cliquez sur Commencer la pratique pour tester vos connaissances !");
-      }, 1000);
-
-
-  } catch (e) {
-    main.innerHTML = `<p style="color:red; text-align:center;">Erreur leçon: ${e.message}</p>`;
-  }
-}
+   } catch (e) {
+     main.innerHTML = `<p style="color:red; text-align:center;">Erreur leçon: ${e.message}</p>`;
+   }
+ } // ← ✅ Fermeture correcte de renderLesson()
 
 
 // ═══════════════════════════════════════════════════════════
