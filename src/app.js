@@ -1327,37 +1327,40 @@ async function renderLessonPhrases() {
     // Allumage progressif des phrases
     let currentPhraseIndex = 0;
     const phraseButtons = document.querySelectorAll('.play-phrase');
-    if (phraseButtons.length > 0) {
-      phraseButtons[0].classList.add('guide-active');
-      phraseButtons[0].style.animation = 'pulse-guide 2s infinite';
+          if (phraseButtons.length > 0) {
+        phraseButtons[0].classList.add('guide-active');
+        phraseButtons[0].style.animation = 'pulse-guide 2s infinite';
 
-      phraseButtons.forEach((btn, index) => {
-        btn.addEventListener('click', () => {
-                 speechSynthesis.cancel();
-       btn.textContent = '🔊 ...';
+        phraseButtons.forEach((btn, index) => {
+          btn.addEventListener('click', () => {
+            speechSynthesis.cancel();
+            btn.textContent = '🔊 ...';
 
-       // ✅ REMPLACEMENT SÉCURISÉ
-       speakWithFeedback(btn.dataset.phrase, {
-         rate: 0.9,
-         gender: 'female',
-         onEnd: () => {
-           btn.textContent = '🔊 Mihainoa'; // J'ai corrigé l'espace en trop ici
-           btn.classList.remove('guide-active');
-           btn.style.animation = 'none';
-           currentPhraseIndex = index + 1;
-           if (currentPhraseIndex < phraseButtons.length) {
-             phraseButtons[currentPhraseIndex].classList.add('guide-active');
-             phraseButtons[currentPhraseIndex].style.animation = 'pulse-guide 2s infinite';
-           } else {
-             const btnStart = document.getElementById('btn-start-practice-phrases');
-             if (btnStart) {
-               btnStart.classList.add('guide-active');
-               btnStart.style.animation = 'pulse-green 1.5s infinite';
-             }
-           }
-         }
-       });
-    }
+            speakWithFeedback(btn.dataset.phrase, {
+              rate: 0.9,
+              gender: 'female',
+              onEnd: () => {
+                btn.textContent = '🔊 Mihainoa';
+                btn.classList.remove('guide-active');
+                btn.style.animation = 'none';
+
+                currentPhraseIndex = index + 1;
+
+                if (currentPhraseIndex < phraseButtons.length) {
+                  phraseButtons[currentPhraseIndex].classList.add('guide-active');
+                  phraseButtons[currentPhraseIndex].style.animation = 'pulse-guide 2s infinite';
+                } else {
+                  const btnStart = document.getElementById('btn-start-practice-phrases');
+                  if (btnStart) {
+                    btnStart.classList.add('guide-active');
+                    btnStart.style.animation = 'pulse-green 1.5s infinite';
+                  }
+                }
+              }
+            });
+          }); // ✅ Ferme addEventListener
+        }); // ✅ Ferme forEach
+      } // ✅ Ferme le if (phraseButtons.length > 0)
 
     // ✅ NOUVEAU CODE :
         document.getElementById('btn-start-practice-phrases')?.addEventListener('click', () => {
