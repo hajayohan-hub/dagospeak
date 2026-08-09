@@ -728,34 +728,31 @@ async function renderHome() {
       router.navigate('/dictionary');
     });
 
-    // Cartes de niveaux
-        // ✅ ÉCOUTEUR ROBUSTE POUR LES NIVEAUX (gère les Web Components)
-    document.getElementById('levels-container').addEventListener('click', (e) => {
-      // On cherche si le clic vient d'un bouton ou de la carte elle-même
-      const clickedElement = e.target;
-      const levelBtn = clickedElement.closest('.btn-select-level') || clickedElement.closest('ds-button.btn-select-level');
-      const levelCard = clickedElement.closest('.home-level-card');
+    // ✅ ÉCOUTEUR 100% INFAILLIBLE (gère parfaitement le Shadow DOM avec composedPath)
+      document.getElementById('levels-container').addEventListener('click', (e) => {
+        // composedPath() retourne tout le chemin du clic, même à travers le Shadow DOM
+        const path = e.composedPath();
 
-      // On récupère le niveau depuis le bouton, ou depuis la carte si on a cliqué dessus
-      const selectedLevel = levelBtn ? levelBtn.dataset.level : (levelCard ? levelCard.dataset.level : null);
+        // On cherche le premier élément dans le chemin qui possède l'attribut data-level
+        const target = path.find(el => el instanceof HTMLElement && el.dataset?.level);
 
-      if (selectedLevel) {
-        console.log(`[Home] ✅ Clic détecté sur le niveau : ${selectedLevel}`);
+        if (target) {
+          const selectedLevel = target.dataset.level;
+          console.log(`[Home] ✅ Clic détecté sur le niveau : ${selectedLevel}`);
 
-        currentLevel = selectedLevel;
-        currentTheme = null; // Réinitialise le thème quand on change de niveau
-        localStorage.setItem('dagospeak:level', currentLevel);
-        updateLevelUI();
+          currentLevel = selectedLevel;
+          currentTheme = null; // Réinitialise le thème quand on change de niveau
+          localStorage.setItem('dagospeak:level', currentLevel);
+          updateLevelUI();
 
-        console.log('[Home] 🚀 Navigation vers /themes en cours...');
-        router.navigate('/themes');
+          console.log('[Home] 🚀 Navigation vers /themes en cours...');
+          router.navigate('/themes');
 
-        // Empêche le clic de se propager et de déclencher d'autres actions
-        e.preventDefault();
-        e.stopPropagation();
-        return;
-      }
-    });
+          e.preventDefault();
+          e.stopPropagation();
+          return;
+        }
+      });
 
     // ✅ SÉCURITÉ : Vérifier que l'avatar est bien initialisé
     if (window.teacherAvatar) {
