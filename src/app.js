@@ -502,7 +502,15 @@ if (!navigator.onLine) {
 async function renderHome() {
   console.log('[renderHome] 1. Début de la fonction');
   const main = document.getElementById('app');
-  main.innerHTML = '<div style="text-align:center; padding:2rem;">Mamakiana...</div>';
+
+  // ✅ NOUVEAU : Supprime le splash screen avant de charger le contenu
+  const splash = document.getElementById('app-splash');
+  if (splash) {
+    splash.style.animation = 'splash-fadeOut 0.2s ease-out';
+    setTimeout(() => splash.remove(), 200);
+  }
+
+  main.innerHTML = '<div style="text-align:center; padding:2rem;">Famakiana...</div>';
 
   try {
     console.log('[renderHome] 2. Chargement de roleManager...');
