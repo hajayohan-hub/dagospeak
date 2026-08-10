@@ -4519,12 +4519,18 @@ if (userProfile && onboardingSeen === 'true') {
 // GESTION DES MISES À JOUR PWA (VERSION PRODUCTION FINALE)
 // ═══════════════════════════════════════════════════════════
 if ('serviceWorker' in navigator) {
+  // ✅ NOUVEAU : Écouter le changement de contrôleur pour recharger la page
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    console.log('[App] 🔄 Nouveau Service Worker actif, rechargement...');
+    window.location.reload();
+  });
+
   window.addEventListener('load', async () => {
     try {
       const registration = await navigator.serviceWorker.register('/sw.js');
       console.log('[App] ✅ SW enregistré');
 
-      // ✅ POINT 1 : Vérifier si une miseà jour est DÉJÀ en attente au chargement de la page
+      // Vérifier si une mise à jour est DÉJÀ en attente au chargement de la page
       if (registration.waiting) {
         console.log('[App] ⏳ Mise à jour déjà en attente, affichage du bandeau...');
         showUpdateBannerInline(registration);
@@ -4545,7 +4551,6 @@ if ('serviceWorker' in navigator) {
     }
   });
 }
-
 // ✅ Fonction unique et propre pour afficher le bandeau (évite la duplication)
 function showUpdateBannerInline(registration) {
   if (document.getElementById('update-banner')) return;
@@ -4569,12 +4574,13 @@ function showUpdateBannerInline(registration) {
   `;
   document.body.appendChild(banner);
 
-  document.getElementById('btn-update-now').addEventListener('click', () => {
-    console.log('[App] 🔄 Installation de la mise à jour...');
-    if (registration.waiting) {
-      registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-    }
-    localStorage.removeItem('dagospeak:onboardingComplete');
-    window.location.reload();
-  });
-}
+      document.getElementById('btn-update-now').addEventListener('click', () => {
+      console.log('[App] 🔄 Installation de la mise à jour...');
+      if (registration.waiting) {
+        registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+      }
+      localStorage.removeItem('dagospeak:onboardingComplete');
+      // ✅ NOUVEAU : Ne plus recharger immédiatement, attendre controllerchange
+      // window.location.reload(); // COMMENTÉ ou SUPPRIMÉ
+    });
+  }

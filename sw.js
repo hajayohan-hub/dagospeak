@@ -6,7 +6,7 @@
 // ⚠️ Change ce numéro à CHAQUE déploiement — c'est ce qui déclenche
 // la détection de mise à jour (le navigateur compare ce fichier octet
 // par octet à la version active).
-const CACHE_VERSION = 'v31';
+const CACHE_VERSION = 'v32';
 const CACHE_NAME = `dagospeak-${CACHE_VERSION}`;
 
 const STATIC_ASSETS = [
@@ -36,22 +36,24 @@ const STATIC_ASSETS = [
 // Le SW reste volontairement en état "waiting" tant que l'utilisateur
 // n'a pas cliqué sur le bouton de mise à jour. C'est la garantie
 // anti-perte-de-données (voir explication précédente).
-self.addEventListener('install', (event) => {
-  console.log(`[SW ${CACHE_VERSION}] 📦 Installation...`);
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(async (cache) => {
-      const results = await Promise.allSettled(
-        STATIC_ASSETS.map((url) => cache.add(url))
+    self.addEventListener('install', (event) => {
+      console.log(`[SW ${CACHE_VERSION}] 📦 Installation...`);
+      event.waitUntil(
+        caches.open(CACHE_NAME).then(async (cache) => {
+          const results = await Promise.allSettled(
+            STATIC_ASSETS.map((url) => cache.add(url))
+          );
+          results.forEach((r, i) => {
+            if (r.status === 'rejected') {
+              console.warn(`[SW ${CACHE_VERSION}] ⚠️ Échec cache:`, STATIC_ASSETS[i]);
+            }
+          });
+          console.log(`[SW ${CACHE_VERSION}] ✅ Pré-cache terminé (en attente du clic utilisateur)`);
+        })
       );
-      results.forEach((r, i) => {
-        if (r.status === 'rejected') {
-          console.warn(`[SW ${CACHE_VERSION}] ⚠️ Échec cache:`, STATIC_ASSETS[i]);
-        }
-      });
-      console.log(`[SW ${CACHE_VERSION}] ✅ Pré-cache terminé (en attente du clic utilisateur)`);
-    })
-  );
-});
+      // ✅ NOUVEAU : Demande au SW de s'activer immédiatement après installation
+      self.skipWaiting();
+    });
 
 // ═══════════════════════════════════════════════════════════
 // 2. ACTIVATION — nettoyage des vieux caches + prise de contrôle
