@@ -86,23 +86,59 @@ export class DictionarySearch {
 
         <!-- BARRE DE RECHERCHE (Ne sera JAMAIS recréée à la frappe) -->
         <div style="position:relative; margin-bottom:1rem;">
-          <input type="text" id="dict-search-input" placeholder="Tadiavo... (Rechercher un mot)"
-            style="width:100%; padding:14px 16px 14px 44px; border:2px solid var(--ds-color-border); border-radius:14px; font-size:1rem; outline:none; box-sizing:border-box; background:var(--ds-color-surface); color:var(--ds-color-text); transition: border-color 0.3s;"
+          <!-- ✅ Label visuellement caché pour les lecteurs d'écran -->
+          <label for="dict-search-input" style="position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;">
+            Rechercher un mot en français ou malgache
+          </label>
+
+          <!-- ✅ Icône de recherche avec aria-hidden -->
+          <span aria-hidden="true" style="position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:1.2rem; pointer-events:none;">🔍</span>
+
+          <input type="text"
+                 id="dict-search-input"
+                 placeholder="Tadiavo... (Rechercher un mot)"
+                 aria-label="Rechercher un mot en français ou malgache"
+                 aria-describedby="dict-search-hint"
+                 autocomplete="off"
+                 style="width:100%; padding:14px 16px 14px 44px; border:2px solid var(--ds-color-border); border-radius:14px; font-size:1rem; outline:none; box-sizing:border-box; background:var(--ds-color-surface); color:var(--ds-color-text); transition: border-color 0.3s;"
           >
-          <span style="position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:1.2rem;">🔍</span>
+
+          <!-- ✅ Hint pour les lecteurs d'écran -->
+          <div id="dict-search-hint" style="position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;">
+            Tapez pour filtrer les mots. Appuyez sur Entrée pour valider.
+          </div>
         </div>
 
-        <div style="display:flex; gap:0.5rem; margin-bottom:1.5rem; justify-content:center;">
-          <button class="dict-lang-btn ${this.#currentLang === 'fr' ? 'active' : ''}" data-lang="fr" style="padding:8px 20px; border-radius:20px; font-weight:600; cursor:pointer; font-size:0.9rem; border:2px solid ${this.#currentLang === 'fr' ? 'var(--ds-color-primary)' : 'var(--ds-color-border)'}; background:${this.#currentLang === 'fr' ? 'var(--ds-color-primary)' : 'var(--ds-color-surface)'}; color:${this.#currentLang === 'fr' ? 'white' : 'var(--ds-color-text)'}; transition: all 0.2s;">🇫🇷 Français</button>
-          <button class="dict-lang-btn ${this.#currentLang === 'mg' ? 'active' : ''}" data-lang="mg" style="padding:8px 20px; border-radius:20px; font-weight:600; cursor:pointer; font-size:0.9rem; border:2px solid ${this.#currentLang === 'mg' ? 'var(--ds-color-accent)' : 'var(--ds-color-border)'}; background:${this.#currentLang === 'mg' ? 'var(--ds-color-accent)' : 'var(--ds-color-surface)'}; color:${this.#currentLang === 'mg' ? 'white' : 'var(--ds-color-text)'}; transition: all 0.2s;">🇲🇬 Malagasy</button>
+        <div style="display:flex; gap:0.5rem; margin-bottom:1.5rem; justify-content:center;" role="radiogroup" aria-label="Langue de recherche">
+          <button class="dict-lang-btn ${this.#currentLang === 'fr' ? 'active' : ''}"
+                  data-lang="fr"
+                  role="radio"
+                  aria-checked="${this.#currentLang === 'fr' ? 'true' : 'false'}"
+                  aria-label="Rechercher en français"
+                  style="padding:8px 20px; border-radius:20px; font-weight:600; cursor:pointer; font-size:0.9rem; border:2px solid ${this.#currentLang === 'fr' ? 'var(--ds-color-primary)' : 'var(--ds-color-border)'}; background:${this.#currentLang === 'fr' ? 'var(--ds-color-primary)' : 'var(--ds-color-surface)'}; color:${this.#currentLang === 'fr' ? 'white' : 'var(--ds-color-text)'}; transition: all 0.2s;">🇫🇷 Français</button>
+          <button class="dict-lang-btn ${this.#currentLang === 'mg' ? 'active' : ''}"
+                  data-lang="mg"
+                  role="radio"
+                  aria-checked="${this.#currentLang === 'mg' ? 'true' : 'false'}"
+                  aria-label="Rechercher en malgache"
+                  style="padding:8px 20px; border-radius:20px; font-weight:600; cursor:pointer; font-size:0.9rem; border:2px solid ${this.#currentLang === 'mg' ? 'var(--ds-color-accent)' : 'var(--ds-color-border)'}; background:${this.#currentLang === 'mg' ? 'var(--ds-color-accent)' : 'var(--ds-color-surface)'}; color:${this.#currentLang === 'mg' ? 'white' : 'var(--ds-color-text)'}; transition: all 0.2s;">🇲🇬 Malagasy</button>
         </div>
 
-        <div id="dict-theme-filters" style="display:flex; gap:0.5rem; margin-bottom:1.5rem; overflow-x:auto; padding-bottom:0.5rem;">
-          <button class="dict-theme-btn ${this.#activeTheme === 'all' ? 'active' : ''}" data-theme="all" style="padding:6px 14px; border-radius:16px; font-size:0.8rem; font-weight:600; cursor:pointer; white-space:nowrap; border:1px solid ${this.#activeTheme === 'all' ? 'var(--ds-color-primary)' : 'var(--ds-color-border)'}; background:${this.#activeTheme === 'all' ? 'var(--ds-color-primary)' : 'var(--ds-color-surface)'}; color:${this.#activeTheme === 'all' ? 'white' : 'var(--ds-color-text)'};">Tous</button>
-          ${themes.map(cat => `
-            <button class="dict-theme-btn ${this.#activeTheme === cat ? 'active' : ''}" data-theme="${cat}" style="padding:6px 14px; border-radius:16px; font-size:0.8rem; font-weight:600; cursor:pointer; white-space:nowrap; border:1px solid ${this.#activeTheme === cat ? 'var(--ds-color-primary)' : 'var(--ds-color-border)'}; background:${this.#activeTheme === cat ? 'var(--ds-color-primary)' : 'var(--ds-color-surface)'}; color:${this.#activeTheme === cat ? 'white' : 'var(--ds-color-text)'};">${this.#getThemeIcon(cat)} ${cat}</button>
-          `).join('')}
-        </div>
+       <div id="dict-theme-filters"
+           role="group"
+           aria-label="Filtrer par thème"
+           style="display:flex; gap:0.5rem; margin-bottom:1.5rem; overflow-x:auto; padding-bottom:0.5rem;">
+        <button class="dict-theme-btn ${this.#activeTheme === 'all' ? 'active' : ''}"
+                data-theme="all"
+                aria-pressed="${this.#activeTheme === 'all' ? 'true' : 'false'}"
+                style="padding:6px 14px; border-radius:16px; font-size:0.8rem; font-weight:600; cursor:pointer; white-space:nowrap; border:1px solid ${this.#activeTheme === 'all' ? 'var(--ds-color-primary)' : 'var(--ds-color-border)'}; background:${this.#activeTheme === 'all' ? 'var(--ds-color-primary)' : 'var(--ds-color-surface)'}; color:${this.#activeTheme === 'all' ? 'white' : 'var(--ds-color-text)'};">Tous</button>
+        ${themes.map(cat => `
+          <button class="dict-theme-btn ${this.#activeTheme === cat ? 'active' : ''}"
+                  data-theme="${cat}"
+                  aria-pressed="${this.#activeTheme === cat ? 'true' : 'false'}"
+                  style="padding:6px 14px; border-radius:16px; font-size:0.8rem; font-weight:600; cursor:pointer; white-space:nowrap; border:1px solid ${this.#activeTheme === cat ? 'var(--ds-color-primary)' : 'var(--ds-color-border)'}; background:${this.#activeTheme === cat ? 'var(--ds-color-primary)' : 'var(--ds-color-surface)'}; color:${this.#activeTheme === cat ? 'white' : 'var(--ds-color-text)'};">${this.#getThemeIcon(cat)} ${cat}</button>
+        `).join('')}
+      </div>
 
         <!-- LISTE DES MOTS (mise à jour dynamiquement SANS toucher au reste) -->
         <div id="dict-entries-list" style="display:flex; flex-direction:column; gap:0.75rem; margin-bottom:1.5rem;"></div>
@@ -121,13 +157,24 @@ export class DictionarySearch {
     if (countEl) countEl.textContent = `${this.#filteredEntries.length} / ${this.#entries.length} teny`;
 
     const listEl = document.getElementById('dict-entries-list');
-    if (listEl) {
-      if (paginatedEntries.length > 0) {
-        listEl.innerHTML = paginatedEntries.map(entry => this.#renderEntryCard(entry)).join('');
-      } else {
-        listEl.innerHTML = `<div style="text-align:center; padding:2rem; color:var(--ds-color-text-muted);"><div style="font-size:3rem; margin-bottom:1rem;">🔍</div><p>Aucun mot trouvé</p><p style="font-size:0.85rem; font-style:italic;">(Tsy misy teny hita)</p></div>`;
+
+        if (listEl) {
+        if (paginatedEntries.length > 0) {
+          listEl.innerHTML = paginatedEntries.map(entry => this.#renderEntryCard(entry)).join('');
+
+          // ✅ NOUVEAU : Annonce le nombre de résultats
+          this.#announceResults(paginatedEntries.length);
+        } else {
+          listEl.innerHTML = `
+            <div style="text-align:center; padding:2rem; color:var(--ds-color-text-muted);" role="alert">
+              <div style="font-size:3rem; margin-bottom:1rem;">🔍</div>
+              <p>Aucun mot trouvé</p>
+              <p style="font-size:0.85rem; font-style:italic;">(Tsy misy teny hita)</p>
+            </div>
+          `;
+          this.#announceResults(0);
+        }
       }
-    }
 
     const pagEl = document.getElementById('dict-pagination');
     if (pagEl) {
@@ -149,6 +196,27 @@ export class DictionarySearch {
     }
     this.#attachCardListeners();
   }
+
+      // ✅ NOUVELLE MÉTHODE : Annonce les résultats aux lecteurs d'écran
+    #announceResults(count) {
+      const announcement = document.createElement('div');
+      announcement.setAttribute('aria-live', 'polite');
+      announcement.setAttribute('aria-atomic', 'true');
+      announcement.style.cssText = 'position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;';
+
+      if (count === 0) {
+        announcement.textContent = 'Aucun mot trouvé. Essayez un autre terme.';
+      } else {
+        announcement.textContent = `${count} mot${count > 1 ? 's' : ''} trouvé${count > 1 ? 's' : ''}.`;
+      }
+
+      document.body.appendChild(announcement);
+
+      // Supprime après 3 secondes
+      setTimeout(() => announcement.remove(), 3000);
+    }
+
+
 
   #renderEntryCard(entry) {
     const isFr = this.#currentLang === 'fr';
@@ -229,6 +297,30 @@ export class DictionarySearch {
         setTimeout(() => { btn.textContent = '🔊'; }, 1500);
       });
     });
+    // ✅ NOUVEAU : Mettre à jour les attributs ARIA des filtres
+  this.#updateFilterAria();
+  }
+
+  // ✅ NOUVELLE MÉTHODE : Met à jour les attributs ARIA des filtres
+  #updateFilterAria() {
+    // Mettre à jour les boutons de langue
+    document.querySelectorAll('.dict-lang-btn').forEach(btn => {
+      const lang = btn.getAttribute('data-lang');
+      btn.setAttribute('aria-checked', lang === this.#currentLang ? 'true' : 'false');
+    });
+
+    // Mettre à jour les boutons de thème
+    document.querySelectorAll('.dict-theme-btn').forEach(btn => {
+      const theme = btn.getAttribute('data-theme');
+      btn.setAttribute('aria-pressed', theme === this.#activeTheme ? 'true' : 'false');
+    });
+
+    // Mettre à jour le compteur pour les lecteurs d'écran
+    const countEl = document.getElementById('dict-count');
+    if (countEl) {
+      countEl.setAttribute('aria-live', 'polite');
+      countEl.setAttribute('aria-atomic', 'true');
+    }
   }
 
   #applyFilters() {
