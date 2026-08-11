@@ -13,7 +13,7 @@
  *   <ds-button variant="danger" loading>Suppression…</ds-button>
  */
 
-import '../core/haptics.js';
+import '../../core/haptics.js';  // ✅ BON CHEMIN
 
 const template = document.createElement('template');
 template.innerHTML = `
