@@ -1169,6 +1169,68 @@ syncProfileWithJourneys();
 
     const vocabData = await content.loadSection('fr', 'vocabulary', unitId);
 
+    // ✅ NOUVEAU : Barre de progression de la leçon
+    const totalWords = vocabData.words.length;
+    const currentWordIndex = 0; // Sera mis à jour à chaque mot
+
+    const progressHtml = `
+      <div id="lesson-progress" style="
+        position: sticky;
+        top: 110px;
+        background: var(--ds-color-surface);
+        padding: 1rem;
+        margin: -1rem -1rem 1.5rem -1rem;
+        border-bottom: 1px solid var(--ds-color-border);
+        z-index: 100;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      ">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+          <span style="font-size:0.85rem; font-weight:600; color:var(--ds-color-text-muted);">
+            Mot <span id="current-word-num">1</span> sur ${totalWords}
+          </span>
+          <span style="font-size:0.85rem; font-weight:600; color:var(--ds-color-primary);">
+            ${Math.round((1 / totalWords) * 100)}%
+          </span>
+        </div>
+        <div style="
+          width: 100%;
+          height: 8px;
+          background: var(--ds-color-surface-2);
+          border-radius: 4px;
+          overflow: hidden;
+        ">
+          <div id="progress-bar-fill" style="
+            width: ${(1 / totalWords) * 100}%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--ds-color-primary), var(--ds-color-accent));
+            border-radius: 4px;
+            transition: width 0.4s ease;
+          "></div>
+        </div>
+      </div>
+    `;
+
+    // ✅ NOUVEAU : Fonction pour mettre à jour la progression
+    window.updateLessonProgress = (currentIndex) => {
+      const percent = Math.round(((currentIndex + 1) / totalWords) * 100);
+      const progressBar = document.getElementById('progress-bar-fill');
+      const wordNum = document.getElementById('current-word-num');
+
+      if (progressBar) {
+        progressBar.style.width = `${percent}%`;
+      }
+      if (wordNum) {
+        wordNum.textContent = currentIndex + 1;
+      }
+
+      // Mise à jour du pourcentage
+      const percentEl = document.querySelector('#lesson-progress span:last-child');
+      if (percentEl) {
+        percentEl.textContent = `${percent}%`;
+      }
+    };
+
+
     const themeNames = {
       'alphabet1': 'Alphabet - Partie 1',
       'alphabet2': 'Alphabet - Partie 2',
@@ -1245,6 +1307,11 @@ syncProfileWithJourneys();
                   if (currentWordIndex < wordButtons.length) {
                     wordButtons[currentWordIndex].classList.add('guide-active');
                     wordButtons[currentWordIndex].style.animation = 'pulse-guide 2s infinite';
+                    const progressBar = document.getElementById('progress-bar-fill');
+                    if (progressBar) {
+                      progressBar.classList.add('complete');
+                    }
+
                   } else {
                     const btnStartPractice = document.getElementById('btn-start-practice');
                     if (btnStartPractice) {
@@ -4180,6 +4247,10 @@ async function renderConversation() {
 
         document.getElementById('btn-next').addEventListener('click', () => {
           currentNodeId = node.nextNode;
+          // ✅ NOUVEAU : Mettre à jour la barre de progression
+            if (window.updateLessonProgress) {
+              window.updateLessonProgress(currentWordIndex);
+            }
           renderNode();
         });
 
@@ -4421,6 +4492,21 @@ function showSettingsModal() {
       <button id="close-settings-btn" style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 1.8rem; cursor: pointer;">×</button>
       <h2 style="color: var(--ds-color-primary); margin-bottom: 1.5rem; text-align: center;">⚙️ Réglages (Fandrindrana)</h2>
 
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:1rem 0; border-bottom:1px solid var(--ds-color-border);">
+        <div>
+          <div style="font-weight:600;">📳 Vibrations</div>
+          <div style="font-size:0.85rem; color:var(--ds-color-text-muted);">Retour tactile au clic</div>
+        </div>
+        <label style="position:relative; display:inline-block; width:50px; height:24px;">
+          <input type="checkbox" id="toggle-haptics" checked="${window.haptics?.isEnabled() ?? true}"
+                 style="opacity:0; width:0; height:0;">
+          <span style="position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0;
+                       background-color:#ccc; transition:.4s; border-radius:24px;"></span>
+          <span style="position:absolute; content:''; height:20px; width:20px; left:2px; bottom:2px;
+                       background-color:white; transition:.4s; border-radius:50%;"></span>
+        </label>
+      </div>
+
       <div style="display: flex; flex-direction: column; gap: 1rem;">
         <label style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--ds-color-surface-2); border-radius: 12px; cursor: pointer;">
           <div>
@@ -4496,6 +4582,12 @@ function showSettingsModal() {
   modal.addEventListener('click', (e) => {
     if (e.target === modal) closeModal();
   });
+
+      document.getElementById('toggle-haptics')?.addEventListener('change', (e) => {
+      if (window.haptics) {
+        window.haptics.setEnabled(e.target.checked);
+      }
+    });
 }
 
 

@@ -133,3 +133,119 @@ pre {
   transform-origin: center center;
   display: inline-block;
 }
+
+.ds-mobile-nav a {
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.ds-mobile-nav a:active {
+  transform: scale(0.95);
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/* FEEDBACK TACTILE — Retour visuel au clic sur mobile         */
+/* ═══════════════════════════════════════════════════════════ */
+
+/* Tous les éléments cliquables doivent avoir un feedback */
+button:active,
+a:active,
+[role="button"]:active,
+.ds-button:active,
+.interactive-tap:active,
+.home-level-card:active,
+.home-resume-card:active,
+.home-dictionary-btn:active,
+.dict-theme-btn:active,
+.dict-lang-btn:active {
+  transform: scale(0.97);
+  transition: transform 0.1s ease;
+}
+
+/* Désactiver le feedback sur les éléments désactivés */
+button:disabled:active,
+[disabled]:active {
+  transform: none;
+}
+
+/* Feedback spécifique pour les boutons primaires (plus prononcé) */
+button[class*="primary"]:active,
+button[class*="success"]:active,
+button[class*="accent"]:active,
+ds-button[variant="primary"]:active,
+ds-button[variant="success"]:active,
+ds-button[variant="accent"]:active {
+  transform: scale(0.95);
+}
+
+/* Effet de pression sur les cartes (plus subtil) */
+.home-level-card:active,
+.home-resume-card:active,
+.vocab-card:active {
+  transform: scale(0.99);
+}
+
+/* Animation de rebond après le clic (optionnel mais satisfaisant) */
+@keyframes tap-feedback {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+/* Appliquer l'animation de rebond au clic */
+.tap-bounce:active {
+  animation: tap-feedback 0.2s ease;
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/* BARRE DE PROGRESSION DE LEÇON                               */
+/* ═══════════════════════════════════════════════════════════ */
+
+#lesson-progress {
+  animation: slideDown 0.3s ease-out;
+}
+
+#progress-bar-fill {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Effet de brillance animé sur la barre de progression */
+#progress-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Animation quand la progression atteint 100% */
+#progress-bar-fill.complete {
+  background: linear-gradient(90deg, var(--ds-color-success), #51cf66);
+  animation: pulse-success 0.6s ease;
+}
+
+@keyframes pulse-success {
+  0%, 100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(1.5);
+  }
+}
