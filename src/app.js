@@ -1130,7 +1130,7 @@ async function renderAbout() {
 // Fonction helper pour gérer l'upgrade Premium
 async function renderLesson() {
   const main = document.getElementById('app');
-  main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement de la leçon...</div>';
+ main.innerHTML = getSkeletonLesson();
 
   renderProgressHeader();
   syncProfileWithJourneys();
@@ -1400,7 +1400,7 @@ async function renderLesson() {
 async function renderLessonPhrases() {
   updateNavActiveState();
   const main = document.getElementById('app');
-  main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement des phrases...</div>';
+  main.innerHTML = getSkeletonThemesList();
   renderProgressHeader();
 
   try {
@@ -1525,7 +1525,7 @@ async function renderLessonPhrases() {
 async function renderAlphabet() {
   updateNavActiveState();
   const main = document.getElementById('app');
-  main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement de l\'alphabet...</div>';
+  main.innerHTML = getSkeletonThemesList();
   renderProgressHeader();
 
   try {
@@ -2610,7 +2610,7 @@ async function renderDialogues() {
   }
   updateNavActiveState();
   const main = document.getElementById('app');
-  main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement des dialogues...</div>';
+  main.innerHTML = getSkeletonThemesList();
 
   // ✅ Afficher le header de progression flottant (uniquement hors accueil)
 renderProgressHeader();
@@ -3395,7 +3395,7 @@ function calculateSimilarity(str1, str2) {
 async function renderProfile() {
   updateNavActiveState();
   const main = document.getElementById('app');
-  main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement du profil...</div>';
+ main.innerHTML = getSkeletonProfile();
 
   try {
     // ✅ 1. Charger les données personnelles (depuis l'onboarding)
@@ -3763,7 +3763,7 @@ function showGamificationGuide() {
 async function renderThemes() {
   updateNavActiveState();
   const main = document.getElementById('app');
-  main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement des thèmes...</div>';
+  main.innerHTML = getSkeletonThemesList();
 
   try {
     const manifest = await content.loadManifest('fr');
@@ -3879,7 +3879,7 @@ async function renderThemeDetail() {
     router.navigate('/themes');
     return;
   }
-  main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement...</div>';
+ main.innerHTML = getSkeletonThemesList();
 
   // ✅ FLUX SPÉCIAL POUR L'ALPHABET (Variables définies AVANT utilisation)
   if (currentTheme === 'alphabet1' || currentTheme === 'alphabet2') {
@@ -4205,6 +4205,126 @@ function showAppGuide() {
 
 
 // ═══════════════════════════════════════════════════════════
+// SKELETON SCREENS
+// ═══════════════════════════════════════════════════════════
+
+function getSkeletonLesson() {
+  return `
+    <div class="skeleton-page">
+      <!-- Barre de progression -->
+      <div class="skeleton skeleton-progress"></div>
+
+      <!-- Titre de la leçon -->
+      <div class="skeleton skeleton-title" style="width: 50%; margin: 0 auto 2rem;"></div>
+
+      <!-- Liste de mots -->
+      <div class="skeleton-word-list">
+        ${[1, 2, 3, 4, 5].map(() => `
+          <div class="skeleton-word-item">
+            <div class="skeleton skeleton-word-icon"></div>
+            <div class="skeleton-word-text">
+              <div class="skeleton skeleton-text long"></div>
+              <div class="skeleton skeleton-text short"></div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+
+      <!-- Bouton -->
+      <div style="text-align: center; margin-top: 2rem;">
+        <div class="skeleton skeleton-button"></div>
+      </div>
+    </div>
+  `;
+}
+
+function getSkeletonThemes() {
+  return `
+    <div class="skeleton-page">
+      <!-- Titre -->
+      <div class="skeleton skeleton-title" style="width: 40%; margin: 0 auto 2rem;"></div>
+
+      <!-- Grille de thèmes -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem;">
+        ${[1, 2, 3, 4, 5, 6].map(() => `
+          <div class="skeleton-card">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+              <div class="skeleton skeleton-avatar" style="width: 50px; height: 50px; margin: 0;"></div>
+              <div style="flex: 1;">
+                <div class="skeleton skeleton-text medium"></div>
+                <div class="skeleton skeleton-text short"></div>
+              </div>
+            </div>
+            <div class="skeleton skeleton-text long"></div>
+            <div class="skeleton skeleton-button" style="width: 100%;"></div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function getSkeletonProfile() {
+  return `
+    <div class="skeleton-page">
+      <!-- Avatar -->
+      <div class="skeleton skeleton-avatar" style="width: 100px; height: 100px;"></div>
+
+      <!-- Nom -->
+      <div class="skeleton skeleton-title" style="width: 50%; margin: 0 auto 1.5rem;"></div>
+
+      <!-- Stats -->
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 2rem;">
+        ${[1, 2, 3, 4].map(() => `
+          <div class="skeleton-card" style="text-align: center;">
+            <div class="skeleton skeleton-text short" style="margin: 0 auto;"></div>
+            <div class="skeleton skeleton-title" style="width: 60%; margin: 0.5rem auto 0;"></div>
+          </div>
+        `).join('')}
+      </div>
+
+      <!-- Badges -->
+      <div class="skeleton-card">
+        <div class="skeleton skeleton-text medium" style="margin-bottom: 1rem;"></div>
+        <div style="display: flex; gap: 0.5rem;">
+          ${[1, 2, 3].map(() => `
+            <div class="skeleton" style="width: 40px; height: 40px; border-radius: 50%;"></div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function getSkeletonThemesList() {
+  return `
+    <div class="skeleton-page">
+      <!-- Bouton retour -->
+      <div class="skeleton skeleton-text short" style="margin-bottom: 1.5rem;"></div>
+
+      <!-- Titre du niveau -->
+      <div class="skeleton skeleton-title" style="width: 60%; margin-bottom: 2rem;"></div>
+
+      <!-- Liste de thèmes -->
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        ${[1, 2, 3, 4, 5].map(() => `
+          <div class="skeleton-card">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <div class="skeleton" style="width: 60px; height: 60px; border-radius: var(--ds-radius-md); flex-shrink: 0;"></div>
+              <div style="flex: 1;">
+                <div class="skeleton skeleton-text medium"></div>
+                <div class="skeleton skeleton-text short" style="margin-top: 0.5rem;"></div>
+              </div>
+              <div class="skeleton" style="width: 80px; height: 40px; border-radius: var(--ds-radius-md);"></div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+// ═══════════════════════════════════════════════════════════
 // VUE : CONVERSATION SEMI-LIBRE (Teacher Avatar IA)
 // ═══════════════════════════════════════════════════════════
 // ═══════════════════════════════════════════════════════════
@@ -4212,7 +4332,7 @@ function showAppGuide() {
 // ═══════════════════════════════════════════════════════════
 async function renderConversation() {
   const main = document.getElementById('app');
-  main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement de la conversation...</div>';
+  main.innerHTML = getSkeletonThemesList();
 
   // Récupérer l'ID du dialogue depuis l'URL
   const urlParams = new URLSearchParams(window.location.search);
