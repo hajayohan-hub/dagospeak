@@ -371,3 +371,23 @@ ds-button[variant="accent"]:active {
   border-radius: 4px;
   margin-bottom: 1.5rem;
 }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+details summary {
+  cursor: pointer;
+  user-select: none;
+}
+
+details[open] summary {
+  margin-bottom: 0.5rem;
+}

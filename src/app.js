@@ -765,9 +765,14 @@ async function renderHome() {
     renderFloatingHomeButtons();
 
     logger.info('✅ Page d\'accueil rendue (version améliorée)');
-  } catch (e) {
-    console.error('❌ Erreur renderHome:', e);
-    main.innerHTML = `<p style="color:red; text-align:center; padding:2rem;">Hadisoana: ${e.message}</p>`;
+    } catch (e) {
+    showError(main, e, {
+      title: 'Erreur de démarrage',
+      subtitle: 'L\'application n\'a pas pu démarrer correctement',
+      backRoute: '/',
+      backLabel: '🔄 Recharger la page',
+      retry: true
+    });
   }
 }
 
@@ -1382,16 +1387,22 @@ async function renderLesson() {
      window.teacherAvatar.show('lesson');
      logger.info(`✅ Page Leçon rendue pour le thème: ${unitId}`);
 
-     setTimeout(() => {
-       window.teacherAvatar.speak("Vous avez appris les mots. Cliquez sur Commencer la pratique pour tester vos connaissances !");
-     }, 1000);
+       setTimeout(() => {
+         window.teacherAvatar.speak("Vous avez appris les mots. Cliquez sur Commencer la pratique pour tester vos connaissances !");
+       }, 1000);
 
-   }
+     }
 
- } catch (e) {
-     main.innerHTML = `<p style="color:red; text-align:center;">Erreur leçon: ${e.message}</p>`;
-  }
-} // ← ✅ Fermeture correcte de renderLesson()
+         } catch (e) {
+      showError(main, e, {
+        title: 'Erreur de leçon',
+        subtitle: 'Impossible de charger la leçon',
+        backRoute: '/themes',
+        backLabel: '← Retour aux thèmes',
+        retry: true
+      });
+    }
+  }  // ← ✅ Fermeture correcte de renderLesson()
 
 
 // ═══════════════════════════════════════════════════════════
@@ -2303,12 +2314,14 @@ syncProfileWithJourneys();
     window.teacherAvatar.show('practice');
     logger.info(`✅ Session de révision démarrée pour le thème: ${unitId}`);
 
-  } catch (error) {
-    console.error('❌ Erreur renderPractice:', error);
-    main.innerHTML = `<div style="text-align:center; padding:2rem; color:var(--ds-color-danger);">
-      <p>Hadisoana: ${error.message}</p>
-      <ds-button onclick="location.hash='/themes'">Hiverina</ds-button>
-    </div>`;
+    } catch (e) {
+    showError(main, e, {
+      title: 'Erreur de pratique',
+      subtitle: 'Impossible de charger les exercices',
+      backRoute: '/theme-detail',
+      backLabel: '← Retour aux activités',
+      retry: true
+    });
   }
 }
 
@@ -2591,9 +2604,14 @@ async function renderPracticePhrases() {
     renderQuestion(currentIndex);
     window.teacherAvatar.show('practice');
     logger.info(`✅ Session révision phrases démarrée pour: ${unitId}`);
-  } catch (error) {
-    console.error('❌ Erreur renderPracticePhrases:', error);
-    main.innerHTML = `<div style="text-align:center; padding:2rem; color:var(--ds-color-danger);"> <p>Erreur: ${error.message}</p> <ds-button onclick="location.hash='/theme-detail'">Retour</ds-button> </div>`;
+    } catch (e) {
+    showError(main, e, {
+      title: 'Erreur de pratique',
+      subtitle: 'Impossible de charger les exercices',
+      backRoute: '/theme-detail',
+      backLabel: '← Retour aux activités',
+      retry: true
+    });
   }
 }
 
@@ -2730,15 +2748,14 @@ syncProfileWithJourneys();
       window.teacherAvatar.speak("Vous avez lu le dialogue. Maintenant, cliquez sur Role Play Guidé pour le jouer vous-même !");
     }, 1000);
 
-  } catch (e) {
-    console.error('❌ Erreur renderDialogues:', e);
-    main.innerHTML = `
-      <div style="text-align:center; padding:2rem; color:var(--ds-color-danger);">
-        <p style="margin-bottom: 1rem; font-weight:bold;">Aucun dialogue trouvé pour ce thème.</p>
-        <p style="font-size:0.9rem; margin-bottom: 1.5rem;">Détail : ${e.message}</p>
-        <ds-button onclick="location.hash='/themes'" style="margin-top:1rem;">Retour aux thèmes</ds-button>
-      </div>
-    `;
+    } catch (e) {
+    showError(main, e, {
+      title: 'Erreur de dialogues',
+      subtitle: 'Impossible de charger les conversations',
+      backRoute: '/theme-detail',
+      backLabel: '← Retour aux activités',
+      retry: true
+    });
   }
 }
 
@@ -3545,9 +3562,14 @@ async function renderProfile() {
      });
 
     logger.info('✅ Page Profil rendue avec données personnelles');
-  } catch (e) {
-    console.error('❌ Erreur renderProfile:', e);
-    main.innerHTML = `<p style="color:red; text-align:center;">Erreur profil: ${e.message}</p>`;
+    } catch (e) {
+    showError(main, e, {
+      title: 'Erreur de profil',
+      subtitle: 'Impossible de charger vos données',
+      backRoute: '/',
+      backLabel: '← Retour à l\'accueil',
+      retry: true
+    });
   }
 }
 
@@ -4327,9 +4349,7 @@ function getSkeletonThemesList() {
 // ═══════════════════════════════════════════════════════════
 // VUE : CONVERSATION SEMI-LIBRE (Teacher Avatar IA)
 // ═══════════════════════════════════════════════════════════
-// ═══════════════════════════════════════════════════════════
-// VUE : CONVERSATION SEMI-LIBRE (Teacher Avatar IA)
-// ═══════════════════════════════════════════════════════════
+
 async function renderConversation() {
   const main = document.getElementById('app');
   main.innerHTML = getSkeletonThemesList();
@@ -4525,6 +4545,145 @@ async function renderConversation() {
     console.error('[Conversation] ❌ Erreur:', e);
     main.innerHTML = `<p style="color:red; text-align:center;">Erreur : ${e.message}</p>`;
   }
+}
+
+  // ═══════════════════════════════════════════════════════════
+// SYSTÈME D'ERREURS ÉLÉGANT
+// ═══════════════════════════════════════════════════════════
+
+function showError(main, error, options = {}) {
+  const {
+    title = 'Hadisoana (Erreur)',
+    subtitle = 'Une erreur s\'est produite',
+    icon = '⚠️',
+    showBackButton = true,
+    backRoute = '/themes',
+    backLabel = '← Hiverina amin\'ny lohahevitra',
+    retry = false
+  } = options;
+
+  // Déterminer le type d'erreur pour afficher un message adapté
+  let errorMessage = error.message || 'Erreur inconnue';
+  let userFriendlyMessage = '';
+
+  if (errorMessage.includes('fetch') || errorMessage.includes('network')) {
+    userFriendlyMessage = 'Vérifiez votre connexion internet. Certaines données n\'ont pas pu être chargées.';
+    icon = '📶';
+  } else if (errorMessage.includes('introuvable') || errorMessage.includes('not found')) {
+    userFriendlyMessage = 'Le contenu demandé n\'a pas pu être trouvé. Essayez un autre thème.';
+    icon = '🔍';
+  } else if (errorMessage.includes('permission') || errorMessage.includes('denied')) {
+    userFriendlyMessage = 'L\'application n\'a pas les permissions nécessaires. Vérifiez les paramètres de votre navigateur.';
+    icon = '🔒';
+  } else if (errorMessage.includes('audio') || errorMessage.includes('speech')) {
+    userFriendlyMessage = 'Le moteur vocal n\'est pas disponible sur cet appareil.';
+    icon = '🔊';
+  } else {
+    userFriendlyMessage = 'Quelque chose ne s\'est pas passé comme prévu. Essayez de recharger la page.';
+  }
+
+  main.innerHTML = `
+    <div style="
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+      text-align: center;
+      animation: fadeInUp 0.4s ease-out;
+    ">
+      <div style="font-size: 4rem; margin-bottom: 1.5rem; animation: float 3s ease-in-out infinite;">${icon}</div>
+
+      <h2 style="
+        color: var(--ds-color-danger);
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        font-weight: 700;
+      ">${title}</h2>
+
+      <p style="
+        color: var(--ds-color-text-muted);
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+      ">${subtitle}</p>
+
+      <div style="
+        background: var(--ds-color-danger-soft, #fee2e2);
+        border-left: 4px solid var(--ds-color-danger);
+        padding: 1rem 1.5rem;
+        border-radius: var(--ds-radius-md);
+        margin-bottom: 2rem;
+        text-align: left;
+      ">
+        <p style="
+          color: var(--ds-color-text);
+          font-size: 0.95rem;
+          margin: 0;
+          line-height: 1.6;
+        ">${userFriendlyMessage}</p>
+
+        <details style="margin-top: 1rem; cursor: pointer;">
+          <summary style="
+            font-size: 0.85rem;
+            color: var(--ds-color-text-muted);
+            font-weight: 600;
+          ">Détails techniques (Mombamomba)</summary>
+          <code style="
+            display: block;
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--ds-color-text-muted);
+            background: var(--ds-color-surface-2);
+            padding: 0.75rem;
+            border-radius: var(--ds-radius-sm);
+            word-break: break-all;
+            text-align: left;
+          ">${errorMessage}</code>
+        </details>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+        ${retry ? `
+          <button onclick="location.reload()" style="
+            background: var(--ds-color-primary);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: var(--ds-radius-md);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+          ">🔄 Réessayer (Averina)</button>
+        ` : ''}
+
+        ${showBackButton ? `
+          <button onclick="router.navigate('${backRoute}')" style="
+            background: var(--ds-color-surface);
+            color: var(--ds-color-text);
+            border: 2px solid var(--ds-color-border);
+            padding: 14px 24px;
+            border-radius: var(--ds-radius-md);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+          ">${backLabel}</button>
+        ` : ''}
+      </div>
+    </div>
+  `;
+
+  // Annonce pour les lecteurs d'écran
+  const announcement = document.createElement('div');
+  announcement.setAttribute('role', 'alert');
+  announcement.setAttribute('aria-live', 'assertive');
+  announcement.style.cssText = 'position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;';
+  announcement.textContent = `${title}. ${userFriendlyMessage}`;
+  document.body.appendChild(announcement);
+
+  setTimeout(() => announcement.remove(), 5000);
+
+  // Log pour debug
+  console.error(`[Erreur ${title}]`, error);
 }
 
   // ═══════════════════════════════════════════════════════════
