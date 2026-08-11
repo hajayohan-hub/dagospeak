@@ -1,28 +1,37 @@
 /**
- * TeacherAvatar - Assistant virtuel avec animations de signe et feedback intelligent
- * RÈGLE D'OR : Ne prononce JAMAIS de mots malgaches. Uniquement du français.
+ * TeacherAvatar — Assistant pédagogique flottant
+ * Gère les 3 types de parole : feedback (toujours), guide (selon toggle), clic manuel (toujours)
  */
 export class TeacherAvatar {
-  #container = null;
-  #currentTip = null;
   #isSpeaking = false;
   #femaleVoice = null;
   #masteredThemes = new Set();
   #autoSpeakEnabled = false;
   #isFirstUser = true;
-  #signAnimationInterval = null;
-  #voiceLoaded = false;
+  #currentTip = null;
+  #signAnimationTimeout = null;
 
   constructor() {
     this.#loadMasteredThemes();
     this.#loadVoices();
+
+    // ✅ NOUVEAU : Charger la préférence auto-speak depuis localStorage
+    const savedAutoSpeak = localStorage.getItem('dagospeak:autoSpeakEnabled');
+    if (savedAutoSpeak !== null) {
+      this.#autoSpeakEnabled = savedAutoSpeak === 'true';
+    } else {
+      // Par défaut : auto-speak activé pour les débutants
+      this.#autoSpeakEnabled = true;
+    }
   }
 
+  // ─────────── GESTION DES THÈMES MAÎTRISÉS ───────────
   #loadMasteredThemes() {
-    const saved = localStorage.getItem('dagospeak:masteredThemes');
-    if (saved) {
-      this.#masteredThemes = new Set(JSON.parse(saved));
-      this.#isFirstUser = false;
+    try {
+      const saved = localStorage.getItem('dagospeak:masteredThemes');
+      if (saved) this.#masteredThemes = new Set(JSON.parse(saved));
+    } catch (e) {
+      this.#masteredThemes = new Set();
     }
   }
 
@@ -33,37 +42,59 @@ export class TeacherAvatar {
   markThemeMastered(themeId) {
     this.#masteredThemes.add(themeId);
     this.#saveMasteredThemes();
-    if (this.#masteredThemes.size >= 3) this.#autoSpeakEnabled = false;
+    console.log(`[TeacherAvatar] Thème maîtrisé: ${themeId} (${this.#masteredThemes.size} total)`);
   }
 
+  // ─────────── GESTION DES VOIX ───────────
   #loadVoices() {
-    const loadVoices = () => {
+    if (!('speechSynthesis' in window)) return;
+
+    const setVoice = () => {
       const voices = speechSynthesis.getVoices();
-      if (voices.length === 0) return;
-      this.#femaleVoice = voices.find(v => v.lang.startsWith('fr') && (v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('femme'))) ||
-                         voices.find(v => v.lang.startsWith('fr')) || voices[0];
-      if (!this.#voiceLoaded) {
-        console.log('[TeacherAvatar] ✅ Voix chargée:', this.#femaleVoice?.name || 'Par défaut');
-        this.#voiceLoaded = true;
-      }
+      this.#femaleVoice = voices.find(v =>
+        v.lang.startsWith('fr') &&
+        (v.name.toLowerCase().includes('female') ||
+         v.name.toLowerCase().includes('femme') ||
+         v.name.includes('Amélie') ||
+         v.name.includes('Marie') ||
+         v.name.includes('Audrey'))
+      ) || voices.find(v => v.lang.startsWith('fr'));
     };
-    loadVoices();
-    speechSynthesis.onvoiceschanged = loadVoices;
+
+    setVoice();
+    if (speechSynthesis.onvoiceschanged !== undefined) {
+      speechSynthesis.onvoiceschanged = setVoice;
+    }
   }
 
+  // ─────────── MÉTHODES DE PAROLE (3 TYPES) ───────────
+
+  /**
+   * ✅ MÉTHODE PUBLIQUE PRINCIPALE (appelée par clic manuel)
+   * Parle TOUJOURS, car l'utilisateur a explicitement cliqué sur l'avatar.
+   */
   speak(text) {
     if (!('speechSynthesis' in window) || !text) return;
     try {
       speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'fr-FR'; // ✅ FORCÉ EN FRANÇAIS
+      utterance.lang = 'fr-FR';
       utterance.rate = 0.95;
       utterance.pitch = 1.1;
       if (this.#femaleVoice) utterance.voice = this.#femaleVoice;
 
-      utterance.onstart = () => { this.#isSpeaking = true; this.#animateSpeaking(true); };
-      utterance.onend = () => { this.#isSpeaking = false; this.#animateSpeaking(false); };
-      utterance.onerror = () => { this.#isSpeaking = false; this.#animateSpeaking(false); };
+      utterance.onstart = () => {
+        this.#isSpeaking = true;
+        this.#animateSpeaking(true);
+      };
+      utterance.onend = () => {
+        this.#isSpeaking = false;
+        this.#animateSpeaking(false);
+      };
+      utterance.onerror = () => {
+        this.#isSpeaking = false;
+        this.#animateSpeaking(false);
+      };
 
       speechSynthesis.speak(utterance);
     } catch (e) {
@@ -71,83 +102,159 @@ export class TeacherAvatar {
     }
   }
 
+  /**
+   * ✅ NOUVEAU : FEEDBACK COURT (parle TOUJOURS, même si auto-speak désactivé)
+   * Utilisé pour : "Excellent !", "Essaie encore", "Leçon terminée !", "Niveau débloqué !"
+   * @param {string} text - Texte court à prononcer
+   * @param {'success'|'error'|'info'} type - Type de feedback pour l'animation visuelle
+   */
+  speakFeedback(text, type = 'success') {
+    if (!text) return;
+
+    // Animation visuelle avant la parole (plus réactive)
+    this.#animateFeedback(type);
+
+    // Parle toujours, sans attendre le toggle
+    this.speak(text);
+
+    console.log(`[TeacherAvatar] Feedback [${type}]: ${text}`);
+  }
+
+  /**
+   * ✅ NOUVEAU : GUIDE CONTEXTUEL (respecte le toggle auto-speak)
+   * Utilisé pour les conseils affichés au changement de page.
+   * Ne parle QUE si l'utilisateur a activé l'auto-parole.
+   */
+  speakGuide(text) {
+    if (!text) return;
+
+    if (this.#autoSpeakEnabled) {
+      setTimeout(() => this.speak(text), 600);
+      console.log(`[TeacherAvatar] Guide (auto): ${text}`);
+    } else {
+      console.log(`[TeacherAvatar] Guide (silencieux): ${text}`);
+    }
+  }
+
+  // ─────────── CONTRÔLE DU TOGGLE ───────────
+
+  setAutoSpeak(enabled) {
+    this.#autoSpeakEnabled = enabled;
+    // ✅ NOUVEAU : Sauvegarde persistante de la préférence
+    localStorage.setItem('dagospeak:autoSpeakEnabled', enabled.toString());
+    console.log(`[TeacherAvatar] Auto-parole: ${enabled ? '✅ activée' : '❌ désactivée'}`);
+
+    if (!enabled) {
+      speechSynthesis.cancel(); // Coupe toute parole en cours
+    }
+  }
+
+  getAutoSpeak() {
+    return this.#autoSpeakEnabled;
+  }
+
+  // ─────────── ANIMATIONS VISUELLES ───────────
+
   #animateSpeaking(isSpeaking) {
     const avatar = document.getElementById('teacher-avatar');
     if (!avatar) return;
-    avatar.style.animation = isSpeaking ? 'speaking-pulse 0.5s infinite alternate' : 'idle-float 3s ease-in-out infinite';
+
+    if (isSpeaking) {
+      avatar.style.animation = 'speaking-pulse 0.6s ease-in-out infinite';
+      avatar.style.background = 'linear-gradient(135deg, var(--ds-color-primary), var(--ds-color-accent))';
+    } else {
+      avatar.style.animation = 'idle-float 3s ease-in-out infinite';
+    }
+  }
+
+  /**
+   * ✅ NOUVEAU : Animation spécifique pour les feedbacks courts
+   * Vert pour succès, rouge pour erreur, bleu pour info
+   */
+  #animateFeedback(type) {
+    const avatar = document.getElementById('teacher-avatar');
+    if (!avatar) return;
+
+    const colors = {
+      success: { bg: 'linear-gradient(135deg, #2F9E44, #51cf66)', glow: '0 0 30px rgba(47, 158, 68, 0.8)' },
+      error:   { bg: 'linear-gradient(135deg, #D64545, #ff6b6b)', glow: '0 0 30px rgba(214, 69, 69, 0.8)' },
+      info:    { bg: 'linear-gradient(135deg, #1971C2, #4dabf7)', glow: '0 0 30px rgba(25, 113, 194, 0.8)' }
+    };
+
+    const color = colors[type] || colors.info;
+
+    // Animation de feedback (bounce + glow coloré)
+    avatar.style.animation = 'feedback-bounce 0.6s ease';
+    avatar.style.background = color.bg;
+    avatar.style.boxShadow = color.glow;
+
+    // Retour au style normal après l'animation
+    setTimeout(() => {
+      if (!this.#isSpeaking) {
+        avatar.style.animation = 'idle-float 3s ease-in-out infinite';
+        avatar.style.background = 'linear-gradient(135deg, var(--ds-color-primary), var(--ds-color-accent))';
+        avatar.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
+      }
+    }, 1500);
   }
 
   #startSignAnimation() {
     const avatar = document.getElementById('teacher-avatar');
     if (!avatar) return;
-    avatar.style.animation = 'sign-bounce 2s ease-in-out infinite';
-    const badge = document.createElement('div');
-    badge.id = 'teacher-sign-badge';
-    badge.textContent = '💡';
-    badge.style.cssText = `position: absolute; top: -10px; right: -10px; font-size: 1.5rem; animation: tapBounce 1s ease-in-out infinite;`;
-    avatar.appendChild(badge);
+    avatar.style.animation = 'sign-bounce 1s ease-in-out 3';
+    this.#signAnimationTimeout = setTimeout(() => {
+      if (!this.#isSpeaking) {
+        avatar.style.animation = 'idle-float 3s ease-in-out infinite';
+      }
+    }, 3000);
   }
 
   #stopSignAnimation() {
+    if (this.#signAnimationTimeout) {
+      clearTimeout(this.#signAnimationTimeout);
+    }
     const avatar = document.getElementById('teacher-avatar');
-    if (!avatar) return;
-    avatar.style.animation = 'idle-float 3s ease-in-out infinite';
-    const badge = document.getElementById('teacher-sign-badge');
-    if (badge) badge.remove();
+    if (avatar && !this.#isSpeaking) {
+      avatar.style.animation = 'idle-float 3s ease-in-out infinite';
+    }
   }
 
+  // ─────────── AFFICHAGE DES CONSEILS PAR PAGE ───────────
   show(tipKey) {
-          const tips = {
-        'home': { fr: "Bienvenue ! Choisissez un niveau pour commencer.", mg: "Tongasoa ! Safidio ny ambaratonga." },
-        'themes': { fr: "Choisissez un thème pour voir les leçons.", mg: "Safidio lohahevitra iray." },
-        'theme-detail': {
-          fr: "Choisissez une activité : Leçon, Révisions, Phrases ou Dialogues.",
-          mg: "Safidio hetsika iray : Lesona, Fanadiniana, Fehezanteny, na Resaka."
-        },
-        'lesson': {
-          fr: "Écoutez et répétez chaque mot à voix haute.",
-          mg: "Hihainoa ary avereno ny teny tsirairay."
-        },
-        'lesson-phrases': {  // ✅ NOUVEAU
-          fr: "Écoutez et répétez chaque phrase de contexte à voix haute.",
-          mg: "Hihainoa ary avereno ny fehezanteny tsirairay."
-        },
-        'practice': {
-          fr: "Suivez les étapes : Écoutez, Répondez au quiz, puis Prononcez.",
-          mg: "Araho ny dingana : Mihainoa, Valio, Mitenena."
-        },
-        'practice-phrases': {  // ✅ NOUVEAU
-          fr: "Révision des phrases : écoutez, traduisez, puis prononcez la phrase complète.",
-          mg: "Fanadinana ny fehezanteny : mihainoa, adino, ary mitenena."
-        },
-        'dialogues': {
-          fr: "Lisez et écoutez la conversation. Vous êtes prêt pour le Role Play !",
-          mg: "Vakio ary mihainoa ny resaka. Vonona ho an'ny Role Play !"
-        },
-        'roleplay': { fr: "Jouez les deux rôles.", mg: "Milalao anjara asa roa." },
-        'challenge': { fr: "Défi ! Parlez sans voir les réponses.", mg: "Fanamby ! Mitenena tsy mijery." }
-      };
+    const tips = {
+      'home':             { fr: "Bienvenue ! Choisissez un niveau pour commencer.", mg: "Tongasoa ! Safidio ny ambaratonga." },
+      'themes':           { fr: "Choisissez un thème pour voir les leçons.", mg: "Safidio lohahevitra iray." },
+      'theme-detail':     { fr: "Choisissez une activité : Leçon, Révisions, Phrases ou Dialogues.", mg: "Safidio hetsika iray." },
+      'lesson':           { fr: "Écoutez et répétez chaque mot à voix haute.", mg: "Hihainoa ary avereno ny teny tsirairay." },
+      'lesson-phrases':   { fr: "Écoutez et répétez chaque phrase à voix haute.", mg: "Hihainoa ary avereno ny fehezanteny." },
+      'practice':         { fr: "Suivez les étapes : Écoutez, Répondez, puis Prononcez.", mg: "Araho ny dingana : Mihainoa, Valio, Mitenena." },
+      'practice-phrases': { fr: "Écoutez, traduisez, puis prononcez la phrase complète.", mg: "Mihainoa, adino, ary mitenena." },
+      'dialogues':        { fr: "Lisez et écoutez la conversation.", mg: "Vakio ary mihainoa ny resaka." },
+      'roleplay':         { fr: "Jouez les deux rôles de la conversation.", mg: "Milalao anjara asa roa." },
+      'challenge':        { fr: "Défi ! Parlez sans voir les réponses.", mg: "Fanamby ! Mitenena tsy mijery." }
+    };
 
-    this.#currentTip = tips[tipKey] || { fr: "Continuez, vous faites du bon travail !", mg: "Tohizo, tsara ny ataonao !" };
+    this.#currentTip = tips[tipKey] || {
+      fr: "Continuez, vous faites du bon travail !",
+      mg: "Tohizo, tsara ny ataonao !"
+    };
+
     this.render();
 
-    // ✅ Sur la page d'accueil, juste un signe visuel, pas de parole auto
+    // Sur la page d'accueil : signe visuel pour les nouveaux, PAS de parole auto
     if (tipKey === 'home') {
-      if (this.#isFirstUser) setTimeout(() => this.#startSignAnimation(), 1000);
+      if (this.#isFirstUser) {
+        setTimeout(() => this.#startSignAnimation(), 1000);
+        this.#isFirstUser = false;
+      }
       return;
     }
 
-    // ✅ Pour les autres pages, parole automatique en FRANÇAIS UNIQUEMENT
-    if (this.#autoSpeakEnabled) {
-      setTimeout(() => this.speak(this.#currentTip.fr), 600);
-    }
+    // ✅ Sur les autres pages : utilise speakGuide() qui respecte le toggle
+    this.speakGuide(this.#currentTip.fr);
   }
 
-  setAutoSpeak(enabled) {
-      this.#autoSpeakEnabled = enabled;
-      console.log('[TeacherAvatar] Auto-parole:', enabled ? 'activée' : 'désactivée');
-    }
-
+  // ─────────── RENDU DU COMPOSANT ───────────
   render() {
     const oldAvatar = document.getElementById('teacher-avatar-container');
     if (oldAvatar) oldAvatar.remove();
@@ -156,17 +263,79 @@ export class TeacherAvatar {
     container.id = 'teacher-avatar-container';
     container.innerHTML = `
       <style>
-        @keyframes idle-float { 0%, 100% { transform: translateY(0px) scale(1); } 50% { transform: translateY(-10px) scale(1.05); } }
-        @keyframes speaking-pulse { 0% { transform: scale(1); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); } 100% { transform: scale(1.15); box-shadow: 0 8px 24px rgba(37, 99, 235, 0.6); } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes sign-bounce { 0%, 100% { transform: translateY(0) rotate(0deg); } 25% { transform: translateY(-15px) rotate(-10deg); } 75% { transform: translateY(-15px) rotate(10deg); } }
+        @keyframes idle-float {
+          0%, 100% { transform: translateY(0px) scale(1); }
+          50% { transform: translateY(-10px) scale(1.05); }
+        }
+        @keyframes speaking-pulse {
+          0%, 100% { transform: scale(1); box-shadow: 0 4px 12px rgba(10, 138, 110, 0.3); }
+          50% { transform: scale(1.15); box-shadow: 0 8px 24px rgba(10, 138, 110, 0.6); }
+        }
+        @keyframes feedback-bounce {
+          0% { transform: scale(1); }
+          25% { transform: scale(1.2); }
+          50% { transform: scale(0.95); }
+          75% { transform: scale(1.05); }
+          100% { transform: scale(1); }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes sign-bounce {
+          0%, 100% { transform: translateY(0) rotate(0deg); }
+          25% { transform: translateY(-15px) rotate(-10deg); }
+          75% { transform: translateY(-15px) rotate(10deg); }
+        }
       </style>
-      <div id="teacher-avatar" style="position: fixed; bottom: 100px; right: 20px; width: 80px; height: 80px; background: linear-gradient(135deg, var(--ds-color-primary), var(--ds-color-accent)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 9999; border: 4px solid white; animation: idle-float 3s ease-in-out infinite; transition: all 0.3s;" title="Cliquez pour de l'aide">👩‍🏫</div>
-      <div id="teacher-tooltip" style="position: fixed; bottom: 190px; right: 20px; max-width: 320px; background: var(--ds-color-surface); color: var(--ds-color-text); padding: 1.2rem; border-radius: var(--ds-radius-lg); box-shadow: 0 8px 24px rgba(0,0,0,0.3); z-index: 10000; display: none; border: 2px solid var(--ds-color-primary); animation: fadeIn 0.3s ease-out;">
+
+      <!-- ✅ CORRECTION ACCESSIBILITÉ : role, aria-label, tabindex -->
+      <div id="teacher-avatar"
+           role="button"
+           tabindex="0"
+           aria-label="Afficher l'aide du professeur. Cliquez pour entendre le conseil."
+           title="Cliquez pour de l'aide"
+           style="
+             position: fixed; bottom: 100px; right: 20px;
+             width: 80px; height: 80px;
+             background: linear-gradient(135deg, var(--ds-color-primary), var(--ds-color-accent));
+             border-radius: 50%;
+             display: flex; align-items: center; justify-content: center;
+             font-size: 2.5rem;
+             cursor: pointer;
+             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+             z-index: 9999;
+             border: 4px solid white;
+             animation: idle-float 3s ease-in-out infinite;
+             transition: all 0.3s ease;
+           ">👩‍🏫</div>
+
+      <div id="teacher-tooltip" role="dialog" aria-label="Conseil du professeur"
+           style="
+             position: fixed; bottom: 190px; right: 20px;
+             max-width: 320px;
+             background: var(--ds-color-surface);
+             color: var(--ds-color-text);
+             padding: 1.2rem;
+             border-radius: var(--ds-radius-lg);
+             box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+             z-index: 10000;
+             display: none;
+             border: 2px solid var(--ds-color-primary);
+             animation: fadeIn 0.3s ease-out;
+           ">
         <div style="font-weight:600; margin-bottom:0.5rem; color:var(--ds-color-primary); font-size:1rem;">💡 Torohevitra (Conseil)</div>
         <div style="font-size:0.95rem; margin-bottom:0.5rem; line-height:1.5;">${this.#currentTip?.fr || ''}</div>
         <div style="font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic; border-top:1px solid var(--ds-color-border); padding-top:0.5rem; line-height:1.4;">${this.#currentTip?.mg || ''}</div>
-        <button id="close-teacher-tooltip" style="position: absolute; top: 8px; right: 8px; background: transparent; border: none; font-size: 1.5rem; cursor: pointer; color: var(--ds-color-text-muted); line-height: 1;">×</button>
+        <button id="close-teacher-tooltip"
+                aria-label="Fermer le conseil"
+                style="
+                  position: absolute; top: 8px; right: 8px;
+                  background: transparent; border: none;
+                  font-size: 1.5rem; cursor: pointer;
+                  color: var(--ds-color-text-muted); line-height: 1;
+                  padding: 4px 8px;
+                ">×</button>
       </div>
     `;
     document.body.appendChild(container);
@@ -175,11 +344,23 @@ export class TeacherAvatar {
     const tooltip = document.getElementById('teacher-tooltip');
     const closeBtn = document.getElementById('close-teacher-tooltip');
 
-    avatar.addEventListener('click', () => {
+    const toggleTooltip = () => {
       this.#stopSignAnimation();
-      tooltip.style.display = tooltip.style.display === 'none' ? 'block' : 'none';
-      if (tooltip.style.display === 'block' && this.#currentTip) {
-        this.speak(this.#currentTip.fr); // ✅ Parle en français au clic
+      const isVisible = tooltip.style.display === 'block';
+      tooltip.style.display = isVisible ? 'none' : 'block';
+
+      // Parle au clic manuel (toujours, car demande explicite)
+      if (!isVisible && this.#currentTip) {
+        this.speak(this.#currentTip.fr);
+      }
+    };
+
+    // ✅ Support clic + clavier (Enter et Space)
+    avatar.addEventListener('click', toggleTooltip);
+    avatar.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleTooltip();
       }
     });
 
@@ -187,13 +368,14 @@ export class TeacherAvatar {
       tooltip.style.display = 'none';
       speechSynthesis.cancel();
     });
-  }
 
-  hide() {
-    const container = document.getElementById('teacher-avatar-container');
-    if (container) container.remove();
-    speechSynthesis.cancel();
+    // Fermer au clic extérieur
+    document.addEventListener('click', (e) => {
+      if (tooltip.style.display === 'block' &&
+          !avatar.contains(e.target) &&
+          !tooltip.contains(e.target)) {
+        tooltip.style.display = 'none';
+      }
+    });
   }
 }
-
-window.teacherAvatar = new TeacherAvatar();
