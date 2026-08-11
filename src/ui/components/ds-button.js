@@ -13,6 +13,8 @@
  *   <ds-button variant="danger" loading>Suppression…</ds-button>
  */
 
+import '../core/haptics.js';
+
 const template = document.createElement('template');
 template.innerHTML = `
 <style>
@@ -58,7 +60,7 @@ template.innerHTML = `
   }
   button:active {
     background: var(--ds-color-primary-active, #066B54);
-    transform: translateY(0);
+    transform: translateY(0) scale(0.95); /* ✅ Feedback tactile amélioré */
   }
   button:focus-visible {
     outline: 3px solid var(--ds-color-accent, #E8A33D);
@@ -75,6 +77,10 @@ template.innerHTML = `
     background: var(--ds-color-primary-soft, #E6F5F1);
     border-color: var(--ds-color-primary, #0A8A6E);
   }
+  :host([variant="ghost"]) button:active {
+    background: var(--ds-color-primary-soft, #E6F5F1);
+    transform: scale(0.95);
+  }
 
   :host([variant="danger"]) button {
     background: var(--ds-color-danger, #D64545);
@@ -82,12 +88,20 @@ template.innerHTML = `
   :host([variant="danger"]) button:hover {
     background: #B83636;
   }
+  :host([variant="danger"]) button:active {
+    background: #9A2E2E;
+    transform: scale(0.95);
+  }
 
   :host([variant="success"]) button {
     background: var(--ds-color-success, #2F9E44);
   }
   :host([variant="success"]) button:hover {
     background: #267F37;
+  }
+  :host([variant="success"]) button:active {
+    background: #1E6B2E;
+    transform: scale(0.95);
   }
 
   /* ──── Tailles ──── */
@@ -162,6 +176,23 @@ export class DsButton extends HTMLElement {
     // Valeurs par défaut si aucun attribut
     if (!this.hasAttribute('variant')) this.setAttribute('variant', 'primary');
     if (!this.hasAttribute('size'))    this.setAttribute('size', 'md');
+
+    // ✅ NOUVEAU : Ajouter le feedback tactile pour mobile
+    this._button.addEventListener('touchstart', () => {
+      this._button.style.transform = 'scale(0.95)';
+    }, { passive: true });
+
+    this._button.addEventListener('touchend', () => {
+      this._button.style.transform = '';
+      // ✅ Retour haptique au clic
+      if (window.haptics) {
+        window.haptics.light();
+      }
+    }, { passive: true });
+
+    this._button.addEventListener('touchcancel', () => {
+      this._button.style.transform = '';
+    }, { passive: true });
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
