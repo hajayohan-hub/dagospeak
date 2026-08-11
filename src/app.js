@@ -1154,7 +1154,7 @@ async function renderLesson() {
 
     // ✅ NOUVEAU : Logs de debug
     console.log('[renderLesson] vocabData:', vocabData);
-    console.log('[renderLesson] vocabData.words:', vocabData?.words);
+    console.log('[renderLesson] words:', vocabData?.words);
 
     // ✅ NOUVEAU : Validation robuste de vocabData
     if (!vocabData) {
@@ -1162,7 +1162,7 @@ async function renderLesson() {
     }
 
     // ✅ NOUVEAU : Gérer différentes structures possibles
-    const words = vocabData.words || vocabData.vocabulary || vocabData.items || [];
+    const words = vocabData.items || vocabData.words || [];
 
     if (!Array.isArray(words)) {
       console.error('[renderLesson] vocabData structure:', vocabData);
@@ -1175,7 +1175,7 @@ async function renderLesson() {
 
     // ✅ NOUVEAU : Barre de progression de la leçon
     const totalWords = words.length;
-    const currentWordIndex = 0;
+    let currentWordIndex = 0;
 
     const progressHtml = `
       <div id="lesson-progress" style="
