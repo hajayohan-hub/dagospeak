@@ -1281,48 +1281,64 @@ syncProfileWithJourneys();
 
     document.getElementById('btn-back').addEventListener('click', () => router.navigate('/themes'));
 
-    // ✅ ALLUMAGE PROGRESSIF DES MOTS
-        let currentWordIndex = 0;
-        const wordButtons = document.querySelectorAll('.play-audio');
-        if (wordButtons.length > 0) {
-          // Allumer le premier mot
-          wordButtons[0].classList.add('guide-active');
-          wordButtons[0].style.animation = 'pulse-guide 2s infinite';
+    // ✅ ALLUMAGE PROGRESSIF DES MOTS (intégré avec la barre de progression)
+      const wordButtons = document.querySelectorAll('.play-audio');
 
-                    wordButtons.forEach((btn, index) => {
-            btn.addEventListener('click', () => {
-              speechSynthesis.cancel();
-              btn.textContent = '🔊 ...';
+      if (wordButtons.length > 0) {
+        // Allumer le premier mot
+        wordButtons[0].classList.add('guide-active');
+        wordButtons[0].style.animation = 'pulse-guide 2s infinite';
 
-              speakWithFeedback(btn.dataset.target, {
-                rate: 0.9,
-                gender: 'female',
-                onEnd: () => {
-                  btn.textContent = '🔊 Mitenena';
-                  btn.classList.remove('guide-active');
-                  btn.style.animation = 'none';
+        // ✅ Initialiser la barre de progression au premier mot
+        if (window.updateLessonProgress) {
+          window.updateLessonProgress(0);
+        }
 
-                  currentWordIndex = index + 1;
+        wordButtons.forEach((btn, index) => {
+          btn.addEventListener('click', () => {
+            speechSynthesis.cancel();
+            btn.textContent = '🔊 ...';
 
-                  if (currentWordIndex < wordButtons.length) {
-                    wordButtons[currentWordIndex].classList.add('guide-active');
-                    wordButtons[currentWordIndex].style.animation = 'pulse-guide 2s infinite';
-                    const progressBar = document.getElementById('progress-bar-fill');
-                    if (progressBar) {
-                      progressBar.classList.add('complete');
-                    }
+            speakWithFeedback(btn.dataset.target, {
+              rate: 0.9,
+              gender: 'female',
+              onEnd: () => {
+                btn.textContent = '🔊 Mitenena';
+                btn.classList.remove('guide-active');
+                btn.style.animation = 'none';
 
-                  } else {
-                    const btnStartPractice = document.getElementById('btn-start-practice');
-                    if (btnStartPractice) {
-                      btnStartPractice.classList.add('guide-active');
-                      btnStartPractice.style.animation = 'pulse-green 1.5s infinite';
-                    }
+                currentWordIndex = index + 1;
+
+                if (currentWordIndex < wordButtons.length) {
+                  wordButtons[currentWordIndex].classList.add('guide-active');
+                  wordButtons[currentWordIndex].style.animation = 'pulse-guide 2s infinite';
+
+                  // ✅ NOUVEAU : Mettre à jour la barre de progression
+                  if (window.updateLessonProgress) {
+                    window.updateLessonProgress(currentWordIndex);
+                  }
+                } else {
+                  // ✅ Leçon terminée : animation de succès
+                  const progressBar = document.getElementById('progress-bar-fill');
+                  if (progressBar) {
+                    progressBar.classList.add('complete');
+                  }
+
+                  if (window.teacherAvatar) {
+                    window.teacherAvatar.speakFeedback("Leçon terminée ! Bravo !", "success");
+                  }
+
+                  const btnStartPractice = document.getElementById('btn-start-practice');
+                  if (btnStartPractice) {
+                    btnStartPractice.classList.add('guide-active');
+                    btnStartPractice.style.animation = 'pulse-green 1.5s infinite';
                   }
                 }
-              });
-            }); // ← ✅ AJOUTEZ CETTE LIGNE MANQUANTE
+              }
+            });
           });
+        });
+
 
         // ✅ BOUTON DE FIN : Marquer la leçon comme terminée et passer à la pratique
          document.getElementById('btn-start-practice')?.addEventListener('click', () => {
