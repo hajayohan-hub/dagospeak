@@ -501,6 +501,7 @@ if (!navigator.onLine) {
 
 async function renderHome() {
   console.log('[renderHome] 1. Début de la fonction');
+  updateNavActiveState();
   const main = document.getElementById('app');
 
   // ✅ NOUVEAU : Supprime le splash screen avant de charger le contenu
@@ -910,6 +911,7 @@ function showLanguageSelector() {
 
 // ✅ PAGE À PROPOS AVEC 3 ONGLETS
 async function renderAbout() {
+  updateNavActiveState();
   const main = document.getElementById('app');
   let currentTab = 'info';
 
@@ -1142,7 +1144,7 @@ async function handleUpgrade(btn, profile) {
 
 // Activité Leçon
 async function renderLesson() {
-
+  updateNavActiveState();
   const main = document.getElementById('app');
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement de la leçon...</div>';
 
@@ -1281,6 +1283,7 @@ syncProfileWithJourneys();
 // VUE : LEÇON - PHRASES DE CONTEXTE (Écouter et répéter les phrases)
 // ═══════════════════════════════════════════════════════════
 async function renderLessonPhrases() {
+  updateNavActiveState();
   const main = document.getElementById('app');
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement des phrases...</div>';
   renderProgressHeader();
@@ -1405,6 +1408,7 @@ async function renderLessonPhrases() {
 // VUE : ALPHABET (Écoute et répétition - Version améliorée)
 // ═══════════════════════════════════════════════════════════
 async function renderAlphabet() {
+  updateNavActiveState();
   const main = document.getElementById('app');
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement de l\'alphabet...</div>';
   renderProgressHeader();
@@ -1830,6 +1834,7 @@ function warmUpTTS() {
 window.addEventListener('load', warmUpTTS);
 
 async function renderPractice() {
+  updateNavActiveState();
   const main = document.getElementById('app');
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Miomana ny session...</div>';
 
@@ -2198,6 +2203,7 @@ syncProfileWithJourneys();
 // VUE : RÉVISION - PHRASES (Quiz + Shadowing sur les phrases)
 // ═══════════════════════════════════════════════════════════
 async function renderPracticePhrases() {
+  updateNavActiveState();
   const main = document.getElementById('app');
   main.innerHTML = `<div style="text-align:center; padding:2rem;">Miomana ny fanazaran-tena amin\'ny fehezanteny...</div>`;
   renderProgressHeader();
@@ -2487,7 +2493,7 @@ async function renderDialogues() {
     router.navigate('/themes');
     return;
   }
-
+  updateNavActiveState();
   const main = document.getElementById('app');
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement des dialogues...</div>';
 
@@ -2625,6 +2631,7 @@ syncProfileWithJourneys();
 // VUE : ROLE PLAY GUIDÉ (L'utilisateur joue avec les réponses visibles)
 // ═══════════════════════════════════════════════════════════
 async function renderRolePlay() {
+  updateNavActiveState();
   const main = document.getElementById('app');
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Mamakiana ny Role Play...</div>';
 
@@ -2909,6 +2916,7 @@ async function renderRolePlay() {
 // VUE : DÉFI (L'utilisateur joue sans les réponses visibles)
 // ═══════════════════════════════════════════════════════════
 async function renderChallenge() {
+  updateNavActiveState();
   const main = document.getElementById('app');
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Miomana ny fanamby...</div>';
 
@@ -3270,6 +3278,7 @@ function calculateSimilarity(str1, str2) {
 }
 
 async function renderProfile() {
+  updateNavActiveState();
   const main = document.getElementById('app');
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement du profil...</div>';
 
@@ -3637,6 +3646,7 @@ function showGamificationGuide() {
 
 // --- VUE : LISTE DES THÈMES DU NIVEAU ---
 async function renderThemes() {
+  updateNavActiveState();
   const main = document.getElementById('app');
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement des thèmes...</div>';
 
@@ -3748,6 +3758,7 @@ async function renderThemes() {
 // VUE : DÉTAIL D'UN THÈME (Corrigée et blindée)
 // ═══════════════════════════════════════════════════════════
 async function renderThemeDetail() {
+  updateNavActiveState();
   const main = document.getElementById('app');
   if (!currentTheme) {
     router.navigate('/themes');
@@ -4281,6 +4292,7 @@ async function renderConversation() {
 // VUE : DICTIONNAIRE INTELLIGENT FR↔MG
 // ═══════════════════════════════════════════════════════════
 async function renderDictionary() {
+  updateNavActiveState();
   const dict = new DictionarySearch('app');
   await dict.init();
 }
@@ -4333,6 +4345,56 @@ document.getElementById('btn-settings')?.addEventListener('click', (e) => {
   e.stopPropagation();
   showSettingsModal();
 });
+
+// ═══════════════════════════════════════════════════════════
+// MISE À JOUR DE L'ÉTAT ACTIF DE LA NAVIGATION
+// ═══════════════════════════════════════════════════════════
+function updateNavActiveState() {
+  const currentHash = window.location.hash.slice(1) || '/';
+  const navLinks = document.querySelectorAll('.ds-mobile-nav a[data-route]');
+
+  navLinks.forEach(link => {
+    const route = link.getAttribute('data-route');
+    const isActive = currentHash === route ||
+                     (route === '/themes' && currentHash.startsWith('/theme')) ||
+                     (route === '/themes' && currentHash.startsWith('/lesson')) ||
+                     (route === '/themes' && currentHash.startsWith('/practice')) ||
+                     (route === '/themes' && currentHash.startsWith('/dialogues'));
+
+    // Supprimer l'ancien indicateur
+    const existingIndicator = link.querySelector('.nav-active-indicator');
+    if (existingIndicator) existingIndicator.remove();
+
+    if (isActive) {
+      link.style.color = 'var(--ds-color-primary)';
+      link.style.fontWeight = '700';
+      link.querySelector('span').style.color = 'var(--ds-color-primary)';
+
+      // Ajouter un petit point indicateur
+      const indicator = document.createElement('div');
+      indicator.className = 'nav-active-indicator';
+      indicator.style.cssText = `
+        position: absolute;
+        bottom: -2px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: var(--ds-color-primary);
+      `;
+      link.style.position = 'relative';
+      link.appendChild(indicator);
+    } else {
+      link.style.color = 'var(--ds-color-text-muted)';
+      link.style.fontWeight = '600';
+      link.querySelector('span').style.color = 'var(--ds-color-text-muted)';
+    }
+  });
+}
+
+// Écouter les changements de hash
+window.addEventListener('hashchange', updateNavActiveState);
 
 // ═══════════════════════════════════════════════════════════
 // MODAL DE RÉGLAGES
@@ -4466,6 +4528,7 @@ function startAppAndShowHome() {
     window.location.hash = '/';
   }
   router.start();
+updateNavActiveState(); // ✅ Met à jour l'état actif au chargement
   setTimeout(() => {
     renderHome();
     console.log('[App] ✅ renderHome() exécuté avec succès');
