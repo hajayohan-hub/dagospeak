@@ -1175,44 +1175,70 @@ async function renderLesson() {
 
     // ✅ NOUVEAU : Barre de progression de la leçon
     const totalWords = words.length;
-    let currentWordIndex = 0;
+    // ✅ NOUVEAU : Utiliser un objet pour stocker l'état (évite les conflits de scope)
+      const lessonState = {
+        currentWordIndex: 0,
+        totalWords: words.length
+      };
 
-    const progressHtml = `
-      <div id="lesson-progress" style="
-        position: sticky;
-        top: 110px;
-        background: var(--ds-color-surface);
-        padding: 1rem;
-        margin: -1rem -1rem 1.5rem -1rem;
-        border-bottom: 1px solid var(--ds-color-border);
-        z-index: 100;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      ">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
-          <span style="font-size:0.85rem; font-weight:600; color:var(--ds-color-text-muted);">
-            Mot <span id="current-word-num">1</span> sur ${totalWords}
-          </span>
-          <span style="font-size:0.85rem; font-weight:600; color:var(--ds-color-primary);">
-            ${Math.round((1 / totalWords) * 100)}%
-          </span>
-        </div>
-        <div style="
-          width: 100%;
-          height: 8px;
-          background: var(--ds-color-surface-2);
-          border-radius: 4px;
-          overflow: hidden;
+      // ✅ NOUVEAU : Fonction pour mettre à jour la progression
+      window.updateLessonProgress = (currentIndex) => {
+        lessonState.currentWordIndex = currentIndex;
+        const percent = Math.round(((currentIndex + 1) / lessonState.totalWords) * 100);
+
+        const progressBar = document.getElementById('progress-bar-fill');
+        const wordNum = document.getElementById('current-word-num');
+
+        if (progressBar) {
+          progressBar.style.width = `${percent}%`;
+        }
+        if (wordNum) {
+          wordNum.textContent = currentIndex + 1;
+        }
+
+        const percentEl = document.querySelector('#lesson-progress span:last-child');
+        if (percentEl) {
+          percentEl.textContent = `${percent}%`;
+        }
+      };
+
+      // Barre de progression HTML
+      const progressHtml = `
+        <div id="lesson-progress" style="
+          position: sticky;
+          top: 110px;
+          background: var(--ds-color-surface);
+          padding: 1rem;
+          margin: -1rem -1rem 1.5rem -1rem;
+          border-bottom: 1px solid var(--ds-color-border);
+          z-index: 100;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         ">
-          <div id="progress-bar-fill" style="
-            width: ${(1 / totalWords) * 100}%;
-            height: 100%;
-            background: linear-gradient(90deg, var(--ds-color-primary), var(--ds-color-accent));
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+            <span style="font-size:0.85rem; font-weight:600; color:var(--ds-color-text-muted);">
+              Mot <span id="current-word-num">1</span> sur ${lessonState.totalWords}
+            </span>
+            <span style="font-size:0.85rem; font-weight:600; color:var(--ds-color-primary);">
+              ${Math.round((1 / lessonState.totalWords) * 100)}%
+            </span>
+          </div>
+          <div style="
+            width: 100%;
+            height: 8px;
+            background: var(--ds-color-surface-2);
             border-radius: 4px;
-            transition: width 0.4s ease;
-          "></div>
+            overflow: hidden;
+          ">
+            <div id="progress-bar-fill" style="
+              width: ${(1 / lessonState.totalWords) * 100}%;
+              height: 100%;
+              background: linear-gradient(90deg, var(--ds-color-primary), var(--ds-color-accent));
+              border-radius: 4px;
+              transition: width 0.4s ease;
+            "></div>
+          </div>
         </div>
-      </div>
-    `;
+      `;
 
     // ✅ NOUVEAU : Fonction pour mettre à jour la progression
     window.updateLessonProgress = (currentIndex) => {
@@ -1285,6 +1311,7 @@ async function renderLesson() {
     document.getElementById('btn-back').addEventListener('click', () => router.navigate('/themes'));
 
     // ✅ ALLUMAGE PROGRESSIF DES MOTS (intégré avec la barre de progression)
+     // ✅ ALLUMAGE PROGRESSIF DES MOTS (utilise lessonState)
       const wordButtons = document.querySelectorAll('.play-audio');
 
       if (wordButtons.length > 0) {
@@ -1292,7 +1319,7 @@ async function renderLesson() {
         wordButtons[0].classList.add('guide-active');
         wordButtons[0].style.animation = 'pulse-guide 2s infinite';
 
-        // ✅ Initialiser la barre de progression au premier mot
+        // Initialiser la barre de progression
         if (window.updateLessonProgress) {
           window.updateLessonProgress(0);
         }
@@ -1310,18 +1337,19 @@ async function renderLesson() {
                 btn.classList.remove('guide-active');
                 btn.style.animation = 'none';
 
-                currentWordIndex = index + 1;
+                // ✅ NOUVEAU : Utiliser lessonState au lieu de currentWordIndex
+                lessonState.currentWordIndex = index + 1;
 
-                if (currentWordIndex < wordButtons.length) {
-                  wordButtons[currentWordIndex].classList.add('guide-active');
-                  wordButtons[currentWordIndex].style.animation = 'pulse-guide 2s infinite';
+                if (lessonState.currentWordIndex < wordButtons.length) {
+                  wordButtons[lessonState.currentWordIndex].classList.add('guide-active');
+                  wordButtons[lessonState.currentWordIndex].style.animation = 'pulse-guide 2s infinite';
 
-                  // ✅ NOUVEAU : Mettre à jour la barre de progression
+                  // Mettre à jour la barre de progression
                   if (window.updateLessonProgress) {
-                    window.updateLessonProgress(currentWordIndex);
+                    window.updateLessonProgress(lessonState.currentWordIndex);
                   }
                 } else {
-                  // ✅ Leçon terminée : animation de succès
+                  // Leçon terminée : animation de succès
                   const progressBar = document.getElementById('progress-bar-fill');
                   if (progressBar) {
                     progressBar.classList.add('complete');
@@ -1341,6 +1369,7 @@ async function renderLesson() {
             });
           });
         });
+
 
 
         // ✅ BOUTON DE FIN : Marquer la leçon comme terminée et passer à la pratique
