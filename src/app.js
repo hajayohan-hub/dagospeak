@@ -1128,50 +1128,54 @@ async function renderAbout() {
 
 
 // Fonction helper pour gérer l'upgrade Premium
-async function handleUpgrade(btn, profile) {
-  btn.setAttribute('loading', '');
-  try {
-    const result = await paymentGateway.checkout('premium_monthly', 'mobile_money');
-    alert(result.message + `\nID: ${result.transactionId}`);
-    profile.isPremium = true;
-    await db.put('progress', profile);
-    renderHome(); // Rafraîchir pour enlever les cadenas
-  } catch (err) {
-    alert('Erreur de paiement.');
-    btn.removeAttribute('loading');
-  }
-}
-
-// Activité Leçon
 async function renderLesson() {
-  updateNavActiveState();
   const main = document.getElementById('app');
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement de la leçon...</div>';
 
-  // ✅ Afficher le header de progression flottant (uniquement hors accueil)
-renderProgressHeader();
-  // ✅ Synchroniser le profil après chaque parcours terminé
-syncProfileWithJourneys();
+  renderProgressHeader();
+  syncProfileWithJourneys();
 
   try {
-
-    // À ajouter au début de chaque fonction de vue (sauf renderHome)
-  const floatActions = document.getElementById('floating-home-actions');
-  if (floatActions) floatActions.remove();
+    const floatActions = document.getElementById('floating-home-actions');
+    if (floatActions) floatActions.remove();
 
     const manifest = await content.loadManifest('fr');
     const levelData = manifest.levels.find(l => l.id === currentLevel);
 
-    // ✅ VERROUILLAGE : On utilise strictement le thème sélectionné.
-    // Fallback vers la 1ère unité du niveau seulement si currentTheme est vide (clic direct depuis le header).
-    const unitId = currentTheme || levelData.units[0];
-    currentTheme = unitId; // On sauvegarde pour cohérence
+    if (!levelData) {
+      throw new Error(`Niveau ${currentLevel} introuvable dans le manifest`);
+    }
 
+    const unitId = currentTheme || levelData.units[0];
+    currentTheme = unitId;
+
+    console.log(`[renderLesson] Chargement vocabulaire pour: ${unitId}`);
     const vocabData = await content.loadSection('fr', 'vocabulary', unitId);
 
+    // ✅ NOUVEAU : Logs de debug
+    console.log('[renderLesson] vocabData:', vocabData);
+    console.log('[renderLesson] vocabData.words:', vocabData?.words);
+
+    // ✅ NOUVEAU : Validation robuste de vocabData
+    if (!vocabData) {
+      throw new Error(`Données de vocabulaire introuvables pour le thème "${unitId}"`);
+    }
+
+    // ✅ NOUVEAU : Gérer différentes structures possibles
+    const words = vocabData.words || vocabData.vocabulary || vocabData.items || [];
+
+    if (!Array.isArray(words)) {
+      console.error('[renderLesson] vocabData structure:', vocabData);
+      throw new Error(`Structure de vocabulaire invalide pour "${unitId}". Expected array, got: ${typeof words}`);
+    }
+
+    if (words.length === 0) {
+      throw new Error(`Aucun mot trouvé pour le thème "${unitId}"`);
+    }
+
     // ✅ NOUVEAU : Barre de progression de la leçon
-    const totalWords = vocabData.words.length;
-    const currentWordIndex = 0; // Sera mis à jour à chaque mot
+    const totalWords = words.length;
+    const currentWordIndex = 0;
 
     const progressHtml = `
       <div id="lesson-progress" style="
@@ -1223,7 +1227,6 @@ syncProfileWithJourneys();
         wordNum.textContent = currentIndex + 1;
       }
 
-      // Mise à jour du pourcentage
       const percentEl = document.querySelector('#lesson-progress span:last-child');
       if (percentEl) {
         percentEl.textContent = `${percent}%`;
