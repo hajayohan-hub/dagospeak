@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════ */
-/* ANIMATIONS CONTINUES LÉGÈRES - DagoSpeak */
+/* ANIMATIONS GÉNÉRALES - DagoSpeak                            */
 /* ═══════════════════════════════════════════════════════════ */
 
 /* Flottement doux des icônes */
@@ -10,8 +10,30 @@
 
 /* Pulsation des boutons importants */
 @keyframes pulse {
-  0%, 100% { transform: scale(1); box-shadow: 0 4px 12px rgba(10, 138, 110, 0.3); }
-  50% { transform: scale(1.05); box-shadow: 0 8px 24px rgba(10, 138, 110, 0.5); }
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 4px 12px rgba(10, 138, 110, 0.3);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 8px 24px rgba(10, 138, 110, 0.5);
+  }
+}
+
+/* Pulsation pour le guidage (utilise le token de couleur) */
+@keyframes pulse-guide {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(10, 138, 110, 0.7);
+  }
+  70% {
+    transform: scale(1.03);
+    box-shadow: 0 0 0 8px rgba(10, 138, 110, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(10, 138, 110, 0);
+  }
 }
 
 /* Rebond joyeux */
@@ -20,7 +42,26 @@
   50% { transform: translateY(-5px); }
 }
 
-/* Apparition en fondu */
+/* Rebond au clic (feedback tactile) */
+@keyframes tapBounce {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+/* Apparition en fondu + slide up */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Apparition en fondu simple */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -37,12 +78,6 @@
   from { width: 0%; }
 }
 
-/* Respiration douce (pour les cartes) */
-@keyframes breathe {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.02); }
-}
-
 /* Rotation lente (pour les trophées) */
 @keyframes slowRotate {
   from { transform: rotate(0deg); }
@@ -55,107 +90,19 @@
   50% { opacity: 0.7; transform: scale(1.1); }
 }
 
-/* Appliquer les classes */
+/* ──── Classes d'application ──── */
+
 .float-animation { animation: float 3s ease-in-out infinite; }
 .pulse-animation { animation: pulse 2s ease-in-out infinite; }
 .bounce-animation { animation: bounce 2s ease-in-out infinite; }
 .fade-in { animation: fadeIn 0.6s ease-out; }
 .fade-in-delay { animation: fadeIn 0.6s ease-out 0.2s both; }
 .slide-in { animation: slideIn 0.5s ease-out both; }
-.breathe-animation { animation: breathe 4s ease-in-out infinite; }
 .rotate-slow { animation: slowRotate 8s linear infinite; }
 .sparkle-animation { animation: sparkle 2s ease-in-out infinite; }
 
-/* ═══════════════════════════════════════════════════════════ */
-/* PAGE DES ÉTAPES - STYLES */
-/* ═══════════════════════════════════════════════════════════ */
+/* ──── Grille des étapes ──── */
 
-.theme-detail-container {
-  max-width: 700px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
-}
-
-.theme-header {
-  text-align: center;
-  margin-bottom: 2rem;
-  padding: 2rem;
-  background: linear-gradient(135deg, rgba(10, 138, 110, 0.1) 0%, rgba(232, 163, 61, 0.1) 100%);
-  border-radius: 20px;
-  border: 2px solid rgba(10, 138, 110, 0.2);
-}
-
-.theme-icon-large {
-  font-size: 5rem;
-  margin-bottom: 1rem;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
-}
-
-.theme-title {
-  color: var(--ds-color-primary);
-  font-size: 2rem;
-  font-weight: 800;
-  margin: 0 0 0.5rem 0;
-  background: linear-gradient(135deg, var(--ds-color-primary) 0%, var(--ds-color-accent) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.theme-subtitle {
-  color: var(--ds-color-text-muted);
-  font-size: 1rem;
-  margin: 0;
-  font-style: italic;
-}
-
-/* Progression */
-.progress-section {
-  background: var(--ds-color-surface);
-  padding: 1.5rem;
-  border-radius: var(--ds-radius-lg);
-  border: 1px solid var(--ds-color-border);
-  margin-bottom: 2rem;
-}
-
-.progress-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.75rem;
-}
-
-.progress-label { font-weight: 600; color: var(--ds-color-text); }
-.progress-value { color: var(--ds-color-primary); font-weight: 700; }
-
-.progress-bar-container {
-  width: 100%;
-  height: 12px;
-  background: var(--ds-color-surface-2);
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.progress-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--ds-color-primary) 0%, var(--ds-color-accent) 100%);
-  border-radius: 10px;
-  transition: width 1s ease-out;
-  animation: progressFill 1.5s ease-out;
-}
-
-.completion-badge {
-  margin-top: 1rem;
-  padding: 0.75rem;
-  background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(34, 197, 94, 0.2) 100%);
-  border: 2px solid var(--ds-color-success);
-  border-radius: var(--ds-radius-md);
-  text-align: center;
-  font-weight: 700;
-  color: var(--ds-color-success);
-}
-
-/* Grille des étapes */
 .steps-grid {
   display: flex;
   flex-direction: column;
@@ -221,11 +168,3 @@
 .step-subtitle { margin: 0; color: var(--ds-color-text-muted); font-size: 0.9rem; }
 .step-badge { font-size: 2rem; flex-shrink: 0; }
 .btn-step { flex-shrink: 0; }
-
-@media (max-width: 600px) {
-  .theme-icon-large { font-size: 4rem; }
-  .theme-title { font-size: 1.5rem; }
-  .step-card { padding: 1rem; }
-  .step-icon { font-size: 2rem; }
-  .step-title { font-size: 1rem; }
-}

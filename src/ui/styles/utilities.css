@@ -1,0 +1,58 @@
+/* ═══════════════════════════════════════════════════════════ */
+/* CLASSES UTILITAIRES - DagoSpeak                             */
+/* ═══════════════════════════════════════════════════════════ */
+
+/* Flottement doux des icônes */
+.icon-float {
+  animation: float 3s ease-in-out infinite;
+  display: inline-block;
+}
+
+/* Apparition en cascade des cartes */
+.card-animate {
+  animation: fadeInUp 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+.card-animate:nth-child(1)  { animation-delay: 0.1s; }
+.card-animate:nth-child(2)  { animation-delay: 0.15s; }
+.card-animate:nth-child(3)  { animation-delay: 0.2s; }
+.card-animate:nth-child(4)  { animation-delay: 0.25s; }
+.card-animate:nth-child(5)  { animation-delay: 0.3s; }
+.card-animate:nth-child(6)  { animation-delay: 0.35s; }
+.card-animate:nth-child(7)  { animation-delay: 0.4s; }
+.card-animate:nth-child(8)  { animation-delay: 0.45s; }
+.card-animate:nth-child(9)  { animation-delay: 0.5s; }
+.card-animate:nth-child(10) { animation-delay: 0.55s; }
+
+/* Feedback interactif au survol et au clic */
+.interactive-tap {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  cursor: pointer;
+}
+
+.interactive-tap:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+.interactive-tap:active {
+  animation: tapBounce 0.15s ease;
+}
+
+/* Guidage par allumage permanent */
+.guide-active {
+  animation: pulse-guide 2s infinite !important;
+  border: 2px solid var(--ds-color-primary) !important;
+}
+
+/* Feedback visuel Quiz */
+.correct-answer {
+  animation: tapBounce 0.4s ease;
+  background: var(--ds-color-success-soft) !important;
+}
+
+.wrong-answer {
+  animation: tapBounce 0.4s ease;
+  background: var(--ds-color-danger-soft) !important;
+}
