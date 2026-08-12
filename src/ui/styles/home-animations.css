@@ -122,3 +122,163 @@
   line-height: 1;
   animation: gentleFloat 3s ease-in-out infinite;
 }
+
+/* ═══════════════════════════════════════════════════════════ */
+/* HERO CAROUSEL — Slides automatiques avec animations légères */
+/* ═══════════════════════════════════════════════════════════ */
+
+.hero-carousel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  margin-bottom: 2rem;
+  background: linear-gradient(135deg,
+    var(--ds-color-primary-soft) 0%,
+    var(--ds-color-surface) 100%);
+  border: 1px solid var(--ds-color-border);
+  box-shadow: var(--ds-shadow-md);
+  animation: fadeInUp 0.8s ease-out both;
+  min-height: 180px;
+}
+
+/* ─── Slides ─── */
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.75rem 1.5rem 2.25rem;
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  pointer-events: none;
+}
+
+.hero-slide.active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+  position: relative; /* donne la hauteur au conteneur */
+}
+
+/* ─── Images 3D transparentes (PNG) ─── */
+.hero-slide-img {
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.15));
+  animation: gentleFloat 4s ease-in-out infinite;
+}
+
+/* ─── Fallback icône (si PNG échoue) ─── */
+.hero-slide-fallback {
+  font-size: 4.5rem;
+  line-height: 1;
+  flex-shrink: 0;
+  animation: gentleFloat 4s ease-in-out infinite;
+}
+
+/* ─── Textes avec bon design ─── */
+.hero-slide-content { flex: 1; min-width: 0; }
+
+.hero-slide-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--ds-color-primary);
+  margin-bottom: 0.4rem;
+  line-height: 1.25;
+}
+
+.hero-slide-text {
+  font-size: 0.95rem;
+  color: var(--ds-color-text);
+  line-height: 1.5;
+  margin-bottom: 0.4rem;
+}
+
+.hero-slide-sub {
+  font-size: 0.85rem;
+  color: var(--ds-color-text-muted);
+  font-style: italic;
+}
+
+/* Badge partenaire / vérifié */
+.hero-slide-badge {
+  display: inline-block;
+  background: var(--ds-color-accent);
+  color: white;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.3px;
+}
+
+/* ─── Dots de navigation ─── */
+.hero-dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 2;
+}
+
+.hero-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ds-color-border);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.hero-dot.active {
+  background: var(--ds-color-primary);
+  width: 20px;
+  border-radius: 4px;
+}
+
+/* ─── Low-end mode : pas d'animation continue ─── */
+html.low-end-mode .hero-slide-img,
+html.low-end-mode .hero-slide-fallback {
+  animation: none;
+}
+
+/* ─── Accessibilité : reduced motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide { transition: none; }
+  .hero-slide-img,
+  .hero-slide-fallback { animation: none; }
+}
+
+/* ─── Responsive mobile ─── */
+@media (max-width: 480px) {
+  .hero-carousel {
+    min-height: 220px;
+  }
+  .hero-slide {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.75rem;
+    padding: 1.5rem 1rem 2rem;
+  }
+  .hero-slide-img,
+  .hero-slide-fallback {
+    width: 80px;
+    height: 80px;
+    font-size: 3.5rem;
+  }
+  .hero-slide-title {
+    font-size: 1.15rem;
+  }
+  .hero-slide-text {
+    font-size: 0.875rem;
+  }
+}
