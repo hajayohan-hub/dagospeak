@@ -1,0 +1,17 @@
+{
+  "id": "certification-a2",
+  "title": "Certification DagoSpeak A2",
+  "description": "Attestation de niveau A2 en français",
+  "requirements": {
+    "minThemesCompleted": 10,
+    "minChallengeScore": 80,
+    "minStreakDays": 7,
+    "totalJourneysRequired": 70
+  },
+  "certificateTemplate": {
+    "title": "Certificat de Maîtrise",
+    "subtitle": "Niveau A2 - Français pour débutants",
+    "issuer": "DagoSpeak Madagascar",
+    "validity": "À vie"
+  }
+}

@@ -821,199 +821,243 @@ async function renderHome() {
   }
 }
 
- async function renderCertification() {
-      const main = document.getElementById('app');
-      main.innerHTML = getSkeletonProfile();
+// ═══════════════════════════════════════════════════════════
+// VUE : CERTIFICATION A2
+// ═══════════════════════════════════════════════════════════
+async function renderCertification() {
+  updateNavActiveState();
+  const main = document.getElementById('app');
+  main.innerHTML = getSkeletonProfile();
 
-      try {
-        const { eligibility, certConfig } = await checkCertificationEligibility();
+  try {
+    const profile = getProfileData();
+    const userProfile = JSON.parse(localStorage.getItem('dagospeak:userProfile') || '{}');
+    const fullName = `${userProfile.firstName || 'Apprenant'} ${userProfile.lastName || ''}`.trim();
 
-        if (!certConfig) {
-          throw new Error('Configuration de certification introuvable');
-        }
+    // Critères par défaut (fallback si le fichier JSON est manquant)
+    const requirements = {
+      minThemesCompleted: 10,
+      minStreakDays: 7,
+      totalJourneysRequired: 70
+    };
 
-        const template = certConfig.certificateTemplate;
+    // Essayer de charger la config, sinon utiliser les valeurs par défaut
+    try {
+      const response = await fetch('/content/fr/certification-a2.json');
+      if (response.ok) {
+        const certConfig = await response.json();
+        Object.assign(requirements, certConfig.requirements);
+      }
+    } catch (e) {
+      console.warn('[Certification] Config file not found, using defaults');
+    }
 
-        if (eligibility.isEligible) {
-          // ✅ CERTIFICAT DÉBLOQUÉ
-          const userProfile = JSON.parse(localStorage.getItem('dagospeak:userProfile') || '{}');
-          const fullName = `${userProfile.firstName || 'Apprenant'} ${userProfile.lastName || ''}`.trim();
-          const issueDate = new Date().toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' });
+    // Calcul de l'éligibilité
+    const eligibility = {
+      isEligible: false,
+      themesCompleted: profile.themesCompleted,
+      journeysCompleted: profile.completedJourneys,
+      streak: profile.streak,
+      totalJourneysRequired: requirements.totalJourneysRequired,
+      minThemesRequired: requirements.minThemesCompleted,
+      minStreakRequired: requirements.minStreakDays,
+      progressPercentage: Math.min(100, Math.round((profile.completedJourneys / requirements.totalJourneysRequired) * 100)),
+      missingRequirements: []
+    };
 
-          main.innerHTML = `
-            <div class="skeleton-page" style="animation: fadeInUp 0.4s ease-out;">
-              <div style="text-align: center; margin-bottom: 2rem;">
-                <div style="font-size: 4rem; margin-bottom: 1rem;">🎓</div>
-                <h2 style="color: var(--ds-color-success); margin-bottom: 0.5rem;">Félicitations !</h2>
-                <p style="color: var(--ds-color-text-muted);">Vous avez obtenu la certification A2</p>
+    if (profile.themesCompleted < requirements.minThemesCompleted) {
+      eligibility.missingRequirements.push(`Thèmes: ${profile.themesCompleted}/${requirements.minThemesCompleted}`);
+    }
+    if (profile.streak < requirements.minStreakDays) {
+      eligibility.missingRequirements.push(`Streak: ${profile.streak}/${requirements.minStreakDays} jours`);
+    }
+    if (profile.completedJourneys < requirements.totalJourneysRequired) {
+      eligibility.missingRequirements.push(`Parcours: ${profile.completedJourneys}/${requirements.totalJourneysRequired}`);
+    }
+
+    eligibility.isEligible = eligibility.missingRequirements.length === 0;
+
+    const issueDate = new Date().toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' });
+
+    if (eligibility.isEligible) {
+      // ✅ CERTIFICAT DÉBLOQUÉ
+      main.innerHTML = `
+        <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem; animation: fadeInUp 0.4s ease-out;">
+          <ds-button variant="ghost" size="sm" id="btn-back-cert" style="margin-bottom: 1rem;">← Retour au profil</ds-button>
+
+          <div style="text-align: center; margin-bottom: 2rem;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">🎓</div>
+            <h2 style="color: var(--ds-color-success); margin-bottom: 0.5rem;">Félicitations !</h2>
+            <p style="color: var(--ds-color-text-muted);">Vous avez obtenu la certification A2</p>
+          </div>
+
+          <div id="certificate" style="
+            background: linear-gradient(135deg, var(--ds-color-surface) 0%, var(--ds-color-surface-2) 100%);
+            border: 8px solid var(--ds-color-accent);
+            border-radius: var(--ds-radius-lg);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            position: relative;
+          ">
+            <div style="position: absolute; top: 15px; right: 15px; font-size: 2.5rem; opacity: 0.2;">🏆</div>
+
+            <h1 style="color: var(--ds-color-primary); font-size: 1.5rem; margin-bottom: 0.25rem;">Certificat de Maîtrise</h1>
+            <p style="color: var(--ds-color-text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Niveau A2 - Français pour débutants</p>
+
+            <div style="border-top: 2px solid var(--ds-color-border); border-bottom: 2px solid var(--ds-color-border); padding: 1.5rem 0; margin: 1rem 0;">
+              <p style="color: var(--ds-color-text); font-size: 0.95rem; margin-bottom: 0.5rem;">Décerné à</p>
+              <h2 style="color: var(--ds-color-text); font-size: 1.5rem; margin-bottom: 0.75rem;">${fullName || 'Apprenant DagoSpeak'}</h2>
+              <p style="color: var(--ds-color-text-muted); line-height: 1.5; font-size: 0.9rem;">
+                Pour avoir complété avec succès l'ensemble du programme d'apprentissage du français niveau A2
+              </p>
+            </div>
+
+            <div style="display: flex; justify-content: space-around; margin-top: 1.5rem; font-size: 0.85rem;">
+              <div>
+                <p style="color: var(--ds-color-text-muted); margin: 0;">Date</p>
+                <p style="color: var(--ds-color-text); font-weight: 600; margin: 0;">${issueDate}</p>
               </div>
+              <div>
+                <p style="color: var(--ds-color-text-muted); margin: 0;">Validité</p>
+                <p style="color: var(--ds-color-text); font-weight: 600; margin: 0;">À vie</p>
+              </div>
+            </div>
 
-              <div id="certificate" style="
-                background: linear-gradient(135deg, var(--ds-color-surface) 0%, var(--ds-color-surface-2) 100%);
-                border: 8px solid var(--ds-color-accent);
-                border-radius: var(--ds-radius-lg);
-                padding: 3rem 2rem;
-                text-align: center;
-                box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-                position: relative;
+            <p style="color: var(--ds-color-text-muted); font-size: 0.75rem; margin-top: 1.5rem; font-style: italic;">
+              DagoSpeak Madagascar
+            </p>
+          </div>
+
+          <button id="btn-download-cert" style="
+            width: 100%;
+            background: var(--ds-color-primary);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: var(--ds-radius-md);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1.5rem;
+          ">📥 Télécharger le certificat</button>
+        </section>
+      `;
+
+      document.getElementById('btn-back-cert')?.addEventListener('click', () => router.navigate('/profile'));
+      document.getElementById('btn-download-cert')?.addEventListener('click', () => {
+        alert('Téléchargement du certificat - Fonctionnalité à venir');
+      });
+
+    } else {
+      // ❌ PAS ENCORE ÉLIGIBLE
+      main.innerHTML = `
+        <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem; animation: fadeInUp 0.4s ease-out;">
+          <ds-button variant="ghost" size="sm" id="btn-back-cert" style="margin-bottom: 1rem;">← Retour au profil</ds-button>
+
+          <div style="text-align: center; margin-bottom: 2rem;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">🎯</div>
+            <h2 style="color: var(--ds-color-primary); margin-bottom: 0.5rem;">Certification A2</h2>
+            <p style="color: var(--ds-color-text-muted);">Progressez vers votre certification</p>
+          </div>
+
+          <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); box-shadow: var(--ds-shadow-md); text-align: center; margin-bottom: 1.5rem;">
+            <p style="color: var(--ds-color-text); font-weight: 600; margin-bottom: 1rem;">Progression globale</p>
+            <div style="
+              width: 120px;
+              height: 120px;
+              border-radius: 50%;
+              background: conic-gradient(
+                var(--ds-color-primary) 0deg ${eligibility.progressPercentage * 3.6}deg,
+                var(--ds-color-surface-2) ${eligibility.progressPercentage * 3.6}deg 360deg
+              );
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              margin: 0 auto;
+              position: relative;
+            ">
+              <div style="
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                background: var(--ds-color-surface);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.5rem;
+                font-weight: 700;
+                color: var(--ds-color-primary);
               ">
-                <div style="position: absolute; top: 20px; right: 20px; font-size: 3rem; opacity: 0.2;">🏆</div>
+                ${eligibility.progressPercentage}%
+              </div>
+            </div>
+          </div>
 
-                <h1 style="color: var(--ds-color-primary); font-size: 2rem; margin-bottom: 0.5rem;">${template.title}</h1>
-                <p style="color: var(--ds-color-text-muted); margin-bottom: 2rem;">${template.subtitle}</p>
+          <div style="background: var(--ds-color-surface); padding: 1.5rem; border-radius: var(--ds-radius-lg); box-shadow: var(--ds-shadow-md);">
+            <h3 style="color: var(--ds-color-text); margin-bottom: 1rem;">Critères à remplir</h3>
+            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: var(--ds-color-surface-2); border-radius: var(--ds-radius-md);">
+                <span>📚 Thèmes complétés</span>
+                <strong style="color: ${eligibility.themesCompleted >= eligibility.minThemesRequired ? 'var(--ds-color-success)' : 'var(--ds-color-text)'};">
+                  ${eligibility.themesCompleted}/${eligibility.minThemesRequired}
+                </strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: var(--ds-color-surface-2); border-radius: var(--ds-radius-md);">
+                <span>🎯 Parcours terminés</span>
+                <strong style="color: ${eligibility.journeysCompleted >= eligibility.totalJourneysRequired ? 'var(--ds-color-success)' : 'var(--ds-color-text)'};">
+                  ${eligibility.journeysCompleted}/${eligibility.totalJourneysRequired}
+                </strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: var(--ds-color-surface-2); border-radius: var(--ds-radius-md);">
+                <span>🔥 Streak minimum</span>
+                <strong style="color: ${eligibility.streak >= eligibility.minStreakRequired ? 'var(--ds-color-success)' : 'var(--ds-color-text)'};">
+                  ${eligibility.streak}/${eligibility.minStreakRequired} jours
+                </strong>
+              </div>
+            </div>
 
-                <div style="border-top: 2px solid var(--ds-color-border); border-bottom: 2px solid var(--ds-color-border); padding: 2rem 0; margin: 2rem 0;">
-                  <p style="color: var(--ds-color-text); font-size: 1.1rem; margin-bottom: 0.5rem;">Décerné à</p>
-                  <h2 style="color: var(--ds-color-text); font-size: 2rem; margin-bottom: 1rem;">${fullName}</h2>
-                  <p style="color: var(--ds-color-text-muted); line-height: 1.6;">
-                    Pour avoir complété avec succès l'ensemble du programme d'apprentissage du français niveau A2
-                  </p>
-                </div>
-
-                <div style="display: flex; justify-content: space-around; margin-top: 2rem;">
-                  <div>
-                    <p style="color: var(--ds-color-text-muted); font-size: 0.85rem;">Date d'émission</p>
-                    <p style="color: var(--ds-color-text); font-weight: 600;">${issueDate}</p>
-                  </div>
-                  <div>
-                    <p style="color: var(--ds-color-text-muted); font-size: 0.85rem;">Validité</p>
-                    <p style="color: var(--ds-color-text); font-weight: 600;">${template.validity}</p>
-                  </div>
-                </div>
-
-                <p style="color: var(--ds-color-text-muted); font-size: 0.8rem; margin-top: 2rem; font-style: italic;">
-                  ${template.issuer}
+            ${eligibility.missingRequirements.length > 0 ? `
+              <div style="margin-top: 1.5rem; padding: 1rem; background: var(--ds-color-warning-soft, #fef3c7); border-radius: var(--ds-radius-md); border-left: 4px solid var(--ds-color-warning);">
+                <p style="color: var(--ds-color-text); font-size: 0.9rem; margin: 0;">
+                  <strong>Il vous manque :</strong><br>
+                  ${eligibility.missingRequirements.join('<br>')}
                 </p>
               </div>
+            ` : ''}
+          </div>
 
-              <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 2rem;">
-                <button id="btn-download-cert" style="
-                  background: var(--ds-color-primary);
-                  color: white;
-                  border: none;
-                  padding: 14px 24px;
-                  border-radius: var(--ds-radius-md);
-                  font-weight: 600;
-                  font-size: 1rem;
-                  cursor: pointer;
-                ">📥 Télécharger le certificat</button>
+          <button id="btn-continue-learning" style="
+            width: 100%;
+            background: var(--ds-color-primary);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: var(--ds-radius-md);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1.5rem;
+          ">🚀 Continuer l'apprentissage</button>
+        </section>
+      `;
 
-                <button onclick="router.navigate('/profile')" style="
-                  background: var(--ds-color-surface);
-                  color: var(--ds-color-text);
-                  border: 2px solid var(--ds-color-border);
-                  padding: 14px 24px;
-                  border-radius: var(--ds-radius-md);
-                  font-weight: 600;
-                  font-size: 1rem;
-                  cursor: pointer;
-                ">← Retour au profil</button>
-              </div>
-            </div>
-          `;
-
-          // Gestion du téléchargement
-          document.getElementById('btn-download-cert')?.addEventListener('click', () => {
-            alert('Fonctionnalité de téléchargement à implémenter avec html2canvas');
-            // TODO: Utiliser html2canvas pour générer une image PNG du certificat
-          });
-
-        } else {
-          // ❌ PAS ENCORE ÉLIGIBLE — Afficher la progression
-          main.innerHTML = `
-            <div class="skeleton-page" style="animation: fadeInUp 0.4s ease-out;">
-              <div style="text-align: center; margin-bottom: 2rem;">
-                <div style="font-size: 4rem; margin-bottom: 1rem;">🎯</div>
-                <h2 style="color: var(--ds-color-primary); margin-bottom: 0.5rem;">Certification A2</h2>
-                <p style="color: var(--ds-color-text-muted);">Progressez vers votre certification</p>
-              </div>
-
-              <div class="skeleton-card" style="text-align: center; margin-bottom: 1.5rem;">
-                <p style="color: var(--ds-color-text); font-weight: 600; margin-bottom: 1rem;">Progression globale</p>
-                <div style="
-                  width: 120px;
-                  height: 120px;
-                  border-radius: 50%;
-                  background: conic-gradient(
-                    var(--ds-color-primary) 0deg ${eligibility.progressPercentage * 3.6}deg,
-                    var(--ds-color-surface-2) ${eligibility.progressPercentage * 3.6}deg 360deg
-                  );
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  margin: 0 auto;
-                  position: relative;
-                ">
-                  <div style="
-                    width: 100px;
-                    height: 100px;
-                    border-radius: 50%;
-                    background: var(--ds-color-surface);
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    font-size: 1.5rem;
-                    font-weight: 700;
-                    color: var(--ds-color-primary);
-                  ">
-                    ${eligibility.progressPercentage}%
-                  </div>
-                </div>
-              </div>
-
-              <div class="skeleton-card">
-                <h3 style="color: var(--ds-color-text); margin-bottom: 1rem;">Critères à remplir</h3>
-                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                  <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span>📚 Thèmes complétés</span>
-                    <span style="font-weight: 600;">${eligibility.themesCompleted}/${eligibility.minThemesRequired}</span>
-                  </div>
-                  <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span>🎯 Parcours terminés</span>
-                    <span style="font-weight: 600;">${eligibility.journeysCompleted}/${eligibility.totalJourneysRequired}</span>
-                  </div>
-                  <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span>🔥 Streak minimum</span>
-                    <span style="font-weight: 600;">${eligibility.streak}/${eligibility.minStreakRequired} jours</span>
-                  </div>
-                </div>
-
-                ${eligibility.missingRequirements.length > 0 ? `
-                  <div style="margin-top: 1.5rem; padding: 1rem; background: var(--ds-color-warning-soft, #fef3c7); border-radius: var(--ds-radius-md); border-left: 4px solid var(--ds-color-warning);">
-                    <p style="color: var(--ds-color-text); font-size: 0.9rem; margin: 0;">
-                      <strong>Il vous manque :</strong><br>
-                      ${eligibility.missingRequirements.join('<br>')}
-                    </p>
-                  </div>
-                ` : ''}
-              </div>
-
-              <button onclick="router.navigate('/themes')" style="
-                width: 100%;
-                background: var(--ds-color-primary);
-                color: white;
-                border: none;
-                padding: 14px 24px;
-                border-radius: var(--ds-radius-md);
-                font-weight: 600;
-                font-size: 1rem;
-                cursor: pointer;
-                margin-top: 1.5rem;
-              ">🚀 Continuer l'apprentissage</button>
-            </div>
-          `;
-        }
-
-        logger.info(`✅ Page Certification rendue (éligible: ${eligibility.isEligible})`);
-      } catch (e) {
-        showError(main, e, {
-          title: 'Erreur de certification',
-          subtitle: 'Impossible de vérifier votre éligibilité',
-          backRoute: '/profile',
-          retry: true
-        });
-      }
+      document.getElementById('btn-back-cert')?.addEventListener('click', () => router.navigate('/profile'));
+      document.getElementById('btn-continue-learning')?.addEventListener('click', () => router.navigate('/themes'));
     }
+
+    logger.info(`✅ Page Certification rendue (éligible: ${eligibility.isEligible})`);
+  } catch (e) {
+    console.error('[Certification] Erreur:', e);
+    showError(main, e, {
+      title: 'Erreur de certification',
+      subtitle: 'Impossible de vérifier votre éligibilité',
+      backRoute: '/profile',
+      backLabel: '← Retour au profil',
+      retry: true
+    });
+  }
+}
 
 
 // ✅ NOUVELLE FONCTION : Sélecteur de langues (corrigé pour mobile)
