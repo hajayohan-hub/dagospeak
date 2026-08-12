@@ -927,6 +927,7 @@ async function renderHome() {
       router.navigate('/dictionary');
     });
 
+    // ✅ Initialiser le hero carousel (auto-slides)
     initHeroCarousel();
 
     // ✅ Bouton Partager l'app
