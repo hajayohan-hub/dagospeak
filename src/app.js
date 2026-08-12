@@ -547,6 +547,69 @@ if (!navigator.onLine) {
 // VUES
 // ═══════════════════════════════════════════════════════════
 
+// ═══════════════════════════════════════════════════════════
+// HERO CAROUSEL — Auto-slides + navigation manuelle
+// ═══════════════════════════════════════════════════════════
+function initHeroCarousel() {
+  const carousel = document.getElementById('hero-carousel');
+  if (!carousel) return;
+
+  const slides = carousel.querySelectorAll('.hero-slide');
+  const dots = carousel.querySelectorAll('.hero-dot');
+  if (slides.length === 0) return;
+
+  let current = 0;
+  let timer = null;
+
+  // ✅ Appareils modestes : intervalle plus long (économie CPU/batterie)
+  const isLowEnd = window.deviceCheck?.isLowEnd();
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const INTERVAL = isLowEnd ? 8000 : 5000;
+
+  const goTo = (index) => {
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    dots[current].setAttribute('aria-selected', 'false');
+
+    current = (index + slides.length) % slides.length;
+
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+    dots[current].setAttribute('aria-selected', 'true');
+  };
+
+  const stopAuto = () => {
+    if (timer) { clearInterval(timer); timer = null; }
+  };
+
+  const startAuto = () => {
+    if (reducedMotion) return; // ✅ Pas d'auto-slide si reduced motion
+    stopAuto();
+    timer = setInterval(() => {
+      if (!carousel.isConnected) { stopAuto(); return; } // ✅ Stop si on quitte la page
+      goTo(current + 1);
+    }, INTERVAL);
+  };
+
+  // Navigation manuelle via les dots
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      goTo(i);
+      startAuto();
+    });
+  });
+
+  // ✅ Pause au toucher (mobile) / survol (desktop)
+  carousel.addEventListener('touchstart', stopAuto, { passive: true });
+  carousel.addEventListener('touchend', () => setTimeout(startAuto, 3000), { passive: true });
+  carousel.addEventListener('mouseenter', stopAuto);
+  carousel.addEventListener('mouseleave', startAuto);
+
+  startAuto();
+  console.log('[HeroCarousel] ✅ Initialisé (intervalle: ' + INTERVAL + 'ms)');
+}
+
+
 async function renderHome() {
   console.log('[renderHome] 1. Début de la fonction');
   updateNavActiveState();
@@ -590,14 +653,78 @@ async function renderHome() {
 
     console.log('[renderHome] 5. Manifeste chargé avec succès:', manifest);
 
-    // ✅ 1. HERO SECTION AMÉLIORÉ
-    const heroHtml = `
-      <div class="home-hero">
-        <h1>Manahoana ! 👋</h1>
-        <p class="hero-subtitle">Apprenez les langues avec l'IA</p>
-        <p class="hero-subtitle-mg">Mianara fiteny miaraka amin'ny IA</p>
-      </div>
-    `;
+
+   // ✅ 1. HERO CAROUSEL — Slides automatiques (témoignages, certification, pub)
+      const heroSlides = [
+        {
+          img: '/assets/teacher-3d.png',
+          fallback: '👩‍🏫',
+          badge: 'BIENVENUE • TONGASOA',
+          title: 'Manahoana ! 👋',
+          text: 'Apprenez le français avec l\'IA, 100% hors-ligne.',
+          sub: 'Mianara fiteny miaraka amin\'ny IA'
+        },
+        {
+          img: '/assets/user_1.png',
+          fallback: '🙋🏽‍♀️',
+          badge: 'TÉMOIGNAGE VÉRIFIÉ ✅',
+          title: '« Je parle français au marché ! »',
+          text: 'Hanta, commerçante à Antananarivo — 3 mois sur DagoSpeak.',
+          sub: 'Ny teny fototra dia tena ilaina'
+        },
+        {
+          img: '/assets/user_2.png',
+          fallback: '🙋🏽‍♂️',
+          badge: 'TÉMOIGNAGE VÉRIFIÉ ✅',
+          title: '« Certifié A2, embauché ! »',
+          text: 'Rivo, étudiant à Fianarantsoa — certification reconnue.',
+          sub: 'Nahazo ny sertifikà A2 izy'
+        },
+        {
+          img: null,
+          fallback: '🎓',
+          badge: 'CERTIFICATION RECONNUE',
+          title: 'Certification A2 officielle',
+          text: 'Délivrée avec nos écoles partenaires : World Of Training, Yelandar et plus.',
+          sub: 'Sertifikà eken\'ny sekoly mpiara-miasa'
+        },
+        {
+          img: '/assets/users-3d.png',
+          fallback: '📴',
+          badge: '100% HORS-LIGNE',
+          title: 'Apprenez sans connexion',
+          text: 'Sur tous les appareils, même modestes. Vos progrès sauvegardés.',
+          sub: 'Mianara na dia tsy misy afindrano aza'
+        }
+      ];
+
+      const heroHtml = `
+        <div class="hero-carousel" id="hero-carousel" aria-roledescription="carrousel" aria-label="Présentation DagoSpeak">
+          ${heroSlides.map((s, i) => `
+            <div class="hero-slide ${i === 0 ? 'active' : ''}" role="group" aria-label="Slide ${i + 1} sur ${heroSlides.length}">
+              ${s.img ? `
+                <img class="hero-slide-img" src="${s.img}" alt="" loading="lazy" decoding="async"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="hero-slide-fallback" style="display:none;" aria-hidden="true">${s.fallback}</span>
+              ` : `
+                <span class="hero-slide-fallback" aria-hidden="true">${s.fallback}</span>
+              `}
+              <div class="hero-slide-content">
+                <span class="hero-slide-badge">${s.badge}</span>
+                <div class="hero-slide-title">${s.title}</div>
+                <div class="hero-slide-text">${s.text}</div>
+                <div class="hero-slide-sub">${s.sub}</div>
+              </div>
+            </div>
+          `).join('')}
+          <div class="hero-dots" role="tablist" aria-label="Navigation des slides">
+            ${heroSlides.map((_, i) => `
+              <button class="hero-dot ${i === 0 ? 'active' : ''}" data-slide="${i}"
+                      role="tab" aria-selected="${i === 0}" aria-label="Aller au slide ${i + 1}"></button>
+            `).join('')}
+          </div>
+        </div>
+      `;
 
     // ✅ 2. CARTE "REPRENDRE L'APPRENTISSAGE" (si progression existe)
     let resumeCardHtml = '';
@@ -796,8 +923,11 @@ async function renderHome() {
 
     // Bouton Dictionnaire
     document.getElementById('btn-open-dictionary')?.addEventListener('click', () => {
+      // ✅ Initialiser le hero carousel
       router.navigate('/dictionary');
     });
+
+    initHeroCarousel();
 
     // ✅ Bouton Partager l'app
       document.getElementById('btn-share-app')?.addEventListener('click', async () => {
