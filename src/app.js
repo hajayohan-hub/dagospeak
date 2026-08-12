@@ -678,76 +678,98 @@ async function renderHome() {
 
 
    // ✅ 1. HERO CAROUSEL — Slides automatiques (témoignages, certification, pub)
-      const heroSlides = [
-        {
-          img: '/assets/teacher-3d.png',
-          fallback: '👩‍🏫',
-          badge: 'BIENVENUE • TONGASOA',
-          title: 'Manahoana ! 👋',
-          text: 'Apprenez le français avec l\'IA, 100% hors-ligne.',
-          sub: 'Mianara fiteny miaraka amin\'ny IA'
-        },
-        {
-          img: '/assets/user_1.png',
-          fallback: '🙋🏽‍♀️',
-          badge: 'TÉMOIGNAGE VÉRIFIÉ ✅',
-          title: '« Je parle français au marché ! »',
-          text: 'Hanta, commerçante à Antananarivo — 3 mois sur DagoSpeak.',
-          sub: 'Ny teny fototra dia tena ilaina'
-        },
-        {
-          img: '/assets/user_2.png',
-          fallback: '🙋🏽‍♂️',
-          badge: 'TÉMOIGNAGE VÉRIFIÉ ✅',
-          title: '« Certifié A2, embauché ! »',
-          text: 'Rivo, étudiant à Fianarantsoa — certification reconnue.',
-          sub: 'Nahazo ny sertifikà A2 izy'
-        },
-        {
-          img: null,
-          fallback: '🎓',
-          badge: 'CERTIFICATION RECONNUE',
-          title: 'Certification A2 officielle',
-          text: 'Délivrée avec nos écoles partenaires : World Of Training, Yelandar et plus.',
-          sub: 'Sertifikà eken\'ny sekoly mpiara-miasa'
-        },
-        {
-          img: '/assets/users-3d.png',
-          fallback: '📴',
-          badge: '100% HORS-LIGNE',
-          title: 'Apprenez sans connexion',
-          text: 'Sur tous les appareils, même modestes. Vos progrès sauvegardés.',
-          sub: 'Mianara na dia tsy misy afindrano aza'
-        }
-      ];
+      // ✅ 1. HERO CAROUSEL — Transparent avec images 3D + textes
+const heroSlides = [
+  {
+    img: '/assets/hero-bg.png',
+    fallback: '🇲🇬',
+    type: 'image-only' // ✅ Image seule, grande
+  },
+  {
+    img: '/assets/teacher-3d.png',
+    fallback: '👩‍🏫',
+    badge: 'BIENVENUE • TONGASOA',
+    title: 'Manahoana ! 👋',
+    text: 'Apprenez le français avec l\'IA, 100% hors-ligne.',
+    sub: 'Mianara fiteny miaraka amin\'ny IA'
+  },
+  {
+    img: '/assets/teacher-3d.png',
+    fallback: '👩‍🏫',
+    type: 'image-only' // ✅ Image seule, grande
+  },
+  {
+    img: null,
+    fallback: '🙋🏽‍♀️',
+    badge: 'TÉMOIGNAGE VÉRIFIÉ ✅',
+    title: '« Je parle français au marché ! »',
+    text: 'Hanta, commerçante à Antananarivo — 3 mois sur DagoSpeak.',
+    sub: 'Ny teny fototra dia tena ilaina'
+  },
+  {
+    img: '/assets/users-3d.png',
+    fallback: '👥',
+    type: 'image-only' // ✅ Image seule, grande
+  },
+  {
+    img: null,
+    fallback: '🙋🏽‍♂️',
+    badge: 'TÉMOIGNAGE VÉRIFIÉ ✅',
+    title: '« Certifié A2, embauché ! »',
+    text: 'Rivo, étudiant à Fianarantsoa — certification reconnue.',
+    sub: 'Nahazo ny sertifikà A2 izy'
+  },
+  {
+    img: null,
+    fallback: '🎓',
+    badge: 'CERTIFICATION RECONNUE',
+    title: 'Certification A2 officielle',
+    text: 'Délivrée avec nos écoles partenaires : World Of Training, Yelandar et plus.',
+    sub: 'Sertifikà eken\'ny sekoly mpiara-miasa'
+  },
+  {
+    img: null,
+    fallback: '📴',
+    badge: '100% HORS-LIGNE',
+    title: 'Apprenez sans connexion',
+    text: 'Sur tous les appareils, même modestes. Vos progrès sauvegardés.',
+    sub: 'Mianara na dia tsy misy afindrano aza'
+  }
+];
 
-      const heroHtml = `
-        <div class="hero-carousel" id="hero-carousel" aria-roledescription="carrousel" aria-label="Présentation DagoSpeak">
-          ${heroSlides.map((s, i) => `
-            <div class="hero-slide ${i === 0 ? 'active' : ''}" role="group" aria-label="Slide ${i + 1} sur ${heroSlides.length}">
-              ${s.img ? `
-                <img class="hero-slide-img" src="${s.img}" alt="" loading="lazy" decoding="async"
-                     onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                <span class="hero-slide-fallback" style="display:none;" aria-hidden="true">${s.fallback}</span>
-              ` : `
-                <span class="hero-slide-fallback" aria-hidden="true">${s.fallback}</span>
-              `}
-              <div class="hero-slide-content">
-                <span class="hero-slide-badge">${s.badge}</span>
-                <div class="hero-slide-title">${s.title}</div>
-                <div class="hero-slide-text">${s.text}</div>
-                <div class="hero-slide-sub">${s.sub}</div>
-              </div>
+const heroHtml = `
+  <div class="hero-carousel" id="hero-carousel" aria-roledescription="carrousel" aria-label="Présentation DagoSpeak">
+    ${heroSlides.map((s, i) => {
+      const isImageOnly = s.type === 'image-only';
+      return `
+        <div class="hero-slide ${i === 0 ? 'active' : ''} ${isImageOnly ? 'image-only' : ''}"
+             role="group" aria-label="Slide ${i + 1} sur ${heroSlides.length}">
+          ${s.img ? `
+            <img class="hero-slide-img" src="${s.img}" alt="" loading="lazy" decoding="async"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <span class="hero-slide-fallback" style="display:none;" aria-hidden="true">${s.fallback}</span>
+          ` : `
+            <span class="hero-slide-fallback" aria-hidden="true">${s.fallback}</span>
+          `}
+          ${!isImageOnly ? `
+            <div class="hero-slide-content">
+              <span class="hero-slide-badge">${s.badge}</span>
+              <div class="hero-slide-title">${s.title}</div>
+              <div class="hero-slide-text">${s.text}</div>
+              <div class="hero-slide-sub">${s.sub}</div>
             </div>
-          `).join('')}
-          <div class="hero-dots" role="tablist" aria-label="Navigation des slides">
-            ${heroSlides.map((_, i) => `
-              <button class="hero-dot ${i === 0 ? 'active' : ''}" data-slide="${i}"
-                      role="tab" aria-selected="${i === 0}" aria-label="Aller au slide ${i + 1}"></button>
-            `).join('')}
-          </div>
+          ` : ''}
         </div>
       `;
+    }).join('')}
+    <div class="hero-dots" role="tablist" aria-label="Navigation des slides">
+      ${heroSlides.map((_, i) => `
+        <button class="hero-dot ${i === 0 ? 'active' : ''}" data-slide="${i}"
+                role="tab" aria-selected="${i === 0}" aria-label="Aller au slide ${i + 1}"></button>
+      `).join('')}
+    </div>
+  </div>
+`;
 
     // ✅ 2. CARTE "REPRENDRE L'APPRENTISSAGE" (si progression existe)
     let resumeCardHtml = '';

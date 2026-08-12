@@ -124,7 +124,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════ */
-/* HERO CAROUSEL — Slides automatiques avec animations légères */
+/* HERO CAROUSEL — Transparent avec animations légères        */
 /* ═══════════════════════════════════════════════════════════ */
 
 .hero-carousel {
@@ -132,11 +132,9 @@
   overflow: hidden;
   border-radius: 20px;
   margin-bottom: 2rem;
-  background: linear-gradient(135deg,
-    var(--ds-color-primary-soft) 0%,
-    var(--ds-color-surface) 100%);
-  border: 1px solid var(--ds-color-border);
-  box-shadow: var(--ds-shadow-md);
+  background: transparent; /* ✅ Transparent (pas de carte) */
+  border: none;
+  box-shadow: none;
   animation: fadeInUp 0.8s ease-out both;
   min-height: 180px;
 }
@@ -160,6 +158,21 @@
   transform: translateX(0);
   pointer-events: auto;
   position: relative; /* donne la hauteur au conteneur */
+}
+
+/* ✅ Slide "image-only" (centrée, grande) */
+.hero-slide.image-only {
+  justify-content: center;
+  text-align: center;
+  padding: 1rem;
+}
+
+.hero-slide.image-only .hero-slide-img {
+  width: 200px;
+  height: 200px;
+  max-width: 80vw;
+  max-height: 40vh;
+  object-fit: contain;
 }
 
 /* ─── Images 3D transparentes (PNG) ─── */
@@ -189,6 +202,7 @@
   color: var(--ds-color-primary);
   margin-bottom: 0.4rem;
   line-height: 1.25;
+  text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
 }
 
 .hero-slide-text {
@@ -196,12 +210,14 @@
   color: var(--ds-color-text);
   line-height: 1.5;
   margin-bottom: 0.4rem;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
 }
 
 .hero-slide-sub {
   font-size: 0.85rem;
   color: var(--ds-color-text-muted);
   font-style: italic;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
 }
 
 /* Badge partenaire / vérifié */
@@ -215,6 +231,7 @@
   font-weight: 700;
   margin-bottom: 0.5rem;
   letter-spacing: 0.3px;
+  box-shadow: 0 2px 8px rgba(232, 163, 61, 0.3);
 }
 
 /* ─── Dots de navigation ─── */
@@ -237,6 +254,7 @@
   padding: 0;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .hero-dot.active {
@@ -268,6 +286,13 @@ html.low-end-mode .hero-slide-fallback {
     text-align: center;
     gap: 0.75rem;
     padding: 1.5rem 1rem 2rem;
+  }
+  .hero-slide.image-only {
+    padding: 0.5rem;
+  }
+  .hero-slide.image-only .hero-slide-img {
+    width: 150px;
+    height: 150px;
   }
   .hero-slide-img,
   .hero-slide-fallback {
