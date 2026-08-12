@@ -3,6 +3,7 @@
 // ═══════════════════════════════════════════════════════════
 import './ui/components/ds-button.js';
 import './core/device-check.js';  // ✅ Détection appareil modeste (doit charger tôt)
+import './core/share-manager.js';  // ✅ Partage natif (app + certificat)
 import './ui/components/ds-quiz.js';
 import { EventBus }            from './core/event-bus.js';
 import { Container }           from './core/container.js';
@@ -743,6 +744,27 @@ async function renderHome() {
       </div>
     `;
 
+    // ✅ 6.5 BOUTON PARTAGER L'APP (croissance virale)
+    const shareAppHtml = `
+      <div style="margin-top: 1.5rem; padding: 1.5rem; background: linear-gradient(135deg, var(--ds-color-primary) 0%, var(--ds-color-accent) 100%); border-radius: var(--ds-radius-lg); text-align: center; color: white;">
+        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🤝</div>
+        <h3 style="margin-bottom: 0.5rem; font-size: 1.1rem;">Inviter des amis</h3>
+        <p style="font-size: 0.85rem; opacity: 0.9; margin-bottom: 1rem;">Apprendre à plusieurs, c'est plus motivant !</p>
+        <button id="btn-share-app" style="
+          background: white;
+          color: var(--ds-color-primary);
+          border: none;
+          padding: 12px 24px;
+          border-radius: 50px;
+          font-weight: 700;
+          font-size: 0.95rem;
+          cursor: pointer;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+          width: 100%;
+        ">📤 Partager DagoSpeak</button>
+      </div>
+    `;
+
     // ✅ 7. INJECTION DANS LE DOM
     main.innerHTML = `
       <section class="ds-home" style="padding: 1rem; max-width: 800px; margin: 0 auto;">
@@ -759,6 +781,7 @@ async function renderHome() {
         </div>
 
         ${featuresHtml}
+        ${shareAppHtml}
       </section>
     `;
 
@@ -774,6 +797,23 @@ async function renderHome() {
     document.getElementById('btn-open-dictionary')?.addEventListener('click', () => {
       router.navigate('/dictionary');
     });
+
+    // ✅ Bouton Partager l'app
+      document.getElementById('btn-share-app')?.addEventListener('click', async () => {
+        const btn = document.getElementById('btn-share-app');
+        btn.textContent = '📤 Partage en cours...';
+
+        const result = await window.shareManager.shareApp();
+
+        if (result.method === 'cancelled') {
+          btn.textContent = '📤 Partager DagoSpeak';
+        } else if (result.success) {
+          btn.textContent = '✅ Merci pour le partage !';
+          setTimeout(() => { btn.textContent = '📤 Partager DagoSpeak'; }, 2000);
+        } else {
+          btn.textContent = '📤 Partager DagoSpeak';
+        }
+      });
 
     // ✅ ÉCOUTEUR 100% INFAILLIBLE (gère parfaitement le Shadow DOM avec composedPath)
       document.getElementById('levels-container').addEventListener('click', (e) => {
@@ -826,7 +866,7 @@ async function renderHome() {
 // ═══════════════════════════════════════════════════════════
 // GÉNÉRATION DU CERTIFICAT A2 (Canvas natif - 100% offline)
 // ═══════════════════════════════════════════════════════════
-function downloadCertificate(fullName, issueDate) {
+async function downloadCertificate(fullName, issueDate) {
   const canvas = document.createElement('canvas');
   canvas.width = 1200;
   canvas.height = 850;
@@ -844,17 +884,15 @@ function downloadCertificate(fullName, issueDate) {
   ctx.lineWidth = 16;
   ctx.strokeRect(30, 30, 1140, 790);
 
-  // ─── Bordure intérieure (verte, plus fine) ───
+  // ─── Bordure intérieure (verte) ───
   ctx.strokeStyle = '#0A8A6E';
   ctx.lineWidth = 3;
   ctx.strokeRect(60, 60, 1080, 730);
 
-  // ─── Décoration : cercles dans les coins ───
+  // ─── Cercles dans les coins ───
   const corners = [
-    { x: 60, y: 60 },
-    { x: 1140, y: 60 },
-    { x: 60, y: 790 },
-    { x: 1140, y: 790 }
+    { x: 60, y: 60 }, { x: 1140, y: 60 },
+    { x: 60, y: 790 }, { x: 1140, y: 790 }
   ];
   ctx.fillStyle = '#E8A33D';
   corners.forEach(c => {
@@ -863,12 +901,12 @@ function downloadCertificate(fullName, issueDate) {
     ctx.fill();
   });
 
-  // ─── Icône trophée (emoji) ───
+  // ─── Trophée ───
   ctx.font = '100px serif';
   ctx.textAlign = 'center';
   ctx.fillText('🏆', 600, 180);
 
-  // ─── Titre principal ───
+  // ─── Titre ───
   ctx.fillStyle = '#0A8A6E';
   ctx.font = 'bold 52px Arial, sans-serif';
   ctx.fillText('Certificat de Maîtrise', 600, 260);
@@ -878,7 +916,7 @@ function downloadCertificate(fullName, issueDate) {
   ctx.font = '26px Arial, sans-serif';
   ctx.fillText('Niveau A2 - Français pour débutants', 600, 305);
 
-  // ─── Ligne de séparation ───
+  // ─── Séparation ───
   ctx.strokeStyle = '#e5e7eb';
   ctx.lineWidth = 2;
   ctx.beginPath();
@@ -891,7 +929,7 @@ function downloadCertificate(fullName, issueDate) {
   ctx.font = '24px Arial, sans-serif';
   ctx.fillText('Décerné à', 600, 400);
 
-  // ─── Nom du bénéficiaire ───
+  // ─── Nom ───
   ctx.fillStyle = '#0A8A6E';
   ctx.font = 'bold 48px Georgia, serif';
   ctx.fillText(fullName || 'Apprenant DagoSpeak', 600, 465);
@@ -904,23 +942,21 @@ function downloadCertificate(fullName, issueDate) {
   ctx.lineTo(850, 490);
   ctx.stroke();
 
-  // ─── Texte de félicitations ───
+  // ─── Félicitations ───
   ctx.fillStyle = '#374151';
   ctx.font = '22px Arial, sans-serif';
   ctx.fillText('Pour avoir complété avec succès l\'ensemble du programme', 600, 555);
   ctx.fillText('d\'apprentissage du français niveau A2 sur DagoSpeak', 600, 590);
 
-  // ─── Statistiques (XP et parcours) ───
+  // ─── Statistiques ───
   const profile = getProfileData();
   ctx.fillStyle = '#E8A33D';
   ctx.font = 'bold 28px Arial, sans-serif';
   ctx.fillText(`${profile.xp} XP  •  ${profile.completedJourneys} parcours  •  ${profile.themesCompleted} thèmes`, 600, 650);
 
-  // ─── Date et signature ───
+  // ─── Date ───
   ctx.strokeStyle = '#9ca3af';
   ctx.lineWidth = 1;
-
-  // Date
   ctx.beginPath();
   ctx.moveTo(200, 730);
   ctx.lineTo(450, 730);
@@ -932,7 +968,7 @@ function downloadCertificate(fullName, issueDate) {
   ctx.font = '16px Arial, sans-serif';
   ctx.fillText('Date d\'émission', 325, 778);
 
-  // Signature
+  // ─── Signature ───
   ctx.beginPath();
   ctx.moveTo(750, 730);
   ctx.lineTo(1000, 730);
@@ -944,34 +980,12 @@ function downloadCertificate(fullName, issueDate) {
   ctx.font = '16px Arial, sans-serif';
   ctx.fillText('DagoSpeak Madagascar', 875, 778);
 
-  // ─── Téléchargement ───
-  try {
+  // ✅ Retourne le blob (pour téléchargement ET partage)
+  return new Promise((resolve) => {
     canvas.toBlob((blob) => {
-      if (!blob) {
-        alert('Erreur lors de la génération du certificat. Réessayez.');
-        return;
-      }
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `DagoSpeak-Certification-A2-${(fullName || 'apprenant').replace(/\s+/g, '-')}.png`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
-      // Libérer la mémoire après un délai
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
-
-      // Feedback
-      if (window.haptics) window.haptics.medium();
-      if (window.teacherAvatar && window.teacherAvatar.getAutoSpeak && window.teacherAvatar.getAutoSpeak()) {
-        window.teacherAvatar.speakFeedback("Certificat téléchargé ! Bravo !", "success");
-      }
+      resolve({ blob, canvas });
     }, 'image/png');
-  } catch (e) {
-    console.error('[Certification] Erreur téléchargement:', e);
-    alert('Erreur lors du téléchargement. Vérifiez les permissions de stockage.');
-  }
+  });
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1082,27 +1096,98 @@ async function renderCertification() {
             </p>
           </div>
 
-          <button id="btn-download-cert" style="
-            width: 100%;
-            background: var(--ds-color-primary);
-            color: white;
-            border: none;
-            padding: 14px 24px;
-            border-radius: var(--ds-radius-md);
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            margin-top: 1.5rem;
-          ">📥 Télécharger le certificat</button>
+          <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
+            <button id="btn-download-cert" style="
+              flex: 1;
+              background: var(--ds-color-surface);
+              color: var(--ds-color-primary);
+              border: 2px solid var(--ds-color-primary);
+              padding: 14px 16px;
+              border-radius: var(--ds-radius-md);
+              font-weight: 600;
+              font-size: 0.95rem;
+              cursor: pointer;
+            ">📥 Télécharger</button>
+
+            <button id="btn-share-cert" style="
+              flex: 1;
+              background: var(--ds-color-primary);
+              color: white;
+              border: none;
+              padding: 14px 16px;
+              border-radius: var(--ds-radius-md);
+              font-weight: 600;
+              font-size: 0.95rem;
+              cursor: pointer;
+            ">📤 Partager</button>
+          </div>
         </section>
       `;
 
      document.getElementById('btn-back-cert')?.addEventListener('click', () => router.navigate('/profile'));
-      document.getElementById('btn-download-cert')?.addEventListener('click', () => {
-        // Récupérer les infos affichées sur le certificat
+
+// ✅ Télécharger le certificat
+document.getElementById('btn-download-cert')?.addEventListener('click', async () => {
+  const btn = document.getElementById('btn-download-cert');
+  btn.textContent = '⏳ Génération...';
+
+  const nameEl = document.querySelector('#certificate h2');
+  const certFullName = nameEl ? nameEl.textContent.trim() : fullName;
+
+  const { blob } = await downloadCertificate(certFullName, issueDate);
+
+  if (blob) {
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `DagoSpeak-Certification-A2-${certFullName.replace(/\s+/g, '-')}.png`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+    btn.textContent = '✅ Téléchargé !';
+    if (window.haptics) window.haptics.medium();
+  } else {
+    btn.textContent = '❌ Erreur';
+  }
+
+  setTimeout(() => { btn.textContent = '📥 Télécharger'; }, 2000);
+});
+
+      // ✅ Partager le certificat
+      document.getElementById('btn-share-cert')?.addEventListener('click', async () => {
+        const btn = document.getElementById('btn-share-cert');
+        btn.textContent = '⏳ Préparation...';
+
         const nameEl = document.querySelector('#certificate h2');
         const certFullName = nameEl ? nameEl.textContent.trim() : fullName;
-        downloadCertificate(certFullName, issueDate);
+        const fileName = `DagoSpeak-Certification-A2-${certFullName.replace(/\s+/g, '-')}.png`;
+
+        const { blob } = await downloadCertificate(certFullName, issueDate);
+
+        if (blob) {
+          const result = await window.shareManager.shareCertificate(blob, fileName);
+
+          if (result.method === 'cancelled') {
+            btn.textContent = '📤 Partager';
+          } else if (result.success) {
+            btn.textContent = '✅ Partagé !';
+          } else if (result.method === 'fallback-download') {
+            // Pas de support partage fichier → télécharger à la place
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = fileName;
+            link.click();
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+            btn.textContent = '📥 Téléchargé';
+          } else {
+            btn.textContent = '📤 Partager';
+          }
+        }
+
+        setTimeout(() => { btn.textContent = '📤 Partager'; }, 2000);
       });
 
     } else {
