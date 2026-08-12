@@ -136,7 +136,7 @@
   border: none;
   box-shadow: none;
   animation: fadeInUp 0.8s ease-out both;
-  min-height: 180px;
+
 }
 
 /* ─── Slides ─── */
@@ -163,15 +163,15 @@
 /* ✅ Slide "image-only" (centrée, grande) */
 .hero-slide.image-only {
   justify-content: center;
+  align-items: center;
   text-align: center;
-  padding: 1rem;
+  padding: 1.5rem;
 }
 
 .hero-slide.image-only .hero-slide-img {
-  width: 220px;
-  height: 220px;
-  max-width: 80vw;
-  max-height: 60vh;
+  width: auto;
+  height: 240px; /* ✅ Grande image qui remplit la hauteur */
+  max-width: 90%;
   object-fit: contain;
 }
 
@@ -279,7 +279,7 @@ html.low-end-mode .hero-slide-fallback {
 /* ─── Responsive mobile ─── */
 @media (max-width: 480px) {
   .hero-carousel {
-    min-height: 220px;
+    min-height: 260px; /* ✅ Hauteur mobile augmentée */
   }
   .hero-slide {
     flex-direction: column;
@@ -288,11 +288,11 @@ html.low-end-mode .hero-slide-fallback {
     padding: 1.5rem 1rem 2rem;
   }
   .hero-slide.image-only {
-    padding: 0.5rem;
+    padding: 1rem 0.5rem;
   }
   .hero-slide.image-only .hero-slide-img {
-    width: 220px;
-    height: 220px;
+    height: 200px; /* ✅ Image mobile grande */
+    max-width: 95%;
   }
   .hero-slide-img,
   .hero-slide-fallback {
