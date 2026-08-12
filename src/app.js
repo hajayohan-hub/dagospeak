@@ -23,6 +23,7 @@ import { SpeechRecognitionEngine } from './engines/pronunciation/speech-recognit
 import { TeacherAvatar } from './ui/components/teacher-avatar.js';
 import { DownloadProgress } from './ui/components/download-progress.js';
 import { FeedbackSounds } from './engines/audio/feedback-sounds.js';
+import './engines/audio/audio-loader.js';  // ✅ MP3 pré-enregistrés avec fallback TTS
 import { OnboardingScreen } from './ui/components/onboarding-screen.js';
 import { ConversationEngine } from './ui/components/conversation-engine.js';
 import { DictionarySearch } from './ui/components/dictionary-search.js';
@@ -1830,7 +1831,10 @@ async function renderLesson() {
                   <span style="font-size:0.85em; opacity:0.8;">(${item.contextTranslation})</span>
                 </div>
               </div>
-              <ds-button variant="primary" size="sm" class="play-audio" data-target="${item.target}" style="min-width: 90px; margin-left:1rem;">
+              <ds-button variant="primary" size="sm" class="play-audio"
+               data-target="${item.target || word.wordFr || word.fr}"
+               data-word-id="${item.id || word.id || (item.target || word.wordFr || word.fr)?.toLowerCase().replace(/\s+/g, '-')}"
+               style="min-width: 90px; margin-left:1rem;">
                 🔊 Mihainoa
               </ds-button>
             </div>
@@ -1864,9 +1868,16 @@ async function renderLesson() {
             speechSynthesis.cancel();
             btn.textContent = '🔊 ...';
 
+            const wordId = btn.dataset.wordId || btn.dataset.target?.toLowerCase().replace(/\s+/g, '-');
+
             speakWithFeedback(btn.dataset.target, {
               rate: 0.9,
               gender: 'female',
+              themeId: currentTheme,  // ✅ Passer le thème actuel
+              wordId: wordId,         // ✅ Passer l'ID du mot
+              onStart: () => {
+                btn.textContent = '🔊 ...';
+              },
               onEnd: () => {
                 btn.textContent = '🔊 Mitenena';
                 btn.classList.remove('guide-active');
@@ -2457,48 +2468,76 @@ const VOICE_PROFILES = {
   girl:   { pitch: 1.75, rate: 1.05, volume: 0.9 }   // Encore plus aigu + rapide = fille
 };
 
-function speakWithFeedback(text, { onStart, onEnd, lang = 'fr-FR', rate, gender = 'female' } = {}) {
-  speechSynthesis.cancel();
-
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = lang;
-
-  // Appliquer le profil vocal
-  const profile = VOICE_PROFILES[gender] || VOICE_PROFILES.female;
-  utterance.pitch = profile.pitch;
-  utterance.rate = rate || profile.rate;  // rate paramètre > profil par défaut
-  utterance.volume = profile.volume;
-
-  // Sélection de la voix
-  const selectedVoice = getVoiceByGender(gender, lang);
-  if (selectedVoice) {
-    utterance.voice = selectedVoice;
+/**
+ * Parler un mot/phrase avec MP3 pré-enregistré (fallback TTS)
+ * @param {string} text - Texte à prononcer
+ * @param {object} options - Options : rate, gender, onEnd, themeId, wordId
+ */
+async function speakWithFeedback(text, options = {}) {
+  if (!text) {
+    if (options.onEnd) options.onEnd();
+    return;
   }
 
-  console.log(`[TTS] 🎙️ gender=${gender}, pitch=${utterance.pitch}, rate=${utterance.rate}, voice=${selectedVoice?.name || 'default'}`);
+  // ✅ NOUVEAU : Essayer de charger un MP3 si on a un thème + mot ID
+  if (options.themeId && options.wordId && window.audioLoader) {
+    const mp3Path = `${options.themeId}/${options.wordId}.mp3`;
 
-  let finished = false;
+    try {
+      const result = await window.audioLoader.playAudio(mp3Path, text, {
+        rate: options.rate || 0.9,
+        gender: options.gender || 'female',
+        onStart: options.onStart,
+        onEnd: options.onEnd
+      });
 
-  utterance.onstart = () => { if (onStart) onStart(); };
+      if (result.method === 'mp3') {
+        // MP3 joué avec succès
+        console.log(`[speakWithFeedback] ✅ MP3 joué: ${mp3Path}`);
+        return;
+      }
+
+      // Fallback TTS si MP3 manquant
+      console.log(`[speakWithFeedback] ⚠️ MP3 manquant → fallback TTS: ${mp3Path}`);
+    } catch (e) {
+      console.warn('[speakWithFeedback] Erreur MP3, fallback TTS:', e);
+    }
+  }
+
+  // Fallback : Web Speech API (comportement actuel)
+  if (!('speechSynthesis' in window)) {
+    if (options.onEnd) options.onEnd();
+    return;
+  }
+
+  speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'fr-FR';
+  utterance.rate = options.rate || 0.9;
+  utterance.pitch = options.pitch || 1.1;
+
+  // Sélection de la voix
+  const voices = speechSynthesis.getVoices();
+  const frenchVoice = voices.find(v =>
+    v.lang.startsWith('fr') &&
+    (options.gender === 'male' ?
+      v.name.toLowerCase().includes('male') || v.name.includes('Thomas') :
+      v.name.toLowerCase().includes('female') || v.name.includes('Amélie') || v.name.includes('Marie'))
+  ) || voices.find(v => v.lang.startsWith('fr'));
+
+  if (frenchVoice) utterance.voice = frenchVoice;
+
+  console.log(`[TTS] 🎙️ gender=${options.gender || 'female'}, voice=${frenchVoice?.name || 'default'}`);
+
+  if (options.onStart) options.onStart();
   utterance.onend = () => {
-    if (finished) return;
-    finished = true;
-    if (onEnd) onEnd();
+    if (options.onEnd) options.onEnd();
   };
   utterance.onerror = () => {
-    if (finished) return;
-    finished = true;
-    if (onEnd) onEnd();
+    if (options.onEnd) options.onEnd();
   };
 
   speechSynthesis.speak(utterance);
-
-  setTimeout(() => {
-    if (!finished) {
-      finished = true;
-      if (onEnd) onEnd();
-    }
-  }, 10000);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -2543,6 +2582,22 @@ syncProfileWithJourneys();
     const unitId = currentTheme || levelData.units[0];
     currentTheme = unitId;
     const vocabData = await content.loadSection('fr', 'vocabulary', unitId);
+
+    // ✅ NOUVEAU : Précharger les MP3 du thème en arrière-plan
+      const words = vocabData.items || vocabData.words || [];
+      if (window.audioLoader && words.length > 0) {
+        // Préparer les IDs pour les MP3
+        const wordsForPreload = words.map(w => ({
+          id: w.id || w.wordFr?.toLowerCase().replace(/\s+/g, '-'),
+          wordFr: w.wordFr || w.fr,
+          fr: w.fr
+        }));
+
+        // Lancer en arrière-plan (ne bloque pas le rendu)
+        window.audioLoader.preloadTheme(unitId, wordsForPreload).catch(e => {
+          console.warn('[renderLesson] Préchargement MP3 échoué:', e);
+        });
+      }
 
     // Mélanger les items pour la session
     const sessionQueue = [...vocabData.items].sort(() => Math.random() - 0.5);
