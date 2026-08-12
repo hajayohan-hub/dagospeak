@@ -2491,17 +2491,25 @@ async function speakWithFeedback(text, options = {}) {
         onEnd: options.onEnd
       });
 
+      // ✅ MP3 joué avec succès → on sort
       if (result.method === 'mp3') {
-        // MP3 joué avec succès
         console.log(`[speakWithFeedback] ✅ MP3 joué: ${mp3Path}`);
         return;
       }
 
-      // Fallback TTS si MP3 manquant
-      console.log(`[speakWithFeedback] ⚠️ MP3 manquant → fallback TTS: ${mp3Path}`);
+      // ✅ TTS déjà joué par AudioLoader → on sort AUSSI (ne pas rejouer !)
+      if (result.method === 'tts') {
+        console.log(`[speakWithFeedback] ⚠️ MP3 manquant → TTS déjà joué par AudioLoader: ${mp3Path}`);
+        return;
+      }
+
+      // Seul cas où on continue : method === 'none' (aucun audio disponible)
+      console.log(`[speakWithFeedback] ❌ Aucun audio disponible pour: ${mp3Path}`);
     } catch (e) {
       console.warn('[speakWithFeedback] Erreur MP3, fallback TTS:', e);
     }
+
+// Ce fallback TTS ne sera atteint que si AudioLoader n'a rien pu jouer du tout
   }
 
   // Fallback : Web Speech API (comportement actuel)
