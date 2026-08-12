@@ -1411,7 +1411,7 @@ async function renderLesson() {
 async function renderLessonPhrases() {
   updateNavActiveState();
   const main = document.getElementById('app');
-  main.innerHTML = getSkeletonThemesList();
+  main.innerHTML = getSkeletonLesson();
   renderProgressHeader();
 
   try {
@@ -3901,7 +3901,7 @@ async function renderThemeDetail() {
     router.navigate('/themes');
     return;
   }
- main.innerHTML = getSkeletonThemesList();
+ main.innerHTML = getSkeletonThemes();
 
   // ✅ FLUX SPÉCIAL POUR L'ALPHABET (Variables définies AVANT utilisation)
   if (currentTheme === 'alphabet1' || currentTheme === 'alphabet2') {
