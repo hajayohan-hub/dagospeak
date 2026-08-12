@@ -10,6 +10,11 @@ export class TeacherAvatar {
   #isFirstUser = true;
   #currentTip = null;
   #signAnimationTimeout = null;
+  #lastTipShown = {};  // ✅ NOUVEAU : Anti-spam
+
+  constructor() {
+    // ... reste du code
+  }
 
   constructor() {
     this.#loadMasteredThemes();
@@ -125,16 +130,26 @@ export class TeacherAvatar {
    * Utilisé pour les conseils affichés au changement de page.
    * Ne parle QUE si l'utilisateur a activé l'auto-parole.
    */
-  speakGuide(text) {
-    if (!text) return;
+        speakGuide(text) {
+        if (!text) return;
 
-    if (this.#autoSpeakEnabled) {
-      setTimeout(() => this.speak(text), 600);
-      console.log(`[TeacherAvatar] Guide (auto): ${text}`);
-    } else {
-      console.log(`[TeacherAvatar] Guide (silencieux): ${text}`);
-    }
-  }
+        // ✅ NOUVEAU : Délai global anti-spam (5 secondes entre n'importe quel guide)
+        const now = Date.now();
+        if (this.#lastGlobalSpeak && now - this.#lastGlobalSpeak < 5000) {
+          console.log('[TeacherAvatar] Guide ignoré (délai global)');
+          return;
+        }
+
+        if (this.#autoSpeakEnabled) {
+          this.#lastGlobalSpeak = now;
+          setTimeout(() => this.speak(text), 600);
+          console.log(`[TeacherAvatar] Guide (auto): ${text}`);
+        } else {
+          console.log(`[TeacherAvatar] Guide (silencieux): ${text}`);
+        }
+      }
+
+      #lastGlobalSpeak = 0;  // ✅ NOUVEAU : Délai global
 
   // ─────────── CONTRÔLE DU TOGGLE ───────────
 
@@ -152,6 +167,8 @@ export class TeacherAvatar {
   getAutoSpeak() {
     return this.#autoSpeakEnabled;
   }
+
+
 
   // ─────────── ANIMATIONS VISUELLES ───────────
 
@@ -221,38 +238,52 @@ export class TeacherAvatar {
 
   // ─────────── AFFICHAGE DES CONSEILS PAR PAGE ───────────
   show(tipKey) {
-    const tips = {
-      'home':             { fr: "Bienvenue ! Choisissez un niveau pour commencer.", mg: "Tongasoa ! Safidio ny ambaratonga." },
-      'themes':           { fr: "Choisissez un thème pour voir les leçons.", mg: "Safidio lohahevitra iray." },
-      'theme-detail':     { fr: "Choisissez une activité : Leçon, Révisions, Phrases ou Dialogues.", mg: "Safidio hetsika iray." },
-      'lesson':           { fr: "Écoutez et répétez chaque mot à voix haute.", mg: "Hihainoa ary avereno ny teny tsirairay." },
-      'lesson-phrases':   { fr: "Écoutez et répétez chaque phrase à voix haute.", mg: "Hihainoa ary avereno ny fehezanteny." },
-      'practice':         { fr: "Suivez les étapes : Écoutez, Répondez, puis Prononcez.", mg: "Araho ny dingana : Mihainoa, Valio, Mitenena." },
-      'practice-phrases': { fr: "Écoutez, traduisez, puis prononcez la phrase complète.", mg: "Mihainoa, adino, ary mitenena." },
-      'dialogues':        { fr: "Lisez et écoutez la conversation.", mg: "Vakio ary mihainoa ny resaka." },
-      'roleplay':         { fr: "Jouez les deux rôles de la conversation.", mg: "Milalao anjara asa roa." },
-      'challenge':        { fr: "Défi ! Parlez sans voir les réponses.", mg: "Fanamby ! Mitenena tsy mijery." }
-    };
+  const tips = {
+    'home':             { fr: "Bienvenue ! Choisissez un niveau pour commencer.", mg: "Tongasoa ! Safidio ny ambaratonga." },
+    'themes':           { fr: "Choisissez un thème pour voir les leçons.", mg: "Safidio lohahevitra iray." },
+    'theme-detail':     { fr: "Choisissez une activité : Leçon, Révisions, Phrases ou Dialogues.", mg: "Safidio hetsika iray." },
+    'lesson':           { fr: "Écoutez et répétez chaque mot à voix haute.", mg: "Hihainoa ary avereno ny teny tsirairay." },
+    'lesson-phrases':   { fr: "Écoutez et répétez chaque phrase à voix haute.", mg: "Hihainoa ary avereno ny fehezanteny." },
+    'practice':         { fr: "Suivez les étapes : Écoutez, Répondez, puis Prononcez.", mg: "Araho ny dingana : Mihainoa, Valio, Mitenena." },
+    'practice-phrases': { fr: "Écoutez, traduisez, puis prononcez la phrase complète.", mg: "Mihainoa, adino, ary mitenena." },
+    'dialogues':        { fr: "Lisez et écoutez la conversation.", mg: "Vakio ary mihainoa ny resaka." },
+    'roleplay':         { fr: "Jouez les deux rôles de la conversation.", mg: "Milalao anjara asa roa." },
+    'challenge':        { fr: "Défi ! Parlez sans voir les réponses.", mg: "Fanamby ! Mitenena tsy mijery." }
+  };
 
-    this.#currentTip = tips[tipKey] || {
-      fr: "Continuez, vous faites du bon travail !",
-      mg: "Tohizo, tsara ny ataonao !"
-    };
+      this.#currentTip = tips[tipKey] || {
+        fr: "Continuez, vous faites du bon travail !",
+        mg: "Tohizo, tsara ny ataonao !"
+      };
 
-    this.render();
+      this.render();
 
-    // Sur la page d'accueil : signe visuel pour les nouveaux, PAS de parole auto
-    if (tipKey === 'home') {
-      if (this.#isFirstUser) {
-        setTimeout(() => this.#startSignAnimation(), 1000);
-        this.#isFirstUser = false;
+      // ✅ NOUVEAU : Anti-spam - Ne pas répéter le même conseil trop souvent
+      const now = Date.now();
+      const lastShown = this.#lastTipShown?.[tipKey] || 0;
+      const SPAM_DELAY = 30000; // 30 secondes entre deux affichages du même conseil
+
+      if (now - lastShown < SPAM_DELAY) {
+        console.log(`[TeacherAvatar] Conseil "${tipKey}" ignoré (anti-spam)`);
+        return;
       }
-      return;
-    }
 
-    // ✅ Sur les autres pages : utilise speakGuide() qui respecte le toggle
-    this.speakGuide(this.#currentTip.fr);
-  }
+      // Enregistrer le moment de l'affichage
+      if (!this.#lastTipShown) this.#lastTipShown = {};
+      this.#lastTipShown[tipKey] = now;
+
+      // Sur la page d'accueil : signe visuel pour les nouveaux, PAS de parole auto
+      if (tipKey === 'home') {
+        if (this.#isFirstUser) {
+          setTimeout(() => this.#startSignAnimation(), 1000);
+          this.#isFirstUser = false;
+        }
+        return;
+      }
+
+      // ✅ Sur les autres pages : utilise speakGuide() qui respecte le toggle
+      this.speakGuide(this.#currentTip.fr);
+    }
 
   // ─────────── RENDU DU COMPOSANT ───────────
   render() {
