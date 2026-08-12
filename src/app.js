@@ -2,6 +2,7 @@
 // IMPORTS
 // ═══════════════════════════════════════════════════════════
 import './ui/components/ds-button.js';
+import './core/device-check.js';  // ✅ Détection appareil modeste (doit charger tôt)
 import './ui/components/ds-quiz.js';
 import { EventBus }            from './core/event-bus.js';
 import { Container }           from './core/container.js';
@@ -1215,7 +1216,7 @@ async function renderAbout() {
           <h1 style="text-align: center; margin-bottom: 2rem;">️ Mombamomba ny DagoSpeak</h1>
 
           <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: var(--ds-radius-lg); box-shadow: var(--ds-shadow-md); margin-bottom: 2rem; text-align: center;">
-            <img src="/assets/mds-logo.png" alt="Mada Digital Services" style="max-width: 200px; margin-bottom: 1rem; border-radius: var(--ds-radius-md);" />
+            <img src="/assets/mds-logo.png" loading="lazy" decoding="async alt="Mada Digital Services" style="max-width: 200px; margin-bottom: 1rem; border-radius: var(--ds-radius-md);" />
             <h2 style="color: var(--ds-color-primary); margin-bottom: 1rem;">Propulsé par Web Services Mada</h2>
             <p style="line-height: 1.6; margin-bottom: 1rem;">
               DagoSpeak dia <strong>plateforme d'auto-apprentissage des langues assistée par IA</strong>, offline-first, pour les locuteurs Malgaches.
@@ -4449,7 +4450,8 @@ function renderProgressHeader() {
   document.body.appendChild(header);
 
   // Rafraîchissement toutes les 2 secondes
-  if (!window._progressHeaderInterval) {
+  // ✅ Pas de refresh toutes les 2s sur appareils modestes (économie CPU/batterie)
+  if (!window._progressHeaderInterval && !window.deviceCheck?.isLowEnd()) {
     window._progressHeaderInterval = setInterval(() => {
       const currentHeader = document.getElementById('floating-progress-header');
       if (!currentHeader) {
@@ -4621,7 +4623,7 @@ function getSkeletonLesson() {
 
       <!-- Liste de mots -->
       <div class="skeleton-word-list">
-        ${[1, 2, 3, 4, 5].map(() => `
+       ${Array.from({length: window.deviceCheck?.isLowEnd() ? 3 : 5}).map(() => `
           <div class="skeleton-word-item">
             <div class="skeleton skeleton-word-icon"></div>
             <div class="skeleton-word-text">
@@ -4648,7 +4650,7 @@ function getSkeletonThemes() {
 
       <!-- Grille de thèmes -->
       <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem;">
-        ${[1, 2, 3, 4, 5, 6].map(() => `
+       ${Array.from({length: window.deviceCheck?.isLowEnd() ? 4 : 6}).map(() => `
           <div class="skeleton-card">
             <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
               <div class="skeleton skeleton-avatar" style="width: 50px; height: 50px; margin: 0;"></div>
@@ -4677,7 +4679,7 @@ function getSkeletonProfile() {
 
       <!-- Stats -->
       <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 2rem;">
-        ${[1, 2, 3, 4].map(() => `
+       ${Array.from({length: window.deviceCheck?.isLowEnd() ? 2 : 4}).map(() => `
           <div class="skeleton-card" style="text-align: center;">
             <div class="skeleton skeleton-text short" style="margin: 0 auto;"></div>
             <div class="skeleton skeleton-title" style="width: 60%; margin: 0.5rem auto 0;"></div>
@@ -4689,7 +4691,7 @@ function getSkeletonProfile() {
       <div class="skeleton-card">
         <div class="skeleton skeleton-text medium" style="margin-bottom: 1rem;"></div>
         <div style="display: flex; gap: 0.5rem;">
-          ${[1, 2, 3].map(() => `
+         ${Array.from({length: window.deviceCheck?.isLowEnd() ? 2 : 3}).map(() => `
             <div class="skeleton" style="width: 40px; height: 40px; border-radius: 50%;"></div>
           `).join('')}
         </div>
@@ -4709,7 +4711,7 @@ function getSkeletonThemesList() {
 
       <!-- Liste de thèmes -->
       <div style="display: flex; flex-direction: column; gap: 1rem;">
-        ${[1, 2, 3, 4, 5].map(() => `
+       ${Array.from({length: window.deviceCheck?.isLowEnd() ? 3 : 5}).map(() => `
           <div class="skeleton-card">
             <div style="display: flex; align-items: center; gap: 1rem;">
               <div class="skeleton" style="width: 60px; height: 60px; border-radius: var(--ds-radius-md); flex-shrink: 0;"></div>

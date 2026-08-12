@@ -356,3 +356,63 @@ ds-button[variant="accent"]:active {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/* ═══════════════════════════════════════════════════════════ */
+/* LOW-END MODE — Optimisation pour appareils modestes         */
+/* Activé automatiquement par DeviceCheck (src/core/device-check.js) */
+/* ═══════════════════════════════════════════════════════════ */
+
+/* Désactiver le glow animé du logo (coûteux : filter + transform) */
+html.low-end-mode #logo-svg {
+  animation: none;
+}
+
+/* Désactiver les flottements d'icônes (animations infinies) */
+html.low-end-mode .icon-float,
+html.low-end-mode .home-resume-icon,
+html.low-end-mode .home-level-icon,
+html.low-end-mode .vocab-icon {
+  animation: none;
+}
+
+/* Désactiver le shimmer des skeletons (garder un fond statique) */
+html.low-end-mode .skeleton {
+  animation: none;
+  background: var(--ds-color-surface-2);
+}
+
+/* Guidage par allumage : bordure simple au lieu d'animation pulse */
+html.low-end-mode .guide-active {
+  animation: none !important;
+  border: 2px solid var(--ds-color-primary) !important;
+  box-shadow: 0 0 0 3px var(--ds-color-primary-soft);
+}
+
+/* Teacher Avatar : pas d'animation de flottement */
+html.low-end-mode #teacher-avatar {
+  animation: none;
+}
+
+/* Animations d'apparition : plus rapides */
+html.low-end-mode .card-animate {
+  animation-duration: 0.2s;
+}
+
+/* Désactiver le pulse des boutons CTA */
+html.low-end-mode .home-dictionary-btn {
+  animation: none;
+}
+
+/* ──── MODE TRÈS MODESTE : supprimer aussi les transitions ──── */
+html.very-low-end-mode *,
+html.very-low-end-mode *::before,
+html.very-low-end-mode *::after {
+  transition-duration: 0.01ms !important;
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+}
+
+/* ──── MODE CONNEXION LENTE : indicateur visible ──── */
+html.slow-network-mode img:not([loading="eager"]) {
+  loading: lazy;
+}
