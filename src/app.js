@@ -1135,16 +1135,22 @@ async function renderAbout() {
 // Fonction helper pour gérer l'upgrade Premium
 async function renderLesson() {
   const main = document.getElementById('app');
- main.innerHTML = getSkeletonLesson();
-
+  main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement de la leçon...</div>';
   renderProgressHeader();
-  syncProfileWithJourneys();
 
   try {
     const floatActions = document.getElementById('floating-home-actions');
     if (floatActions) floatActions.remove();
 
+    // ✅ NOUVEAU : Validation de currentTheme
+    if (!currentTheme || currentTheme === 'null') {
+      // Rediriger vers les thèmes si pas de thème sélectionné
+      router.navigate('/themes');
+      return;
+    }
+
     const manifest = await content.loadManifest('fr');
+
     const levelData = manifest.levels.find(l => l.id === currentLevel);
 
     if (!levelData) {
@@ -1418,6 +1424,14 @@ async function renderLessonPhrases() {
     const floatActions = document.getElementById('floating-home-actions');
     if (floatActions) floatActions.remove();
 
+    // ✅ NOUVEAU : Validation de currentTheme
+    if (!currentTheme || currentTheme === 'null') {
+      // Rediriger vers les thèmes si pas de thème sélectionné
+      router.navigate('/themes');
+      return;
+    }
+
+
     const manifest = await content.loadManifest('fr');
     const levelData = manifest.levels.find(l => l.id === currentLevel);
     const unitId = currentTheme || levelData.units[0];
@@ -1534,16 +1548,34 @@ async function renderLessonPhrases() {
 // VUE : ALPHABET (Écoute et répétition - Version améliorée)
 // ═══════════════════════════════════════════════════════════
 async function renderAlphabet() {
-  updateNavActiveState();
   const main = document.getElementById('app');
-  main.innerHTML = getSkeletonThemesList();
+  main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement de l\'alphabet...</div>';
   renderProgressHeader();
 
   try {
     const floatActions = document.getElementById('floating-home-actions');
     if (floatActions) floatActions.remove();
 
+    // ✅ NOUVEAU : Validation de currentTheme
+    if (!currentTheme || currentTheme === 'null') {
+      currentTheme = 'alphabet1';
+      localStorage.setItem('dagospeak:theme', currentTheme);
+      console.log('[Alphabet] Thème par défaut défini: alphabet1');
+    }
+
+    // ✅ NOUVEAU : Vérifier que c'est bien un thème alphabet
+    if (currentTheme !== 'alphabet1' && currentTheme !== 'alphabet2') {
+      currentTheme = 'alphabet1';
+      localStorage.setItem('dagospeak:theme', currentTheme);
+      console.log('[Alphabet] Thème corrigé vers alphabet1');
+    }
+
     const vocabData = await content.loadSection('fr', 'vocabulary', currentTheme);
+
+    if (!vocabData) {
+      throw new Error('Données d\'alphabet introuvables');
+    }
+
     const isPart1 = currentTheme === 'alphabet1';
     const title = isPart1 ? 'Alphabet - Partie 1 (A-M)' : 'Alphabet - Partie 2 (N-Z)';
     const titleMg = isPart1 ? 'Alfabe - Ampahany 1 (A-M)' : 'Alfabe - Ampahany 2 (N-Z)';
@@ -1974,6 +2006,13 @@ syncProfileWithJourneys();
     const floatActions = document.getElementById('floating-home-actions');
     if (floatActions) floatActions.remove();
 
+    // ✅ NOUVEAU : Validation de currentTheme
+    if (!currentTheme || currentTheme === 'null') {
+      // Rediriger vers les thèmes si pas de thème sélectionné
+      router.navigate('/themes');
+      return;
+    }
+
 
     const manifest = await content.loadManifest('fr');
     const levelData = manifest.levels.find(l => l.id === currentLevel);
@@ -2340,6 +2379,14 @@ async function renderPracticePhrases() {
     const floatActions = document.getElementById('floating-home-actions');
     if (floatActions) floatActions.remove();
 
+    // ✅ NOUVEAU : Validation de currentTheme
+    if (!currentTheme || currentTheme === 'null') {
+      // Rediriger vers les thèmes si pas de thème sélectionné
+      router.navigate('/themes');
+      return;
+    }
+
+
     const manifest = await content.loadManifest('fr');
     const levelData = manifest.levels.find(l => l.id === currentLevel);
     const unitId = currentTheme || levelData.units[0];
@@ -2641,6 +2688,14 @@ syncProfileWithJourneys();
     const floatActions = document.getElementById('floating-home-actions');
     if (floatActions) floatActions.remove();
 
+    // ✅ NOUVEAU : Validation de currentTheme
+    if (!currentTheme || currentTheme === 'null') {
+      // Rediriger vers les thèmes si pas de thème sélectionné
+      router.navigate('/themes');
+      return;
+    }
+
+
     const manifest = await content.loadManifest('fr');
     const levelData = manifest.levels.find(l => l.id === currentLevel);
 
@@ -2777,6 +2832,14 @@ async function renderRolePlay() {
       router.navigate('/themes');
       return;
     }
+
+    // ✅ NOUVEAU : Validation de currentTheme
+    if (!currentTheme || currentTheme === 'null') {
+      // Rediriger vers les thèmes si pas de thème sélectionné
+      router.navigate('/themes');
+      return;
+    }
+
 
     const dialogue = await content.loadSection('fr', 'dialogues', `${unitId}_dialogue`);
     const themeNames = {
@@ -3062,6 +3125,14 @@ async function renderChallenge() {
       router.navigate('/themes');
       return;
     }
+
+    // ✅ NOUVEAU : Validation de currentTheme
+    if (!currentTheme || currentTheme === 'null') {
+      // Rediriger vers les thèmes si pas de thème sélectionné
+      router.navigate('/themes');
+      return;
+    }
+
 
     const dialogue = await content.loadSection('fr', 'dialogues', `${unitId}_dialogue`);
     const themeNames = {
