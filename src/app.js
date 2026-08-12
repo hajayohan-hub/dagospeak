@@ -547,66 +547,89 @@ if (!navigator.onLine) {
 // VUES
 // ═══════════════════════════════════════════════════════════
 
-// ═══════════════════════════════════════════════════════════
-// HERO CAROUSEL — Auto-slides + navigation manuelle
+/// ═══════════════════════════════════════════════════════════
+// HERO CAROUSEL — Auto-slides + navigation manuelle (VERSION ROBUSTE)
 // ═══════════════════════════════════════════════════════════
 function initHeroCarousel() {
-  const carousel = document.getElementById('hero-carousel');
-  if (!carousel) return;
+  console.log('[HeroCarousel] 🔄 Initialisation...');
 
-  const slides = carousel.querySelectorAll('.hero-slide');
-  const dots = carousel.querySelectorAll('.hero-dot');
-  if (slides.length === 0) return;
+  // ✅ Attendre que le DOM soit peint
+  setTimeout(() => {
+    const carousel = document.getElementById('hero-carousel');
+    if (!carousel) {
+      console.warn('[HeroCarousel] ⚠️ Pas de carousel trouvé dans le DOM');
+      return;
+    }
 
-  let current = 0;
-  let timer = null;
+    const slides = carousel.querySelectorAll('.hero-slide');
+    const dots = carousel.querySelectorAll('.hero-dot');
 
-  // ✅ Appareils modestes : intervalle plus long (économie CPU/batterie)
-  const isLowEnd = window.deviceCheck?.isLowEnd();
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const INTERVAL = isLowEnd ? 8000 : 5000;
+    if (slides.length === 0) {
+      console.warn('[HeroCarousel] ⚠️ Aucune slide trouvée');
+      return;
+    }
 
-  const goTo = (index) => {
-    slides[current].classList.remove('active');
-    dots[current].classList.remove('active');
-    dots[current].setAttribute('aria-selected', 'false');
+    console.log(`[HeroCarousel] ✅ ${slides.length} slides trouvées`);
 
-    current = (index + slides.length) % slides.length;
+    let current = 0;
+    let timer = null;
 
-    slides[current].classList.add('active');
-    dots[current].classList.add('active');
-    dots[current].setAttribute('aria-selected', 'true');
-  };
+    // ✅ Appareils modestes : intervalle plus long (économie CPU/batterie)
+    const isLowEnd = window.deviceCheck?.isLowEnd();
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const INTERVAL = isLowEnd ? 8000 : 5000;
 
-  const stopAuto = () => {
-    if (timer) { clearInterval(timer); timer = null; }
-  };
+    const goTo = (index) => {
+      slides[current].classList.remove('active');
+      dots[current]?.classList.remove('active');
+      dots[current]?.setAttribute('aria-selected', 'false');
 
-  const startAuto = () => {
-    if (reducedMotion) return; // ✅ Pas d'auto-slide si reduced motion
-    stopAuto();
-    timer = setInterval(() => {
-      if (!carousel.isConnected) { stopAuto(); return; } // ✅ Stop si on quitte la page
-      goTo(current + 1);
-    }, INTERVAL);
-  };
+      current = (index + slides.length) % slides.length;
 
-  // Navigation manuelle via les dots
-  dots.forEach((dot, i) => {
-    dot.addEventListener('click', () => {
-      goTo(i);
-      startAuto();
+      slides[current].classList.add('active');
+      dots[current]?.classList.add('active');
+      dots[current]?.setAttribute('aria-selected', 'true');
+    };
+
+    const stopAuto = () => {
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      }
+    };
+
+    const startAuto = () => {
+      if (reducedMotion) {
+        console.log('[HeroCarousel] ⏸️ Auto-slide désactivé (reduced motion)');
+        return;
+      }
+      stopAuto();
+      timer = setInterval(() => {
+        if (!carousel.isConnected) {
+          stopAuto();
+          return;
+        }
+        goTo(current + 1);
+      }, INTERVAL);
+      console.log(`[HeroCarousel] ▶️ Auto-slide démarré (intervalle: ${INTERVAL}ms)`);
+    };
+
+    // Navigation manuelle via les dots
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        goTo(i);
+        startAuto();
+      });
     });
-  });
 
-  // ✅ Pause au toucher (mobile) / survol (desktop)
-  carousel.addEventListener('touchstart', stopAuto, { passive: true });
-  carousel.addEventListener('touchend', () => setTimeout(startAuto, 3000), { passive: true });
-  carousel.addEventListener('mouseenter', stopAuto);
-  carousel.addEventListener('mouseleave', startAuto);
+    // ✅ Pause au toucher (mobile) / survol (desktop)
+    carousel.addEventListener('touchstart', stopAuto, { passive: true });
+    carousel.addEventListener('touchend', () => setTimeout(startAuto, 3000), { passive: true });
+    carousel.addEventListener('mouseenter', stopAuto);
+    carousel.addEventListener('mouseleave', startAuto);
 
-  startAuto();
-  console.log('[HeroCarousel] ✅ Initialisé (intervalle: ' + INTERVAL + 'ms)');
+    startAuto();
+  }, 100); // ✅ Attendre 100ms pour que le DOM soit peint
 }
 
 
@@ -927,8 +950,6 @@ async function renderHome() {
       router.navigate('/dictionary');
     });
 
-    // ✅ Initialiser le hero carousel (auto-slides)
-    initHeroCarousel();
 
     // ✅ Bouton Partager l'app
       document.getElementById('btn-share-app')?.addEventListener('click', async () => {
@@ -972,6 +993,10 @@ async function renderHome() {
           return;
         }
       });
+
+      // ✅ Initialiser le hero carousel (auto-slides)
+    initHeroCarousel();
+
 
     // ✅ SÉCURITÉ : Vérifier que l'avatar est bien initialisé
     if (window.teacherAvatar) {
