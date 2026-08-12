@@ -11,10 +11,7 @@ export class TeacherAvatar {
   #currentTip = null;
   #signAnimationTimeout = null;
   #lastTipShown = {};  // ✅ NOUVEAU : Anti-spam
-
-  constructor() {
-    // ... reste du code
-  }
+   #lastGlobalSpeak = 0;  // ✅ NOUVEAU : Délai global
 
   constructor() {
     this.#loadMasteredThemes();
@@ -149,7 +146,7 @@ export class TeacherAvatar {
         }
       }
 
-      #lastGlobalSpeak = 0;  // ✅ NOUVEAU : Délai global
+
 
   // ─────────── CONTRÔLE DU TOGGLE ───────────
 
