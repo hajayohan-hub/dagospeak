@@ -307,3 +307,181 @@ html.low-end-mode .hero-slide-fallback {
     font-size: 0.875rem;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════ */
+/* SECTION STATS — Scores de progression                       */
+/* ═══════════════════════════════════════════════════════════ */
+
+.home-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+  animation: fadeInUp 0.8s ease-out 0.5s both;
+}
+
+.home-stat-card {
+  background: var(--ds-color-surface);
+  padding: 1.25rem 1rem;
+  border-radius: var(--ds-radius-lg);
+  border: 1px solid var(--ds-color-border);
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: var(--ds-shadow-sm);
+}
+
+.home-stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--ds-shadow-md);
+  border-color: var(--ds-color-primary);
+}
+
+.home-stat-icon {
+  font-size: 1.8rem;
+  display: block;
+  margin-bottom: 0.5rem;
+  animation: gentleFloat 3s ease-in-out infinite;
+}
+
+.home-stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ds-color-primary);
+  margin-bottom: 0.25rem;
+}
+
+.home-stat-label {
+  font-size: 0.8rem;
+  color: var(--ds-color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/* SECTION FEATURES — Pourquoi DagoSpeak ?                     */
+/* ═══════════════════════════════════════════════════════════ */
+
+.home-features-section {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  animation: fadeInUp 0.8s ease-out 0.9s both;
+}
+
+.home-features-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--ds-color-text);
+  margin-bottom: 1.25rem;
+  text-align: center;
+}
+
+.home-features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.home-feature-item {
+  background: var(--ds-color-surface);
+  padding: 1.5rem 1rem;
+  border-radius: var(--ds-radius-lg);
+  border: 1px solid var(--ds-color-border);
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: var(--ds-shadow-sm);
+}
+
+.home-feature-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--ds-shadow-md);
+  border-color: var(--ds-color-accent);
+}
+
+.home-feature-icon {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 0.75rem;
+  animation: gentleFloat 4s ease-in-out infinite;
+}
+
+.home-feature-text {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ds-color-text);
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/* SECTION NIVEAUX — Titres                                    */
+/* ═══════════════════════════════════════════════════════════ */
+
+.home-levels-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ds-color-text);
+  margin-top: 2.5rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  animation: fadeInUp 0.8s ease-out 0.7s both;
+}
+
+.home-levels-subtitle {
+  font-size: 0.95rem;
+  color: var(--ds-color-text-muted);
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-style: italic;
+  animation: fadeInUp 0.8s ease-out 0.8s both;
+}
+
+.home-level-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--ds-color-text);
+  margin-bottom: 0.25rem;
+}
+
+.home-level-title-mg {
+  font-size: 0.85rem;
+  color: var(--ds-color-text-muted);
+  font-style: italic;
+  margin-bottom: 0.5rem;
+}
+
+.home-level-desc {
+  font-size: 0.9rem;
+  color: var(--ds-color-text);
+  line-height: 1.5;
+  margin-bottom: 0.25rem;
+}
+
+.home-level-desc-mg {
+  font-size: 0.85rem;
+  color: var(--ds-color-text-muted);
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* ─── Low-end mode : désactiver les flottements ─── */
+html.low-end-mode .home-stat-icon,
+html.low-end-mode .home-feature-icon {
+  animation: none;
+}
+
+/* ─── Responsive mobile ─── */
+@media (max-width: 480px) {
+  .home-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .home-features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .home-stat-value {
+    font-size: 1.3rem;
+  }
+  .home-feature-icon {
+    font-size: 2rem;
+  }
+}
