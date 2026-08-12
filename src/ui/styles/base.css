@@ -391,3 +391,68 @@ details summary {
 details[open] summary {
   margin-bottom: 0.5rem;
 }
+
+/* ═══════════════════════════════════════════════════════════ */
+/* TOGGLE SWITCH MODERNE                                       */
+/* ═══════════════════════════════════════════════════════════ */
+
+.ds-toggle {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.ds-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.ds-toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--ds-color-border, #ccc);
+  transition: 0.3s;
+  border-radius: 28px;
+}
+
+.ds-toggle-slider::before {
+  content: "";
+  position: absolute;
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* État activé */
+.ds-toggle input:checked + .ds-toggle-slider {
+  background-color: var(--ds-color-primary);
+}
+
+.ds-toggle input:checked + .ds-toggle-slider::before {
+  transform: translateX(24px);
+}
+
+/* Focus accessible */
+.ds-toggle input:focus-visible + .ds-toggle-slider {
+  outline: 3px solid var(--ds-color-accent);
+  outline-offset: 2px;
+}
+
+/* Désactivé */
+.ds-toggle input:disabled + .ds-toggle-slider {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -4798,71 +4798,63 @@ window.addEventListener('hashchange', updateNavActiveState);
 // MODAL DE RÉGLAGES
 // ═══════════════════════════════════════════════════════════
 function showSettingsModal() {
-  if (document.getElementById('settings-modal')) {
-    document.getElementById('settings-modal').remove();
+  // Fermer s'il existe déjà
+  const existing = document.getElementById('settings-modal');
+  if (existing) {
+    existing.remove();
     return;
   }
 
   // Lire les préférences sauvegardées
   const settings = JSON.parse(localStorage.getItem('dagospeak:settings') || '{}');
-  const autoSpeak = settings.autoSpeak !== false; // Activé par défaut
+  const autoSpeak = settings.autoSpeak !== false;
   const guidePulse = settings.guidePulse !== false;
   const sounds = settings.sounds !== false;
+  const haptics = settings.haptics !== false;
   const fontSize = settings.fontSize || 'normal';
+
+  // ✅ Helper pour générer un toggle
+  const createToggle = (id, label, mgLabel, checked) => `
+    <label style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--ds-color-surface-2); border-radius: 12px; cursor: pointer; gap: 1rem;">
+      <div style="flex: 1;">
+        <div style="font-weight: 600;">${label}</div>
+        <div style="font-size: 0.85rem; color: var(--ds-color-text-muted); font-style: italic;">${mgLabel}</div>
+      </div>
+      <div class="ds-toggle">
+        <input type="checkbox" id="${id}" ${checked ? 'checked' : ''}>
+        <span class="ds-toggle-slider"></span>
+      </div>
+    </label>
+  `;
 
   const modal = document.createElement('div');
   modal.id = 'settings-modal';
-  modal.style.cssText = `position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 10001; display: flex; align-items: center; justify-content: center; padding: 1rem;`;
+  modal.style.cssText = `
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7); z-index: 10001;
+    display: flex; align-items: center; justify-content: center;
+    padding: 1rem; animation: fadeIn 0.3s ease-out;
+  `;
 
   modal.innerHTML = `
-    <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: 16px; max-width: 500px; width: 100%; max-height: 85vh; overflow-y: auto; position: relative;">
-      <button id="close-settings-btn" style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 1.8rem; cursor: pointer;">×</button>
+    <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: 16px; max-width: 500px; width: 100%; max-height: 85vh; overflow-y: auto; position: relative; animation: fadeInUp 0.3s ease-out;">
+      <button id="close-settings-btn" aria-label="Fermer les réglages" style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 1.8rem; cursor: pointer; color: var(--ds-color-text-muted); line-height: 1; padding: 4px 8px;">×</button>
+
       <h2 style="color: var(--ds-color-primary); margin-bottom: 1.5rem; text-align: center;">⚙️ Réglages (Fandrindrana)</h2>
 
-      <div style="display:flex; justify-content:space-between; align-items:center; padding:1rem 0; border-bottom:1px solid var(--ds-color-border);">
-        <div>
-          <div style="font-weight:600;">📳 Vibrations</div>
-          <div style="font-size:0.85rem; color:var(--ds-color-text-muted);">Retour tactile au clic</div>
-        </div>
-        <label style="position:relative; display:inline-block; width:50px; height:24px;">
-          <input type="checkbox" id="toggle-haptics" checked="${window.haptics?.isEnabled() ?? true}"
-                 style="opacity:0; width:0; height:0;">
-          <span style="position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0;
-                       background-color:#ccc; transition:.4s; border-radius:24px;"></span>
-          <span style="position:absolute; content:''; height:20px; width:20px; left:2px; bottom:2px;
-                       background-color:white; transition:.4s; border-radius:50%;"></span>
-        </label>
-      </div>
-
       <div style="display: flex; flex-direction: column; gap: 1rem;">
-        <label style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--ds-color-surface-2); border-radius: 12px; cursor: pointer;">
-          <div>
-            <div style="font-weight: 600;"> Auto-parole Teacher Avatar</div>
-            <div style="font-size: 0.85rem; color: var(--ds-color-text-muted); font-style: italic;">Ny feon'ny mpampianatra (Voix automatique)</div>
-          </div>
-          <input type="checkbox" id="setting-autoSpeak" ${autoSpeak ? 'checked' : ''} style="width: 20px; height: 20px;">
-        </label>
+        ${createToggle('setting-autoSpeak', '🔊 Auto-parole Teacher Avatar', "Ny feon'ny mpampianatra (Voix automatique)", autoSpeak)}
 
-        <label style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--ds-color-surface-2); border-radius: 12px; cursor: pointer;">
-          <div>
-            <div style="font-weight: 600;">💡 Guidage par allumage</div>
-            <div style="font-size: 0.85rem; color: var(--ds-color-text-muted); font-style: italic;">Ny fitarihana (Pulse sur les boutons)</div>
-          </div>
-          <input type="checkbox" id="setting-guidePulse" ${guidePulse ? 'checked' : ''} style="width: 20px; height: 20px;">
-        </label>
+        ${createToggle('setting-guidePulse', '💡 Guidage par allumage', 'Ny fitarihana (Pulse sur les boutons)', guidePulse)}
 
-        <label style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--ds-color-surface-2); border-radius: 12px; cursor: pointer;">
-          <div>
-            <div style="font-weight: 600;"> Sons de feedback</div>
-            <div style="font-size: 0.85rem; color: var(--ds-color-text-muted); font-style: italic;">Ny feo (Succès/Erreur)</div>
-          </div>
-          <input type="checkbox" id="setting-sounds" ${sounds ? 'checked' : ''} style="width: 20px; height: 20px;">
-        </label>
+        ${createToggle('setting-sounds', '🎵 Sons de feedback', 'Ny feo (Succès/Erreur)', sounds)}
+
+        ${createToggle('setting-haptics', '📳 Retour tactile au clic', 'Fibration au toucher (Android)', haptics)}
 
         <div style="padding: 1rem; background: var(--ds-color-surface-2); border-radius: 12px;">
           <div style="font-weight: 600; margin-bottom: 0.5rem;">🔤 Taille de police</div>
           <div style="font-size: 0.85rem; color: var(--ds-color-text-muted); font-style: italic; margin-bottom: 0.75rem;">Ny haben'ny soratra</div>
-          <select id="setting-fontSize" style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid var(--ds-color-border);">
+          <select id="setting-fontSize" style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid var(--ds-color-border); background: var(--ds-color-surface); color: var(--ds-color-text);">
             <option value="small" ${fontSize === 'small' ? 'selected' : ''}>Petite (Kely)</option>
             <option value="normal" ${fontSize === 'normal' ? 'selected' : ''}>Normale (Antonony)</option>
             <option value="large" ${fontSize === 'large' ? 'selected' : ''}>Grande (Lehibe)</option>
@@ -4870,7 +4862,7 @@ function showSettingsModal() {
         </div>
       </div>
 
-      <button id="btn-save-settings" style="width: 100%; background: var(--ds-color-primary); color: white; border: none; padding: 14px; border-radius: 12px; font-weight: bold; font-size: 1rem; cursor: pointer; margin-top: 1.5rem;">
+      <button id="btn-save-settings" style="width: 100%; background: var(--ds-color-primary); color: white; border: none; padding: 14px; border-radius: 12px; font-weight: bold; font-size: 1rem; cursor: pointer; margin-top: 1.5rem; transition: transform 0.2s;">
         Enregistrer (Tehirizo)
       </button>
     </div>
@@ -4878,24 +4870,54 @@ function showSettingsModal() {
 
   document.body.appendChild(modal);
 
+  // ✅ NOUVEAU : Écouteurs attachés UNE SEULE FOIS après l'insertion
   const closeModal = () => {
     const el = document.getElementById('settings-modal');
     if (el) el.remove();
   };
 
+  // Fermeture
   document.getElementById('close-settings-btn').addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  // ✅ NOUVEAU : Écouteur haptics avec debounce (évite le spam)
+  let hapticsTimeout = null;
+  const hapticsToggle = document.getElementById('setting-haptics');
+  if (hapticsToggle) {
+    hapticsToggle.addEventListener('change', (e) => {
+      if (hapticsTimeout) clearTimeout(hapticsTimeout);
+      hapticsTimeout = setTimeout(() => {
+        if (window.haptics) {
+          window.haptics.setEnabled(e.target.checked);
+          // Feedback tactile immédiat si activé
+          if (e.target.checked) {
+            window.haptics.medium();
+          }
+        }
+      }, 100); // Debounce 100ms
+    });
+  }
+
+  // Bouton Enregistrer
   document.getElementById('btn-save-settings').addEventListener('click', () => {
     const newSettings = {
       autoSpeak: document.getElementById('setting-autoSpeak').checked,
       guidePulse: document.getElementById('setting-guidePulse').checked,
       sounds: document.getElementById('setting-sounds').checked,
+      haptics: document.getElementById('setting-haptics')?.checked ?? true,
       fontSize: document.getElementById('setting-fontSize').value
     };
+
     localStorage.setItem('dagospeak:settings', JSON.stringify(newSettings));
 
     // Appliquer immédiatement
     if (window.teacherAvatar) {
       window.teacherAvatar.setAutoSpeak(newSettings.autoSpeak);
+    }
+    if (window.haptics) {
+      window.haptics.setEnabled(newSettings.haptics);
     }
 
     // Appliquer la taille de police
@@ -4903,18 +4925,15 @@ function showSettingsModal() {
       newSettings.fontSize === 'small' ? '14px' :
       newSettings.fontSize === 'large' ? '18px' : '16px';
 
-    closeModal();
-  });
+    // Feedback visuel de sauvegarde
+    const btn = document.getElementById('btn-save-settings');
+    btn.textContent = '✅ Enregistré !';
+    btn.style.background = 'var(--ds-color-success)';
 
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) closeModal();
-  });
+    if (window.haptics) window.haptics.medium();
 
-      document.getElementById('toggle-haptics')?.addEventListener('change', (e) => {
-      if (window.haptics) {
-        window.haptics.setEnabled(e.target.checked);
-      }
-    });
+    setTimeout(() => closeModal(), 800);
+  });
 }
 
 
