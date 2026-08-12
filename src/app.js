@@ -822,6 +822,158 @@ async function renderHome() {
   }
 }
 
+
+// ═══════════════════════════════════════════════════════════
+// GÉNÉRATION DU CERTIFICAT A2 (Canvas natif - 100% offline)
+// ═══════════════════════════════════════════════════════════
+function downloadCertificate(fullName, issueDate) {
+  const canvas = document.createElement('canvas');
+  canvas.width = 1200;
+  canvas.height = 850;
+  const ctx = canvas.getContext('2d');
+
+  // ─── Fond dégradé ───
+  const bgGradient = ctx.createLinearGradient(0, 0, 1200, 850);
+  bgGradient.addColorStop(0, '#ffffff');
+  bgGradient.addColorStop(1, '#f4f4f0');
+  ctx.fillStyle = bgGradient;
+  ctx.fillRect(0, 0, 1200, 850);
+
+  // ─── Bordure extérieure (ocre) ───
+  ctx.strokeStyle = '#E8A33D';
+  ctx.lineWidth = 16;
+  ctx.strokeRect(30, 30, 1140, 790);
+
+  // ─── Bordure intérieure (verte, plus fine) ───
+  ctx.strokeStyle = '#0A8A6E';
+  ctx.lineWidth = 3;
+  ctx.strokeRect(60, 60, 1080, 730);
+
+  // ─── Décoration : cercles dans les coins ───
+  const corners = [
+    { x: 60, y: 60 },
+    { x: 1140, y: 60 },
+    { x: 60, y: 790 },
+    { x: 1140, y: 790 }
+  ];
+  ctx.fillStyle = '#E8A33D';
+  corners.forEach(c => {
+    ctx.beginPath();
+    ctx.arc(c.x, c.y, 12, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  // ─── Icône trophée (emoji) ───
+  ctx.font = '100px serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('🏆', 600, 180);
+
+  // ─── Titre principal ───
+  ctx.fillStyle = '#0A8A6E';
+  ctx.font = 'bold 52px Arial, sans-serif';
+  ctx.fillText('Certificat de Maîtrise', 600, 260);
+
+  // ─── Sous-titre ───
+  ctx.fillStyle = '#6b7280';
+  ctx.font = '26px Arial, sans-serif';
+  ctx.fillText('Niveau A2 - Français pour débutants', 600, 305);
+
+  // ─── Ligne de séparation ───
+  ctx.strokeStyle = '#e5e7eb';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(250, 340);
+  ctx.lineTo(950, 340);
+  ctx.stroke();
+
+  // ─── "Décerné à" ───
+  ctx.fillStyle = '#1A1A1A';
+  ctx.font = '24px Arial, sans-serif';
+  ctx.fillText('Décerné à', 600, 400);
+
+  // ─── Nom du bénéficiaire ───
+  ctx.fillStyle = '#0A8A6E';
+  ctx.font = 'bold 48px Georgia, serif';
+  ctx.fillText(fullName || 'Apprenant DagoSpeak', 600, 465);
+
+  // ─── Ligne sous le nom ───
+  ctx.strokeStyle = '#E8A33D';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(350, 490);
+  ctx.lineTo(850, 490);
+  ctx.stroke();
+
+  // ─── Texte de félicitations ───
+  ctx.fillStyle = '#374151';
+  ctx.font = '22px Arial, sans-serif';
+  ctx.fillText('Pour avoir complété avec succès l\'ensemble du programme', 600, 555);
+  ctx.fillText('d\'apprentissage du français niveau A2 sur DagoSpeak', 600, 590);
+
+  // ─── Statistiques (XP et parcours) ───
+  const profile = getProfileData();
+  ctx.fillStyle = '#E8A33D';
+  ctx.font = 'bold 28px Arial, sans-serif';
+  ctx.fillText(`${profile.xp} XP  •  ${profile.completedJourneys} parcours  •  ${profile.themesCompleted} thèmes`, 600, 650);
+
+  // ─── Date et signature ───
+  ctx.strokeStyle = '#9ca3af';
+  ctx.lineWidth = 1;
+
+  // Date
+  ctx.beginPath();
+  ctx.moveTo(200, 730);
+  ctx.lineTo(450, 730);
+  ctx.stroke();
+  ctx.fillStyle = '#374151';
+  ctx.font = '20px Arial, sans-serif';
+  ctx.fillText(issueDate, 325, 755);
+  ctx.fillStyle = '#9ca3af';
+  ctx.font = '16px Arial, sans-serif';
+  ctx.fillText('Date d\'émission', 325, 778);
+
+  // Signature
+  ctx.beginPath();
+  ctx.moveTo(750, 730);
+  ctx.lineTo(1000, 730);
+  ctx.stroke();
+  ctx.fillStyle = '#0A8A6E';
+  ctx.font = 'italic 24px Georgia, serif';
+  ctx.fillText('DagoSpeak', 875, 720);
+  ctx.fillStyle = '#9ca3af';
+  ctx.font = '16px Arial, sans-serif';
+  ctx.fillText('DagoSpeak Madagascar', 875, 778);
+
+  // ─── Téléchargement ───
+  try {
+    canvas.toBlob((blob) => {
+      if (!blob) {
+        alert('Erreur lors de la génération du certificat. Réessayez.');
+        return;
+      }
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `DagoSpeak-Certification-A2-${(fullName || 'apprenant').replace(/\s+/g, '-')}.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Libérer la mémoire après un délai
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+      // Feedback
+      if (window.haptics) window.haptics.medium();
+      if (window.teacherAvatar && window.teacherAvatar.getAutoSpeak && window.teacherAvatar.getAutoSpeak()) {
+        window.teacherAvatar.speakFeedback("Certificat téléchargé ! Bravo !", "success");
+      }
+    }, 'image/png');
+  } catch (e) {
+    console.error('[Certification] Erreur téléchargement:', e);
+    alert('Erreur lors du téléchargement. Vérifiez les permissions de stockage.');
+  }
+}
+
 // ═══════════════════════════════════════════════════════════
 // VUE : CERTIFICATION A2
 // ═══════════════════════════════════════════════════════════
@@ -945,9 +1097,12 @@ async function renderCertification() {
         </section>
       `;
 
-      document.getElementById('btn-back-cert')?.addEventListener('click', () => router.navigate('/profile'));
+     document.getElementById('btn-back-cert')?.addEventListener('click', () => router.navigate('/profile'));
       document.getElementById('btn-download-cert')?.addEventListener('click', () => {
-        alert('Téléchargement du certificat - Fonctionnalité à venir');
+        // Récupérer les infos affichées sur le certificat
+        const nameEl = document.querySelector('#certificate h2');
+        const certFullName = nameEl ? nameEl.textContent.trim() : fullName;
+        downloadCertificate(certFullName, issueDate);
       });
 
     } else {
