@@ -3336,7 +3336,7 @@ syncProfileWithJourneys();
 
         <!-- ✅ NOUVEAU FLUX : Dialogues → Role Play → Défi -->
                 <div style="margin-top: 2rem; display: flex; flex-direction: column; gap: 0.75rem; text-align: center;">
-          <ds-button id="btn-go-roleplay" size="lg" variant="primary" class="guide-active" style="width: 100%;">
+          <ds-button id="btn-go-roleplay" size="lg" variant="primary" style="width: 100%;">
             🎭 Role Play Guidé (miaraka amin'ny valiny / avec réponses)
           </ds-button>
           <ds-button id="btn-restart-practice" size="md" variant="ghost" style="width: 100%;">
@@ -3377,6 +3377,19 @@ syncProfileWithJourneys();
         });
       });
     });
+
+    // ✅ GUIDAGE PAR ALLUMAGE — Respecte le toggle guidePulse
+      const dialogSettings = getSettings();
+      const shouldPulseDialog = dialogSettings.guidePulse !== false;
+
+      if (shouldPulseDialog) {
+        const btnRoleplay = document.getElementById('btn-go-roleplay');
+        if (btnRoleplay) {
+          btnRoleplay.classList.add('guide-active');
+          btnRoleplay.style.animation = 'pulse-green 1.5s infinite';
+          console.log('[Dialogues] ✅ Guidage par allumage activé sur Role Play');
+        }
+      }
 
     logger.info(`✅ Page Dialogues rendue pour le thème: ${unitId}`);
 
