@@ -737,6 +737,37 @@ const heroSlides = [
   }
 ];
 
+    // ✅ 0. USER GREETING — Avatar personnalisé + prénom + statut
+  const userProfileRaw = localStorage.getItem('dagospeak:userProfile');
+  const userProfileGreeting = userProfileRaw ? JSON.parse(userProfileRaw) : {
+    firstName: 'Apprenant',
+    lastName: '',
+    isPremium: false
+  };
+  const greetingName = userProfileGreeting.firstName || 'Apprenant';
+  const greetingInitials = `${(userProfileGreeting.firstName || 'A')[0]}${(userProfileGreeting.lastName || '')[0] || ''}`.toUpperCase();
+  const isPremiumGreeting = userProfileGreeting.isPremium === true || localStorage.getItem('dagospeak:isPremium') === 'true';
+
+  const userGreetingHtml = `
+    <div class="user-greeting" id="user-greeting">
+      <div class="user-greeting-avatar ${isPremiumGreeting ? 'premium' : 'free'}">
+        ${greetingInitials}
+      </div>
+      <div class="user-greeting-content">
+        <div class="user-greeting-name">Salama, ${greetingName} ! 👋</div>
+        <div class="user-greeting-status">
+          <span class="user-greeting-badge ${isPremiumGreeting ? 'premium' : 'free'}">
+            ${isPremiumGreeting ? '⭐ Premium' : '🆓 Gratuit'}
+          </span>
+          <span class="user-greeting-level">Niveau ${profileData.level}</span>
+        </div>
+      </div>
+      <button class="user-greeting-profile-btn" id="btn-goto-profile" aria-label="Voir mon profil">
+        👤
+      </button>
+    </div>
+  `;
+
 const heroHtml = `
   <div class="hero-carousel" id="hero-carousel" aria-roledescription="carrousel" aria-label="Présentation DagoSpeak">
     ${heroSlides.map((s, i) => {
@@ -941,6 +972,7 @@ const heroHtml = `
     // ✅ 7. INJECTION DANS LE DOM
     main.innerHTML = `
       <section class="ds-home" style="padding: 1rem; max-width: 800px; margin: 0 auto;">
+        ${userGreetingHtml}
         ${heroHtml}
         ${resumeCardHtml}
         ${statsHtml}
@@ -970,6 +1002,11 @@ const heroHtml = `
     document.getElementById('btn-open-dictionary')?.addEventListener('click', () => {
       // ✅ Initialiser le hero carousel
       router.navigate('/dictionary');
+    });
+
+    // ✅ Bouton aller au profil depuis la salutation
+    document.getElementById('btn-goto-profile')?.addEventListener('click', () => {
+      router.navigate('/profile');
     });
 
 
