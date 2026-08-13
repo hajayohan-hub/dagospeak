@@ -419,50 +419,67 @@ html.slow-network-mode img:not([loading="eager"]) {
 
 /* ═══════════════════════════════════════════════════════════ */
 /* TEACHER AI NAV — Icône spéciale dans le footer             */
+/* S'adapte à plusieurs structures de footer                  */
 /* ═══════════════════════════════════════════════════════════ */
 
-.ds-mobile-nav {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 items maintenant */
+/* Footer avec 4 items */
+nav.ds-mobile-nav {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
 }
 
-.teacher-ai-nav {
+/* Icône Teacher AI - s'adapte à toutes les structures */
+.ds-mobile-nav a[href="#/conversation-live"],
+.ds-mobile-nav a[data-route="/conversation-live"],
+.ds-mobile-nav .teacher-ai-nav {
   position: relative;
 }
 
-.teacher-ai-nav .ds-mobile-nav-icon {
-  background: linear-gradient(135deg, var(--ds-color-primary), var(--ds-color-accent));
-  color: white;
-  padding: 0.5rem;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: flex;
+.ds-mobile-nav a[href="#/conversation-live"] span:first-child,
+.ds-mobile-nav a[data-route="/conversation-live"] span:first-child,
+.ds-mobile-nav .teacher-ai-nav span:first-child {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  background: linear-gradient(135deg, var(--ds-color-primary), var(--ds-color-accent));
+  color: white;
+  padding: 0.4rem 0.6rem;
+  border-radius: 50%;
+  min-width: 36px;
+  min-height: 36px;
   box-shadow: 0 4px 12px rgba(10, 138, 110, 0.3);
   animation: gentleFloat 3s ease-in-out infinite;
+  font-size: 1.2rem;
 }
 
-.teacher-ai-nav.active .ds-mobile-nav-icon {
-  box-shadow: 0 4px 16px rgba(10, 138, 110, 0.6);
-}
-
-/* Badge "Live" */
-.teacher-ai-nav::after {
+/* Badge "LIVE" au-dessus de l'icône */
+.ds-mobile-nav a[href="#/conversation-live"]::before,
+.ds-mobile-nav a[data-route="/conversation-live"]::before,
+.ds-mobile-nav .teacher-ai-nav::before {
   content: 'LIVE';
   position: absolute;
-  top: 8px;
-  right: calc(50% - 20px);
+  top: 2px;
+  left: 50%;
+  transform: translateX(-50%);
   background: #ef4444;
   color: white;
-  font-size: 0.6rem;
+  font-size: 0.55rem;
   font-weight: 700;
-  padding: 1px 4px;
+  padding: 2px 5px;
   border-radius: 4px;
   letter-spacing: 0.5px;
+  z-index: 1;
 }
 
-html.low-end-mode .teacher-ai-nav .ds-mobile-nav-icon {
+/* État actif */
+.ds-mobile-nav a[href="#/conversation-live"].active span:first-child,
+.ds-mobile-nav a[data-route="/conversation-live"].active span:first-child {
+  box-shadow: 0 4px 16px rgba(10, 138, 110, 0.6);
+  transform: scale(1.1);
+}
+
+/* Low-end mode */
+html.low-end-mode .ds-mobile-nav a[href="#/conversation-live"] span:first-child,
+html.low-end-mode .ds-mobile-nav a[data-route="/conversation-live"] span:first-child {
   animation: none;
 }
