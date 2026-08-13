@@ -1028,33 +1028,37 @@ const heroHtml = `
       });
 
     // ✅ ÉCOUTEUR 100% INFAILLIBLE (gère parfaitement le Shadow DOM avec composedPath)
-      document.getElementById('levels-container').addEventListener('click', (e) => {
-        // composedPath() retourne tout le chemin du clic, même à travers le Shadow DOM
-        const path = e.composedPath();
-
-        // On cherche le premier élément dans le chemin qui possède l'attribut data-level
-        const target = path.find(el => el instanceof HTMLElement && el.dataset?.level);
-
-        if (target) {
-          const selectedLevel = target.dataset.level;
-          console.log(`[Home] ✅ Clic détecté sur le niveau : ${selectedLevel}`);
-
-          currentLevel = selectedLevel;
-          currentTheme = null; // Réinitialise le thème quand on change de niveau
-          localStorage.setItem('dagospeak:level', currentLevel);
-          updateLevelUI();
-
-          console.log('[Home] 🚀 Navigation vers /themes en cours...');
-          router.navigate('/themes');
-
-          e.preventDefault();
-          e.stopPropagation();
-          return;
+      // ✅ ÉCOUTEUR INFAILLIBLE avec AbortController (évite les fuites)
+        // Supprimer l'ancien écouteur si existe
+        if (window._levelsContainerAbort) {
+          window._levelsContainerAbort.abort();
         }
-      });
+        window._levelsContainerAbort = new AbortController();
+
+        document.getElementById('levels-container').addEventListener('click', (e) => {
+          const path = e.composedPath();
+          const target = path.find(el => el instanceof HTMLElement && el.dataset?.level);
+
+          if (target) {
+            const selectedLevel = target.dataset.level;
+            console.log(`[Home] ✅ Clic détecté sur le niveau : ${selectedLevel}`);
+
+            currentLevel = selectedLevel;
+            currentTheme = null;
+            localStorage.setItem('dagospeak:level', currentLevel);
+            updateLevelUI();
+
+            console.log('[Home] 🚀 Navigation vers /themes en cours...');
+            router.navigate('/themes');
+
+            e.preventDefault();
+            e.stopPropagation();
+            return;
+          }
+        }, { signal: window._levelsContainerAbort.signal });
 
       // ✅ Initialiser le hero carousel (auto-slides)
-    initHeroCarousel();
+      initHeroCarousel();
 
 
     // ✅ SÉCURITÉ : Vérifier que l'avatar est bien initialisé
