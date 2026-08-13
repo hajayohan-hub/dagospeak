@@ -679,3 +679,80 @@ html.low-end-mode .home-dictionary-icon {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
 }
+
+/* ═══════════════════════════════════════════════════════════ */
+/* BOUTON INSTALLER L'APPLICATION                             */
+/* ═══════════════════════════════════════════════════════════ */
+
+.install-app-section {
+  margin-bottom: 1.5rem;
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+.install-app-btn {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  background: linear-gradient(135deg, var(--ds-color-primary) 0%, var(--ds-color-accent) 100%);
+  border: none;
+  border-radius: var(--ds-radius-lg);
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(10, 138, 110, 0.25);
+}
+
+.install-app-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(10, 138, 110, 0.35);
+}
+
+.install-app-btn:active {
+  transform: scale(0.98);
+}
+
+.install-app-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+  animation: gentleFloat 3s ease-in-out infinite;
+}
+
+.install-app-content {
+  flex: 1;
+  text-align: left;
+}
+
+.install-app-title {
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.install-app-subtitle {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+.install-app-arrow {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+html.low-end-mode .install-app-icon {
+  animation: none;
+}
+
+/* ─── Responsive mobile ─── */
+@media (max-width: 480px) {
+  .install-app-icon {
+    font-size: 1.75rem;
+  }
+  .install-app-title {
+    font-size: 0.95rem;
+  }
+  .install-app-subtitle {
+    font-size: 0.8rem;
+  }
+}

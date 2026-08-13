@@ -31,6 +31,34 @@ import { DictionarySearch } from './ui/components/dictionary-search.js';
 const teacherAvatar = new TeacherAvatar();
 window.teacherAvatar = teacherAvatar;
 
+
+
+// ═══════════════════════════════════════════════════════════
+// PWA INSTALL PROMPT — Capturer pour déclencher manuellement
+// ═══════════════════════════════════════════════════════════
+let deferredPrompt = null;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault(); // Empêche le prompt automatique
+  deferredPrompt = e;
+  console.log('[PWA] ✅ beforeinstallprompt capturé');
+
+  // Afficher le bouton d'installation si on est sur l'accueil
+  const installBtn = document.getElementById('btn-install-app');
+  if (installBtn) {
+    installBtn.style.display = 'flex';
+  }
+});
+
+// Masquer le bouton si l'app est déjà installée
+window.addEventListener('appinstalled', () => {
+  console.log('[PWA] ✅ Application installée');
+  const installBtn = document.getElementById('btn-install-app');
+  if (installBtn) {
+    installBtn.style.display = 'none';
+  }
+});
+
 // ═══════════════════════════════════════════════════════════
 // HELPER : Lire les réglages utilisateur depuis localStorage
 // ═══════════════════════════════════════════════════════════
@@ -779,6 +807,20 @@ const heroSlides = [
     </div>
   `;
 
+    // ✅ Bouton d'installation PWA (affiché seulement si possible)
+const installBtnHtml = `
+  <div class="install-app-section" id="install-app-section" style="display: none;">
+    <button id="btn-install-app" class="install-app-btn" aria-label="Installer DagoSpeak sur votre appareil">
+      <span class="install-app-icon">📲</span>
+      <div class="install-app-content">
+        <div class="install-app-title">Installer DagoSpeak</div>
+        <div class="install-app-subtitle">Accès rapide hors-ligne sur votre appareil</div>
+      </div>
+      <span class="install-app-arrow">→</span>
+    </button>
+  </div>
+`;
+
 const heroHtml = `
   <div class="hero-carousel" id="hero-carousel" aria-roledescription="carrousel" aria-label="Présentation DagoSpeak">
     ${heroSlides.map((s, i) => {
@@ -983,6 +1025,7 @@ const heroHtml = `
     // ✅ 7. INJECTION DANS LE DOM
     main.innerHTML = `
       <section class="ds-home" style="padding: 1rem; max-width: 800px; margin: 0 auto;">
+        ${installBtnHtml}
         ${userGreetingHtml}
         ${heroHtml}
         ${resumeCardHtml}
@@ -1008,6 +1051,30 @@ const heroHtml = `
       currentTheme = lastTheme;
       router.navigate('/theme-detail');
     });
+
+    // ✅ Bouton Installer l'app
+      document.getElementById('btn-install-app')?.addEventListener('click', async () => {
+        if (!deferredPrompt) {
+          console.warn('[PWA] ⚠️ Installation non disponible');
+          return;
+        }
+
+        const btn = document.getElementById('btn-install-app');
+        btn.textContent = '⏳ Installation...';
+
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+
+        if (outcome === 'accepted') {
+          console.log('[PWA] ✅ Utilisateur a accepté l\'installation');
+          btn.textContent = '✅ Installé !';
+        } else {
+          console.log('[PWA] ❌ Utilisateur a refusé l\'installation');
+          btn.textContent = '📲 Installer DagoSpeak';
+        }
+
+        deferredPrompt = null; // Nettoyer l'événement
+      });
 
     // Bouton Dictionnaire
     document.getElementById('btn-open-dictionary')?.addEventListener('click', () => {
