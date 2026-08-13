@@ -830,9 +830,10 @@ const heroSlides = [
     </div>
   `;
 
-    // ✅ Bouton d'installation PWA (affiché seulement si possible)
-      // ✅ Bouton d'installation en position fixe (même place que renderProgressHeader)
+    // ✅ Bouton d'installation en position fixe
       const isInstalled = isAppInstalled();
+      const displayStyle = deferredPrompt ? 'flex' : 'none';
+
       const installBtnHtml = isInstalled ? `
         <div class="install-app-floating installed" id="install-app-floating">
           <div class="install-app-badge-fixed">
@@ -841,7 +842,7 @@ const heroSlides = [
           </div>
         </div>
       ` : `
-        <div class="install-app-floating" id="install-app-floating" style="display: ${deferredPrompt ? 'flex' : 'none'};">
+        <div class="install-app-floating" id="install-app-floating" style="display: ${displayStyle};">
           <button id="btn-install-app" class="install-app-btn-fixed" aria-label="Installer DagoSpeak sur votre appareil">
             <span class="install-app-icon-fixed">📲</span>
             <span class="install-app-text-fixed">Installer DagoSpeak</span>
