@@ -3525,6 +3525,20 @@ syncProfileWithJourneys();
 
     const dialogue = await content.loadSection('fr', 'dialogues', dialogueId);
 
+    // ✅ NOUVEAU : Avatar SVG animé pour conversation live
+      const avatarContainer = document.createElement('div');
+      avatarContainer.id = 'teacher-avatar-svg-container';
+      avatarContainer.style.cssText = 'text-align: center; margin-bottom: 1rem;';
+      main.appendChild(avatarContainer);
+
+      // Importer et initialiser le SVG avatar
+      import('./ui/components/teacher-avatar-svg.js').then(module => {
+        const TeacherAvatarSVG = module.TeacherAvatarSVG;
+        const avatarSVG = new TeacherAvatarSVG('teacher-avatar-svg-container');
+        avatarSVG.render();
+        window.teacherAvatarSVG = avatarSVG; // Rendre accessible globalement
+      }).catch(e => console.warn('[Conversation] Avatar SVG non disponible:', e));
+
     const themeNames = {
       'survival': 'Mots de survie', 'numbers': 'Les Nombres',
       'family': 'La Famille', 'market': 'Au Marché', 'colors': 'Les Couleurs'
@@ -5348,6 +5362,11 @@ async function renderConversation() {
             gender: 'female', // ou 'male' selon le personnage
             onStart: () => {
               btn.textContent = '🔊 ...';
+              // ✅ Activer la bouche du SVG avatar
+              if (window.teacherAvatarSVG) {
+                window.teacherAvatarSVG.startSpeaking();
+                window.teacherAvatarSVG.setExpression('happy');
+              }
             },
             onEnd: () => {
               btn.textContent = '🔊 Écouter';

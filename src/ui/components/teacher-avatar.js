@@ -318,25 +318,31 @@ export class TeacherAvatar {
       </style>
 
       <!-- ✅ CORRECTION ACCESSIBILITÉ : role, aria-label, tabindex -->
-      <div id="teacher-avatar"
+     <div id="teacher-avatar"
            role="button"
            tabindex="0"
            aria-label="Afficher l'aide du professeur. Cliquez pour entendre le conseil."
            title="Cliquez pour de l'aide"
            style="
              position: fixed; bottom: 100px; right: 20px;
-             width: 80px; height: 80px;
+             width: 90px; height: 90px;
              background: linear-gradient(135deg, var(--ds-color-primary), var(--ds-color-accent));
              border-radius: 50%;
              display: flex; align-items: center; justify-content: center;
-             font-size: 2.5rem;
              cursor: pointer;
              box-shadow: 0 4px 12px rgba(0,0,0,0.2);
              z-index: 9999;
              border: 4px solid white;
              animation: idle-float 3s ease-in-out infinite;
              transition: all 0.3s ease;
-           ">👩‍🏫</div>
+             overflow: hidden;
+           ">
+        <img src="/assets/teacher-3d.png"
+             alt="Professeur"
+             style="width: 100%; height: 100%; object-fit: cover;"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+        <span style="display:none; font-size: 2.5rem;">👩‍🏫</span>
+      </div>
 
       <div id="teacher-tooltip" role="dialog" aria-label="Conseil du professeur"
            style="
