@@ -419,48 +419,31 @@ html.slow-network-mode img:not([loading="eager"]) {
 
 /* ═══════════════════════════════════════════════════════════ */
 /* TEACHER AI NAV — Icône spéciale dans le footer             */
-/* S'adapte à plusieurs structures de footer                  */
 /* ═══════════════════════════════════════════════════════════ */
 
-/* Footer avec 4 items */
-nav.ds-mobile-nav {
-  display: grid !important;
-  grid-template-columns: repeat(4, 1fr) !important;
-}
-
-/* Icône Teacher AI - s'adapte à toutes les structures */
-.ds-mobile-nav a[href="#/conversation-live"],
-.ds-mobile-nav a[data-route="/conversation-live"],
-.ds-mobile-nav .teacher-ai-nav {
-  position: relative;
-}
-
-.ds-mobile-nav a[href="#/conversation-live"] span:first-child,
-.ds-mobile-nav a[data-route="/conversation-live"] span:first-child,
-.ds-mobile-nav .teacher-ai-nav span:first-child {
+/* Icône Teacher AI - cercle coloré avec animation */
+.ds-mobile-nav-item.teacher-ai-nav .ds-mobile-nav-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, var(--ds-color-primary), var(--ds-color-accent));
   color: white;
-  padding: 0.4rem 0.6rem;
+  padding: 0.5rem;
   border-radius: 50%;
-  min-width: 36px;
-  min-height: 36px;
+  min-width: 40px;
+  min-height: 40px;
   box-shadow: 0 4px 12px rgba(10, 138, 110, 0.3);
   animation: gentleFloat 3s ease-in-out infinite;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
+  position: relative;
 }
 
-/* Badge "LIVE" au-dessus de l'icône */
-.ds-mobile-nav a[href="#/conversation-live"]::before,
-.ds-mobile-nav a[data-route="/conversation-live"]::before,
-.ds-mobile-nav .teacher-ai-nav::before {
+/* Badge "LIVE" */
+.ds-mobile-nav-item.teacher-ai-nav .ds-mobile-nav-icon::after {
   content: 'LIVE';
   position: absolute;
-  top: 2px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: -8px;
+  right: -8px;
   background: #ef4444;
   color: white;
   font-size: 0.55rem;
@@ -468,18 +451,22 @@ nav.ds-mobile-nav {
   padding: 2px 5px;
   border-radius: 4px;
   letter-spacing: 0.5px;
-  z-index: 1;
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);
 }
 
 /* État actif */
-.ds-mobile-nav a[href="#/conversation-live"].active span:first-child,
-.ds-mobile-nav a[data-route="/conversation-live"].active span:first-child {
+.ds-mobile-nav-item.teacher-ai-nav.active .ds-mobile-nav-icon {
   box-shadow: 0 4px 16px rgba(10, 138, 110, 0.6);
   transform: scale(1.1);
 }
 
-/* Low-end mode */
-html.low-end-mode .ds-mobile-nav a[href="#/conversation-live"] span:first-child,
-html.low-end-mode .ds-mobile-nav a[data-route="/conversation-live"] span:first-child {
+/* Label Teacher AI en gras */
+.ds-mobile-nav-item.teacher-ai-nav .ds-mobile-nav-label {
+  font-weight: 700;
+  color: var(--ds-color-primary);
+}
+
+/* Low-end mode : pas d'animation */
+html.low-end-mode .ds-mobile-nav-item.teacher-ai-nav .ds-mobile-nav-icon {
   animation: none;
 }

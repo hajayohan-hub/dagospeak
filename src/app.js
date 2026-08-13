@@ -5293,9 +5293,17 @@ function getSkeletonThemesList() {
 // VUE : CONVERSATION LIVE (sélection par niveau)
 // ═══════════════════════════════════════════════════════════
 async function renderConversationLive() {
+  console.log('[ConversationLive] 🚀 Fonction appelée');
   updateNavActiveState();
   const main = document.getElementById('app');
-  main.innerHTML = getSkeletonThemesList();
+
+  if (!main) {
+    console.error('[ConversationLive] ❌ #app introuvable');
+    return;
+  }
+
+  main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement Conversation Live...</div>';
+  console.log('[ConversationLive] ✅ Skeleton affiché');
 
   try {
     // Supprimer les actions flottantes de l'accueil
@@ -5599,9 +5607,18 @@ async function renderConversation() {
 
             if (selected.isCorrect) {
                 btn.style.borderColor = 'var(--ds-color-success)';
-                feedback.innerHTML = `...`;
 
-                // ✅ NOUVEAU : Feedback succès avec SVG avatar sync
+                // ✅ HTML de feedback succès complet
+                feedback.innerHTML = `
+                  <div style="background: var(--ds-color-success-soft, #d1fae5); padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-success);">
+                    <div style="font-size: 2rem;">✅</div>
+                    <p style="color: var(--ds-color-success); font-weight: 600;">${node.feedbackOnSuccess.textFr}</p>
+                    <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${node.feedbackOnSuccess.textMg})</p>
+                  </div>
+                  <button id="btn-continue" style="margin-top: 1rem; background: var(--ds-color-success); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">Manaraka →</button>
+                `;
+
+                // ✅ Feedback succès avec SVG avatar sync
                 const u = new SpeechSynthesisUtterance(node.feedbackOnSuccess.audio.ttsTextFr);
                 u.lang = 'fr-FR';
                 u.rate = 0.9;
@@ -5837,6 +5854,7 @@ router.addRoute('/roleplay', renderRolePlay);
 router.addRoute('/challenge', renderChallenge);
 router.addRoute('/about', renderAbout);
 router.addRoute('/alphabet', renderAlphabet);  // ✅ AJOUTER
+router.addRoute('/conversation-live', renderConversationLive);
 router.addRoute('/conversation', renderConversation);
 router.addRoute('/dictionary', renderDictionary);
 router.addRoute('/certification', renderCertification);
