@@ -418,49 +418,35 @@ html.slow-network-mode img:not([loading="eager"]) {
 }
 
 /* ═══════════════════════════════════════════════════════════ */
-/* TEACHER AI NAV — Style ciblé (ne casse pas le footer)      */
+/* FOOTER MOBILE — Icônes AU-DESSUS des textes                 */
 /* ═══════════════════════════════════════════════════════════ */
 
-.ds-mobile-nav-item.teacher-ai-nav {
-  position: relative;
+.ds-mobile-nav-item {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 0.25rem !important;
 }
 
+.ds-mobile-nav-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.ds-mobile-nav-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+}
+
+/* Teacher AI : garder l'animation continue */
 .ds-mobile-nav-item.teacher-ai-nav .ds-mobile-nav-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, var(--ds-color-primary), var(--ds-color-accent));
-  color: white;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  box-shadow: 0 4px 12px rgba(10, 138, 110, 0.3);
-  animation: gentleFloat 3s ease-in-out infinite;
-  font-size: 1.2rem;
-  position: relative;
-}
-
-.ds-mobile-nav-item.teacher-ai-nav .ds-mobile-nav-icon::after {
-  content: 'LIVE';
-  position: absolute;
-  top: -6px;
-  right: -10px;
-  background: #ef4444;
-  color: white;
-  font-size: 0.5rem;
-  font-weight: 700;
-  padding: 2px 4px;
-  border-radius: 4px;
-  letter-spacing: 0.5px;
-}
-
-.ds-mobile-nav-item.teacher-ai-nav .ds-mobile-nav-label {
-  font-weight: 700;
-  color: var(--ds-color-primary);
+  animation: gentleFloat 3s ease-in-out infinite !important;
 }
 
 html.low-end-mode .ds-mobile-nav-item.teacher-ai-nav .ds-mobile-nav-icon {
-  animation: none;
+  animation: none !important;
 }
 
 /* ═══════════════════════════════════════════════════════════ */
