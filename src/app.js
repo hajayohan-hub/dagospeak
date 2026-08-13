@@ -701,6 +701,13 @@ async function renderHome() {
   }
 
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Famakiana...</div>';
+  // ✅ Injecter le bouton d'installation en position fixe
+    const existingInstall = document.getElementById('install-app-floating');
+    if (existingInstall) existingInstall.remove();
+
+    const installContainer = document.createElement('div');
+    installContainer.innerHTML = installBtnHtml;
+    document.body.appendChild(installContainer.firstElementChild);
 
   try {
     console.log('[renderHome] 2. Chargement de roleManager...');
@@ -824,27 +831,21 @@ const heroSlides = [
   `;
 
     // ✅ Bouton d'installation PWA (affiché seulement si possible)
-      // ✅ Section installation PWA (avant la salutation)
+      // ✅ Bouton d'installation en position fixe (même place que renderProgressHeader)
       const isInstalled = isAppInstalled();
       const installBtnHtml = isInstalled ? `
-        <div class="install-app-section installed" id="install-app-section">
-          <div class="install-app-badge">
-            <span class="install-app-icon">✓</span>
-            <div class="install-app-content">
-              <div class="install-app-title">Application installée</div>
-              <div class="install-app-subtitle">DagoSpeak est sur votre appareil</div>
-            </div>
+        <div class="install-app-floating installed" id="install-app-floating">
+          <div class="install-app-badge-fixed">
+            <span class="install-app-icon-fixed">✓</span>
+            <span class="install-app-text-fixed">Application installée</span>
           </div>
         </div>
       ` : `
-        <div class="install-app-section" id="install-app-section" style="display: ${deferredPrompt ? 'block' : 'none'};">
-          <button id="btn-install-app" class="install-app-btn" aria-label="Installer DagoSpeak sur votre appareil">
-            <span class="install-app-icon">📲</span>
-            <div class="install-app-content">
-              <div class="install-app-title">Installer DagoSpeak</div>
-              <div class="install-app-subtitle">Accès rapide hors-ligne sur votre appareil</div>
-            </div>
-            <span class="install-app-arrow">→</span>
+        <div class="install-app-floating" id="install-app-floating" style="display: ${deferredPrompt ? 'flex' : 'none'};">
+          <button id="btn-install-app" class="install-app-btn-fixed" aria-label="Installer DagoSpeak sur votre appareil">
+            <span class="install-app-icon-fixed">📲</span>
+            <span class="install-app-text-fixed">Installer DagoSpeak</span>
+            <span class="install-app-arrow-fixed">→</span>
           </button>
         </div>
       `;
@@ -1052,7 +1053,6 @@ const heroHtml = `
     // ✅ 7. INJECTION DANS LE DOM
     main.innerHTML = `
       <section class="ds-home" style="padding: 1rem; max-width: 800px; margin: 0 auto;">
-        ${installBtnHtml}
         ${userGreetingHtml}
         ${heroHtml}
         ${resumeCardHtml}
@@ -1079,29 +1079,39 @@ const heroHtml = `
       router.navigate('/theme-detail');
     });
 
-    // ✅ Bouton Installer l'app
-      document.getElementById('btn-install-app')?.addEventListener('click', async () => {
-        if (!deferredPrompt) {
-          console.warn('[PWA] ⚠️ Installation non disponible');
-          return;
-        }
+    /// ✅ Bouton Installer l'app (position fixe)
+        document.getElementById('btn-install-app')?.addEventListener('click', async () => {
+          if (!deferredPrompt) {
+            console.warn('[PWA] ⚠️ Installation non disponible');
+            return;
+          }
 
-        const btn = document.getElementById('btn-install-app');
-        btn.textContent = '⏳ Installation...';
+          const btn = document.getElementById('btn-install-app');
+          btn.innerHTML = '<span class="install-app-icon-fixed">⏳</span><span class="install-app-text-fixed">Installation...</span>';
 
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
 
-        if (outcome === 'accepted') {
-          console.log('[PWA] ✅ Utilisateur a accepté l\'installation');
-          btn.textContent = '✅ Installé !';
-        } else {
-          console.log('[PWA] ❌ Utilisateur a refusé l\'installation');
-          btn.textContent = '📲 Installer DagoSpeak';
-        }
+          if (outcome === 'accepted') {
+            console.log('[PWA] ✅ Utilisateur a accepté l\'installation');
+            // Remplacer par le badge installé
+            const installFloating = document.getElementById('install-app-floating');
+            if (installFloating) {
+              installFloating.innerHTML = `
+                <div class="install-app-badge-fixed">
+                  <span class="install-app-icon-fixed">✓</span>
+                  <span class="install-app-text-fixed">Application installée</span>
+                </div>
+              `;
+              installFloating.classList.add('installed');
+            }
+          } else {
+            console.log('[PWA] ❌ Utilisateur a refusé l\'installation');
+            btn.innerHTML = '<span class="install-app-icon-fixed">📲</span><span class="install-app-text-fixed">Installer DagoSpeak</span><span class="install-app-arrow-fixed">→</span>';
+          }
 
-        deferredPrompt = null; // Nettoyer l'événement
-      });
+          deferredPrompt = null;
+        });
 
     // Bouton Dictionnaire
     document.getElementById('btn-open-dictionary')?.addEventListener('click', () => {
@@ -1174,6 +1184,16 @@ const heroHtml = `
     }
 
     renderFloatingHomeButtons();
+
+    // ✅ Nettoyer le bouton d'installation quand on quitte l'accueil
+      window.addEventListener('hashchange', () => {
+        const installFloating = document.getElementById('install-app-floating');
+        if (installFloating && window.location.hash !== '#/' && window.location.hash !== '#') {
+          installFloating.style.display = 'none';
+        } else if (installFloating && (window.location.hash === '#/' || window.location.hash === '#')) {
+          installFloating.style.display = isInstalled ? 'flex' : (deferredPrompt ? 'flex' : 'none');
+        }
+      }, { once: false });
 
     logger.info('✅ Page d\'accueil rendue (version améliorée)');
     } catch (e) {
@@ -2892,9 +2912,11 @@ async function renderPractice() {
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Miomana ny session...</div>';
 
   // ✅ Afficher le header de progression flottant (uniquement hors accueil)
-renderProgressHeader();
-  // ✅ Synchroniser le profil après chaque parcours terminé
-syncProfileWithJourneys();
+      // ✅ Masquer le score de progression flottant sur l'accueil
+      const existingHeader = document.getElementById('floating-progress-header');
+      if (existingHeader) existingHeader.style.display = 'none';
+        // ✅ Synchroniser le profil après chaque parcours terminé
+      syncProfileWithJourneys();
 
   try {
     // ✅ Supprimer les boutons flottants de l'accueil
