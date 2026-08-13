@@ -1073,32 +1073,52 @@ const heroHtml = `
 
     document.body.appendChild(installFloating);
 
-    // Event listener
-    document.getElementById('btn-install-app')?.addEventListener('click', async () => {
-      if (!deferredPrompt) {
-        console.warn('[PWA] ⚠️ Installation non disponible');
-        return;
+    // Event listener (éviter les doublons)
+      const installBtn = document.getElementById('btn-install-app');
+      if (installBtn) {
+        // Retirer l'ancien listener s'il existe
+        if (installBtn._installListener) {
+          installBtn.removeEventListener('click', installBtn._installListener);
+        }
+
+        // Créer le nouveau listener
+        installBtn._installListener = async (e) => {
+          e.preventDefault();
+
+          if (!deferredPrompt) {
+            console.warn('[PWA] ⚠️ Installation non disponible');
+            return;
+          }
+
+          const btn = document.getElementById('btn-install-app');
+          if (!btn) return;
+
+          btn.innerHTML = '<span class="install-app-icon-fixed">⏳</span><span class="install-app-text-fixed">Installation...</span>';
+
+          try {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+
+            if (outcome === 'accepted') {
+              installFloating.innerHTML = `
+                <div class="install-app-badge-fixed">
+                  <span class="install-app-icon-fixed">✓</span>
+                  <span class="install-app-text-fixed">Application installée</span>
+                </div>
+              `;
+            } else {
+              btn.innerHTML = '<span class="install-app-icon-fixed">📲</span><span class="install-app-text-fixed">Installer DagoSpeak</span><span class="install-app-arrow-fixed">→</span>';
+            }
+          } catch (err) {
+            console.warn('[PWA] Erreur prompt:', err);
+            btn.innerHTML = '<span class="install-app-icon-fixed">📲</span><span class="install-app-text-fixed">Installer DagoSpeak</span><span class="install-app-arrow-fixed">→</span>';
+          }
+
+          deferredPrompt = null;
+        };
+
+        installBtn.addEventListener('click', installBtn._installListener);
       }
-
-      const btn = document.getElementById('btn-install-app');
-      btn.innerHTML = '<span class="install-app-icon-fixed">⏳</span><span class="install-app-text-fixed">Installation...</span>';
-
-      deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-
-      if (outcome === 'accepted') {
-        installFloating.innerHTML = `
-          <div class="install-app-badge-fixed">
-            <span class="install-app-icon-fixed">✓</span>
-            <span class="install-app-text-fixed">Application installée</span>
-          </div>
-        `;
-      } else {
-        btn.innerHTML = '<span class="install-app-icon-fixed">📲</span><span class="install-app-text-fixed">Installer DagoSpeak</span><span class="install-app-arrow-fixed">→</span>';
-      }
-
-      deferredPrompt = null;
-    });
 
     // ✅ 8. ÉCOUTEURS D'ÉVÉNEMENTS
     // Bouton "Reprendre l'apprentissage"
