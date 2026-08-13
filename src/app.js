@@ -701,14 +701,9 @@ async function renderHome() {
   }
 
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Famakiana...</div>';
-  // ✅ Injecter le bouton d'installation en position fixe
-    const existingInstall = document.getElementById('install-app-floating');
-    if (existingInstall) existingInstall.remove();
-
-
-    document.body.appendChild(installContainer.firstElementChild);
 
   try {
+    console.log('[renderHome] 2. Chargement de roleManager...');
     console.log('[renderHome] 2. Chargement de roleManager...');
     await roleManager.init();
 
