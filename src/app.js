@@ -5508,6 +5508,10 @@ async function mountLiveAvatar() {
 async function renderConversation() {
   const main = document.getElementById('app');
   main.innerHTML = getSkeletonThemesList();
+  // ✅ Afficher le Teacher Avatar flottant pour guider l'utilisateur
+    if (window.teacherAvatar) {
+      window.teacherAvatar.show('conversation');
+    }
 
   // Récupérer l'ID du dialogue depuis l'URL
   const urlParams = new URLSearchParams(window.location.search);

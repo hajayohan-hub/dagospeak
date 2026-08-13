@@ -659,3 +659,23 @@ html.low-end-mode .user-greeting {
     padding: 2px 8px;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════ */
+/* ICÔNE DICTIONNAIRE — Grande et animée continuellement       */
+/* ═══════════════════════════════════════════════════════════ */
+
+.home-dictionary-icon {
+  font-size: 3.5rem;
+  display: block;
+  margin: 0 auto 0.75rem;
+  animation: gentleFloat 3s ease-in-out infinite;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+}
+
+html.low-end-mode .home-dictionary-icon {
+  animation: none;
+}
+@keyframes gentleFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
