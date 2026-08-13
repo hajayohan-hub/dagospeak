@@ -236,23 +236,87 @@ export class TeacherAvatar {
   // ─────────── AFFICHAGE DES CONSEILS PAR PAGE ───────────
   show(tipKey) {
     const tips = {
-      'home':              { fr: "Je suis votre professeure virtuelle ! Cliquez sur un niveau pour commencer. 🎓", mg: "Izaho no mpampianatrao virtoaly! Tsindrio ny ambaratonga iray hanombohana. 🎓" },
-      'themes':            { fr: "Choisissez un thème pour voir les leçons.", mg: "Safidio lohahevitra iray." },
-      'theme-detail':      { fr: "Choisissez une activité : Leçon, Révisions, Phrases ou Dialogues.", mg: "Safidio hetsika iray." },
-      'lesson':            { fr: "Écoutez et répétez chaque mot à voix haute.", mg: "Hihainoa ary avereno ny teny tsirairay." },
-      'lesson-phrases':    { fr: "Écoutez et répétez chaque phrase à voix haute.", mg: "Hihainoa ary avereno ny fehezanteny." },
-      'practice':          { fr: "Suivez les étapes : Écoutez, Répondez, puis Prononcez.", mg: "Araho ny dingana : Mihainoa, Valio, Mitenena." },
-      'practice-phrases':  { fr: "Écoutez, traduisez, puis prononcez la phrase complète.", mg: "Mihainoa, adino, ary mitenena." },
-      'dialogues':         { fr: "Lisez et écoutez la conversation.", mg: "Vakio ary mihainoa ny resaka." },
-      'roleplay':          { fr: "Jouez les deux rôles de la conversation.", mg: "Milalao anjara asa roa." },
-      'challenge':         { fr: "Défi ! Parlez sans voir les réponses.", mg: "Fanamby ! Mitenena tsy mijery." },
-      'conversation-live': { fr: "Choisissez un niveau pour pratiquer en conversation avec moi ! 💬", mg: "Safidio ambaratonga iray hifampiresahana amiko! 💬" },
-      'conversation':      { fr: "Parlons ensemble ! Écoutez, puis choisissez votre réponse. 🗣️", mg: "Andeha hiresaka ! Mihainoa, avy eo safidio ny valinao. 🗣️" },
-      'profile':           { fr: "Votre profil ! Consultez vos progrès et débloquez Premium. 👤", mg: "Ny mombamomba anao! Jereo ny fandrosoanao ary sokafy Premium. 👤" },
-      'certification':     { fr: "Progression vers la certification A2.", mg: "Fandrosoana mankany amin'ny sertifikà A2." },
-      'dictionary':        { fr: "Dictionnaire FR ↔ MG. Cherchez un mot.", mg: "Rakibolana FR ↔ MG. Karohy ny teny iray." },
-      'about':             { fr: "À propos de DagoSpeak.", mg: "Mombamomba an'i DagoSpeak." }
-    };
+  'home': {
+    fr: "Je suis votre professeure virtuelle ! Cliquez sur un niveau pour commencer. 🎓",
+    mg: "Izaho no mpampianatrao virtoaly! Tsindrio ny ambaratonga iray hanombohana.",
+    speak: "Je suis votre professeure virtuelle. Cliquez sur un niveau pour commencer."
+  },
+  'themes': {
+    fr: "Choisissez un thème pour voir les leçons.",
+    mg: "Safidio lohahevitra iray.",
+    speak: "Choisissez un thème pour voir les leçons."
+  },
+  'theme-detail': {
+    fr: "Choisissez une activité : Leçon, Révisions, Phrases ou Dialogues.",
+    mg: "Safidio hetsika iray.",
+    speak: "Choisissez une activité : Leçon, Révisions, Phrases ou Dialogues."
+  },
+  'lesson': {
+    fr: "Écoutez et répétez chaque mot à voix haute.",
+    mg: "Hihainoa ary avereno ny teny tsirairay.",
+    speak: "Écoutez et répétez chaque mot à voix haute."
+  },
+  'lesson-phrases': {
+    fr: "Écoutez et répétez chaque phrase à voix haute.",
+    mg: "Hihainoa ary avereno ny fehezanteny.",
+    speak: "Écoutez et répétez chaque phrase à voix haute."
+  },
+  'practice': {
+    fr: "Suivez les étapes : Écoutez, Répondez, puis Prononcez.",
+    mg: "Araho ny dingana : Mihainoa, Valio, Mitenena.",
+    speak: "Suivez les étapes : Écoutez, Répondez, puis Prononcez."
+  },
+  'practice-phrases': {
+    fr: "Écoutez, traduisez, puis prononcez la phrase complète.",
+    mg: "Mihainoa, adino, ary mitenena.",
+    speak: "Écoutez, traduisez, puis prononcez la phrase complète."
+  },
+  'dialogues': {
+    fr: "Lisez et écoutez la conversation.",
+    mg: "Vakio ary mihainoa ny resaka.",
+    speak: "Lisez et écoutez la conversation."
+  },
+  'roleplay': {
+    fr: "Jouez les deux rôles de la conversation.",
+    mg: "Milalao anjara asa roa.",
+    speak: "Jouez les deux rôles de la conversation."
+  },
+  'challenge': {
+    fr: "Défi ! Parlez sans voir les réponses.",
+    mg: "Fanamby ! Mitenena tsy mijery.",
+    speak: "Défi ! Parlez sans voir les réponses."
+  },
+  'conversation-live': {
+    fr: "Choisissez un niveau pour pratiquer en conversation avec moi ! 💬",
+    mg: "Safidio ambaratonga iray hifampiresahana amiko!",
+    speak: "Choisissez un niveau pour pratiquer en conversation avec moi."
+  },
+  'conversation': {
+    fr: "Parlons ensemble ! Écoutez, puis choisissez votre réponse. 🗣️",
+    mg: "Andeha hiresaka ! Mihainoa, avy eo safidio ny valinao.",
+    speak: "Parlons ensemble. Écoutez, puis choisissez votre réponse."
+  },
+  'profile': {
+    fr: "Votre profil ! Consultez vos progrès et débloquez Premium. 👤",
+    mg: "Ny mombamomba anao! Jereo ny fandrosoanao ary sokafy Premium.",
+    speak: "Votre profil. Consultez vos progrès et débloquez Premium."
+  },
+  'certification': {
+    fr: "Progression vers la certification A2.",
+    mg: "Fandrosoana mankany amin'ny sertifikà A2.",
+    speak: "Progression vers la certification A2."
+  },
+  'dictionary': {
+    fr: "Dictionnaire FR ↔ MG. Cherchez un mot. 📖",
+    mg: "Rakibolana FR ↔ MG. Karohy ny teny iray.",
+    speak: "Dictionnaire français malgache. Cherchez un mot."
+  },
+  'about': {
+    fr: "À propos de DagoSpeak.",
+    mg: "Mombamomba an'i DagoSpeak.",
+    speak: "À propos de DagoSpeak."
+  }
+};
 
       this.#currentTip = tips[tipKey] || {
         fr: "Continuez, vous faites du bon travail !",
@@ -284,7 +348,8 @@ export class TeacherAvatar {
       }
 
       // ✅ Sur les autres pages : utilise speakGuide() qui respecte le toggle
-      this.speakGuide(this.#currentTip.fr);
+      // Utiliser le texte sans emoji pour le TTS
+this.speakGuide(this.#currentTip.speak || this.#currentTip.fr);
     }
 
   // ─────────── RENDU DU COMPOSANT ───────────

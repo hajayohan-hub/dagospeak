@@ -417,20 +417,52 @@ html.slow-network-mode img:not([loading="eager"]) {
   loading: lazy;
 }
 
-/* ═══════════════════════════════════════════════════════════ */
-/* FOOTER MOBILE — Icônes AU-DESSUS des textes                 */
+//* ═══════════════════════════════════════════════════════════ */
+/* FOOTER MOBILE — Layout horizontal fixe                     */
 /* ═══════════════════════════════════════════════════════════ */
 
+.ds-mobile-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  background: var(--ds-color-surface);
+  border-top: 1px solid var(--ds-color-border);
+  padding: 8px 0;
+  z-index: 100;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+}
+
 .ds-mobile-nav-item {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  gap: 0.25rem !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px 8px;
+  text-decoration: none;
+  color: var(--ds-color-text-muted);
+  flex: 1;
+  min-width: 0;
+}
+
+.ds-mobile-nav-item:hover {
+  text-decoration: none;
+  color: var(--ds-color-text-muted);
+}
+
+.ds-mobile-nav-item.active {
+  color: var(--ds-color-primary);
 }
 
 .ds-mobile-nav-icon {
   font-size: 1.4rem;
   line-height: 1;
+  display: block;
 }
 
 .ds-mobile-nav-label {
@@ -438,15 +470,21 @@ html.slow-network-mode img:not([loading="eager"]) {
   font-weight: 600;
   line-height: 1.2;
   text-align: center;
+  display: block;
 }
 
-/* Teacher AI : garder l'animation continue */
+/* Teacher AI : animation continue */
 .ds-mobile-nav-item.teacher-ai-nav .ds-mobile-nav-icon {
-  animation: gentleFloat 3s ease-in-out infinite !important;
+  animation: gentleFloat 3s ease-in-out infinite;
 }
 
 html.low-end-mode .ds-mobile-nav-item.teacher-ai-nav .ds-mobile-nav-icon {
-  animation: none !important;
+  animation: none;
+}
+
+@keyframes gentleFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
 }
 
 /* ═══════════════════════════════════════════════════════════ */
