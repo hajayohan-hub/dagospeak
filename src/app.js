@@ -4492,28 +4492,50 @@ async function renderProfile() {
       </section>
     `;
 
-    document.getElementById('btn-back').addEventListener('click', () => router.navigate('/'));
+        document.getElementById('btn-back').addEventListener('click', () => router.navigate('/'));
 
-         document.getElementById('btn-gamification-guide')?.addEventListener('click', () => {
-       showGamificationGuide();
-     });
+        document.getElementById('btn-gamification-guide')?.addEventListener('click', () => {
+          showGamificationGuide();
+        });
 
-    // ✅ Event listener pour la certification
-    document.getElementById('btn-view-certification')?.addEventListener('click', () => {
-      router.navigate('/certification');
-    });
+        // ✅ Event listener pour la certification
+        document.getElementById('btn-view-certification')?.addEventListener('click', () => {
+          router.navigate('/certification');
+        });
 
-    logger.info('✅ Page Profil rendue avec données personnelles');
-    } catch (e) {
-    showError(main, e, {
-      title: 'Erreur de profil',
-      subtitle: 'Impossible de charger vos données',
-      backRoute: '/',
-      backLabel: '← Retour à l\'accueil',
-      retry: true
-    });
-  }
-}
+        // ✅ Guide contextuel Teacher AI selon le statut du compte
+        if (window.teacherAvatar) {
+          if (!profile.isPremium) {
+            // Utilisateur gratuit → guide vers Premium
+            window.teacherAvatar.show('profile');
+            setTimeout(() => {
+              window.teacherAvatar.speakGuide("Vous êtes en compte gratuit. Passez à Premium pour débloquer tous les niveaux et la certification !");
+            }, 800);
+          } else {
+            // Utilisateur Premium → guide vers progression certification
+            window.teacherAvatar.show('profile');
+            const certProgress = profile.percentage || 0;
+            setTimeout(() => {
+              if (certProgress >= 100) {
+                window.teacherAvatar.speakGuide("Bravo ! Vous êtes éligible à la certification A2. Consultez votre certificat !");
+              } else {
+                window.teacherAvatar.speakGuide(`Progression : ${certProgress}%. Continuez pour débloquer la certification A2 !`);
+              }
+            }, 800);
+          }
+        }
+
+        logger.info('✅ Page Profil rendue avec données personnelles');
+      } catch (e) {
+        showError(main, e, {
+          title: 'Erreur de profil',
+          subtitle: 'Impossible de charger vos données',
+          backRoute: '/',
+          backLabel: '← Retour à l\'accueil',
+          retry: true
+        });
+      }
+    }
 
 
 // ═══════════════════════════════════════════════════════════
@@ -5450,6 +5472,8 @@ async function renderConversationLive() {
       });
     });
 
+    if (window.teacherAvatar) window.teacherAvatar.show('conversation-live');
+
     logger.info('✅ Page Conversation Live rendue');
   } catch (e) {
     showError(main, e, {
@@ -5587,6 +5611,7 @@ async function renderConversation() {
               window.updateLessonProgress(currentWordIndex);
             }
           renderNode();
+          if (window.teacherAvatar) window.teacherAvatar.show('conversation');
         });
 
         document.getElementById('btn-quit').addEventListener('click', () => {
