@@ -3528,15 +3528,16 @@ syncProfileWithJourneys();
     // ✅ NOUVEAU : Avatar SVG animé pour conversation live
       const avatarContainer = document.createElement('div');
       avatarContainer.id = 'teacher-avatar-svg-container';
-      avatarContainer.style.cssText = 'text-align: center; margin-bottom: 1rem;';
+      avatarContainer.style.cssText = 'text-align: center; margin: 1rem 0;';
       main.appendChild(avatarContainer);
 
-      // Importer et initialiser le SVG avatar
+      // Importer et initialiser le SVG avatar (dynamique pour éviter de charger sur tous les appareils)
       import('./ui/components/teacher-avatar-svg.js').then(module => {
         const TeacherAvatarSVG = module.TeacherAvatarSVG;
         const avatarSVG = new TeacherAvatarSVG('teacher-avatar-svg-container');
         avatarSVG.render();
-        window.teacherAvatarSVG = avatarSVG; // Rendre accessible globalement
+        window.teacherAvatarSVG = avatarSVG;
+        console.log('[Conversation] ✅ Avatar SVG initialisé');
       }).catch(e => console.warn('[Conversation] Avatar SVG non disponible:', e));
 
     const themeNames = {
@@ -5289,6 +5290,169 @@ function getSkeletonThemesList() {
 }
 
 // ═══════════════════════════════════════════════════════════
+// VUE : CONVERSATION LIVE (sélection par niveau)
+// ═══════════════════════════════════════════════════════════
+async function renderConversationLive() {
+  updateNavActiveState();
+  const main = document.getElementById('app');
+  main.innerHTML = getSkeletonThemesList();
+
+  try {
+    // Supprimer les actions flottantes de l'accueil
+    const floatActions = document.getElementById('floating-home-actions');
+    if (floatActions) floatActions.remove();
+
+    const levels = [
+      {
+        id: 'A0',
+        name: 'Niveau A0',
+        subtitle: 'Débutant absolu',
+        description: 'Dialogues simples pour survivre au quotidien',
+        available: true,
+        example: 'market_01',
+        color: 'var(--ds-color-success)',
+        icon: '🌱'
+      },
+      {
+        id: 'A1',
+        name: 'Niveau A1',
+        subtitle: 'Élémentaire',
+        description: 'Conversations de la vie courante',
+        available: false,
+        example: null,
+        color: 'var(--ds-color-primary)',
+        icon: '📚'
+      },
+      {
+        id: 'A2',
+        name: 'Niveau A2',
+        subtitle: 'Intermédiaire',
+        description: 'Discussions complexes et professionnelles',
+        available: false,
+        example: null,
+        color: 'var(--ds-color-accent)',
+        icon: '🎓'
+      },
+      {
+        id: 'B1',
+        name: 'Niveau B1',
+        subtitle: 'Seuil',
+        description: 'Débats et opinions argumentées',
+        available: false,
+        example: null,
+        color: 'var(--ds-color-text-muted)',
+        icon: '🔒'
+      }
+    ];
+
+    main.innerHTML = `
+      <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem;">
+        <ds-button variant="ghost" size="sm" id="btn-back" style="margin-bottom: 1rem;">← Retour</ds-button>
+
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <div style="font-size: 4rem; margin-bottom: 1rem;">💬</div>
+          <h2 style="color: var(--ds-color-primary); margin-bottom: 0.5rem;">Conversation Live avec Teacher AI</h2>
+          <p style="color: var(--ds-color-text-muted);">Pratiquez le français en conversation réelle avec votre professeur virtuel</p>
+        </div>
+
+        <!-- ✅ Avatar SVG animé en haut -->
+        <div id="teacher-avatar-svg-container" style="text-align: center; margin: 2rem 0;">
+          <!-- Le SVG sera injecté par JavaScript -->
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          ${levels.map(level => `
+            <div class="conversation-level-card ${level.available ? 'available' : 'locked'}"
+                 data-level="${level.id}"
+                 data-example="${level.example || ''}"
+                 style="
+                   background: var(--ds-color-surface);
+                   padding: 1.5rem;
+                   border-radius: var(--ds-radius-lg);
+                   border: 2px solid ${level.available ? level.color : 'var(--ds-color-border)'};
+                   cursor: ${level.available ? 'pointer' : 'default'};
+                   transition: all 0.3s ease;
+                   opacity: ${level.available ? '1' : '0.6'};
+                 ">
+              <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="font-size: 2.5rem;">${level.icon}</div>
+                <div style="flex: 1;">
+                  <h3 style="margin: 0 0 0.25rem 0; color: var(--ds-color-text);">${level.name}</h3>
+                  <p style="margin: 0 0 0.5rem 0; color: ${level.color}; font-weight: 600; font-size: 0.9rem;">${level.subtitle}</p>
+                  <p style="margin: 0; color: var(--ds-color-text-muted); font-size: 0.85rem;">${level.description}</p>
+                </div>
+                <div style="font-size: 1.5rem; color: ${level.available ? level.color : 'var(--ds-color-text-muted)'};">
+                  ${level.available ? '→' : '🔒'}
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+
+        <div style="margin-top: 2rem; padding: 1rem; background: var(--ds-color-surface-2); border-radius: var(--ds-radius-md); text-align: center;">
+          <p style="margin: 0; color: var(--ds-color-text-muted); font-size: 0.85rem;">
+            💡 Plus de niveaux seront ajoutés prochainement. A0 est disponible maintenant avec un exemple de dialogue au marché.
+          </p>
+        </div>
+      </section>
+    `;
+
+    // Initialiser le SVG avatar
+    import('./ui/components/teacher-avatar-svg.js').then(module => {
+      const TeacherAvatarSVG = module.TeacherAvatarSVG;
+      const avatarSVG = new TeacherAvatarSVG('teacher-avatar-svg-container');
+      avatarSVG.render();
+      avatarSVG.setExpression('happy');
+      window.teacherAvatarSVG = avatarSVG;
+      console.log('[ConversationLive] ✅ Avatar SVG initialisé');
+    }).catch(e => console.warn('[ConversationLive] Avatar SVG non disponible:', e));
+
+    // Event listeners
+    document.getElementById('btn-back').addEventListener('click', () => {
+      router.navigate('/');
+    });
+
+    // Clic sur les cartes de niveau
+    document.querySelectorAll('.conversation-level-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const level = card.dataset.level;
+        const example = card.dataset.example;
+        const isAvailable = card.classList.contains('available');
+
+        if (!isAvailable) {
+          // Feedback visuel pour les niveaux non disponibles
+          card.style.transform = 'translateX(-5px)';
+          setTimeout(() => { card.style.transform = 'translateX(5px)'; }, 100);
+          setTimeout(() => { card.style.transform = ''; }, 200);
+          if (window.teacherAvatarSVG) {
+            window.teacherAvatarSVG.setExpression('thinking');
+          }
+          return;
+        }
+
+        // Niveau disponible → lancer la conversation
+        if (example) {
+          console.log(`[ConversationLive] 🚀 Lancement: niveau ${level}, dialogue ${example}`);
+          router.navigate(`/conversation?dialogue=${example}`);
+        } else {
+          console.log(`[ConversationLive] ⚠️ Niveau ${level} disponible mais pas d'exemple`);
+        }
+      });
+    });
+
+    logger.info('✅ Page Conversation Live rendue');
+  } catch (e) {
+    showError(main, e, {
+      title: 'Erreur de conversation',
+      subtitle: 'Impossible de charger les conversations',
+      backRoute: '/',
+      backLabel: '← Retour à l\'accueil',
+      retry: true
+    });
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
 // VUE : CONVERSATION SEMI-LIBRE (Teacher Avatar IA)
 // ═══════════════════════════════════════════════════════════
 
@@ -5434,19 +5598,28 @@ async function renderConversation() {
             const feedback = document.getElementById('feedback');
 
             if (selected.isCorrect) {
-              btn.style.borderColor = 'var(--ds-color-success)';
-              feedback.innerHTML = `
-                <div style="background: var(--ds-color-success-soft, #d1fae5); padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-success);">
-                  <div style="font-size: 2rem;">✅</div>
-                  <p style="color: var(--ds-color-success); font-weight: 600;">${node.feedbackOnSuccess.textFr}</p>
-                  <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${node.feedbackOnSuccess.textMg})</p>
-                </div>
-                <button id="btn-continue" style="margin-top: 1rem; background: var(--ds-color-success); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">Manaraka →</button>
-              `;
-              const u = new SpeechSynthesisUtterance(node.feedbackOnSuccess.audio.ttsTextFr);
-              u.lang = 'fr-FR'; u.rate = 0.9;
-              speechSynthesis.speak(u);
-              document.getElementById('btn-continue').addEventListener('click', () => {
+                btn.style.borderColor = 'var(--ds-color-success)';
+                feedback.innerHTML = `...`;
+
+                // ✅ NOUVEAU : Feedback succès avec SVG avatar sync
+                const u = new SpeechSynthesisUtterance(node.feedbackOnSuccess.audio.ttsTextFr);
+                u.lang = 'fr-FR';
+                u.rate = 0.9;
+                u.onstart = () => {
+                  if (window.teacherAvatarSVG) {
+                    window.teacherAvatarSVG.startSpeaking();
+                    window.teacherAvatarSVG.setExpression('happy');
+                  }
+                };
+                u.onend = () => {
+                  if (window.teacherAvatarSVG) {
+                    window.teacherAvatarSVG.stopSpeaking();
+                    window.teacherAvatarSVG.setExpression('neutral');
+                  }
+                };
+                speechSynthesis.speak(u);
+
+                document.getElementById('btn-continue').addEventListener('click', () => {
                 currentNodeId = node.nextNodeOnSuccess;
                 renderNode();
               });
@@ -5474,6 +5647,11 @@ async function renderConversation() {
                   </div>
                   <button id="btn-retry" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">🔁 Réessayer</button>
                 `;
+
+                // ✅ Expression "encouraging" quand l'utilisateur se trompe
+                if (window.teacherAvatarSVG) {
+                  window.teacherAvatarSVG.setExpression('encouraging');
+                }
                 document.getElementById('btn-retry').addEventListener('click', renderNode);
               }
             }

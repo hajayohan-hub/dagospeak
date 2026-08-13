@@ -416,3 +416,53 @@ html.very-low-end-mode *::after {
 html.slow-network-mode img:not([loading="eager"]) {
   loading: lazy;
 }
+
+/* ═══════════════════════════════════════════════════════════ */
+/* TEACHER AI NAV — Icône spéciale dans le footer             */
+/* ═══════════════════════════════════════════════════════════ */
+
+.ds-mobile-nav {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 items maintenant */
+}
+
+.teacher-ai-nav {
+  position: relative;
+}
+
+.teacher-ai-nav .ds-mobile-nav-icon {
+  background: linear-gradient(135deg, var(--ds-color-primary), var(--ds-color-accent));
+  color: white;
+  padding: 0.5rem;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(10, 138, 110, 0.3);
+  animation: gentleFloat 3s ease-in-out infinite;
+}
+
+.teacher-ai-nav.active .ds-mobile-nav-icon {
+  box-shadow: 0 4px 16px rgba(10, 138, 110, 0.6);
+}
+
+/* Badge "Live" */
+.teacher-ai-nav::after {
+  content: 'LIVE';
+  position: absolute;
+  top: 8px;
+  right: calc(50% - 20px);
+  background: #ef4444;
+  color: white;
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 1px 4px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+html.low-end-mode .teacher-ai-nav .ds-mobile-nav-icon {
+  animation: none;
+}
