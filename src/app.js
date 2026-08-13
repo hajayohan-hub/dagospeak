@@ -2037,9 +2037,7 @@ async function renderAbout() {
 
 // Fonction helper pour gérer l'upgrade Premium
 async function renderLesson() {
-  const main = document.getElementById('app');
-  main.innerHTML = '<div style="text-align:center; padding:2rem;">Chargement de la leçon...</div>';
-  renderProgressHeader();
+  main.innerHTML = '<div style="text-align:center; padding:2rem;">Famakiana...</div>';
 
   try {
     const floatActions = document.getElementById('floating-home-actions');
