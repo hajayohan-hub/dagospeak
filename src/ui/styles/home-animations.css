@@ -756,3 +756,49 @@ html.low-end-mode .install-app-icon {
     font-size: 0.8rem;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════ */
+/* BADGE APPLICATION INSTALLÉE                                */
+/* ═══════════════════════════════════════════════════════════ */
+
+.install-app-section.installed {
+  margin-bottom: 1rem;
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+.install-app-badge {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--ds-color-success-soft);
+  border: 2px solid var(--ds-color-success);
+  border-radius: var(--ds-radius-lg);
+  color: var(--ds-color-success);
+}
+
+.install-app-badge .install-app-icon {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: var(--ds-color-success);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  animation: none;
+}
+
+.install-app-badge .install-app-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 0.15rem;
+}
+
+.install-app-badge .install-app-subtitle {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}

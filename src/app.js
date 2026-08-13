@@ -38,6 +38,12 @@ window.teacherAvatar = teacherAvatar;
 // ═══════════════════════════════════════════════════════════
 let deferredPrompt = null;
 
+// ✅ Détecter si l'app est déjà installée
+function isAppInstalled() {
+  return window.matchMedia('(display-mode: standalone)').matches ||
+         window.navigator.standalone === true;
+}
+
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault(); // Empêche le prompt automatique
   deferredPrompt = e;
@@ -53,9 +59,19 @@ window.addEventListener('beforeinstallprompt', (e) => {
 // Masquer le bouton si l'app est déjà installée
 window.addEventListener('appinstalled', () => {
   console.log('[PWA] ✅ Application installée');
-  const installBtn = document.getElementById('btn-install-app');
-  if (installBtn) {
-    installBtn.style.display = 'none';
+  const installSection = document.getElementById('install-app-section');
+  if (installSection) {
+    // Remplacer le bouton par le badge
+    installSection.innerHTML = `
+      <div class="install-app-badge">
+        <span class="install-app-icon">✓</span>
+        <div class="install-app-content">
+          <div class="install-app-title">Application installée</div>
+          <div class="install-app-subtitle">DagoSpeak est sur votre appareil</div>
+        </div>
+      </div>
+    `;
+    installSection.classList.add('installed');
   }
 });
 
@@ -808,19 +824,30 @@ const heroSlides = [
   `;
 
     // ✅ Bouton d'installation PWA (affiché seulement si possible)
-const installBtnHtml = `
-  <div class="install-app-section" id="install-app-section" style="display: none;">
-    <button id="btn-install-app" class="install-app-btn" aria-label="Installer DagoSpeak sur votre appareil">
-      <span class="install-app-icon">📲</span>
-      <div class="install-app-content">
-        <div class="install-app-title">Installer DagoSpeak</div>
-        <div class="install-app-subtitle">Accès rapide hors-ligne sur votre appareil</div>
-      </div>
-      <span class="install-app-arrow">→</span>
-    </button>
-  </div>
-`;
-
+      // ✅ Section installation PWA (avant la salutation)
+      const isInstalled = isAppInstalled();
+      const installBtnHtml = isInstalled ? `
+        <div class="install-app-section installed" id="install-app-section">
+          <div class="install-app-badge">
+            <span class="install-app-icon">✓</span>
+            <div class="install-app-content">
+              <div class="install-app-title">Application installée</div>
+              <div class="install-app-subtitle">DagoSpeak est sur votre appareil</div>
+            </div>
+          </div>
+        </div>
+      ` : `
+        <div class="install-app-section" id="install-app-section" style="display: ${deferredPrompt ? 'block' : 'none'};">
+          <button id="btn-install-app" class="install-app-btn" aria-label="Installer DagoSpeak sur votre appareil">
+            <span class="install-app-icon">📲</span>
+            <div class="install-app-content">
+              <div class="install-app-title">Installer DagoSpeak</div>
+              <div class="install-app-subtitle">Accès rapide hors-ligne sur votre appareil</div>
+            </div>
+            <span class="install-app-arrow">→</span>
+          </button>
+        </div>
+      `;
 const heroHtml = `
   <div class="hero-carousel" id="hero-carousel" aria-roledescription="carrousel" aria-label="Présentation DagoSpeak">
     ${heroSlides.map((s, i) => {
