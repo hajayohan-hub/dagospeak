@@ -830,26 +830,6 @@ const heroSlides = [
     </div>
   `;
 
-    // ✅ Bouton d'installation en position fixe
-      const isInstalled = isAppInstalled();
-      const displayStyle = deferredPrompt ? 'flex' : 'none';
-
-      const installBtnHtml = isInstalled ? `
-        <div class="install-app-floating installed" id="install-app-floating">
-          <div class="install-app-badge-fixed">
-            <span class="install-app-icon-fixed">✓</span>
-            <span class="install-app-text-fixed">Application installée</span>
-          </div>
-        </div>
-      ` : `
-        <div class="install-app-floating" id="install-app-floating" style="display: ${displayStyle};">
-          <button id="btn-install-app" class="install-app-btn-fixed" aria-label="Installer DagoSpeak sur votre appareil">
-            <span class="install-app-icon-fixed">📲</span>
-            <span class="install-app-text-fixed">Installer DagoSpeak</span>
-            <span class="install-app-arrow-fixed">→</span>
-          </button>
-        </div>
-      `;
 const heroHtml = `
   <div class="hero-carousel" id="hero-carousel" aria-roledescription="carrousel" aria-label="Présentation DagoSpeak">
     ${heroSlides.map((s, i) => {
@@ -1071,6 +1051,60 @@ const heroHtml = `
         ${shareAppHtml}
       </section>
     `;
+
+        // ✅ BOUTON INSTALLATION FLOTTANT (injecté séparément)
+    const isInstalled = typeof isAppInstalled === 'function' && isAppInstalled();
+    const displayStyle = deferredPrompt ? 'flex' : 'none';
+
+    const existingInstall = document.getElementById('install-app-floating');
+    if (existingInstall) existingInstall.remove();
+
+    const installFloating = document.createElement('div');
+    installFloating.id = 'install-app-floating';
+    installFloating.className = 'install-app-floating';
+    installFloating.style.display = isInstalled ? 'flex' : displayStyle;
+
+    installFloating.innerHTML = isInstalled ? `
+      <div class="install-app-badge-fixed">
+        <span class="install-app-icon-fixed">✓</span>
+        <span class="install-app-text-fixed">Application installée</span>
+      </div>
+    ` : `
+      <button id="btn-install-app" class="install-app-btn-fixed" aria-label="Installer DagoSpeak sur votre appareil">
+        <span class="install-app-icon-fixed">📲</span>
+        <span class="install-app-text-fixed">Installer DagoSpeak</span>
+        <span class="install-app-arrow-fixed">→</span>
+      </button>
+    `;
+
+    document.body.appendChild(installFloating);
+
+    // Event listener
+    document.getElementById('btn-install-app')?.addEventListener('click', async () => {
+      if (!deferredPrompt) {
+        console.warn('[PWA] ⚠️ Installation non disponible');
+        return;
+      }
+
+      const btn = document.getElementById('btn-install-app');
+      btn.innerHTML = '<span class="install-app-icon-fixed">⏳</span><span class="install-app-text-fixed">Installation...</span>';
+
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+
+      if (outcome === 'accepted') {
+        installFloating.innerHTML = `
+          <div class="install-app-badge-fixed">
+            <span class="install-app-icon-fixed">✓</span>
+            <span class="install-app-text-fixed">Application installée</span>
+          </div>
+        `;
+      } else {
+        btn.innerHTML = '<span class="install-app-icon-fixed">📲</span><span class="install-app-text-fixed">Installer DagoSpeak</span><span class="install-app-arrow-fixed">→</span>';
+      }
+
+      deferredPrompt = null;
+    });
 
     // ✅ 8. ÉCOUTEURS D'ÉVÉNEMENTS
     // Bouton "Reprendre l'apprentissage"
