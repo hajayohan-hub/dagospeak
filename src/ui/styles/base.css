@@ -418,55 +418,228 @@ html.slow-network-mode img:not([loading="eager"]) {
 }
 
 /* ═══════════════════════════════════════════════════════════ */
-/* TEACHER AI NAV — Icône spéciale dans le footer             */
+/* TEACHER AI NAV — Style ciblé (ne casse pas le footer)      */
 /* ═══════════════════════════════════════════════════════════ */
 
-/* Icône Teacher AI - cercle coloré avec animation */
+.ds-mobile-nav-item.teacher-ai-nav {
+  position: relative;
+}
+
 .ds-mobile-nav-item.teacher-ai-nav .ds-mobile-nav-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, var(--ds-color-primary), var(--ds-color-accent));
   color: white;
-  padding: 0.5rem;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  min-width: 40px;
-  min-height: 40px;
   box-shadow: 0 4px 12px rgba(10, 138, 110, 0.3);
   animation: gentleFloat 3s ease-in-out infinite;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   position: relative;
 }
 
-/* Badge "LIVE" */
 .ds-mobile-nav-item.teacher-ai-nav .ds-mobile-nav-icon::after {
   content: 'LIVE';
   position: absolute;
-  top: -8px;
-  right: -8px;
+  top: -6px;
+  right: -10px;
   background: #ef4444;
   color: white;
-  font-size: 0.55rem;
+  font-size: 0.5rem;
   font-weight: 700;
-  padding: 2px 5px;
+  padding: 2px 4px;
   border-radius: 4px;
   letter-spacing: 0.5px;
-  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);
 }
 
-/* État actif */
-.ds-mobile-nav-item.teacher-ai-nav.active .ds-mobile-nav-icon {
-  box-shadow: 0 4px 16px rgba(10, 138, 110, 0.6);
-  transform: scale(1.1);
-}
-
-/* Label Teacher AI en gras */
 .ds-mobile-nav-item.teacher-ai-nav .ds-mobile-nav-label {
   font-weight: 700;
   color: var(--ds-color-primary);
 }
 
-/* Low-end mode : pas d'animation */
 html.low-end-mode .ds-mobile-nav-item.teacher-ai-nav .ds-mobile-nav-icon {
   animation: none;
 }
+
+/* ═══════════════════════════════════════════════════════════ */
+/* CONVERSATION LIVE — Design chat en direct                  */
+/* ═══════════════════════════════════════════════════════════ */
+
+.live-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header avec Teacher AI transparent */
+.live-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--ds-color-surface);
+  border-radius: 16px;
+  box-shadow: var(--ds-shadow-md);
+  position: sticky;
+  top: 10px;
+  z-index: 10;
+  border: 1px solid var(--ds-color-border);
+}
+
+.live-teacher-wrap {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  background: transparent; /* ✅ Teacher AI transparent */
+}
+
+.live-teacher-wrap svg {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+
+.live-teacher-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.live-teacher-name {
+  font-weight: 700;
+  color: var(--ds-color-text);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+}
+
+.live-badge {
+  background: #ef4444;
+  color: white;
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+  animation: live-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.live-dialogue-title {
+  font-size: 0.8rem;
+  color: var(--ds-color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.live-quit {
+  background: var(--ds-color-surface-2);
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: var(--ds-color-text-muted);
+  flex-shrink: 0;
+}
+
+/* Zone de chat */
+.live-chat {
+  flex: 1;
+  padding: 1.25rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Bulles de conversation */
+.live-bubble {
+  max-width: 85%;
+  padding: 1rem 1.25rem;
+  border-radius: 18px;
+  animation: fadeInUp 0.3s ease-out;
+}
+
+.live-bubble.teacher {
+  align-self: flex-start;
+  background: var(--ds-color-surface);
+  border: 1px solid var(--ds-color-border);
+  border-bottom-left-radius: 4px;
+  box-shadow: var(--ds-shadow-sm);
+}
+
+.live-bubble.user {
+  align-self: flex-end;
+  background: var(--ds-color-primary);
+  color: white;
+  border-bottom-right-radius: 4px;
+  box-shadow: var(--ds-shadow-sm);
+}
+
+.live-bubble-text {
+  font-size: 1.05rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.live-bubble-sub {
+  font-size: 0.85rem;
+  opacity: 0.75;
+  font-style: italic;
+  margin-top: 0.4rem;
+}
+
+/* Actions sous la bulle */
+.live-actions {
+  display: flex;
+  gap: 0.75rem;
+  align-self: flex-start;
+}
+
+.live-btn {
+  border: none;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: transform 0.2s;
+}
+
+.live-btn:active { transform: scale(0.95); }
+
+.live-btn.primary { background: var(--ds-color-primary); color: white; }
+.live-btn.success { background: var(--ds-color-success); color: white; }
+
+/* Options de réponse */
+.live-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-self: stretch;
+}
+
+.live-option-btn {
+  background: var(--ds-color-surface);
+  color: var(--ds-color-text);
+  border: 2px solid var(--ds-color-border);
+  padding: 1rem;
+  border-radius: 14px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+}
+
+.live-option-btn:hover { border-color: var(--ds-color-primary); }
+
+html.low-end-mode .live-badge { animation: none; }

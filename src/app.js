@@ -5364,7 +5364,7 @@ async function renderConversationLive() {
         </div>
 
         <!-- ✅ Avatar SVG animé en haut -->
-        <div id="teacher-avatar-svg-container" style="text-align: center; margin: 2rem 0;">
+       <div id="teacher-avatar-svg-container" style="display: flex; justify-content: center; align-items: center; margin: 1.5rem 0;"></div>
           <!-- Le SVG sera injecté par JavaScript -->
         </div>
 
@@ -5440,8 +5440,10 @@ async function renderConversationLive() {
 
         // Niveau disponible → lancer la conversation
         if (example) {
-          console.log(`[ConversationLive] 🚀 Lancement: niveau ${level}, dialogue ${example}`);
-          router.navigate(`/conversation?dialogue=${example}`);
+          console.log(`[ConversationLive] 🚀 Niveau ${level}, dialogue ${example}`);
+          // ✅ Stocker l'ID puis naviguer sans query string (le routeur hash ne gère pas ?)
+          window.currentConversationId = example;
+          router.navigate('/conversation');
         } else {
           console.log(`[ConversationLive] ⚠️ Niveau ${level} disponible mais pas d'exemple`);
         }
@@ -5460,6 +5462,21 @@ async function renderConversationLive() {
   }
 }
 
+// ✅ Monte l'avatar SVG dans le header live (après chaque rendu)
+async function mountLiveAvatar() {
+  try {
+    if (!window.TeacherAvatarSVGClass) {
+      const module = await import('./ui/components/teacher-avatar-svg.js');
+      window.TeacherAvatarSVGClass = module.TeacherAvatarSVG;
+    }
+    const avatar = new window.TeacherAvatarSVGClass('live-teacher-avatar');
+    avatar.render();
+    window.teacherAvatarSVG = avatar;
+  } catch (e) {
+    console.warn('[Live] Avatar non disponible:', e);
+  }
+}
+
 // ═══════════════════════════════════════════════════════════
 // VUE : CONVERSATION SEMI-LIBRE (Teacher Avatar IA)
 // ═══════════════════════════════════════════════════════════
@@ -5470,7 +5487,8 @@ async function renderConversation() {
 
   // Récupérer l'ID du dialogue depuis l'URL
   const urlParams = new URLSearchParams(window.location.search);
-  const dialogueId = urlParams.get('dialogue') || 'market_01';
+  // ✅ Lire depuis query OU variable globale OU défaut
+  const dialogueId = urlParams.get('dialogue') || window.currentConversationId || 'market_01';
 
   try {
     const response = await fetch(`/content/fr/conversations/${dialogueId}.json`);
@@ -5509,20 +5527,30 @@ async function renderConversation() {
 
       if (node.speaker === 'teacher') {
         main.innerHTML = `
-          <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem;">
-            <button id="btn-quit" style="background: transparent; border: none; color: var(--ds-color-text-muted); cursor: pointer; margin-bottom: 1rem;">← Quitter</button>
-            <div style="text-align:center; margin-bottom:1.5rem;">
-              <span style="background:var(--ds-color-primary); color:white; padding:4px 12px; border-radius:20px; font-weight:600; font-size:0.8rem;">💬 ${dialogue.titleFr}</span>
+          <section class="live-container">
+            <div class="live-header">
+              <div class="live-teacher-wrap" id="live-teacher-avatar"></div>
+              <div class="live-teacher-info">
+                <div class="live-teacher-name">Teacher AI <span class="live-badge">● LIVE</span></div>
+                <div class="live-dialogue-title">💬 ${dialogue.titleFr}</div>
+              </div>
+              <button id="btn-quit" class="live-quit" aria-label="Quitter">✕</button>
             </div>
-            <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: 16px; border: 2px solid var(--ds-color-primary); text-align: center;">
-              <div style="font-size: 4rem; margin-bottom: 1rem;">👩‍🏫</div>
-              <p style="font-size: 1.2rem; color: var(--ds-color-text); margin-bottom: 0.5rem; font-weight: 500;">"${node.textFr}"</p>
-              <p style="font-size: 0.95rem; color: var(--ds-color-text-muted); font-style: italic; margin-bottom: 1.5rem;">(${node.textMg})</p>
-              <button id="btn-play" style="background: var(--ds-color-primary); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; margin-bottom: 1rem;">🔊 Mihainoa</button>
-              <div><button id="btn-next" style="background: var(--ds-color-success); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; font-size: 1rem;" disabled>Manaraka →</button></div>
+            <div class="live-chat">
+              <div class="live-bubble teacher">
+                <div class="live-bubble-text">"${node.textFr}"</div>
+                <div class="live-bubble-sub">(${node.textMg})</div>
+              </div>
+              <div class="live-actions">
+                <button id="btn-play" class="live-btn primary">🔊 Mihainoa</button>
+                <button id="btn-next" class="live-btn success" disabled>Manaraka →</button>
+              </div>
             </div>
           </section>
         `;
+        mountLiveAvatar();
+
+  // ... (garde les addEventListener existants pour btn-play, btn-next, btn-quit)
 
         let hasPlayed = false;
                document.getElementById('btn-play').addEventListener('click', () => {
@@ -5569,32 +5597,35 @@ async function renderConversation() {
         if (!attempts[node.id]) attempts[node.id] = 0;
 
         main.innerHTML = `
-          <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem;">
-            <button id="btn-quit" style="background: transparent; border: none; color: var(--ds-color-text-muted); cursor: pointer; margin-bottom: 1rem;">← Quitter</button>
-            <div style="text-align:center; margin-bottom:1.5rem;">
-              <span style="background:var(--ds-color-accent); color:white; padding:4px 12px; border-radius:20px; font-weight:600; font-size:0.8rem;">🎯 À votre tour !</span>
-              ${attempts[node.id] > 0 ? `<div style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--ds-color-accent);">Tentative ${attempts[node.id]} / ${node.maxAttempts}</div>` : ''}
+          <section class="live-container">
+            <div class="live-header">
+              <div class="live-teacher-wrap" id="live-teacher-avatar"></div>
+              <div class="live-teacher-info">
+                <div class="live-teacher-name">Teacher AI <span class="live-badge">● LIVE</span></div>
+                <div class="live-dialogue-title">💬 ${dialogue.titleFr}</div>
+              </div>
+              <button id="btn-quit" class="live-quit" aria-label="Quitter">✕</button>
             </div>
-            <div style="background: var(--ds-color-surface); padding: 2rem; border-radius: 16px; border: 2px solid var(--ds-color-accent); text-align: center;">
-              <div style="font-size: 4rem; margin-bottom: 1rem;">🗣️</div>
-              <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">Que voulez-vous répondre ?</p>
-              <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <div class="live-chat">
+              <div class="live-bubble user">
+                <div class="live-bubble-text">🎯 À votre tour !</div>
+                ${attempts[node.id] > 0 ? `<div class="live-bubble-sub">Tentative ${attempts[node.id]} / ${node.maxAttempts}</div>` : ''}
+              </div>
+              <div class="live-options">
                 ${node.responseOptions.map((opt, idx) => `
-                  <button class="btn-option" data-idx="${idx}" style="
-                    background: var(--ds-color-surface-2); color: var(--ds-color-text);
-                    border: 2px solid var(--ds-color-border); padding: 1rem;
-                    border-radius: 12px; cursor: pointer; text-align: left;
-                    transition: all 0.2s; font-size: 1rem;
-                  ">
+                  <button class="live-option-btn btn-option" data-idx="${idx}">
                     <div style="font-weight: 600;">${idx === 0 ? '🅰️' : '🅱️'} ${opt.textFr}</div>
-                    <div style="font-size: 0.85rem; color: var(--ds-color-text-muted); font-style: italic;">(${opt.textMg})</div>
+                    <div style="font-size: 0.85rem; opacity: 0.7; font-style: italic;">(${opt.textMg})</div>
                   </button>
                 `).join('')}
               </div>
-              <div id="feedback" style="margin-top: 1.5rem; min-height: 80px;"></div>
+              <div id="feedback" style="min-height: 60px;"></div>
             </div>
           </section>
         `;
+        mountLiveAvatar();
+
+  // ... (garde les addEventListener existants pour .btn-option et btn-quit)
 
         document.querySelectorAll('.btn-option').forEach(btn => {
           btn.addEventListener('click', () => {
