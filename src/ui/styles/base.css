@@ -417,69 +417,89 @@ html.slow-network-mode img:not([loading="eager"]) {
   loading: lazy;
 }
 
-//* ═══════════════════════════════════════════════════════════ */
-/* FOOTER MOBILE — Layout horizontal fixe                     */
+/* ═══════════════════════════════════════════════════════════ */
+/* FOOTER MOBILE — FORÇAGE HORIZONTAL (priorité maximale)     */
 /* ═══════════════════════════════════════════════════════════ */
 
-.ds-mobile-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  background: var(--ds-color-surface);
-  border-top: 1px solid var(--ds-color-border);
-  padding: 8px 0;
-  z-index: 100;
-  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+nav.ds-mobile-nav {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-around !important;
+  align-items: center !important;
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  background: var(--ds-color-surface) !important;
+  border-top: 1px solid var(--ds-color-border) !important;
+  padding: 8px 0 !important;
+  z-index: 100 !important;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08) !important;
+  width: 100% !important;
+  gap: 0 !important;
 }
 
-.ds-mobile-nav-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  padding: 4px 8px;
-  text-decoration: none;
-  color: var(--ds-color-text-muted);
-  flex: 1;
-  min-width: 0;
+nav.ds-mobile-nav .ds-mobile-nav-item {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  padding: 4px 8px !important;
+  text-decoration: none !important;
+  color: var(--ds-color-text-muted) !important;
+  flex: 1 !important;
+  min-width: 0 !important;
+  max-width: 25% !important;
 }
 
-.ds-mobile-nav-item:hover {
-  text-decoration: none;
-  color: var(--ds-color-text-muted);
+nav.ds-mobile-nav .ds-mobile-nav-item:hover {
+  text-decoration: none !important;
+  color: var(--ds-color-text-muted) !important;
 }
 
-.ds-mobile-nav-item.active {
-  color: var(--ds-color-primary);
+nav.ds-mobile-nav .ds-mobile-nav-item.active {
+  color: var(--ds-color-primary) !important;
 }
 
-.ds-mobile-nav-icon {
-  font-size: 1.4rem;
-  line-height: 1;
-  display: block;
+nav.ds-mobile-nav .ds-mobile-nav-icon {
+  font-size: 1.4rem !important;
+  line-height: 1 !important;
+  display: block !important;
 }
 
-.ds-mobile-nav-label {
-  font-size: 0.7rem;
-  font-weight: 600;
-  line-height: 1.2;
-  text-align: center;
-  display: block;
+nav.ds-mobile-nav .ds-mobile-nav-label {
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+  text-align: center !important;
+  display: block !important;
+  white-space: nowrap !important;
 }
 
 /* Teacher AI : animation continue */
-.ds-mobile-nav-item.teacher-ai-nav .ds-mobile-nav-icon {
-  animation: gentleFloat 3s ease-in-out infinite;
+nav.ds-mobile-nav .ds-mobile-nav-item.teacher-ai-nav .ds-mobile-nav-icon {
+  animation: gentleFloat 3s ease-in-out infinite !important;
 }
 
-html.low-end-mode .ds-mobile-nav-item.teacher-ai-nav .ds-mobile-nav-icon {
-  animation: none;
+/* Badge LIVE sur Teacher AI */
+nav.ds-mobile-nav .ds-mobile-nav-item.teacher-ai-nav .ds-mobile-nav-icon::after {
+  content: 'LIVE' !important;
+  position: absolute !important;
+  top: -6px !important;
+  right: -10px !important;
+  background: #ef4444 !important;
+  color: white !important;
+  font-size: 0.5rem !important;
+  font-weight: 700 !important;
+  padding: 2px 4px !important;
+  border-radius: 4px !important;
+  letter-spacing: 0.5px !important;
+  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.4) !important;
+}
+
+html.low-end-mode nav.ds-mobile-nav .ds-mobile-nav-item.teacher-ai-nav .ds-mobile-nav-icon {
+  animation: none !important;
 }
 
 @keyframes gentleFloat {
