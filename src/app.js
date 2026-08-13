@@ -705,8 +705,7 @@ async function renderHome() {
     const existingInstall = document.getElementById('install-app-floating');
     if (existingInstall) existingInstall.remove();
 
-    const installContainer = document.createElement('div');
-    installContainer.innerHTML = installBtnHtml;
+
     document.body.appendChild(installContainer.firstElementChild);
 
   try {
