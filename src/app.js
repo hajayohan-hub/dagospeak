@@ -32,6 +32,17 @@ const teacherAvatar = new TeacherAvatar();
 window.teacherAvatar = teacherAvatar;
 
 // ═══════════════════════════════════════════════════════════
+// HELPER : Lire les réglages utilisateur depuis localStorage
+// ═══════════════════════════════════════════════════════════
+function getSettings() {
+  try {
+    return JSON.parse(localStorage.getItem('dagospeak:settings') || '{}');
+  } catch (e) {
+    return {};
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
 // MODÈLE FREEMIUM : 5 premiers thèmes gratuits, les autres Premium
 // ═══════════════════════════════════════════════════════════
 let levelsConfig = null; // Sera chargé depuis levels.json
@@ -5862,7 +5873,7 @@ function showSettingsModal() {
 function startAppAndShowHome() {
   console.log("[App] 🚀 Démarrage de l'application...");
 
-  // ✅ NOUVEAU : Charger levels.json AU DÉMARRAGE (pas dans renderHome)
+  // Charger levels.json au démarrage
   if (!levelsConfig) {
     fetch('/content/fr/levels.json')
       .then(r => r.json())
@@ -5880,14 +5891,13 @@ function startAppAndShowHome() {
       });
   }
 
-  if (!window.location.hash || window.location.hash === '#' || window.location.hash === '#/') {
-    window.location.hash = '/';
-  }
+  // ✅ CORRECTION : Toujours repartir sur l'accueil, sans condition
+  window.location.hash = '/';
+
+  // ✅ Laisser le routeur gérer le rendu (pas de renderHome() direct)
   router.start();
-updateNavActiveState(); // ✅ Met à jour l'état actif au chargement
+
   setTimeout(() => {
-    renderHome();
-    console.log('[App] ✅ renderHome() exécuté avec succès');
     updateMobileNavActiveState();
   }, 100);
 }
