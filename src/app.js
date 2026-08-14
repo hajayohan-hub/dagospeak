@@ -6144,6 +6144,7 @@ async function renderConversation() {
           }
         });
       }
+    };
 
     renderNode();
 
