@@ -15,19 +15,35 @@ const STATIC_ASSETS = [
   '/assets/teacher-3d.png', '/assets/users-3d.png',
   '/src/ui/styles/tokens.css', '/src/ui/styles/base.css',
   '/content/fr/manifest.json',
+
+  // Vocabulary
   '/content/fr/vocabulary/alphabet1.json', '/content/fr/vocabulary/alphabet2.json',
   '/content/fr/vocabulary/survival.json', '/content/fr/vocabulary/family.json',
   '/content/fr/vocabulary/market.json', '/content/fr/vocabulary/numbers.json',
   '/content/fr/vocabulary/numbers2.json', '/content/fr/vocabulary/colors.json',
   '/content/fr/vocabulary/days.json', '/content/fr/vocabulary/months.json',
   '/content/fr/vocabulary/greetings.json', '/content/fr/vocabulary/body.json',
-  '/content/fr/dictionary/market.json', '/content/fr/conversations/market_01.json',
+  '/content/fr/vocabulary/pronouns_basic.json',
+
+  // Dictionary
+  '/content/fr/dictionary/market.json', '/content/fr/dictionary/family.json',
+  '/content/fr/dictionary/survival.json', '/content/fr/dictionary/numbers.json',
+  '/content/fr/dictionary/colors.json', '/content/fr/dictionary/days.json',
+  '/content/fr/dictionary/months.json', '/content/fr/dictionary/greetings.json',
+  '/content/fr/dictionary/body.json', '/content/fr/dictionary/numbers2.json',
+  '/content/fr/dictionary/alphabet1.json', '/content/fr/dictionary/alphabet2.json',
+  '/content/fr/dictionary/pronouns_basic.json',
+
+  // ✅ TOUS les dialogues Conversation Live
+  '/content/fr/conversations/market_01.json',
+  '/content/fr/conversations/greetings_01.json',
+  '/content/fr/conversations/family_01.json',
+  '/content/fr/conversations/numbers_01.json',
+  '/content/fr/conversations/colors_01.json',
+  '/content/fr/conversations/survival_01.json',
+  '/content/fr/conversations/body_01.json',
+
   '/content/fr/levels.json', '/content/fr/exams.json',
-  '/content/fr/dialogues/survival_dialogue.json', '/content/fr/dialogues/family_dialogue.json',
-  '/content/fr/dialogues/market_dialogue.json', '/content/fr/dialogues/numbers_dialogue.json',
-  '/content/fr/dialogues/numbers2_dialogue.json', '/content/fr/dialogues/colors_dialogue.json',
-  '/content/fr/dialogues/days_dialogue.json', '/content/fr/dialogues/months_dialogue.json',
-  '/content/fr/dialogues/greetings_dialogue.json', '/content/fr/dialogues/body_dialogue.json'
 ];
 
 // ═══════════════════════════════════════════════════════════
