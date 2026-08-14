@@ -6164,7 +6164,6 @@ async function renderConversation() {
                   `;
                 }
               });
-            }
 
         // ✅ Bouton Quitter
         document.getElementById('btn-quit').addEventListener('click', () => {
