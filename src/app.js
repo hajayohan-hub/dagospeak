@@ -6175,13 +6175,14 @@ async function renderConversation() {
       }
     };
 
+
     renderNode();
 
   } catch (e) {
     console.error('[Conversation] ❌ Erreur:', e);
     main.innerHTML = `<p style="color:red; text-align:center;">Erreur : ${e.message}</p>`;
   }
-}
+
 
   // ═══════════════════════════════════════════════════════════
 // SYSTÈME D'ERREURS ÉLÉGANT
