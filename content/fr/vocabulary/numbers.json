@@ -1,18 +1,18 @@
 {
   "id": "numbers",
   "level": "A0",
-  "theme": "Nombres (1-10)",
-  "themeMg": "Ny Isa (1-10)",
+  "theme": "Les Nombres",
+  "themeMg": "Ny Isa",
   "items": [
-    { "id": "n1", "target": "Un", "source": "Iray", "phonetic": "œ̃", "audio": "", "context": "J'ai un chat.", "contextTranslation": "Manana saka iray aho.", "quizType": "mg_to_fr", "tags": ["nombre"], "icon": "1️⃣" },
-    { "id": "n2", "target": "Deux", "source": "Roa", "phonetic": "dø", "audio": "", "context": "Deux mains.", "contextTranslation": "Tànana roa.", "quizType": "mg_to_fr", "tags": ["nombre"], "icon": "2️⃣" },
-    { "id": "n3", "target": "Trois", "source": "Telo", "phonetic": "tʁwa", "audio": "", "context": "Trois livres.", "contextTranslation": "Boky telo.", "quizType": "mg_to_fr", "tags": ["nombre"], "icon": "3️⃣" },
-    { "id": "n4", "target": "Quatre", "source": "Efatra", "phonetic": "katʁ", "audio": "", "context": "Quatre pieds.", "contextTranslation": "Tongotra efatra.", "quizType": "mg_to_fr", "tags": ["nombre"], "icon": "4️⃣" },
-    { "id": "n5", "target": "Cinq", "source": "Dimy", "phonetic": "sɛ̃k", "audio": "", "context": "Cinq doigts.", "contextTranslation": "Rantsan-tànana dimy.", "quizType": "mg_to_fr", "tags": ["nombre"], "icon": "5️⃣" },
-    { "id": "n6", "target": "Six", "source": "Enina", "phonetic": "sis", "audio": "", "context": "Six œufs.", "contextTranslation": "Atody enina.", "quizType": "mg_to_fr", "tags": ["nombre"], "icon": "6️⃣" },
-    { "id": "n7", "target": "Sept", "source": "Fito", "phonetic": "sɛt", "audio": "", "context": "Sept jours.", "contextTranslation": "Andro fito.", "quizType": "mg_to_fr", "tags": ["nombre"], "icon": "7️⃣" },
-    { "id": "n8", "target": "Huit", "source": "Valo", "phonetic": "ɥit", "audio": "", "context": "Huit pattes.", "contextTranslation": "Tongotra valo.", "quizType": "mg_to_fr", "tags": ["nombre"], "icon": "8️⃣" },
-    { "id": "n9", "target": "Neuf", "source": "Sivy", "phonetic": "nœf", "audio": "", "context": "Neuf heures.", "contextTranslation": "Sivy ora.", "quizType": "mg_to_fr", "tags": ["nombre"], "icon": "9️⃣" },
-    { "id": "n10", "target": "Dix", "source": "Folo", "phonetic": "dis", "audio": "", "context": "Dix crayons.", "contextTranslation": "Pensily folo.", "quizType": "mg_to_fr", "tags": ["nombre"], "icon": "" }
+    { "id": "n1", "lexicalId": "numbers_001", "target": "Un", "source": "Iray", "phonetic": "œ̃", "audio": "", "context": "J'ai un livre.", "contextTranslation": "Manana boky iray aho.", "quizType": "mg_to_fr", "tags": ["nombre", "1"], "icon": "1️⃣" },
+    { "id": "n2", "lexicalId": "numbers_002", "target": "Deux", "source": "Roa", "phonetic": "dø", "audio": "", "context": "Deux kilos de riz.", "contextTranslation": "Vary roa Kilaograma.", "quizType": "mg_to_fr", "tags": ["nombre", "2"], "icon": "2️⃣" },
+    { "id": "n3", "lexicalId": "numbers_003", "target": "Trois", "source": "Telo", "phonetic": "tʁwa", "audio": "", "context": "Trois enfants.", "contextTranslation": "Zaza telo.", "quizType": "mg_to_fr", "tags": ["nombre", "3"], "icon": "3️⃣" },
+    { "id": "n4", "lexicalId": "numbers_004", "target": "Quatre", "source": "Efatra", "phonetic": "katʁ", "audio": "", "context": "Quatre chaises.", "contextTranslation": "Seza efatra.", "quizType": "mg_to_fr", "tags": ["nombre", "4"], "icon": "4️⃣" },
+    { "id": "n5", "lexicalId": "numbers_005", "target": "Cinq", "source": "Dimy", "phonetic": "sɛ̃k", "audio": "", "context": "Cinq minutes.", "contextTranslation": "Dimy minitra.", "quizType": "mg_to_fr", "tags": ["nombre", "5"], "icon": "5️⃣" },
+    { "id": "n6", "lexicalId": "numbers_006", "target": "Six", "source": "Enina", "phonetic": "sis", "audio": "", "context": "Six heures.", "contextTranslation": "Enina ora.", "quizType": "mg_to_fr", "tags": ["nombre", "6"], "icon": "6️⃣" },
+    { "id": "n7", "lexicalId": "numbers_007", "target": "Sept", "source": "Fito", "phonetic": "sɛt", "audio": "", "context": "Sept jours.", "contextTranslation": "Fito andro.", "quizType": "mg_to_fr", "tags": ["nombre", "7"], "icon": "7️⃣" },
+    { "id": "n8", "lexicalId": "numbers_008", "target": "Huit", "source": "Valo", "phonetic": "ɥit", "audio": "", "context": "Huit ans.", "contextTranslation": "Valo taona.", "quizType": "mg_to_fr", "tags": ["nombre", "8"], "icon": "8️⃣" },
+    { "id": "n9", "lexicalId": "numbers_009", "target": "Neuf", "source": "Sivy", "phonetic": "nœf", "audio": "", "context": "Neuf mois.", "contextTranslation": "Sivy volana.", "quizType": "mg_to_fr", "tags": ["nombre", "9"], "icon": "9️⃣" },
+    { "id": "n10", "lexicalId": "numbers_010", "target": "Dix", "source": "Folo", "phonetic": "dis", "audio": "", "context": "Dix minutes.", "contextTranslation": "Folo minitra.", "quizType": "mg_to_fr", "tags": ["nombre", "10"], "icon": "🔟" }
   ]
 }

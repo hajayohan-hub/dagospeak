@@ -45,6 +45,11 @@ export class Router {
   }
 
   navigate(path) {
-    window.location.hash = path;
+  const current = window.location.hash.slice(1) || this.#defaultRoute;
+  window.location.hash = path;
+
+  // ✅ Si le hash ne change pas, forcer le re-render manuellement
+  if (current === path) {
+    this.#handleRoute();
   }
 }

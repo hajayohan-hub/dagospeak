@@ -6,7 +6,7 @@
   "titleMg": "Any an-tsena",
   "participants": {
     "A": { "name": "M. Dupont", "avatar": "👨‍🦳", "gender": "male" },
-    "B": { "name": "Lucas", "avatar": "👦🏻", "gender": "female" }
+    "B": { "name": "Lucas", "avatar": "👦🏻", "gender": "boy" }
   },
   "lines": [
     { "speaker": "B", "text": "Bonjour, je voudrais du riz.", "translation": "Manahoana, te hividy vary aho.", "highlight": "riz" },

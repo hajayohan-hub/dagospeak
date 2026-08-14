@@ -15,13 +15,13 @@
       "estimatedDurationMs": 700
     },
     "context": {
-      "exampleFr": "La voiture est rouge.",
-      "exampleMg": "Mena ny fiara.",
-      "situation": "Décrire la couleur d'un objet."
+      "exampleFr": "La rose est rouge.",
+      "exampleMg": "Mena ny raozy.",
+      "situation": "Décrire une couleur."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "eligibleFor": ["exam_a0_a1"],
       "distractors": ["Manga", "Maitso", "Mavo"]
     }
   },
@@ -43,12 +43,12 @@
     "context": {
       "exampleFr": "Le ciel est bleu.",
       "exampleMg": "Manga ny lanitra.",
-      "situation": "Décrire le ciel ou la mer."
+      "situation": "Décrire une couleur."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Mena", "Maitso", "Fotsy"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Mena", "Maitso", "Mavo"]
     }
   },
   {
@@ -68,13 +68,13 @@
     },
     "context": {
       "exampleFr": "L'herbe est verte.",
-      "exampleMg": "Maitso ny ahitra.",
-      "situation": "Décrire la nature."
+      "exampleMg": "Maitso ny bozaka.",
+      "situation": "Décrire une couleur."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Mena", "Manga", "Mainty"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Mena", "Manga", "Fotsy"]
     }
   },
   {
@@ -95,42 +95,16 @@
     "context": {
       "exampleFr": "Le soleil est jaune.",
       "exampleMg": "Mavo ny masoandro.",
-      "situation": "Décrire le soleil ou un fruit."
+      "situation": "Décrire une couleur."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Mena", "Maitso", "Fotsy"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Mena", "Manga", "Mainty"]
     }
   },
   {
     "id": "colors_005",
-    "level": "A0",
-    "category": "colors",
-    "pos": "adjectif",
-    "wordFr": "Noir",
-    "wordMg": "Mainty",
-    "phonetic": "/nwaʁ/",
-    "visual": { "icon": "⚫", "iconClass": "icon-black", "svgState": "neutral" },
-    "audio": {
-      "ttsTextFr": "Noir.",
-      "ttsRate": 0.9,
-      "fallbackMp3": "/assets/audio/fr/colors/noir.mp3",
-      "estimatedDurationMs": 700
-    },
-    "context": {
-      "exampleFr": "La nuit est noire.",
-      "exampleMg": "Mainty ny alina.",
-      "situation": "Décrire l'obscurité ou un objet sombre."
-    },
-    "exam": {
-      "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Fotsy", "Mena", "Manga"]
-    }
-  },
-  {
-    "id": "colors_006",
     "level": "A0",
     "category": "colors",
     "pos": "adjectif",
@@ -147,12 +121,142 @@
     "context": {
       "exampleFr": "La neige est blanche.",
       "exampleMg": "Fotsy ny oram-panala.",
-      "situation": "Décrire la neige ou un objet clair."
+      "situation": "Décrire une couleur."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Mainty", "Mena", "Mavo"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Mainty", "Mena", "Maitso"]
+    }
+  },
+  {
+    "id": "colors_006",
+    "level": "A0",
+    "category": "colors",
+    "pos": "adjectif",
+    "wordFr": "Noir",
+    "wordMg": "Mainty",
+    "phonetic": "/nwaʁ/",
+    "visual": { "icon": "⚫", "iconClass": "icon-black", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Noir.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/colors/noir.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "La nuit est noire.",
+      "exampleMg": "Mainty ny alina.",
+      "situation": "Décrire une couleur."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Fotsy", "Mena", "Manga"]
+    }
+  },
+  {
+    "id": "colors_007",
+    "level": "A0",
+    "category": "colors",
+    "pos": "adjectif",
+    "wordFr": "Orange",
+    "wordMg": "Volomboasary",
+    "phonetic": "/ɔ.ʁɑ̃ʒ/",
+    "visual": { "icon": "🟠", "iconClass": "icon-orange", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Orange.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/colors/orange.mp3",
+      "estimatedDurationMs": 800
+    },
+    "context": {
+      "exampleFr": "J'aime la couleur orange.",
+      "exampleMg": "Tiako ny loko volomboasary.",
+      "situation": "Décrire une couleur."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Mavo", "Mena", "Volomparasy"]
+    }
+  },
+  {
+    "id": "colors_008",
+    "level": "A0",
+    "category": "colors",
+    "pos": "adjectif",
+    "wordFr": "Violet",
+    "wordMg": "Volomparasy",
+    "phonetic": "/vjɔ.lɛ/",
+    "visual": { "icon": "🟣", "iconClass": "icon-purple", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Violet.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/colors/violet.mp3",
+      "estimatedDurationMs": 800
+    },
+    "context": {
+      "exampleFr": "La fleur est violette.",
+      "exampleMg": "Volomparasy ny voninkazo.",
+      "situation": "Décrire une couleur."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Volomboasary", "Mavokely", "Manga"]
+    }
+  },
+  {
+    "id": "colors_009",
+    "level": "A0",
+    "category": "colors",
+    "pos": "adjectif",
+    "wordFr": "Rose",
+    "wordMg": "Mavokely",
+    "phonetic": "/ʁoz/",
+    "visual": { "icon": "🌸", "iconClass": "icon-pink", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Rose.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/colors/rose.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "La fleur est rose.",
+      "exampleMg": "Mavokely ny voninkazo.",
+      "situation": "Décrire une couleur."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Volomparasy", "Mena", "Volomboasary"]
+    }
+  },
+  {
+    "id": "colors_010",
+    "level": "A0",
+    "category": "colors",
+    "pos": "adjectif",
+    "wordFr": "Marron",
+    "wordMg": "Volondavenona",
+    "phonetic": "/ma.ʁɔ̃/",
+    "visual": { "icon": "🟫", "iconClass": "icon-brown", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Marron.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/colors/marron.mp3",
+      "estimatedDurationMs": 800
+    },
+    "context": {
+      "exampleFr": "Le chocolat est marron.",
+      "exampleMg": "Volondavenona ny sôkôla.",
+      "situation": "Décrire une couleur."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Mainty", "Volomboasary", "Mena"]
     }
   }
 ]

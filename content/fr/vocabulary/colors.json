@@ -4,15 +4,15 @@
   "theme": "Les Couleurs",
   "themeMg": "Ny Loko",
   "items": [
-    { "id": "c1", "target": "Rouge", "source": "Mena", "phonetic": "uʒ", "audio": "", "context": "La rose est rouge.", "contextTranslation": "Mena ny raozy.", "quizType": "mg_to_fr", "tags": ["loko"], "icon": "🔴" },
-    { "id": "c2", "target": "Bleu", "source": "Manga", "phonetic": "blø", "audio": "", "context": "Le ciel est bleu.", "contextTranslation": "Manga ny lanitra.", "quizType": "mg_to_fr", "tags": ["loko"], "icon": "🔵" },
-    { "id": "c3", "target": "Vert", "source": "Maitso", "phonetic": "vɛʁ", "audio": "", "context": "L'herbe est verte.", "contextTranslation": "Maitso ny bozaka.", "quizType": "mg_to_fr", "tags": ["loko"], "icon": "🟢" },
-    { "id": "c4", "target": "Jaune", "source": "Mavo", "phonetic": "on", "audio": "", "context": "Le soleil est jaune.", "contextTranslation": "Mavo ny masoandro.", "quizType": "mg_to_fr", "tags": ["loko"], "icon": "🟡" },
-    { "id": "c5", "target": "Blanc", "source": "Fotsy", "phonetic": "blɑ̃", "audio": "", "context": "La neige est blanche.", "contextTranslation": "Fotsy ny oram-panala.", "quizType": "mg_to_fr", "tags": ["loko"], "icon": "⚪" },
-    { "id": "c6", "target": "Noir", "source": "Mainty", "phonetic": "nwaʁ", "audio": "", "context": "La nuit est noire.", "contextTranslation": "Mainty ny alina.", "quizType": "mg_to_fr", "tags": ["loko"], "icon": "⚫" },
-    { "id": "c7", "target": "Orange", "source": "Volomboasary", "phonetic": "ɔ.ʁɑ̃ʒ", "audio": "", "context": "J'aime la couleur orange.", "contextTranslation": "Tiako ny loko volomboasary.", "quizType": "mg_to_fr", "tags": ["loko"], "icon": "🟠" },
-    { "id": "c8", "target": "Violet", "source": "Volomparasy", "phonetic": "vjɔ.l", "audio": "", "context": "La fleur est violette.", "contextTranslation": "Volomparasy ny voninkazo.", "quizType": "mg_to_fr", "tags": ["loko"], "icon": "🟣" },
-    { "id": "c9", "target": "Rose", "source": "Mavokely", "phonetic": "ʁoz", "audio": "", "context": "La fleur est rose.", "contextTranslation": "Mavokely ny voninkazo.", "quizType": "mg_to_fr", "tags": ["loko"], "icon": "🌸" },
-    { "id": "c10", "target": "Marron", "source": "Volondavenona", "phonetic": "ma.ʁɔ̃", "audio": "", "context": "Le chocolat est marron.", "contextTranslation": "Volondavenona ny sôkôla.", "quizType": "mg_to_fr", "tags": ["loko"], "icon": "🟫" }
+    { "id": "c1", "lexicalId": "colors_001", "target": "Rouge", "source": "Mena", "phonetic": "ʁuʒ", "audio": "", "context": "La rose est rouge.", "contextTranslation": "Mena ny raozy.", "quizType": "mg_to_fr", "tags": ["loko"], "icon": "🔴" },
+    { "id": "c2", "lexicalId": "colors_002", "target": "Bleu", "source": "Manga", "phonetic": "blø", "audio": "", "context": "Le ciel est bleu.", "contextTranslation": "Manga ny lanitra.", "quizType": "mg_to_fr", "tags": ["loko"], "icon": "🔵" },
+    { "id": "c3", "lexicalId": "colors_003", "target": "Vert", "source": "Maitso", "phonetic": "vɛʁ", "audio": "", "context": "L'herbe est verte.", "contextTranslation": "Maitso ny bozaka.", "quizType": "mg_to_fr", "tags": ["loko"], "icon": "🟢" },
+    { "id": "c4", "lexicalId": "colors_004", "target": "Jaune", "source": "Mavo", "phonetic": "ʒon", "audio": "", "context": "Le soleil est jaune.", "contextTranslation": "Mavo ny masoandro.", "quizType": "mg_to_fr", "tags": ["loko"], "icon": "🟡" },
+    { "id": "c5", "lexicalId": "colors_005", "target": "Blanc", "source": "Fotsy", "phonetic": "blɑ̃", "audio": "", "context": "La neige est blanche.", "contextTranslation": "Fotsy ny oram-panala.", "quizType": "mg_to_fr", "tags": ["loko"], "icon": "⚪" },
+    { "id": "c6", "lexicalId": "colors_006", "target": "Noir", "source": "Mainty", "phonetic": "nwaʁ", "audio": "", "context": "La nuit est noire.", "contextTranslation": "Mainty ny alina.", "quizType": "mg_to_fr", "tags": ["loko"], "icon": "⚫" },
+    { "id": "c7", "lexicalId": "colors_007", "target": "Orange", "source": "Volomboasary", "phonetic": "ɔ.ʁɑ̃ʒ", "audio": "", "context": "J'aime la couleur orange.", "contextTranslation": "Tiako ny loko volomboasary.", "quizType": "mg_to_fr", "tags": ["loko"], "icon": "🟠" },
+    { "id": "c8", "lexicalId": "colors_008", "target": "Violet", "source": "Volomparasy", "phonetic": "vjɔ.lɛ", "audio": "", "context": "La fleur est violette.", "contextTranslation": "Volomparasy ny voninkazo.", "quizType": "mg_to_fr", "tags": ["loko"], "icon": "🟣" },
+    { "id": "c9", "lexicalId": "colors_009", "target": "Rose", "source": "Mavokely", "phonetic": "ʁoz", "audio": "", "context": "La fleur est rose.", "contextTranslation": "Mavokely ny voninkazo.", "quizType": "mg_to_fr", "tags": ["loko"], "icon": "🌸" },
+    { "id": "c10", "lexicalId": "colors_010", "target": "Marron", "source": "Volondavenona", "phonetic": "ma.ʁɔ̃", "audio": "", "context": "Le chocolat est marron.", "contextTranslation": "Volondavenona ny sôkôla.", "quizType": "mg_to_fr", "tags": ["loko"], "icon": "🟫" }
   ]
 }

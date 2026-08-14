@@ -3,7 +3,7 @@
     "id": "numbers_001",
     "level": "A0",
     "category": "numbers",
-    "pos": "nom",
+    "pos": "nombre",
     "wordFr": "Un",
     "wordMg": "Iray",
     "phonetic": "/œ̃/",
@@ -15,13 +15,13 @@
       "estimatedDurationMs": 600
     },
     "context": {
-      "exampleFr": "J'ai un enfant.",
-      "exampleMg": "Zaza iray no mananako.",
-      "situation": "Compter ou exprimer une quantité simple."
+      "exampleFr": "J'ai un livre.",
+      "exampleMg": "Manana boky iray aho.",
+      "situation": "Compter ou exprimer la quantité 1."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "eligibleFor": ["exam_a0_a1"],
       "distractors": ["Roa", "Telo", "Efatra"]
     }
   },
@@ -29,7 +29,7 @@
     "id": "numbers_002",
     "level": "A0",
     "category": "numbers",
-    "pos": "nom",
+    "pos": "nombre",
     "wordFr": "Deux",
     "wordMg": "Roa",
     "phonetic": "/dø/",
@@ -41,13 +41,13 @@
       "estimatedDurationMs": 600
     },
     "context": {
-      "exampleFr": "J'ai deux frères.",
-      "exampleMg": "Rahalay roa no mananako.",
-      "situation": "Compter les membres de la famille."
+      "exampleFr": "Deux kilos de riz.",
+      "exampleMg": "Vary roa Kilaograma.",
+      "situation": "Compter ou exprimer la quantité 2."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "eligibleFor": ["exam_a0_a1"],
       "distractors": ["Iray", "Telo", "Dimy"]
     }
   },
@@ -55,7 +55,7 @@
     "id": "numbers_003",
     "level": "A0",
     "category": "numbers",
-    "pos": "nom",
+    "pos": "nombre",
     "wordFr": "Trois",
     "wordMg": "Telo",
     "phonetic": "/tʁwa/",
@@ -67,13 +67,13 @@
       "estimatedDurationMs": 600
     },
     "context": {
-      "exampleFr": "Il y a trois bananes.",
-      "exampleMg": "Akondro telo no misy.",
-      "situation": "Compter des objets au marché."
+      "exampleFr": "Trois enfants.",
+      "exampleMg": "Zaza telo.",
+      "situation": "Compter ou exprimer la quantité 3."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "eligibleFor": ["exam_a0_a1"],
       "distractors": ["Roa", "Efatra", "Enina"]
     }
   },
@@ -81,7 +81,7 @@
     "id": "numbers_004",
     "level": "A0",
     "category": "numbers",
-    "pos": "nom",
+    "pos": "nombre",
     "wordFr": "Quatre",
     "wordMg": "Efatra",
     "phonetic": "/katʁ/",
@@ -93,21 +93,21 @@
       "estimatedDurationMs": 700
     },
     "context": {
-      "exampleFr": "Il est quatre heures.",
-      "exampleMg": "Efatra ora.",
-      "situation": "Indiquer l'heure."
+      "exampleFr": "Quatre chaises.",
+      "exampleMg": "Seza efatra.",
+      "situation": "Compter ou exprimer la quantité 4."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Telo", "Dimy", "Enina"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Telo", "Dimy", "Fito"]
     }
   },
   {
     "id": "numbers_005",
     "level": "A0",
     "category": "numbers",
-    "pos": "nom",
+    "pos": "nombre",
     "wordFr": "Cinq",
     "wordMg": "Dimy",
     "phonetic": "/sɛ̃k/",
@@ -119,21 +119,21 @@
       "estimatedDurationMs": 600
     },
     "context": {
-      "exampleFr": "Cela coûte cinq cents Ariary.",
-      "exampleMg": "Dimy hatoa Ariary ny vidiny.",
-      "situation": "Exprimer un prix au marché."
+      "exampleFr": "Cinq minutes.",
+      "exampleMg": "Dimy minitra.",
+      "situation": "Compter ou exprimer la quantité 5."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Efatra", "Enina", "Iray"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Efatra", "Enina", "Valo"]
     }
   },
   {
     "id": "numbers_006",
     "level": "A0",
     "category": "numbers",
-    "pos": "nom",
+    "pos": "nombre",
     "wordFr": "Six",
     "wordMg": "Enina",
     "phonetic": "/sis/",
@@ -145,14 +145,118 @@
       "estimatedDurationMs": 600
     },
     "context": {
-      "exampleFr": "J'ai six ans.",
-      "exampleMg": "Enina taona aho.",
-      "situation": "Exprimer son âge."
+      "exampleFr": "Six heures.",
+      "exampleMg": "Enina ora.",
+      "situation": "Compter ou exprimer la quantité 6."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Dimy", "Telo", "Roa"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Dimy", "Fito", "Sivy"]
+    }
+  },
+  {
+    "id": "numbers_007",
+    "level": "A0",
+    "category": "numbers",
+    "pos": "nombre",
+    "wordFr": "Sept",
+    "wordMg": "Fito",
+    "phonetic": "/sɛt/",
+    "visual": { "icon": "7️⃣", "iconClass": "icon-seven", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Sept.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/numbers/sept.mp3",
+      "estimatedDurationMs": 600
+    },
+    "context": {
+      "exampleFr": "Sept jours.",
+      "exampleMg": "Fito andro.",
+      "situation": "Compter ou exprimer la quantité 7."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Enina", "Valo", "Folo"]
+    }
+  },
+  {
+    "id": "numbers_008",
+    "level": "A0",
+    "category": "numbers",
+    "pos": "nombre",
+    "wordFr": "Huit",
+    "wordMg": "Valo",
+    "phonetic": "/ɥit/",
+    "visual": { "icon": "8️⃣", "iconClass": "icon-eight", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Huit.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/numbers/huit.mp3",
+      "estimatedDurationMs": 600
+    },
+    "context": {
+      "exampleFr": "Huit ans.",
+      "exampleMg": "Valo taona.",
+      "situation": "Compter ou exprimer la quantité 8."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Fito", "Sivy", "Folo"]
+    }
+  },
+  {
+    "id": "numbers_009",
+    "level": "A0",
+    "category": "numbers",
+    "pos": "nombre",
+    "wordFr": "Neuf",
+    "wordMg": "Sivy",
+    "phonetic": "/nœf/",
+    "visual": { "icon": "9️⃣", "iconClass": "icon-nine", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Neuf.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/numbers/neuf.mp3",
+      "estimatedDurationMs": 600
+    },
+    "context": {
+      "exampleFr": "Neuf mois.",
+      "exampleMg": "Sivy volana.",
+      "situation": "Compter ou exprimer la quantité 9."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Valo", "Folo", "Fito"]
+    }
+  },
+  {
+    "id": "numbers_010",
+    "level": "A0",
+    "category": "numbers",
+    "pos": "nombre",
+    "wordFr": "Dix",
+    "wordMg": "Folo",
+    "phonetic": "/dis/",
+    "visual": { "icon": "🔟", "iconClass": "icon-ten", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Dix.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/numbers/dix.mp3",
+      "estimatedDurationMs": 600
+    },
+    "context": {
+      "exampleFr": "Dix minutes.",
+      "exampleMg": "Folo mminitra.",
+      "situation": "Compter ou exprimer la quantité 10."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Sivy", "Valo", "Fito"]
     }
   }
 ]

@@ -120,7 +120,7 @@
     },
     "context": {
       "exampleFr": "C'est mon fils.",
-      "exampleMg": "Ny zanako lahy ity.",
+      "exampleMg": "Zanako lahy ity.",
       "situation": "Présenter son fils."
     },
     "exam": {
@@ -161,7 +161,7 @@
     "category": "family",
     "pos": "nom",
     "wordFr": "Grand-père",
-    "wordMg": "Dada",
+    "wordMg": "Dada be",
     "phonetic": "/ɡʁɑ̃.pɛʁ/",
     "visual": { "icon": "👴", "iconClass": "icon-grandfather", "svgState": "neutral" },
     "audio": {
@@ -172,7 +172,7 @@
     },
     "context": {
       "exampleFr": "Mon grand-père est sage.",
-      "exampleMg": "Hendry ny dadako.",
+      "exampleMg": "Hendry ny dada beko.",
       "situation": "Décrire son grand-père."
     },
     "exam": {
@@ -187,7 +187,7 @@
     "category": "family",
     "pos": "nom",
     "wordFr": "Grand-mère",
-    "wordMg": "Neny",
+    "wordMg": "Neny be",
     "phonetic": "/ɡʁɑ̃.mɛʁ/",
     "visual": { "icon": "👵", "iconClass": "icon-grandmother", "svgState": "neutral" },
     "audio": {
@@ -198,7 +198,7 @@
     },
     "context": {
       "exampleFr": "Ma grand-mère raconte des histoires.",
-      "exampleMg": "Mitantara angano ny neniko.",
+      "exampleMg": "Mitantara angano ny neny beko.",
       "situation": "Parler de sa grand-mère."
     },
     "exam": {
@@ -224,7 +224,7 @@
     },
     "context": {
       "exampleFr": "Le bébé dort.",
-      "exampleMg": "Matory ny zaza.",
+      "exampleMg": "Matory ilay zazakely.",
       "situation": "Parler d'un bébé."
     },
     "exam": {
