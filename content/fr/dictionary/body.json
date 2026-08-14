@@ -16,12 +16,12 @@
     },
     "context": {
       "exampleFr": "J'ai mal à la tête.",
-      "exampleMg": "Mianjera ny lohako.",
-      "situation": "Exprimer une douleur à la tête (maux de tête)."
+      "exampleMg": "Marary ny lohako.",
+      "situation": "Parler d'une douleur."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "eligibleFor": ["exam_a0_a1"],
       "distractors": ["Tànana", "Tongotra", "Maso"]
     }
   },
@@ -41,14 +41,14 @@
       "estimatedDurationMs": 700
     },
     "context": {
-      "exampleFr": "Lavez-vous les mains.",
-      "exampleMg": "Sasao ny tananao.",
-      "situation": "Instruction d'hygiène (se laver les mains)."
+      "exampleFr": "Lave tes mains.",
+      "exampleMg": "Sasao ny tànanao.",
+      "situation": "Parler d'hygiène."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Loha", "Tongotra", "Vava"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Loha", "Tongotra", "Maso"]
     }
   },
   {
@@ -67,14 +67,14 @@
       "estimatedDurationMs": 700
     },
     "context": {
-      "exampleFr": "Je marche à pied.",
-      "exampleMg": "Mandeha an-tongotra aho.",
-      "situation": "Parler du mode de déplacement."
+      "exampleFr": "J'ai mal aux pieds.",
+      "exampleMg": "Marary ny tongotro.",
+      "situation": "Parler d'une douleur."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Tànana", "Loha", "Sofina"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Loha", "Tànana", "Maso"]
     }
   },
   {
@@ -93,14 +93,14 @@
       "estimatedDurationMs": 700
     },
     "context": {
-      "exampleFr": "Elle a les yeux bleus.",
-      "exampleMg": "Manga ny masony.",
-      "situation": "Décrire la couleur des yeux."
+      "exampleFr": "Ferme les yeux.",
+      "exampleMg": "hakipio ny masonao.",
+      "situation": "Donner une instruction."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Vava", "Sofina", "Tànana"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Loha", "Tànana", "Tongotra"]
     }
   },
   {
@@ -120,13 +120,13 @@
     },
     "context": {
       "exampleFr": "Ouvre la bouche.",
-      "exampleMg": "Sokafy ny vavao.",
-      "situation": "Chez le médecin ou le dentiste."
+      "exampleMg": "Sokafy ny vavanao.",
+      "situation": "Donner une instruction."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Maso", "Sofina", "Loha"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Loha", "Tànana", "Maso"]
     }
   },
   {
@@ -142,17 +142,121 @@
       "ttsTextFr": "L'oreille.",
       "ttsRate": 0.9,
       "fallbackMp3": "/assets/audio/fr/body/oreille.mp3",
-      "estimatedDurationMs": 700
+      "estimatedDurationMs": 800
     },
     "context": {
-      "exampleFr": "J'ai mal à l'oreille.",
-      "exampleMg": "Mianjera ny sofiko.",
-      "situation": "Exprimer une douleur à l'oreille."
+      "exampleFr": "J'écoute avec mes oreilles.",
+      "exampleMg": "Mihaino amin'ny sofiko aho.",
+      "situation": "Parler des sens."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Maso", "Vava", "Tongotra"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Loha", "Tànana", "Maso"]
+    }
+  },
+  {
+    "id": "body_007",
+    "level": "A0",
+    "category": "body",
+    "pos": "nom",
+    "wordFr": "Nez",
+    "wordMg": "Orona",
+    "phonetic": "/ne/",
+    "visual": { "icon": "👃", "iconClass": "icon-nose", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Le nez.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/body/nez.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Mon nez est bouché.",
+      "exampleMg": "Voan'ny sery ny oronako.",
+      "situation": "Parler d'un rhume."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Loha", "Tànana", "Maso"]
+    }
+  },
+  {
+    "id": "body_008",
+    "level": "A0",
+    "category": "body",
+    "pos": "nom",
+    "wordFr": "Bras",
+    "wordMg": "Sanda",
+    "phonetic": "/bʁa/",
+    "visual": { "icon": "💪", "iconClass": "icon-arm", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Le bras.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/body/bras.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Lève le bras.",
+      "exampleMg": "Atsangano ny tànana.",
+      "situation": "Donner une instruction."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Loha", "Tànana", "Tongotra"]
+    }
+  },
+  {
+    "id": "body_009",
+    "level": "A0",
+    "category": "body",
+    "pos": "nom",
+    "wordFr": "Jambe",
+    "wordMg": "Tongotra",
+    "phonetic": "/ʒɑ̃b/",
+    "visual": { "icon": "🦵", "iconClass": "icon-leg", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "La jambe.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/body/jambe.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Ma jambe est fatiguée.",
+      "exampleMg": "Reraka ny tongotro.",
+      "situation": "Parler de fatigue."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Loha", "Tànana", "Sanda"]
+    }
+  },
+  {
+    "id": "body_010",
+    "level": "A0",
+    "category": "body",
+    "pos": "nom",
+    "wordFr": "Cœur",
+    "wordMg": "Fo",
+    "phonetic": "/kœʁ/",
+    "visual": { "icon": "❤️", "iconClass": "icon-heart", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Le cœur.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/body/coeur.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Mon cœur bat vite.",
+      "exampleMg": "Midobodoboka aingana ny foko.",
+      "situation": "Parler d'émotions."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Loha", "Tànana", "Maso"]
     }
   }
 ]

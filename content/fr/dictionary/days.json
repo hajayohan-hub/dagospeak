@@ -15,14 +15,14 @@
       "estimatedDurationMs": 700
     },
     "context": {
-      "exampleFr": "Aujourd'hui, c'est lundi.",
-      "exampleMg": "Androany dia alatsinainy.",
-      "situation": "Indiquer le jour de la semaine."
+      "exampleFr": "Le lundi, je vais à l'école.",
+      "exampleMg": "Ny alatsinainy, mandeha an-tsekoly aho.",
+      "situation": "Parler de la routine."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Talata", "Alarobia", "Zoma"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Talata", "Alarobia", "Alakamisy"]
     }
   },
   {
@@ -41,14 +41,14 @@
       "estimatedDurationMs": 700
     },
     "context": {
-      "exampleFr": "Je travaille le mardi.",
-      "exampleMg": "Miasa ny talata aho.",
-      "situation": "Parler de ses activités hebdomadaires."
+      "exampleFr": "Mardi, c'est le jour du marché.",
+      "exampleMg": "Talata, andron'ny tsena.",
+      "situation": "Parler des activités."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Alatsinainy", "Alakamisy", "Asabotsy"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Alatsinainy", "Alarobia", "Alakamisy"]
     }
   },
   {
@@ -58,7 +58,7 @@
     "pos": "nom",
     "wordFr": "Mercredi",
     "wordMg": "Alarobia",
-    "phonetic": "/mɛʁ.kʁɛd/",
+    "phonetic": "/mɛʁ.kə.di/",
     "visual": { "icon": "📅", "iconClass": "icon-wednesday", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "Mercredi.",
@@ -67,14 +67,14 @@
       "estimatedDurationMs": 800
     },
     "context": {
-      "exampleFr": "Les enfants vont à l'école le mercredi.",
-      "exampleMg": "Mianatra ny alarobia ny ankizy.",
-      "situation": "Parler des activités des enfants."
+      "exampleFr": "Mercredi, les enfants jouent.",
+      "exampleMg": "Alarobia, milalao ny ankizy.",
+      "situation": "Parler des activités."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Talata", "Zoma", "Alahady"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Alatsinainy", "Talata", "Alakamisy"]
     }
   },
   {
@@ -93,14 +93,14 @@
       "estimatedDurationMs": 700
     },
     "context": {
-      "exampleFr": "Le marché est ouvert le jeudi.",
-      "exampleMg": "Misokatra ny tsena ny alakamisy.",
-      "situation": "Parler des jours de marché."
+      "exampleFr": "Jeudi, nous avons cours de français.",
+      "exampleMg": "Alakamisy, mianatra frantsay isika.",
+      "situation": "Parler de l'école."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Alatsinainy", "Alarobia", "Asabotsy"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Alatsinainy", "Talata", "Alarobia"]
     }
   },
   {
@@ -110,7 +110,7 @@
     "pos": "nom",
     "wordFr": "Vendredi",
     "wordMg": "Zoma",
-    "phonetic": "/vɑ̃d.ʁɛd/",
+    "phonetic": "/vɑ̃.dʁə.di/",
     "visual": { "icon": "📅", "iconClass": "icon-friday", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "Vendredi.",
@@ -119,14 +119,14 @@
       "estimatedDurationMs": 800
     },
     "context": {
-      "exampleFr": "Vendredi, c'est le jour de la prière.",
-      "exampleMg": "Zoma, andron'ny vavaka.",
-      "situation": "Parler des traditions religieuses."
+      "exampleFr": "Vendredi, c'est la fin de semaine.",
+      "exampleMg": "Zoma, faran'ny herinandro.",
+      "situation": "Parler de la semaine."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Talata", "Alakamisy", "Alahady"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Alatsinainy", "Talata", "Alarobia"]
     }
   },
   {
@@ -135,7 +135,7 @@
     "category": "days",
     "pos": "nom",
     "wordFr": "Samedi",
-    "wordMg": "Asabotsy",
+    "wordMg": "Sabotsy",
     "phonetic": "/sam.di/",
     "visual": { "icon": "📅", "iconClass": "icon-saturday", "svgState": "neutral" },
     "audio": {
@@ -145,14 +145,14 @@
       "estimatedDurationMs": 700
     },
     "context": {
-      "exampleFr": "Je me repose le samedi.",
-      "exampleMg": "Miala sasatra ny asabotsy aho.",
-      "situation": "Parler du week-end."
+      "exampleFr": "Samedi, je me repose.",
+      "exampleMg": "Sabotsy, miala sasatra aho.",
+      "situation": "Parler du repos."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Alatsinainy", "Zoma", "Alahady"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Alatsinainy", "Talata", "Alarobia"]
     }
   },
   {
@@ -163,7 +163,7 @@
     "wordFr": "Dimanche",
     "wordMg": "Alahady",
     "phonetic": "/di.mɑ̃ʃ/",
-    "visual": { "icon": "📅", "iconClass": "icon-sunday", "svgState": "happy" },
+    "visual": { "icon": "📅", "iconClass": "icon-sunday", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "Dimanche.",
       "ttsRate": 0.9,
@@ -171,14 +171,14 @@
       "estimatedDurationMs": 800
     },
     "context": {
-      "exampleFr": "Dimanche, je vais à l'église.",
-      "exampleMg": "Alahady, mandeha any am-piangonana aho.",
-      "situation": "Parler des activités du dimanche."
+      "exampleFr": "Dimanche, on va à l'église.",
+      "exampleMg": "Alahady, mandeha am-piangonana isika.",
+      "situation": "Parler des traditions."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Talata", "Alakamisy", "Asabotsy"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Alatsinainy", "Talata", "Alarobia"]
     }
   }
 ]

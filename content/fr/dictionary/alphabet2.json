@@ -2,189 +2,189 @@
   {
     "id": "alphabet2_001",
     "level": "A0",
-    "category": "alphabet2",
+    "category": "alphabet",
     "pos": "lettre",
     "wordFr": "N",
-    "wordMg": "Èn",
+    "wordMg": "N",
     "phonetic": "/ɛn/",
-    "visual": { "icon": "🎄", "iconClass": "icon-letter-n", "svgState": "neutral" },
+    "visual": { "icon": "☁️", "iconClass": "icon-letter-n", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "N.",
       "ttsRate": 0.8,
-      "fallbackMp3": "/assets/audio/fr/alphabet2/n.mp3",
+      "fallbackMp3": "/assets/audio/fr/alphabet/n.mp3",
       "estimatedDurationMs": 500
     },
     "context": {
-      "exampleFr": "N comme Noël.",
-      "exampleMg": "N ho an'ny Krismasy.",
-      "situation": "Apprendre la lettre N avec un mot associé."
+      "exampleFr": "Nuage.",
+      "exampleMg": "Rahona.",
+      "situation": "Apprendre la lettre N."
     },
     "exam": {
-      "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
+      "quizType": "listen_and_identify",
+      "eligibleFor": ["exam_a0_a1"],
       "distractors": ["M", "O", "P"]
     }
   },
   {
     "id": "alphabet2_002",
     "level": "A0",
-    "category": "alphabet2",
+    "category": "alphabet",
     "pos": "lettre",
     "wordFr": "O",
     "wordMg": "O",
     "phonetic": "/o/",
-    "visual": { "icon": "🍊", "iconClass": "icon-letter-o", "svgState": "neutral" },
+    "visual": { "icon": "🐦", "iconClass": "icon-letter-o", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "O.",
       "ttsRate": 0.8,
-      "fallbackMp3": "/assets/audio/fr/alphabet2/o.mp3",
+      "fallbackMp3": "/assets/audio/fr/alphabet/o.mp3",
       "estimatedDurationMs": 500
     },
     "context": {
-      "exampleFr": "O comme Orange.",
-      "exampleMg": "O ho an'ny Voasary.",
-      "situation": "Apprendre la lettre O avec un mot associé."
+      "exampleFr": "Oiseau.",
+      "exampleMg": "Vorona.",
+      "situation": "Apprendre la lettre O."
     },
     "exam": {
-      "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["A", "U", "E"]
+      "quizType": "listen_and_identify",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["M", "N", "P"]
     }
   },
   {
     "id": "alphabet2_003",
     "level": "A0",
-    "category": "alphabet2",
+    "category": "alphabet",
     "pos": "lettre",
     "wordFr": "P",
-    "wordMg": "Pé",
+    "wordMg": "P",
     "phonetic": "/pe/",
     "visual": { "icon": "🍎", "iconClass": "icon-letter-p", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "P.",
       "ttsRate": 0.8,
-      "fallbackMp3": "/assets/audio/fr/alphabet2/p.mp3",
+      "fallbackMp3": "/assets/audio/fr/alphabet/p.mp3",
       "estimatedDurationMs": 500
     },
     "context": {
-      "exampleFr": "P comme Pomme.",
-      "exampleMg": "P ho an'ny Paoma.",
-      "situation": "Apprendre la lettre P avec un mot associé."
+      "exampleFr": "Pomme.",
+      "exampleMg": "Paoma.",
+      "situation": "Apprendre la lettre P."
     },
     "exam": {
-      "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["B", "D", "T"]
+      "quizType": "listen_and_identify",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["M", "N", "O"]
     }
   },
   {
     "id": "alphabet2_004",
     "level": "A0",
-    "category": "alphabet2",
+    "category": "alphabet",
     "pos": "lettre",
     "wordFr": "Q",
-    "wordMg": "Ku",
+    "wordMg": "Q",
     "phonetic": "/ky/",
-    "visual": { "icon": "4️⃣", "iconClass": "icon-letter-q", "svgState": "neutral" },
+    "visual": { "icon": "❓", "iconClass": "icon-letter-q", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "Q.",
       "ttsRate": 0.8,
-      "fallbackMp3": "/assets/audio/fr/alphabet2/q.mp3",
+      "fallbackMp3": "/assets/audio/fr/alphabet/q.mp3",
       "estimatedDurationMs": 500
     },
     "context": {
-      "exampleFr": "Q comme Quatre.",
-      "exampleMg": "Q ho an'ny Efatra.",
-      "situation": "Apprendre la lettre Q avec un mot associé."
+      "exampleFr": "Question.",
+      "exampleMg": "Fanontaniana.",
+      "situation": "Apprendre la lettre Q."
     },
     "exam": {
-      "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["K", "C", "G"]
+      "quizType": "listen_and_identify",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["M", "N", "O"]
     }
   },
   {
     "id": "alphabet2_005",
     "level": "A0",
-    "category": "alphabet2",
+    "category": "alphabet",
     "pos": "lettre",
     "wordFr": "R",
-    "wordMg": "Èr",
+    "wordMg": "R",
     "phonetic": "/ɛʁ/",
-    "visual": { "icon": "🛣️", "iconClass": "icon-letter-r", "svgState": "neutral" },
+    "visual": { "icon": "🏞️", "iconClass": "icon-letter-r", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "R.",
       "ttsRate": 0.8,
-      "fallbackMp3": "/assets/audio/fr/alphabet2/r.mp3",
+      "fallbackMp3": "/assets/audio/fr/alphabet/r.mp3",
       "estimatedDurationMs": 500
     },
     "context": {
-      "exampleFr": "R comme Route.",
-      "exampleMg": "R ho an'ny Lalana.",
-      "situation": "Apprendre la lettre R avec un mot associé."
+      "exampleFr": "Rivière.",
+      "exampleMg": "Ony.",
+      "situation": "Apprendre la lettre R."
     },
     "exam": {
-      "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["L", "N", "T"]
+      "quizType": "listen_and_identify",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["M", "N", "O"]
     }
   },
   {
     "id": "alphabet2_006",
     "level": "A0",
-    "category": "alphabet2",
+    "category": "alphabet",
     "pos": "lettre",
     "wordFr": "S",
-    "wordMg": "Ès",
+    "wordMg": "S",
     "phonetic": "/ɛs/",
     "visual": { "icon": "☀️", "iconClass": "icon-letter-s", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "S.",
       "ttsRate": 0.8,
-      "fallbackMp3": "/assets/audio/fr/alphabet2/s.mp3",
+      "fallbackMp3": "/assets/audio/fr/alphabet/s.mp3",
       "estimatedDurationMs": 500
     },
     "context": {
-      "exampleFr": "S comme Soleil.",
-      "exampleMg": "S ho an'ny Masoandro.",
-      "situation": "Apprendre la lettre S avec un mot associé."
+      "exampleFr": "Soleil.",
+      "exampleMg": "Masoandro.",
+      "situation": "Apprendre la lettre S."
     },
     "exam": {
-      "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["C", "Z", "F"]
+      "quizType": "listen_and_identify",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["M", "N", "O"]
     }
   },
   {
     "id": "alphabet2_007",
     "level": "A0",
-    "category": "alphabet2",
+    "category": "alphabet",
     "pos": "lettre",
     "wordFr": "T",
-    "wordMg": "Té",
+    "wordMg": "T",
     "phonetic": "/te/",
-    "visual": { "icon": "🏠", "iconClass": "icon-letter-t", "svgState": "neutral" },
+    "visual": { "icon": "🐢", "iconClass": "icon-letter-t", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "T.",
       "ttsRate": 0.8,
-      "fallbackMp3": "/assets/audio/fr/alphabet2/t.mp3",
+      "fallbackMp3": "/assets/audio/fr/alphabet/t.mp3",
       "estimatedDurationMs": 500
     },
     "context": {
-      "exampleFr": "T comme Trano (maison en malgache).",
-      "exampleMg": "T ho an'ny Trano.",
-      "situation": "Apprendre la lettre T avec un mot associé."
+      "exampleFr": "Tortue.",
+      "exampleMg": "Sokatra.",
+      "situation": "Apprendre la lettre T."
     },
     "exam": {
-      "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["D", "P", "N"]
+      "quizType": "listen_and_identify",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["M", "N", "O"]
     }
   },
   {
     "id": "alphabet2_008",
     "level": "A0",
-    "category": "alphabet2",
+    "category": "alphabet",
     "pos": "lettre",
     "wordFr": "U",
     "wordMg": "U",
@@ -193,148 +193,148 @@
     "audio": {
       "ttsTextFr": "U.",
       "ttsRate": 0.8,
-      "fallbackMp3": "/assets/audio/fr/alphabet2/u.mp3",
+      "fallbackMp3": "/assets/audio/fr/alphabet/u.mp3",
       "estimatedDurationMs": 500
     },
     "context": {
-      "exampleFr": "U comme Université.",
-      "exampleMg": "U ho an'ny Oniversite.",
-      "situation": "Apprendre la lettre U avec un mot associé."
+      "exampleFr": "Université.",
+      "exampleMg": "Oniversite.",
+      "situation": "Apprendre la lettre U."
     },
     "exam": {
-      "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["O", "I", "Y"]
+      "quizType": "listen_and_identify",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["M", "N", "O"]
     }
   },
   {
     "id": "alphabet2_009",
     "level": "A0",
-    "category": "alphabet2",
+    "category": "alphabet",
     "pos": "lettre",
     "wordFr": "V",
-    "wordMg": "Vé",
+    "wordMg": "V",
     "phonetic": "/ve/",
     "visual": { "icon": "🚗", "iconClass": "icon-letter-v", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "V.",
       "ttsRate": 0.8,
-      "fallbackMp3": "/assets/audio/fr/alphabet2/v.mp3",
+      "fallbackMp3": "/assets/audio/fr/alphabet/v.mp3",
       "estimatedDurationMs": 500
     },
     "context": {
-      "exampleFr": "V comme Voiture.",
-      "exampleMg": "V ho an'ny Fiara.",
-      "situation": "Apprendre la lettre V avec un mot associé."
+      "exampleFr": "Voiture.",
+      "exampleMg": "Fiara.",
+      "situation": "Apprendre la lettre V."
     },
     "exam": {
-      "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["F", "W", "B"]
+      "quizType": "listen_and_identify",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["M", "N", "O"]
     }
   },
   {
     "id": "alphabet2_010",
     "level": "A0",
-    "category": "alphabet2",
+    "category": "alphabet",
     "pos": "lettre",
     "wordFr": "W",
-    "wordMg": "Double-Vé",
-    "phonetic": "/dubləve/",
-    "visual": { "icon": "🌐", "iconClass": "icon-letter-w", "svgState": "neutral" },
+    "wordMg": "W",
+    "phonetic": "/dublave/",
+    "visual": { "icon": "🎉", "iconClass": "icon-letter-w", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "W.",
       "ttsRate": 0.8,
-      "fallbackMp3": "/assets/audio/fr/alphabet2/w.mp3",
-      "estimatedDurationMs": 700
+      "fallbackMp3": "/assets/audio/fr/alphabet/w.mp3",
+      "estimatedDurationMs": 600
     },
     "context": {
-      "exampleFr": "W comme Weekend.",
-      "exampleMg": "W ho an'ny Asabotsy sy Alahady.",
-      "situation": "Apprendre la lettre W avec un mot associé."
+      "exampleFr": "Week-end.",
+      "exampleMg": "Faran'ny herinandro.",
+      "situation": "Apprendre la lettre W."
     },
     "exam": {
-      "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["V", "U", "X"]
+      "quizType": "listen_and_identify",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["M", "N", "O"]
     }
   },
   {
     "id": "alphabet2_011",
     "level": "A0",
-    "category": "alphabet2",
+    "category": "alphabet",
     "pos": "lettre",
     "wordFr": "X",
-    "wordMg": "Iks",
+    "wordMg": "X",
     "phonetic": "/iks/",
     "visual": { "icon": "🎵", "iconClass": "icon-letter-x", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "X.",
       "ttsRate": 0.8,
-      "fallbackMp3": "/assets/audio/fr/alphabet2/x.mp3",
+      "fallbackMp3": "/assets/audio/fr/alphabet/x.mp3",
       "estimatedDurationMs": 500
     },
     "context": {
-      "exampleFr": "X comme Xylophone.",
-      "exampleMg": "X ho an'ny Xylophone.",
-      "situation": "Apprendre la lettre X avec un mot associé."
+      "exampleFr": "Xylophone.",
+      "exampleMg": "Xylophone.",
+      "situation": "Apprendre la lettre X."
     },
     "exam": {
-      "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Z", "S", "K"]
+      "quizType": "listen_and_identify",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["M", "N", "O"]
     }
   },
   {
     "id": "alphabet2_012",
     "level": "A0",
-    "category": "alphabet2",
+    "category": "alphabet",
     "pos": "lettre",
     "wordFr": "Y",
-    "wordMg": "I-grek",
-    "phonetic": "/igʁɛk/",
-    "visual": { "icon": "🥛", "iconClass": "icon-letter-y", "svgState": "neutral" },
+    "wordMg": "Y",
+    "phonetic": "/iɡʁɛk/",
+    "visual": { "icon": "⛵", "iconClass": "icon-letter-y", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "Y.",
       "ttsRate": 0.8,
-      "fallbackMp3": "/assets/audio/fr/alphabet2/y.mp3",
-      "estimatedDurationMs": 600
+      "fallbackMp3": "/assets/audio/fr/alphabet/y.mp3",
+      "estimatedDurationMs": 500
     },
     "context": {
-      "exampleFr": "Y comme Yaourt.",
-      "exampleMg": "Y ho an'ny Yaourt.",
-      "situation": "Apprendre la lettre Y avec un mot associé."
+      "exampleFr": "Yacht.",
+      "exampleMg": "Sambo.",
+      "situation": "Apprendre la lettre Y."
     },
     "exam": {
-      "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["I", "U", "J"]
+      "quizType": "listen_and_identify",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["M", "N", "O"]
     }
   },
   {
     "id": "alphabet2_013",
     "level": "A0",
-    "category": "alphabet2",
+    "category": "alphabet",
     "pos": "lettre",
     "wordFr": "Z",
-    "wordMg": "Zèd",
+    "wordMg": "Z",
     "phonetic": "/zɛd/",
-    "visual": { "icon": "0️⃣", "iconClass": "icon-letter-z", "svgState": "neutral" },
+    "visual": { "icon": "🦓", "iconClass": "icon-letter-z", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "Z.",
       "ttsRate": 0.8,
-      "fallbackMp3": "/assets/audio/fr/alphabet2/z.mp3",
+      "fallbackMp3": "/assets/audio/fr/alphabet/z.mp3",
       "estimatedDurationMs": 500
     },
     "context": {
-      "exampleFr": "Z comme Zéro.",
-      "exampleMg": "Z ho an'ny Aotra.",
-      "situation": "Apprendre la lettre Z avec un mot associé."
+      "exampleFr": "Zèbre.",
+      "exampleMg": "Zebra.",
+      "situation": "Apprendre la lettre Z."
     },
     "exam": {
-      "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["S", "X", "C"]
+      "quizType": "listen_and_identify",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["M", "N", "O"]
     }
   }
 ]

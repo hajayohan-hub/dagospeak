@@ -4,12 +4,12 @@
   "theme": "Les Jours",
   "themeMg": "Ny Andro",
   "items": [
-    { "id": "d1", "target": "Lundi", "source": "Alatsinainy", "phonetic": "lœ̃.di", "audio": "", "context": "Le lundi, je vais à l'école.", "contextTranslation": "Alatsinainy, mandeha an-tsekoly aho.", "quizType": "mg_to_fr", "tags": ["andro"], "icon": "" },
-    { "id": "d2", "target": "Mardi", "source": "Talata", "phonetic": "maʁ.di", "audio": "", "context": "Mardi, c'est le jour du marché.", "contextTranslation": "Talata, andron'ny tsena.", "quizType": "mg_to_fr", "tags": ["andro"], "icon": "📅" },
-    { "id": "d3", "target": "Mercredi", "source": "Alarobia", "phonetic": "mɛʁ.kə.di", "audio": "", "context": "Mercredi, les enfants jouent.", "contextTranslation": "Alarobia, milalao ny ankizy.", "quizType": "mg_to_fr", "tags": ["andro"], "icon": "📅" },
-    { "id": "d4", "target": "Jeudi", "source": "Alakamisy", "phonetic": "ʒø.di", "audio": "", "context": "Jeudi, nous avons cours de français.", "contextTranslation": "Alakamisy, manana kilasy frantsay isika.", "quizType": "mg_to_fr", "tags": ["andro"], "icon": "📅" },
-    { "id": "d5", "target": "Vendredi", "source": "Zoma", "phonetic": "vɑ̃.dʁə.di", "audio": "", "context": "Vendredi, c'est la fin de semaine.", "contextTranslation": "Zoma, faran'ny herinandro.", "quizType": "mg_to_fr", "tags": ["andro"], "icon": "" },
-    { "id": "d6", "target": "Samedi", "source": "Sabotsy", "phonetic": "sam.di", "audio": "", "context": "Samedi, je me repose.", "contextTranslation": "Sabotsy, miala sasatra aho.", "quizType": "mg_to_fr", "tags": ["andro"], "icon": "📅" },
-    { "id": "d7", "target": "Dimanche", "source": "Alahady", "phonetic": "di.mɑ̃ʃ", "audio": "", "context": "Dimanche, on va à l'église.", "contextTranslation": "Alahady, mandeha am-piangonana isika.", "quizType": "mg_to_fr", "tags": ["andro"], "icon": "" }
+    { "id": "d1", "lexicalId": "days_001", "target": "Lundi", "source": "Alatsinainy", "phonetic": "lœ̃.di", "audio": "", "context": "Le lundi, je vais à l'école.", "contextTranslation": "Ny alatsinainy, mandeha an-tsekoly aho.", "quizType": "mg_to_fr", "tags": ["andro"], "icon": "📅" },
+    { "id": "d2", "lexicalId": "days_002", "target": "Mardi", "source": "Talata", "phonetic": "maʁ.di", "audio": "", "context": "Mardi, c'est le jour du marché.", "contextTranslation": "Talata, andron'ny tsena.", "quizType": "mg_to_fr", "tags": ["andro"], "icon": "📅" },
+    { "id": "d3", "lexicalId": "days_003", "target": "Mercredi", "source": "Alarobia", "phonetic": "mɛʁ.kə.di", "audio": "", "context": "Mercredi, les enfants jouent.", "contextTranslation": "Alarobia, milalao ny ankizy.", "quizType": "mg_to_fr", "tags": ["andro"], "icon": "📅" },
+    { "id": "d4", "lexicalId": "days_004", "target": "Jeudi", "source": "Alakamisy", "phonetic": "ʒø.di", "audio": "", "context": "Jeudi, nous avons cours de français.", "contextTranslation": "Alakamisy, mianatra frantsay isika.", "quizType": "mg_to_fr", "tags": ["andro"], "icon": "📅" },
+    { "id": "d5", "lexicalId": "days_005", "target": "Vendredi", "source": "Zoma", "phonetic": "vɑ̃.dʁə.di", "audio": "", "context": "Vendredi, c'est la fin de semaine.", "contextTranslation": "Zoma, faran'ny herinandro.", "quizType": "mg_to_fr", "tags": ["andro"], "icon": "📅" },
+    { "id": "d6", "lexicalId": "days_006", "target": "Samedi", "source": "Sabotsy", "phonetic": "sam.di", "audio": "", "context": "Samedi, je me repose.", "contextTranslation": "Sabotsy, miala sasatra aho.", "quizType": "mg_to_fr", "tags": ["andro"], "icon": "📅" },
+    { "id": "d7", "lexicalId": "days_007", "target": "Dimanche", "source": "Alahady", "phonetic": "di.mɑ̃ʃ", "audio": "", "context": "Dimanche, on va à l'église.", "contextTranslation": "Alahady, mandeha am-piangonana isika.", "quizType": "mg_to_fr", "tags": ["andro"], "icon": "📅" }
   ]
 }
