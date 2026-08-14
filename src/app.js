@@ -5758,21 +5758,69 @@ async function renderConversation() {
       }
 
       if (node.isEnd) {
-        main.innerHTML = `
-          <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem; text-align: center;">
-            <div style="font-size: 5rem; margin-bottom: 1rem;">🎉</div>
-            <h2 style="color: var(--ds-color-success);">Conversation terminée !</h2>
-            <p style="color: var(--ds-color-text); font-size: 1.1rem; margin-bottom: 0.5rem;">${node.textFr}</p>
-            <p style="color: var(--ds-color-text-muted); font-style: italic;">(${node.textMg})</p>
-            <button onclick="location.hash='/themes'" style="
-              margin-top: 2rem; background: var(--ds-color-primary); color: white;
-              border: none; padding: 14px 28px; border-radius: 12px;
-              font-weight: 600; cursor: pointer; font-size: 1rem; width: 100%;
-            ">← Retour aux thèmes</button>
-          </section>
-        `;
-        return;
-      }
+              main.innerHTML = `
+                <section class="live-container">
+                  <div class="live-header">
+                    <button id="btn-back-dialogue" class="live-quit" aria-label="Retour aux dialogues" style="background: transparent; font-size: 1.2rem;">←</button>
+                    <div class="live-teacher-wrap" id="live-teacher-avatar"></div>
+                    <div class="live-teacher-info">
+                      <div class="live-teacher-name">Teacher AI <span class="live-badge">● LIVE</span></div>
+                      <div class="live-dialogue-title">💬 ${dialogue.titleFr}</div>
+                    </div>
+                  </div>
+                  <div class="live-chat" style="text-align: center;">
+                    <div style="font-size: 5rem; margin-bottom: 1rem;">🎉</div>
+                    <h2 style="color: var(--ds-color-success); margin-bottom: 0.5rem;">Conversation terminée !</h2>
+                    <p style="color: var(--ds-color-text); font-size: 1.1rem; margin-bottom: 0.5rem;">${node.textFr}</p>
+                    <p style="color: var(--ds-color-text-muted); font-style: italic;">(${node.textMg})</p>
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 2rem;">
+                      <button id="btn-back-to-dialogues" class="live-btn primary" style="width: 100%; padding: 14px;">
+                        ← Retour aux dialogues
+                      </button>
+                      <button id="btn-retry-dialogue" class="live-btn success" style="width: 100%; padding: 14px;">
+                        🔄 Recommencer ce dialogue
+                      </button>
+                      <button id="btn-home" class="live-btn" style="width: 100%; padding: 14px; background: var(--ds-color-surface-2); color: var(--ds-color-text);">
+                        🏠 Retour à l'accueil
+                      </button>
+                    </div>
+                  </div>
+                </section>
+              `;
+              mountLiveAvatar();
+
+              // ✅ Bouton Retour aux dialogues (Conversation Live)
+              document.getElementById('btn-back-to-dialogues').addEventListener('click', () => {
+                router.navigate('/conversation-live');
+              });
+
+              // ✅ Bouton Recommencer ce dialogue
+              document.getElementById('btn-retry-dialogue').addEventListener('click', () => {
+                currentNodeId = dialogue.nodes[0].id;
+                attempts = {};
+                renderNode();
+              });
+
+              // ✅ Bouton Retour à l'accueil
+              document.getElementById('btn-home').addEventListener('click', () => {
+                router.navigate('/');
+              });
+
+              // ✅ Bouton retour flèche
+              document.getElementById('btn-back-dialogue').addEventListener('click', () => {
+                router.navigate('/conversation-live');
+              });
+
+              // Feedback Teacher Avatar
+              if (window.teacherAvatarSVG) {
+                window.teacherAvatarSVG.setExpression('happy');
+              }
+              if (window.teacherAvatar) {
+                window.teacherAvatar.speakFeedback('Bravo ! Conversation terminée avec succès !', 'success');
+              }
+
+              return;
+            }
 
       if (node.speaker === 'teacher') {
           main.innerHTML = `
