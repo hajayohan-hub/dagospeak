@@ -45,7 +45,7 @@
     {
       "id": "user_mother",
       "speaker": "teacher",
-      "textFr": "Comment s'appelle votre mère ?",
+      "textFr": "Comment s'appelle votre mère {firstName}?",
       "textMg": "Iza no anaran'ny reninao?",
       "audio": {
         "ttsTextFr": "Comment s'appelle votre mère ?",
@@ -96,9 +96,9 @@
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
-        "textFr": "Excellent ! Vous avez une belle famille !",
+        "textFr": "Excellent {firstName} ! Vous avez une belle famille !",
         "textMg": "Tena tsara! Manana fianakaviana tsara ianao!",
-        "audio": { "ttsTextFr": "Excellent ! Vous avez une belle famille !" }
+        "audio": { "ttsTextFr": "Excellent {firstName}! Vous avez une belle famille !" }
       },
       "feedbackOnFail": {
         "textFr": "Non, il faut dire : Oui, j'ai...",
@@ -112,7 +112,7 @@
       "id": "end",
       "isEnd": true,
       "speaker": "teacher",
-      "textFr": "Bravo ! Vous savez parler de votre famille !",
+      "textFr": "Bravo {firstName}! Vous savez parler de votre famille !",
       "textMg": "Arahabaina! Mahay mitantara ny fianakavianao ianao!"
     }
   ]

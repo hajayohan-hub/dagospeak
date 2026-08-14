@@ -30,9 +30,9 @@
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
-        "textFr": "Exact ! Le ciel est bleu. Et l'herbe ?",
+        "textFr": "Exact {firstName}! Le ciel est bleu. Et l'herbe ?",
         "textMg": "Marina! Manga ny lanitra. Ary ny ahi-maitso?",
-        "audio": { "ttsTextFr": "Exact ! Le ciel est bleu. Et l'herbe ?" }
+        "audio": { "ttsTextFr": "Exact {firstName}! Le ciel est bleu. Et l'herbe ?" }
       },
       "feedbackOnFail": {
         "textFr": "Non, le ciel est bleu.",
@@ -70,7 +70,7 @@
       "feedbackOnFail": {
         "textFr": "Non, l'herbe est verte.",
         "textMg": "Tsia, maitso ny ahi-maitso.",
-        "audio": { "ttsTextFr": "Non, l'herbe est verte." }
+        "audio": { "ttsTextFr": "Non {firstName}, l'herbe est verte." }
       },
       "nextNodeOnSuccess": "user_sun",
       "nextNodeOnMaxAttemptsReached": "user_sun"
@@ -96,9 +96,9 @@
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
-        "textFr": "Excellent ! Vous connaissez bien les couleurs !",
+        "textFr": "Excellent {firstName}! Vous connaissez bien les couleurs !",
         "textMg": "Tena tsara! Mahalala tsara ny loko ianao!",
-        "audio": { "ttsTextFr": "Excellent ! Vous connaissez bien les couleurs !" }
+        "audio": { "ttsTextFr": "Excellent {firstName}! Vous connaissez bien les couleurs !" }
       },
       "feedbackOnFail": {
         "textFr": "Non, le soleil est jaune.",
@@ -112,7 +112,7 @@
       "id": "end",
       "isEnd": true,
       "speaker": "teacher",
-      "textFr": "Bravo ! Vous savez décrire les couleurs !",
+      "textFr": "Bravo {firstName}! Vous savez décrire les couleurs !",
       "textMg": "Arahabaina! Mahay mamaritra ny loko ianao!"
     }
   ]

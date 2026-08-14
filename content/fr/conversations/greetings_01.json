@@ -15,7 +15,7 @@
       "textFr": "Bonjour! Vous êtes bien {firstName}, c'est ça ?",
       "textMg": "Manahoana! Ianao tokoa ve i {firstName}?",
       "audio": {
-        "ttsTextFr": "Bonjour {firstName} ! Vous êtes bien {firstName}, c'est ça ?",
+        "ttsTextFr": "Bonjour! Vous êtes bien {firstName}, c'est ça ?",
         "ttsRate": 0.9
       },
       "nextNode": "user_name"
@@ -98,7 +98,7 @@
       "feedbackOnSuccess": {
         "textFr": "Excellent {firstName} ! Antananarivo est une belle ville.",
         "textMg": "Tena tsara! Tanàna tsara i Antananarivo.",
-        "audio": { "ttsTextFr": "Excellent ! Antananarivo est une belle ville." }
+        "audio": { "ttsTextFr": "Excellent {firstName}! Antananarivo est une belle ville." }
       },
       "feedbackOnFail": {
         "textFr": "Non, il faut dire : Je viens de...",

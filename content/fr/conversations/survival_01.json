@@ -30,9 +30,9 @@
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
-        "textFr": "Très bien ! Que voulez-vous demander ?",
+        "textFr": "Très bien {firstName}! Que voulez-vous demander ?",
         "textMg": "Tsara! Inona no tianao hotantaraina?",
-        "audio": { "ttsTextFr": "Très bien ! Que voulez-vous demander ?" }
+        "audio": { "ttsTextFr": "Très bien {firstName}! Que voulez-vous demander ?" }
       },
       "feedbackOnFail": {
         "textFr": "Non, il faut dire : Excusez-moi, aidez-moi.",
@@ -112,7 +112,7 @@
       "id": "end",
       "isEnd": true,
       "speaker": "teacher",
-      "textFr": "Bravo ! Vous savez demander de l'aide en français !",
+      "textFr": "Bravo {firstName}! Vous savez demander de l'aide en français !",
       "textMg": "Arahabaina! Mahay mitady vonjy amin'ny teny frantsay ianao!"
     }
   ]

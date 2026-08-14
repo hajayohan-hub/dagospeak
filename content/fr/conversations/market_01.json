@@ -9,10 +9,10 @@
     {
       "id": "node_1",
       "speaker": "teacher",
-      "textFr": "Bonjour ! Que voulez-vous acheter aujourd'hui ?",
+      "textFr": "Bonjour {firstName}! Que voulez-vous acheter aujourd'hui ?",
       "textMg": "Manahoana ! Inona no tianao hividy androany ?",
       "audio": {
-        "ttsTextFr": "Bonjour ! Que voulez-vous acheter aujourd'hui ?",
+        "ttsTextFr": "Bonjour {firstName}! Que voulez-vous acheter aujourd'hui ?",
         "ttsRate": 0.9,
         "fallbackMp3": "/assets/audio/fr/dialogues/market_01_node1.mp3",
         "estimatedDurationMs": 2500
@@ -42,7 +42,7 @@
         "textMg": "Tena tsara ! Ny akondro dia 500 Ariary.",
         "svgState": "happy",
         "audio": {
-          "ttsTextFr": "Très bien ! La banane coûte 500 Ariary.",
+          "ttsTextFr": "Très bien {firstName}! La banane coûte 500 Ariary.",
           "ttsRate": 0.9,
           "fallbackMp3": "/assets/audio/fr/dialogues/market_01_success.mp3",
           "estimatedDurationMs": 2200

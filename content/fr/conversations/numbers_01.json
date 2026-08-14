@@ -12,10 +12,10 @@
     {
       "id": "start",
       "speaker": "teacher",
-      "textFr": "Bienvenue ! Combien de kilos de riz voulez-vous ?",
+      "textFr": "Bienvenue {firstName}! Combien de kilos de riz voulez-vous ?",
       "textMg": "Tongasoa! Vary firy Kilaograma no tianao?",
       "audio": {
-        "ttsTextFr": "Bienvenue ! Combien de kilos de riz voulez-vous ?",
+        "ttsTextFr": "Bienvenue {firstName}! Combien de kilos de riz voulez-vous ?",
         "ttsRate": 0.9
       },
       "nextNode": "user_quantity"
@@ -35,9 +35,9 @@
         "audio": { "ttsTextFr": "Parfait ! Deux kilos de riz." }
       },
       "feedbackOnFail": {
-        "textFr": "Non, il faut dire : Deux kilos, s'il vous plaît.",
+        "textFr": "Non {firstName}, il faut dire : Deux kilos, s'il vous plaît.",
         "textMg": "Tsia, tokony holazaina hoe: Roa Kilaograma, azafady.",
-        "audio": { "ttsTextFr": "Non, il faut dire : Deux kilos, s'il vous plaît." }
+        "audio": { "ttsTextFr": "Non {firstName}, il faut dire : Deux kilos, s'il vous plaît." }
       },
       "nextNodeOnSuccess": "ask_price",
       "nextNodeOnMaxAttemptsReached": "ask_price"
@@ -68,9 +68,9 @@
         "audio": { "ttsTextFr": "Très bien ! C'est noté." }
       },
       "feedbackOnFail": {
-        "textFr": "Non, il faut dire : Oui, ... aussi. ou Non, merci.",
+        "textFr": "Non {firstName}, il faut dire : Oui, ... aussi. ou Non, merci.",
         "textMg": "Tsia, tokony hovaliana hoe: Eny, ... koa. na Tsia, misaotra.",
-        "audio": { "ttsTextFr": "Non, il faut dire : Oui, ... aussi. ou Non, merci." }
+        "audio": { "ttsTextFr": "Non {firstName}, il faut dire : Oui, ... aussi. ou Non, merci." }
       },
       "nextNodeOnSuccess": "end",
       "nextNodeOnMaxAttemptsReached": "end"

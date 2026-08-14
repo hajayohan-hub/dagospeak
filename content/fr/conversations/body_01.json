@@ -12,10 +12,10 @@
     {
       "id": "start",
       "speaker": "teacher",
-      "textFr": "Bonjour ! Où avez-vous mal ?",
+      "textFr": "Bonjour {firstName}! Où avez-vous mal ?",
       "textMg": "Manahoana! Aiza no marary?",
       "audio": {
-        "ttsTextFr": "Bonjour ! Où avez-vous mal ?",
+        "ttsTextFr": "Bonjour {firstName}! Où avez-vous mal ?",
         "ttsRate": 0.9
       },
       "nextNode": "user_pain"
@@ -45,7 +45,7 @@
     {
       "id": "ask_duration",
       "speaker": "teacher",
-      "textFr": "Depuis quand avez-vous mal ?",
+      "textFr": "Depuis quand avez-vous mal {firstName}?",
       "textMg": "Hatramin'ny oviana no marary ianao?",
       "audio": {
         "ttsTextFr": "Depuis quand avez-vous mal ?",
@@ -68,9 +68,9 @@
         "audio": { "ttsTextFr": "D'accord. Prenez ce médicament." }
       },
       "feedbackOnFail": {
-        "textFr": "Non, il faut dire : Depuis...",
+        "textFr": "Non {firstName}, il faut dire : Depuis...",
         "textMg": "Tsia, tokony holazaina hoe: Hatramin'ny ...",
-        "audio": { "ttsTextFr": "Non, il faut dire : Depuis..." }
+        "audio": { "ttsTextFr": "Non {firstName}, il faut dire : Depuis..." }
       },
       "nextNodeOnSuccess": "user_thanks",
       "nextNodeOnMaxAttemptsReached": "user_thanks"
@@ -101,9 +101,9 @@
         "audio": { "ttsTextFr": "Excellent ! Vous savez parler de votre santé !" }
       },
       "feedbackOnFail": {
-        "textFr": "Non, il faut dire : Merci beaucoup.",
+        "textFr": "Non {firstName}, il faut dire : Merci beaucoup.",
         "textMg": "Tsia, tokony holazaina hoe: Misaotra betsaka.",
-        "audio": { "ttsTextFr": "Non, il faut dire : Merci beaucoup." }
+        "audio": { "ttsTextFr": "Non {firstName}, il faut dire : Merci beaucoup." }
       },
       "nextNodeOnSuccess": "end",
       "nextNodeOnMaxAttemptsReached": "end"
@@ -112,7 +112,7 @@
       "id": "end",
       "isEnd": true,
       "speaker": "teacher",
-      "textFr": "Bravo ! Vous savez parler de votre corps en français !",
+      "textFr": "Bravo {firstName} ! Vous savez parler de votre corps en français !",
       "textMg": "Arahabaina! Mahay mitantara ny momban'ny vatanao amin'ny teny frantsay ianao!"
     }
   ]
