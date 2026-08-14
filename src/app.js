@@ -6011,78 +6011,82 @@ async function renderConversation() {
 
         // ✅ Fonction pour gérer la réponse utilisateur (clic ou STT)
         function handleUserResponse(idx, node, attempts, feedback, isAutoEval = false) {
-          const selected = node.responseOptions[idx];
-          attempts[node.id]++;
+            const selected = node.responseOptions[idx];
+            attempts[node.id]++;
 
-          document.querySelectorAll('.btn-option, .btn-microphone, .btn-auto-eval').forEach(b => b.disabled = true);
+            // ✅ Récupérer le bouton correspondant
+            const clickedBtn = document.querySelector(`.btn-option[data-idx="${idx}"]`);
 
-          if (selected.isCorrect) {
-            btn.style.borderColor = 'var(--ds-color-success)';
+            // Désactiver tous les boutons
+            document.querySelectorAll('.btn-option, .btn-microphone, .btn-auto-eval').forEach(b => b.disabled = true);
 
-            feedback.innerHTML = `
-              <div style="background: var(--ds-color-success-soft, #d1fae5); padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-success);">
-                <div style="font-size: 2rem;">✅</div>
-                <p style="color: var(--ds-color-success); font-weight: 600;">${node.feedbackOnSuccess.textFr}</p>
-                ${isAutoEval ? '<p style="color: var(--ds-color-text-muted); font-size: 0.85rem;">(Auto-évaluation)</p>' : ''}
-                <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${node.feedbackOnSuccess.textMg})</p>
-              </div>
-              <button id="btn-continue" style="margin-top: 1rem; background: var(--ds-color-success); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">Manaraka →</button>
-            `;
+            if (selected.isCorrect) {
+              if (clickedBtn) clickedBtn.style.borderColor = 'var(--ds-color-success)';
 
-            const u = new SpeechSynthesisUtterance(node.feedbackOnSuccess.audio.ttsTextFr);
-            u.lang = 'fr-FR';
-            u.rate = 0.9;
-            u.onstart = () => {
-              if (window.teacherAvatarSVG) {
-                window.teacherAvatarSVG.startSpeaking();
-                window.teacherAvatarSVG.setExpression('happy');
-              }
-            };
-            u.onend = () => {
-              if (window.teacherAvatarSVG) {
-                window.teacherAvatarSVG.stopSpeaking();
-                window.teacherAvatarSVG.setExpression('neutral');
-              }
-            };
-            speechSynthesis.speak(u);
-
-            document.getElementById('btn-continue').addEventListener('click', () => {
-              currentNodeId = node.nextNodeOnSuccess;
-              renderNode();
-            });
-          } else {
-            btn.style.borderColor = 'var(--ds-color-danger, #ef4444)';
-
-            if (attempts[node.id] >= node.maxAttempts) {
-              const correct = node.responseOptions.find(o => o.isCorrect);
               feedback.innerHTML = `
-                <div style="background: #fef3c7; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-accent);">
-                  <div style="font-size: 2rem;">💡</div>
-                  <p>La bonne réponse était : <strong>${correct.textFr}</strong></p>
+                <div style="background: var(--ds-color-success-soft, #d1fae5); padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-success);">
+                  <div style="font-size: 2rem;">✅</div>
+                  <p style="color: var(--ds-color-success); font-weight: 600;">${node.feedbackOnSuccess.textFr}</p>
+                  ${isAutoEval ? '<p style="color: var(--ds-color-text-muted); font-size: 0.85rem;">(Auto-évaluation)</p>' : ''}
+                  <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${node.feedbackOnSuccess.textMg})</p>
                 </div>
-                <button id="btn-continue" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">Manaraka →</button>
+                <button id="btn-continue" style="margin-top: 1rem; background: var(--ds-color-success); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">Manaraka →</button>
               `;
+
+              const u = new SpeechSynthesisUtterance(node.feedbackOnSuccess.audio.ttsTextFr);
+              u.lang = 'fr-FR';
+              u.rate = 0.9;
+              u.onstart = () => {
+                if (window.teacherAvatarSVG) {
+                  window.teacherAvatarSVG.startSpeaking();
+                  window.teacherAvatarSVG.setExpression('happy');
+                }
+              };
+              u.onend = () => {
+                if (window.teacherAvatarSVG) {
+                  window.teacherAvatarSVG.stopSpeaking();
+                  window.teacherAvatarSVG.setExpression('neutral');
+                }
+              };
+              speechSynthesis.speak(u);
+
               document.getElementById('btn-continue').addEventListener('click', () => {
-                currentNodeId = node.nextNodeOnMaxAttemptsReached;
+                currentNodeId = node.nextNodeOnSuccess;
                 renderNode();
               });
             } else {
-              feedback.innerHTML = `
-                <div style="background: #fee2e2; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-danger, #ef4444);">
-                  <div style="font-size: 2rem;">🔄</div>
-                  <p style="color: var(--ds-color-danger); font-weight: 600;">${node.feedbackOnFail.textFr}</p>
-                  <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${node.feedbackOnFail.textMg})</p>
-                </div>
-                <button id="btn-retry" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">🔁 Réessayer</button>
-              `;
+              if (clickedBtn) clickedBtn.style.borderColor = 'var(--ds-color-danger, #ef4444)';
 
-              if (window.teacherAvatarSVG) {
-                window.teacherAvatarSVG.setExpression('encouraging');
+              if (attempts[node.id] >= node.maxAttempts) {
+                const correct = node.responseOptions.find(o => o.isCorrect);
+                feedback.innerHTML = `
+                  <div style="background: #fef3c7; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-accent);">
+                    <div style="font-size: 2rem;">💡</div>
+                    <p>La bonne réponse était : <strong>${correct.textFr}</strong></p>
+                  </div>
+                  <button id="btn-continue" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">Manaraka →</button>
+                `;
+                document.getElementById('btn-continue').addEventListener('click', () => {
+                  currentNodeId = node.nextNodeOnMaxAttemptsReached;
+                  renderNode();
+                });
+              } else {
+                feedback.innerHTML = `
+                  <div style="background: #fee2e2; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-danger, #ef4444);">
+                    <div style="font-size: 2rem;">🔄</div>
+                    <p style="color: var(--ds-color-danger); font-weight: 600;">${node.feedbackOnFail.textFr}</p>
+                    <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${node.feedbackOnFail.textMg})</p>
+                  </div>
+                  <button id="btn-retry" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">🔁 Réessayer</button>
+                `;
+
+                if (window.teacherAvatarSVG) {
+                  window.teacherAvatarSVG.setExpression('encouraging');
+                }
+                document.getElementById('btn-retry').addEventListener('click', renderNode);
               }
-              document.getElementById('btn-retry').addEventListener('click', renderNode);
             }
           }
-        }
 
         // ✅ Fonction pour gérer la réponse STT
         function handleSTTResponse(btn, idx, expected, node, attempts, feedback) {
