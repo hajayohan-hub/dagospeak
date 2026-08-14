@@ -4,25 +4,25 @@
     "level": "A0",
     "category": "market",
     "pos": "nom",
-    "wordFr": "Banane",
-    "wordMg": "Akondro",
-    "phonetic": "/ba.nan/",
-    "visual": { "icon": "🍌", "iconClass": "icon-banana", "svgState": "neutral" },
+    "wordFr": "Marché",
+    "wordMg": "Tsena",
+    "phonetic": "/maʁ.ʃe/",
+    "visual": { "icon": "🏪", "iconClass": "icon-market", "svgState": "neutral" },
     "audio": {
-      "ttsTextFr": "Une banane.",
+      "ttsTextFr": "Le marché.",
       "ttsRate": 0.9,
-      "fallbackMp3": "/assets/audio/fr/market/banane.mp3",
+      "fallbackMp3": "/assets/audio/fr/market/marche.mp3",
       "estimatedDurationMs": 800
     },
     "context": {
-      "exampleFr": "Je veux acheter une banane.",
-      "exampleMg": "Te hividy akondro aho.",
-      "situation": "Au marché, pour demander un fruit."
+      "exampleFr": "Je vais au marché.",
+      "exampleMg": "Handeha any an-tsena aho.",
+      "situation": "Parler du lieu d'achat."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Paoma", "Voankazo", "Hena"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Fivarotana", "Trano", "Fiara"]
     }
   },
   {
@@ -30,103 +30,233 @@
     "level": "A0",
     "category": "market",
     "pos": "nom",
-    "wordFr": "Pomme",
-    "wordMg": "Paoma",
-    "phonetic": "/pɔm/",
-    "visual": { "icon": "🍎", "iconClass": "icon-apple", "svgState": "neutral" },
+    "wordFr": "Prix",
+    "wordMg": "Vidiny",
+    "phonetic": "/pʁi/",
+    "visual": { "icon": "💰", "iconClass": "icon-price", "svgState": "neutral" },
     "audio": {
-      "ttsTextFr": "Une pomme.",
+      "ttsTextFr": "Le prix.",
       "ttsRate": 0.9,
-      "fallbackMp3": "/assets/audio/fr/market/pomme.mp3",
-      "estimatedDurationMs": 800
+      "fallbackMp3": "/assets/audio/fr/market/prix.mp3",
+      "estimatedDurationMs": 700
     },
     "context": {
-      "exampleFr": "La pomme est rouge.",
-      "exampleMg": "Mena ny paoma.",
-      "situation": "Décrire un fruit au marché."
+      "exampleFr": "Quel est le prix ?",
+      "exampleMg": "Ohatrinona ny vidiny?",
+      "situation": "Demander le coût d'un produit."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Akondro", "Voankazo", "Hena"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Vola", "Harena", "Entana"]
     }
   },
   {
     "id": "market_003",
     "level": "A0",
     "category": "market",
-    "pos": "nom",
-    "wordFr": "Légumes",
-    "wordMg": "Legioma",
-    "phonetic": "/le.ɡym/",
-    "visual": { "icon": "🥬", "iconClass": "icon-vegetables", "svgState": "neutral" },
+    "pos": "adjectif",
+    "wordFr": "Cher",
+    "wordMg": "Lafo",
+    "phonetic": "/ʃɛʁ/",
+    "visual": { "icon": "💸", "iconClass": "icon-expensive", "svgState": "neutral" },
     "audio": {
-      "ttsTextFr": "Des légumes.",
+      "ttsTextFr": "C'est cher.",
       "ttsRate": 0.9,
-      "fallbackMp3": "/assets/audio/fr/market/legumes.mp3",
+      "fallbackMp3": "/assets/audio/fr/market/cher.mp3",
       "estimatedDurationMs": 800
     },
     "context": {
-      "exampleFr": "Nous sommes au marché.",
-      "exampleMg": "Ety an-tsena izahay.",
-      "situation": "Phrase d'introduction au marché."
+      "exampleFr": "C'est trop cher.",
+      "exampleMg": "Lafo loatra izany.",
+      "situation": "Exprimer que le prix est élevé."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Voankazo", "Hena", "Akondro"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Mora", "Lehibe", "Tsara"]
     }
   },
   {
     "id": "market_004",
     "level": "A0",
     "category": "market",
-    "pos": "nom",
-    "wordFr": "Viande",
-    "wordMg": "Hena",
-    "phonetic": "/vjɑ̃d/",
-    "visual": { "icon": "🥩", "iconClass": "icon-meat", "svgState": "neutral" },
+    "pos": "adjectif",
+    "wordFr": "Pas cher",
+    "wordMg": "Mora",
+    "phonetic": "/pa ʃɛʁ/",
+    "visual": { "icon": "💵", "iconClass": "icon-cheap", "svgState": "neutral" },
     "audio": {
-      "ttsTextFr": "De la viande.",
+      "ttsTextFr": "Ce n'est pas cher.",
       "ttsRate": 0.9,
-      "fallbackMp3": "/assets/audio/fr/market/viande.mp3",
-      "estimatedDurationMs": 800
+      "fallbackMp3": "/assets/audio/fr/market/pascher.mp3",
+      "estimatedDurationMs": 900
     },
     "context": {
-      "exampleFr": "Je veux acheter de la viande.",
-      "exampleMg": "Te hividy hena aho.",
-      "situation": "Au stand des bouchers."
+      "exampleFr": "C'est pas cher.",
+      "exampleMg": "Mora izany.",
+      "situation": "Exprimer que le prix est bas."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Legioma", "Voankazo", "Paoma"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Lafo", "Lehibe", "Kely"]
     }
   },
   {
     "id": "market_005",
     "level": "A0",
     "category": "market",
-    "pos": "nom",
-    "wordFr": "Fruits",
-    "wordMg": "Voankazo",
-    "phonetic": "/fʁɥi/",
-    "visual": { "icon": "🍇", "iconClass": "icon-fruits", "svgState": "neutral" },
+    "pos": "verbe",
+    "wordFr": "Acheter",
+    "wordMg": "Mividy",
+    "phonetic": "/aʃ.te/",
+    "visual": { "icon": "🛒", "iconClass": "icon-buy", "svgState": "neutral" },
     "audio": {
-      "ttsTextFr": "Des fruits.",
+      "ttsTextFr": "Acheter.",
       "ttsRate": 0.9,
-      "fallbackMp3": "/assets/audio/fr/market/fruits.mp3",
+      "fallbackMp3": "/assets/audio/fr/market/acheter.mp3",
       "estimatedDurationMs": 800
     },
     "context": {
-      "exampleFr": "Les fruits sont frais.",
-      "exampleMg": "Vaovao ny voankazo.",
-      "situation": "Au stand des fruits."
+      "exampleFr": "Je veux acheter du riz.",
+      "exampleMg": "Te ny hividy vary aho.",
+      "situation": "Exprimer l'intention d'achat."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Legioma", "Hena", "Akondro"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Mivarotra", "Manome", "Maka"]
+    }
+  },
+  {
+    "id": "market_006",
+    "level": "A0",
+    "category": "market",
+    "pos": "verbe",
+    "wordFr": "Vendre",
+    "wordMg": "Mivarotra",
+    "phonetic": "/vɑ̃dʁ/",
+    "visual": { "icon": "🏷️", "iconClass": "icon-sell", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Vendre.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/market/vendre.mp3",
+      "estimatedDurationMs": 800
+    },
+    "context": {
+      "exampleFr": "Il vend des légumes.",
+      "exampleMg": "Mivarotra legioma izy.",
+      "situation": "Parler de la vente."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Mividy", "Manome", "Maka"]
+    }
+  },
+  {
+    "id": "market_007",
+    "level": "A0",
+    "category": "market",
+    "pos": "nom",
+    "wordFr": "Argent",
+    "wordMg": "Vola",
+    "phonetic": "/aʁ.ʒɑ̃/",
+    "visual": { "icon": "💰", "iconClass": "icon-money", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "L'argent.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/market/argent.mp3",
+      "estimatedDurationMs": 800
+    },
+    "context": {
+      "exampleFr": "Je n'ai pas d'argent.",
+      "exampleMg": "Tsy manam-bola aho.",
+      "situation": "Parler de l'argent."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Vidiny", "Harena", "Entana"]
+    }
+  },
+  {
+    "id": "market_008",
+    "level": "A0",
+    "category": "market",
+    "pos": "nom",
+    "wordFr": "Kilo",
+    "wordMg": "Kilaograma",
+    "phonetic": "/ki.lo/",
+    "visual": { "icon": "⚖️", "iconClass": "icon-kilo", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Un kilo.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/market/kilo.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Deux kilos de riz.",
+      "exampleMg": "Vary roa Kilaograma.",
+      "situation": "Exprimer une quantité."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Litatra", "Metatra", "Firy"]
+    }
+  },
+  {
+    "id": "market_009",
+    "level": "A0",
+    "category": "market",
+    "pos": "nom",
+    "wordFr": "Riz",
+    "wordMg": "Vary",
+    "phonetic": "/ʁi/",
+    "visual": { "icon": "🍚", "iconClass": "icon-rice", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Le riz.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/market/riz.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Je mange du riz.",
+      "exampleMg": "Mihinana vary aho.",
+      "situation": "Parler de l'aliment de base."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Hena", "Legioma", "Voankazo"]
+    }
+  },
+  {
+    "id": "market_010",
+    "level": "A0",
+    "category": "market",
+    "pos": "nom",
+    "wordFr": "Légume",
+    "wordMg": "Legioma",
+    "phonetic": "/le.ɡym/",
+    "visual": { "icon": "🥬", "iconClass": "icon-vegetable", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Les légumes.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/market/legume.mp3",
+      "estimatedDurationMs": 800
+    },
+    "context": {
+      "exampleFr": "J'achète des légumes.",
+      "exampleMg": "Mividy legioma aho.",
+      "situation": "Parler des légumes."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Vary", "Hena", "Voankazo"]
     }
   }
 ]

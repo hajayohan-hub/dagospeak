@@ -3,156 +3,260 @@
     "id": "survival_001",
     "level": "A0",
     "category": "survival",
-    "pos": "nom",
-    "wordFr": "Eau",
-    "wordMg": "Rano",
-    "phonetic": "/o/",
-    "visual": { "icon": "💧", "iconClass": "icon-water", "svgState": "neutral" },
+    "pos": "expression",
+    "wordFr": "Bonjour",
+    "wordMg": "Manahoana",
+    "phonetic": "/bɔ̃.ʒuʁ/",
+    "visual": { "icon": "👋", "iconClass": "icon-hello", "svgState": "neutral" },
     "audio": {
-      "ttsTextFr": "De l'eau.",
+      "ttsTextFr": "Bonjour.",
       "ttsRate": 0.9,
-      "fallbackMp3": "/assets/audio/fr/survival/eau.mp3",
+      "fallbackMp3": "/assets/audio/fr/survival/bonjour.mp3",
       "estimatedDurationMs": 800
     },
     "context": {
-      "exampleFr": "Je veux boire de l'eau.",
-      "exampleMg": "Te misotro rano aho.",
-      "situation": "Demander de l'eau à boire."
+      "exampleFr": "Bonjour, comment allez-vous ?",
+      "exampleMg": "Manahoana, manao ahoana ianao?",
+      "situation": "Saluer quelqu'un."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Mofo", "Trano", "Vola"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Veloma", "Misaotra", "Azafady"]
     }
   },
   {
     "id": "survival_002",
     "level": "A0",
     "category": "survival",
-    "pos": "nom",
-    "wordFr": "Pain",
-    "wordMg": "Mofo",
-    "phonetic": "/pɛ̃/",
-    "visual": { "icon": "🍞", "iconClass": "icon-bread", "svgState": "neutral" },
+    "pos": "expression",
+    "wordFr": "Merci",
+    "wordMg": "Misaotra",
+    "phonetic": "/mɛʁ.si/",
+    "visual": { "icon": "🙏", "iconClass": "icon-thanks", "svgState": "neutral" },
     "audio": {
-      "ttsTextFr": "Du pain.",
+      "ttsTextFr": "Merci.",
       "ttsRate": 0.9,
-      "fallbackMp3": "/assets/audio/fr/survival/pain.mp3",
-      "estimatedDurationMs": 800
+      "fallbackMp3": "/assets/audio/fr/survival/merci.mp3",
+      "estimatedDurationMs": 700
     },
     "context": {
-      "exampleFr": "Je mange du pain le matin.",
-      "exampleMg": "Mihinana mofo maraina aho.",
-      "situation": "Parler du petit-déjeuner."
+      "exampleFr": "Merci beaucoup.",
+      "exampleMg": "Misaotra betsaka.",
+      "situation": "Exprimer la gratitude."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Rano", "Trano", "Vola"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Azafady", "Veloma", "Eny"]
     }
   },
   {
     "id": "survival_003",
     "level": "A0",
     "category": "survival",
-    "pos": "nom",
-    "wordFr": "Maison",
-    "wordMg": "Trano",
-    "phonetic": "/mɛ.zɔ̃/",
-    "visual": { "icon": "🏠", "iconClass": "icon-house", "svgState": "neutral" },
+    "pos": "expression",
+    "wordFr": "S'il vous plaît",
+    "wordMg": "Azafady",
+    "phonetic": "/sil vu plɛ/",
+    "visual": { "icon": "🤲", "iconClass": "icon-please", "svgState": "neutral" },
     "audio": {
-      "ttsTextFr": "Une maison.",
+      "ttsTextFr": "S'il vous plaît.",
       "ttsRate": 0.9,
-      "fallbackMp3": "/assets/audio/fr/survival/maison.mp3",
-      "estimatedDurationMs": 800
+      "fallbackMp3": "/assets/audio/fr/survival/silvousplait.mp3",
+      "estimatedDurationMs": 900
     },
     "context": {
-      "exampleFr": "Ma maison est grande.",
-      "exampleMg": "Lehibe ny tranoko.",
-      "situation": "Décrire sa maison."
+      "exampleFr": "De l'eau, s'il vous plaît.",
+      "exampleMg": "Rano, azafady.",
+      "situation": "Demander poliment."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Rano", "Mofo", "Lalana"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Misaotra", "Veloma", "Eny"]
     }
   },
   {
     "id": "survival_004",
     "level": "A0",
     "category": "survival",
-    "pos": "nom",
-    "wordFr": "Route",
-    "wordMg": "Lalana",
-    "phonetic": "/ʁut/",
-    "visual": { "icon": "🛣️", "iconClass": "icon-road", "svgState": "neutral" },
+    "pos": "expression",
+    "wordFr": "Excusez-moi",
+    "wordMg": "Azafady",
+    "phonetic": "/ɛk.sky.ze mwa/",
+    "visual": { "icon": "🙇", "iconClass": "icon-excuse", "svgState": "neutral" },
     "audio": {
-      "ttsTextFr": "La route.",
+      "ttsTextFr": "Excusez-moi.",
       "ttsRate": 0.9,
-      "fallbackMp3": "/assets/audio/fr/survival/route.mp3",
-      "estimatedDurationMs": 800
+      "fallbackMp3": "/assets/audio/fr/survival/excusezmoi.mp3",
+      "estimatedDurationMs": 900
     },
     "context": {
-      "exampleFr": "Où est la route ?",
-      "exampleMg": "Aiza ny lalana ?",
-      "situation": "Demander son chemin."
+      "exampleFr": "Excusez-moi, où est la gare ?",
+      "exampleMg": "Azafady, aiza ny gara?",
+      "situation": "Attirer l'attention poliment."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Trano", "Hopitaly", "Vola"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Misaotra", "Veloma", "Tsia"]
     }
   },
   {
     "id": "survival_005",
     "level": "A0",
     "category": "survival",
-    "pos": "nom",
-    "wordFr": "Hôpital",
-    "wordMg": "Hopitaly",
-    "phonetic": "/o.pi.tal/",
-    "visual": { "icon": "🏥", "iconClass": "icon-hospital", "svgState": "neutral" },
+    "pos": "expression",
+    "wordFr": "Au revoir",
+    "wordMg": "Veloma",
+    "phonetic": "/o ʁə.vwaʁ/",
+    "visual": { "icon": "👋", "iconClass": "icon-goodbye", "svgState": "neutral" },
     "audio": {
-      "ttsTextFr": "L'hôpital.",
+      "ttsTextFr": "Au revoir.",
       "ttsRate": 0.9,
-      "fallbackMp3": "/assets/audio/fr/survival/hopital.mp3",
+      "fallbackMp3": "/assets/audio/fr/survival/aurevoir.mp3",
       "estimatedDurationMs": 800
     },
     "context": {
-      "exampleFr": "Je vais à l'hôpital.",
-      "exampleMg": "Mankany amin'ny hopitaly aho.",
-      "situation": "En cas de maladie ou d'accident."
+      "exampleFr": "Au revoir, à demain.",
+      "exampleMg": "Veloma, rahampitso.",
+      "situation": "Prendre congé."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Polisy", "Lalana", "Trano"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Manahoana", "Misaotra", "Eny"]
     }
   },
   {
     "id": "survival_006",
     "level": "A0",
     "category": "survival",
-    "pos": "nom",
-    "wordFr": "Argent",
-    "wordMg": "Vola",
-    "phonetic": "/aʁ.ʒɑ̃/",
-    "visual": { "icon": "💰", "iconClass": "icon-money", "svgState": "neutral" },
+    "pos": "expression",
+    "wordFr": "Oui",
+    "wordMg": "Eny",
+    "phonetic": "/wi/",
+    "visual": { "icon": "✅", "iconClass": "icon-yes", "svgState": "neutral" },
     "audio": {
-      "ttsTextFr": "De l'argent.",
+      "ttsTextFr": "Oui.",
       "ttsRate": 0.9,
-      "fallbackMp3": "/assets/audio/fr/survival/argent.mp3",
-      "estimatedDurationMs": 800
+      "fallbackMp3": "/assets/audio/fr/survival/oui.mp3",
+      "estimatedDurationMs": 600
     },
     "context": {
-      "exampleFr": "Je n'ai pas d'argent.",
-      "exampleMg": "Tsy manam-bola aho.",
-      "situation": "Parler de ses finances."
+      "exampleFr": "Oui, je comprends.",
+      "exampleMg": "Eny, azoko.",
+      "situation": "Confirmer."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Rano", "Mofo", "Trano"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Tsia", "Azafady", "Misaotra"]
+    }
+  },
+  {
+    "id": "survival_007",
+    "level": "A0",
+    "category": "survival",
+    "pos": "expression",
+    "wordFr": "Non",
+    "wordMg": "Tsia",
+    "phonetic": "/nɔ̃/",
+    "visual": { "icon": "❌", "iconClass": "icon-no", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Non.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/survival/non.mp3",
+      "estimatedDurationMs": 600
+    },
+    "context": {
+      "exampleFr": "Non, merci.",
+      "exampleMg": "Tsia, misaotra.",
+      "situation": "Refuser poliment."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Eny", "Azafady", "Misaotra"]
+    }
+  },
+  {
+    "id": "survival_008",
+    "level": "A0",
+    "category": "survival",
+    "pos": "expression",
+    "wordFr": "Je ne comprends pas",
+    "wordMg": "Tsy azoko",
+    "phonetic": "/ʒə nə kɔ̃.pʁɑ̃ pa/",
+    "visual": { "icon": "🤔", "iconClass": "icon-dontunderstand", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Je ne comprends pas.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/survival/jenecomprendspas.mp3",
+      "estimatedDurationMs": 1100
+    },
+    "context": {
+      "exampleFr": "Je ne comprends pas, répétez s'il vous plaît.",
+      "exampleMg": "Tsy azoko, avereno azafady.",
+      "situation": "Demander une répétition."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Azoko", "Tiako", "Tsy tiako"]
+    }
+  },
+  {
+    "id": "survival_009",
+    "level": "A0",
+    "category": "survival",
+    "pos": "expression",
+    "wordFr": "Aidez-moi",
+    "wordMg": "Ampio aho",
+    "phonetic": "/ɛ.de mwa/",
+    "visual": { "icon": "🆘", "iconClass": "icon-help", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Aidez-moi.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/survival/aidezmoi.mp3",
+      "estimatedDurationMs": 900
+    },
+    "context": {
+      "exampleFr": "Aidez-moi, s'il vous plaît.",
+      "exampleMg": "Ampio aho, azafady.",
+      "situation": "Demander de l'aide."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Misaotra", "Veloma", "Tsy maninona"]
+    }
+  },
+  {
+    "id": "survival_010",
+    "level": "A0",
+    "category": "survival",
+    "pos": "expression",
+    "wordFr": "Où est... ?",
+    "wordMg": "Aiza ny...?",
+    "phonetic": "/u ɛ/",
+    "visual": { "icon": "📍", "iconClass": "icon-where", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Où est la gare ?",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/survival/ouest.mp3",
+      "estimatedDurationMs": 900
+    },
+    "context": {
+      "exampleFr": "Où est la gare ?",
+      "exampleMg": "Aiza ny gara?",
+      "situation": "Demander un lieu."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Iza", "Firy", "Manao ahoana"]
     }
   }
 ]

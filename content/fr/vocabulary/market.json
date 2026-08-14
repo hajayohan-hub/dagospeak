@@ -1,18 +1,18 @@
 {
   "id": "market",
   "level": "A0",
-  "theme": "Le Marché",
-  "themeMg": "Ny Tsena",
+  "theme": "Au Marché",
+  "themeMg": "Eny An-tsena",
   "items": [
-    { "id": "m1", "target": "Riz", "source": "Vary", "phonetic": "ʁi", "audio": "", "context": "Je mange du riz.", "contextTranslation": "Mihinana vary aho.", "quizType": "mg_to_fr", "tags": ["nourriture"], "icon": "" },
-    { "id": "m2", "target": "Eau", "source": "Rano", "phonetic": "o", "audio": "", "context": "Je bois de l'eau.", "contextTranslation": "Misotro rano aho.", "quizType": "mg_to_fr", "tags": ["boisson"], "icon": "💧" },
-    { "id": "m3", "target": "Pain", "source": "Mofo", "phonetic": "pɛ̃", "audio": "", "context": "Le pain est chaud.", "contextTranslation": "Mafana ny mofo.", "quizType": "mg_to_fr", "tags": ["nourriture"], "icon": "" },
-    { "id": "m4", "target": "Poisson", "source": "Trondro", "phonetic": "pwa.sɔ̃", "audio": "", "context": "J'aime le poisson.", "contextTranslation": "Tiako ny trondro.", "quizType": "mg_to_fr", "tags": ["nourriture"], "icon": "" },
-    { "id": "m5", "target": "Poulet", "source": "Akoho", "phonetic": "pu.lɛ", "audio": "", "context": "Le poulet est délicieux.", "contextTranslation": "Matsiro ny akoho.", "quizType": "mg_to_fr", "tags": ["nourriture"], "icon": "🍗" },
-    { "id": "m6", "target": "Légumes", "source": "Legioma", "phonetic": "le.ym", "audio": "", "context": "Il faut manger des légumes.", "contextTranslation": "Mila mihinana legioma.", "quizType": "mg_to_fr", "tags": ["nourriture"], "icon": "🥦" },
-    { "id": "m7", "target": "Fruits", "source": "Voankazo", "phonetic": "fʁi", "audio": "", "context": "Les fruits sont sucrés.", "contextTranslation": "Maniry ny voankazo.", "quizType": "mg_to_fr", "tags": ["nourriture"], "icon": "🍎" },
-    { "id": "m8", "target": "Prix", "source": "Vidiny", "phonetic": "pʁi", "audio": "", "context": "Quel est le prix ?", "contextTranslation": "Inona ny vidiny?", "quizType": "mg_to_fr", "tags": ["commerce"], "icon": "🏷️" },
-    { "id": "m9", "target": "Argent", "source": "Vola", "phonetic": "aʁ.ʒɑ̃", "audio": "", "context": "Je n'ai pas d'argent.", "contextTranslation": "Tsy manana vola aho.", "quizType": "mg_to_fr", "tags": ["commerce"], "icon": "💰" },
-    { "id": "m10", "target": "Marché", "source": "Tsena", "phonetic": "maʁ.ʃe", "audio": "", "context": "Je vais au marché.", "contextTranslation": "Mandeha any an-tsena aho.", "quizType": "mg_to_fr", "tags": ["lieu"], "icon": "" }
+    { "id": "m1", "lexicalId": "market_001", "target": "Marché", "source": "Tsena", "phonetic": "maʁ.ʃe", "audio": "", "context": "Je vais au marché.", "contextTranslation": "Handeha any an-tsena aho.", "quizType": "mg_to_fr", "tags": ["marché", "lieu"], "icon": "🏪" },
+    { "id": "m2", "lexicalId": "market_002", "target": "Prix", "source": "Vidiny", "phonetic": "pʁi", "audio": "", "context": "Quel est le prix ?", "contextTranslation": "Ohatrinona ny vidiny?", "quizType": "mg_to_fr", "tags": ["marché", "argent"], "icon": "💰" },
+    { "id": "m3", "lexicalId": "market_003", "target": "Cher", "source": "Lafo", "phonetic": "ʃɛʁ", "audio": "", "context": "C'est trop cher.", "contextTranslation": "Lafo loatra izany.", "quizType": "mg_to_fr", "tags": ["marché", "adjectif"], "icon": "💸" },
+    { "id": "m4", "lexicalId": "market_004", "target": "Pas cher", "source": "Mora", "phonetic": "pa ʃɛʁ", "audio": "", "context": "C'est pas cher.", "contextTranslation": "Mora izany.", "quizType": "mg_to_fr", "tags": ["marché", "adjectif"], "icon": "💵" },
+    { "id": "m5", "lexicalId": "market_005", "target": "Acheter", "source": "Mividy", "phonetic": "aʃ.te", "audio": "", "context": "Je veux acheter du riz.", "contextTranslation": "Te hividy vary aho.", "quizType": "mg_to_fr", "tags": ["marché", "verbe"], "icon": "🛒" },
+    { "id": "m6", "lexicalId": "market_006", "target": "Vendre", "source": "Mivarotra", "phonetic": "vɑ̃dʁ", "audio": "", "context": "Il vend des légumes.", "contextTranslation": "Mivarotra legioma izy.", "quizType": "mg_to_fr", "tags": ["marché", "verbe"], "icon": "🏷️" },
+    { "id": "m7", "lexicalId": "market_007", "target": "Argent", "source": "Vola", "phonetic": "aʁ.ʒɑ̃", "audio": "", "context": "Je n'ai pas d'argent.", "contextTranslation": "Tsy manam-bola aho.", "quizType": "mg_to_fr", "tags": ["marché", "argent"], "icon": "💰" },
+    { "id": "m8", "lexicalId": "market_008", "target": "Kilo", "source": "Kilaograma", "phonetic": "ki.lo", "audio": "", "context": "Deux kilos de riz.", "contextTranslation": "Vary roa Kilaograma.", "quizType": "mg_to_fr", "tags": ["marché", "quantité"], "icon": "⚖️" },
+    { "id": "m9", "lexicalId": "market_009", "target": "Riz", "source": "Vary", "phonetic": "ʁi", "audio": "", "context": "Je mange du riz.", "contextTranslation": "Mihinana vary aho.", "quizType": "mg_to_fr", "tags": ["marché", "nourriture"], "icon": "🍚" },
+    { "id": "m10", "lexicalId": "market_010", "target": "Légume", "source": "Legioma", "phonetic": "le.ɡym", "audio": "", "context": "J'achète des légumes.", "contextTranslation": "Mividy legioma aho.", "quizType": "mg_to_fr", "tags": ["marché", "nourriture"], "icon": "🥬" }
   ]
 }
