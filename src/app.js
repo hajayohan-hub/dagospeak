@@ -5973,6 +5973,8 @@ async function renderConversation() {
             router.navigate('/conversation-live');
           }
         });
+      }
+    };
 
     renderNode();
 
