@@ -2050,9 +2050,14 @@ async function renderAbout() {
 
 
 
-// Fonction helper pour gérer l'upgrade Premium
+// ═══════════════════════════════════════════════════════════
+// VUE : LEÇON - Apprentissage du vocabulaire
+// ═══════════════════════════════════════════════════════════
 async function renderLesson() {
-  main.innerHTML = '<div style="text-align:center; padding:2rem;">Famakiana...</div>';
+  updateNavActiveState();
+  const main = document.getElementById('app');
+  main.innerHTML = getSkeletonLesson();
+  renderProgressHeader();
 
   try {
     const floatActions = document.getElementById('floating-home-actions');
