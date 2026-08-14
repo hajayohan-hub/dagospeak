@@ -5816,7 +5816,7 @@ async function renderConversation() {
                       chatContainer.scrollTop = chatContainer.scrollHeight;
                     }
                   }, 200);
-                };
+                }
                 mountLiveAvatar();
 
               // ✅ Bouton Retour aux dialogues (Conversation Live)
