@@ -12,10 +12,10 @@
     {
       "id": "start",
       "speaker": "teacher",
-      "textFr": "Bonjour {firstName} ! Comment vous appelez-vous ?",
-      "textMg": "Manahoana {firstName}! Iza no anaranao?",
+      "textFr": "Bonjour! Vous êtes bien {firstName}, c'est ça ?",
+      "textMg": "Manahoana! Ianao tokoa ve i {firstName}?",
       "audio": {
-        "ttsTextFr": "Bonjour {firstName} ! Comment vous appelez-vous ?",
+        "ttsTextFr": "Bonjour {firstName} ! Vous êtes bien {firstName}, c'est ça ?",
         "ttsRate": 0.9
       },
       "nextNode": "user_name"
@@ -24,20 +24,20 @@
       "id": "user_name",
       "speaker": "user",
       "responseOptions": [
-        { "textFr": "Je m'appelle Marie.", "textMg": "Marie no anarako.", "isCorrect": true },
-        { "textFr": "Je suis bien.", "textMg": "Tsara aho.", "isCorrect": false },
+        { "textFr": "Oui, je suis {firstName}.", "textMg": "Eny, {firstName} aho.", "isCorrect": true },
+        { "textFr": "Non, je ne suis pas là.", "textMg": "Tsia, tsy ato aho.", "isCorrect": false },
         { "textFr": "Au revoir.", "textMg": "Veloma.", "isCorrect": false }
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
-        "textFr": "Très bien ! Enchanté !",
-        "textMg": "Tsara tokoa! Faly mahafantatra anao!",
-        "audio": { "ttsTextFr": "Très bien ! Enchanté !" }
+        "textFr": "Parfait ! Ravi de vous voir !",
+        "textMg": "Tena tsara! Faly mahita anao!",
+        "audio": { "ttsTextFr": "Parfait ! Ravi de vous voir !" }
       },
       "feedbackOnFail": {
-        "textFr": "Non, il faut dire : Je m'appelle...",
-        "textMg": "Tsia, tokony holazaina hoe: ... no anarako.",
-        "audio": { "ttsTextFr": "Non, il faut dire : Je m'appelle..." }
+        "textFr": "Non, il faut dire : Oui, je suis...",
+        "textMg": "Tsia, tokony holazaina hoe: Eny, ... aho.",
+        "audio": { "ttsTextFr": "Non, il faut dire : Oui, je suis..." }
       },
       "nextNodeOnSuccess": "ask_feeling",
       "nextNodeOnMaxAttemptsReached": "ask_feeling"
@@ -58,8 +58,8 @@
       "speaker": "user",
       "responseOptions": [
         { "textFr": "Ça va bien, merci.", "textMg": "Tsara, misaotra.", "isCorrect": true },
-        { "textFr": "Je m'appelle Marie.", "textMg": "Marie no anarako.", "isCorrect": false },
-        { "textFr": "Je suis malgache.", "textMg": "Malagasy aho.", "isCorrect": false }
+        { "textFr": "Je suis fatigué.", "textMg": "Vizaka aho.", "isCorrect": false },
+        { "textFr": "Au revoir.", "textMg": "Veloma.", "isCorrect": false }
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
@@ -96,7 +96,7 @@
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
-        "textFr": "Excellent ! Antananarivo est une belle ville.",
+        "textFr": "Excellent {firstName} ! Antananarivo est une belle ville.",
         "textMg": "Tena tsara! Tanàna tsara i Antananarivo.",
         "audio": { "ttsTextFr": "Excellent ! Antananarivo est une belle ville." }
       },
@@ -113,7 +113,10 @@
       "isEnd": true,
       "speaker": "teacher",
       "textFr": "Bravo {firstName} ! Vous savez vous présenter en français !",
-      "textMg": "Arahaba {firstName}! Mahay mampahafantatra tena amin'ny teny frantsay ianao!"
+      "textMg": "Arahabaina {firstName}! Mahay mampahafantatra tena amin'ny teny frantsay ianao!",
+      "audio": {
+        "ttsTextFr": "Bravo {firstName} ! Vous savez vous présenter en français !"
+      }
     }
   ]
 }
