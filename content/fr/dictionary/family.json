@@ -15,9 +15,9 @@
       "estimatedDurationMs": 800
     },
     "context": {
-      "exampleFr": "Mon père est gentil.",
-      "exampleMg": "Tsara ny raiko.",
-      "situation": "Présenter son père."
+      "exampleFr": "Mon père travaille.",
+      "exampleMg": "Miasa ny raiko.",
+      "situation": "Parler du travail de son père."
     },
     "exam": {
       "quizType": "mg_to_fr",
@@ -41,9 +41,9 @@
       "estimatedDurationMs": 800
     },
     "context": {
-      "exampleFr": "Ma mère cuisine bien.",
-      "exampleMg": "Mahay mandahatra sakafo ny renyko.",
-      "situation": "Parler des tâches de la mère."
+      "exampleFr": "Ma mère cuisine.",
+      "exampleMg": "Mahandro sakafo ny reny.",
+      "situation": "Parler des activités de sa mère."
     },
     "exam": {
       "quizType": "mg_to_fr",
@@ -57,7 +57,7 @@
     "category": "family",
     "pos": "nom",
     "wordFr": "Frère",
-    "wordMg": "Rahalay",
+    "wordMg": "Anadahy",
     "phonetic": "/fʁɛʁ/",
     "visual": { "icon": "👦", "iconClass": "icon-brother", "svgState": "neutral" },
     "audio": {
@@ -68,13 +68,13 @@
     },
     "context": {
       "exampleFr": "Mon frère est grand.",
-      "exampleMg": "Lehibe ny rahalahiko.",
+      "exampleMg": "Lehibe ny anadahiko.",
       "situation": "Décrire son frère."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Ray", "Reny", "Zaza"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Anabavy", "Ray", "Zaza"]
     }
   },
   {
@@ -83,7 +83,7 @@
     "category": "family",
     "pos": "nom",
     "wordFr": "Sœur",
-    "wordMg": "Rahavavy",
+    "wordMg": "Anabavy",
     "phonetic": "/sœʁ/",
     "visual": { "icon": "👧", "iconClass": "icon-sister", "svgState": "neutral" },
     "audio": {
@@ -93,14 +93,14 @@
       "estimatedDurationMs": 800
     },
     "context": {
-      "exampleFr": "Ma sœur est petite.",
-      "exampleMg": "Kely ny rahavaviko.",
+      "exampleFr": "Ma sœur est gentille.",
+      "exampleMg": "Tsara fanahy ny anabaviko.",
       "situation": "Décrire sa sœur."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Rahalay", "Reny", "Zaza"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Anadahy", "Reny", "Zaza"]
     }
   },
   {
@@ -108,25 +108,25 @@
     "level": "A0",
     "category": "family",
     "pos": "nom",
-    "wordFr": "Famille",
-    "wordMg": "Fianakaviana",
-    "phonetic": "/fa.mij/",
-    "visual": { "icon": "👨‍👩‍👧‍👦", "iconClass": "icon-family", "svgState": "happy" },
+    "wordFr": "Fils",
+    "wordMg": "Zanakalahy",
+    "phonetic": "/fis/",
+    "visual": { "icon": "👶", "iconClass": "icon-son", "svgState": "neutral" },
     "audio": {
-      "ttsTextFr": "La famille.",
+      "ttsTextFr": "Le fils.",
       "ttsRate": 0.9,
-      "fallbackMp3": "/assets/audio/fr/family/famille.mp3",
+      "fallbackMp3": "/assets/audio/fr/family/fils.mp3",
       "estimatedDurationMs": 800
     },
     "context": {
-      "exampleFr": "J'aime ma famille.",
-      "exampleMg": "Tiako ny fianakaviako.",
-      "situation": "Exprimer son amour pour sa famille."
+      "exampleFr": "C'est mon fils.",
+      "exampleMg": "Ny zanako lahy ity.",
+      "situation": "Présenter son fils."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Ray", "Reny", "Zaza"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Zanakavavy", "Ray", "Reny"]
     }
   },
   {
@@ -134,25 +134,129 @@
     "level": "A0",
     "category": "family",
     "pos": "nom",
-    "wordFr": "Enfant",
-    "wordMg": "Zaza",
-    "phonetic": "/ɑ̃.fɑ̃/",
-    "visual": { "icon": "👶", "iconClass": "icon-child", "svgState": "neutral" },
+    "wordFr": "Fille",
+    "wordMg": "Zanakavavy",
+    "phonetic": "/fij/",
+    "visual": { "icon": "👶", "iconClass": "icon-daughter", "svgState": "neutral" },
     "audio": {
-      "ttsTextFr": "L'enfant.",
+      "ttsTextFr": "La fille.",
       "ttsRate": 0.9,
-      "fallbackMp3": "/assets/audio/fr/family/enfant.mp3",
+      "fallbackMp3": "/assets/audio/fr/family/fille.mp3",
       "estimatedDurationMs": 800
     },
     "context": {
-      "exampleFr": "L'enfant joue.",
-      "exampleMg": "Milalao ny zaza.",
-      "situation": "Décrire une activité d'un enfant."
+      "exampleFr": "Ma fille joue.",
+      "exampleMg": "Milalao ny zanako vavy.",
+      "situation": "Parler de sa fille."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Zanakalahy", "Anabavy", "Reny"]
+    }
+  },
+  {
+    "id": "family_007",
+    "level": "A0",
+    "category": "family",
+    "pos": "nom",
+    "wordFr": "Grand-père",
+    "wordMg": "Dada",
+    "phonetic": "/ɡʁɑ̃.pɛʁ/",
+    "visual": { "icon": "👴", "iconClass": "icon-grandfather", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Le grand-père.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/family/grandpere.mp3",
+      "estimatedDurationMs": 900
+    },
+    "context": {
+      "exampleFr": "Mon grand-père est sage.",
+      "exampleMg": "Hendry ny dadako.",
+      "situation": "Décrire son grand-père."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Neny", "Ray", "Anadahy"]
+    }
+  },
+  {
+    "id": "family_008",
+    "level": "A0",
+    "category": "family",
+    "pos": "nom",
+    "wordFr": "Grand-mère",
+    "wordMg": "Neny",
+    "phonetic": "/ɡʁɑ̃.mɛʁ/",
+    "visual": { "icon": "👵", "iconClass": "icon-grandmother", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "La grand-mère.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/family/grandmere.mp3",
+      "estimatedDurationMs": 900
+    },
+    "context": {
+      "exampleFr": "Ma grand-mère raconte des histoires.",
+      "exampleMg": "Mitantara angano ny neniko.",
+      "situation": "Parler de sa grand-mère."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Dada", "Reny", "Anabavy"]
+    }
+  },
+  {
+    "id": "family_009",
+    "level": "A0",
+    "category": "family",
+    "pos": "nom",
+    "wordFr": "Bébé",
+    "wordMg": "Zaza",
+    "phonetic": "/be.be/",
+    "visual": { "icon": "🍼", "iconClass": "icon-baby", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Le bébé.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/family/bebe.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Le bébé dort.",
+      "exampleMg": "Matory ny zaza.",
+      "situation": "Parler d'un bébé."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Zanakalahy", "Zanakavavy", "Ray"]
+    }
+  },
+  {
+    "id": "family_010",
+    "level": "A0",
+    "category": "family",
+    "pos": "nom",
+    "wordFr": "Famille",
+    "wordMg": "Fianakaviana",
+    "phonetic": "/fa.mij/",
+    "visual": { "icon": "👨‍👩‍👧‍👦", "iconClass": "icon-family", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "La famille.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/family/famille.mp3",
+      "estimatedDurationMs": 900
+    },
+    "context": {
+      "exampleFr": "J'aime ma famille.",
+      "exampleMg": "Tiako ny fianakaviako.",
+      "situation": "Exprimer l'amour pour sa famille."
     },
     "exam": {
       "quizType": "mg_to_fr",
       "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Ray", "Reny", "Fianakaviana"]
+      "distractors": ["Ray", "Reny", "Zaza"]
     }
   }
 ]
