@@ -5775,73 +5775,86 @@ async function renderConversation() {
       }
 
       if (node.speaker === 'teacher') {
-        main.innerHTML = `
-          <section class="live-container">
-            <div class="live-header">
-              <div class="live-teacher-wrap" id="live-teacher-avatar"></div>
-              <div class="live-teacher-info">
-                <div class="live-teacher-name">Teacher AI <span class="live-badge">● LIVE</span></div>
-                <div class="live-dialogue-title">💬 ${dialogue.titleFr}</div>
+          main.innerHTML = `
+            <section class="live-container">
+              <div class="live-header">
+                <button id="btn-back-dialogue" class="live-quit" aria-label="Retour aux dialogues" style="background: transparent; font-size: 1.2rem;">←</button>
+                <div class="live-teacher-wrap" id="live-teacher-avatar"></div>
+                <div class="live-teacher-info">
+                  <div class="live-teacher-name">Teacher AI <span class="live-badge">● LIVE</span></div>
+                  <div class="live-dialogue-title">💬 ${dialogue.titleFr}</div>
+                </div>
+                <button id="btn-quit" class="live-quit" aria-label="Quitter">✕</button>
               </div>
-              <button id="btn-quit" class="live-quit" aria-label="Quitter">✕</button>
-            </div>
-            <div class="live-chat">
-              <div class="live-bubble teacher">
-                <div class="live-bubble-text">"${node.textFr}"</div>
-                <div class="live-bubble-sub">(${node.textMg})</div>
+              <div class="live-chat">
+                <div class="live-bubble teacher">
+                  <div class="live-bubble-text">"${node.textFr}"</div>
+                  <div class="live-bubble-sub">(${node.textMg})</div>
+                </div>
+                <div class="live-actions">
+                  <button id="btn-play" class="live-btn primary">🔊 Mihainoa</button>
+                  <button id="btn-next" class="live-btn success" disabled>Manaraka →</button>
+                </div>
               </div>
-              <div class="live-actions">
-                <button id="btn-play" class="live-btn primary">🔊 Mihainoa</button>
-                <button id="btn-next" class="live-btn success" disabled>Manaraka →</button>
-              </div>
-            </div>
-          </section>
-        `;
-        mountLiveAvatar();
+            </section>
+          `;
+          mountLiveAvatar();
 
-  // ... (garde les addEventListener existants pour btn-play, btn-next, btn-quit)
+          // ✅ Bouton Retour aux dialogues
+          document.getElementById('btn-back-dialogue').addEventListener('click', () => {
+            router.navigate('/conversation-live');
+          });
 
-        let hasPlayed = false;
-               document.getElementById('btn-play').addEventListener('click', () => {
-          const btn = document.getElementById('btn-play');
-          btn.textContent = '🔊 ...';
+          let hasPlayed = false;
 
-          speakWithFeedback(node.audio.ttsTextFr, {
-            rate: node.audio.ttsRate || 0.9,
-            gender: 'female', // ou 'male' selon le personnage
-            onStart: () => {
-              btn.textContent = '🔊 ...';
-              // ✅ Activer la bouche du SVG avatar
-              if (window.teacherAvatarSVG) {
-                window.teacherAvatarSVG.startSpeaking();
-                window.teacherAvatarSVG.setExpression('happy');
-              }
-            },
-            onEnd: () => {
-              btn.textContent = '🔊 Écouter';
-              // Débloquer le bouton suivant ou passer à l'étape suivante
-              const btnNext = document.getElementById('btn-next');
-              if (btnNext) {
+          // ✅ Bouton Écouter
+          document.getElementById('btn-play').addEventListener('click', () => {
+            const btn = document.getElementById('btn-play');
+            const btnNext = document.getElementById('btn-next');
+            btn.textContent = '🔊 ...';
+
+            speakWithFeedback(node.audio.ttsTextFr, {
+              rate: node.audio.ttsRate || 0.9,
+              gender: 'female',
+              onStart: () => {
+                btn.textContent = '🔊 ...';
+                if (window.teacherAvatarSVG) {
+                  window.teacherAvatarSVG.startSpeaking();
+                  window.teacherAvatarSVG.setExpression('happy');
+                }
+              },
+              onEnd: () => {
+                btn.textContent = '🔊 Écouter';
+                // ✅ Débloquer le bouton Suivant après écoute
+                hasPlayed = true;
+                btnNext.disabled = false;
                 btnNext.classList.add('guide-active');
                 btnNext.style.animation = 'pulse-green 1.5s infinite';
+
+                if (window.teacherAvatarSVG) {
+                  window.teacherAvatarSVG.stopSpeaking();
+                }
               }
+            });
+          });
+
+          // ✅ Bouton Suivant (corrigé)
+          document.getElementById('btn-next').addEventListener('click', () => {
+            if (!hasPlayed) {
+              console.warn('[Conversation] ⚠️ Écoutez d\'abord avant de continuer');
+              return;
+            }
+            currentNodeId = node.nextNode;
+            renderNode();
+          });
+
+          // ✅ Bouton Quitter
+          document.getElementById('btn-quit').addEventListener('click', () => {
+            if (confirm('Quitter la conversation ?')) {
+              router.navigate('/conversation-live');
             }
           });
-        }); // ✅ AJOUTEZ CE `});` POUR FERMER addEventListener
 
-        document.getElementById('btn-next').addEventListener('click', () => {
-          currentNodeId = node.nextNode;
-          // ✅ NOUVEAU : Mettre à jour la barre de progression
-            if (window.updateLessonProgress) {
-              window.updateLessonProgress(currentWordIndex);
-            }
-          renderNode();
-          if (window.teacherAvatar) window.teacherAvatar.show('conversation');
-        });
-
-        document.getElementById('btn-quit').addEventListener('click', () => {
-          if (confirm('Quitter la conversation ?')) location.hash = '/themes';
-        });
 
       } else if (node.speaker === 'user') {
         if (!attempts[node.id]) attempts[node.id] = 0;
@@ -5864,7 +5877,7 @@ async function renderConversation() {
               <div class="live-options">
                 ${node.responseOptions.map((opt, idx) => `
                   <button class="live-option-btn btn-option" data-idx="${idx}">
-                    <div style="font-weight: 600;">${idx === 0 ? '🅰️' : '🅱️'} ${opt.textFr}</div>
+                    <div style="font-weight: 600;">${idx === 0 ? '🅰️' : idx === 1 ? '🅱️' : '🅲'} ${opt.textFr}</div>
                     <div style="font-size: 0.85rem; opacity: 0.7; font-style: italic;">(${opt.textMg})</div>
                   </button>
                 `).join('')}
@@ -5874,8 +5887,6 @@ async function renderConversation() {
           </section>
         `;
         mountLiveAvatar();
-
-  // ... (garde les addEventListener existants pour .btn-option et btn-quit)
 
         document.querySelectorAll('.btn-option').forEach(btn => {
           btn.addEventListener('click', () => {
@@ -5887,42 +5898,42 @@ async function renderConversation() {
             const feedback = document.getElementById('feedback');
 
             if (selected.isCorrect) {
-                btn.style.borderColor = 'var(--ds-color-success)';
+              btn.style.borderColor = 'var(--ds-color-success)';
 
-                // ✅ HTML de feedback succès complet
-                feedback.innerHTML = `
-                  <div style="background: var(--ds-color-success-soft, #d1fae5); padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-success);">
-                    <div style="font-size: 2rem;">✅</div>
-                    <p style="color: var(--ds-color-success); font-weight: 600;">${node.feedbackOnSuccess.textFr}</p>
-                    <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${node.feedbackOnSuccess.textMg})</p>
-                  </div>
-                  <button id="btn-continue" style="margin-top: 1rem; background: var(--ds-color-success); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">Manaraka →</button>
-                `;
+              feedback.innerHTML = `
+                <div style="background: var(--ds-color-success-soft, #d1fae5); padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-success);">
+                  <div style="font-size: 2rem;">✅</div>
+                  <p style="color: var(--ds-color-success); font-weight: 600;">${node.feedbackOnSuccess.textFr}</p>
+                  <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${node.feedbackOnSuccess.textMg})</p>
+                </div>
+                <button id="btn-continue" style="margin-top: 1rem; background: var(--ds-color-success); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">Manaraka →</button>
+              `;
 
-                // ✅ Feedback succès avec SVG avatar sync
-                const u = new SpeechSynthesisUtterance(node.feedbackOnSuccess.audio.ttsTextFr);
-                u.lang = 'fr-FR';
-                u.rate = 0.9;
-                u.onstart = () => {
-                  if (window.teacherAvatarSVG) {
-                    window.teacherAvatarSVG.startSpeaking();
-                    window.teacherAvatarSVG.setExpression('happy');
-                  }
-                };
-                u.onend = () => {
-                  if (window.teacherAvatarSVG) {
-                    window.teacherAvatarSVG.stopSpeaking();
-                    window.teacherAvatarSVG.setExpression('neutral');
-                  }
-                };
-                speechSynthesis.speak(u);
+              // ✅ Feedback succès avec SVG avatar sync
+              const u = new SpeechSynthesisUtterance(node.feedbackOnSuccess.audio.ttsTextFr);
+              u.lang = 'fr-FR';
+              u.rate = 0.9;
+              u.onstart = () => {
+                if (window.teacherAvatarSVG) {
+                  window.teacherAvatarSVG.startSpeaking();
+                  window.teacherAvatarSVG.setExpression('happy');
+                }
+              };
+              u.onend = () => {
+                if (window.teacherAvatarSVG) {
+                  window.teacherAvatarSVG.stopSpeaking();
+                  window.teacherAvatarSVG.setExpression('neutral');
+                }
+              };
+              speechSynthesis.speak(u);
 
-                document.getElementById('btn-continue').addEventListener('click', () => {
+              document.getElementById('btn-continue').addEventListener('click', () => {
                 currentNodeId = node.nextNodeOnSuccess;
                 renderNode();
               });
             } else {
               btn.style.borderColor = 'var(--ds-color-danger, #ef4444)';
+
               if (attempts[node.id] >= node.maxAttempts) {
                 const correct = node.responseOptions.find(o => o.isCorrect);
                 feedback.innerHTML = `
@@ -5956,11 +5967,12 @@ async function renderConversation() {
           });
         });
 
+        // ✅ Bouton Quitter
         document.getElementById('btn-quit').addEventListener('click', () => {
-          if (confirm('Quitter la conversation ?')) location.hash = '/themes';
+          if (confirm('Quitter la conversation ?')) {
+            router.navigate('/conversation-live');
+          }
         });
-      }
-    };
 
     renderNode();
 

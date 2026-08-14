@@ -687,3 +687,14 @@ html.low-end-mode nav.ds-mobile-nav .ds-mobile-nav-item.teacher-ai-nav .ds-mobil
 .live-option-btn:hover { border-color: var(--ds-color-primary); }
 
 html.low-end-mode .live-badge { animation: none; }
+
+/* Bouton retour dans la conversation */
+.live-quit:first-child {
+  background: transparent !important;
+  font-size: 1.2rem !important;
+  color: var(--ds-color-text-muted) !important;
+}
+
+.live-quit:first-child:hover {
+  background: var(--ds-color-surface-2) !important;
+}
