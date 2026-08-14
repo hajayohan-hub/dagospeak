@@ -19,7 +19,14 @@ export class STTManager {
 
     // Détection du tier appareil (utilise DeviceCheck si disponible)
     if (window.deviceCheck) {
-      this.#deviceTier = window.deviceCheck.getTier(); // 'high', 'mid', 'low'
+      // DeviceCheck expose isVeryLowEnd() et isLowEnd()
+      if (window.deviceCheck.isVeryLowEnd()) {
+        this.#deviceTier = 'low';  // Pas de STT
+      } else if (window.deviceCheck.isLowEnd()) {
+        this.#deviceTier = 'mid';  // STT avec fallback
+      } else {
+        this.#deviceTier = 'high'; // STT complet
+      }
     } else {
       // Fallback : détection basique
       const ram = navigator.deviceMemory || 4;
