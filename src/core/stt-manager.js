@@ -67,39 +67,27 @@ export class STTManager {
     return this.#isSupported && this.#deviceTier !== 'low';
   }
 
-  /**
+     /**
    * Démarre l'écoute
    * @param {string} lang - Code langue (ex: 'fr-FR')
    * @param {Object} callbacks - { onStart, onResult, onEnd, onError }
    */
-
-    startListening(lang = 'fr-FR', callbacks = {}) {
-  if (!this.isAvailable()) {
-    console.warn('[STTManager] STT non disponible');
-    callbacks.onError?.('STT non disponible sur cet appareil');
-    return false;
-  }
-
-  // ✅ Arrêter l'écoute précédente si active
-  if (this.#isListening) {
-    console.warn('[STTManager] Écoute déjà active, arrêt de la précédente');
-    this.stopListening();
-    // Attendre un court délai avant de redémarrer
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(this.startListening(lang, callbacks));
-      }, 300);
-    });
-  }
-
-  try {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    this.#recognition = new SpeechRecognition();
-    // ... reste du code ...
-
-    if (this.#isListening) {
-      console.warn('[STTManager] Déjà en écoute');
+  startListening(lang = 'fr-FR', callbacks = {}) {
+    if (!this.isAvailable()) {
+      console.warn('[STTManager] STT non disponible');
+      callbacks.onError?.('STT non disponible sur cet appareil');
       return false;
+    }
+
+    // ✅ Arrêter l'écoute précédente si active
+    if (this.#isListening) {
+      console.warn('[STTManager] Écoute déjà active, arrêt de la précédente');
+      this.stopListening();
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve(this.startListening(lang, callbacks));
+        }, 300);
+      });
     }
 
     try {
@@ -142,16 +130,6 @@ export class STTManager {
       console.error('[STTManager] Erreur démarrage:', e);
       callbacks.onError?.(e.message);
       return false;
-    }
-  }
-
-  /**
-   * Arrête l'écoute
-   */
-  stopListening() {
-    if (this.#recognition && this.#isListening) {
-      this.#recognition.stop();
-      this.#isListening = false;
     }
   }
 
