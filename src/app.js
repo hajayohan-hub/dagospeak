@@ -2077,7 +2077,8 @@ async function renderLesson() {
     currentTheme = unitId;
 
     console.log(`[renderLesson] Chargement vocabulaire pour: ${unitId}`);
-    const vocabData = await content.loadSection('fr', 'vocabulary', unitId);
+   // ✅ NOUVEAU : Utiliser le helper de fusion vocabulary + dictionary
+    const vocabData = await content.loadLessonData('fr', unitId);
 
     // ✅ NOUVEAU : Logs de debug
     console.log('[renderLesson] vocabData:', vocabData);
@@ -2362,7 +2363,8 @@ async function renderLessonPhrases() {
     const levelData = manifest.levels.find(l => l.id === currentLevel);
     const unitId = currentTheme || levelData.units[0];
     currentTheme = unitId;
-    const vocabData = await content.loadSection('fr', 'vocabulary', unitId);
+    // ✅ NOUVEAU : Utiliser le helper de fusion vocabulary + dictionary
+    const vocabData = await content.loadLessonData('fr', unitId);
 
     const themeNames = {
       'survival': 'Mots de survie', 'numbers': 'Les Nombres',
@@ -2982,7 +2984,18 @@ async function renderPractice() {
     const levelData = manifest.levels.find(l => l.id === currentLevel);
     const unitId = currentTheme || levelData.units[0];
     currentTheme = unitId;
-    const vocabData = await content.loadSection('fr', 'vocabulary', unitId);
+    // ✅ NOUVEAU : Utiliser le helper de fusion vocabulary + dictionary
+    const vocabData = await content.loadLessonData('fr', unitId);
+
+    // ✅ DEBUG : Vérifier que la fusion fonctionne
+    console.log('[LessonPhrases] Données chargées:', vocabData.items.length, 'items');
+    console.log('[LessonPhrases] Premier item enrichi:', vocabData.items[0]);
+    if (vocabData.items[0].audio?.fallbackMp3) {
+      console.log('[LessonPhrases] ✅ Audio fallback présent');
+    }
+    if (vocabData.items[0].exam?.distractors) {
+      console.log('[LessonPhrases] ✅ Exam distractors présents');
+    }
 
     // ✅ NOUVEAU : Précharger les MP3 du thème en arrière-plan
       const words = vocabData.items || vocabData.words || [];
@@ -3371,7 +3384,8 @@ async function renderPracticePhrases() {
     const levelData = manifest.levels.find(l => l.id === currentLevel);
     const unitId = currentTheme || levelData.units[0];
     currentTheme = unitId;
-    const vocabData = await content.loadSection('fr', 'vocabulary', unitId);
+    // ✅ NOUVEAU : Utiliser le helper de fusion vocabulary + dictionary
+    const vocabData = await content.loadLessonData('fr', unitId);
 
     const sessionQueue = [...vocabData.items].sort(() => Math.random() - 0.5);
     let currentIndex = 0;
