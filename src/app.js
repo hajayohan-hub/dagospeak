@@ -5,6 +5,7 @@ import './ui/components/ds-button.js';
 import './core/device-check.js';  // ✅ Détection appareil modeste (doit charger tôt)
 import './core/share-manager.js';  // ✅ Partage natif (app + certificat)
 import './ui/components/ds-quiz.js';
+import { sttManager } from './core/stt-manager.js';
 import { EventBus }            from './core/event-bus.js';
 import { Container }           from './core/container.js';
 import { Logger }              from './core/logger.js';
@@ -5912,9 +5913,13 @@ async function renderConversation() {
       } else if (node.speaker === 'user') {
         if (!attempts[node.id]) attempts[node.id] = 0;
 
+        // ✅ Vérifier si STT disponible
+        const sttAvailable = sttManager.isAvailable();
+
         main.innerHTML = `
           <section class="live-container">
             <div class="live-header">
+              <button id="btn-back-dialogue" class="live-quit" aria-label="Retour aux dialogues" style="background: transparent; font-size: 1.2rem;">←</button>
               <div class="live-teacher-wrap" id="live-teacher-avatar"></div>
               <div class="live-teacher-info">
                 <div class="live-teacher-name">Teacher AI <span class="live-badge">● LIVE</span></div>
@@ -5927,12 +5932,47 @@ async function renderConversation() {
                 <div class="live-bubble-text">🎯 À votre tour !</div>
                 ${attempts[node.id] > 0 ? `<div class="live-bubble-sub">Tentative ${attempts[node.id]} / ${node.maxAttempts}</div>` : ''}
               </div>
+
+              <!-- ✅ Options de réponse avec bouton micro -->
               <div class="live-options">
                 ${node.responseOptions.map((opt, idx) => `
-                  <button class="live-option-btn btn-option" data-idx="${idx}">
-                    <div style="font-weight: 600;">${idx === 0 ? '🅰️' : idx === 1 ? '🅱️' : '🅲'} ${opt.textFr}</div>
-                    <div style="font-size: 0.85rem; opacity: 0.7; font-style: italic;">(${opt.textMg})</div>
-                  </button>
+                  <div class="response-option-wrapper" data-idx="${idx}">
+                    <button class="live-option-btn btn-option" data-idx="${idx}">
+                      <div style="font-weight: 600;">${idx === 0 ? '🅰️' : idx === 1 ? '🅱️' : '🅲'} ${opt.textFr}</div>
+                      <div style="font-size: 0.85rem; opacity: 0.7; font-style: italic;">(${opt.textMg})</div>
+                    </button>
+                    ${sttAvailable ? `
+                      <button class="btn-microphone" data-idx="${idx}" data-expected="${opt.textFr}"
+                              style="
+                                margin-top: 0.5rem;
+                                background: var(--ds-color-accent);
+                                color: white;
+                                border: none;
+                                padding: 8px 16px;
+                                border-radius: 8px;
+                                font-size: 0.85rem;
+                                cursor: pointer;
+                                width: 100%;
+                              ">
+                        🎤 Prononcer cette réponse
+                      </button>
+                    ` : `
+                      <button class="btn-auto-eval" data-idx="${idx}"
+                              style="
+                                margin-top: 0.5rem;
+                                background: var(--ds-color-surface-2);
+                                color: var(--ds-color-text);
+                                border: 1px solid var(--ds-color-border);
+                                padding: 8px 16px;
+                                border-radius: 8px;
+                                font-size: 0.85rem;
+                                cursor: pointer;
+                                width: 100%;
+                              ">
+                        ✓ J'ai prononcé (auto-évaluation)
+                      </button>
+                    `}
+                  </div>
                 `).join('')}
               </div>
               <div id="feedback" style="min-height: 60px;"></div>
@@ -5941,84 +5981,161 @@ async function renderConversation() {
         `;
         mountLiveAvatar();
 
+        // ✅ Event listeners pour les boutons de réponse (clic)
         document.querySelectorAll('.btn-option').forEach(btn => {
           btn.addEventListener('click', () => {
             const idx = parseInt(btn.dataset.idx);
-            const selected = node.responseOptions[idx];
-            attempts[node.id]++;
+            handleUserResponse(idx, node, attempts, feedback);
+          });
+        });
 
-            document.querySelectorAll('.btn-option').forEach(b => b.disabled = true);
-            const feedback = document.getElementById('feedback');
+        // ✅ Event listeners pour les boutons microphone (STT)
+        if (sttAvailable) {
+          document.querySelectorAll('.btn-microphone').forEach(btn => {
+            btn.addEventListener('click', () => {
+              const idx = parseInt(btn.dataset.idx);
+              const expected = btn.dataset.expected;
+              handleSTTResponse(btn, idx, expected, node, attempts, feedback);
+            });
+          });
+        } else {
+          // ✅ Event listeners pour auto-évaluation (appareils low-end)
+          document.querySelectorAll('.btn-auto-eval').forEach(btn => {
+            btn.addEventListener('click', () => {
+              const idx = parseInt(btn.dataset.idx);
+              // Auto-évaluation : considérer comme correct si l'utilisateur confirme
+              handleUserResponse(idx, node, attempts, feedback, true);
+            });
+          });
+        }
 
-            if (selected.isCorrect) {
-              btn.style.borderColor = 'var(--ds-color-success)';
+        // ✅ Fonction pour gérer la réponse utilisateur (clic ou STT)
+        function handleUserResponse(idx, node, attempts, feedback, isAutoEval = false) {
+          const selected = node.responseOptions[idx];
+          attempts[node.id]++;
 
+          document.querySelectorAll('.btn-option, .btn-microphone, .btn-auto-eval').forEach(b => b.disabled = true);
+
+          if (selected.isCorrect) {
+            btn.style.borderColor = 'var(--ds-color-success)';
+
+            feedback.innerHTML = `
+              <div style="background: var(--ds-color-success-soft, #d1fae5); padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-success);">
+                <div style="font-size: 2rem;">✅</div>
+                <p style="color: var(--ds-color-success); font-weight: 600;">${node.feedbackOnSuccess.textFr}</p>
+                ${isAutoEval ? '<p style="color: var(--ds-color-text-muted); font-size: 0.85rem;">(Auto-évaluation)</p>' : ''}
+                <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${node.feedbackOnSuccess.textMg})</p>
+              </div>
+              <button id="btn-continue" style="margin-top: 1rem; background: var(--ds-color-success); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">Manaraka →</button>
+            `;
+
+            const u = new SpeechSynthesisUtterance(node.feedbackOnSuccess.audio.ttsTextFr);
+            u.lang = 'fr-FR';
+            u.rate = 0.9;
+            u.onstart = () => {
+              if (window.teacherAvatarSVG) {
+                window.teacherAvatarSVG.startSpeaking();
+                window.teacherAvatarSVG.setExpression('happy');
+              }
+            };
+            u.onend = () => {
+              if (window.teacherAvatarSVG) {
+                window.teacherAvatarSVG.stopSpeaking();
+                window.teacherAvatarSVG.setExpression('neutral');
+              }
+            };
+            speechSynthesis.speak(u);
+
+            document.getElementById('btn-continue').addEventListener('click', () => {
+              currentNodeId = node.nextNodeOnSuccess;
+              renderNode();
+            });
+          } else {
+            btn.style.borderColor = 'var(--ds-color-danger, #ef4444)';
+
+            if (attempts[node.id] >= node.maxAttempts) {
+              const correct = node.responseOptions.find(o => o.isCorrect);
               feedback.innerHTML = `
-                <div style="background: var(--ds-color-success-soft, #d1fae5); padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-success);">
-                  <div style="font-size: 2rem;">✅</div>
-                  <p style="color: var(--ds-color-success); font-weight: 600;">${node.feedbackOnSuccess.textFr}</p>
-                  <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${node.feedbackOnSuccess.textMg})</p>
+                <div style="background: #fef3c7; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-accent);">
+                  <div style="font-size: 2rem;">💡</div>
+                  <p>La bonne réponse était : <strong>${correct.textFr}</strong></p>
                 </div>
-                <button id="btn-continue" style="margin-top: 1rem; background: var(--ds-color-success); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">Manaraka →</button>
+                <button id="btn-continue" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">Manaraka →</button>
               `;
-
-              // ✅ Feedback succès avec SVG avatar sync
-              const u = new SpeechSynthesisUtterance(node.feedbackOnSuccess.audio.ttsTextFr);
-              u.lang = 'fr-FR';
-              u.rate = 0.9;
-              u.onstart = () => {
-                if (window.teacherAvatarSVG) {
-                  window.teacherAvatarSVG.startSpeaking();
-                  window.teacherAvatarSVG.setExpression('happy');
-                }
-              };
-              u.onend = () => {
-                if (window.teacherAvatarSVG) {
-                  window.teacherAvatarSVG.stopSpeaking();
-                  window.teacherAvatarSVG.setExpression('neutral');
-                }
-              };
-              speechSynthesis.speak(u);
-
               document.getElementById('btn-continue').addEventListener('click', () => {
-                currentNodeId = node.nextNodeOnSuccess;
+                currentNodeId = node.nextNodeOnMaxAttemptsReached;
                 renderNode();
               });
             } else {
-              btn.style.borderColor = 'var(--ds-color-danger, #ef4444)';
+              feedback.innerHTML = `
+                <div style="background: #fee2e2; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-danger, #ef4444);">
+                  <div style="font-size: 2rem;">🔄</div>
+                  <p style="color: var(--ds-color-danger); font-weight: 600;">${node.feedbackOnFail.textFr}</p>
+                  <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${node.feedbackOnFail.textMg})</p>
+                </div>
+                <button id="btn-retry" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">🔁 Réessayer</button>
+              `;
 
-              if (attempts[node.id] >= node.maxAttempts) {
-                const correct = node.responseOptions.find(o => o.isCorrect);
+              if (window.teacherAvatarSVG) {
+                window.teacherAvatarSVG.setExpression('encouraging');
+              }
+              document.getElementById('btn-retry').addEventListener('click', renderNode);
+            }
+          }
+        }
+
+        // ✅ Fonction pour gérer la réponse STT
+        function handleSTTResponse(btn, idx, expected, node, attempts, feedback) {
+          btn.textContent = '🎤 Écoute...';
+          btn.disabled = true;
+
+          sttManager.startListening('fr-FR', {
+            onStart: () => {
+              console.log('[STT] Écoute démarrée');
+            },
+            onResult: (results) => {
+              const recognized = results[0];
+              console.log('[STT] Reconnu:', recognized);
+
+              const comparison = sttManager.compareTexts(recognized, expected);
+              console.log('[STT] Comparaison:', comparison);
+
+              if (comparison.isCorrect) {
+                // Succès : traiter comme si l'utilisateur avait cliqué la bonne réponse
+                handleUserResponse(idx, node, attempts, feedback);
+              } else {
+                // Échec : afficher le feedback et permettre de réessayer
                 feedback.innerHTML = `
                   <div style="background: #fef3c7; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-accent);">
-                    <div style="font-size: 2rem;">💡</div>
-                    <p>La bonne réponse était : <strong>${correct.textFr}</strong></p>
+                    <div style="font-size: 2rem;">🎤</div>
+                    <p>J'ai entendu : <strong>${recognized}</strong></p>
+                    <p>Score : ${comparison.score}% - ${comparison.feedback}</p>
                   </div>
-                  <button id="btn-continue" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">Manaraka →</button>
-                `;
-                document.getElementById('btn-continue').addEventListener('click', () => {
-                  currentNodeId = node.nextNodeOnMaxAttemptsReached;
-                  renderNode();
-                });
-              } else {
-                feedback.innerHTML = `
-                  <div style="background: #fee2e2; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-danger, #ef4444);">
-                    <div style="font-size: 2rem;">🔄</div>
-                    <p style="color: var(--ds-color-danger); font-weight: 600;">${node.feedbackOnFail.textFr}</p>
-                    <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${node.feedbackOnFail.textMg})</p>
-                  </div>
-                  <button id="btn-retry" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">🔁 Réessayer</button>
+                  <button id="btn-retry-stt" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">🔁 Réessayer</button>
                 `;
 
-                // ✅ Expression "encouraging" quand l'utilisateur se trompe
-                if (window.teacherAvatarSVG) {
-                  window.teacherAvatarSVG.setExpression('encouraging');
-                }
-                document.getElementById('btn-retry').addEventListener('click', renderNode);
+                document.getElementById('btn-retry-stt').addEventListener('click', () => {
+                  renderNode();
+                });
               }
+            },
+            onEnd: () => {
+              console.log('[STT] Écoute terminée');
+            },
+            onError: (error) => {
+              console.error('[STT] Erreur:', error);
+              btn.textContent = '🎤 Prononcer cette réponse';
+              btn.disabled = false;
+
+              feedback.innerHTML = `
+                <div style="background: #fee2e2; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-danger);">
+                  <div style="font-size: 2rem;">⚠️</div>
+                  <p>Erreur de reconnaissance vocale. Utilisez le bouton ci-dessus.</p>
+                </div>
+              `;
             }
           });
-        });
+        }
 
         // ✅ Bouton Quitter
         document.getElementById('btn-quit').addEventListener('click', () => {
@@ -6027,7 +6144,6 @@ async function renderConversation() {
           }
         });
       }
-    };
 
     renderNode();
 
