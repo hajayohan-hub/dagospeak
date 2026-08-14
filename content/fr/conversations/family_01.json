@@ -1,0 +1,119 @@
+{
+  "id": "family_01",
+  "titleFr": "Parler de sa famille",
+  "titleMg": "Fitantarana ny fianakaviana",
+  "level": "A0",
+  "theme": "family",
+  "participants": {
+    "A": { "name": "Professeur", "avatar": "👩‍🏫", "gender": "female" },
+    "B": { "name": "Vous", "avatar": "🙋", "gender": "neutral" }
+  },
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "teacher",
+      "textFr": "Parlez-moi de votre famille. Comment s'appelle votre père ?",
+      "textMg": "Lazao amiko ny fianakavianao. Iza no anaran'ny rainao?",
+      "audio": {
+        "ttsTextFr": "Parlez-moi de votre famille. Comment s'appelle votre père ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_father"
+    },
+    {
+      "id": "user_father",
+      "speaker": "user",
+      "responseOptions": [
+        { "textFr": "Mon père s'appelle Rabe.", "textMg": "Rabe no anaran'ny raiko.", "isCorrect": true },
+        { "textFr": "Ma mère s'appelle Rasoa.", "textMg": "Rasoa no anaran'ny reniko.", "isCorrect": false },
+        { "textFr": "J'ai deux frères.", "textMg": "Manana anadahy roa aho.", "isCorrect": false }
+      ],
+      "maxAttempts": 2,
+      "feedbackOnSuccess": {
+        "textFr": "Très bien ! Et votre mère ?",
+        "textMg": "Tsara! Ary ny reninao?",
+        "audio": { "ttsTextFr": "Très bien ! Et votre mère ?" }
+      },
+      "feedbackOnFail": {
+        "textFr": "Non, il faut dire : Mon père s'appelle...",
+        "textMg": "Tsia, tokony holazaina hoe: Rabe no anaran'ny raiko.",
+        "audio": { "ttsTextFr": "Non, il faut dire : Mon père s'appelle..." }
+      },
+      "nextNodeOnSuccess": "user_mother",
+      "nextNodeOnMaxAttemptsReached": "user_mother"
+    },
+    {
+      "id": "user_mother",
+      "speaker": "teacher",
+      "textFr": "Comment s'appelle votre mère ?",
+      "textMg": "Iza no anaran'ny reninao?",
+      "audio": {
+        "ttsTextFr": "Comment s'appelle votre mère ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_mother_answer"
+    },
+    {
+      "id": "user_mother_answer",
+      "speaker": "user",
+      "responseOptions": [
+        { "textFr": "Ma mère s'appelle Rasoa.", "textMg": "Rasoa no anaran'ny reniko.", "isCorrect": true },
+        { "textFr": "Mon père s'appelle Rabe.", "textMg": "Rabe no anaran'ny raiko.", "isCorrect": false },
+        { "textFr": "J'ai une sœur.", "textMg": "Manana anabavy iray aho.", "isCorrect": false }
+      ],
+      "maxAttempts": 2,
+      "feedbackOnSuccess": {
+        "textFr": "Parfait ! Avez-vous des frères et sœurs ?",
+        "textMg": "Tena tsara! Manana anadahy sy anabavy ve ianao?",
+        "audio": { "ttsTextFr": "Parfait ! Avez-vous des frères et sœurs ?" }
+      },
+      "feedbackOnFail": {
+        "textFr": "Non, il faut dire : Ma mère s'appelle...",
+        "textMg": "Tsia, tokony holazaina hoe: Rasoa no anaran'ny reniko.",
+        "audio": { "ttsTextFr": "Non, il faut dire : Ma mère s'appelle..." }
+      },
+      "nextNodeOnSuccess": "user_siblings",
+      "nextNodeOnMaxAttemptsReached": "user_siblings"
+    },
+    {
+      "id": "user_siblings",
+      "speaker": "teacher",
+      "textFr": "Avez-vous des frères et sœurs ?",
+      "textMg": "Manana anadahy sy anabavy ve ianao?",
+      "audio": {
+        "ttsTextFr": "Avez-vous des frères et sœurs ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_siblings_answer"
+    },
+    {
+      "id": "user_siblings_answer",
+      "speaker": "user",
+      "responseOptions": [
+        { "textFr": "Oui, j'ai deux frères et une sœur.", "textMg": "Eny, manana anadahy roa sy anabavy iray aho.", "isCorrect": true },
+        { "textFr": "Non, je n'ai pas de famille.", "textMg": "Tsia, tsy manana fianakaviana aho.", "isCorrect": false },
+        { "textFr": "Ma mère s'appelle Rasoa.", "textMg": "Rasoa no anaran'ny reniko.", "isCorrect": false }
+      ],
+      "maxAttempts": 2,
+      "feedbackOnSuccess": {
+        "textFr": "Excellent ! Vous avez une belle famille !",
+        "textMg": "Tena tsara! Manana fianakaviana tsara ianao!",
+        "audio": { "ttsTextFr": "Excellent ! Vous avez une belle famille !" }
+      },
+      "feedbackOnFail": {
+        "textFr": "Non, il faut dire : Oui, j'ai...",
+        "textMg": "Tsia, tokony hovaliana hoe: Eny, manana ... aho.",
+        "audio": { "ttsTextFr": "Non, il faut dire : Oui, j'ai..." }
+      },
+      "nextNodeOnSuccess": "end",
+      "nextNodeOnMaxAttemptsReached": "end"
+    },
+    {
+      "id": "end",
+      "isEnd": true,
+      "speaker": "teacher",
+      "textFr": "Bravo ! Vous savez parler de votre famille !",
+      "textMg": "Arahabaina! Mahay mitantara ny fianakavianao ianao!"
+    }
+  ]
+}
