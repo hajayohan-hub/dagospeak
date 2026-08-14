@@ -2,60 +2,60 @@
   {
     "id": "numbers2_001",
     "level": "A0",
-    "category": "numbers2",
-    "pos": "nom",
+    "category": "numbers",
+    "pos": "nombre",
     "wordFr": "Onze",
     "wordMg": "Iraika ambin'ny folo",
-    "phonetic": "/ɔ̃z/",
-    "visual": { "icon": "🔟", "iconClass": "icon-eleven", "svgState": "neutral" },
+    "phonetic": "/ɔz/",
+    "visual": { "icon": "🔢", "iconClass": "icon-eleven", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "Onze.",
       "ttsRate": 0.9,
       "fallbackMp3": "/assets/audio/fr/numbers2/onze.mp3",
-      "estimatedDurationMs": 600
+      "estimatedDurationMs": 700
     },
     "context": {
-      "exampleFr": "Il est onze heures.",
-      "exampleMg": "Iraika ambin'ny folo ora.",
-      "situation": "Indiquer l'heure en fin de matinée."
+      "exampleFr": "Onze joueurs.",
+      "exampleMg": "Mpilalao iraika ambin'ny folo.",
+      "situation": "Compter ou exprimer la quantité 11."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Roa ambin'ny folo", "Telo ambin'ny folo", "Roa ambin'ny folo"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Roambin'ny folo", "Telo ambin'ny folo", "Efatra ambin'ny folo"]
     }
   },
   {
     "id": "numbers2_002",
     "level": "A0",
-    "category": "numbers2",
-    "pos": "nom",
+    "category": "numbers",
+    "pos": "nombre",
     "wordFr": "Douze",
-    "wordMg": "Roa ambin'ny folo",
+    "wordMg": "Roambin'ny folo",
     "phonetic": "/duz/",
-    "visual": { "icon": "🕛", "iconClass": "icon-twelve", "svgState": "neutral" },
+    "visual": { "icon": "🔢", "iconClass": "icon-twelve", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "Douze.",
       "ttsRate": 0.9,
       "fallbackMp3": "/assets/audio/fr/numbers2/douze.mp3",
-      "estimatedDurationMs": 600
+      "estimatedDurationMs": 700
     },
     "context": {
-      "exampleFr": "Il y a douze mois dans une année.",
-      "exampleMg": "Roa ambin'ny folo volana ao anatin'ny taona.",
-      "situation": "Parler des mois de l'année."
+      "exampleFr": "Douze mois.",
+      "exampleMg": "Volana roambin'ny folo.",
+      "situation": "Compter ou exprimer la quantité 12."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Iraika ambin'ny folo", "Telo ambin'ny folo", "Sivy ambin'ny folo"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Iraika ambin'ny folo", "Telo ambin'ny folo", "Efatra ambin'ny folo"]
     }
   },
   {
     "id": "numbers2_003",
     "level": "A0",
-    "category": "numbers2",
-    "pos": "nom",
+    "category": "numbers",
+    "pos": "nombre",
     "wordFr": "Treize",
     "wordMg": "Telo ambin'ny folo",
     "phonetic": "/tʁɛz/",
@@ -67,25 +67,25 @@
       "estimatedDurationMs": 700
     },
     "context": {
-      "exampleFr": "Mon fils a treize ans.",
-      "exampleMg": "Telo ambin'ny folo taona ny zanako lahy.",
-      "situation": "Exprimer l'âge d'un adolescent."
+      "exampleFr": "Treize ans.",
+      "exampleMg": "Telo ambin'ny folo taona.",
+      "situation": "Compter ou exprimer la quantité 13."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Roa ambin'ny folo", "Efatra ambin'ny folo", "Dimy ambin'ny folo"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Iraika ambin'ny folo", "Roambin'ny folo", "Efatra ambin'ny folo"]
     }
   },
   {
     "id": "numbers2_004",
     "level": "A0",
-    "category": "numbers2",
-    "pos": "nom",
+    "category": "numbers",
+    "pos": "nombre",
     "wordFr": "Quatorze",
     "wordMg": "Efatra ambin'ny folo",
     "phonetic": "/ka.tɔʁz/",
-    "visual": { "icon": "📅", "iconClass": "icon-fourteen", "svgState": "neutral" },
+    "visual": { "icon": "🔢", "iconClass": "icon-fourteen", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "Quatorze.",
       "ttsRate": 0.9,
@@ -93,25 +93,25 @@
       "estimatedDurationMs": 800
     },
     "context": {
-      "exampleFr": "Le quatorze juillet est la fête nationale.",
-      "exampleMg": "Ny efatra ambin'ny folo jolay no fetim-pirenena.",
-      "situation": "Parler de la fête nationale française (14 juillet)."
+      "exampleFr": "Quatorze heures.",
+      "exampleMg": "Efatra ambin'ny folo ora.",
+      "situation": "Compter ou exprimer la quantité 14."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Telo ambin'ny folo", "Dimy ambin'ny folo", "Enina ambin'ny folo"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Iraika ambin'ny folo", "Roambin'ny folo", "Telo ambin'ny folo"]
     }
   },
   {
     "id": "numbers2_005",
     "level": "A0",
-    "category": "numbers2",
-    "pos": "nom",
+    "category": "numbers",
+    "pos": "nombre",
     "wordFr": "Quinze",
     "wordMg": "Dimy ambin'ny folo",
     "phonetic": "/kɛ̃z/",
-    "visual": { "icon": "💰", "iconClass": "icon-fifteen", "svgState": "neutral" },
+    "visual": { "icon": "🔢", "iconClass": "icon-fifteen", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "Quinze.",
       "ttsRate": 0.9,
@@ -119,51 +119,51 @@
       "estimatedDurationMs": 700
     },
     "context": {
-      "exampleFr": "Cela coûte quinze mille Ariary.",
-      "exampleMg": "Dimy ambin'ny folo arivo Ariary ny vidiny.",
-      "situation": "Exprimer un prix au marché."
+      "exampleFr": "Quinze minutes.",
+      "exampleMg": "Dimy ambin'ny folo minitra.",
+      "situation": "Compter ou exprimer la quantité 15."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Efatra ambin'ny folo", "Enina ambin'ny folo", "Fito ambin'ny folo"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Iraika ambin'ny folo", "Roambin'ny folo", "Telo ambin'ny folo"]
     }
   },
   {
     "id": "numbers2_006",
     "level": "A0",
-    "category": "numbers2",
-    "pos": "nom",
+    "category": "numbers",
+    "pos": "nombre",
     "wordFr": "Seize",
     "wordMg": "Enina ambin'ny folo",
     "phonetic": "/sɛz/",
-    "visual": { "icon": "🎂", "iconClass": "icon-sixteen", "svgState": "neutral" },
+    "visual": { "icon": "🔢", "iconClass": "icon-sixteen", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "Seize.",
       "ttsRate": 0.9,
       "fallbackMp3": "/assets/audio/fr/numbers2/seize.mp3",
-      "estimatedDurationMs": 600
+      "estimatedDurationMs": 700
     },
     "context": {
-      "exampleFr": "Ma fille a seize ans.",
-      "exampleMg": "Enina ambin'ny folo taona ny zanako vavy.",
-      "situation": "Exprimer l'âge d'un adolescent."
+      "exampleFr": "Seize élèves.",
+      "exampleMg": "Mpianatra enina ambin'ny folo.",
+      "situation": "Compter ou exprimer la quantité 16."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Dimy ambin'ny folo", "Fito ambin'ny folo", "Valo ambin'ny folo"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Iraika ambin'ny folo", "Roambin'ny folo", "Telo ambin'ny folo"]
     }
   },
   {
     "id": "numbers2_007",
     "level": "A0",
-    "category": "numbers2",
-    "pos": "nom",
+    "category": "numbers",
+    "pos": "nombre",
     "wordFr": "Dix-sept",
     "wordMg": "Fito ambin'ny folo",
-    "phonetic": "/di.sɛt/",
-    "visual": { "icon": "📚", "iconClass": "icon-seventeen", "svgState": "neutral" },
+    "phonetic": "/dis.sɛt/",
+    "visual": { "icon": "🔢", "iconClass": "icon-seventeen", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "Dix-sept.",
       "ttsRate": 0.9,
@@ -171,25 +171,25 @@
       "estimatedDurationMs": 800
     },
     "context": {
-      "exampleFr": "Il a dix-sept élèves dans sa classe.",
-      "exampleMg": "Fito ambin'ny folo mpianatra ao amin'ny kilasiny.",
-      "situation": "Parler du nombre d'élèves."
+      "exampleFr": "Dix-sept crayons.",
+      "exampleMg": "Pensily fito ambin'ny folo.",
+      "situation": "Compter ou exprimer la quantité 17."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Enina ambin'ny folo", "Valo ambin'ny folo", "Sivy ambin'ny folo"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Iraika ambin'ny folo", "Roambin'ny folo", "Telo ambin'ny folo"]
     }
   },
   {
     "id": "numbers2_008",
     "level": "A0",
-    "category": "numbers2",
-    "pos": "nom",
+    "category": "numbers",
+    "pos": "nombre",
     "wordFr": "Dix-huit",
     "wordMg": "Valo ambin'ny folo",
-    "phonetic": "/di.zɥit/",
-    "visual": { "icon": "🕕", "iconClass": "icon-eighteen", "svgState": "neutral" },
+    "phonetic": "/dis.ɥit/",
+    "visual": { "icon": "🔢", "iconClass": "icon-eighteen", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "Dix-huit.",
       "ttsRate": 0.9,
@@ -197,25 +197,25 @@
       "estimatedDurationMs": 800
     },
     "context": {
-      "exampleFr": "Le magasin ferme à dix-huit heures.",
-      "exampleMg": "Miahiana amin'ny valo ambin'ny folo ora ny fivarotana.",
-      "situation": "Indiquer l'heure de fermeture."
+      "exampleFr": "Dix-huit ans.",
+      "exampleMg": "Valo ambin'ny folo taona.",
+      "situation": "Compter ou exprimer la quantité 18."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Fito ambin'ny folo", "Sivy ambin'ny folo", "Roapolo"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Iraika ambin'ny folo", "Roambin'ny folo", "Telo ambin'ny folo"]
     }
   },
   {
     "id": "numbers2_009",
     "level": "A0",
-    "category": "numbers2",
-    "pos": "nom",
+    "category": "numbers",
+    "pos": "nombre",
     "wordFr": "Dix-neuf",
     "wordMg": "Sivy ambin'ny folo",
-    "phonetic": "/diz.nœf/",
-    "visual": { "icon": "🎓", "iconClass": "icon-nineteen", "svgState": "neutral" },
+    "phonetic": "/dis.nœf/",
+    "visual": { "icon": "🔢", "iconClass": "icon-nineteen", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "Dix-neuf.",
       "ttsRate": 0.9,
@@ -223,40 +223,40 @@
       "estimatedDurationMs": 800
     },
     "context": {
-      "exampleFr": "Le bac est à dix-neuf ans.",
-      "exampleMg": "Sivy ambin'ny folo taona no anaovana ny bakalorea.",
-      "situation": "Parler de l'âge du baccalauréat."
+      "exampleFr": "Dix-neuf livres.",
+      "exampleMg": "Boky sivy ambin'ny folo.",
+      "situation": "Compter ou exprimer la quantité 19."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Valo ambin'ny folo", "Roapolo", "Telo ambin'ny folo"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Iraika ambin'ny folo", "Roambin'ny folo", "Telo ambin'ny folo"]
     }
   },
   {
     "id": "numbers2_010",
     "level": "A0",
-    "category": "numbers2",
-    "pos": "nom",
+    "category": "numbers",
+    "pos": "nombre",
     "wordFr": "Vingt",
-    "wordMg": "Roapolo",
+    "wordMg": "Roa ambin'ny folo",
     "phonetic": "/vɛ̃/",
-    "visual": { "icon": "💵", "iconClass": "icon-twenty", "svgState": "neutral" },
+    "visual": { "icon": "🔢", "iconClass": "icon-twenty", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "Vingt.",
       "ttsRate": 0.9,
       "fallbackMp3": "/assets/audio/fr/numbers2/vingt.mp3",
-      "estimatedDurationMs": 600
+      "estimatedDurationMs": 700
     },
     "context": {
-      "exampleFr": "Vingt mille Ariary, s'il vous plaît.",
-      "exampleMg": "Roapolo arivo Ariary, azafady.",
-      "situation": "Payer au marché (20 000 Ariary)."
+      "exampleFr": "Vingt doigts.",
+      "exampleMg": "Rantsan-tànana roa ambin'ny folo.",
+      "situation": "Compter ou exprimer la quantité 20."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Sivy ambin'ny folo", "Telo ambin'ny folo", "Dimy ambin'ny folo"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Iraika ambin'ny folo", "Roambin'ny folo", "Telo ambin'ny folo"]
     }
   }
 ]

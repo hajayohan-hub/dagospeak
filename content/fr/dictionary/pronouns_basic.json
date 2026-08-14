@@ -1,0 +1,262 @@
+[
+  {
+    "id": "pronouns_001",
+    "level": "A0",
+    "category": "grammar",
+    "pos": "pronom",
+    "wordFr": "Je",
+    "wordMg": "Aho / Izaho",
+    "phonetic": "/ʒə/",
+    "visual": { "icon": "🙋", "iconClass": "icon-i", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Je.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/content/fr/audio/pronouns/je.mp3",
+      "estimatedDurationMs": 600
+    },
+    "context": {
+      "exampleFr": "Je m'appelle Rabe.",
+      "exampleMg": "Rabe no fiantsoana ahy.",
+      "situation": "Se présenter."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Tu", "Il", "Nous"]
+    }
+  },
+  {
+    "id": "pronouns_002",
+    "level": "A0",
+    "category": "grammar",
+    "pos": "pronom",
+    "wordFr": "Tu",
+    "wordMg": "Ianao",
+    "phonetic": "/ty/",
+    "visual": { "icon": "👉", "iconClass": "icon-you", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Tu.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/content/fr/audio/pronouns/tu.mp3",
+      "estimatedDurationMs": 600
+    },
+    "context": {
+      "exampleFr": "Comment tu t'appelles ?",
+      "exampleMg": "Iza no anarana fiantso anao?",
+      "situation": "S'adresser à quelqu'un."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Je", "Il", "Nous"]
+    }
+  },
+  {
+    "id": "pronouns_003",
+    "level": "A0",
+    "category": "grammar",
+    "pos": "pronom",
+    "wordFr": "Il / Elle",
+    "wordMg": "Izy",
+    "phonetic": "/il / ɛl/",
+    "visual": { "icon": "👤", "iconClass": "icon-he-she", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Il.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/content/fr/audio/pronouns/il.mp3",
+      "estimatedDurationMs": 600
+    },
+    "context": {
+      "exampleFr": "Il est médecin.",
+      "exampleMg": "Mpitsabo izy.",
+      "situation": "Parler d'une tierce personne."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Je", "Tu", "Nous"]
+    }
+  },
+  {
+    "id": "pronouns_004",
+    "level": "A0",
+    "category": "grammar",
+    "pos": "pronom",
+    "wordFr": "Nous",
+    "wordMg": "Isika / Izahay",
+    "phonetic": "/nu/",
+    "visual": { "icon": "👥", "iconClass": "icon-we", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Nous.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/content/fr/audio/pronouns/nous.mp3",
+      "estimatedDurationMs": 600
+    },
+    "context": {
+      "exampleFr": "Nous sommes malgaches.",
+      "exampleMg": "Malagasy isika.",
+      "situation": "Parler d'un groupe incluant soi."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Je", "Tu", "Il"]
+    }
+  },
+  {
+    "id": "pronouns_005",
+    "level": "A0",
+    "category": "grammar",
+    "pos": "pronom",
+    "wordFr": "Vous",
+    "wordMg": "Ianareo",
+    "phonetic": "/vu/",
+    "visual": { "icon": "👥", "iconClass": "icon-you-plural", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Vous.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/content/fr/audio/pronouns/vous.mp3",
+      "estimatedDurationMs": 600
+    },
+    "context": {
+      "exampleFr": "Vous êtes les bienvenus.",
+      "exampleMg": "Tongasoa ianareo.",
+      "situation": "S'adresser à plusieurs personnes."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Je", "Tu", "Il"]
+    }
+  },
+  {
+    "id": "pronouns_006",
+    "level": "A0",
+    "category": "grammar",
+    "pos": "pronom",
+    "wordFr": "Ils / Elles",
+    "wordMg": "zareo",
+    "phonetic": "/il / ɛl/",
+    "visual": { "icon": "👥", "iconClass": "icon-they", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Ils.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/content/fr/audio/pronouns/ils.mp3",
+      "estimatedDurationMs": 600
+    },
+    "context": {
+      "exampleFr": "Ils sont à la maison.",
+      "exampleMg": "Any an-trano zareo.",
+      "situation": "Parler d'un groupe tiers."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Je", "Tu", "Il"]
+    }
+  },
+  {
+    "id": "pronouns_007",
+    "level": "A0",
+    "category": "grammar",
+    "pos": "pronom",
+    "wordFr": "Moi",
+    "wordMg": "Ahy / Izaho",
+    "phonetic": "/mwa/",
+    "visual": { "icon": "🙋", "iconClass": "icon-me", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Moi.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/content/fr/audio/pronouns/moi.mp3",
+      "estimatedDurationMs": 600
+    },
+    "context": {
+      "exampleFr": "C'est pour moi.",
+      "exampleMg": "Ho ahy izany.",
+      "situation": "Parler de soi en complément."
+    },
+    "exam": {
+      "quizType": "fr_to_mg",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Toi", "Lui", "Eux"]
+    }
+  },
+  {
+    "id": "pronouns_008",
+    "level": "A0",
+    "category": "grammar",
+    "pos": "pronom",
+    "wordFr": "Toi",
+    "wordMg": "Anao / Ianao",
+    "phonetic": "/twa/",
+    "visual": { "icon": "👉", "iconClass": "icon-you-object", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Toi.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/content/fr/audio/pronouns/toi.mp3",
+      "estimatedDurationMs": 600
+    },
+    "context": {
+      "exampleFr": "Et toi ?",
+      "exampleMg": "Ary ianao?",
+      "situation": "S'adresser à quelqu'un en complément."
+    },
+    "exam": {
+      "quizType": "fr_to_mg",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Moi", "Lui", "Eux"]
+    }
+  },
+  {
+    "id": "pronouns_009",
+    "level": "A0",
+    "category": "grammar",
+    "pos": "pronom",
+    "wordFr": "Lui",
+    "wordMg": "Azy / Izy",
+    "phonetic": "/lɥi/",
+    "visual": { "icon": "👤", "iconClass": "icon-him", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Lui.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/content/fr/audio/pronouns/lui.mp3",
+      "estimatedDurationMs": 600
+    },
+    "context": {
+      "exampleFr": "Je parle avec lui.",
+      "exampleMg": "Miresaka amin'azy aho.",
+      "situation": "Parler d'une tierce personne en complément."
+    },
+    "exam": {
+      "quizType": "fr_to_mg",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Moi", "Toi", "Eux"]
+    }
+  },
+  {
+    "id": "pronouns_010",
+    "level": "A0",
+    "category": "grammar",
+    "pos": "pronom",
+    "wordFr": "Eux",
+    "wordMg": "Azy ireo",
+    "phonetic": "/ø/",
+    "visual": { "icon": "👥", "iconClass": "icon-them", "svgState": "neutral" },
+    "audio": {
+      "ttsTextFr": "Eux.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/content/fr/audio/pronouns/eux.mp3",
+      "estimatedDurationMs": 600
+    },
+    "context": {
+      "exampleFr": "Je les vois.",
+      "exampleMg": "Mahita azy ireo aho.",
+      "situation": "Parler d'un groupe tiers en complément."
+    },
+    "exam": {
+      "quizType": "fr_to_mg",
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Moi", "Toi", "Lui"]
+    }
+  }
+]

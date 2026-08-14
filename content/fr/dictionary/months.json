@@ -7,22 +7,22 @@
     "wordFr": "Janvier",
     "wordMg": "Janoary",
     "phonetic": "/ʒɑ̃.vje/",
-    "visual": { "icon": "🗓️", "iconClass": "icon-january", "svgState": "neutral" },
+    "visual": { "icon": "🎉", "iconClass": "icon-january", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "Janvier.",
       "ttsRate": 0.9,
       "fallbackMp3": "/assets/audio/fr/months/janvier.mp3",
-      "estimatedDurationMs": 700
+      "estimatedDurationMs": 800
     },
     "context": {
-      "exampleFr": "Je suis né en janvier.",
-      "exampleMg": "Tamin'ny janoary aho no teraka.",
-      "situation": "Parler de sa date de naissance."
+      "exampleFr": "Le nouvel an est en janvier.",
+      "exampleMg": "Ny taom-baovao dia amin'ny janoary.",
+      "situation": "Parler du mois."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Febroary", "Jona", "Desambra"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Febroary", "Martsa", "Aprily"]
     }
   },
   {
@@ -33,7 +33,7 @@
     "wordFr": "Février",
     "wordMg": "Febroary",
     "phonetic": "/fe.vʁi.je/",
-    "visual": { "icon": "🗓️", "iconClass": "icon-february", "svgState": "neutral" },
+    "visual": { "icon": "❤️", "iconClass": "icon-february", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "Février.",
       "ttsRate": 0.9,
@@ -41,14 +41,14 @@
       "estimatedDurationMs": 800
     },
     "context": {
-      "exampleFr": "Février est le mois de l'amour.",
-      "exampleMg": "Febroary no volan'ny fitiavana.",
-      "situation": "Parler de la Saint-Valentin (14 février)."
+      "exampleFr": "Février a 28 jours.",
+      "exampleMg": "Febroary dia manana 28 andro.",
+      "situation": "Parler du mois."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Janoary", "Martsa", "Oktobra"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Janoary", "Martsa", "Aprily"]
     }
   },
   {
@@ -59,7 +59,7 @@
     "wordFr": "Mars",
     "wordMg": "Martsa",
     "phonetic": "/maʁs/",
-    "visual": { "icon": "🗓️", "iconClass": "icon-march", "svgState": "neutral" },
+    "visual": { "icon": "🌸", "iconClass": "icon-march", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "Mars.",
       "ttsRate": 0.9,
@@ -67,14 +67,14 @@
       "estimatedDurationMs": 700
     },
     "context": {
-      "exampleFr": "Le printemps commence en mars.",
-      "exampleMg": "Miroborobo ny lohatao amin'ny martsa.",
-      "situation": "Parler des saisons."
+      "exampleFr": "En mars, le printemps commence.",
+      "exampleMg": "Amin'ny martsa, manomboka ny lohataona.",
+      "situation": "Parler du mois."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Febroary", "Aprily", "Septambra"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Janoary", "Febroary", "Aprily"]
     }
   },
   {
@@ -85,7 +85,7 @@
     "wordFr": "Avril",
     "wordMg": "Aprily",
     "phonetic": "/a.vʁil/",
-    "visual": { "icon": "🗓️", "iconClass": "icon-april", "svgState": "neutral" },
+    "visual": { "icon": "🌧️", "iconClass": "icon-april", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "Avril.",
       "ttsRate": 0.9,
@@ -93,14 +93,14 @@
       "estimatedDurationMs": 700
     },
     "context": {
-      "exampleFr": "Le premier avril est le jour des poissons.",
-      "exampleMg": "Ny voalohany aprily no andron'ny trondro.",
-      "situation": "Parler du poisson d'avril (1er avril)."
+      "exampleFr": "En avril, il pleut souvent.",
+      "exampleMg": "Amin'ny aprily, matetika manorana.",
+      "situation": "Parler du mois."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Martsa", "Mey", "Novambra"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Janoary", "Febroary", "Martsa"]
     }
   },
   {
@@ -111,22 +111,22 @@
     "wordFr": "Mai",
     "wordMg": "Mey",
     "phonetic": "/mɛ/",
-    "visual": { "icon": "🗓️", "iconClass": "icon-may", "svgState": "neutral" },
+    "visual": { "icon": "💐", "iconClass": "icon-may", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "Mai.",
       "ttsRate": 0.9,
       "fallbackMp3": "/assets/audio/fr/months/mai.mp3",
-      "estimatedDurationMs": 600
+      "estimatedDurationMs": 700
     },
     "context": {
-      "exampleFr": "Le premier mai est la fête du travail.",
-      "exampleMg": "Ny voalohany mey no fetin'ny asa.",
-      "situation": "Parler de la fête du Travail (1er mai)."
+      "exampleFr": "Mai est le mois des fleurs.",
+      "exampleMg": "Mey no volan'ny voninkazo.",
+      "situation": "Parler du mois."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Aprily", "Jona", "Desambra"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Janoary", "Febroary", "Martsa"]
     }
   },
   {
@@ -136,8 +136,8 @@
     "pos": "nom",
     "wordFr": "Juin",
     "wordMg": "Jona",
-    "phonetic": "/ʒɥɛ̃/",
-    "visual": { "icon": "🗓️", "iconClass": "icon-june", "svgState": "neutral" },
+    "phonetic": "/ʒu.ɛ̃/",
+    "visual": { "icon": "☀️", "iconClass": "icon-june", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "Juin.",
       "ttsRate": 0.9,
@@ -145,14 +145,14 @@
       "estimatedDurationMs": 700
     },
     "context": {
-      "exampleFr": "Les vacances commencent en juin.",
-      "exampleMg": "Manomboka amin'ny jona ny fialan-tsasatra.",
-      "situation": "Parler des vacances scolaires."
+      "exampleFr": "En juin, c'est l'été.",
+      "exampleMg": "Amin'ny jona, ny fahavaratra.",
+      "situation": "Parler du mois."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Mey", "Jolay", "Oktobra"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Janoary", "Febroary", "Martsa"]
     }
   },
   {
@@ -163,7 +163,7 @@
     "wordFr": "Juillet",
     "wordMg": "Jolay",
     "phonetic": "/ʒɥi.jɛ/",
-    "visual": { "icon": "🗓️", "iconClass": "icon-july", "svgState": "neutral" },
+    "visual": { "icon": "🏖️", "iconClass": "icon-july", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "Juillet.",
       "ttsRate": 0.9,
@@ -171,14 +171,14 @@
       "estimatedDurationMs": 800
     },
     "context": {
-      "exampleFr": "Le quatorze juillet est la fête nationale.",
-      "exampleMg": "Ny efatra ambin'ny folo jolay no fetim-pirenena.",
-      "situation": "Parler de la fête nationale française (14 juillet)."
+      "exampleFr": "Juillet est le mois des vacances.",
+      "exampleMg": "Jolay no volan'ny fialan-tsasatra.",
+      "situation": "Parler du mois."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Jona", "Aogositra", "Janoary"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Janoary", "Febroary", "Martsa"]
     }
   },
   {
@@ -189,7 +189,7 @@
     "wordFr": "Août",
     "wordMg": "Aogositra",
     "phonetic": "/ut/",
-    "visual": { "icon": "🗓️", "iconClass": "icon-august", "svgState": "neutral" },
+    "visual": { "icon": "🌞", "iconClass": "icon-august", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "Août.",
       "ttsRate": 0.9,
@@ -197,14 +197,14 @@
       "estimatedDurationMs": 700
     },
     "context": {
-      "exampleFr": "Je pars en vacances en août.",
-      "exampleMg": "Miala sasatra amin'ny aogositra aho.",
-      "situation": "Parler des vacances d'été."
+      "exampleFr": "En août, il fait très chaud.",
+      "exampleMg": "Amin'ny aogositra, mafana be.",
+      "situation": "Parler du mois."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Jolay", "Septambra", "Febroary"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Janoary", "Febroary", "Martsa"]
     }
   },
   {
@@ -215,7 +215,7 @@
     "wordFr": "Septembre",
     "wordMg": "Septambra",
     "phonetic": "/sɛp.tɑ̃bʁ/",
-    "visual": { "icon": "🗓️", "iconClass": "icon-september", "svgState": "neutral" },
+    "visual": { "icon": "🎒", "iconClass": "icon-september", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "Septembre.",
       "ttsRate": 0.9,
@@ -223,14 +223,14 @@
       "estimatedDurationMs": 900
     },
     "context": {
-      "exampleFr": "L'école recommence en septembre.",
-      "exampleMg": "Miverina mianatra amin'ny septambra.",
-      "situation": "Parler de la rentrée scolaire."
+      "exampleFr": "Septembre, c'est la rentrée scolaire.",
+      "exampleMg": "Septambra, fidirana an-tsekoly.",
+      "situation": "Parler du mois."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Aogositra", "Oktobra", "Martsa"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Janoary", "Febroary", "Martsa"]
     }
   },
   {
@@ -241,7 +241,7 @@
     "wordFr": "Octobre",
     "wordMg": "Oktobra",
     "phonetic": "/ɔk.tɔbʁ/",
-    "visual": { "icon": "🗓️", "iconClass": "icon-october", "svgState": "neutral" },
+    "visual": { "icon": "🍂", "iconClass": "icon-october", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "Octobre.",
       "ttsRate": 0.9,
@@ -249,14 +249,14 @@
       "estimatedDurationMs": 800
     },
     "context": {
-      "exampleFr": "Octobre est le mois de la récolte.",
-      "exampleMg": "Oktobra no volan'ny fijinjana.",
-      "situation": "Parler des saisons et de l'agriculture."
+      "exampleFr": "En octobre, les feuilles tombent.",
+      "exampleMg": "Amin'ny oktobra, miintsana ny ravina.",
+      "situation": "Parler du mois."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Septambra", "Novambra", "Aprily"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Janoary", "Febroary", "Martsa"]
     }
   },
   {
@@ -267,22 +267,22 @@
     "wordFr": "Novembre",
     "wordMg": "Novambra",
     "phonetic": "/nɔ.vɑ̃bʁ/",
-    "visual": { "icon": "🗓️", "iconClass": "icon-november", "svgState": "neutral" },
+    "visual": { "icon": "🌧️", "iconClass": "icon-november", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "Novembre.",
       "ttsRate": 0.9,
       "fallbackMp3": "/assets/audio/fr/months/novembre.mp3",
-      "estimatedDurationMs": 800
+      "estimatedDurationMs": 900
     },
     "context": {
-      "exampleFr": "Le premier novembre est la Toussaint.",
-      "exampleMg": "Ny voalohany novambra no fetin'ny olo-masina.",
-      "situation": "Parler de la Toussaint (1er novembre)."
+      "exampleFr": "Novembre est le mois de la pluie.",
+      "exampleMg": "Novambra no volan'ny orana.",
+      "situation": "Parler du mois."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Oktobra", "Desambra", "Jona"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Janoary", "Febroary", "Martsa"]
     }
   },
   {
@@ -293,22 +293,22 @@
     "wordFr": "Décembre",
     "wordMg": "Desambra",
     "phonetic": "/de.sɑ̃bʁ/",
-    "visual": { "icon": "🎄", "iconClass": "icon-december", "svgState": "happy" },
+    "visual": { "icon": "🎄", "iconClass": "icon-december", "svgState": "neutral" },
     "audio": {
       "ttsTextFr": "Décembre.",
       "ttsRate": 0.9,
       "fallbackMp3": "/assets/audio/fr/months/decembre.mp3",
-      "estimatedDurationMs": 800
+      "estimatedDurationMs": 900
     },
     "context": {
-      "exampleFr": "Noël est le vingt-cinq décembre.",
-      "exampleMg": "Ny Krismasy no amin'ny roa amby efatra desambra.",
-      "situation": "Parler de Noël (25 décembre)."
+      "exampleFr": "Décembre, c'est Noël !",
+      "exampleMg": "Desambra, ny Krismasy !",
+      "situation": "Parler du mois."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1", "exam_a1_a2"],
-      "distractors": ["Novambra", "Janoary", "Jolay"]
+      "eligibleFor": ["exam_a0_a1"],
+      "distractors": ["Janoary", "Febroary", "Martsa"]
     }
   }
 ]
