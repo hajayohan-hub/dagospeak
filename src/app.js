@@ -6091,60 +6091,84 @@ async function renderConversation() {
             }
           }
 
-        // ✅ Fonction pour gérer la réponse STT
+          // Ajout messge pédagogique
+
         function handleSTTResponse(btn, idx, expected, node, attempts, feedback) {
-            btn.textContent = '🎤 Écoute...';
-            btn.disabled = true;
+              btn.textContent = '🎤 Écoute...';
+              btn.disabled = true;
 
-            // ✅ Utiliser uniquement le texte français pour la comparaison
-            const expectedFrench = expected; // Déjà en français depuis data-expected
+              const expectedFrench = expected;
+              const isSimulation = sttManager.isSimulationMode();
 
-            sttManager.startListening('fr-FR', {
-              onStart: () => {
-                console.log('[STT] Écoute démarrée');
-              },
-              onResult: (results) => {
-                const recognized = results[0];
-                console.log('[STT] Reconnu:', recognized);
+              sttManager.startListening('fr-FR', {
+                onStart: () => {
+                  console.log('[STT] Écoute démarrée');
+                },
+                onResult: (results) => {
+                  const recognized = results[0];
+                  console.log('[STT] Reconnu:', recognized);
 
-                // ✅ Comparer avec le texte français uniquement
-                const comparison = sttManager.compareTexts(recognized, expectedFrench);
-                console.log('[STT] Comparaison:', comparison);
+                  const comparison = sttManager.compareTexts(recognized, expectedFrench);
+                  console.log('[STT] Comparaison:', comparison);
 
-                if (comparison.isCorrect) {
-                  handleUserResponse(idx, node, attempts, feedback);
-                } else {
+                  if (comparison.isCorrect) {
+                    // ✅ Message pédagogique si simulation
+                    if (comparison.isSimulation) {
+                      feedback.innerHTML = `
+                        <div style="background: linear-gradient(135deg, #e0f2fe, #dbeafe); padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-primary);">
+                          <div style="font-size: 2rem;">📶</div>
+                          <p style="color: var(--ds-color-primary); font-weight: 600; margin-bottom: 0.5rem;">
+                            Mode hors-ligne - Continuez à pratiquer !
+                          </p>
+                          <p style="color: var(--ds-color-text-muted); font-size: 0.85rem; margin-bottom: 1rem;">
+                            💡 Connectez-vous pour une évaluation précise de votre prononciation.
+                          </p>
+                          <button id="btn-continue" style="background: var(--ds-color-primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%;">
+                            Manaraka →
+                          </button>
+                        </div>
+                      `;
+
+                      document.getElementById('btn-continue').addEventListener('click', () => {
+                        currentNodeId = node.nextNodeOnSuccess;
+                        renderNode();
+                      });
+                    } else {
+                      // Mode réel : feedback normal
+                      handleUserResponse(idx, node, attempts, feedback);
+                    }
+                  } else {
+                    feedback.innerHTML = `
+                      <div style="background: #fef3c7; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-accent);">
+                        <div style="font-size: 2rem;">🎤</div>
+                        <p>J'ai entendu : <strong>${recognized}</strong></p>
+                        <p>Score : ${comparison.score}% - ${comparison.feedback}</p>
+                      </div>
+                      <button id="btn-retry-stt" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">🔁 Réessayer</button>
+                    `;
+
+                    document.getElementById('btn-retry-stt').addEventListener('click', () => {
+                      renderNode();
+                    });
+                  }
+                },
+                onEnd: () => {
+                  console.log('[STT] Écoute terminée');
+                },
+                onError: (error) => {
+                  console.error('[STT] Erreur:', error);
+                  btn.textContent = '🎤 Prononcer cette réponse';
+                  btn.disabled = false;
+
                   feedback.innerHTML = `
-                    <div style="background: #fef3c7; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-accent);">
-                      <div style="font-size: 2rem;">🎤</div>
-                      <p>J'ai entendu : <strong>${recognized}</strong></p>
-                      <p>Score : ${comparison.score}% - ${comparison.feedback}</p>
+                    <div style="background: #fee2e2; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-danger);">
+                      <div style="font-size: 2rem;">⚠️</div>
+                      <p>Erreur de reconnaissance vocale. Utilisez le bouton ci-dessus.</p>
                     </div>
-                    <button id="btn-retry-stt" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">🔁 Réessayer</button>
                   `;
-
-                  document.getElementById('btn-retry-stt').addEventListener('click', () => {
-                    renderNode();
-                  });
                 }
-              },
-              onEnd: () => {
-                console.log('[STT] Écoute terminée');
-              },
-              onError: (error) => {
-                console.error('[STT] Erreur:', error);
-                btn.textContent = '🎤 Prononcer cette réponse';
-                btn.disabled = false;
-
-                feedback.innerHTML = `
-                  <div style="background: #fee2e2; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-danger);">
-                    <div style="font-size: 2rem;">⚠️</div>
-                    <p>Erreur de reconnaissance vocale. Utilisez le bouton ci-dessus.</p>
-                  </div>
-                `;
-              }
-            });
-          }
+              });
+            }
 
         // ✅ Bouton Quitter
         document.getElementById('btn-quit').addEventListener('click', () => {
