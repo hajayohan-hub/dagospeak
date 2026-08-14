@@ -5744,6 +5744,21 @@ function personalizeText(text) {
 }
 
 // ═══════════════════════════════════════════════════════════
+// HELPER : Auto-scroll vers le dernier message
+// ═══════════════════════════════════════════════════════════
+function scrollConversationToBottom() {
+  requestAnimationFrame(() => {
+    const chat = document.querySelector('.live-chat');
+    if (!chat) return;
+
+    chat.scrollTo({
+      top: chat.scrollHeight,
+      behavior: 'smooth'
+    });
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
 // VUE : CONVERSATION SEMI-LIBRE (Teacher Avatar IA)
 // ═══════════════════════════════════════════════════════════
 
@@ -5858,6 +5873,7 @@ async function renderConversation() {
 
           // Avatar
           mountLiveAvatar();
+          scrollConversationToBottom();
 
           // Retour aux dialogues
           document
@@ -5907,92 +5923,87 @@ async function renderConversation() {
         // =====================================================
         // NŒUD TEACHER
         // =====================================================
-      if (node.speaker === 'teacher') {
+           if (node.speaker === 'teacher') {
 
         // ✅ Personnaliser les textes avec le prénom
-          const personalizedTextFr = personalizeText(node.textFr);
-          const personalizedTextMg = personalizeText(node.textMg);
-          const personalizedTtsText = personalizeText(node.audio.ttsTextFr);
-          main.innerHTML = `
-            <section class="live-container">
-              <div class="live-header">
-                <button id="btn-back-dialogue" class="live-quit" aria-label="Retour aux dialogues" style="background: transparent; font-size: 1.2rem;">←</button>
-                <div class="live-teacher-wrap" id="live-teacher-avatar"></div>
-                <div class="live-teacher-info">
-                  <div class="live-teacher-name">Teacher AI <span class="live-badge">● LIVE</span></div>
-                  <div class="live-dialogue-title">💬 ${dialogue.titleFr}</div>
-                </div>
-                <button id="btn-quit" class="live-quit" aria-label="Quitter">✕</button>
-              </div>
-              <div class="live-chat">
-                <div class="live-bubble teacher">
-                  <div class="live-bubble-text">"${node.textFr}"</div>
-                  <div class="live-bubble-sub">(${node.textMg})</div>
-                </div>
-                <div class="live-actions">
-                  <button id="btn-play" class="live-btn primary">🔊 Mihainoa</button>
-                  <button id="btn-next" class="live-btn success" disabled>Manaraka →</button>
-                </div>
-              </div>
-            </section>
-          `;
-          mountLiveAvatar();
+        const personalizedTextFr = personalizeText(node.textFr);
+        const personalizedTextMg = personalizeText(node.textMg);
+        const personalizedTtsText = personalizeText(node.audio.ttsTextFr);
 
-          // ✅ Bouton Retour aux dialogues
-          document.getElementById('btn-back-dialogue').addEventListener('click', () => {
+        main.innerHTML = `
+          <section class="live-container">
+            <div class="live-header">
+              <button id="btn-back-dialogue" class="live-quit" aria-label="Retour aux dialogues" style="background: transparent; font-size: 1.2rem;">←</button>
+              <div class="live-teacher-wrap" id="live-teacher-avatar"></div>
+              <div class="live-teacher-info">
+                <div class="live-teacher-name">Teacher AI <span class="live-badge">● LIVE</span></div>
+                <div class="live-dialogue-title">💬 ${dialogue.titleFr}</div>
+              </div>
+              <button id="btn-quit" class="live-quit" aria-label="Quitter">✕</button>
+            </div>
+            <div class="live-chat">
+              <div class="live-bubble teacher">
+                <div class="live-bubble-text">"${personalizedTextFr}"</div>
+                <div class="live-bubble-sub">(${personalizedTextMg})</div>
+              </div>
+              <div class="live-actions">
+                <button id="btn-play" class="live-btn primary">🔊 Mihainoa</button>
+              </div>
+            </div>
+          </section>
+        `;
+
+        mountLiveAvatar();
+        scrollConversationToBottom();
+
+        // ✅ TTS automatique au chargement du nœud
+        const btn = document.getElementById('btn-play');
+        btn.textContent = '🔊 ...';
+
+        speakWithFeedback(personalizedTtsText, {
+          rate: node.audio.ttsRate || 0.9,
+          gender: 'female',
+          onStart: () => {
+            if (window.teacherAvatarSVG) {
+              window.teacherAvatarSVG.startSpeaking();
+            }
+          },
+          onEnd: () => {
+            btn.textContent = '🔊 Mihainoa';
+            if (window.teacherAvatarSVG) {
+              window.teacherAvatarSVG.stopSpeaking();
+            }
+            // ✅ Auto-progression après délai pédagogique
+            setTimeout(() => {
+              currentNodeId = node.nextNode;
+              renderNode();
+            }, 1200);
+          },
+          onError: () => {
+            btn.textContent = '🔊 Mihainoa';
+            if (window.teacherAvatarSVG) {
+              window.teacherAvatarSVG.stopSpeaking();
+            }
+            // ✅ Auto-progression même en cas d'erreur
+            setTimeout(() => {
+              currentNodeId = node.nextNode;
+              renderNode();
+            }, 1200);
+          }
+        });
+
+        // ✅ Bouton Quitter
+        document.getElementById('btn-quit').addEventListener('click', () => {
+          if (confirm('Quitter la conversation ?')) {
             router.navigate('/conversation-live');
-          });
+          }
+        });
 
-          let hasPlayed = false;
+        // ✅ Bouton Retour aux dialogues
+        document.getElementById('btn-back-dialogue').addEventListener('click', () => {
+          router.navigate('/conversation-live');
+        });
 
-          // ✅ Bouton Écouter
-          document.getElementById('btn-play').addEventListener('click', () => {
-              const btn = document.getElementById('btn-play');
-              const btnNext = document.getElementById('btn-next');
-              btn.textContent = '🔊 ...';
-
-              // ✅ Utiliser personalizedTtsText au lieu de node.audio.ttsTextFr
-              speakWithFeedback(personalizedTtsText, {
-                rate: node.audio.ttsRate || 0.9,
-                gender: 'female',
-              onStart: () => {
-                btn.textContent = '🔊 ...';
-                if (window.teacherAvatarSVG) {
-                  window.teacherAvatarSVG.startSpeaking();
-                  window.teacherAvatarSVG.setExpression('happy');
-                }
-              },
-              onEnd: () => {
-                btn.textContent = '🔊 Écouter';
-                // ✅ Débloquer le bouton Suivant après écoute
-                hasPlayed = true;
-                btnNext.disabled = false;
-                btnNext.classList.add('guide-active');
-                btnNext.style.animation = 'pulse-green 1.5s infinite';
-
-                if (window.teacherAvatarSVG) {
-                  window.teacherAvatarSVG.stopSpeaking();
-                }
-              }
-            });
-          });
-
-          // ✅ Bouton Suivant (corrigé)
-          document.getElementById('btn-next').addEventListener('click', () => {
-            if (!hasPlayed) {
-              console.warn('[Conversation] ⚠️ Écoutez d\'abord avant de continuer');
-              return;
-            }
-            currentNodeId = node.nextNode;
-            renderNode();
-          });
-
-          // ✅ Bouton Quitter
-          document.getElementById('btn-quit').addEventListener('click', () => {
-            if (confirm('Quitter la conversation ?')) {
-              router.navigate('/conversation-live');
-            }
-          });
 
 
       } else if (node.speaker === 'user') {
@@ -6079,38 +6090,49 @@ async function renderConversation() {
             document.querySelectorAll('.btn-option, .btn-microphone, .btn-auto-eval').forEach(b => b.disabled = true);
 
             // ✅ Dans la gestion du succès, utiliser les textes personnalisés
-              if (selected.isCorrect) {
-                feedback.innerHTML = `
-                  <div style="background: var(--ds-color-success-soft, #d1fae5); padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-success);">
-                    <div style="font-size: 2rem;">✅</div>
-                    <p style="color: var(--ds-color-success); font-weight: 600;">${successFeedbackFr}</p>
-                    <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${successFeedbackMg})</p>
-                  </div>
-                  <button id="btn-continue" style="...">Manaraka →</button>
-                `;
+                      if (selected.isCorrect) {
+          if (clickedBtn) clickedBtn.style.borderColor = 'var(--ds-color-success)';
 
-                // ✅ Utiliser successTtsText
-                const u = new SpeechSynthesisUtterance(successTtsText);
-              u.lang = 'fr-FR';
-              u.rate = 0.9;
-              u.onstart = () => {
-                if (window.teacherAvatarSVG) {
-                  window.teacherAvatarSVG.startSpeaking();
-                  window.teacherAvatarSVG.setExpression('happy');
-                }
-              };
-              u.onend = () => {
-                if (window.teacherAvatarSVG) {
-                  window.teacherAvatarSVG.stopSpeaking();
-                  window.teacherAvatarSVG.setExpression('neutral');
-                }
-              };
-              speechSynthesis.speak(u);
+          feedback.innerHTML = `
+            <div style="background: var(--ds-color-success-soft, #d1fae5); padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-success);">
+              <div style="font-size: 2rem;">✅</div>
+              <p style="color: var(--ds-color-success); font-weight: 600;">${successFeedbackFr}</p>
+              ${isAutoEval ? '<p style="color: var(--ds-color-text-muted); font-size: 0.85rem;">(Auto-évaluation)</p>' : ''}
+              <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${successFeedbackMg})</p>
+            </div>
+          `;
+
+          // ✅ TTS du feedback
+          const u = new SpeechSynthesisUtterance(successTtsText);
+          u.lang = 'fr-FR';
+          u.rate = 0.9;
+          u.onstart = () => {
+            if (window.teacherAvatarSVG) {
+              window.teacherAvatarSVG.startSpeaking();
+              window.teacherAvatarSVG.setExpression('happy');
+            }
+          };
+          u.onend = () => {
+            if (window.teacherAvatarSVG) {
+              window.teacherAvatarSVG.stopSpeaking();
+              window.teacherAvatarSVG.setExpression('neutral');
+            }
+            // ✅ Auto-progression après délai pédagogique
+            setTimeout(() => {
+              currentNodeId = node.nextNodeOnSuccess;
+              renderNode();
+            }, 1200);
+          };
+          speechSynthesis.speak(u);
+
+          scrollConversationToBottom();
+
 
               document.getElementById('btn-continue').addEventListener('click', () => {
                 currentNodeId = node.nextNodeOnSuccess;
                 renderNode();
               });
+
             } else {
               if (clickedBtn) clickedBtn.style.borderColor = 'var(--ds-color-danger, #ef4444)';
 
@@ -6127,6 +6149,7 @@ async function renderConversation() {
                   currentNodeId = node.nextNodeOnMaxAttemptsReached;
                   renderNode();
                 });
+
               } else {
                 feedback.innerHTML = `
                   <div style="background: #fee2e2; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-danger, #ef4444);">
