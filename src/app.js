@@ -6223,13 +6223,7 @@ async function renderConversation() {
                   `;
                 }
               });
-
-        // ✅ Bouton Quitter
-        document.getElementById('btn-quit').addEventListener('click', () => {
-          if (confirm('Quitter la conversation ?')) {
-            router.navigate('/conversation-live');
           }
-        });
       }
     };
 
