@@ -6161,19 +6161,19 @@ async function renderConversation() {
                   <button id="btn-retry" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">🔁 Réessayer</button>
                 `;
                 // ✅ TTS du feedback d'\''échec\
-                  const uFail = new SpeechSynthesisUtterance(failTtsText);\
-                  uFail.lang = '\''fr-FR'\'';\
-                  uFail.rate = node.feedbackOnFail?.audio?.ttsRate || 0.9;\
-                  uFail.onstart = () => {\
-                    if (window.teacherAvatarSVG) {\
-                      window.teacherAvatarSVG.startSpeaking();\
-                    }\
-                  };\
-                  uFail.onend = () => {\
-                    if (window.teacherAvatarSVG) {\
-                      window.teacherAvatarSVG.stopSpeaking();\
-                    }\
-                  };\
+                  const uFail = new SpeechSynthesisUtterance(failTtsText);
+                  uFail.lang = 'fr-FR';
+                  uFail.rate = node.feedbackOnFail?.audio?.ttsRate || 0.9;
+                  uFail.onstart = () => {
+                    if (window.teacherAvatarSVG) {
+                    }
+                  };
+                  uFail.onend = () => {
+                  uFail.onend = () => {
+                    }
+                  };
+                  speechSynthesis.speak(uFail);
+                  };
                   speechSynthesis.speak(uFail);
 
                 if (window.teacherAvatarSVG) {
