@@ -5598,17 +5598,18 @@ async function renderConversationLive() {
     `;
 
     // Initialiser le SVG avatar
-    try {
-      const module = await import('./ui/components/teacher-avatar-svg.js');
-      const TeacherAvatarSVG = module.TeacherAvatarSVG;
-      const avatarSVG = new TeacherAvatarSVG('teacher-avatar-svg-container');
-      avatarSVG.render();
-      avatarSVG.setExpression('happy');
-      window.teacherAvatarSVG = avatarSVG;
-      console.log('[ConversationLive] ✅ Avatar SVG initialisé');
-    } catch (e) {
-      console.warn('[ConversationLive] Avatar SVG non disponible:', e);
-    }
+     // Initialiser l'avatar avec cascade de fallback (3D → SVG → emoji)
+      try {
+        const module = await import('./ui/components/teacher-avatar-renderer.js');
+        const TeacherAvatarRenderer = module.TeacherAvatarRenderer;
+        const avatarRenderer = new TeacherAvatarRenderer('teacher-avatar-svg-container');
+        await avatarRenderer.render();
+        avatarRenderer.setExpression('happy');
+        window.teacherAvatarSVG = avatarRenderer;
+        console.log(`[ConversationLive] ✅ Avatar initialisé en mode: ${avatarRenderer.getMode()}`);
+      } catch (e) {
+        console.warn('[ConversationLive] Avatar non disponible:', e);
+      }
 
     // ✅ Afficher le Teacher Avatar flottant
     if (window.teacherAvatar) {
@@ -5714,15 +5715,17 @@ async function renderConversationLive() {
 }
 
 // ✅ Monte l'avatar SVG dans le header live (après chaque rendu)
+// ✅ Monte l'avatar dans le header live avec cascade de fallback
 async function mountLiveAvatar() {
   try {
-    if (!window.TeacherAvatarSVGClass) {
-      const module = await import('./ui/components/teacher-avatar-svg.js');
-      window.TeacherAvatarSVGClass = module.TeacherAvatarSVG;
+    if (!window.TeacherAvatarRendererClass) {
+      const module = await import('./ui/components/teacher-avatar-renderer.js');
+      window.TeacherAvatarRendererClass = module.TeacherAvatarRenderer;
     }
-    const avatar = new window.TeacherAvatarSVGClass('live-teacher-avatar');
-    avatar.render();
+    const avatar = new window.TeacherAvatarRendererClass('live-teacher-avatar');
+    await avatar.render();
     window.teacherAvatarSVG = avatar;
+    console.log(`[Live] ✅ Avatar monté en mode: ${avatar.getMode()}`);
   } catch (e) {
     console.warn('[Live] Avatar non disponible:', e);
   }
@@ -6090,56 +6093,58 @@ async function renderConversation() {
 
         // ✅ Fonction pour gérer la réponse STT
         function handleSTTResponse(btn, idx, expected, node, attempts, feedback) {
-          btn.textContent = '🎤 Écoute...';
-          btn.disabled = true;
+            btn.textContent = '🎤 Écoute...';
+            btn.disabled = true;
 
-          sttManager.startListening('fr-FR', {
-            onStart: () => {
-              console.log('[STT] Écoute démarrée');
-            },
-            onResult: (results) => {
-              const recognized = results[0];
-              console.log('[STT] Reconnu:', recognized);
+            // ✅ Utiliser uniquement le texte français pour la comparaison
+            const expectedFrench = expected; // Déjà en français depuis data-expected
 
-              const comparison = sttManager.compareTexts(recognized, expected);
-              console.log('[STT] Comparaison:', comparison);
+            sttManager.startListening('fr-FR', {
+              onStart: () => {
+                console.log('[STT] Écoute démarrée');
+              },
+              onResult: (results) => {
+                const recognized = results[0];
+                console.log('[STT] Reconnu:', recognized);
 
-              if (comparison.isCorrect) {
-                // Succès : traiter comme si l'utilisateur avait cliqué la bonne réponse
-                handleUserResponse(idx, node, attempts, feedback);
-              } else {
-                // Échec : afficher le feedback et permettre de réessayer
+                // ✅ Comparer avec le texte français uniquement
+                const comparison = sttManager.compareTexts(recognized, expectedFrench);
+                console.log('[STT] Comparaison:', comparison);
+
+                if (comparison.isCorrect) {
+                  handleUserResponse(idx, node, attempts, feedback);
+                } else {
+                  feedback.innerHTML = `
+                    <div style="background: #fef3c7; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-accent);">
+                      <div style="font-size: 2rem;">🎤</div>
+                      <p>J'ai entendu : <strong>${recognized}</strong></p>
+                      <p>Score : ${comparison.score}% - ${comparison.feedback}</p>
+                    </div>
+                    <button id="btn-retry-stt" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">🔁 Réessayer</button>
+                  `;
+
+                  document.getElementById('btn-retry-stt').addEventListener('click', () => {
+                    renderNode();
+                  });
+                }
+              },
+              onEnd: () => {
+                console.log('[STT] Écoute terminée');
+              },
+              onError: (error) => {
+                console.error('[STT] Erreur:', error);
+                btn.textContent = '🎤 Prononcer cette réponse';
+                btn.disabled = false;
+
                 feedback.innerHTML = `
-                  <div style="background: #fef3c7; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-accent);">
-                    <div style="font-size: 2rem;">🎤</div>
-                    <p>J'ai entendu : <strong>${recognized}</strong></p>
-                    <p>Score : ${comparison.score}% - ${comparison.feedback}</p>
+                  <div style="background: #fee2e2; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-danger);">
+                    <div style="font-size: 2rem;">⚠️</div>
+                    <p>Erreur de reconnaissance vocale. Utilisez le bouton ci-dessus.</p>
                   </div>
-                  <button id="btn-retry-stt" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">🔁 Réessayer</button>
                 `;
-
-                document.getElementById('btn-retry-stt').addEventListener('click', () => {
-                  renderNode();
-                });
               }
-            },
-            onEnd: () => {
-              console.log('[STT] Écoute terminée');
-            },
-            onError: (error) => {
-              console.error('[STT] Erreur:', error);
-              btn.textContent = '🎤 Prononcer cette réponse';
-              btn.disabled = false;
-
-              feedback.innerHTML = `
-                <div style="background: #fee2e2; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-danger);">
-                  <div style="font-size: 2rem;">⚠️</div>
-                  <p>Erreur de reconnaissance vocale. Utilisez le bouton ci-dessus.</p>
-                </div>
-              `;
-            }
-          });
-        }
+            });
+          }
 
         // ✅ Bouton Quitter
         document.getElementById('btn-quit').addEventListener('click', () => {
