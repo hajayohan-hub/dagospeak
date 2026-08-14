@@ -5491,6 +5491,9 @@ function getSkeletonThemesList() {
 // ═══════════════════════════════════════════════════════════
 // VUE : CONVERSATION LIVE (sélection par niveau)
 // ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
+// VUE : CONVERSATION LIVE (sélection par niveau + dialogues)
+// ═══════════════════════════════════════════════════════════
 async function renderConversationLive() {
   console.log('[ConversationLive] 🚀 Fonction appelée');
   updateNavActiveState();
@@ -5505,73 +5508,50 @@ async function renderConversationLive() {
   console.log('[ConversationLive] ✅ Skeleton affiché');
 
   try {
-    // Supprimer les actions flottantes de l'accueil
     const floatActions = document.getElementById('floating-home-actions');
     if (floatActions) floatActions.remove();
 
+    // ✅ Données des conversations par niveau
+    const conversationsData = {
+      A0: [
+        { id: 'market_01', title: 'Au marché', icon: '🏪', description: 'Acheter du riz et des légumes' },
+        { id: 'greetings_01', title: 'Se présenter', icon: '👋', description: 'Dire son nom et demander comment ça va' },
+        { id: 'family_01', title: 'Parler de sa famille', icon: '👨‍👩‍👧', description: 'Présenter ses parents et frères/sœurs' },
+        { id: 'numbers_01', title: 'Compter et demander des prix', icon: '🔢', description: 'Acheter avec des quantités' },
+        { id: 'colors_01', title: 'Décrire des couleurs', icon: '🎨', description: 'Identifier les couleurs du ciel et de la nature' },
+        { id: 'survival_01', title: 'Demander de l\'aide', icon: '🆘', description: 'Demander son chemin et remercier' },
+        { id: 'body_01', title: 'Parler de son corps', icon: '🏥', description: 'Décrire une douleur chez le médecin' }
+      ],
+      A1: [], // À venir
+      A2: [], // À venir
+      B1: []  // À venir
+    };
+
     const levels = [
-      {
-        id: 'A0',
-        name: 'Niveau A0',
-        subtitle: 'Débutant absolu',
-        description: 'Dialogues simples pour survivre au quotidien',
-        available: true,
-        example: 'market_01',
-        color: 'var(--ds-color-success)',
-        icon: '🌱'
-      },
-      {
-        id: 'A1',
-        name: 'Niveau A1',
-        subtitle: 'Élémentaire',
-        description: 'Conversations de la vie courante',
-        available: false,
-        example: null,
-        color: 'var(--ds-color-primary)',
-        icon: '📚'
-      },
-      {
-        id: 'A2',
-        name: 'Niveau A2',
-        subtitle: 'Intermédiaire',
-        description: 'Discussions complexes et professionnelles',
-        available: false,
-        example: null,
-        color: 'var(--ds-color-accent)',
-        icon: '🎓'
-      },
-      {
-        id: 'B1',
-        name: 'Niveau B1',
-        subtitle: 'Seuil',
-        description: 'Débats et opinions argumentées',
-        available: false,
-        example: null,
-        color: 'var(--ds-color-text-muted)',
-        icon: '🔒'
-      }
+      { id: 'A0', name: 'Niveau A0', subtitle: 'Débutant absolu', available: true, color: 'var(--ds-color-success)', icon: '🌱', conversations: conversationsData.A0 },
+      { id: 'A1', name: 'Niveau A1', subtitle: 'Élémentaire', available: false, color: 'var(--ds-color-primary)', icon: '📚', conversations: conversationsData.A1 },
+      { id: 'A2', name: 'Niveau A2', subtitle: 'Intermédiaire', available: false, color: 'var(--ds-color-accent)', icon: '🎓', conversations: conversationsData.A2 },
+      { id: 'B1', name: 'Niveau B1', subtitle: 'Seuil', available: false, color: 'var(--ds-color-text-muted)', icon: '🔒', conversations: conversationsData.B1 }
     ];
 
     main.innerHTML = `
       <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem;">
-        <ds-button variant="ghost" size="sm" id="btn-back" style="margin-bottom: 1rem;">← Retour</ds-button>
+        <ds-button variant="ghost" size="sm" id="btn-back-conv" style="margin-bottom: 1rem;">← Retour</ds-button>
 
         <div style="text-align: center; margin-bottom: 2rem;">
           <div style="font-size: 4rem; margin-bottom: 1rem;">💬</div>
           <h2 style="color: var(--ds-color-primary); margin-bottom: 0.5rem;">Conversation Live avec Teacher AI</h2>
-          <p style="color: var(--ds-color-text-muted);">Pratiquez le français en conversation réelle avec votre professeur virtuel</p>
+          <p style="color: var(--ds-color-text-muted);">Pratiquez le français en conversation réelle</p>
         </div>
 
-        <!-- ✅ Avatar SVG animé en haut -->
-       <div id="teacher-avatar-svg-container" style="display: flex; justify-content: center; align-items: center; margin: 1.5rem 0;"></div>
-          <!-- Le SVG sera injecté par JavaScript -->
-        </div>
+        <!-- Avatar SVG -->
+        <div id="teacher-avatar-svg-container" style="display: flex; justify-content: center; align-items: center; margin: 1.5rem 0;"></div>
 
-        <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <!-- Sélection des niveaux -->
+        <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
           ${levels.map(level => `
             <div class="conversation-level-card ${level.available ? 'available' : 'locked'}"
                  data-level="${level.id}"
-                 data-example="${level.example || ''}"
                  style="
                    background: var(--ds-color-surface);
                    padding: 1.5rem;
@@ -5585,8 +5565,8 @@ async function renderConversationLive() {
                 <div style="font-size: 2.5rem;">${level.icon}</div>
                 <div style="flex: 1;">
                   <h3 style="margin: 0 0 0.25rem 0; color: var(--ds-color-text);">${level.name}</h3>
-                  <p style="margin: 0 0 0.5rem 0; color: ${level.color}; font-weight: 600; font-size: 0.9rem;">${level.subtitle}</p>
-                  <p style="margin: 0; color: var(--ds-color-text-muted); font-size: 0.85rem;">${level.description}</p>
+                  <p style="margin: 0; color: ${level.color}; font-weight: 600; font-size: 0.9rem;">${level.subtitle}</p>
+                  ${level.available && level.conversations.length > 0 ? `<p style="margin: 0.25rem 0 0 0; color: var(--ds-color-text-muted); font-size: 0.8rem;">${level.conversations.length} dialogues disponibles</p>` : ''}
                 </div>
                 <div style="font-size: 1.5rem; color: ${level.available ? level.color : 'var(--ds-color-text-muted)'};">
                   ${level.available ? '→' : '🔒'}
@@ -5596,38 +5576,52 @@ async function renderConversationLive() {
           `).join('')}
         </div>
 
+        <!-- Liste des dialogues A0 (cachée au départ) -->
+        <div id="dialogues-list" style="display: none;">
+          <h3 style="color: var(--ds-color-text); margin-bottom: 1rem;">📋 Choisissez un dialogue :</h3>
+          <div id="dialogues-container" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
+          <ds-button variant="ghost" size="sm" id="btn-back-levels" style="margin-top: 1rem;">← Retour aux niveaux</ds-button>
+        </div>
+
         <div style="margin-top: 2rem; padding: 1rem; background: var(--ds-color-surface-2); border-radius: var(--ds-radius-md); text-align: center;">
           <p style="margin: 0; color: var(--ds-color-text-muted); font-size: 0.85rem;">
-            💡 Plus de niveaux seront ajoutés prochainement. A0 est disponible maintenant avec un exemple de dialogue au marché.
+            💡 A0 disponible maintenant. Plus de niveaux prochainement.
           </p>
         </div>
       </section>
     `;
 
     // Initialiser le SVG avatar
-    import('./ui/components/teacher-avatar-svg.js').then(module => {
+    try {
+      const module = await import('./ui/components/teacher-avatar-svg.js');
       const TeacherAvatarSVG = module.TeacherAvatarSVG;
       const avatarSVG = new TeacherAvatarSVG('teacher-avatar-svg-container');
       avatarSVG.render();
       avatarSVG.setExpression('happy');
       window.teacherAvatarSVG = avatarSVG;
       console.log('[ConversationLive] ✅ Avatar SVG initialisé');
-    }).catch(e => console.warn('[ConversationLive] Avatar SVG non disponible:', e));
+    } catch (e) {
+      console.warn('[ConversationLive] Avatar SVG non disponible:', e);
+    }
 
-    // Event listeners
-    document.getElementById('btn-back').addEventListener('click', () => {
+    // ✅ Afficher le Teacher Avatar flottant
+    if (window.teacherAvatar) {
+      window.teacherAvatar.show('conversation-live');
+    }
+
+    // Event listener retour
+    document.getElementById('btn-back-conv').addEventListener('click', () => {
       router.navigate('/');
     });
 
-    // Clic sur les cartes de niveau
+    // ✅ Clic sur les niveaux
     document.querySelectorAll('.conversation-level-card').forEach(card => {
       card.addEventListener('click', () => {
         const level = card.dataset.level;
-        const example = card.dataset.example;
-        const isAvailable = card.classList.contains('available');
+        const levelData = levels.find(l => l.id === level);
 
-        if (!isAvailable) {
-          // Feedback visuel pour les niveaux non disponibles
+        if (!levelData || !levelData.available) {
+          // Animation de secousse pour les niveaux verrouillés
           card.style.transform = 'translateX(-5px)';
           setTimeout(() => { card.style.transform = 'translateX(5px)'; }, 100);
           setTimeout(() => { card.style.transform = ''; }, 200);
@@ -5637,29 +5631,79 @@ async function renderConversationLive() {
           return;
         }
 
-        // Niveau disponible → lancer la conversation
-        if (example) {
-          console.log(`[ConversationLive] 🚀 Niveau ${level}, dialogue ${example}`);
-          // ✅ Stocker l'ID puis naviguer sans query string (le routeur hash ne gère pas ?)
-          window.currentConversationId = example;
-          router.navigate('/conversation');
-        } else {
-          console.log(`[ConversationLive] ⚠️ Niveau ${level} disponible mais pas d'exemple`);
-        }
+        // Afficher la liste des dialogues
+        showDialoguesList(levelData.conversations, levelData.name);
       });
     });
 
-    if (window.teacherAvatar) window.teacherAvatar.show('conversation-live');
+    // ✅ Fonction pour afficher les dialogues
+    function showDialoguesList(conversations, levelName) {
+      const dialoguesContainer = document.getElementById('dialogues-container');
+      const dialoguesList = document.getElementById('dialogues-list');
+      const levelsSection = document.querySelector('.conversation-level-card').parentElement;
+
+      // Cacher les niveaux, afficher les dialogues
+      levelsSection.style.display = 'none';
+      dialoguesList.style.display = 'block';
+
+      // Remplir la liste des dialogues
+      dialoguesContainer.innerHTML = conversations.map(conv => `
+        <div class="dialogue-card" data-dialogue-id="${conv.id}" style="
+          background: var(--ds-color-surface);
+          padding: 1rem 1.25rem;
+          border-radius: var(--ds-radius-md);
+          border: 2px solid var(--ds-color-border);
+          cursor: pointer;
+          transition: all 0.2s ease;
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        ">
+          <div style="font-size: 2rem;">${conv.icon}</div>
+          <div style="flex: 1;">
+            <h4 style="margin: 0 0 0.25rem 0; color: var(--ds-color-text); font-size: 1rem;">${conv.title}</h4>
+            <p style="margin: 0; color: var(--ds-color-text-muted); font-size: 0.85rem;">${conv.description}</p>
+          </div>
+          <div style="font-size: 1.2rem; color: var(--ds-color-primary);">→</div>
+        </div>
+      `).join('');
+
+      // Event listener pour chaque dialogue
+      dialoguesContainer.querySelectorAll('.dialogue-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const dialogueId = card.dataset.dialogueId;
+          console.log(`[ConversationLive] 🚀 Lancement dialogue: ${dialogueId}`);
+          window.currentConversationId = dialogueId;
+          router.navigate('/conversation');
+        });
+
+        // Effet hover
+        card.addEventListener('mouseenter', () => {
+          card.style.borderColor = 'var(--ds-color-primary)';
+          card.style.transform = 'translateX(4px)';
+        });
+        card.addEventListener('mouseleave', () => {
+          card.style.borderColor = 'var(--ds-color-border)';
+          card.style.transform = '';
+        });
+      });
+
+      // Bouton retour aux niveaux
+      document.getElementById('btn-back-levels').addEventListener('click', () => {
+        levelsSection.style.display = 'flex';
+        dialoguesList.style.display = 'none';
+      });
+
+      // Guide Teacher AI
+      if (window.teacherAvatarSVG) {
+        window.teacherAvatarSVG.setExpression('happy');
+      }
+    }
 
     logger.info('✅ Page Conversation Live rendue');
   } catch (e) {
-    showError(main, e, {
-      title: 'Erreur de conversation',
-      subtitle: 'Impossible de charger les conversations',
-      backRoute: '/',
-      backLabel: '← Retour à l\'accueil',
-      retry: true
-    });
+    console.error('[ConversationLive] Erreur:', e);
+    main.innerHTML = `<p style="color:red; text-align:center;">Erreur: ${e.message}</p>`;
   }
 }
 

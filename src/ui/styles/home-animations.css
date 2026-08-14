@@ -895,3 +895,19 @@ html.low-end-mode .install-app-icon {
 html.low-end-mode .install-app-floating {
   animation: none;
 }
+
+/* ═══════════════════════════════════════════════════════════ */
+/* CONVERSATION LIVE — Cartes de dialogues                    */
+/* ═══════════════════════════════════════════════════════════ */
+
+.dialogue-card {
+  animation: fadeInUp 0.3s ease-out both;
+}
+
+.dialogue-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+html.low-end-mode .dialogue-card {
+  animation: none;
+}
