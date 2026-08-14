@@ -12,10 +12,10 @@
     {
       "id": "start",
       "speaker": "teacher",
-      "textFr": "Regardez cette image. De quelle couleur est le ciel ?",
+      "textFr": "Regardez cette image {firstName}. De quelle couleur est le ciel ?",
       "textMg": "Jereo ity sary ity. Loko inona ny lanitra?",
       "audio": {
-        "ttsTextFr": "Regardez cette image. De quelle couleur est le ciel ?",
+        "ttsTextFr": "Regardez cette image {firstName}. De quelle couleur est le ciel ?",
         "ttsRate": 0.9
       },
       "nextNode": "user_sky"
@@ -63,9 +63,9 @@
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
-        "textFr": "Parfait ! L'herbe est verte. Et le soleil ?",
+        "textFr": "Parfait {firstName}! L'herbe est verte. Et le soleil ?",
         "textMg": "Tena tsara! Maitso ny ahi-maitso. Ary ny masoandro?",
-        "audio": { "ttsTextFr": "Parfait ! L'herbe est verte. Et le soleil ?" }
+        "audio": { "ttsTextFr": "Parfait {firstName} ! L'herbe est verte. Et le soleil ?" }
       },
       "feedbackOnFail": {
         "textFr": "Non, l'herbe est verte.",
@@ -103,7 +103,7 @@
       "feedbackOnFail": {
         "textFr": "Non, le soleil est jaune.",
         "textMg": "Tsia, mavo ny masoandro.",
-        "audio": { "ttsTextFr": "Non, le soleil est jaune." }
+        "audio": { "ttsTextFr": "Non {firstName}, le soleil est jaune." }
       },
       "nextNodeOnSuccess": "end",
       "nextNodeOnMaxAttemptsReached": "end"
