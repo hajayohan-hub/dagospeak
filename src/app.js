@@ -5732,6 +5732,18 @@ async function mountLiveAvatar() {
 }
 
 // ═══════════════════════════════════════════════════════════
+// HELPER : Remplacer {firstName} par le vrai prénom
+// ═══════════════════════════════════════════════════════════
+function personalizeText(text) {
+  if (!text) return text;
+
+  const profile = getProfileData();
+  const firstName = profile.firstName || 'ami';
+
+  return text.replace(/\{firstName\}/g, firstName);
+}
+
+// ═══════════════════════════════════════════════════════════
 // VUE : CONVERSATION SEMI-LIBRE (Teacher Avatar IA)
 // ═══════════════════════════════════════════════════════════
 
@@ -5796,7 +5808,16 @@ async function renderConversation() {
                   </div>
                 </section>
               `;
-              mountLiveAvatar();
+
+              /// ✅ AUTO-SCROLL vers le nouveau message
+                  setTimeout(() => {
+                    const chatContainer = document.querySelector('.live-chat');
+                    if (chatContainer) {
+                      chatContainer.scrollTop = chatContainer.scrollHeight;
+                    }
+                  }, 200);
+                };
+                mountLiveAvatar();
 
               // ✅ Bouton Retour aux dialogues (Conversation Live)
               document.getElementById('btn-back-to-dialogues').addEventListener('click', () => {
@@ -5832,6 +5853,11 @@ async function renderConversation() {
             }
 
       if (node.speaker === 'teacher') {
+
+        // ✅ Personnaliser les textes avec le prénom
+          const personalizedTextFr = personalizeText(node.textFr);
+          const personalizedTextMg = personalizeText(node.textMg);
+          const personalizedTtsText = personalizeText(node.audio.ttsTextFr);
           main.innerHTML = `
             <section class="live-container">
               <div class="live-header">
@@ -5866,13 +5892,14 @@ async function renderConversation() {
 
           // ✅ Bouton Écouter
           document.getElementById('btn-play').addEventListener('click', () => {
-            const btn = document.getElementById('btn-play');
-            const btnNext = document.getElementById('btn-next');
-            btn.textContent = '🔊 ...';
+              const btn = document.getElementById('btn-play');
+              const btnNext = document.getElementById('btn-next');
+              btn.textContent = '🔊 ...';
 
-            speakWithFeedback(node.audio.ttsTextFr, {
-              rate: node.audio.ttsRate || 0.9,
-              gender: 'female',
+              // ✅ Utiliser personalizedTtsText au lieu de node.audio.ttsTextFr
+              speakWithFeedback(personalizedTtsText, {
+                rate: node.audio.ttsRate || 0.9,
+                gender: 'female',
               onStart: () => {
                 btn.textContent = '🔊 ...';
                 if (window.teacherAvatarSVG) {
@@ -5914,74 +5941,44 @@ async function renderConversation() {
 
 
       } else if (node.speaker === 'user') {
-        if (!attempts[node.id]) attempts[node.id] = 0;
+  if (!attempts[node.id]) attempts[node.id] = 0;
 
-        // ✅ Vérifier si STT disponible
-        const sttAvailable = sttManager.isAvailable();
+  // ✅ Personnaliser les feedbacks
+  const successFeedbackFr = personalizeText(node.feedbackOnSuccess?.textFr || '');
+  const successFeedbackMg = personalizeText(node.feedbackOnSuccess?.textMg || '');
+  const successTtsText = personalizeText(node.feedbackOnSuccess?.audio?.ttsTextFr || '');
 
-        main.innerHTML = `
-          <section class="live-container">
-            <div class="live-header">
-              <button id="btn-back-dialogue" class="live-quit" aria-label="Retour aux dialogues" style="background: transparent; font-size: 1.2rem;">←</button>
-              <div class="live-teacher-wrap" id="live-teacher-avatar"></div>
-              <div class="live-teacher-info">
-                <div class="live-teacher-name">Teacher AI <span class="live-badge">● LIVE</span></div>
-                <div class="live-dialogue-title">💬 ${dialogue.titleFr}</div>
-              </div>
-              <button id="btn-quit" class="live-quit" aria-label="Quitter">✕</button>
-            </div>
-            <div class="live-chat">
-              <div class="live-bubble user">
-                <div class="live-bubble-text">🎯 À votre tour !</div>
-                ${attempts[node.id] > 0 ? `<div class="live-bubble-sub">Tentative ${attempts[node.id]} / ${node.maxAttempts}</div>` : ''}
-              </div>
+  const failFeedbackFr = personalizeText(node.feedbackOnFail?.textFr || '');
+  const failFeedbackMg = personalizeText(node.feedbackOnFail?.textMg || '');
+  const failTtsText = personalizeText(node.feedbackOnFail?.audio?.ttsTextFr || '');
 
-              <!-- ✅ Options de réponse avec bouton micro -->
-              <div class="live-options">
-                ${node.responseOptions.map((opt, idx) => `
-                  <div class="response-option-wrapper" data-idx="${idx}">
-                    <button class="live-option-btn btn-option" data-idx="${idx}">
-                      <div style="font-weight: 600;">${idx === 0 ? '🅰️' : idx === 1 ? '🅱️' : '🅲'} ${opt.textFr}</div>
-                      <div style="font-size: 0.85rem; opacity: 0.7; font-style: italic;">(${opt.textMg})</div>
-                    </button>
-                    ${sttAvailable ? `
-                      <button class="btn-microphone" data-idx="${idx}" data-expected="${opt.textFr}"
-                              style="
-                                margin-top: 0.5rem;
-                                background: var(--ds-color-accent);
-                                color: white;
-                                border: none;
-                                padding: 8px 16px;
-                                border-radius: 8px;
-                                font-size: 0.85rem;
-                                cursor: pointer;
-                                width: 100%;
-                              ">
-                        🎤 Prononcer cette réponse
-                      </button>
-                    ` : `
-                      <button class="btn-auto-eval" data-idx="${idx}"
-                              style="
-                                margin-top: 0.5rem;
-                                background: var(--ds-color-surface-2);
-                                color: var(--ds-color-text);
-                                border: 1px solid var(--ds-color-border);
-                                padding: 8px 16px;
-                                border-radius: 8px;
-                                font-size: 0.85rem;
-                                cursor: pointer;
-                                width: 100%;
-                              ">
-                        ✓ J'ai prononcé (auto-évaluation)
-                      </button>
-                    `}
-                  </div>
-                `).join('')}
-              </div>
-              <div id="feedback" style="min-height: 60px;"></div>
-            </div>
-          </section>
-        `;
+  // ✅ Personnaliser les options de réponse
+  const personalizedOptions = node.responseOptions.map(opt => ({
+    ...opt,
+    textFr: personalizeText(opt.textFr),
+    textMg: personalizeText(opt.textMg)
+  }));
+
+  main.innerHTML = `
+    <section class="live-container">
+      <!-- ... header ... -->
+      <div class="live-chat">
+        <div class="live-bubble user">
+          <div class="live-bubble-text">🎯 À votre tour !</div>
+          ${attempts[node.id] > 0 ? `<div class="live-bubble-sub">Tentative ${attempts[node.id]} / ${node.maxAttempts}</div>` : ''}
+        </div>
+        <div class="live-options">
+          ${personalizedOptions.map((opt, idx) => `
+            <button class="live-option-btn btn-option" data-idx="${idx}">
+              <div style="font-weight: 600;">${idx === 0 ? '🅰️' : idx === 1 ? '🅱️' : '🅲'} ${opt.textFr}</div>
+              <div style="font-size: 0.85rem; opacity: 0.7; font-style: italic;">(${opt.textMg})</div>
+            </button>
+          `).join('')}
+        </div>
+        <div id="feedback" style="min-height: 60px;"></div>
+      </div>
+    </section>
+  `;
         mountLiveAvatar();
 
         // ✅ Event listeners pour les boutons de réponse (clic)
@@ -6023,20 +6020,19 @@ async function renderConversation() {
             // Désactiver tous les boutons
             document.querySelectorAll('.btn-option, .btn-microphone, .btn-auto-eval').forEach(b => b.disabled = true);
 
-            if (selected.isCorrect) {
-              if (clickedBtn) clickedBtn.style.borderColor = 'var(--ds-color-success)';
+            // ✅ Dans la gestion du succès, utiliser les textes personnalisés
+              if (selected.isCorrect) {
+                feedback.innerHTML = `
+                  <div style="background: var(--ds-color-success-soft, #d1fae5); padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-success);">
+                    <div style="font-size: 2rem;">✅</div>
+                    <p style="color: var(--ds-color-success); font-weight: 600;">${successFeedbackFr}</p>
+                    <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${successFeedbackMg})</p>
+                  </div>
+                  <button id="btn-continue" style="...">Manaraka →</button>
+                `;
 
-              feedback.innerHTML = `
-                <div style="background: var(--ds-color-success-soft, #d1fae5); padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-success);">
-                  <div style="font-size: 2rem;">✅</div>
-                  <p style="color: var(--ds-color-success); font-weight: 600;">${node.feedbackOnSuccess.textFr}</p>
-                  ${isAutoEval ? '<p style="color: var(--ds-color-text-muted); font-size: 0.85rem;">(Auto-évaluation)</p>' : ''}
-                  <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${node.feedbackOnSuccess.textMg})</p>
-                </div>
-                <button id="btn-continue" style="margin-top: 1rem; background: var(--ds-color-success); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">Manaraka →</button>
-              `;
-
-              const u = new SpeechSynthesisUtterance(node.feedbackOnSuccess.audio.ttsTextFr);
+                // ✅ Utiliser successTtsText
+                const u = new SpeechSynthesisUtterance(successTtsText);
               u.lang = 'fr-FR';
               u.rate = 0.9;
               u.onstart = () => {

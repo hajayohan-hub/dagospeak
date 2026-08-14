@@ -716,3 +716,43 @@ html.low-end-mode .live-badge { animation: none; }
 html.low-end-mode .teacher-avatar-emoji {
   animation: none !important;
 }
+
+/* ═══════════════════════════════════════════════════════════ */
+/* CONVERSATION LIVE — Auto-scroll et animations              */
+/* ═══════════════════════════════════════════════════════════ */
+
+.live-chat {
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  padding: 1rem;
+}
+
+.live-bubble {
+  animation: fadeInUp 0.4s ease-out;
+  margin-bottom: 1rem;
+}
+
+.live-actions {
+  position: sticky;
+  bottom: 0;
+  background: var(--ds-color-surface);
+  padding: 1rem 0;
+  border-top: 1px solid var(--ds-color-border);
+  margin-top: 1rem;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+html.low-end-mode .live-bubble {
+  animation: none;
+}
