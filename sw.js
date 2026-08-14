@@ -43,6 +43,13 @@ const STATIC_ASSETS = [
   '/content/fr/conversations/survival_01.json',
   '/content/fr/conversations/body_01.json',
 
+      // ✅ Teacher Avatar (SVG + Renderer)
+    '/src/ui/components/teacher-avatar-svg.js',
+    '/src/ui/components/teacher-avatar-renderer.js',
+
+    // ✅ STT Manager pour Conversation Live
+    '/src/core/stt-manager.js',
+
   '/content/fr/levels.json', '/content/fr/exams.json',
 ];
 

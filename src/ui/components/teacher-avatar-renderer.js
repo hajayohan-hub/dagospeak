@@ -16,41 +16,41 @@ export class TeacherAvatarRenderer {
   /**
    * Détecte les capacités disponibles et choisit le meilleur mode
    */
-  #detectBestMode() {
-    const isOffline = !navigator.onLine;
+     #detectBestMode() {
+      const isOffline = !navigator.onLine;
 
-    // En offline : pas de 3D, SVG possible mais lourd, emoji prioritaire
-    if (isOffline) {
-      return 'emoji';
+      // ✅ En offline : préférer SVG (pas de chargement réseau)
+      if (isOffline) {
+        console.log('[TeacherAvatarRenderer] Mode offline, utilisation SVG local');
+        return 'svg';
+      }
+
+      // Détection WebGL pour 3D
+      const canvas = document.createElement('canvas');
+      const hasWebGL = !!(canvas.getContext('webgl') || canvas.getContext('experimental-webgl'));
+
+      // Détection tier appareil
+      let deviceTier = 'high';
+      if (window.deviceCheck) {
+        if (window.deviceCheck.isVeryLowEnd()) deviceTier = 'low';
+        else if (window.deviceCheck.isLowEnd()) deviceTier = 'mid';
+      } else {
+        const ram = navigator.deviceMemory || 4;
+        if (ram < 2) deviceTier = 'low';
+        else if (ram < 4) deviceTier = 'mid';
+      }
+
+      console.log(`[TeacherAvatarRenderer] WebGL: ${hasWebGL}, Tier: ${deviceTier}, Offline: ${isOffline}`);
+
+      // Cascade : 3D (seulement si high-end + WebGL) → SVG → emoji
+      if (hasWebGL && deviceTier === 'high') {
+        return '3d';
+      } else if (deviceTier !== 'low') {
+        return 'svg';
+      } else {
+        return 'emoji';
+      }
     }
-
-    // Détection WebGL pour 3D
-    const canvas = document.createElement('canvas');
-    const hasWebGL = !!(canvas.getContext('webgl') || canvas.getContext('experimental-webgl'));
-
-    // Détection tier appareil
-    let deviceTier = 'high';
-    if (window.deviceCheck) {
-      if (window.deviceCheck.isVeryLowEnd()) deviceTier = 'low';
-      else if (window.deviceCheck.isLowEnd()) deviceTier = 'mid';
-    } else {
-      const ram = navigator.deviceMemory || 4;
-      if (ram < 2) deviceTier = 'low';
-      else if (ram < 4) deviceTier = 'mid';
-    }
-
-    console.log(`[TeacherAvatarRenderer] WebGL: ${hasWebGL}, Tier: ${deviceTier}, Offline: ${isOffline}`);
-
-    // Cascade : 3D (seulement si high-end + WebGL) → SVG → emoji
-    if (hasWebGL && deviceTier === 'high') {
-      return '3d';
-    } else if (deviceTier !== 'low') {
-      return 'svg';
-    } else {
-      return 'emoji';
-    }
-  }
-
   /**
    * Rend l'avatar dans le conteneur
    */
