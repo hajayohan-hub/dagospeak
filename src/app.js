@@ -1057,38 +1057,41 @@ const heroHtml = `
     const installFloating = document.createElement('div');
     installFloating.id = 'install-app-floating';
     installFloating.className = 'install-app-floating';
-    installFloating.style.display = isInstalled ? 'flex' : displayStyle;
+      installFloating.style.display = 'flex';
 
-    installFloating.innerHTML = isInstalled ? `
-        <div class="install-app-badge-fixed">
-          <span class="install-app-icon-fixed">✓</span>
-          <span class="install-app-text-fixed">Application installée</span>
-        </div>
-      ` : `
+      installFloating.innerHTML = `
         <div class="floating-controls">
-          <!-- ✅ Toggle Micro -->
+          <!-- Toggle Micro -->
           <label class="toggle-switch" title="Activer/Désactiver le micro">
             <input type="checkbox" id="toggle-micro" checked>
             <span class="toggle-slider"></span>
             <span class="toggle-icon">🎤</span>
           </label>
-          
-          <!-- ✅ Toggle Web Speech API -->
+
+          <!-- Toggle Web Speech API -->
           <label class="toggle-switch" title="Activer/Désactiver Web Speech API">
             <input type="checkbox" id="toggle-web-speech" checked>
             <span class="toggle-slider"></span>
             <span class="toggle-icon">🗣️</span>
           </label>
-          
-          <!-- Bouton Installer -->
-          <button id="btn-install-app" class="install-app-btn-fixed" aria-label="Installer DagoSpeak sur votre appareil">
-            <span class="install-app-icon-fixed">📲</span>
-            <span class="install-app-text-fixed">Installer</span>
-            <span class="install-app-arrow-fixed">→</span>
-          </button>
+
+          <!-- ✅ Cette partie seule dépend de l'état d'installation -->
+          ${isInstalled ? `
+            <div class="install-app-badge-fixed">
+              <span class="install-app-icon-fixed">✓</span>
+              <span class="install-app-text-fixed">Installée</span>
+            </div>
+          ` : deferredPrompt ? `
+            <button id="btn-install-app" class="install-app-btn-fixed" aria-label="Installer DagoSpeak sur votre appareil">
+              <span class="install-app-icon-fixed">📲</span>
+              <span class="install-app-text-fixed">Installer</span>
+              <span class="install-app-arrow-fixed">→</span>
+            </button>
+          ` : ''}
         </div>
       `;
-    document.body.appendChild(installFloating);
+
+      document.body.appendChild(installFloating);
 
       // ✅ Logique des toggles (Micro & Web Speech API)
       const toggleMicro = document.getElementById('toggle-micro');
