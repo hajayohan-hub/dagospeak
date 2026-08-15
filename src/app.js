@@ -1060,19 +1060,84 @@ const heroHtml = `
     installFloating.style.display = isInstalled ? 'flex' : displayStyle;
 
     installFloating.innerHTML = isInstalled ? `
-      <div class="install-app-badge-fixed">
-        <span class="install-app-icon-fixed">✓</span>
-        <span class="install-app-text-fixed">Application installée</span>
-      </div>
-    ` : `
-      <button id="btn-install-app" class="install-app-btn-fixed" aria-label="Installer DagoSpeak sur votre appareil">
-        <span class="install-app-icon-fixed">📲</span>
-        <span class="install-app-text-fixed">Installer DagoSpeak</span>
-        <span class="install-app-arrow-fixed">→</span>
-      </button>
-    `;
-
+        <div class="install-app-badge-fixed">
+          <span class="install-app-icon-fixed">✓</span>
+          <span class="install-app-text-fixed">Application installée</span>
+        </div>
+      ` : `
+        <div class="floating-controls">
+          <!-- ✅ Toggle Micro -->
+          <label class="toggle-switch" title="Activer/Désactiver le micro">
+            <input type="checkbox" id="toggle-micro" checked>
+            <span class="toggle-slider"></span>
+            <span class="toggle-icon">🎤</span>
+          </label>
+          
+          <!-- ✅ Toggle Web Speech API -->
+          <label class="toggle-switch" title="Activer/Désactiver Web Speech API">
+            <input type="checkbox" id="toggle-web-speech" checked>
+            <span class="toggle-slider"></span>
+            <span class="toggle-icon">🗣️</span>
+          </label>
+          
+          <!-- Bouton Installer -->
+          <button id="btn-install-app" class="install-app-btn-fixed" aria-label="Installer DagoSpeak sur votre appareil">
+            <span class="install-app-icon-fixed">📲</span>
+            <span class="install-app-text-fixed">Installer</span>
+            <span class="install-app-arrow-fixed">→</span>
+          </button>
+        </div>
+      `;
     document.body.appendChild(installFloating);
+
+      // ✅ Logique des toggles (Micro & Web Speech API)
+      const toggleMicro = document.getElementById('toggle-micro');
+      const toggleWebSpeech = document.getElementById('toggle-web-speech');
+
+      // Restaurer l'état depuis localStorage
+      if (toggleMicro) {
+        toggleMicro.checked = localStorage.getItem('toggleMicro') !== 'false';
+      }
+      if (toggleWebSpeech) {
+        toggleWebSpeech.checked = localStorage.getItem('toggleWebSpeech') !== 'false';
+      }
+
+      // Fonction pour mettre à jour sttAvailable
+      function updateSTTAvailability() {
+        const microEnabled = toggleMicro ? toggleMicro.checked : true;
+        const webSpeechEnabled = toggleWebSpeech ? toggleWebSpeech.checked : true;
+
+        // Sauvegarder dans localStorage
+        localStorage.setItem('toggleMicro', microEnabled);
+        localStorage.setItem('toggleWebSpeech', webSpeechEnabled);
+
+        // Mettre à jour sttAvailable globalement
+        if (!microEnabled) {
+          window.sttAvailable = false;
+          console.log('[STT] Micro désactivé par l\'utilisateur');
+        } else if (!webSpeechEnabled) {
+          // Force la simulation pédagogique
+          window.sttAvailable = true;
+          window.sttManager = window.sttManager || {};
+          window.sttManager.isSimulationMode = () => true;
+          console.log('[STT] Mode simulation pédagogique activé');
+        } else {
+          // Comportement normal
+          window.sttAvailable = 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window;
+          console.log('[STT] Web Speech API:', window.sttAvailable ? 'disponible' : 'indisponible');
+        }
+      }
+
+      // Écouter les changements
+      if (toggleMicro) {
+        toggleMicro.addEventListener('change', updateSTTAvailability);
+      }
+      if (toggleWebSpeech) {
+        toggleWebSpeech.addEventListener('change', updateSTTAvailability);
+      }
+
+      // Appliquer l'état initial
+      updateSTTAvailability();
 
     // Event listener (éviter les doublons)
       const installBtn = document.getElementById('btn-install-app');

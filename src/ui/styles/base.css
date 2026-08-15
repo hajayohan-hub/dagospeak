@@ -756,3 +756,70 @@ html.low-end-mode .teacher-avatar-emoji {
 html.low-end-mode .live-bubble {
   animation: none;
 }
+/* ═══════════════════════════════════════════════════════════ */
+/* TOGGLES FLOTTANTS (Micro & Web Speech API)                 */
+/* ═══════════════════════════════════════════════════════════ */
+
+.floating-controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  background: var(--ds-color-surface, #fff);
+  padding: 0.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 0.25rem;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.toggle-slider {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  background-color: #ccc;
+  border-radius: 12px;
+  transition: background-color 0.3s;
+}
+
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  left: 3px;
+  top: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background-color: var(--ds-color-primary, #3b82f6);
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+  transform: translateX(20px);
+}
+
+.toggle-icon {
+  font-size: 1.2rem;
+  margin-left: 0.25rem;
+}
+
+.toggle-switch input:not(:checked) ~ .toggle-icon {
+  opacity: 0.5;
+}
