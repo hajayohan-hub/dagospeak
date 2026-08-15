@@ -1079,7 +1079,7 @@ const heroHtml = `
           ${isInstalled ? `
             <div class="install-app-badge-fixed">
               <span class="install-app-icon-fixed">✓</span>
-              <span class="install-app-text-fixed">Installée</span>
+              <span class="install-app-text-fixed">Application installée</span>
             </div>
           ` : deferredPrompt ? `
             <button id="btn-install-app" class="install-app-btn-fixed" aria-label="Installer DagoSpeak sur votre appareil">
