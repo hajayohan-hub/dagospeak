@@ -6230,7 +6230,7 @@ async function renderConversation() {
                     <p style="color: var(--ds-color-danger); font-weight: 600;">${failFeedbackFr}</p>
                     <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${failFeedbackMg})</p>
                   </div>
-                  <button id="btn-retry" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">🔁 Réessayer</button>
+                  <button id="btn-retry" class="pulse-animation" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">🔁 Réessayer</button>
                 `;
                   // ✅ TTS du feedback d'échec
                   const uFail = new SpeechSynthesisUtterance(failTtsText);
