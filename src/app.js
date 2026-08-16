@@ -6113,7 +6113,7 @@ async function renderConversation() {
             `).join('')}
           </div>
       </div>
-          <div id="feedback" style="min-height: 60px;"></div>
+          <div id="feedback" style="min-height: 20px; margin-top: 0.5rem;"></div>
     </section>
   `;
                 mountLiveAvatar();
