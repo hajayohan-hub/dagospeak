@@ -5901,6 +5901,14 @@ async function renderConversation() {
 
                 <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 2rem;">
 
+                    <button
+                      id="btn-back-to-themes"
+                      class="live-btn primary"
+                      style="width: 100%; padding: 14px;"
+                    >
+                      ← Retour aux thèmes de conversation
+                    </button>
+
                   <button
                     id="btn-back-to-dialogues"
                     class="live-btn primary"
@@ -5942,6 +5950,14 @@ async function renderConversation() {
           // Avatar
           mountLiveAvatar();
           scrollConversationToBottom();
+
+            // Retour aux thèmes de conversation
+            document
+              .getElementById('btn-back-to-themes')
+              .addEventListener('click', () => {
+                router.navigate('/conversation-live');
+              });
+
 
           // Retour aux dialogues
           document
