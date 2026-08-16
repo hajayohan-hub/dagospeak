@@ -6266,6 +6266,38 @@ async function renderConversation() {
               const expectedFrench = expected;
               const isSimulation = sttManager.isSimulationMode();
 
+                // ✅ MODE SIMULATION PÉDAGOGIQUE (hors-ligne)
+                if (isSimulation) {
+                  btn.textContent = '🎤 Parlez maintenant...';
+                  setTimeout(() => {
+                    btn.textContent = '🎤 Prononcer cette réponse';
+                    btn.disabled = false;
+                    
+                    if (currentFeedback) {
+                      currentFeedback.innerHTML = `
+                        <div style="background: linear-gradient(135deg, #e0f2fe, #dbeafe); padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-primary);">
+                          <div style="font-size: 2rem;">📶</div>
+                          <p style="color: var(--ds-color-primary); font-weight: 600; margin-bottom: 0.5rem;">
+                            Mode entraînement hors-ligne
+                          </p>
+                          <p style="color: var(--ds-color-text-muted); font-size: 0.85rem; margin-bottom: 1rem;">
+                            💡 Vous avez effectué l'exercice oral. La vérification précise de la prononciation nécessite une connexion Internet.
+                          </p>
+                          <button id="btn-continue-sim" style="background: var(--ds-color-primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%;">
+                            Continuer →
+                          </button>
+                        </div>
+                      `;
+                      
+                      document.getElementById('btn-continue-sim').addEventListener('click', () => {
+                        handleUserResponse(idx, node, attempts, currentFeedback, true);
+                      });
+                    }
+                  }, 3000); // 3 secondes pour parler
+                  
+                  return; // ✅ NE PAS appeler startListening()
+                }
+
               sttManager.startListening('fr-FR', {
                 onStart: () => {
                   console.log('[STT] Écoute démarrée');
