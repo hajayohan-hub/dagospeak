@@ -6259,6 +6259,7 @@ async function renderConversation() {
           // Ajout messge pédagogique
 
         function handleSTTResponse(btn, idx, expected, node, attempts, feedback) {
+            const currentFeedback = document.getElementById('feedback');
               btn.textContent = '🎤 Écoute...';
               btn.disabled = true;
 
