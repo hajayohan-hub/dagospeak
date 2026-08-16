@@ -1106,30 +1106,43 @@ const heroHtml = `
       }
 
       // Fonction pour mettre à jour sttAvailable
-      function updateSTTAvailability() {
-        const microEnabled = toggleMicro ? toggleMicro.checked : true;
-        const webSpeechEnabled = toggleWebSpeech ? toggleWebSpeech.checked : true;
+              // Fonction pour mettre à jour sttAvailable
+        function updateSTTAvailability() {
+          const microEnabled = toggleMicro ? toggleMicro.checked : true;
+          const webSpeechEnabled = toggleWebSpeech ? toggleWebSpeech.checked : true;
 
-        // Sauvegarder dans localStorage
-        localStorage.setItem('toggleMicro', microEnabled);
-        localStorage.setItem('toggleWebSpeech', webSpeechEnabled);
+          // Sauvegarder dans localStorage
+          localStorage.setItem('toggleMicro', microEnabled);
+          localStorage.setItem('toggleWebSpeech', webSpeechEnabled);
 
-        // Mettre à jour sttAvailable globalement
-        if (!microEnabled) {
-          window.sttAvailable = false;
-          console.log('[STT] Micro désactivé par l\'utilisateur');
-        } else if (!webSpeechEnabled) {
-          // Force la simulation pédagogique
-          window.sttAvailable = true;
-          window.sttManager = window.sttManager || {};
-          window.sttManager.isSimulationMode = () => true;
-          console.log('[STT] Mode simulation pédagogique activé');
-        } else {
-          // Comportement normal
-          window.sttAvailable = 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window;
-          console.log('[STT] Web Speech API:', window.sttAvailable ? 'disponible' : 'indisponible');
+          // Mettre à jour sttAvailable globalement
+          if (!microEnabled) {
+            window.sttAvailable = false;
+            console.log('[STT] Micro désactivé par l\'utilisateur');
+          } else if (!webSpeechEnabled) {
+            // Force la simulation pédagogique
+            window.sttAvailable = true;
+            window.sttManager = window.sttManager || {};
+            window.sttManager.isSimulationMode = () => true;
+            console.log('[STT] Mode simulation pédagogique activé');
+            
+            // ✅ Notification pédagogique (une seule fois)
+            if (!localStorage.getItem('stt-notification-shown')) {
+              showSTTNotification('offline');
+              localStorage.setItem('stt-notification-shown', 'true');
+            }
+          } else {
+            // Comportement normal
+            window.sttAvailable = 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window;
+            console.log('[STT] Web Speech API:', window.sttAvailable ? 'disponible' : 'indisponible');
+            
+            // ✅ Notification mode en ligne (une seule fois)
+            if (!localStorage.getItem('stt-online-notification-shown')) {
+              showSTTNotification('online');
+              localStorage.setItem('stt-online-notification-shown', 'true');
+            }
+          }
         }
-      }
 
       // Écouter les changements
       if (toggleMicro) {
@@ -1141,6 +1154,83 @@ const heroHtml = `
 
       // Appliquer l'état initial
       updateSTTAvailability();
+
+
+                // ✅ Fonction pour afficher les notifications STT
+        function showSTTNotification(mode) {
+          const existing = document.getElementById('stt-notification');
+          if (existing) existing.remove();
+
+          const notification = document.createElement('div');
+          notification.id = 'stt-notification';
+          
+          const message = mode === 'online' 
+            ? '🎤 Reconnaissance vocale activée ! Nécessite une connexion Internet pour de meilleures performances.'
+            : '📶 Mode hors-ligne activé ! Simulation pédagogique pour pratiquer sans Internet.';
+          
+          const bgColor = mode === 'online' 
+            ? 'var(--ds-color-primary, #0A8A6E)' 
+            : 'var(--ds-color-accent, #E8A33D)';
+
+          notification.style.cssText = `
+            position: fixed;
+            top: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: ${bgColor};
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            z-index: 9999;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            max-width: 90%;
+            animation: slideDown 0.3s ease-out;
+          `;
+
+          notification.innerHTML = `
+            <span style="flex: 1;">${message}</span>
+            <button style="
+              background: rgba(255,255,255,0.2);
+              border: none;
+              color: white;
+              width: 28px;
+              height: 28px;
+              border-radius: 50%;
+              cursor: pointer;
+              font-size: 1.2rem;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+            " aria-label="Fermer">×</button>
+          `;
+
+          document.body.appendChild(notification);
+
+          // Fermer au clic
+          notification.querySelector('button').addEventListener('click', () => {
+            notification.style.opacity = '0';
+            notification.style.transition = 'opacity 0.3s';
+            setTimeout(() => notification.remove(), 300);
+          });
+
+          // Auto-fermeture après 6 secondes
+          setTimeout(() => {
+            if (notification.parentNode) {
+              notification.style.opacity = '0';
+              notification.style.transition = 'opacity 0.5s';
+              setTimeout(() => notification.remove(), 500);
+            }
+          }, 6000);
+        }
+
+
+
 
     // Event listener (éviter les doublons)
       const installBtn = document.getElementById('btn-install-app');
