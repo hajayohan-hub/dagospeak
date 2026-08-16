@@ -5672,14 +5672,14 @@ async function renderConversationLive() {
         const TeacherAvatarRenderer = module.TeacherAvatarRenderer;
 
 
-                // ✅ Vérifier si un niveau est passé en paramètre
-      const urlParams = new URLSearchParams(window.location.search);
-      const requestedLevel = urlParams.get('level');
-      
-      if (requestedLevel) {
+                    // ✅ Vérifier si un niveau est demandé (via variable globale)
+      if (window.pendingConversationLevel) {
+        const requestedLevel = window.pendingConversationLevel;
+        window.pendingConversationLevel = null; // Nettoyer
+        
         const levelData = levels.find(l => l.id === requestedLevel);
         if (levelData && levelData.available) {
-          // Masquer immédiatement les niveaux et afficher les dialogues
+          // Afficher directement les dialogues après le rendu
           setTimeout(() => {
             showDialoguesList(levelData.conversations, levelData.name);
           }, 100);
@@ -5974,8 +5974,8 @@ async function renderConversation() {
             document
               .getElementById('btn-back-to-themes')
               .addEventListener('click', () => {
-                const currentLevel = dialogue.level || 'A0';
-                router.navigate(`/conversation-live?level=${currentLevel}`);
+                window.pendingConversationLevel = dialogue.level || 'A0';
+                router.navigate('/conversation-live');
               });
 
 
