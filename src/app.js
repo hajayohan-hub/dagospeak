@@ -5613,13 +5613,12 @@ async function renderConversationLive() {
         <ds-button variant="ghost" size="sm" id="btn-back-conv" style="margin-bottom: 1rem;">← Retour</ds-button>
 
         <div style="text-align: center; margin-bottom: 2rem;">
-          <div style="font-size: 4rem; margin-bottom: 1rem;">💬</div>
+          <div id="teacher-avatar-svg-container" style="display: flex; justify-content: center; align-items: center; margin: 1.5rem 0;"></div>
           <h2 style="color: var(--ds-color-primary); margin-bottom: 0.5rem;">Conversation Live avec Teacher AI</h2>
           <p style="color: var(--ds-color-text-muted);">Pratiquez le français en conversation réelle</p>
         </div>
 
         <!-- Avatar SVG -->
-        <div id="teacher-avatar-svg-container" style="display: flex; justify-content: center; align-items: center; margin: 1.5rem 0;"></div>
 
         <!-- Sélection des niveaux -->
         <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
