@@ -6215,7 +6215,7 @@ async function renderConversation() {
                     <div style="font-size: 2rem;">💡</div>
                     <p>La bonne réponse était : <strong>${correct.textFr}</strong></p>
                   </div>
-                  <button id="btn-continue" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">Manaraka →</button>
+                  <button id="btn-continue" class="pulse-animation" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">Manaraka →</button>
                 `;
                 document.getElementById('btn-continue').addEventListener('click', () => {
                   currentNodeId = node.nextNodeOnMaxAttemptsReached;
