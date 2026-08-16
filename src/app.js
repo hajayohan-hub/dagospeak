@@ -6097,22 +6097,21 @@ async function renderConversation() {
     <section class="live-container">
       <!-- ... header ... -->
       <div class="live-chat">
-        <div class="live-bubble user">
-          <div class="live-bubble-text">🎯 À votre tour !</div>
-          ${attempts[node.id] > 0 ? `<div class="live-bubble-sub">Tentative ${attempts[node.id]} / ${node.maxAttempts}</div>` : ''}
-        </div>
-                      <div style="display: flex; gap: 0.5rem; align-items: stretch;">
+          <div class="live-options">
+            ${personalizedOptions.map((opt, idx) => `
+              <div style="display: flex; gap: 0.5rem; align-items: stretch; margin-bottom: 0.5rem;">
                 <button class="live-option-btn btn-option" data-idx="${idx}" style="flex: 1;">
                   <div style="font-weight: 600;">${idx === 0 ? '🅰️' : idx === 1 ? '🅱️' : '🅲'} ${opt.textFr}</div>
                   <div style="font-size: 0.85rem; opacity: 0.7; font-style: italic;">(${opt.textMg})</div>
                 </button>
                 ${sttAvailable ? `
-                  <button class="btn-microphone" data-idx="${idx}" data-expected="${opt.textFr}" style="background: var(--ds-color-primary); color: white; border: none; padding: 0.75rem 1rem; border-radius: 12px; font-size: 1.5rem; cursor: pointer;">🎤</button>
+                  <button class="btn-microphone" data-idx="${idx}" data-expected="${opt.textFr}" style="background: var(--ds-color-primary); color: white; border: none; padding: 0.75rem 1rem; border-radius: 12px; font-size: 1.5rem; cursor: pointer; transition: transform 0.2s;">🎤</button>
                 ` : `
-                  <button class="btn-auto-eval" data-idx="${idx}" style="background: var(--ds-color-accent); color: white; border: none; padding: 0.75rem 1rem; border-radius: 12px; font-size: 1.5rem; cursor: pointer;">✓</button>
+                  <button class="btn-auto-eval" data-idx="${idx}" style="background: var(--ds-color-accent); color: white; border: none; padding: 0.75rem 1rem; border-radius: 12px; font-size: 1.5rem; cursor: pointer; transition: transform 0.2s;">✓</button>
                 `}
               </div>
-        <div id="feedback" style="min-height: 60px;"></div>
+            `).join('')}
+          </div>
       </div>
     </section>
   `;
