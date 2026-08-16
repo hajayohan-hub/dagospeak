@@ -5588,8 +5588,8 @@ async function renderConversationLive() {
     // ✅ Données des conversations par niveau
     const conversationsData = {
       A0: [
-        { id: 'greetings_01', title: 'Au marché', icon: '🏪', description: 'Acheter du riz et des légumes' },
-        { id: 'market_01', title: 'Se présenter', icon: '👋', description: 'Dire son nom et demander comment ça va' },
+        { id: 'greetings_01', title: 'Se présenter', icon: '👋', description: 'Dire son nom et demander comment ça va' },
+        { id: 'market_01', title: 'Au marché', icon: '🏪', description: 'Acheter du riz et des légumes' },
         { id: 'family_01', title: 'Parler de sa famille', icon: '👨‍👩‍👧', description: 'Présenter ses parents et frères/sœurs' },
         { id: 'numbers_01', title: 'Compter et demander des prix', icon: '🔢', description: 'Acheter avec des quantités' },
         { id: 'colors_01', title: 'Décrire des couleurs', icon: '🎨', description: 'Identifier les couleurs du ciel et de la nature' },
