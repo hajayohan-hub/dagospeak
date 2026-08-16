@@ -6045,7 +6045,7 @@ async function renderConversation() {
             setTimeout(() => {
               currentNodeId = node.nextNode;
               renderNode();
-            }, 1200);
+            }, 4000);
           },
           onError: () => {
             btn.textContent = '🔊 Mihainoa';
@@ -6056,7 +6056,7 @@ async function renderConversation() {
             setTimeout(() => {
               currentNodeId = node.nextNode;
               renderNode();
-            }, 1200);
+            }, 4000);
           }
         });
 
@@ -6193,7 +6193,7 @@ async function renderConversation() {
             setTimeout(() => {
               currentNodeId = node.nextNodeOnSuccess;
               renderNode();
-            }, 1200);
+            }, 4000);
           };
           speechSynthesis.speak(u);
 
