@@ -6150,6 +6150,7 @@ async function renderConversation() {
 
         // ✅ Fonction pour gérer la réponse utilisateur (clic ou STT)
         function handleUserResponse(idx, node, attempts, feedback, isAutoEval = false) {
+            const currentFeedback = document.getElementById('feedback');
             const selected = node.responseOptions[idx];
             attempts[node.id]++;
 
@@ -6163,7 +6164,7 @@ async function renderConversation() {
                       if (selected.isCorrect) {
           if (clickedBtn) clickedBtn.style.borderColor = 'var(--ds-color-success)';
 
-          feedback.innerHTML = `
+          currentFeedback.innerHTML = `
             <div style="background: var(--ds-color-success-soft, #d1fae5); padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-success);">
               <div style="font-size: 2rem;">✅</div>
               <p style="color: var(--ds-color-success); font-weight: 600;">${successFeedbackFr}</p>
@@ -6208,7 +6209,7 @@ async function renderConversation() {
 
               if (attempts[node.id] >= node.maxAttempts) {
                 const correct = node.responseOptions.find(o => o.isCorrect);
-                feedback.innerHTML = `
+                currentFeedback.innerHTML = `
                   <div style="background: #fef3c7; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-accent);">
                     <div style="font-size: 2rem;">💡</div>
                     <p>La bonne réponse était : <strong>${correct.textFr}</strong></p>
@@ -6221,7 +6222,7 @@ async function renderConversation() {
                 });
 
               } else {
-                feedback.innerHTML = `
+                currentFeedback.innerHTML = `
                   <div style="background: #fee2e2; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-danger, #ef4444);">
                     <div style="font-size: 2rem;">🔄</div>
 
@@ -6277,7 +6278,7 @@ async function renderConversation() {
                   if (comparison.isCorrect) {
                     // ✅ Message pédagogique si simulation
                     if (comparison.isSimulation) {
-                      feedback.innerHTML = `
+                      currentFeedback.innerHTML = `
                         <div style="background: linear-gradient(135deg, #e0f2fe, #dbeafe); padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-primary);">
                           <div style="font-size: 2rem;">📶</div>
                           <p style="color: var(--ds-color-primary); font-weight: 600; margin-bottom: 0.5rem;">
@@ -6301,7 +6302,7 @@ async function renderConversation() {
                       handleUserResponse(idx, node, attempts, feedback);
                     }
                   } else {
-                    feedback.innerHTML = `
+                    currentFeedback.innerHTML = `
                       <div style="background: #fef3c7; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-accent);">
                         <div style="font-size: 2rem;">🎤</div>
                         <p>J'ai entendu : <strong>${recognized}</strong></p>
@@ -6323,7 +6324,7 @@ async function renderConversation() {
                   btn.textContent = '🎤 Prononcer cette réponse';
                   btn.disabled = false;
 
-                  feedback.innerHTML = `
+                  currentFeedback.innerHTML = `
                     <div style="background: #fee2e2; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-danger);">
                       <div style="font-size: 2rem;">⚠️</div>
                       <p>Erreur de reconnaissance vocale. Utilisez le bouton ci-dessus.</p>
