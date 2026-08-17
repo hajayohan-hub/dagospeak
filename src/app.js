@@ -1105,8 +1105,9 @@ const heroHtml = `
         toggleWebSpeech.checked = localStorage.getItem('toggleWebSpeech') !== 'false';
       }
 
-      // Fonction pour mettre à jour sttAvailable
-              // Fonction pour mettre à jour sttAvailable
+      
+        // Fonction pour mettre à jour sttAvailable
+        // Fonction pour mettre à jour sttAvailable
         function updateSTTAvailability() {
           const microEnabled = toggleMicro ? toggleMicro.checked : true;
           const webSpeechEnabled = toggleWebSpeech ? toggleWebSpeech.checked : true;
@@ -1126,21 +1127,15 @@ const heroHtml = `
             window.sttManager.isSimulationMode = () => true;
             console.log('[STT] Mode simulation pédagogique activé');
             
-            // ✅ Notification pédagogique (une seule fois)
-            if (!localStorage.getItem('stt-notification-shown')) {
-              showSTTNotification('offline');
-              localStorage.setItem('stt-notification-shown', 'true');
-            }
+            // ✅ Notification pédagogique (à chaque changement)
+            showSTTNotification('offline');
           } else {
             // Comportement normal
             window.sttAvailable = 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window;
             console.log('[STT] Web Speech API:', window.sttAvailable ? 'disponible' : 'indisponible');
             
-            // ✅ Notification mode en ligne (une seule fois)
-            if (!localStorage.getItem('stt-online-notification-shown')) {
-              showSTTNotification('online');
-              localStorage.setItem('stt-online-notification-shown', 'true');
-            }
+            // ✅ Notification mode en ligne (à chaque changement)
+            showSTTNotification('online');
           }
         }
 
