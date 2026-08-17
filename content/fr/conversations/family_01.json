@@ -45,10 +45,10 @@
     {
       "id": "user_mother",
       "speaker": "teacher",
-      "textFr": "Comment s'appelle votre mère {firstName}?",
+      "textFr": "Comment s'appelle votre mère {firstName} ?",
       "textMg": "Iza no anaran'ny reninao?",
       "audio": {
-        "ttsTextFr": "Comment s'appelle votre mère ?",
+        "ttsTextFr": "Comment s'appelle votre mère {firstName}?",
         "ttsRate": 0.9
       },
       "nextNode": "user_mother_answer"
