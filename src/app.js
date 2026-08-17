@@ -5741,7 +5741,7 @@ async function renderConversationLive() {
 
         <!-- Liste des dialogues A0 (cachée au départ) -->
         <div id="dialogues-list" style="display: none;">
-          <h3 style="color: var(--ds-color-text); margin-bottom: 1rem;">📋 Choisissez un dialogue :</h3>
+          <h3 style="color: var(--ds-color-text); margin-bottom: 1rem;">📋 Choisissez un thème de conversation :</h3>
           <div id="dialogues-container" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
           <ds-button variant="ghost" size="sm" id="btn-back-levels" style="margin-top: 1rem;">← Retour aux niveaux</ds-button>
         </div>
