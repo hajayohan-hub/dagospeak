@@ -1,0 +1,123 @@
+{
+  "id": "alphabet_01",
+  "titleFr": "Épeler son nom",
+  "titleMg": "Manoratra ny anarana amin'ny litera",
+  "level": "A0",
+  "theme": "alphabet",
+  "participants": {
+    "A": { "name": "Agent", "avatar": "👮", "gender": "female" },
+    "B": { "name": "Vous", "avatar": "🙋", "gender": "neutral" }
+  },
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "teacher",
+      "textFr": "Bonjour {firstName} ! Quel est votre nom de famille ?",
+      "textMg": "Manahoana {firstName}! Inona ny fanampin'anaranao?",
+      "audio": {
+        "ttsTextFr": "Bonjour {firstName} ! Quel est votre nom de famille ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_surname"
+    },
+    {
+      "id": "user_surname",
+      "speaker": "user",
+      "responseOptions": [
+        { "textFr": "Mon nom est RAKOTO.", "textMg": "RAKOTO no fanampin'anarako.", "isCorrect": true },
+        { "textFr": "Je suis malgache.", "textMg": "Malgache aho.", "isCorrect": false },
+        { "textFr": "J'ai vingt ans.", "textMg": "Roapolo taona aho.", "isCorrect": false }
+      ],
+      "maxAttempts": 2,
+      "feedbackOnSuccess": {
+        "textFr": "D'accord. Pouvez-vous l'épeler ?",
+        "textMg": "Tsara. Afaka manoratra azy amin'ny litera ve ianao?",
+        "audio": { "ttsTextFr": "D'accord. Pouvez-vous l'épeler ?" }
+      },
+      "feedbackOnFail": {
+        "textFr": "Non {firstName}, il faut dire : Mon nom est...",
+        "textMg": "Tsia, tokony holazaina hoe: ... no fanampin'anarako.",
+        "audio": { "ttsTextFr": "Non {firstName}, il faut dire : Mon nom est..." }
+      },
+      "nextNodeOnSuccess": "ask_spelling",
+      "nextNodeOnMaxAttemptsReached": "ask_spelling"
+    },
+    {
+      "id": "ask_spelling",
+      "speaker": "teacher",
+      "textFr": "Pouvez-vous épeler votre nom, lettre par lettre ?",
+      "textMg": "Afaka manoratra ny anaranao litera amin'ny litera ve ianao?",
+      "audio": {
+        "ttsTextFr": "Pouvez-vous épeler votre nom, lettre par lettre ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_spell"
+    },
+    {
+      "id": "user_spell",
+      "speaker": "user",
+      "responseOptions": [
+        { "textFr": "R, A, K, O, T, O.", "textMg": "R, A, K, O, T, O.", "isCorrect": true },
+        { "textFr": "Je ne sais pas.", "textMg": "Tsy fantatro.", "isCorrect": false },
+        { "textFr": "C'est difficile.", "textMg": "Sarotra izany.", "isCorrect": false }
+      ],
+      "maxAttempts": 2,
+      "feedbackOnSuccess": {
+        "textFr": "Parfait ! RAKOTO. C'est noté.",
+        "textMg": "Tena tsara! RAKOTO. Voasoratra.",
+        "audio": { "ttsTextFr": "Parfait ! RAKOTO. C'est noté." }
+      },
+      "feedbackOnFail": {
+        "textFr": "Non {firstName}, épeler c'est dire chaque lettre : R, A, K, O, T, O.",
+        "textMg": "Tsia, manoratra dia milaza litera tsirairay: R, A, K, O, T, O.",
+        "audio": { "ttsTextFr": "Non {firstName}, épeler c'est dire chaque lettre : R, A, K, O, T, O." }
+      },
+      "nextNodeOnSuccess": "ask_firstname",
+      "nextNodeOnMaxAttemptsReached": "ask_firstname"
+    },
+    {
+      "id": "ask_firstname",
+      "speaker": "teacher",
+      "textFr": "Très bien. Et votre prénom, pouvez-vous l'épeler ?",
+      "textMg": "Tena tsara. Ary ny anaranao fiantsoana, afaka manoratra azy ve ianao?",
+      "audio": {
+        "ttsTextFr": "Très bien. Et votre prénom, pouvez-vous l'épeler ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_firstname_spell"
+    },
+    {
+      "id": "user_firstname_spell",
+      "speaker": "user",
+      "responseOptions": [
+        { "textFr": "Mon prénom est {firstName}.", "textMg": "{firstName} no anarako fiantsoana.", "isCorrect": true },
+        { "textFr": "Je n'ai pas de prénom.", "textMg": "Tsy manan-anarana fiantsoana aho.", "isCorrect": false },
+        { "textFr": "C'est trop long.", "textMg": "Lava loatra izany.", "isCorrect": false }
+      ],
+      "maxAttempts": 2,
+      "feedbackOnSuccess": {
+        "textFr": "Excellent ! Tout est noté. Merci {firstName} !",
+        "textMg": "Tena mahatalanjona! Voasoratra daholo. Misaotra {firstName}!",
+        "audio": { "ttsTextFr": "Excellent ! Tout est noté. Merci {firstName} !" }
+      },
+      "feedbackOnFail": {
+        "textFr": "Non {firstName}, dites juste votre prénom.",
+        "textMg": "Tsia, lazao fotsiny ny anaranao fiantsoana.",
+        "audio": { "ttsTextFr": "Non {firstName}, dites juste votre prénom." }
+      },
+      "nextNodeOnSuccess": "end",
+      "nextNodeOnMaxAttemptsReached": "end"
+    },
+    {
+      "id": "end",
+      "isEnd": true,
+      "speaker": "teacher",
+      "textFr": "Merci {firstName} ! Bonne journée !",
+      "textMg": "Misaotra {firstName}! Mirary anao tontolo andro tsara!",
+      "audio": {
+        "ttsTextFr": "Merci {firstName} ! Bonne journée !",
+        "ttsRate": 0.9
+      }
+    }
+  ]
+}
