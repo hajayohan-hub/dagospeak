@@ -1,0 +1,208 @@
+/* ═══════════════════════════════════════════════════════════ */
+/* ANIMATIONS DE FEEDBACK - Succès / Échec - DagoSpeak        */
+/* ═══════════════════════════════════════════════════════════ */
+
+/* ──── Animation de SUCCÈS ✅ ──── */
+
+/* Pop joyeux avec rebond */
+@keyframes successPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+  70% {
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Étoiles qui scintillent autour du succès */
+@keyframes successSparkle {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0) rotate(0deg);
+  }
+  20% {
+    opacity: 1;
+    transform: scale(1.3) rotate(180deg);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(1) rotate(360deg);
+  }
+}
+
+/* Halo vert qui s'étend */
+@keyframes successGlow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+  }
+  100% {
+    box-shadow: 0 0 0 20px rgba(34, 197, 94, 0);
+  }
+}
+
+/* ──── Animation d'ÉCHEC ❌ ──── */
+
+/* Secousse horizontale */
+@keyframes failShake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+  20%, 40%, 60%, 80% { transform: translateX(8px); }
+}
+
+/* Clignotement rouge doux */
+@keyframes failBlink {
+  0%, 100% {
+    background-color: rgba(239, 68, 68, 0.1);
+    border-color: var(--ds-color-danger);
+  }
+  50% {
+    background-color: rgba(239, 68, 68, 0.25);
+    border-color: var(--ds-color-danger);
+  }
+}
+
+/* Apparition en fade avec légère montée */
+@keyframes failFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ──── Animation de NEUTRE / INFO ℹ️ ──── */
+
+@keyframes infoSlide {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ──── Animation de CHARGEMENT / ATTENTE ⏳ ──── */
+
+@keyframes waitingPulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/* CLASSES D'APPLICATION                                       */
+/* ═══════════════════════════════════════════════════════════ */
+
+/* Classe pour les messages de SUCCÈS */
+.feedback-success {
+  animation: successPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(34, 197, 94, 0.08) 100%);
+  border: 2px solid var(--ds-color-success);
+  border-radius: var(--ds-radius-md);
+  padding: 1rem 1.25rem;
+  color: var(--ds-color-success);
+  font-weight: 600;
+}
+
+.feedback-success::before {
+  content: '✅';
+  margin-right: 0.5rem;
+  display: inline-block;
+  animation: successSparkle 1s ease-out;
+}
+
+/* Effet de halo sur les cartes de succès */
+.feedback-success-glow {
+  animation: successGlow 0.8s ease-out;
+}
+
+/* Classe pour les messages d'ÉCHEC */
+.feedback-fail {
+  animation: failShake 0.5s ease-in-out both, failFadeIn 0.3s ease-out both;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(239, 68, 68, 0.08) 100%);
+  border: 2px solid var(--ds-color-danger);
+  border-radius: var(--ds-radius-md);
+  padding: 1rem 1.25rem;
+  color: var(--ds-color-danger);
+  font-weight: 600;
+}
+
+.feedback-fail::before {
+  content: '❌';
+  margin-right: 0.5rem;
+}
+
+/* Effet de clignotement pour les échecs répétés */
+.feedback-fail-blink {
+  animation: failBlink 1s ease-in-out 2;
+}
+
+/* Classe pour les messages d'INFO */
+.feedback-info {
+  animation: infoSlide 0.4s ease-out both;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.08) 100%);
+  border: 2px solid var(--ds-color-primary);
+  border-radius: var(--ds-radius-md);
+  padding: 1rem 1.25rem;
+  color: var(--ds-color-primary);
+  font-weight: 600;
+}
+
+.feedback-info::before {
+  content: 'ℹ️';
+  margin-right: 0.5rem;
+}
+
+/* Classe pour les états d'ATTENTE */
+.feedback-waiting {
+  animation: waitingPulse 1.5s ease-in-out infinite;
+  color: var(--ds-color-text-muted);
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/* UTILITAIRES : Appliquer sur n'importe quel élément          */
+/* ═══════════════════════════════════════════════════════════ */
+
+.anim-success-pop {
+  animation: successPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.anim-fail-shake {
+  animation: failShake 0.5s ease-in-out both;
+}
+
+.anim-fade-in-up {
+  animation: failFadeIn 0.4s ease-out both;
+}
+
+/* Respect des préférences de mouvement réduit (accessibilité) */
+@media (prefers-reduced-motion: reduce) {
+  .feedback-success,
+  .feedback-fail,
+  .feedback-info,
+  .feedback-waiting,
+  .anim-success-pop,
+  .anim-fail-shake,
+  .anim-fade-in-up {
+    animation: none;
+  }
+}
