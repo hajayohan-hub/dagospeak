@@ -39,7 +39,7 @@
         "textMg": "Tsia, misy volana roa ambin'ny folo ny taona iray, fa tsy andro fito.",
         "audio": { "ttsTextFr": "Non, une année a douze mois, pas sept jours." }
       },
-      "nextNode": "teacher_season"
+      "nextNodeOnSuccess": "teacher_season"
     },
     {
       "id": "teacher_season",
@@ -71,7 +71,7 @@
         "textMg": "Raha hilaza ny volana tianao, lazaina hoe: Ny volana tiako indrindra dia...",
         "audio": { "ttsTextFr": "Pour parler de votre mois préféré, dites : Mon mois préféré est..." }
       },
-      "nextNode": "teacher_birthday"
+      "nextNodeOnSuccess": "teacher_birthday"
     },
     {
       "id": "teacher_birthday",
@@ -103,7 +103,7 @@
         "textMg": "Raha hilaza ny tsingerin'ny nahaterahanao, lazaina hoe: Ny tsingerin'ny andro nahaterahako dia amin'ny...",
         "audio": { "ttsTextFr": "Pour dire votre anniversaire, utilisez : Mon anniversaire est en..." }
       },
-      "nextNode": "teacher_end"
+      "nextNodeOnSuccess": "teacher_end"
     },
     {
       "id": "teacher_end",
@@ -114,7 +114,7 @@
         "ttsTextFr": "Excellent {firstName} ! Vous connaissez maintenant les mois de l'année.",
         "ttsRate": 0.9
       },
-      "nextNode": "end"
+      "nextNodeOnSuccess": "end"
     },
     {
       "id": "end",

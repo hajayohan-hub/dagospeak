@@ -39,7 +39,7 @@
         "textMg": "Raha hampahafantatra tena, ampiasao « Je »: Je m'appelle...",
         "audio": { "ttsTextFr": "Pour vous présenter, utilisez « Je » : Je m'appelle..." }
       },
-      "nextNode": "teacher_you"
+      "nextNodeOnSuccess": "teacher_you"
     },
     {
       "id": "teacher_you",
@@ -71,7 +71,7 @@
         "textMg": "Raha hanontany anarana, lazaina hoe: Iza no anaranao?",
         "audio": { "ttsTextFr": "Pour demander un nom, dites : Comment vous appelez-vous ?" }
       },
-      "nextNode": "teacher_we"
+      "nextNodeOnSuccess": "teacher_we"
     },
     {
       "id": "teacher_we",
@@ -103,7 +103,7 @@
         "textMg": "Raha miresaka momba antsika roa, ampiasao « Nous »: Mianatra isika...",
         "audio": { "ttsTextFr": "Pour parler de nous deux, utilisez « Nous » : Nous apprenons..." }
       },
-      "nextNode": "teacher_end"
+      "nextNodeOnSuccess": "teacher_end"
     },
     {
       "id": "teacher_end",
@@ -114,7 +114,7 @@
         "ttsTextFr": "Excellent {firstName} ! Vous connaissez maintenant les pronoms de base : Je, Tu, Vous, Nous.",
         "ttsRate": 0.9
       },
-      "nextNode": "end"
+      "nextNodeOnSuccess": "end"
     },
     {
       "id": "end",

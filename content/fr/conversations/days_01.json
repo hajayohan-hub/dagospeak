@@ -1,0 +1,131 @@
+{
+  "id": "days_01",
+  "titleFr": "Les jours de la semaine",
+  "titleMg": "Ny andro amin'ny herinandro",
+  "level": "A0",
+  "theme": "days",
+  "participants": {
+    "A": { "name": "Professeur", "avatar": "👩‍🏫", "gender": "female" },
+    "B": { "name": "Vous", "avatar": "🙋", "gender": "neutral" }
+  },
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "teacher",
+      "textFr": "Bonjour {firstName} ! Aujourd'hui, c'est quel jour ?",
+      "textMg": "Manahoana {firstName} ! Rahoviana no andro anio?",
+      "audio": {
+        "ttsTextFr": "Bonjour {firstName} ! Aujourd'hui, c'est quel jour ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_day"
+    },
+    {
+      "id": "user_day",
+      "speaker": "user",
+      "responseOptions": [
+        { "textFr": "Aujourd'hui, c'est lundi.", "textMg": "Anio dia alatsinainy.", "isCorrect": true },
+        { "textFr": "Je mange du riz.", "textMg": "Mihinana vary aho.", "isCorrect": false },
+        { "textFr": "Il fait beau.", "textMg": "Tsara ny toetr'andro.", "isCorrect": false }
+      ],
+      "maxAttempts": 2,
+      "feedbackOnSuccess": {
+        "textFr": "Très bien ! Lundi est le premier jour de la semaine.",
+        "textMg": "Tena tsara! Alatsinainy no andro voalohany amin'ny herinandro.",
+        "audio": { "ttsTextFr": "Très bien ! Lundi est le premier jour de la semaine." }
+      },
+      "feedbackOnFail": {
+        "textFr": "Non, pour dire le jour, utilisez : Lundi, Mardi, Mercredi...",
+        "textMg": "Tsia, raha hilaza andro, lazaina hoe: Alatsinainy, Talata, Alarobia...",
+        "audio": { "ttsTextFr": "Non, pour dire le jour, utilisez : Lundi, Mardi, Mercredi..." }
+      },
+      "nextNodeOnSuccess": "teacher_next"
+    },
+    {
+      "id": "teacher_next",
+      "speaker": "teacher",
+      "textFr": "Et demain, quel jour sera-ce ?",
+      "textMg": "Ary rahampitso, inona no andro?",
+      "audio": {
+        "ttsTextFr": "Et demain, quel jour sera-ce ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_tomorrow"
+    },
+    {
+      "id": "user_tomorrow",
+      "speaker": "user",
+      "responseOptions": [
+        { "textFr": "Demain, c'est mardi.", "textMg": "Rahampitso dia talata.", "isCorrect": true },
+        { "textFr": "Hier, c'était dimanche.", "textMg": "Omaly dia alahady.", "isCorrect": false },
+        { "textFr": "Je vais à l'école.", "textMg": "Mandeha an-tsekoly aho.", "isCorrect": false }
+      ],
+      "maxAttempts": 2,
+      "feedbackOnSuccess": {
+        "textFr": "Excellent ! Vous progressez vite !",
+        "textMg": "Tena mahatalanjona! Mivoatra haingana ianao!",
+        "audio": { "ttsTextFr": "Excellent ! Vous progressez vite !" }
+      },
+      "feedbackOnFail": {
+        "textFr": "Attention, demain c'est mardi, pas dimanche.",
+        "textMg": "Tandremo, rahampitso dia talata, fa tsy alahady.",
+        "audio": { "ttsTextFr": "Attention, demain c'est mardi, pas dimanche." }
+      },
+      "nextNodeOnSuccess": "teacher_activity"
+    },
+    {
+      "id": "teacher_activity",
+      "speaker": "teacher",
+      "textFr": "Parfait ! Que faites-vous le week-end ?",
+      "textMg": "Tena tsara! Inona no ataonao amin'ny faran'ny herinandro?",
+      "audio": {
+        "ttsTextFr": "Parfait ! Que faites-vous le week-end ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_weekend"
+    },
+    {
+      "id": "user_weekend",
+      "speaker": "user",
+      "responseOptions": [
+        { "textFr": "Le samedi, je joue au football.", "textMg": "Amin'ny asabotsy, milalao baolina aho.", "isCorrect": true },
+        { "textFr": "J'ai cinq frères.", "textMg": "Manana rahalahy dimy aho.", "isCorrect": false },
+        { "textFr": "Le riz est bon.", "textMg": "Tsara ny vary.", "isCorrect": false }
+      ],
+      "maxAttempts": 2,
+      "feedbackOnSuccess": {
+        "textFr": "Super ! Le samedi et le dimanche sont le week-end.",
+        "textMg": "Tena tsara! Asabotsy sy alahady no faran'ny herinandro.",
+        "audio": { "ttsTextFr": "Super ! Le samedi et le dimanche sont le week-end." }
+      },
+      "feedbackOnFail": {
+        "textFr": "Pour le week-end, parlez d'activités : jouer, manger, dormir...",
+        "textMg": "Ho an'ny faran'ny herinandro, lazaina ny zavatra ataonao: milalao, mihinana, matory...",
+        "audio": { "ttsTextFr": "Pour le week-end, parlez d'activités : jouer, manger, dormir..." }
+      },
+      "nextNodeOnSuccess": "teacher_end"
+    },
+    {
+      "id": "teacher_end",
+      "speaker": "teacher",
+      "textFr": "Très bien {firstName} ! Vous connaissez maintenant les jours de la semaine.",
+      "textMg": "Tena tsara {firstName}! Fantatro izao ny andro amin'ny herinandro.",
+      "audio": {
+        "ttsTextFr": "Très bien {firstName} ! Vous connaissez maintenant les jours de la semaine.",
+        "ttsRate": 0.9
+      },
+      "nextNodeOnSuccess": "end"
+    },
+    {
+      "id": "end",
+      "speaker": "teacher",
+      "isEnd": true,
+      "textFr": "Bravo {firstName} ! Vous savez maintenant parler des jours de la semaine en français !",
+      "textMg": "Tena mahatalanjona {firstName}! Fantatra izao ny andro amin'ny herinandro amin'ny teny frantsay!",
+      "audio": {
+        "ttsTextFr": "Bravo {firstName} ! Vous savez maintenant parler des jours de la semaine en français !",
+        "ttsRate": 0.9
+      }
+    }
+  ]
+}
