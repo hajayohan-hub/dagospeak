@@ -5680,6 +5680,7 @@ async function renderConversationLive() {
         A0: [
           { id: 'greetings_01', title: 'Se présenter', icon: '👋', description: 'Dire son nom et demander comment ça va' },
           { id: 'alphabet_01', title: 'Épeler son nom', icon: '🔤', description: 'Épeler son nom et prénom lettre par lettre' },
+          { id: 'alphabet_02', title: 'Épeler des mots du quotidien', icon: '🔤', description: 'Épeler des mots avec les lettres N à Z' },
           { id: 'numbers_01', title: 'Compter de 1 à 10', icon: '🔢', description: 'Compter et demander des prix simples' },
           { id: 'numbers2_01', title: 'Acheter plusieurs articles', icon: '🔢', description: 'Compter de 11 à 100 et payer au marché' },
           { id: 'market_01', title: 'Au marché', icon: '🏪', description: 'Acheter du riz et des légumes' },

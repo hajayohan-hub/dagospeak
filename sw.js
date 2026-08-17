@@ -6,7 +6,7 @@
 // ⚠️ Change ce numéro à CHAQUE déploiement — c'est ce qui déclenche
 // la détection de mise à jour (le navigateur compare ce fichier octet
 // par octet à la version active).
-const CACHE_VERSION = 'v35';
+const CACHE_VERSION = 'v36';
 const CACHE_NAME = `dagospeak-${CACHE_VERSION}`;
 
 const STATIC_ASSETS = [
@@ -45,7 +45,8 @@ const STATIC_ASSETS = [
     '/content/fr/conversations/days_01.json',
   '/content/fr/conversations/months_01.json',
   '/content/fr/conversations/pronouns_basic_01.json',
-  '/content/fr/conversations/alphabet_01.json',
+    '/content/fr/conversations/alphabet_01.json',
+  '/content/fr/conversations/alphabet_02.json',
   '/content/fr/conversations/numbers2_01.json',
 
       // ✅ Teacher Avatar (SVG + Renderer)

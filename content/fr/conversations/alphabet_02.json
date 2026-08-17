@@ -1,0 +1,156 @@
+{
+  "id": "alphabet_02",
+  "titleFr": "Épeler des mots du quotidien",
+  "titleMg": "Manoratra teny isan'andro",
+  "level": "A0",
+  "theme": "alphabet",
+  "participants": {
+    "A": { "name": "Professeur", "avatar": "👩‍🏫", "gender": "female" },
+    "B": { "name": "Vous", "avatar": "🙋", "gender": "neutral" }
+  },
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "teacher",
+      "textFr": "Bonjour {firstName} ! Aujourd'hui, nous allons épeler des mots. Quel jour de la semaine contient la lettre W ?",
+      "textMg": "Manahoana {firstName}! Androany dia hanoratra teny isika. Iza amin'ny andro amin'ny herinandro no misy ny litera W?",
+      "audio": {
+        "ttsTextFr": "Bonjour {firstName} ! Aujourd'hui, nous allons épeler des mots. Quel jour de la semaine contient la lettre W ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_weekend"
+    },
+    {
+      "id": "user_weekend",
+      "speaker": "user",
+      "responseOptions": [
+        { "textFr": "Le week-end contient la lettre W.", "textMg": "Ny faran'ny herinandro no misy ny litera W.", "isCorrect": true },
+        { "textFr": "Le lundi contient la lettre W.", "textMg": "Ny alatsinainy no misy ny litera W.", "isCorrect": false },
+        { "textFr": "Le vendredi contient la lettre W.", "textMg": "Ny zoma no misy ny litera W.", "isCorrect": false }
+      ],
+      "maxAttempts": 2,
+      "feedbackOnSuccess": {
+        "textFr": "Exactement ! Le week-end commence par la lettre W.",
+        "textMg": "Marina tokoa! Ny faran'ny herinandro dia manomboka amin'ny litera W.",
+        "audio": { "ttsTextFr": "Exactement ! Le week-end commence par la lettre W." }
+      },
+      "feedbackOnFail": {
+        "textFr": "Non {firstName}, c'est le week-end qui contient la lettre W.",
+        "textMg": "Tsia, ny faran'ny herinandro no misy ny litera W.",
+        "audio": { "ttsTextFr": "Non {firstName}, c'est le week-end qui contient la lettre W." }
+      },
+      "nextNodeOnSuccess": "ask_city",
+      "nextNodeOnMaxAttemptsReached": "ask_city"
+    },
+    {
+      "id": "ask_city",
+      "speaker": "teacher",
+      "textFr": "Très bien ! Maintenant, pouvez-vous épeler le nom de la capitale de Madagascar ?",
+      "textMg": "Tena tsara! Izao, afaka manoratra ny anaran'ny renivohitr'i Madagasikara ve ianao?",
+      "audio": {
+        "ttsTextFr": "Très bien ! Maintenant, pouvez-vous épeler le nom de la capitale de Madagascar ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_city_spell"
+    },
+    {
+      "id": "user_city_spell",
+      "speaker": "user",
+      "responseOptions": [
+        { "textFr": "A, N, T, A, N, A, N, A, R, I, V, E.", "textMg": "A, N, T, A, N, A, N, A, R, I, V, E.", "isCorrect": true },
+        { "textFr": "Je ne connais pas la capitale.", "textMg": "Tsy fantatro ny renivohitra.", "isCorrect": false },
+        { "textFr": "C'est trop difficile.", "textMg": "Sarotra loatra izany.", "isCorrect": false }
+      ],
+      "maxAttempts": 2,
+      "feedbackOnSuccess": {
+        "textFr": "Parfait ! ANTANANARIVO contient les lettres N, T, R, V.",
+        "textMg": "Tena tsara! ANTANANARIVO dia misy ny litera N, T, R, V.",
+        "audio": { "ttsTextFr": "Parfait ! ANTANANARIVO contient les lettres N, T, R, V." }
+      },
+      "feedbackOnFail": {
+        "textFr": "Non {firstName}, épeler c'est dire chaque lettre : A, N, T, A, N, A, N, A, R, I, V, E.",
+        "textMg": "Tsia, manoratra dia milaza litera tsirairay: A, N, T, A, N, A, N, A, R, I, V, E.",
+        "audio": { "ttsTextFr": "Non {firstName}, épeler c'est dire chaque lettre : A, N, T, A, N, A, N, A, R, I, V, E." }
+      },
+      "nextNodeOnSuccess": "ask_animal",
+      "nextNodeOnMaxAttemptsReached": "ask_animal"
+    },
+    {
+      "id": "ask_animal",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Quel animal commence par la lettre Z ?",
+      "textMg": "Tena mahatalanjona! Iza amin'ny biby no manomboka amin'ny litera Z?",
+      "audio": {
+        "ttsTextFr": "Excellent ! Quel animal commence par la lettre Z ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_animal"
+    },
+    {
+      "id": "user_animal",
+      "speaker": "user",
+      "responseOptions": [
+        { "textFr": "Le zèbre commence par la lettre Z.", "textMg": "Ny zebra no manomboka amin'ny litera Z.", "isCorrect": true },
+        { "textFr": "Le lion commence par la lettre Z.", "textMg": "Ny liona no manomboka amin'ny litera Z.", "isCorrect": false },
+        { "textFr": "L'éléphant commence par la lettre Z.", "textMg": "Ny elefanta no manomboka amin'ny litera Z.", "isCorrect": false }
+      ],
+      "maxAttempts": 2,
+      "feedbackOnSuccess": {
+        "textFr": "Bravo ! Le zèbre est un bel animal africain.",
+        "textMg": "Tena tsara! Ny zebra dia biby tsara tarehy avy any Afrika.",
+        "audio": { "ttsTextFr": "Bravo ! Le zèbre est un bel animal africain." }
+      },
+      "feedbackOnFail": {
+        "textFr": "Non {firstName}, c'est le zèbre qui commence par la lettre Z.",
+        "textMg": "Tsia, ny zebra no manomboka amin'ny litera Z.",
+        "audio": { "ttsTextFr": "Non {firstName}, c'est le zèbre qui commence par la lettre Z." }
+      },
+      "nextNodeOnSuccess": "ask_vehicle",
+      "nextNodeOnMaxAttemptsReached": "ask_vehicle"
+    },
+    {
+      "id": "ask_vehicle",
+      "speaker": "teacher",
+      "textFr": "Dernière question. Quel moyen de transport commence par la lettre V ?",
+      "textMg": "Fanontaniana farany. Iza amin'ny fitaterana no manomboka amin'ny litera V?",
+      "audio": {
+        "ttsTextFr": "Dernière question. Quel moyen de transport commence par la lettre V ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_vehicle"
+    },
+    {
+      "id": "user_vehicle",
+      "speaker": "user",
+      "responseOptions": [
+        { "textFr": "La voiture commence par la lettre V.", "textMg": "Ny fiara no manomboka amin'ny litera V.", "isCorrect": true },
+        { "textFr": "Le bateau commence par la lettre V.", "textMg": "Ny sambo no manomboka amin'ny litera V.", "isCorrect": false },
+        { "textFr": "L'avion commence par la lettre V.", "textMg": "Ny fiaramanidina no manomboka amin'ny litera V.", "isCorrect": false }
+      ],
+      "maxAttempts": 2,
+      "feedbackOnSuccess": {
+        "textFr": "Parfait {firstName} ! Vous maîtrisez maintenant les lettres de N à Z.",
+        "textMg": "Tena mahatalanjona {firstName}! Mahay ny litera N ka hatramin'ny Z ianao izao.",
+        "audio": { "ttsTextFr": "Parfait {firstName} ! Vous maîtrisez maintenant les lettres de N à Z." }
+      },
+      "feedbackOnFail": {
+        "textFr": "Non {firstName}, c'est la voiture qui commence par la lettre V.",
+        "textMg": "Tsia, ny fiara no manomboka amin'ny litera V.",
+        "audio": { "ttsTextFr": "Non {firstName}, c'est la voiture qui commence par la lettre V." }
+      },
+      "nextNodeOnSuccess": "end",
+      "nextNodeOnMaxAttemptsReached": "end"
+    },
+    {
+      "id": "end",
+      "isEnd": true,
+      "speaker": "teacher",
+      "textFr": "Félicitations {firstName} ! Vous connaissez maintenant tout l'alphabet français !",
+      "textMg": "Arahaba tontolo andro tsara {firstName}! Fantatrao izao ny abidia frantsay rehetra!",
+      "audio": {
+        "ttsTextFr": "Félicitations {firstName} ! Vous connaissez maintenant tout l'alphabet français !",
+        "ttsRate": 0.9
+      }
+    }
+  ]
+}
