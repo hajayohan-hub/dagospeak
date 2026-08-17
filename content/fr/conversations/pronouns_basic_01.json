@@ -40,6 +40,7 @@
         "audio": { "ttsTextFr": "Pour vous présenter, utilisez « Je » : Je m'appelle..." }
       },
       "nextNodeOnSuccess": "teacher_you"
+      "nextNodeOnMaxAttemptsReached": "teacher_you"
     },
     {
       "id": "teacher_you",
@@ -72,6 +73,7 @@
         "audio": { "ttsTextFr": "Pour demander un nom, dites : Comment vous appelez-vous ?" }
       },
       "nextNodeOnSuccess": "teacher_we"
+      "nextNodeOnMaxAttemptsReached": "teacher_we"
     },
     {
       "id": "teacher_we",
@@ -104,6 +106,7 @@
         "audio": { "ttsTextFr": "Pour parler de nous deux, utilisez « Nous » : Nous apprenons..." }
       },
       "nextNodeOnSuccess": "teacher_end"
+      "nextNodeOnMaxAttemptsReached": "teacher_end"
     },
     {
       "id": "teacher_end",

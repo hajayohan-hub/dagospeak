@@ -40,6 +40,7 @@
         "audio": { "ttsTextFr": "Non, pour dire le jour, utilisez : Lundi, Mardi, Mercredi..." }
       },
       "nextNodeOnSuccess": "teacher_next"
+      "nextNodeOnMaxAttemptsReached": "teacher_next"
     },
     {
       "id": "teacher_next",
@@ -72,6 +73,7 @@
         "audio": { "ttsTextFr": "Attention, demain c'est mardi, pas dimanche." }
       },
       "nextNodeOnSuccess": "teacher_activity"
+      "nextNodeOnMaxAttemptsReached": "teacher_activity"
     },
     {
       "id": "teacher_activity",
@@ -104,6 +106,7 @@
         "audio": { "ttsTextFr": "Pour le week-end, parlez d'activités : jouer, manger, dormir..." }
       },
       "nextNodeOnSuccess": "teacher_end"
+      "nextNodeOnMaxAttemptsReached": "teacher_end"
     },
     {
       "id": "teacher_end",
