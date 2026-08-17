@@ -2359,161 +2359,136 @@ async function renderLesson() {
       'numbers': 'Les Nombres',
       'family': 'La Famille', 'market': 'Au Marché', 'colors': 'Les Couleurs'
     };
-          const themeName = themeNames[unitId] || unitId;
+    const themeName = themeNames[unitId] || unitId;
 
-      // ✅ NOUVEAU : Écran d'introduction de la leçon
-      const renderLessonIntro = () => {
-        const totalWords = vocabData.items.length;
-        const estimatedMinutes = Math.ceil((totalWords * 20) / 60); // ~20 sec par mot
-        
-        main.innerHTML = `
-          <section style="max-width: 700px; margin: 0 auto; padding: 2rem 1rem; text-align: center;">
-            <ds-button variant="ghost" size="sm" id="btn-back-intro" style="margin-bottom: 1rem;">← Retour aux thèmes</ds-button>
-            
-            <div style="font-size: 5rem; margin-bottom: 1rem;">📚</div>
-            
-            <div style="margin-bottom: 0.5rem;">
-              <span style="background: var(--ds-color-accent); color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 0.8rem;">
-                Niveau ${currentLevel} • Leçon
-              </span>
-            </div>
-            
-            <h2 style="margin-bottom: 0.5rem; color: var(--ds-color-text);">📖 ${themeName}</h2>
-            <p style="color: var(--ds-color-text-muted); margin-bottom: 2rem; font-style: italic;">
-              ${vocabData.themeMg || ''}
-            </p>
+    main.innerHTML = `
+      <section style="max-width: 700px; margin: 0 auto; padding: 2rem 1rem;">
+        <ds-button variant="ghost" size="sm" id="btn-back" style="margin-bottom: 1rem;">← Retour aux thèmes</ds-button>
+        <div style="margin-bottom: 0.5rem;">
+          <span style="background:var(--ds-color-accent); color:white; padding:4px 10px; border-radius:20px; font-weight:600; font-size:0.8rem;">Niveau ${currentLevel}</span>
+        </div>
+        <h2 style="margin-bottom: 0.5rem;">📖 Leçon : ${themeName}</h2>
+        <p style="color:var(--ds-color-text-muted); margin-bottom: 2rem;">${vocabData.themeMg} • ${vocabData.items.length} mots à apprendre</p>
 
-            <!-- Carte d'objectif -->
-            <div style="background: var(--ds-color-surface); padding: 1.5rem; border-radius: var(--ds-radius-lg); border: 2px solid var(--ds-color-primary); margin-bottom: 1.5rem;">
-              <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--ds-color-primary); margin-bottom: 0.5rem; font-weight: 700;">
-                🎯 Objectif
-              </div>
-              <div style="font-size: 1.1rem; color: var(--ds-color-text);">
-                Apprendre <strong>${totalWords} mots</strong> de vocabulaire essentiels
-              </div>
-            </div>
-
-            <!-- Stats -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem;">
-              <div style="background: var(--ds-color-surface-2); padding: 1rem; border-radius: var(--ds-radius-md);">
-                <div style="font-size: 2rem; margin-bottom: 0.25rem;">📝</div>
-                <div style="font-weight: 600; color: var(--ds-color-text); font-size: 1.5rem;">${totalWords}</div>
-                <div style="font-size: 0.85rem; color: var(--ds-color-text-muted);">Mots</div>
-              </div>
-              <div style="background: var(--ds-color-surface-2); padding: 1rem; border-radius: var(--ds-radius-md);">
-                <div style="font-size: 2rem; margin-bottom: 0.25rem;">⏱️</div>
-                <div style="font-weight: 600; color: var(--ds-color-text); font-size: 1.5rem;">${estimatedMinutes}</div>
-                <div style="font-size: 0.85rem; color: var(--ds-color-text-muted);">Minutes</div>
-              </div>
-            </div>
-
-            <!-- Conseils -->
-            <div style="background: var(--ds-color-primary-soft); padding: 1rem; border-radius: var(--ds-radius-md); margin-bottom: 2rem; border-left: 4px solid var(--ds-color-primary); text-align: left;">
-              <div style="font-weight: 600; color: var(--ds-color-primary); margin-bottom: 0.5rem;">💡 Conseils</div>
-              <ul style="margin: 0; padding-left: 1.5rem; color: var(--ds-color-text-muted); font-size: 0.9rem;">
-                <li>Écoutez chaque mot attentivement</li>
-                <li>Répétez à voix haute si possible</li>
-                <li>Lisez la phrase de contexte</li>
-              </ul>
-            </div>
-
-            <!-- Bouton principal -->
-            <ds-button id="btn-start-lesson" variant="primary" size="lg" style="width: 100%;" class="guide-active">
-              🚀 Commencer la leçon
-            </ds-button>
-          </section>
-        `;
-
-        // Écouteurs d'événements de l'écran d'introduction
-        document.getElementById('btn-back-intro').addEventListener('click', () => {
-          router.navigate('/themes');
-        });
-
-        document.getElementById('btn-start-lesson').addEventListener('click', () => {
-          renderLessonMain();
-        });
-      };
-
-      // ✅ NOUVEAU : Contenu principal de la leçon (code existant)
-      const renderLessonMain = () => {
-        main.innerHTML = `
-          <section style="max-width: 700px; margin: 0 auto; padding: 2rem 1rem;">
-            <ds-button variant="ghost" size="sm" id="btn-back" style="margin-bottom: 1rem;">← Retour aux thèmes</ds-button>
-            <div style="margin-bottom: 0.5rem;">
-              <span style="background:var(--ds-color-accent); color:white; padding:4px 10px; border-radius:20px; font-weight:600; font-size:0.8rem;">Niveau ${currentLevel}</span>
-            </div>
-            <h2 style="margin-bottom: 0.5rem;">📖 Leçon : ${themeName}</h2>
-            <p style="color:var(--ds-color-text-muted); margin-bottom: 2rem;">${vocabData.themeMg} • ${vocabData.items.length} mots à apprendre</p>
-
-            <div style="display:grid; gap:1rem;">
-              ${vocabData.items.map(item => `
-                <div style="background:var(--ds-color-surface); padding:1.2rem; border-radius:var(--ds-radius-md); display:flex; justify-content:space-between; align-items:center; box-shadow:var(--ds-shadow-sm); border:1px solid var(--ds-color-border);">
-                  <div style="flex:1;">
-                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
-                      <span style="font-size: 2rem;">${item.icon || '📝'}</span>
-                      <strong style="font-size:1.2rem; color:var(--ds-color-primary);">${item.target}</strong>
-                    </div>
-                    <span style="display:block; font-size:0.9rem; color:var(--ds-color-accent); font-family:monospace; margin: 4px 0; font-weight:600;">
-                      [ ${item.phonetic || '...'} ]
-                    </span>
-                    <div style="font-size:0.9em; color:var(--ds-color-text-muted); font-style:italic; margin-top:8px; border-top:1px solid var(--ds-color-border); padding-top:8px;">
-                      "${item.context}" <br>
-                      <span style="font-size:0.85em; opacity:0.8;">(${item.contextTranslation})</span>
-                    </div>
-                  </div>
-                  <ds-button variant="primary" size="sm" class="play-audio"
-                   data-target="${item.target}"
-                   data-word-id="${item.id || item.target?.toLowerCase().replace(/\s+/g, '-')}"
-                   style="min-width: 90px; margin-left:1rem;">
-                    🔊 Mihainoa
-                  </ds-button>
+                <div style="display:grid; gap:1rem;">
+          ${vocabData.items.map(item => `
+            <div style="background:var(--ds-color-surface); padding:1.2rem; border-radius:var(--ds-radius-md); display:flex; justify-content:space-between; align-items:center; box-shadow:var(--ds-shadow-sm); border:1px solid var(--ds-color-border);">
+              <div style="flex:1;">
+                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 2rem;">${item.icon || '📝'}</span>
+                  <strong style="font-size:1.2rem; color:var(--ds-color-primary);">${item.target}</strong>
                 </div>
-              `).join('')}
-            </div>
-
-            <div style="margin-top:2rem; text-align:center;">
-              <ds-button variant="success" size="lg" id="btn-start-practice">
-                ✅ Leçon terminée • Commencer la pratique →
+                <!-- ✅ AFFICHAGE DE LA PHONÉTIQUE -->
+                <span style="display:block; font-size:0.9rem; color:var(--ds-color-accent); font-family:monospace; margin: 4px 0; font-weight:600;">
+                  [ ${item.phonetic || '...'} ]
+                </span>
+                <div style="font-size:0.9em; color:var(--ds-color-text-muted); font-style:italic; margin-top:8px; border-top:1px solid var(--ds-color-border); padding-top:8px;">
+                  "${item.context}" <br>
+                  <span style="font-size:0.85em; opacity:0.8;">(${item.contextTranslation})</span>
+                </div>
+              </div>
+              <ds-button variant="primary" size="sm" class="play-audio"
+               data-target="${item.target || word.wordFr || word.fr}"
+               data-word-id="${item.id || word.id || (item.target || word.wordFr || word.fr)?.toLowerCase().replace(/\s+/g, '-')}"
+               style="min-width: 90px; margin-left:1rem;">
+                🔊 Mihainoa
               </ds-button>
             </div>
-          </section>
-        `;
+          `).join('')}
+        </div>
 
-        // === Écouteurs d'événements du contenu principal ===
-        
-        document.getElementById('btn-back').addEventListener('click', () => {
-          router.navigate('/themes');
-        });
+        <div style="margin-top:2rem; text-align:center;">
+          <ds-button id="btn-start-practice" size="lg" variant="success">🎯 Commencer la pratique de ce thème</ds-button>
+        </div>
+      </section>
+    `;
 
-        // Écouteurs pour les boutons audio
-        document.querySelectorAll('.play-audio').forEach(btn => {
+    document.getElementById('btn-back').addEventListener('click', () => router.navigate('/themes'));
+
+    // ✅ ALLUMAGE PROGRESSIF DES MOTS (intégré avec la barre de progression)
+     // ✅ ALLUMAGE PROGRESSIF DES MOTS (utilise lessonState)
+      const wordButtons = document.querySelectorAll('.play-audio');
+
+      if (wordButtons.length > 0) {
+        // Allumer le premier mot
+        wordButtons[0].classList.add('guide-active');
+        wordButtons[0].style.animation = 'pulse-guide 2s infinite';
+
+        // Initialiser la barre de progression
+        if (window.updateLessonProgress) {
+          window.updateLessonProgress(0);
+        }
+
+        wordButtons.forEach((btn, index) => {
           btn.addEventListener('click', () => {
-            const target = btn.dataset.target;
-            if (target && window.speakWithFeedback) {
-              window.speakWithFeedback(target, { gender: 'female' });
-            }
+            speechSynthesis.cancel();
+            btn.textContent = '🔊 ...';
+
+            const wordId = btn.dataset.wordId || btn.dataset.target?.toLowerCase().replace(/\s+/g, '-');
+
+            speakWithFeedback(btn.dataset.target, {
+              rate: 0.9,
+              gender: 'female',
+              themeId: currentTheme,  // ✅ Passer le thème actuel
+              wordId: wordId,         // ✅ Passer l'ID du mot
+              onStart: () => {
+                btn.textContent = '🔊 ...';
+              },
+              onEnd: () => {
+                btn.textContent = '🔊 Mitenena';
+                btn.classList.remove('guide-active');
+                btn.style.animation = 'none';
+
+                // ✅ NOUVEAU : Utiliser lessonState au lieu de currentWordIndex
+                lessonState.currentWordIndex = index + 1;
+
+                if (lessonState.currentWordIndex < wordButtons.length) {
+                  wordButtons[lessonState.currentWordIndex].classList.add('guide-active');
+                  wordButtons[lessonState.currentWordIndex].style.animation = 'pulse-guide 2s infinite';
+
+                  // Mettre à jour la barre de progression
+                  if (window.updateLessonProgress) {
+                    window.updateLessonProgress(lessonState.currentWordIndex);
+                  }
+                } else {
+                  // Leçon terminée : animation de succès
+                  const progressBar = document.getElementById('progress-bar-fill');
+                  if (progressBar) {
+                    progressBar.classList.add('complete');
+                  }
+
+                  if (window.teacherAvatar) {
+                    window.teacherAvatar.speakFeedback("Leçon terminée ! Bravo !", "success");
+                  }
+
+                  const btnStartPractice = document.getElementById('btn-start-practice');
+                  if (btnStartPractice) {
+                    btnStartPractice.classList.add('guide-active');
+                    btnStartPractice.style.animation = 'pulse-green 1.5s infinite';
+                  }
+                }
+              }
+            });
           });
         });
 
-        // Bouton de fin : Marquer la leçon comme terminée et passer à la pratique
-        document.getElementById('btn-start-practice')?.addEventListener('click', () => {
-          journeyTracker.markJourneyComplete('lessons', unitId);
-          saveProfile();
-          goToNextJourney('lesson');
-        });
 
-        window.teacherAvatar.show('lesson');
-        logger.info(`✅ Page Leçon rendue pour le thème: ${unitId}`);
 
-        setTimeout(() => {
-          if (window.teacherAvatar) {
-            window.teacherAvatar.speak("Vous avez appris les mots. Cliquez sur Commencer la pratique pour tester vos connaissances !");
-          }
-        }, 1000);
-      };
+        // ✅ BOUTON DE FIN : Marquer la leçon comme terminée et passer à la pratique
+         document.getElementById('btn-start-practice')?.addEventListener('click', () => {
+           journeyTracker.markJourneyComplete('lessons', unitId);
+           saveProfile();
+           goToNextJourney('lesson'); // → va automatiquement vers 'practice'
+         });
 
-      // ✅ NOUVEAU : Démarrer par l'écran d'introduction
-      renderLessonIntro();
+     window.teacherAvatar.show('lesson');
+     logger.info(`✅ Page Leçon rendue pour le thème: ${unitId}`);
+
+       setTimeout(() => {
+         window.teacherAvatar.speak("Vous avez appris les mots. Cliquez sur Commencer la pratique pour tester vos connaissances !");
+       }, 1000);
+
+     }
 
          } catch (e) {
       showError(main, e, {
