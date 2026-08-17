@@ -5842,7 +5842,7 @@ async function renderConversationLive() {
           align-items: center;
           gap: 1rem;
         ">
-          <div style="font-size: 2rem;">${conv.icon}</div>
+          <div class="float-animation" style="font-size: 2rem;">${conv.icon}</div>
           <div style="flex: 1;">
             <h4 style="margin: 0 0 0.25rem 0; color: var(--ds-color-text); font-size: 1rem;">${conv.title}</h4>
             <p style="margin: 0; color: var(--ds-color-text-muted); font-size: 0.85rem;">${conv.description}</p>
