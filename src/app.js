@@ -3410,21 +3410,21 @@ async function renderPractice() {
 
           if (similarity > 0.60) {
             if (typeof feedbackSounds !== 'undefined') feedbackSounds.playSuccess();
-            shadowFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Tena tsara ! (Très bien !)</span>`;
+            shadowFeedback.innerHTML = `<div class="feedback-success" style="padding:0.75rem; font-size:0.9rem;">✅ Tena tsara ! (Très bien !)</div>`;
             btnShadow.textContent = '✅ Vita';
             gamification.addXP(5, 'Shadowing - excellente prononciation');
             document.getElementById('btn-shadow').classList.remove('guide-active');
             unlockNext();
           } else if (similarity > 0.40) {
             if (typeof feedbackSounds !== 'undefined') feedbackSounds.playSuccess();
-            shadowFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Tsara ! (Bien !)</span>`;
+           shadowFeedback.innerHTML = `<div class="feedback-success" style="padding:0.75rem; font-size:0.9rem;">✅ Tsara ! (Bien !)</div>`;
             btnShadow.textContent = '✅ Vita';
             gamification.addXP(3, 'Shadowing - bonne prononciation');
             document.getElementById('btn-shadow').classList.remove('guide-active');
             unlockNext();
           } else {
             if (typeof feedbackSounds !== 'undefined') feedbackSounds.playRetry();
-            shadowFeedback.innerHTML = `<span style="color:var(--ds-color-accent);">🔄 Havereno (À répéter)</span>`;
+           shadowFeedback.innerHTML = `<div class="feedback-fail" style="padding:0.75rem; font-size:0.9rem;">🔄 Havereno (À répéter)</div>`;
             btnShadow.textContent = ' Mitenena indray (Réessayer)';
           }
         } else {
@@ -3621,7 +3621,7 @@ async function renderPracticePhrases() {
                 Étape 3 : Mitenena ny fehezanteny (Prononcez la phrase)
               </div>
               <ds-button variant="primary" size="lg" id="btn-shadow">🎤 Mitenena izao</ds-button>
-              <div id="shadow-feedback" style="margin-top:0.75rem; font-size:0.9rem; font-weight:600; min-height:1.5em;"></div>
+             <div id="shadow-feedback" style="margin-top:0.75rem; font-size:0.9rem; font-weight:600;"></div>
             </div>
 
             <div id="step-next" style="text-align:center; margin-top:0.5rem; opacity:0.5; pointer-events:none; transition:all 0.3s;">
