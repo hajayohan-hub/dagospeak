@@ -1108,7 +1108,8 @@ const heroHtml = `
       
         // Fonction pour mettre à jour sttAvailable
         // Fonction pour mettre à jour sttAvailable
-        function updateSTTAvailability() {
+                // Fonction pour mettre à jour sttAvailable
+        function updateSTTAvailability(trigger) {
           const microEnabled = toggleMicro ? toggleMicro.checked : true;
           const webSpeechEnabled = toggleWebSpeech ? toggleWebSpeech.checked : true;
 
@@ -1127,25 +1128,29 @@ const heroHtml = `
             window.sttManager.isSimulationMode = () => true;
             console.log('[STT] Mode simulation pédagogique activé');
             
-            // ✅ Notification pédagogique (à chaque changement)
-            showSTTNotification('offline');
+            // ✅ Notification pédagogique UNIQUEMENT si c'est le toggle Web Speech
+            if (trigger === 'web-speech') {
+              showSTTNotification('offline');
+            }
           } else {
             // Comportement normal
             window.sttAvailable = 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window;
             console.log('[STT] Web Speech API:', window.sttAvailable ? 'disponible' : 'indisponible');
             
-            // ✅ Notification mode en ligne (à chaque changement)
-            showSTTNotification('online');
+            // ✅ Notification mode en ligne UNIQUEMENT si c'est le toggle Web Speech
+            if (trigger === 'web-speech') {
+              showSTTNotification('online');
+            }
           }
         }
 
-      // Écouter les changements
-      if (toggleMicro) {
-        toggleMicro.addEventListener('change', updateSTTAvailability);
-      }
-      if (toggleWebSpeech) {
-        toggleWebSpeech.addEventListener('change', updateSTTAvailability);
-      }
+              // Écouter les changements
+        if (toggleMicro) {
+          toggleMicro.addEventListener('change', () => updateSTTAvailability('micro'));
+        }
+        if (toggleWebSpeech) {
+          toggleWebSpeech.addEventListener('change', () => updateSTTAvailability('web-speech'));
+        }
 
       // Appliquer l'état initial
       updateSTTAvailability();
