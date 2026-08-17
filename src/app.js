@@ -6242,10 +6242,10 @@ async function renderConversation() {
                 `}
               </div>
             `).join('')}
-          </div>
-      </div>
-          <div id="feedback" style="min-height: 20px; margin-top: 0.5rem;"></div>
-    </section>
+                      </div>
+            <div id="feedback" style="margin-top: 0.5rem;"></div>
+        </div>
+      </section>
   `;
                 mountLiveAvatar();
 
