@@ -5676,12 +5676,14 @@ async function renderConversationLive() {
     if (floatActions) floatActions.remove();
 
     // ✅ Données des conversations par niveau
-               const conversationsData = {
+                    const conversationsData = {
         A0: [
           { id: 'greetings_01', title: 'Se présenter', icon: '👋', description: 'Dire son nom et demander comment ça va' },
+          { id: 'alphabet_01', title: 'Épeler son nom', icon: '🔤', description: 'Épeler son nom et prénom lettre par lettre' },
+          { id: 'numbers_01', title: 'Compter de 1 à 10', icon: '🔢', description: 'Compter et demander des prix simples' },
+          { id: 'numbers2_01', title: 'Acheter plusieurs articles', icon: '🔢', description: 'Compter de 11 à 100 et payer au marché' },
           { id: 'market_01', title: 'Au marché', icon: '🏪', description: 'Acheter du riz et des légumes' },
           { id: 'family_01', title: 'Parler de sa famille', icon: '👨‍👩‍👧', description: 'Présenter ses parents et frères/sœurs' },
-          { id: 'numbers_01', title: 'Compter et demander des prix', icon: '🔢', description: 'Acheter avec des quantités' },
           { id: 'colors_01', title: 'Décrire des couleurs', icon: '🎨', description: 'Identifier les couleurs du ciel et de la nature' },
           { id: 'survival_01', title: 'Demander de l\'aide', icon: '🆘', description: 'Demander son chemin et remercier' },
           { id: 'body_01', title: 'Parler de son corps', icon: '🏥', description: 'Décrire une douleur chez le médecin' },
