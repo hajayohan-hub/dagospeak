@@ -6,7 +6,7 @@
 // ⚠️ Change ce numéro à CHAQUE déploiement — c'est ce qui déclenche
 // la détection de mise à jour (le navigateur compare ce fichier octet
 // par octet à la version active).
-const CACHE_VERSION = 'v33';
+const CACHE_VERSION = 'v34';
 const CACHE_NAME = `dagospeak-${CACHE_VERSION}`;
 
 const STATIC_ASSETS = [
@@ -42,6 +42,11 @@ const STATIC_ASSETS = [
   '/content/fr/conversations/colors_01.json',
   '/content/fr/conversations/survival_01.json',
   '/content/fr/conversations/body_01.json',
+    '/content/fr/conversations/days_01.json',
+  '/content/fr/conversations/months_01.json',
+  '/content/fr/conversations/pronouns_basic_01.json',
+  '/content/fr/conversations/alphabet_01.json',
+  '/content/fr/conversations/numbers2_01.json',
 
       // ✅ Teacher Avatar (SVG + Renderer)
     '/src/ui/components/teacher-avatar-svg.js',
@@ -71,11 +76,10 @@ const STATIC_ASSETS = [
               console.warn(`[SW ${CACHE_VERSION}] ⚠️ Échec cache:`, STATIC_ASSETS[i]);
             }
           });
-          console.log(`[SW ${CACHE_VERSION}] ✅ Pré-cache terminé (en attente du clic utilisateur)`);
+              console.log(`[SW ${CACHE_VERSION}] ✅ Pré-cache terminé (en attente du clic utilisateur)`);
         })
       );
-      // ✅ NOUVEAU : Demande au SW de s'activer immédiatement après installation
-      self.skipWaiting();
+      // ✅ Pas de skipWaiting() ici - on attend le clic utilisateur
     });
 
 // ═══════════════════════════════════════════════════════════
