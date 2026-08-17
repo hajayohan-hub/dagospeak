@@ -4248,13 +4248,18 @@ async function renderRolePlay() {
 
         // ✅ TTS automatique au chargement si c'est une réplique teacher
         const btnListen = document.getElementById('btn-listen');
+        let isPlaying = false;  // ✅ Flag pour éviter les doublons
         
         const playLine = () => {
+          if (isPlaying) return;  // ✅ Empêche les doublons
+          isPlaying = true;
+          
           const speakerGender = speaker.gender || 'female';
           speakWithFeedback(line.text, {
             gender: speakerGender,
             onStart: () => {
               btnListen.textContent = '🔊 ...';
+              btnListen.setAttribute('disabled', '');  // ✅ Désactive le bouton
               if (isUserTurn) {
                 const stepSpeak = document.getElementById('step-speak');
                 if (stepSpeak) {
@@ -4264,19 +4269,28 @@ async function renderRolePlay() {
               }
             },
             onEnd: () => {
+              isPlaying = false;  // ✅ Libère le flag
               btnListen.textContent = '🔊 Mihainoa (Écouter)';
+              btnListen.removeAttribute('disabled');  // ✅ Réactive le bouton
               if (!isUserTurn) {
                 // ✅ AUTO-PROGRESSION : réplique teacher terminée → passe à la suivante
                 autoProgress(1000);
               }
+            },
+            onError: () => {
+              isPlaying = false;  // ✅ Libère le flag en cas d'erreur
+              btnListen.textContent = '🔊 Mihainoa (Écouter)';
+              btnListen.removeAttribute('disabled');
             }
           });
         };
 
         btnListen.addEventListener('click', playLine);
         
-        // ✅ TTS automatique au chargement
-        setTimeout(() => playLine(), 500);
+        // ✅ TTS automatique au chargement (uniquement pour teacher)
+        if (!isUserTurn) {
+          setTimeout(() => playLine(), 500);
+        }
 
         if (isUserTurn) {
           const btnSpeak = document.getElementById('btn-speak');
