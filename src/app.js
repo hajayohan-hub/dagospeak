@@ -6297,7 +6297,7 @@ async function renderConversation() {
           if (clickedBtn) clickedBtn.style.borderColor = 'var(--ds-color-success)';
 
           currentFeedback.innerHTML = `
-            <div style="background: var(--ds-color-success-soft, #d1fae5); padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-success);">
+           <div class="feedback-success" style="background: var(--ds-color-success-soft, #d1fae5); padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-success);">
               <div style="font-size: 2rem;">✅</div>
               <p style="color: var(--ds-color-success); font-weight: 600;">${successFeedbackFr}</p>
               ${isAutoEval ? '<p style="color: var(--ds-color-text-muted); font-size: 0.85rem;">(Auto-évaluation)</p>' : ''}
@@ -6355,7 +6355,7 @@ async function renderConversation() {
 
               } else {
                 currentFeedback.innerHTML = `
-                  <div style="background: #fee2e2; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-danger, #ef4444);">
+                 <div class="feedback-fail" style="background: #fee2e2; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-danger, #ef4444);">
                     <div style="font-size: 2rem;">🔄</div>
 
                     <p style="color: var(--ds-color-danger); font-weight: 600;">${failFeedbackFr}</p>
