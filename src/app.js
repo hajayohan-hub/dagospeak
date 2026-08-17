@@ -4085,197 +4085,262 @@ async function renderRolePlay() {
         document.getElementById('btn-back-themes').addEventListener('click', () => router.navigate('/themes'));
     };
 
-    const renderLine = () => {
-      if (currentLineIndex >= dialogue.lines.length) {
-        renderRolePlayComplete();
-        return;
-      }
-
-      const line = dialogue.lines[currentLineIndex];
-      const speaker = dialogue.participants[line.speaker];
-      const isUserTurn = line.speaker === 'B';
-      const progressPercent = (currentLineIndex / dialogue.lines.length) * 100;
-
-      main.innerHTML = `
-        <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem;">
-          <div style="background:var(--ds-color-border); height:8px; border-radius:4px; margin-bottom:1rem; overflow:hidden;">
-            <div style="background:var(--ds-color-accent, #f59e0b); height:100%; width:${progressPercent}%; transition: width 0.3s ease;"></div>
-          </div>
-
-          <div style="display:flex; justify-content:space-between; margin-bottom:1rem; align-items:center;">
-            <ds-button variant="ghost" size="sm" id="btn-back-dialogues">← Hiverina (Retour)</ds-button>
-            <span style="font-weight:600; color:var(--ds-color-text-muted);">
-              Andiany ${currentLineIndex + 1} / ${dialogue.lines.length}
+          // ✅ NOUVEAU : Écran d'introduction avant le défi
+      const renderRolePlayIntro = () => {
+        const userRole = dialogue.participants['B'];
+        const teacherRole = dialogue.participants['A'];
+        
+        main.innerHTML = `
+          <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem; text-align:center;">
+            <div style="font-size:5rem; margin-bottom:1rem;">🎭</div>
+            <span style="background:var(--ds-color-accent, #f59e0b); color:white; padding:4px 12px; border-radius:20px; font-weight:600; font-size:0.8rem; display:inline-block; margin-bottom:1rem;">
+              Role Play Guidé • ${themeName}
             </span>
-          </div>
+            <h2 style="color:var(--ds-color-text); margin-bottom:0.5rem;">💬 ${dialogue.title}</h2>
+            <p style="color:var(--ds-color-text-muted); margin-bottom:2rem; font-style:italic;">${dialogue.titleMg || ''}</p>
 
-          <div style="text-align:center; margin-bottom:1rem;">
-            <span style="background:var(--ds-color-accent, #f59e0b); color:white; padding:4px 12px; border-radius:20px; font-weight:600; font-size:0.8rem;">
-              🎭 Role Play Guidé • ${themeName}
-            </span>
-          </div>
-
-          <h2 style="text-align:center; margin-bottom:1.5rem;">💬 ${dialogue.title}</h2>
-
-          <div style="background:var(--ds-color-surface); padding:1.5rem; border-radius:var(--ds-radius-lg); border:2px solid ${isUserTurn ? 'var(--ds-color-primary)' : 'var(--ds-color-border)'}; margin-bottom:1.5rem; box-shadow:var(--ds-shadow-sm);">
-            <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.75rem;">
-              <span style="font-size:1.5rem;">${speaker.avatar}</span>
-              <strong style="color:${isUserTurn ? 'var(--ds-color-primary)' : 'var(--ds-color-text)'};">
-                ${speaker.name} ${isUserTurn ? '(Anao / Vous)' : ''}
-              </strong>
-            </div>
-            <div style="font-size:1.2rem; font-weight:500; margin-bottom:0.5rem;">${line.text}</div>
-            <div style="font-size:0.95rem; color:var(--ds-color-text-muted); font-style:italic;">${line.translation}</div>
-          </div>
-
-          <div style="display:flex; flex-direction:column; gap:0.75rem;">
-            <div id="step-listen" class="${!isUserTurn ? 'guide-active' : ''}" style="text-align:center; padding:1rem; background:var(--ds-color-surface-2); border-radius:var(--ds-radius-md);">
-              <div style="font-size:0.75rem; text-transform:uppercase; color:var(--ds-color-text-muted); margin-bottom:0.5rem;">Étape 1 : Mihainoa (Écoutez)</div>
-              <ds-button variant="primary" size="md" id="btn-listen" class="${!isUserTurn ? 'guide-active' : ''}">🔊 Mihainoa (Écouter)</ds-button>
-            </div>
-
-            ${isUserTurn ? `
-              <div id="step-speak" style="text-align:center; padding:1rem; background:var(--ds-color-primary-soft); border-radius:var(--ds-radius-md); border: 1px dashed var(--ds-color-primary); opacity:0.5; pointer-events:none; transition:all 0.3s;">
-                <div style="font-size:0.75rem; text-transform:uppercase; color:var(--ds-color-primary); margin-bottom:0.5rem; font-weight:bold;">Étape 2 : Mitenena (Parlez à votre tour)</div>
-                <ds-button variant="primary" size="lg" id="btn-speak">🎤 Mitenena izao (Parler maintenant)</ds-button>
-                <div id="speech-feedback" style="margin-top:0.75rem; font-size:0.9rem; font-weight:600; min-height:1.5em;"></div>
+            <!-- Rôle assigné -->
+            <div style="background:var(--ds-color-surface); padding:1.5rem; border-radius:var(--ds-radius-lg); border:2px solid var(--ds-color-accent, #f59e0b); margin-bottom:1.5rem;">
+              <div style="font-size:0.75rem; text-transform:uppercase; color:var(--ds-color-accent, #f59e0b); margin-bottom:0.75rem; font-weight:700;">
+                🎭 Votre rôle
               </div>
-            ` : `
-              <div style="text-align:center; padding:1rem; background:var(--ds-color-surface-2); border-radius:var(--ds-radius-md); color:var(--ds-color-text-muted);">
-                👂 Mihainoa an'i ${speaker.name} (Écoutez ${speaker.name})
+              <div style="display:flex; align-items:center; justify-content:center; gap:1rem;">
+                <span style="font-size:4rem;">${userRole.avatar}</span>
+                <div style="text-align:left;">
+                  <div style="font-size:1.5rem; font-weight:700; color:var(--ds-color-text);">${userRole.name}</div>
+                  <div style="color:var(--ds-color-accent, #f59e0b); font-weight:600;">Anao / Vous</div>
+                </div>
               </div>
-            `}
-
-            <div id="step-next" style="text-align:center; margin-top:0.5rem; opacity:0.5; pointer-events:none; transition:all 0.3s;">
-              <ds-button id="btn-next" disabled variant="success" size="lg" style="width:100%;">
-                Manaraka → (Suivant)
-              </ds-button>
             </div>
-          </div>
-        </section>
-      `;
 
-      document.getElementById('btn-back-dialogues').addEventListener('click', () => {
-        speechSynthesis.cancel();
-        shadowing.forceStop();
-        if (currentLineIndex > 0) {
-          currentLineIndex--;
+            <!-- Partenaire de dialogue -->
+            <div style="background:var(--ds-color-surface-2); padding:1rem; border-radius:var(--ds-radius-md); margin-bottom:1.5rem;">
+              <div style="display:flex; align-items:center; justify-content:center; gap:0.75rem;">
+                <span style="font-size:2rem;">${teacherRole.avatar}</span>
+                <div style="text-align:left;">
+                  <div style="font-weight:600; color:var(--ds-color-text);">${teacherRole.name}</div>
+                  <div style="color:var(--ds-color-text-muted); font-size:0.85rem;">Votre interlocuteur</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Infos du défi -->
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:1.5rem;">
+              <div style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); text-align:center;">
+                <div style="font-size:1.5rem; margin-bottom:0.25rem;">💬</div>
+                <div style="font-weight:600; color:var(--ds-color-text);">${dialogue.lines.length}</div>
+                <div style="font-size:0.8rem; color:var(--ds-color-text-muted);">Répliques</div>
+              </div>
+              <div style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); text-align:center;">
+                <div style="font-size:1.5rem; margin-bottom:0.25rem;">🎯</div>
+                <div style="font-weight:600; color:var(--ds-color-text); font-size:0.85rem;">Apprendre</div>
+                <div style="font-size:0.8rem; color:var(--ds-color-text-muted);">par cœur</div>
+              </div>
+            </div>
+
+            <div style="background:var(--ds-color-primary-soft); padding:1rem; border-radius:var(--ds-radius-md); margin-bottom:1.5rem; border-left:4px solid var(--ds-color-primary);">
+              <div style="font-weight:600; color:var(--ds-color-primary); margin-bottom:0.25rem;">📌 Objectif</div>
+              <div style="font-size:0.9rem; color:var(--ds-color-text-muted);">
+                Écoutez ${teacherRole.name}, puis répétez vos répliques. Le dialogue avance automatiquement.
+              </div>
+            </div>
+
+            <ds-button id="btn-start-roleplay" variant="primary" size="lg" style="width:100%;" class="guide-active">
+              🚀 Manomboka (Commencer le défi)
+            </ds-button>
+          </section>
+        `;
+
+        document.getElementById('btn-start-roleplay').addEventListener('click', () => {
           renderLine();
-        } else {
-          router.navigate('/dialogues');
-        }
-      });
-
-      const btnNext = document.getElementById('btn-next');
-      const unlockNext = () => {
-        btnNext.disabled = false;
-        btnNext.removeAttribute('disabled');
-        document.getElementById('step-next').style.opacity = '1';
-        document.getElementById('step-next').style.pointerEvents = 'auto';
-        btnNext.style.animation = "pulse-green 1.5s infinite";
+        });
       };
 
-      document.getElementById('btn-listen').addEventListener('click', () => {
-          const btnListen = document.getElementById('btn-listen');
-          const originalText = btnListen.textContent;
+      const renderLine = () => {
+        if (currentLineIndex >= dialogue.lines.length) {
+          renderRolePlayComplete();
+          return;
+        }
 
-          // ✅ Récupérer le genre du personnage qui parle
+        const line = dialogue.lines[currentLineIndex];
+        const speaker = dialogue.participants[line.speaker];
+        const isUserTurn = line.speaker === 'B';
+        const progressPercent = (currentLineIndex / dialogue.lines.length) * 100;
+
+        // ✅ NOUVEAU : Fonction d'auto-progression (remplace unlockNext)
+        const autoProgress = (delay = 1200) => {
+          setTimeout(() => {
+            if (shadowEvalHandler) {
+              bus.off('pronunciation:evaluated', shadowEvalHandler);
+              shadowEvalHandler = null;
+            }
+            currentLineIndex++;
+            renderLine();
+          }, delay);
+        };
+
+        main.innerHTML = `
+          <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem;">
+            <div style="background:var(--ds-color-border); height:8px; border-radius:4px; margin-bottom:1rem; overflow:hidden;">
+              <div style="background:var(--ds-color-accent, #f59e0b); height:100%; width:${progressPercent}%; transition: width 0.3s ease;"></div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; margin-bottom:1rem; align-items:center;">
+              <ds-button variant="ghost" size="sm" id="btn-back-dialogues">← Hiverina (Retour)</ds-button>
+              <span style="font-weight:600; color:var(--ds-color-text-muted);">
+                Andiany ${currentLineIndex + 1} / ${dialogue.lines.length}
+              </span>
+            </div>
+
+            <div style="text-align:center; margin-bottom:1rem;">
+              <span style="background:var(--ds-color-accent, #f59e0b); color:white; padding:4px 12px; border-radius:20px; font-weight:600; font-size:0.8rem;">
+                🎭 Role Play Guidé • ${themeName}
+              </span>
+            </div>
+
+            <h2 style="text-align:center; margin-bottom:1.5rem;">💬 ${dialogue.title}</h2>
+
+            <div style="background:var(--ds-color-surface); padding:1.5rem; border-radius:var(--ds-radius-lg); border:2px solid ${isUserTurn ? 'var(--ds-color-primary)' : 'var(--ds-color-border)'}; margin-bottom:1.5rem; box-shadow:var(--ds-shadow-sm);">
+              <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.75rem;">
+                <span style="font-size:1.5rem;">${speaker.avatar}</span>
+                <strong style="color:${isUserTurn ? 'var(--ds-color-primary)' : 'var(--ds-color-text)'};">
+                  ${speaker.name} ${isUserTurn ? '(Anao / Vous)' : ''}
+                </strong>
+              </div>
+              <div style="font-size:1.2rem; font-weight:500; margin-bottom:0.5rem;">${line.text}</div>
+              <div style="font-size:0.95rem; color:var(--ds-color-text-muted); font-style:italic;">${line.translation}</div>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:0.75rem;">
+              ${!isUserTurn ? `
+                <div style="text-align:center; padding:1rem; background:var(--ds-color-surface-2); border-radius:var(--ds-radius-md);">
+                  <div style="font-size:0.75rem; text-transform:uppercase; color:var(--ds-color-text-muted); margin-bottom:0.5rem;">Étape 1 : Mihainoa (Écoutez)</div>
+                  <ds-button variant="primary" size="md" id="btn-listen" class="guide-active">🔊 Mihainoa (Écouter)</ds-button>
+                </div>
+                <div style="text-align:center; padding:1rem; background:var(--ds-color-surface-2); border-radius:var(--ds-radius-md); color:var(--ds-color-text-muted);">
+                  👂 Mihainoa an'i ${speaker.name} (Écoutez ${speaker.name})
+                </div>
+              ` : `
+                <div style="text-align:center; padding:1rem; background:var(--ds-color-surface-2); border-radius:var(--ds-radius-md);">
+                  <div style="font-size:0.75rem; text-transform:uppercase; color:var(--ds-color-text-muted); margin-bottom:0.5rem;">Étape 1 : Mihainoa (Écoutez)</div>
+                  <ds-button variant="primary" size="md" id="btn-listen">🔊 Mihainoa (Écouter)</ds-button>
+                </div>
+                <div id="step-speak" style="text-align:center; padding:1rem; background:var(--ds-color-primary-soft); border-radius:var(--ds-radius-md); border:1px dashed var(--ds-color-primary); opacity:0.5; pointer-events:none; transition:all 0.3s;">
+                  <div style="font-size:0.75rem; text-transform:uppercase; color:var(--ds-color-primary); margin-bottom:0.5rem; font-weight:bold;">Étape 2 : Mitenena (Parlez à votre tour)</div>
+                  <ds-button variant="primary" size="lg" id="btn-speak">🎤 Mitenena izao (Parler maintenant)</ds-button>
+                  <div id="speech-feedback" style="margin-top:0.75rem; font-size:0.9rem; font-weight:600; min-height:1.5em;"></div>
+                </div>
+              `}
+            </div>
+          </section>
+        `;
+
+        document.getElementById('btn-back-dialogues').addEventListener('click', () => {
+          speechSynthesis.cancel();
+          shadowing.forceStop();
+          if (currentLineIndex > 0) {
+            currentLineIndex--;
+            renderLine();
+          } else {
+            router.navigate('/dialogues');
+          }
+        });
+
+        // ✅ TTS automatique au chargement si c'est une réplique teacher
+        const btnListen = document.getElementById('btn-listen');
+        
+        const playLine = () => {
           const speakerGender = speaker.gender || 'female';
-
           speakWithFeedback(line.text, {
-            gender: speakerGender, // ✅ Transmission du genre
+            gender: speakerGender,
             onStart: () => {
               btnListen.textContent = '🔊 ...';
-              btnListen.classList.remove('guide-active');
-              document.getElementById('step-listen').classList.remove('guide-active');
               if (isUserTurn) {
                 const stepSpeak = document.getElementById('step-speak');
-                stepSpeak.style.opacity = '1';
-                stepSpeak.style.pointerEvents = 'auto';
-                document.getElementById('btn-speak').classList.add('guide-active');
+                if (stepSpeak) {
+                  stepSpeak.style.opacity = '1';
+                  stepSpeak.style.pointerEvents = 'auto';
+                }
               }
             },
             onEnd: () => {
-              btnListen.textContent = originalText;
+              btnListen.textContent = '🔊 Mihainoa (Écouter)';
               if (!isUserTurn) {
-                unlockNext();
+                // ✅ AUTO-PROGRESSION : réplique teacher terminée → passe à la suivante
+                autoProgress(1000);
               }
             }
           });
-        });
-
-      if (isUserTurn) {
-        const btnSpeak = document.getElementById('btn-speak');
-        const speechFeedback = document.getElementById('speech-feedback');
-        let isRecording = false;
-
-        btnSpeak.addEventListener('click', () => {
-          if (isRecording) {
-            shadowing.forceStop();
-            isRecording = false;
-            btnSpeak.textContent = '🎤 Mitenena izao (Parler maintenant)';
-            return;
-          }
-
-          btnSpeak.setAttribute('disabled', '');
-          btnSpeak.textContent = '🎙️ Mandre... (Écoute en cours)';
-          speechFeedback.innerHTML = '<span style="color:var(--ds-color-accent);">Mitenena izao... (Je vous écoute...)</span>';
-          isRecording = true;
-          shadowing.startRecording();
-        });
-
-        shadowEvalHandler = (data) => {
-          isRecording = false;
-          btnSpeak.removeAttribute('disabled');
-
-          if (data.error === 'not_supported') {
-            speechFeedback.innerHTML = '<span style="color:var(--ds-color-danger);">⚠️ Tsy mandeha ny mikrô</span>';
-            btnSpeak.textContent = '🎤 Mitenena izao';
-            unlockNext();
-            return;
-          }
-
-          if (data.transcript) {
-            const similarity = calculateSimilarity(data.transcript.toLowerCase(), line.text.toLowerCase());
-
-            if (similarity > 0.60) {
-              speechFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Tena tsara ! (Très bien !)</span>`;
-              btnSpeak.textContent = '✅ Vita';
-              gamification.addXP(5, 'Role Play - excellente prononciation');
-              document.getElementById('btn-speak').classList.remove('guide-active');
-              unlockNext();
-            } else if (similarity > 0.40) {
-              speechFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Tsara ! (Bien !)</span>`;
-              btnSpeak.textContent = '✅ Vita';
-              gamification.addXP(3, 'Role Play - bonne prononciation');
-              document.getElementById('btn-speak').classList.remove('guide-active');
-              unlockNext();
-            } else {
-              speechFeedback.innerHTML = `<span style="color:var(--ds-color-accent);">🔄 Havereno (À répéter)</span>`;
-              btnSpeak.textContent = '🎤 Mitenena indray (Réessayer)';
-            }
-          } else {
-            speechFeedback.innerHTML = '<span style="color:var(--ds-color-text-muted);">⚠️ Tsy re ny feo</span>';
-            btnSpeak.textContent = '🎤 Mitenena izao';
-          }
         };
 
-        // ✅ IMPORTANT : Enregistrer le handler
-        bus.on('pronunciation:evaluated', shadowEvalHandler);
-      }
+        btnListen.addEventListener('click', playLine);
+        
+        // ✅ TTS automatique au chargement
+        setTimeout(() => playLine(), 500);
 
-      // ✅ IMPORTANT : Gestion du bouton Suivant
-      btnNext.addEventListener('click', () => {
-        if (shadowEvalHandler) {
-          bus.off('pronunciation:evaluated', shadowEvalHandler);
-          shadowEvalHandler = null;
+        if (isUserTurn) {
+          const btnSpeak = document.getElementById('btn-speak');
+          const speechFeedback = document.getElementById('speech-feedback');
+          let isRecording = false;
+
+          btnSpeak.addEventListener('click', () => {
+            if (isRecording) {
+              shadowing.forceStop();
+              isRecording = false;
+              btnSpeak.textContent = '🎤 Mitenena izao (Parler maintenant)';
+              return;
+            }
+            btnSpeak.setAttribute('disabled', '');
+            btnSpeak.textContent = '🎙️ Mandre... (Écoute en cours)';
+            speechFeedback.innerHTML = '<span style="color:var(--ds-color-accent);">Mitenena izao... (Je vous écoute...)</span>';
+            isRecording = true;
+            shadowing.startRecording();
+          });
+
+          shadowEvalHandler = (data) => {
+            isRecording = false;
+            btnSpeak.removeAttribute('disabled');
+
+            if (data.error === 'not_supported') {
+              speechFeedback.innerHTML = '<span style="color:var(--ds-color-danger);">⚠️ Tsy mandeha ny mikrô</span>';
+              btnSpeak.textContent = '🎤 Mitenena izao';
+              autoProgress();
+              return;
+            }
+
+            if (data.transcript) {
+              const similarity = calculateSimilarity(data.transcript.toLowerCase(), line.text.toLowerCase());
+
+              if (similarity > 0.60) {
+                feedbackSounds.playSuccess();
+                speechFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Tena tsara ! (Très bien !)</span>`;
+                btnSpeak.textContent = '✅ Vita';
+                gamification.addXP(5, 'Role Play - excellente prononciation');
+                // ✅ AUTO-PROGRESSION après succès
+                autoProgress();
+              } else if (similarity > 0.40) {
+                feedbackSounds.playSuccess();
+                speechFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Tsara ! (Bien !)</span>`;
+                btnSpeak.textContent = '✅ Vita';
+                gamification.addXP(3, 'Role Play - bonne prononciation');
+                // ✅ AUTO-PROGRESSION après succès
+                autoProgress();
+              } else {
+                feedbackSounds.playRetry();
+                speechFeedback.innerHTML = `<span style="color:var(--ds-color-accent);">🔄 Havereno (À répéter)</span>`;
+                btnSpeak.textContent = '🎤 Mitenena indray (Réessayer)';
+              }
+            } else {
+              speechFeedback.innerHTML = '<span style="color:var(--ds-color-text-muted);">⚠️ Tsy re ny feo</span>';
+              btnSpeak.textContent = '🎤 Mitenena izao';
+            }
+          };
+          bus.on('pronunciation:evaluated', shadowEvalHandler);
         }
-        currentLineIndex++;
-        renderLine();
-      });
-    };
+      };
 
-    renderLine();
+      // ✅ Démarrer par l'écran d'introduction
+      renderRolePlayIntro();
 
     journeyTracker.markJourneyComplete('roleplays', unitId);
     saveProfile();
