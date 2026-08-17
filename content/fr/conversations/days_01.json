@@ -39,7 +39,7 @@
         "textMg": "Tsia, raha hilaza andro, lazaina hoe: Alatsinainy, Talata, Alarobia...",
         "audio": { "ttsTextFr": "Non, pour dire le jour, utilisez : Lundi, Mardi, Mercredi..." }
       },
-      "nextNodeOnSuccess": "teacher_next"
+      "nextNodeOnSuccess": "teacher_next",
       "nextNodeOnMaxAttemptsReached": "teacher_next"
     },
     {
@@ -72,7 +72,7 @@
         "textMg": "Tandremo, rahampitso dia talata, fa tsy alahady.",
         "audio": { "ttsTextFr": "Attention, demain c'est mardi, pas dimanche." }
       },
-      "nextNodeOnSuccess": "teacher_activity"
+      "nextNodeOnSuccess": "teacher_activity",
       "nextNodeOnMaxAttemptsReached": "teacher_activity"
     },
     {
@@ -105,7 +105,7 @@
         "textMg": "Ho an'ny faran'ny herinandro, lazaina ny zavatra ataonao: milalao, mihinana, matory...",
         "audio": { "ttsTextFr": "Pour le week-end, parlez d'activités : jouer, manger, dormir..." }
       },
-      "nextNodeOnSuccess": "teacher_end"
+      "nextNodeOnSuccess": "teacher_end",
       "nextNodeOnMaxAttemptsReached": "teacher_end"
     },
     {
@@ -117,7 +117,7 @@
         "ttsTextFr": "Très bien {firstName} ! Vous connaissez maintenant les jours de la semaine.",
         "ttsRate": 0.9
       },
-      "nextNodeOnSuccess": "end"
+      "nextNode": "end"
     },
     {
       "id": "end",
