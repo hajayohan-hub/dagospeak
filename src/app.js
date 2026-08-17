@@ -5676,7 +5676,7 @@ async function renderConversationLive() {
     if (floatActions) floatActions.remove();
 
     // ✅ Données des conversations par niveau
-          const conversationsData = {
+               const conversationsData = {
         A0: [
           { id: 'greetings_01', title: 'Se présenter', icon: '👋', description: 'Dire son nom et demander comment ça va' },
           { id: 'market_01', title: 'Au marché', icon: '🏪', description: 'Acheter du riz et des légumes' },
@@ -5685,7 +5685,9 @@ async function renderConversationLive() {
           { id: 'colors_01', title: 'Décrire des couleurs', icon: '🎨', description: 'Identifier les couleurs du ciel et de la nature' },
           { id: 'survival_01', title: 'Demander de l\'aide', icon: '🆘', description: 'Demander son chemin et remercier' },
           { id: 'body_01', title: 'Parler de son corps', icon: '🏥', description: 'Décrire une douleur chez le médecin' },
-          { id: 'days_01', title: 'Les jours de la semaine', icon: '📅', description: 'Dire quel jour on est et parler de sa routine' }
+          { id: 'days_01', title: 'Les jours de la semaine', icon: '📅', description: 'Dire quel jour on est et parler de sa routine' },
+          { id: 'months_01', title: 'Les mois de l\'année', icon: '🗓️', description: 'Parler des mois, des saisons et de son anniversaire' },
+          { id: 'pronouns_basic_01', title: 'Les pronoms de base', icon: '🙋', description: 'Utiliser Je, Tu, Vous, Nous pour se présenter' }
         ],
         A1: [], // À venir
         A2: [], // À venir
