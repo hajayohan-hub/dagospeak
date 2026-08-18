@@ -4196,38 +4196,34 @@ async function renderRolePlay() {
         document.getElementById('btn-back-themes').addEventListener('click', () => router.navigate('/themes'));
     };
 
-    const renderLine = () => {
-      if (currentLineIndex >= dialogue.lines.length) {
-        renderRolePlayComplete();
-        return;
-      }
 
-      const line = dialogue.lines[currentLineIndex];
-      const speaker = dialogue.participants[line.speaker];
-      const isUserTurn = line.speaker === 'B';
-      const progressPercent = (currentLineIndex / dialogue.lines.length) * 100;
+          const renderLine = () => {
+        if (currentLineIndex >= dialogue.lines.length) {
+          renderRolePlayComplete();
+          return;
+        }
 
-      main.innerHTML = `
-        <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem;">
-          <div style="background:var(--ds-color-border); height:8px; border-radius:4px; margin-bottom:1rem; overflow:hidden;">
-            <div style="background:var(--ds-color-accent, #f59e0b); height:100%; width:${progressPercent}%; transition: width 0.3s ease;"></div>
-          </div>
+        const line = dialogue.lines[currentLineIndex];
+        const speaker = dialogue.participants[line.speaker];
+        const isUserTurn = line.speaker === 'B';
+        const progressPercent = (currentLineIndex / dialogue.lines.length) * 100;
 
-          <div style="display:flex; justify-content:space-between; margin-bottom:1rem; align-items:center;">
-            <ds-button variant="ghost" size="sm" id="btn-back-dialogues">← Hiverina (Retour)</ds-button>
-            <span style="font-weight:600; color:var(--ds-color-text-muted);">
-              Andiany ${currentLineIndex + 1} / ${dialogue.lines.length}
-            </span>
-          </div>
+        // ✅ NOUVEAU : Mettre à jour la barre de progression
+        const progressBar = document.getElementById('progress-bar');
+        if (progressBar) progressBar.style.width = `${progressPercent}%`;
+        
+        // ✅ NOUVEAU : Mettre à jour le texte de progression
+        const progressText = document.getElementById('progress-text');
+        if (progressText) progressText.textContent = `Andiany ${currentLineIndex + 1} / ${dialogue.lines.length}`;
+        
+        // ✅ NOUVEAU : Afficher tous les échanges précédents (avec opacity réduite)
+        const previousContainer = document.getElementById('previous-exchanges');
+        if (previousContainer) {
+          previousContainer.innerHTML = previousExchangesHtml.join('');
+        }
 
-          <div style="text-align:center; margin-bottom:1rem;">
-            <span style="background:var(--ds-color-accent, #f59e0b); color:white; padding:4px 12px; border-radius:20px; font-weight:600; font-size:0.8rem;">
-              🎭 Role Play Guidé • ${themeName}
-            </span>
-          </div>
-
-          <h2 style="text-align:center; margin-bottom:1.5rem;">💬 ${dialogue.title}</h2>
-
+        // ✅ NOUVEAU : Construire le HTML de l'échange actuel
+        const currentHtml = `
           <div style="background:var(--ds-color-surface); padding:1.5rem; border-radius:var(--ds-radius-lg); border:2px solid ${isUserTurn ? 'var(--ds-color-primary)' : 'var(--ds-color-border)'}; margin-bottom:1.5rem; box-shadow:var(--ds-shadow-sm);">
             <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.75rem;">
               <span style="font-size:1.5rem;">${speaker.avatar}</span>
@@ -4257,44 +4253,88 @@ async function renderRolePlay() {
               </div>
             `}
 
-            <div id="step-next" style="text-align:center; margin-top:0.5rem; opacity:0.5; pointer-events:none; transition:all 0.3s;">
+            <!-- ✅ MODIFICATION 3 : Cacher le bouton "Suivant" -->
+            <div id="step-next" style="display:none;">
               <ds-button id="btn-next" disabled variant="success" size="lg" style="width:100%;">
                 Manaraka → (Suivant)
               </ds-button>
             </div>
           </div>
-        </section>
-      `;
-
-      document.getElementById('btn-back-dialogues').addEventListener('click', () => {
-        speechSynthesis.cancel();
-        shadowing.forceStop();
-        if (currentLineIndex > 0) {
-          currentLineIndex--;
-          renderLine();
-        } else {
-          router.navigate('/dialogues');
+        `;
+        
+        // ✅ NOUVEAU : Afficher l'échange actuel
+        const currentContainer = document.getElementById('current-exchange');
+        if (currentContainer) {
+          currentContainer.innerHTML = currentHtml;
         }
-      });
 
-      const btnNext = document.getElementById('btn-next');
-      const unlockNext = () => {
-        btnNext.disabled = false;
-        btnNext.removeAttribute('disabled');
-        document.getElementById('step-next').style.opacity = '1';
-        document.getElementById('step-next').style.pointerEvents = 'auto';
-        btnNext.style.animation = "pulse-green 1.5s infinite";
-      };
+        // ✅ NOUVEAU : Event listener pour le bouton retour
+        document.getElementById('btn-back-dialogues').addEventListener('click', () => {
+          speechSynthesis.cancel();
+          shadowing.forceStop();
+          if (currentLineIndex > 0) {
+            currentLineIndex--;
+            previousExchangesHtml.pop();
+            renderLine();
+          } else {
+            router.navigate('/dialogues');
+          }
+        });
 
-      document.getElementById('btn-listen').addEventListener('click', () => {
-          const btnListen = document.getElementById('btn-listen');
+        // ✅ NOUVEAU : Fonction unlockNext avec auto-progression
+        const unlockNext = () => {
+          const btnNext = document.getElementById('btn-next');
+          if (btnNext) {
+            btnNext.disabled = false;
+            btnNext.removeAttribute('disabled');
+          }
+          
+          const stepNext = document.getElementById('step-next');
+          if (stepNext) {
+            stepNext.style.opacity = '1';
+            stepNext.style.pointerEvents = 'auto';
+          }
+          
+          // ✅ AUTO-PROGRESSION : Attendre 1.5s puis passer à l'échange suivant
+          setTimeout(() => {
+            if (currentLineIndex < dialogue.lines.length - 1) {
+              // Sauvegarder l'échange actuel comme "fait"
+              const currentExchangeHtml = `
+                <div style="opacity:0.6; background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-lg); border:1px solid var(--ds-color-border);">
+                  <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;">
+                    <span style="font-size:1.2rem;">${speaker.avatar}</span>
+                    <strong>${speaker.name}</strong>
+                  </div>
+                  <div style="font-size:1rem; font-weight:500;">${line.text}</div>
+                  <div style="font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">${line.translation}</div>
+                </div>
+              `;
+              previousExchangesHtml.push(currentExchangeHtml);
+              
+              currentLineIndex++;
+              renderLine();
+              
+              // ✅ Auto-scroll vers le nouvel échange
+              setTimeout(() => {
+                const newExchange = document.getElementById('current-exchange');
+                if (newExchange) {
+                  newExchange.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+              }, 100);
+            } else {
+              renderRolePlayComplete();
+            }
+          }, 1500);
+        };
+        
+        // ✅ NOUVEAU : Event listener pour le bouton Écouter
+        const btnListen = document.getElementById('btn-listen');
+        btnListen.addEventListener('click', () => {
           const originalText = btnListen.textContent;
-
-          // ✅ Récupérer le genre du personnage qui parle
           const speakerGender = speaker.gender || 'female';
-
+          
           speakWithFeedback(line.text, {
-            gender: speakerGender, // ✅ Transmission du genre
+            gender: speakerGender,
             onStart: () => {
               btnListen.textContent = '🔊 ...';
               btnListen.classList.remove('guide-active');
@@ -4315,79 +4355,105 @@ async function renderRolePlay() {
           });
         });
 
-      if (isUserTurn) {
-        const btnSpeak = document.getElementById('btn-speak');
-        const speechFeedback = document.getElementById('speech-feedback');
-        let isRecording = false;
+        // ✅ NOUVEAU : Gestion du micro pour les tours utilisateur
+        if (isUserTurn) {
+          const btnSpeak = document.getElementById('btn-speak');
+          const speechFeedback = document.getElementById('speech-feedback');
+          let isRecording = false;
 
-        btnSpeak.addEventListener('click', () => {
-          if (isRecording) {
-            shadowing.forceStop();
-            isRecording = false;
-            btnSpeak.textContent = '🎤 Mitenena izao (Parler maintenant)';
-            return;
-          }
-
-          btnSpeak.setAttribute('disabled', '');
-          btnSpeak.textContent = '🎙️ Mandre... (Écoute en cours)';
-          speechFeedback.innerHTML = '<span style="color:var(--ds-color-accent);">Mitenena izao... (Je vous écoute...)</span>';
-          isRecording = true;
-          shadowing.startRecording();
-        });
-
-        shadowEvalHandler = (data) => {
-          isRecording = false;
-          btnSpeak.removeAttribute('disabled');
-
-          if (data.error === 'not_supported') {
-            speechFeedback.innerHTML = '<span style="color:var(--ds-color-danger);">⚠️ Tsy mandeha ny mikrô</span>';
-            btnSpeak.textContent = '🎤 Mitenena izao';
-            unlockNext();
-            return;
-          }
-
-          if (data.transcript) {
-            const similarity = calculateSimilarity(data.transcript.toLowerCase(), line.text.toLowerCase());
-
-            if (similarity > 0.60) {
-              speechFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Tena tsara ! (Très bien !)</span>`;
-              btnSpeak.textContent = '✅ Vita';
-              gamification.addXP(5, 'Role Play - excellente prononciation');
-              document.getElementById('btn-speak').classList.remove('guide-active');
-              unlockNext();
-            } else if (similarity > 0.40) {
-              speechFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Tsara ! (Bien !)</span>`;
-              btnSpeak.textContent = '✅ Vita';
-              gamification.addXP(3, 'Role Play - bonne prononciation');
-              document.getElementById('btn-speak').classList.remove('guide-active');
-              unlockNext();
-
-            } else {
-              speechFeedback.innerHTML = `<span style="color:var(--ds-color-accent);">🔄 Havereno (À répéter)</span>`;
-              btnSpeak.textContent = '🎤 Mitenena indray (Réessayer)';
+          btnSpeak.addEventListener('click', () => {
+            if (isRecording) {
+              shadowing.forceStop();
+              isRecording = false;
+              btnSpeak.textContent = '🎤 Mitenena izao (Parler maintenant)';
+              return;
             }
 
-                          speechFeedback.innerHTML += getEngineIndicator(data.engine);
-          } else {
-            speechFeedback.innerHTML = '<span style="color:var(--ds-color-text-muted);">⚠️ Tsy re ny feo</span>';
-            btnSpeak.textContent = '🎤 Mitenena izao';
-          }
-        };
+            btnSpeak.setAttribute('disabled', '');
+            btnSpeak.textContent = '🎙️ Mandre... (Écoute en cours)';
+            speechFeedback.innerHTML = '<span style="color:var(--ds-color-accent);">Mitenena izao... (Je vous écoute...)</span>';
+            isRecording = true;
+            shadowing.startRecording();
+          });
 
-        // ✅ IMPORTANT : Enregistrer le handler
-        bus.on('pronunciation:evaluated', shadowEvalHandler);
-      }
+          shadowEvalHandler = (data) => {
+            isRecording = false;
+            btnSpeak.removeAttribute('disabled');
 
-      // ✅ IMPORTANT : Gestion du bouton Suivant
-      btnNext.addEventListener('click', () => {
-        if (shadowEvalHandler) {
-          bus.off('pronunciation:evaluated', shadowEvalHandler);
-          shadowEvalHandler = null;
+            if (data.error === 'not_supported') {
+              speechFeedback.innerHTML = '<span style="color:var(--ds-color-danger);">⚠️ Tsy mandeha ny mikrô</span>';
+              btnSpeak.textContent = '🎤 Mitenena izao';
+              unlockNext();
+              return;
+            }
+
+            if (data.transcript) {
+              const similarity = calculateSimilarity(data.transcript.toLowerCase(), line.text.toLowerCase());
+
+              if (similarity > 0.60) {
+                if (typeof feedbackSounds !== 'undefined') feedbackSounds.playSuccess();
+                speechFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Tena tsara ! (Très bien !)</span>`;
+                btnSpeak.textContent = '✅ Vita';
+                gamification.addXP(5, 'Role Play - excellente prononciation');
+                document.getElementById('btn-speak').classList.remove('guide-active');
+                unlockNext();
+              } else if (similarity > 0.40) {
+                if (typeof feedbackSounds !== 'undefined') feedbackSounds.playSuccess();
+                speechFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Tsara ! (Bien !)</span>`;
+                btnSpeak.textContent = '✅ Vita';
+                gamification.addXP(3, 'Role Play - bonne prononciation');
+                document.getElementById('btn-speak').classList.remove('guide-active');
+                unlockNext();
+              } else {
+                if (typeof feedbackSounds !== 'undefined') feedbackSounds.playRetry();
+                speechFeedback.innerHTML = `<span style="color:var(--ds-color-accent);">🔄 Havereno (À répéter)</span>`;
+                btnSpeak.textContent = '🎤 Mitenena indray (Réessayer)';
+              }
+              
+              // ✅ Indicateur STT
+              speechFeedback.innerHTML += getEngineIndicator(data.engine);
+            } else {
+              speechFeedback.innerHTML = '<span style="color:var(--ds-color-text-muted);">⚠️ Tsy re ny feo</span>';
+              btnSpeak.textContent = '🎤 Mitenena izao';
+            }
+          };
+
+          // ✅ Enregistrer le handler STT
+          bus.on('pronunciation:evaluated', shadowEvalHandler);
         }
-        currentLineIndex++;
-        renderLine();
-      });
-    };
+      };
+
+            // ✅ NOUVEAU : Stockage des échanges précédents pour affichage complet
+      const previousExchangesHtml = [];
+      
+      // ✅ NOUVEAU : Afficher la structure de base
+      main.innerHTML = `
+        <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem;">
+          <div style="background:var(--ds-color-border); height:8px; border-radius:4px; margin-bottom:1rem; overflow:hidden;">
+            <div id="progress-bar" style="background:var(--ds-color-accent, #f59e0b); height:100%; width:0%; transition: width 0.3s ease;"></div>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; margin-bottom:1rem; align-items:center;">
+            <ds-button variant="ghost" size="sm" id="btn-back-dialogues">← Hiverina (Retour)</ds-button>
+            <span id="progress-text" style="font-weight:600; color:var(--ds-color-text-muted);">
+              Andiany 1 / ${dialogue.lines.length}
+            </span>
+          </div>
+
+          <div style="text-align:center; margin-bottom:1rem;">
+            <span style="background:var(--ds-color-accent, #f59e0b); color:white; padding:4px 12px; border-radius:20px; font-weight:600; font-size:0.8rem;">
+              🎭 Role Play Guidé • ${themeName}
+            </span>
+          </div>
+
+          <h2 style="text-align:center; margin-bottom:1.5rem;">💬 ${dialogue.title}</h2>
+
+          <div id="previous-exchanges" style="display:flex; flex-direction:column; gap:1.5rem; margin-bottom:1.5rem;"></div>
+          
+          <div id="current-exchange"></div>
+        </section>
+      `;
+
 
     renderLine();
 
