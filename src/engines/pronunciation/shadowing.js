@@ -55,13 +55,15 @@ export class ShadowingEngine {
         if (this.#isVoskReady && this.#voskEngine) {
           console.log('[ShadowingEngine] Bascule vers Vosk (pas de réseau)');
           this.#voskEngine.startListening();
-        } else {
-          this.#bus.emit('pronunciation:offline', {
-            score: 1.0,
-            feedback: "📶 Mode hors-ligne : Écoutez bien et enregistrez-vous pour vous auto-évaluer.",
-            transcript: "Mode auto-évaluation"
-          });
-        }
+      } else {
+            this.#bus.emit('pronunciation:evaluated', {
+              score: 1.0,
+              feedback: "📶 Mode hors-ligne : Écoutez bien et enregistrez-vous pour vous auto-évaluer.",
+              transcript: "Mode auto-évaluation",
+              engine: 'offline-fallback'
+            });
+          }
+
       } else {
         this.#bus.emit('pronunciation:evaluated', {
           score: 0,
@@ -142,14 +144,15 @@ export class ShadowingEngine {
           });
         }
       }
-    } else {
-      // Fallback ultime
-      this.#bus.emit('pronunciation:offline', {
-        score: 1.0,
-        feedback: "📶 Reconnaissance vocale non disponible. Pratiquez en vous écoutant.",
-        transcript: "Mode pratique libre"
-      });
-    }
+     } else {
+        // Fallback ultime
+        this.#bus.emit('pronunciation:evaluated', {
+          score: 1.0,
+          feedback: "📶 Reconnaissance vocale non disponible. Pratiquez en vous écoutant.",
+          transcript: "Mode pratique libre",
+          engine: 'offline-fallback'
+        });
+      }
   }
 
   forceStop() {
