@@ -344,6 +344,108 @@ const JOURNEY_FLOW = [
   'challenge'
 ];
 
+    // ═══════════════════════════════════════════════════════════
+// ÉCRAN D'INTRODUCTION (OVERLAY)
+// ═══════════════════════════════════════════════════════════
+
+function showIntroOverlay(activityType, title, subtitle, stats, onStart) {
+  const introKey = `intro_${activityType}_${currentTheme || 'global'}`;
+  
+  // Vérifier si déjà montré dans cette session
+  if (sessionStorage.getItem(introKey) === 'shown') {
+    return false;
+  }
+  
+  const main = document.getElementById('app');
+  
+  // Créer l'overlay
+  const overlay = document.createElement('div');
+  overlay.id = 'intro-overlay';
+  overlay.style.cssText = `
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease-out;
+  `;
+  
+  // Contenu de l'overlay
+  overlay.innerHTML = `
+    <div style="
+      background: var(--ds-color-surface);
+      max-width: 500px;
+      width: 90%;
+      border-radius: var(--ds-radius-lg);
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      animation: successPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    ">
+      <div style="font-size: 4rem; margin-bottom: 1rem;">
+        ${activityType === 'lesson' ? '📚' : activityType === 'practice' ? '🎯' : '💬'}
+      </div>
+      
+      <h2 style="margin: 0 0 0.5rem 0; color: var(--ds-color-text); font-size: 1.5rem;">
+        ${title}
+      </h2>
+      
+      <p style="color: var(--ds-color-text-muted); margin: 0 0 1.5rem 0; font-size: 0.95rem;">
+        ${subtitle}
+      </p>
+      
+      ${stats ? `
+      <div style="
+        background: var(--ds-color-surface-2);
+        padding: 1rem;
+        border-radius: var(--ds-radius-md);
+        margin-bottom: 1.5rem;
+        border: 1px solid var(--ds-color-border);
+      ">
+        <div style="display: flex; justify-content: space-around; gap: 1rem;">
+          ${stats.map(stat => `
+            <div style="text-align: center;">
+              <div style="font-size: 1.5rem; margin-bottom: 0.25rem;">${stat.icon}</div>
+              <div style="font-weight: 700; font-size: 1.25rem; color: var(--ds-color-primary);">
+                ${stat.value}
+              </div>
+              <div style="font-size: 0.75rem; color: var(--ds-color-text-muted); text-transform: uppercase;">
+                ${stat.label}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+      ` : ''}
+      
+      <ds-button id="btn-start-overlay" variant="primary" size="lg" style="width: 100%;" class="guide-active">
+        🚀 Commencer
+      </ds-button>
+    </div>
+  `;
+  
+  // Ajouter au DOM
+  main.appendChild(overlay);
+  
+  // Écouteur du bouton
+  document.getElementById('btn-start-overlay').addEventListener('click', () => {
+    // Marquer comme montré
+    sessionStorage.setItem(introKey, 'shown');
+    
+    // Animation de sortie
+    overlay.style.animation = 'fadeIn 0.3s ease-out reverse';
+    setTimeout(() => {
+      overlay.remove();
+      if (onStart) onStart();
+    }, 300);
+  });
+  
+  return true;
+}
+
 // Fonction pour obtenir l'étape suivante
 function getNextJourney(currentStep) {
   const currentIndex = JOURNEY_FLOW.indexOf(currentStep);
@@ -2360,6 +2462,11 @@ async function renderLesson() {
       'family': 'La Famille', 'market': 'Au Marché', 'colors': 'Les Couleurs'
     };
     const themeName = themeNames[unitId] || unitId;
+        // ✅ Afficher l'écran d'introduction (une fois par session)
+    showIntroOverlay('lesson', themeName, 'Apprenez le vocabulaire essentiel', [
+      { icon: '📝', value: vocabData.items.length, label: 'Mots' },
+      { icon: '⏱️', value: Math.ceil((vocabData.items.length * 20) / 60) + ' min', label: 'Durée' }
+    ]);
 
     main.innerHTML = `
       <section style="max-width: 700px; margin: 0 auto; padding: 2rem 1rem;">
