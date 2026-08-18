@@ -3219,6 +3219,7 @@ function warmUpTTS() {
   if ('speechSynthesis' in window) {
     const warmup = new SpeechSynthesisUtterance('');
     warmup.volume = 0;
+    warmup.lang = 'fr-FR';
     speechSynthesis.speak(warmup);
     console.log('[TTS] Préchauffage effectué');
   }
@@ -6412,28 +6413,29 @@ async function renderConversation() {
             </div>
           `;
 
-          // ✅ TTS du feedback
-          const u = new SpeechSynthesisUtterance(successTtsText);
-          u.lang = 'fr-FR';
-          u.rate = 0.9;
-          u.onstart = () => {
-            if (window.teacherAvatarSVG) {
-              window.teacherAvatarSVG.startSpeaking();
-              window.teacherAvatarSVG.setExpression('happy');
-            }
-          };
-          u.onend = () => {
-            if (window.teacherAvatarSVG) {
-              window.teacherAvatarSVG.stopSpeaking();
-              window.teacherAvatarSVG.setExpression('neutral');
-            }
-            // ✅ Auto-progression après délai pédagogique
-            setTimeout(() => {
-              currentNodeId = node.nextNodeOnSuccess;
-              renderNode();
-            }, 800);
-          };
-          speechSynthesis.speak(u);
+          // ✅ TTS du feedback (utilise speakWithFeedback pour respecter le genre)
+            speakWithFeedback(successTtsText, {
+              rate: 0.9,
+              gender: 'female', // Teacher Avatar
+              onStart: () => {
+                if (window.teacherAvatarSVG) {
+                  window.teacherAvatarSVG.startSpeaking();
+                  window.teacherAvatarSVG.setExpression('happy');
+                }
+              },
+              onEnd: () => {
+                if (window.teacherAvatarSVG) {
+                  window.teacherAvatarSVG.stopSpeaking();
+                  window.teacherAvatarSVG.setExpression('neutral');
+                }
+                // ✅ Auto-progression après délai pédagogique
+                setTimeout(() => {
+                  currentNodeId = node.nextNodeOnSuccess;
+                  renderNode();
+                }, 800);
+              }
+            });
+          
 
           scrollConversationToBottom();
 
@@ -6471,20 +6473,21 @@ async function renderConversation() {
                   <button id="btn-retry" class="pulse-animation" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">🔁 Réessayer</button>
                 `;
                   // ✅ TTS du feedback d'échec
-                  const uFail = new SpeechSynthesisUtterance(failTtsText);
-                  uFail.lang = 'fr-FR';
-                  uFail.rate = node.feedbackOnFail?.audio?.ttsRate || 0.9;
-                  uFail.onstart = () => {
-                    if (window.teacherAvatarSVG) {
-                      window.teacherAvatarSVG.startSpeaking();
-                    }
-                  };
-                  uFail.onend = () => {
-                    if (window.teacherAvatarSVG) {
-                      window.teacherAvatarSVG.stopSpeaking();
-                    }
-                  };
-                  speechSynthesis.speak(uFail);
+                  // ✅ TTS du feedback d'échec (utilise speakWithFeedback pour respecter le genre)
+                    speakWithFeedback(failTtsText, {
+                      rate: node.feedbackOnFail?.audio?.ttsRate || 0.9,
+                      gender: 'female', // Teacher Avatar
+                      onStart: () => {
+                        if (window.teacherAvatarSVG) {
+                          window.teacherAvatarSVG.startSpeaking();
+                        }
+                      },
+                      onEnd: () => {
+                        if (window.teacherAvatarSVG) {
+                          window.teacherAvatarSVG.stopSpeaking();
+                        }
+                      }
+                    });
 
                 if (window.teacherAvatarSVG) {
                   window.teacherAvatarSVG.setExpression('encouraging');
