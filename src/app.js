@@ -3535,6 +3535,7 @@ async function renderPractice() {
            shadowFeedback.innerHTML = `<div class="feedback-fail" style="padding:0.75rem; font-size:0.9rem;">🔄 Havereno (À répéter)</div>`;
             btnShadow.textContent = ' Mitenena indray (Réessayer)';
           }
+                  shadowFeedback.innerHTML += getEngineIndicator(data.engine);
         } else {
           shadowFeedback.innerHTML = '<span style="color:var(--ds-color-text-muted);">⚠️ Tsy re ny feo</span>';
           btnShadow.textContent = '🎤 Mitenena izao';
@@ -3789,6 +3790,8 @@ async function renderPracticePhrases() {
           await gamification.addXP(15, 'Quiz phrase réussi');
           if (typeof feedbackSounds !== 'undefined') feedbackSounds.playSuccess();
           setTimeout(() => window.teacherAvatar.speak("Excellent !"), 500);
+
+                      shadowFeedback.innerHTML += getEngineIndicator(data.engine);
         } else {
           quizEl.classList.add('wrong-answer');
           setTimeout(() => quizEl.classList.remove('wrong-answer'), 400);
@@ -4358,10 +4361,13 @@ async function renderRolePlay() {
               gamification.addXP(3, 'Role Play - bonne prononciation');
               document.getElementById('btn-speak').classList.remove('guide-active');
               unlockNext();
+
             } else {
               speechFeedback.innerHTML = `<span style="color:var(--ds-color-accent);">🔄 Havereno (À répéter)</span>`;
               btnSpeak.textContent = '🎤 Mitenena indray (Réessayer)';
             }
+
+                          speechFeedback.innerHTML += getEngineIndicator(data.engine);
           } else {
             speechFeedback.innerHTML = '<span style="color:var(--ds-color-text-muted);">⚠️ Tsy re ny feo</span>';
             btnSpeak.textContent = '🎤 Mitenena izao';
@@ -4655,6 +4661,8 @@ async function renderChallenge() {
                 unlockNext();
               }
             }
+
+                            speechFeedback.innerHTML += getEngineIndicator(data.engine);
           } else {
             speechFeedback.innerHTML = '<span style="color:var(--ds-color-text-muted);">⚠️ Tsy re ny feo (Aucune voix détectée). Réessayez.</span>';
             btnSpeak.textContent = '🎤 Mitenena izao (Parler maintenant)';
@@ -4773,6 +4781,18 @@ function calculateSimilarity(str1, str2) {
   const maxLength = Math.max(s1.length, s2.length);
   return maxLength === 0 ? 1 : 1 - (distance / maxLength);
 }
+
+
+  // ═══════════════════════════════════════════════════════════
+// UTILITAIRE : Indicateur visuel du moteur STT utilisé
+// ═══════════════════════════════════════════════════════════
+function getEngineIndicator(engine) {
+  if (engine === 'offline-fallback') {
+    return '<div style="font-size: 0.75rem; color: var(--ds-color-text-muted); margin-top: 0.5rem; text-align: center;">📶 Auto-évaluation (mode hors-ligne)</div>';
+  }
+  return '<div style="font-size: 0.75rem; color: var(--ds-color-text-muted); margin-top: 0.5rem; text-align: center;">🎤 Évaluation vocale</div>';
+}
+
 
 async function renderProfile() {
   updateNavActiveState();
@@ -6435,7 +6455,6 @@ async function renderConversation() {
                 }, 800);
               }
             });
-          
 
           scrollConversationToBottom();
 
