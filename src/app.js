@@ -4117,7 +4117,7 @@ syncProfileWithJourneys();
 async function renderRolePlay() {
   updateNavActiveState();
   const main = document.getElementById('app');
-  main.innerHTML = '<div style="text-align:center; padding:2rem;">Mamakiana ny Role Play...</div>';
+  main.innerHTML = '<div style="text-align:center; padding:2rem;">Famakiana ny Role Play...</div>';
 
   renderProgressHeader();
   // ✅ Synchroniser le profil après chaque parcours terminé
@@ -4156,6 +4156,10 @@ async function renderRolePlay() {
       }
 
       await gamification.addXP(30, 'Role Play Guidé terminé');
+
+       // ✅ Marquer le parcours comme terminé seulement maintenant
+        journeyTracker.markJourneyComplete('roleplays', unitId);
+        saveProfile();
 
       // ✅ Voix française de félicitation
       setTimeout(() => {
@@ -4427,9 +4431,6 @@ async function renderRolePlay() {
 
 
     renderLine();
-
-    journeyTracker.markJourneyComplete('roleplays', unitId);
-    saveProfile();
 
     window.teacherAvatar.show('roleplay');
 
@@ -4727,6 +4728,10 @@ async function renderChallenge() {
       feedbackSounds.playCelebration();
       await gamification.addXP(100, 'Défi terminé !');
 
+      // ✅ Marquer le parcours comme terminé seulement maintenant
+        journeyTracker.markJourneyComplete('challenges', unitId);
+        saveProfile();
+
       window.teacherAvatar.markThemeMastered(currentTheme);
 
       // ✅ Voix du Teacher Avatar pour féliciter
@@ -4769,8 +4774,6 @@ async function renderChallenge() {
 
     renderLine();
 
-    journeyTracker.markJourneyComplete('challenges', unitId);
-    saveProfile();
 
     window.teacherAvatar.show('challenge');
 
