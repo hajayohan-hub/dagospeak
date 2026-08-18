@@ -4197,7 +4197,7 @@ async function renderRolePlay() {
     };
 
 
-          const renderLine = () => {
+                const renderLine = () => {
         if (currentLineIndex >= dialogue.lines.length) {
           renderRolePlayComplete();
           return;
@@ -4208,21 +4208,21 @@ async function renderRolePlay() {
         const isUserTurn = line.speaker === 'B';
         const progressPercent = (currentLineIndex / dialogue.lines.length) * 100;
 
-        // ✅ NOUVEAU : Mettre à jour la barre de progression
+        // ✅ Mettre à jour la barre de progression
         const progressBar = document.getElementById('progress-bar');
         if (progressBar) progressBar.style.width = `${progressPercent}%`;
         
-        // ✅ NOUVEAU : Mettre à jour le texte de progression
+        // ✅ Mettre à jour le texte de progression
         const progressText = document.getElementById('progress-text');
         if (progressText) progressText.textContent = `Andiany ${currentLineIndex + 1} / ${dialogue.lines.length}`;
         
-        // ✅ NOUVEAU : Afficher tous les échanges précédents (avec opacity réduite)
+        // ✅ Afficher tous les échanges précédents
         const previousContainer = document.getElementById('previous-exchanges');
         if (previousContainer) {
           previousContainer.innerHTML = previousExchangesHtml.join('');
         }
 
-        // ✅ NOUVEAU : Construire le HTML de l'échange actuel
+        // ✅ Construire le HTML de l'échange actuel
         const currentHtml = `
           <div style="background:var(--ds-color-surface); padding:1.5rem; border-radius:var(--ds-radius-lg); border:2px solid ${isUserTurn ? 'var(--ds-color-primary)' : 'var(--ds-color-border)'}; margin-bottom:1.5rem; box-shadow:var(--ds-shadow-sm);">
             <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.75rem;">
@@ -4236,127 +4236,58 @@ async function renderRolePlay() {
           </div>
 
           <div style="display:flex; flex-direction:column; gap:0.75rem;">
-            <div id="step-listen" class="${!isUserTurn ? 'guide-active' : ''}" style="text-align:center; padding:1rem; background:var(--ds-color-surface-2); border-radius:var(--ds-radius-md);">
-              <div style="font-size:0.75rem; text-transform:uppercase; color:var(--ds-color-text-muted); margin-bottom:0.5rem;">Étape 1 : Mihainoa (Écoutez)</div>
-              <ds-button variant="primary" size="md" id="btn-listen" class="${!isUserTurn ? 'guide-active' : ''}">🔊 Mihainoa (Écouter)</ds-button>
-            </div>
-
             ${isUserTurn ? `
-              <div id="step-speak" style="text-align:center; padding:1rem; background:var(--ds-color-primary-soft); border-radius:var(--ds-radius-md); border: 1px dashed var(--ds-color-primary); opacity:0.5; pointer-events:none; transition:all 0.3s;">
-                <div style="font-size:0.75rem; text-transform:uppercase; color:var(--ds-color-primary); margin-bottom:0.5rem; font-weight:bold;">Étape 2 : Mitenena (Parlez à votre tour)</div>
-                <ds-button variant="primary" size="lg" id="btn-speak">🎤 Mitenena izao (Parler maintenant)</ds-button>
+              <!-- ✅ Tour utilisateur : bouton micro direct -->
+              <div id="step-speak" style="text-align:center; padding:1rem; background:var(--ds-color-primary-soft); border-radius:var(--ds-radius-md); border: 1px dashed var(--ds-color-primary);">
+                <div style="font-size:0.75rem; text-transform:uppercase; color:var(--ds-color-primary); margin-bottom:0.5rem; font-weight:bold;">Mitenena izao (Parlez maintenant)</div>
+                <ds-button variant="primary" size="lg" id="btn-speak" class="guide-active">🎤 Mitenena izao (Parler maintenant)</ds-button>
                 <div id="speech-feedback" style="margin-top:0.75rem; font-size:0.9rem; font-weight:600; min-height:1.5em;"></div>
               </div>
             ` : `
+              <!-- ✅ Tour partenaire : indicateur d'écoute auto -->
               <div style="text-align:center; padding:1rem; background:var(--ds-color-surface-2); border-radius:var(--ds-radius-md); color:var(--ds-color-text-muted);">
-                👂 Mihainoa an'i ${speaker.name} (Écoutez ${speaker.name})
+                <div id="partner-speaking-indicator" style="font-size:2rem; margin:0.5rem 0;">🔊</div>
+                <div style="font-size:0.9rem;">👂 Mihainoa an'i ${speaker.name} (Écoutez ${speaker.name})</div>
               </div>
             `}
-
-            <!-- ✅ MODIFICATION 3 : Cacher le bouton "Suivant" -->
-            <div id="step-next" style="display:none;">
-              <ds-button id="btn-next" disabled variant="success" size="lg" style="width:100%;">
-                Manaraka → (Suivant)
-              </ds-button>
-            </div>
           </div>
         `;
         
-        // ✅ NOUVEAU : Afficher l'échange actuel
+        // ✅ Afficher l'échange actuel
         const currentContainer = document.getElementById('current-exchange');
         if (currentContainer) {
           currentContainer.innerHTML = currentHtml;
         }
 
-        // ✅ NOUVEAU : Event listener pour le bouton retour
-        document.getElementById('btn-back-dialogues').addEventListener('click', () => {
-          speechSynthesis.cancel();
-          shadowing.forceStop();
-          if (currentLineIndex > 0) {
-            currentLineIndex--;
-            previousExchangesHtml.pop();
-            renderLine();
-          } else {
-            router.navigate('/dialogues');
-          }
-        });
-
-        // ✅ NOUVEAU : Fonction unlockNext avec auto-progression
-        const unlockNext = () => {
-          const btnNext = document.getElementById('btn-next');
-          if (btnNext) {
-            btnNext.disabled = false;
-            btnNext.removeAttribute('disabled');
-          }
-          
-          const stepNext = document.getElementById('step-next');
-          if (stepNext) {
-            stepNext.style.opacity = '1';
-            stepNext.style.pointerEvents = 'auto';
-          }
-          
-          // ✅ AUTO-PROGRESSION : Attendre 1.5s puis passer à l'échange suivant
-          setTimeout(() => {
-            if (currentLineIndex < dialogue.lines.length - 1) {
-              // Sauvegarder l'échange actuel comme "fait"
-              const currentExchangeHtml = `
-                <div style="opacity:0.6; background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-lg); border:1px solid var(--ds-color-border);">
-                  <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;">
-                    <span style="font-size:1.2rem;">${speaker.avatar}</span>
-                    <strong>${speaker.name}</strong>
-                  </div>
-                  <div style="font-size:1rem; font-weight:500;">${line.text}</div>
-                  <div style="font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">${line.translation}</div>
-                </div>
-              `;
-              previousExchangesHtml.push(currentExchangeHtml);
-              
-              currentLineIndex++;
-              renderLine();
-              
-              // ✅ Auto-scroll vers le nouvel échange
-              setTimeout(() => {
-                const newExchange = document.getElementById('current-exchange');
-                if (newExchange) {
-                  newExchange.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-              }, 100);
-            } else {
-              renderRolePlayComplete();
-            }
-          }, 1500);
-        };
-        
-        // ✅ NOUVEAU : Event listener pour le bouton Écouter
-        const btnListen = document.getElementById('btn-listen');
-        btnListen.addEventListener('click', () => {
-          const originalText = btnListen.textContent;
+        // ✅ NOUVELLE LOGIQUE : Auto-déclenchement selon le type de tour
+        if (!isUserTurn) {
+          // ✅ TOUR PARTENAIRE : TTS automatique
           const speakerGender = speaker.gender || 'female';
           
-          speakWithFeedback(line.text, {
-            gender: speakerGender,
-            onStart: () => {
-              btnListen.textContent = '🔊 ...';
-              btnListen.classList.remove('guide-active');
-              document.getElementById('step-listen').classList.remove('guide-active');
-              if (isUserTurn) {
-                const stepSpeak = document.getElementById('step-speak');
-                stepSpeak.style.opacity = '1';
-                stepSpeak.style.pointerEvents = 'auto';
-                document.getElementById('btn-speak').classList.add('guide-active');
-              }
-            },
-            onEnd: () => {
-              btnListen.textContent = originalText;
-              if (!isUserTurn) {
+          // Attendre 500ms avant de démarrer le TTS (pour laisser le DOM se stabiliser)
+          setTimeout(() => {
+            speakWithFeedback(line.text, {
+              gender: speakerGender,
+              onStart: () => {
+                const indicator = document.getElementById('partner-speaking-indicator');
+                if (indicator) {
+                  indicator.textContent = '🗣️';
+                  indicator.style.animation = 'pulse-guide 1s infinite';
+                }
+              },
+              onEnd: () => {
+                const indicator = document.getElementById('partner-speaking-indicator');
+                if (indicator) {
+                  indicator.textContent = '✅';
+                  indicator.style.animation = 'none';
+                }
+                // ✅ Auto-progression après la fin du TTS
                 unlockNext();
               }
-            }
-          });
-        });
-
-        // ✅ NOUVEAU : Gestion du micro pour les tours utilisateur
-        if (isUserTurn) {
+            });
+          }, 500);
+        } else {
+          // ✅ TOUR UTILISATEUR : micro direct
           const btnSpeak = document.getElementById('btn-speak');
           const speechFeedback = document.getElementById('speech-feedback');
           let isRecording = false;
@@ -4421,6 +4352,46 @@ async function renderRolePlay() {
           // ✅ Enregistrer le handler STT
           bus.on('pronunciation:evaluated', shadowEvalHandler);
         }
+
+        // ✅ Fonction unlockNext avec auto-progression
+        const unlockNext = () => {
+          // ✅ Attendre 1.5s puis passer à l'échange suivant
+          setTimeout(() => {
+            if (currentLineIndex < dialogue.lines.length - 1) {
+              // Sauvegarder l'échange actuel comme "fait"
+              const currentExchangeHtml = `
+                <div style="opacity:0.6; background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-lg); border:1px solid var(--ds-color-border);">
+                  <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;">
+                    <span style="font-size:1.2rem;">${speaker.avatar}</span>
+                    <strong>${speaker.name}</strong>
+                  </div>
+                  <div style="font-size:1rem; font-weight:500;">${line.text}</div>
+                  <div style="font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">${line.translation}</div>
+                </div>
+              `;
+              previousExchangesHtml.push(currentExchangeHtml);
+              
+              // ✅ Nettoyer le handler STT avant de passer à la suite
+              if (shadowEvalHandler) {
+                bus.off('pronunciation:evaluated', shadowEvalHandler);
+                shadowEvalHandler = null;
+              }
+              
+              currentLineIndex++;
+              renderLine();
+              
+              // ✅ Auto-scroll vers le nouvel échange
+              setTimeout(() => {
+                const newExchange = document.getElementById('current-exchange');
+                if (newExchange) {
+                  newExchange.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+              }, 100);
+            } else {
+              renderRolePlayComplete();
+            }
+          }, 1500);
+        };
       };
 
             // ✅ NOUVEAU : Stockage des échanges précédents pour affichage complet
