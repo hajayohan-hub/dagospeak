@@ -209,7 +209,7 @@ export class RolePlayUI {
 
     let isRecording = false;
 
-    btnSpeak.addEventListener('click', async () => {
+        btnSpeak.addEventListener('click', () => {
       if (isRecording) {
         window.shadowing?.forceStop();
         isRecording = false;
@@ -222,8 +222,14 @@ export class RolePlayUI {
       speechFeedback.innerHTML = '<span style="color:var(--ds-color-accent);">Mitenena izao... (Je vous écoute...)</span>';
       isRecording = true;
 
-            // Importer STT Manager directement
-      const { sttManager } = await import('../../core/stt-manager.js');
+            // Utiliser STT Manager global
+      const sttManager = window.sttManager;
+      
+      if (!sttManager) {
+        speechFeedback.innerHTML = '<span style="color:var(--ds-color-danger);">⚠️ STT Manager non disponible</span>';
+        console.error('[RolePlayUI] window.sttManager non disponible');
+        return;
+      }
       if (sttManager) {
         sttManager.startListening('fr-FR', {
           onResult: (result) => {
