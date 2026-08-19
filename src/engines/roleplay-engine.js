@@ -5,6 +5,7 @@
  */
 import { sessionManager } from '../core/session-manager.js';
 import { ttsService } from '../core/tts-service.js';
+import { EventBus } from '../core/event-bus.js';
 
 export class RolePlayEngine {
   #dialogue = null;
@@ -28,7 +29,7 @@ export class RolePlayEngine {
     this.#dialogue = dialogue;
     this.#userRole = options.userRole || 'B';
     this.#mode = options.mode || 'guided';
-    this.#eventBus = options.eventBus || window.bus;
+    this.#eventBus = options.eventBus || window.bus || new EventBus();  // ✅ Fallback
     this.#sttManager = options.sttManager || window.sttManager;
     
     if (!this.#dialogue || !this.#dialogue.lines) {
@@ -36,6 +37,7 @@ export class RolePlayEngine {
     }
     
     console.log(`[RolePlayEngine] Créé: ${dialogue.id}, mode=${this.#mode}, userRole=${this.#userRole}`);
+    console.log('[RolePlayEngine] EventBus disponible:', !!this.#eventBus);
   }
 
   /**

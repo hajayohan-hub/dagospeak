@@ -86,21 +86,25 @@ export class RolePlayView {
         </section>
       `;
 
-      // 5. Créer le moteur
+      // 5. Importer EventBus
+      const { EventBus } = await import('../../core/event-bus.js');
+      const eventBus = window.bus || new EventBus();
+
+      // 6. Créer le moteur
       this.#engine = new RolePlayEngine(this.#dialogue, {
         userRole: 'B',
         mode: mode,
-        eventBus: window.bus,
+        eventBus: eventBus,
         sttManager: window.sttManager
       });
 
-      // 6. Créer l'interface
-      this.#ui = new RolePlayUI('roleplay-container', window.bus, this.#engine, mode);
+      // 7. Créer l'interface
+      this.#ui = new RolePlayUI('roleplay-container', eventBus, this.#engine, mode);
 
-      // 7. Attacher les écouteurs d'événements pour la progression
+      // 8. Attacher les écouteurs d'événements pour la progression
       this.#bindProgressEvents();
 
-      // 8. Attacher le bouton retour
+      // 9. Attacher le bouton retour
       document.getElementById('btn-back-roleplay').addEventListener('click', () => {
         this.#cleanup();
         if (window.router) {
@@ -108,7 +112,7 @@ export class RolePlayView {
         }
       });
 
-      // 9. Démarrer la session
+      // 10. Démarrer la session
       this.#engine.start();
 
       console.log(`[RolePlayView] ✅ Role Play ${mode} démarré pour le thème: ${themeId}`);

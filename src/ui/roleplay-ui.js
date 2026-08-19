@@ -3,6 +3,8 @@
  * Écoute les événements du RolePlayEngine et met à jour le DOM
  * Feed permanent (pas de re-render à chaque tour)
  */
+import { EventBus } from '../core/event-bus.js';
+
 export class RolePlayUI {
   #container = null;
   #feedElement = null;
@@ -14,7 +16,7 @@ export class RolePlayUI {
 
   constructor(containerId, bus, engine, mode = 'guided') {
     this.#container = document.getElementById(containerId);
-    this.#bus = bus;
+    this.#bus = bus || window.bus || new EventBus();  // ✅ Fallback sur nouvelle instance
     this.#engine = engine;
     this.#mode = mode;
 
@@ -22,6 +24,8 @@ export class RolePlayUI {
       throw new Error(`Container #${containerId} introuvable`);
     }
 
+    console.log('[RolePlayUI] Bus disponible:', !!this.#bus);
+    
     this.#initStructure();
     this.#bindEvents();
 
