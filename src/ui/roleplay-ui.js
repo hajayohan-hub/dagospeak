@@ -102,12 +102,38 @@ export class RolePlayUI {
       case 'roleplay:feedback':
         this.#renderFeedback(data);
         break;
+      case 'roleplay:stt-result':
+        this.#renderSTTResult(data);
+        break;
       case 'roleplay:complete':
         this.#renderComplete(data);
         break;
       case 'roleplay:stopped':
         this.#cleanup();
         break;
+    }
+  }
+
+      /**
+   * Affiche le résultat du STT
+   */
+  #renderSTTResult(data) {
+    const micIndicator = document.getElementById(`mic-indicator-${data.index}`);
+    const speechFeedback = document.getElementById(`speech-feedback-v2-${data.index}`);
+
+    // Arrêter l'animation du micro
+    if (micIndicator) {
+      micIndicator.textContent = '✅';
+      micIndicator.style.animation = 'none';
+    }
+
+    // Afficher la transcription
+    if (speechFeedback) {
+      speechFeedback.innerHTML = `
+        <div style="color:var(--ds-color-text); margin-bottom:0.5rem;">
+          <strong>Vous avez dit :</strong> "${data.transcript}"
+        </div>
+      `;
     }
   }
 
@@ -163,8 +189,8 @@ export class RolePlayUI {
     }
   }
 
-  /**
-   * Affiche le tour de l'utilisateur (micro actif)
+    /**
+   * Affiche le tour de l'utilisateur (micro actif automatiquement)
    */
   #renderUserTurn(data) {
     // Déplacer le tour actif précédent dans le feed
@@ -198,19 +224,17 @@ export class RolePlayUI {
           <strong style="color:var(--ds-color-primary);">${data.speaker} (Anao / Vous)</strong>
         </div>
         ${expectedTextHtml}
-        <div style="text-align:center; padding:1rem; background:var(--ds-color-primary-soft); border-radius:var(--ds-radius-md);">
-          <div style="font-size:0.75rem; text-transform:uppercase; color:var(--ds-color-primary); margin-bottom:0.5rem; font-weight:bold;">
-            Mitenena izao (Parlez maintenant)
-          </div>
-          <div style="text-align:center; padding:1rem; background:var(--ds-color-primary-soft); border-radius:var(--ds-radius-md);">
-            <div style="font-size:0.75rem; text-transform:uppercase; color:var(--ds-color-primary); margin-bottom:0.5rem; font-weight:bold;">
+        <div style="text-align:center; padding:1.5rem; background:var(--ds-color-primary-soft); border-radius:var(--ds-radius-md);">
+          <div style="font-size:0.75rem; text-transform:uppercase; color:var(--ds-color-primary); margin-bottom:0.75rem; font-weight:bold;">
             🎤 À vous... (Le micro est actif automatiquement)
-            </div>
-            <div id="btn-speak-v2-${data.index}" style="padding:0.75rem 1.5rem; background:var(--ds-color-primary); color:white; border-radius:var(--ds-radius-md); font-weight:600; display:inline-block; cursor:pointer;">
-            🎙️ Écoute en cours...
-            </div>
-            <div id="speech-feedback-v2-${data.index}" style="margin-top:0.75rem; font-size:0.9rem; font-weight:600; min-height:1.5em;"></div>
           </div>
+          <div id="mic-indicator-${data.index}" style="font-size:2.5rem; margin:0.5rem 0; animation:pulse 1.5s infinite;">
+            🎙️
+          </div>
+          <div style="font-size:0.9rem; color:var(--ds-color-text-muted);">
+            Parlez maintenant, je vous écoute...
+          </div>
+          <div id="speech-feedback-v2-${data.index}" style="margin-top:1rem; font-size:0.9rem; font-weight:600; min-height:1.5em;"></div>
         </div>
       </div>
     `;
@@ -218,6 +242,8 @@ export class RolePlayUI {
     this.#currentTurnElement = turnElement;
     this.#container.querySelector('#roleplay-current-turn').appendChild(turnElement);
     this.#scrollToCurrentTurn();
+
+    console.log(`[RolePlayUI] Tour utilisateur ${data.index} affiché, micro actif automatiquement`);
   }
 
   /**

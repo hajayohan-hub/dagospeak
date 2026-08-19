@@ -165,12 +165,23 @@ export class RolePlayEngine {
     
     try {
       const result = await this.#sttManager.startListening('fr-FR', {
-        onResult: (result) => {
+
+          onResult: (result) => {
           console.log(`[RolePlayEngine] STT result reçu pour index ${this.#currentIndex}:`, result);
           const transcript = result.transcript || '';
           const engine = result.isReal ? 'webspeech' : 'simulation';
+          
+          // ✅ Émettre l'événement pour l'UI
+          this.#emit('roleplay:stt-result', {
+            index: this.#currentIndex,
+            transcript: transcript,
+            isReal: result.isReal,
+            confidence: result.confidence
+          });
+          
           this.evaluateUserResponse(transcript, engine);
         },
+
         onError: (error) => {
           console.error(`[RolePlayEngine] STT error pour index ${this.#currentIndex}:`, error);
           this.#emit('roleplay:error', {
