@@ -246,24 +246,42 @@ export class RolePlayView {
     const btnBackToDialogues = document.getElementById('btn-back-to-dialogues');
     if (btnBackToDialogues) {
       btnBackToDialogues.addEventListener('click', () => {
+        console.log('[RolePlayView] Bouton retour aux dialogues cliqué');
         this.#cleanup();
-        window.router.navigate('/dialogues');
+        if (window.router) {
+          window.router.navigate('/dialogues');
+        } else {
+          console.warn('[RolePlayView] window.router non disponible, utilisation fallback');
+          window.location.hash = '/dialogues';
+        }
       });
     }
 
     const btnGoToChallenge = document.getElementById('btn-go-to-challenge');
     if (btnGoToChallenge) {
       btnGoToChallenge.addEventListener('click', () => {
+        console.log('[RolePlayView] Bouton aller au défi cliqué');
         this.#cleanup();
-        window.router.navigate('/challenge');
+        if (window.router) {
+          window.router.navigate('/challenge');
+        } else {
+          console.warn('[RolePlayView] window.router non disponible, utilisation fallback');
+          window.location.hash = '/challenge';
+        }
       });
     }
 
     const btnBackToThemes = document.getElementById('btn-back-to-themes');
     if (btnBackToThemes) {
       btnBackToThemes.addEventListener('click', () => {
+        console.log('[RolePlayView] Bouton retour aux thèmes cliqué');
         this.#cleanup();
-        window.router.navigate('/themes');
+        if (window.router) {
+          window.router.navigate('/themes');
+        } else {
+          console.warn('[RolePlayView] window.router non disponible, utilisation fallback');
+          window.location.hash = '/themes';
+        }
       });
     }
 

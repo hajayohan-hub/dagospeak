@@ -503,6 +503,7 @@ const logger    = new Logger('App');
 const db        = new DagoDB();
 const content   = new ContentLoader();
 const router    = new Router('/');
+window.router = router;  // ✅ Exposer router globalement pour les vues
 
 const srs          = new SRSEngine(db, bus);
 const gamification = new GamificationEngine(db, bus);
