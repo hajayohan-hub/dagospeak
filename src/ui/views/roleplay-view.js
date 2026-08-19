@@ -36,7 +36,10 @@ export class RolePlayView {
 
     try {
       // 1. Charger le dialogue
-      this.#dialogue = await window.content.loadSection('fr', 'dialogues', `${themeId}_dialogue`);
+      // Importer ContentLoader directement
+      const { ContentLoader } = await import('../../data/content-loader.js');
+      const contentLoader = new ContentLoader();
+      this.#dialogue = await contentLoader.loadSection('fr', 'dialogues', `${themeId}_dialogue`);
       
       if (!this.#dialogue || !this.#dialogue.lines) {
         throw new Error('Dialogue invalide');
