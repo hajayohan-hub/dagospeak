@@ -4287,17 +4287,14 @@ async function renderRolePlay() {
           // ✅ TOUR PARTENAIRE : TTS automatique
           const speakerGender = speaker.gender || 'female';
           
-          // ✅ VÉRIFIER qu'on n'a pas déjà lancé le TTS pour ce tour
-          const exchangeContainer = document.getElementById('current-exchange');
-          if (exchangeContainer && exchangeContainer.dataset.ttsLaunched === 'true') {
-            console.log('[RolePlay] TTS déjà lancé pour ce tour, skip');
-            return;
-          }
-          
-          // ✅ Marquer que le TTS a été lancé
-          if (exchangeContainer) {
-            exchangeContainer.dataset.ttsLaunched = 'true';
-          }
+            // ✅ VÉRIFIER qu'on n'a pas déjà lancé le TTS pour cet index
+            if (ttsLaunchedForIndex === currentLineIndex) {
+              console.log(`[RolePlay] TTS déjà lancé pour l'index ${currentLineIndex}, skip`);
+              return;
+            }
+            
+            // ✅ Marquer que le TTS a été lancé pour cet index
+            ttsLaunchedForIndex = currentLineIndex;
           
           // Attendre 500ms avant de démarrer le TTS
           setTimeout(() => {
@@ -4414,8 +4411,10 @@ async function renderRolePlay() {
                 shadowEvalHandler = null;
               }
               
-              currentLineIndex++;
-              renderLine();
+            // ✅ Réinitialiser le verrou TTS pour le prochain tour
+                ttsLaunchedForIndex = -1;
+                
+                currentLineIndex++;
               
               // ✅ Auto-scroll vers le nouvel échange
               setTimeout(() => {
@@ -4514,6 +4513,7 @@ async function renderChallenge() {
 
     let currentLineIndex = 0;
     let shadowEvalHandler = null;
+    let ttsLaunchedForIndex = -1;  // ✅ Verrou TTS au niveau de la session
 
     if (!document.getElementById('pulse-guide-style')) {
       const style = document.createElement('style');
