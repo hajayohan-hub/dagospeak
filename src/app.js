@@ -4115,6 +4115,12 @@ syncProfileWithJourneys();
 // VUE : ROLE PLAY GUIDÉ (L'utilisateur joue avec les réponses visibles)
 // ═══════════════════════════════════════════════════════════
 async function renderRolePlay() {
+  // ✅ Cleanup : annuler tout TTS/STT précédent
+  speechSynthesis.cancel();
+  if (window.shadowing) {
+    window.shadowing.forceStop();
+  }
+
   updateNavActiveState();
   const main = document.getElementById('app');
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Famakiana ny Role Play...</div>';
@@ -4277,11 +4283,23 @@ async function renderRolePlay() {
         }
 
         // ✅ NOUVELLE LOGIQUE : Auto-déclenchement selon le type de tour
-        if (!isUserTurn) {
+                if (!isUserTurn) {
           // ✅ TOUR PARTENAIRE : TTS automatique
           const speakerGender = speaker.gender || 'female';
           
-          // Attendre 500ms avant de démarrer le TTS (pour laisser le DOM se stabiliser)
+          // ✅ VÉRIFIER qu'on n'a pas déjà lancé le TTS pour ce tour
+          const exchangeContainer = document.getElementById('current-exchange');
+          if (exchangeContainer && exchangeContainer.dataset.ttsLaunched === 'true') {
+            console.log('[RolePlay] TTS déjà lancé pour ce tour, skip');
+            return;
+          }
+          
+          // ✅ Marquer que le TTS a été lancé
+          if (exchangeContainer) {
+            exchangeContainer.dataset.ttsLaunched = 'true';
+          }
+          
+          // Attendre 500ms avant de démarrer le TTS
           setTimeout(() => {
             speakWithFeedback(line.text, {
               gender: speakerGender,
@@ -4303,6 +4321,8 @@ async function renderRolePlay() {
               }
             });
           }, 500);
+        
+
         } else {
           // ✅ TOUR UTILISATEUR : micro direct
           const btnSpeak = document.getElementById('btn-speak');
