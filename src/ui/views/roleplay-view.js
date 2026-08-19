@@ -58,7 +58,7 @@ export class RolePlayView {
         window.shadowing.forceStop();
       }
 
-      // 4. Créer l'interface
+            // 4. Créer l'interface
       main.innerHTML = `
         <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem;">
           <div style="background:var(--ds-color-border); height:8px; border-radius:4px; margin-bottom:1rem; overflow:hidden;">
@@ -128,58 +128,142 @@ export class RolePlayView {
     }
   }
 
-  /**
-   * Attache les événements pour mettre à jour la progression
+    /**
+   * Attache les événements pour mettre à jour la progression et gérer la complétion
    */
   #bindProgressEvents() {
     if (!window.bus) return;
 
+    // ✅ Mettre à jour la barre de progression à chaque tour
     window.bus.on('roleplay:turn-start', (data) => {
       if (this.#ui) {
         this.#ui.updateProgress(data.index, data.total);
       }
+      
+      // Mettre à jour la barre de progression dans RolePlayView
+      const progressBar = document.getElementById('roleplay-progress-bar');
+      const progressText = document.getElementById('roleplay-progress-text');
+      
+      if (progressBar) {
+        const percent = ((data.index + 1) / data.total) * 100;
+        progressBar.style.width = `${percent}%`;
+      }
+      
+      if (progressText) {
+        progressText.textContent = `Andiany ${data.index + 1} / ${data.total}`;
+      }
     });
 
+    // ✅ Gérer la complétion
     window.bus.on('roleplay:complete', (data) => {
       console.log('[RolePlayView] Role Play complété:', data);
       
-      // Ajouter XP
+      // 1. Ajouter XP
+      const xpEarned = this.#mode === 'guided' ? 30 : 50;
       if (window.gamification) {
-        window.gamification.addXP(30, `Role Play ${this.#mode} terminé`);
+        window.gamification.addXP(xpEarned, `Role Play ${this.#mode} terminé`);
       }
 
-      // Marquer le parcours comme terminé
+      // 2. Marquer le parcours comme terminé
       if (window.journeyTracker) {
         const journeyType = this.#mode === 'guided' ? 'roleplays' : 'challenges';
         window.journeyTracker.markJourneyComplete(journeyType, this.#dialogue.theme);
       }
 
-      // Sauvegarder le profil
+      // 3. Sauvegarder le profil
       if (window.saveProfile) {
         window.saveProfile();
       }
 
-      // Réactiver TeacherAvatar
+      // 4. Réactiver TeacherAvatar
       if (window.teacherAvatar) {
         window.teacherAvatar.setSessionActive(false);
       }
 
-      // Félicitations vocales
+      // 5. Afficher les boutons de navigation
+      this.#showCompletionButtons();
+
+      // 6. Félicitations vocales
       ttsService.speak("Très bien ! Vous avez terminé le Role Play.", {
         gender: 'female'
       });
-
-      // Transition automatique vers le Défi après 3 secondes
-      if (this.#mode === 'guided') {
-        setTimeout(() => {
-          if (window.router) {
-            console.log('[RolePlayView] Transition vers le Défi...');
-            // Pour l'instant, on reste sur la page de complétion
-            // Plus tard : router.navigate('/challenge');
-          }
-        }, 3000);
-      }
     });
+
+    // ✅ Attacher le bouton retour
+    const btnBack = document.getElementById('btn-back-roleplay');
+    if (btnBack) {
+      btnBack.addEventListener('click', () => {
+        this.#cleanup();
+        if (window.router) {
+          window.router.navigate('/dialogues');
+        }
+      });
+    }
+  }
+
+  /**
+   * Affiche les boutons de navigation après complétion
+   */
+  #showCompletionButtons() {
+    const container = document.getElementById('roleplay-container');
+    if (!container) return;
+
+    const buttonsHtml = `
+      <div style="display:flex; flex-direction:column; gap:1rem; margin-top:2rem; padding:1.5rem; background:var(--ds-color-surface); border-radius:var(--ds-radius-lg); box-shadow:var(--ds-shadow-sm);">
+        <h3 style="text-align:center; margin:0; color:var(--ds-color-success);">🎉 Role Play terminé !</h3>
+        
+        <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+          <ds-button variant="ghost" size="md" id="btn-back-to-dialogues">
+            ← Hiverina (Retour aux dialogues)
+          </ds-button>
+          
+          ${this.#mode === 'guided' ? `
+            <ds-button variant="primary" size="lg" id="btn-go-to-challenge">
+              🎯 Mandeha any amin'ny Défi (Aller au Défi)
+            </ds-button>
+          ` : `
+            <ds-button variant="primary" size="lg" id="btn-back-to-themes">
+              🏠 Hiverina any amin'ny thèmes (Retour aux thèmes)
+            </ds-button>
+          `}
+        </div>
+      </div>
+    `;
+
+    container.insertAdjacentHTML('beforeend', buttonsHtml);
+
+    // Attacher les listeners
+    const btnBackToDialogues = document.getElementById('btn-back-to-dialogues');
+    if (btnBackToDialogues) {
+      btnBackToDialogues.addEventListener('click', () => {
+        this.#cleanup();
+        window.router.navigate('/dialogues');
+      });
+    }
+
+    const btnGoToChallenge = document.getElementById('btn-go-to-challenge');
+    if (btnGoToChallenge) {
+      btnGoToChallenge.addEventListener('click', () => {
+        this.#cleanup();
+        window.router.navigate('/challenge');
+      });
+    }
+
+    const btnBackToThemes = document.getElementById('btn-back-to-themes');
+    if (btnBackToThemes) {
+      btnBackToThemes.addEventListener('click', () => {
+        this.#cleanup();
+        window.router.navigate('/themes');
+      });
+    }
+
+    // Scroll vers les boutons
+    setTimeout(() => {
+      const buttons = container.querySelector('[id^="btn-"]');
+      if (buttons) {
+        buttons.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 300);
   }
 
   /**

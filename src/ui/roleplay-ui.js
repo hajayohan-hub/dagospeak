@@ -428,20 +428,12 @@ export class RolePlayUI {
     }, 100);
   }
 
-  /**
+    /**
    * Met à jour la barre de progression
    */
   updateProgress(current, total) {
-    const progressBar = document.getElementById('roleplay-progress-bar');
-    const progressText = document.getElementById('roleplay-progress-text');
-
-    if (progressBar) {
-      const percent = (current / total) * 100;
-      progressBar.style.width = `${percent}%`;
-    }
-
-    if (progressText) {
-      progressText.textContent = `Andiany ${current + 1} / ${total}`;
-    }
+    // Cette méthode peut être utilisée par RolePlayView
+    // La mise à jour réelle est faite dans RolePlayView.#bindProgressEvents
+    console.log(`[RolePlayUI] Progression: ${current + 1}/${total}`);
   }
 }
