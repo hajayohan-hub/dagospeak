@@ -9,10 +9,11 @@ import { sessionManager } from '../../core/session-manager.js';
 import { ttsService } from '../../core/tts-service.js';
 
 export class RolePlayView {
-  #engine = null;
+    #engine = null;
   #ui = null;
   #dialogue = null;
   #mode = 'guided';
+  #eventBus = null;  // ✅ Stocker l'instance d'EventBus
 
   /**
    * Rend la vue Role Play
@@ -86,9 +87,11 @@ export class RolePlayView {
         </section>
       `;
 
-      // 5. Importer EventBus
-      const { EventBus } = await import('../../core/event-bus.js');
-      const eventBus = window.bus || new EventBus();
+              // 5. Importer EventBus
+        const { EventBus } = await import('../../core/event-bus.js');
+        const eventBus = window.bus || new EventBus();
+        
+        this.#eventBus = eventBus;  // ✅ Stocker pour utilisation dans #bindProgressEvents
 
       // 6. Créer le moteur
       this.#engine = new RolePlayEngine(this.#dialogue, {
@@ -131,11 +134,23 @@ export class RolePlayView {
     /**
    * Attache les événements pour mettre à jour la progression et gérer la complétion
    */
+   /**
+   * Attache les événements pour mettre à jour la progression et gérer la complétion
+   */
   #bindProgressEvents() {
-    if (!window.bus) return;
+    console.log('[RolePlayView] #bindProgressEvents appelé');
+    
+    if (!this.#eventBus) {
+      console.error('[RolePlayView] EventBus non disponible');
+      return;
+    }
+    
+    console.log('[RolePlayView] EventBus disponible, attachement des écouteurs');
 
     // ✅ Mettre à jour la barre de progression à chaque tour
-    window.bus.on('roleplay:turn-start', (data) => {
+    this.#eventBus.on('roleplay:turn-start', (data) => {
+      console.log('[RolePlayView] Événement roleplay:turn-start reçu:', data);
+      
       if (this.#ui) {
         this.#ui.updateProgress(data.index, data.total);
       }
@@ -155,8 +170,8 @@ export class RolePlayView {
     });
 
     // ✅ Gérer la complétion
-    window.bus.on('roleplay:complete', (data) => {
-      console.log('[RolePlayView] Role Play complété:', data);
+    this.#eventBus.on('roleplay:complete', (data) => {
+      console.log('[RolePlayView] Événement roleplay:complete reçu:', data);
       
       // 1. Ajouter XP
       const xpEarned = this.#mode === 'guided' ? 30 : 50;
@@ -188,25 +203,19 @@ export class RolePlayView {
         gender: 'female'
       });
     });
-
-    // ✅ Attacher le bouton retour
-    const btnBack = document.getElementById('btn-back-roleplay');
-    if (btnBack) {
-      btnBack.addEventListener('click', () => {
-        this.#cleanup();
-        if (window.router) {
-          window.router.navigate('/dialogues');
-        }
-      });
-    }
   }
 
   /**
    * Affiche les boutons de navigation après complétion
    */
   #showCompletionButtons() {
+    console.log('[RolePlayView] Affichage des boutons de complétion');
+    
     const container = document.getElementById('roleplay-container');
-    if (!container) return;
+    if (!container) {
+      console.error('[RolePlayView] roleplay-container introuvable');
+      return;
+    }
 
     const buttonsHtml = `
       <div style="display:flex; flex-direction:column; gap:1rem; margin-top:2rem; padding:1.5rem; background:var(--ds-color-surface); border-radius:var(--ds-radius-lg); box-shadow:var(--ds-shadow-sm);">
@@ -231,6 +240,7 @@ export class RolePlayView {
     `;
 
     container.insertAdjacentHTML('beforeend', buttonsHtml);
+    console.log('[RolePlayView] Boutons de complétion ajoutés au DOM');
 
     // Attacher les listeners
     const btnBackToDialogues = document.getElementById('btn-back-to-dialogues');
