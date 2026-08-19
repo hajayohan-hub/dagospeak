@@ -12,6 +12,7 @@ export class TeacherAvatar {
   #signAnimationTimeout = null;
   #lastTipShown = {};  // ✅ NOUVEAU : Anti-spam
    #lastGlobalSpeak = 0;  // ✅ NOUVEAU : Délai global
+     #isSessionActive = false;  // ✅ Désactiver pendant Role Play/Challenge
 
   constructor() {
     this.#loadMasteredThemes();
@@ -67,6 +68,31 @@ export class TeacherAvatar {
     if (speechSynthesis.onvoiceschanged !== undefined) {
       speechSynthesis.onvoiceschanged = setVoice;
     }
+  }
+
+
+    /**
+   * Désactiver le guide automatique pendant une session immersive (Role Play, Challenge)
+   */
+  setSessionActive(isActive) {
+    this.#isSessionActive = isActive;
+    console.log(`[TeacherAvatar] Session immersive: ${isActive ? 'ACTIVE' : 'INACTIVE'}`);
+    
+    // Si on active une session, annuler tout TTS en cours
+    if (isActive) {
+      speechSynthesis.cancel();
+      if (this.#signAnimationTimeout) {
+        clearTimeout(this.#signAnimationTimeout);
+        this.#signAnimationTimeout = null;
+      }
+    }
+  }
+
+  /**
+   * Vérifier si une session immersive est active
+   */
+  isSessionActive() {
+    return this.#isSessionActive;
   }
 
   // ─────────── MÉTHODES DE PAROLE (3 TYPES) ───────────
@@ -128,6 +154,14 @@ export class TeacherAvatar {
    * Ne parle QUE si l'utilisateur a activé l'auto-parole.
    */
         speakGuide(text) {
+
+        // ✅ Ne pas parler pendant une session immersive
+        if (this.#isSessionActive) {
+          console.log('[TeacherAvatar] Guide ignoré (session immersive active)');
+          return;
+        } 
+
+
         if (!text) return;
 
         // ✅ NOUVEAU : Délai global anti-spam (5 secondes entre n'importe quel guide)

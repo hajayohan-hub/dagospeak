@@ -4120,6 +4120,12 @@ async function renderRolePlay() {
   main.innerHTML = '<div style="text-align:center; padding:2rem;">Famakiana ny Role Play...</div>';
 
   renderProgressHeader();
+
+        // ✅ Désactiver le guide automatique pendant le Role Play
+    if (window.teacherAvatar) {
+      window.teacherAvatar.setSessionActive(true);
+    }
+
   // ✅ Synchroniser le profil après chaque parcours terminé
   syncProfileWithJourneys();
 
@@ -4150,6 +4156,13 @@ async function renderRolePlay() {
 
     // ✅ FONCTION SÉPARÉE (pas à l'intérieur de renderLine)
     const renderRolePlayComplete = async () => {
+
+        // ✅ Réactiver le guide automatique à la fin du Role Play
+        if (window.teacherAvatar) {
+          window.teacherAvatar.setSessionActive(false);
+        }
+
+
       if (shadowEvalHandler) {
         bus.off('pronunciation:evaluated', shadowEvalHandler);
         shadowEvalHandler = null;
@@ -4201,7 +4214,7 @@ async function renderRolePlay() {
     };
 
 
-                const renderLine = () => {
+        const renderLine = () => {
         if (currentLineIndex >= dialogue.lines.length) {
           renderRolePlayComplete();
           return;
@@ -4700,7 +4713,7 @@ async function renderChallenge() {
               }
             }
 
-                            speechFeedback.innerHTML += getEngineIndicator(data.engine);
+        speechFeedback.innerHTML += getEngineIndicator(data.engine);
           } else {
             speechFeedback.innerHTML = '<span style="color:var(--ds-color-text-muted);">⚠️ Tsy re ny feo (Aucune voix détectée). Réessayez.</span>';
             btnSpeak.textContent = '🎤 Mitenena izao (Parler maintenant)';
@@ -4720,6 +4733,13 @@ async function renderChallenge() {
     };
 
     const renderChallengeComplete = async () => {
+
+        // ✅ Réactiver le guide automatique à la fin du Role Play
+        if (window.teacherAvatar) {
+          window.teacherAvatar.setSessionActive(false);
+        }
+
+
       if (shadowEvalHandler) {
         bus.off('pronunciation:evaluated', shadowEvalHandler);
         shadowEvalHandler = null;
