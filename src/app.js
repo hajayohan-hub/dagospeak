@@ -4221,7 +4221,14 @@ async function renderRolePlay() {
     };
 
 
-        const renderLine = () => {
+       const renderLine = () => {
+        console.log(`[RolePlay] renderLine() appelé pour l'index ${currentLineIndex}`);
+        
+        if (currentLineIndex >= dialogue.lines.length) {
+          console.log('[RolePlay] Fin du dialogue atteinte');
+          renderRolePlayComplete();
+          return;
+        }
         if (currentLineIndex >= dialogue.lines.length) {
           renderRolePlayComplete();
           return;
@@ -4288,11 +4295,14 @@ async function renderRolePlay() {
           // ✅ TOUR PARTENAIRE : TTS automatique
           const speakerGender = speaker.gender || 'female';
           
-            // ✅ VÉRIFIER qu'on n'a pas déjà lancé le TTS pour cet index
+          // ✅ VÉRIFIER qu'on n'a pas déjà lancé le TTS pour cet index
             if (ttsLaunchedForIndex === currentLineIndex) {
               console.log(`[RolePlay] TTS déjà lancé pour l'index ${currentLineIndex}, skip`);
               return;
             }
+            
+            console.log(`[RolePlay] Lancement du TTS pour l'index ${currentLineIndex} (tour ${!isUserTurn ? 'partenaire' : 'utilisateur'})`);
+            
             
             // ✅ Marquer que le TTS a été lancé pour cet index
             ttsLaunchedForIndex = currentLineIndex;
