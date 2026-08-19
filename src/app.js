@@ -4114,27 +4114,64 @@ syncProfileWithJourneys();
   }
 }
 
-  // ═══════════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════════════
   // VUE : ROLE PLAY V2 (Nouvelle architecture propre)
   // ═══════════════════════════════════════════════════════════
   async function renderRolePlayV2() {
+    console.log('[RolePlayV2] === DÉBUT renderRolePlayV2 ===');
+    
     const main = document.getElementById('app');
     const themeId = currentTheme;
     
+    console.log('[RolePlayV2] themeId:', themeId);
+    
     if (!themeId || themeId === 'null') {
+      console.error('[RolePlayV2] Pas de thème, redirection vers /themes');
       router.navigate('/themes');
       return;
     }
 
-    // Utiliser le nouveau RolePlayView
-    if (window.rolePlayView) {
-      await window.rolePlayView.render(main, themeId, 'guided');
-    } else {
-      console.error('[RolePlayV2] rolePlayView non disponible, fallback vers V1');
-      renderRolePlay();
+    // Vérifier si rolePlayView est disponible
+    console.log('[RolePlayV2] window.rolePlayView:', window.rolePlayView);
+    
+    if (!window.rolePlayView) {
+      console.error('[RolePlayV2] ❌ rolePlayView non disponible !');
+      console.log('[RolePlayV2] Tentative de rechargement...');
+      
+      // Essayer de recharger le module
+      try {
+        const module = await import('./ui/views/roleplay-view.js');
+        window.rolePlayView = module.rolePlayView;
+        console.log('[RolePlayV2] ✅ rolePlayView rechargé');
+      } catch (e) {
+        console.error('[RolePlayV2] Erreur de rechargement:', e);
+        main.innerHTML = `
+          <div style="text-align:center; padding:2rem; color:var(--ds-color-danger);">
+            <p>Erreur de chargement de RolePlayV2</p>
+            <p>${e.message}</p>
+          </div>
+        `;
+        return;
+      }
     }
-  }
 
+    console.log('[RolePlayV2] Appel de rolePlayView.render()...');
+    
+    try {
+      await window.rolePlayView.render(main, themeId, 'guided');
+      console.log('[RolePlayV2] ✅ render() terminé avec succès');
+    } catch (e) {
+      console.error('[RolePlayV2] ❌ Erreur dans render():', e);
+      main.innerHTML = `
+        <div style="text-align:center; padding:2rem; color:var(--ds-color-danger);">
+          <p>Erreur RolePlayV2: ${e.message}</p>
+          <pre style="text-align:left; font-size:0.8rem;">${e.stack}</pre>
+        </div>
+      `;
+    }
+    
+    console.log('[RolePlayV2] === FIN renderRolePlayV2 ===');
+  }
 // ═══════════════════════════════════════════════════════════
 // VUE : ROLE PLAY GUIDÉ (L'utilisateur joue avec les réponses visibles)
 // ═══════════════════════════════════════════════════════════
