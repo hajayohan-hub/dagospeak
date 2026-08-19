@@ -4405,25 +4405,49 @@ async function renderRolePlay() {
             setTimeout(() => {
               console.log(`[RolePlay] unlockNext() timeout terminé, progression...`);
               
-              if (currentLineIndex < dialogue.lines.length - 1) {
+                            if (currentLineIndex < dialogue.lines.length - 1) {
                 console.log(`[RolePlay] Passage à l'index ${currentLineIndex + 1}`);
                 
-                // ✅ Nettoyer le handler STT
-                if (shadowEvalHandler) {
-                  bus.off('pronunciation:evaluated', shadowEvalHandler);
-                  shadowEvalHandler = null;
+                try {
+                  // Sauvegarder l'échange actuel comme "fait"
+                  const currentExchangeHtml = `
+                    <div style="opacity:0.6; background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-lg); border:1px solid var(--ds-color-border);">
+                      <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;">
+                        <span style="font-size:1.2rem;">${speaker.avatar}</span>
+                        <strong>${speaker.name}</strong>
+                      </div>
+                      <div style="font-size:1rem; font-weight:500;">${line.text}</div>
+                      <div style="font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">${line.translation}</div>
+                    </div>
+                  `;
+                  previousExchangesHtml.push(currentExchangeHtml);
+                  console.log('[RolePlay] Échange sauvegardé');
+                } catch (err) {
+                  console.error('[RolePlay] Erreur lors de la sauvegarde:', err);
                 }
                 
-                // ✅ Réinitialiser le verrou TTS
-                ttsLaunchedForIndex = -1;
+                try {
+                  // Nettoyer le handler STT avant de passer à la suite
+                  if (shadowEvalHandler) {
+                    bus.off('pronunciation:evaluated', shadowEvalHandler);
+                    shadowEvalHandler = null;
+                  }
+                  console.log('[RolePlay] Handler STT nettoyé');
+                } catch (err) {
+                  console.error('[RolePlay] Erreur lors du nettoyage STT:', err);
+                }
                 
-                // ✅ Incrémenter et re-render
-                currentLineIndex++;
-                console.log(`[RolePlay] Index incrémenté à ${currentLineIndex}, appel de renderLine()`);
-                renderLine();
-                console.log('[RolePlay] renderLine() terminé');
+                try {
+                  ttsLaunchedForIndex = -1;
+                  currentLineIndex++;
+                  console.log(`[RolePlay] Index incrémenté à ${currentLineIndex}, appel de renderLine()`);
+                  renderLine();
+                  console.log('[RolePlay] renderLine() terminé');
+                } catch (err) {
+                  console.error('[RolePlay] Erreur lors de renderLine():', err);
+                }
                 
-                // ✅ Auto-scroll
+                // Auto-scroll
                 setTimeout(() => {
                   const newExchange = document.getElementById('current-exchange');
                   if (newExchange) {
@@ -4431,7 +4455,6 @@ async function renderRolePlay() {
                   }
                 }, 100);
               } else {
-                console.log('[RolePlay] Fin du dialogue, appel de renderRolePlayComplete()');
                 renderRolePlayComplete();
               }
             }, 1500);
