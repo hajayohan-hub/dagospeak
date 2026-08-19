@@ -4389,10 +4389,15 @@ async function renderRolePlay() {
         }
 
         // ✅ Fonction unlockNext avec auto-progression
-        const unlockNext = () => {
-          // ✅ Attendre 1.5s puis passer à l'échange suivant
-          setTimeout(() => {
-            if (currentLineIndex < dialogue.lines.length - 1) {
+            const unlockNext = () => {
+            console.log(`[RolePlay] unlockNext() appelé pour l'index ${currentLineIndex}`);
+            
+            // ✅ Attendre 1.5s puis passer à l'échange suivant
+            setTimeout(() => {
+              console.log(`[RolePlay] unlockNext() timeout terminé, progression...`);
+              
+              if (currentLineIndex < dialogue.lines.length - 1) {
+                console.log(`[RolePlay] Passage à l'index ${currentLineIndex + 1}`);
               // Sauvegarder l'échange actuel comme "fait"
               const currentExchangeHtml = `
                 <div style="opacity:0.6; background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-lg); border:1px solid var(--ds-color-border);">
