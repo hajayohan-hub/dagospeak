@@ -16,13 +16,15 @@ export class RolePlayEngine {
   #state = 'IDLE'; // IDLE | PARTNER_SPEAKING | USER_TURN | FEEDBACK | ADVANCE
   #eventBus = null;
   #sttManager = null;
-  
+
+
   // Configuration
-  #config = {
+    #config = {
     similarityThreshold: 0.60,
     minAcceptableSimilarity: 0.40,
     delayAfterTTS: 1500, // ms
-    maxRetries: 2
+    maxRetries: 2,
+    sttTimeout: 10000  // ✅ Timeout de 10 secondes pour le STT
   };
 
   constructor(dialogue, options = {}) {
@@ -138,10 +140,7 @@ export class RolePlayEngine {
     });
   }
 
-  /**
-   * Tour de l'utilisateur : active le micro
-   */
-   /**
+    /**
    * Tour de l'utilisateur : lance le STT automatiquement
    */
   async #startUserTurn() {
@@ -154,24 +153,54 @@ export class RolePlayEngine {
     // Émettre l'événement pour l'UI
     this.#emit('roleplay:user-turn', {
       index: this.#currentIndex,
-      expectedText: this.#mode === 'guided' ? line.text : null, // Cacher en mode challenge
+      expectedText: this.#mode === 'guided' ? line.text : null,
       translation: line.translation,
       speaker: speaker.name,
       avatar: speaker.avatar
     });
 
-    // ✅ Lancer le STT automatiquement (pas besoin de bouton)
+    // ✅ Lancer le STT automatiquement
     console.log(`[RolePlayEngine] Appel de STTManager.startListening() pour index ${this.#currentIndex}`);
+    await this.#startListening();
+
+    // ✅ Ajouter un timeout pour afficher le bouton "Parler" si pas de réponse
+    sessionManager.setTimeout('roleplay', () => {
+      console.log(`[RolePlayEngine] Timeout STT pour index ${this.#currentIndex}`);
+      this.#emit('roleplay:stt-timeout', {
+        index: this.#currentIndex
+      });
+    }, this.#config.sttTimeout);
+  }
+
+    /**
+   * Relance le STT pour le tour utilisateur actuel (après timeout)
+   */
+  retryUserTurn(index) {
+    if (index !== this.#currentIndex) {
+      console.warn(`[RolePlayEngine] retryUserTurn ignoré : index ${index} != currentIndex ${this.#currentIndex}`);
+      return;
+    }
+
+    console.log(`[RolePlayEngine] retryUserTurn pour index ${index}`);
     
+    // Annuler le timeout précédent
+    sessionManager.cancel('roleplay-timeout');
+    
+    // Relancer le STT
+    this.#startListening();
+  }
+
+  /**
+   * Démarre l'écoute STT (extrait pour réutilisation)
+   */
+  async #startListening() {
     try {
       const result = await this.#sttManager.startListening('fr-FR', {
-
-          onResult: (result) => {
+        onResult: (result) => {
           console.log(`[RolePlayEngine] STT result reçu pour index ${this.#currentIndex}:`, result);
           const transcript = result.transcript || '';
           const engine = result.isReal ? 'webspeech' : 'simulation';
           
-          // ✅ Émettre l'événement pour l'UI
           this.#emit('roleplay:stt-result', {
             index: this.#currentIndex,
             transcript: transcript,
@@ -181,7 +210,6 @@ export class RolePlayEngine {
           
           this.evaluateUserResponse(transcript, engine);
         },
-
         onError: (error) => {
           console.error(`[RolePlayEngine] STT error pour index ${this.#currentIndex}:`, error);
           this.#emit('roleplay:error', {
@@ -191,14 +219,37 @@ export class RolePlayEngine {
         }
       });
       
-      console.log(`[RolePlayEngine] STT démarré avec succès pour index ${this.#currentIndex}`);
+      console.log(`[RolePlayEngine] STT relancé avec succès pour index ${this.#currentIndex}`);
+      
+      // ✅ Re-ajouter le timeout
+      sessionManager.setTimeout('roleplay', () => {
+        console.log(`[RolePlayEngine] Timeout STT pour index ${this.#currentIndex}`);
+        this.#emit('roleplay:stt-timeout', {
+          index: this.#currentIndex
+        });
+      }, this.#config.sttTimeout);
     } catch (error) {
-      console.error(`[RolePlayEngine] Erreur dans startListening pour index ${this.#currentIndex}:`, error);
+      console.error(`[RolePlayEngine] Erreur dans #startListening pour index ${this.#currentIndex}:`, error);
       this.#emit('roleplay:error', {
         index: this.#currentIndex,
         error: error.message
       });
     }
+  }
+
+    /**
+   * Relance le STT pour le tour utilisateur actuel (après timeout)
+   */
+  retryUserTurn(index) {
+    if (index !== this.#currentIndex) {
+      console.warn(`[RolePlayEngine] retryUserTurn ignoré : index ${index} != currentIndex ${this.#currentIndex}`);
+      return;
+    }
+
+    console.log(`[RolePlayEngine] retryUserTurn pour index ${index}`);
+    
+    // Relancer le STT (le timeout sera réajouté dans #startUserTurn si nécessaire)
+    this.#startListening();
   }
 
   /**
