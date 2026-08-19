@@ -50,8 +50,18 @@ export class STTManager {
       else this.#deviceTier = 'high';
     }
 
-    // Mode simulation si offline ou appareil low-end
-    this.#simulationMode = this.#isOffline || this.#deviceTier === 'low';
+    // Mode simulation si offline
+      // Si online, vérifier le toggle utilisateur
+      if (this.#isOffline) {
+        this.#simulationMode = true;
+      } else {
+        // Vérifier le toggle utilisateur dans les settings
+        const settings = JSON.parse(localStorage.getItem('dagospeak:settings') || '{}');
+        const userWantsRealSTT = settings.sttEnabled !== false; // Par défaut activé
+        
+        // Si l'utilisateur veut du STT réel ET que c'est supporté, utiliser le mode réel
+        this.#simulationMode = !userWantsRealSTT || !this.#isSupported;
+      }
 
     console.log(`[STTManager] Support: ${this.#isSupported}, Tier: ${this.#deviceTier}, Offline: ${this.#isOffline}, Simulation: ${this.#simulationMode}`);
   }
@@ -73,7 +83,9 @@ export class STTManager {
   /**
    * Démarre l'écoute (réelle ou simulée)
    */
-  startListening(lang = 'fr-FR', callbacks = {}) {
+     startListening(lang = 'fr-FR', callbacks = {}) {
+      console.log(`[STTManager] startListening appelé, isListening=${this.#isListening}, simulationMode=${this.#simulationMode}`);
+      
     if (this.#isListening) {
       console.warn('[STTManager] Écoute déjà active, arrêt de la précédente');
       this.stopListening();
@@ -109,7 +121,12 @@ export class STTManager {
       this.#isListening = false;
 
       // Simuler une reconnaissance (toujours "correcte" en mode encouragement)
-      callbacks.onResult?.(['[Mode hors-ligne] Continuez à pratiquer !']);
+        callbacks.onResult?.({
+          transcript: '[Mode entraînement hors connexion]',
+          isReal: false,
+          confidence: 1.0
+        });
+
       callbacks.onEnd?.();
 
       // Message pédagogique
@@ -137,13 +154,16 @@ export class STTManager {
         callbacks.onStart?.();
       };
 
-      this.#recognition.onresult = (event) => {
-        const results = [];
-        for (let i = 0; i < event.results.length; i++) {
-          results.push(event.results[i][0].transcript);
-        }
-        callbacks.onResult?.(results);
-      };
+             this.#recognition.onresult = (event) => {
+          const results = event.results[0];
+          const bestResult = results[0];
+          callbacks.onResult?.({
+            transcript: bestResult.transcript,
+            isReal: true,
+            confidence: bestResult.confidence,
+            alternatives: Array.from(results).map(r => r.transcript)
+          });
+        };
 
       this.#recognition.onend = () => {
         this.#isListening = false;
