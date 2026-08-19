@@ -209,7 +209,7 @@ export class RolePlayUI {
 
     let isRecording = false;
 
-    btnSpeak.addEventListener('click', () => {
+    btnSpeak.addEventListener('click', async () => {
       if (isRecording) {
         window.shadowing?.forceStop();
         isRecording = false;
@@ -222,8 +222,8 @@ export class RolePlayUI {
       speechFeedback.innerHTML = '<span style="color:var(--ds-color-accent);">Mitenena izao... (Je vous écoute...)</span>';
       isRecording = true;
 
-      // Utiliser STT Manager
-      const sttManager = window.sttManager;
+            // Importer STT Manager directement
+      const { sttManager } = await import('../../core/stt-manager.js');
       if (sttManager) {
         sttManager.startListening('fr-FR', {
           onResult: (result) => {
