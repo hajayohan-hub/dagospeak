@@ -4159,6 +4159,7 @@ async function renderRolePlay() {
 
     let currentLineIndex = 0;
     let shadowEvalHandler = null;
+    let ttsLaunchedForIndex = -1;  // ✅ Verrou TTS au niveau de la session
 
     // ✅ FONCTION SÉPARÉE (pas à l'intérieur de renderLine)
     const renderRolePlayComplete = async () => {
