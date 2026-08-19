@@ -4159,7 +4159,9 @@ async function renderRolePlay() {
 
     let currentLineIndex = 0;
     let shadowEvalHandler = null;
-    let ttsLaunchedForIndex = -1;  // ✅ Verrou TTS au niveau de la session
+    let ttsLaunchedForIndex = -1;
+    let rolePlayCompleted = false;
+    let unlockNextTimer = null;  // ✅ Pour annuler le timeout précédent
 
     // ✅ FONCTION SÉPARÉE (pas à l'intérieur de renderLine)
     const renderRolePlayComplete = async () => {
@@ -4223,6 +4225,13 @@ async function renderRolePlay() {
 
        const renderLine = () => {
         console.log(`[RolePlay] renderLine() appelé pour l'index ${currentLineIndex}`);
+
+        // ✅ Annuler tout timer en cours pour éviter les doublons
+        if (unlockNextTimer) {
+          clearTimeout(unlockNextTimer);
+          unlockNextTimer = null;
+          unlockNextPending = false;
+        }
         
         if (currentLineIndex >= dialogue.lines.length) {
           console.log('[RolePlay] Fin du dialogue atteinte');
