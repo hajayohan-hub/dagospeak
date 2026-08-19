@@ -141,11 +141,17 @@ export class RolePlayEngine {
   /**
    * Tour de l'utilisateur : active le micro
    */
-  #startUserTurn() {
+   /**
+   * Tour de l'utilisateur : lance le STT automatiquement
+   */
+  async #startUserTurn() {
     this.#state = 'USER_TURN';
     const line = this.#dialogue.lines[this.#currentIndex];
     const speaker = this.#dialogue.participants[line.speaker];
 
+    console.log(`[RolePlayEngine] USER TURN START index=${this.#currentIndex}`);
+
+    // Émettre l'événement pour l'UI
     this.#emit('roleplay:user-turn', {
       index: this.#currentIndex,
       expectedText: this.#mode === 'guided' ? line.text : null, // Cacher en mode challenge
@@ -153,6 +159,35 @@ export class RolePlayEngine {
       speaker: speaker.name,
       avatar: speaker.avatar
     });
+
+    // ✅ Lancer le STT automatiquement (pas besoin de bouton)
+    console.log(`[RolePlayEngine] Appel de STTManager.startListening() pour index ${this.#currentIndex}`);
+    
+    try {
+      const result = await this.#sttManager.startListening('fr-FR', {
+        onResult: (result) => {
+          console.log(`[RolePlayEngine] STT result reçu pour index ${this.#currentIndex}:`, result);
+          const transcript = result.transcript || '';
+          const engine = result.isReal ? 'webspeech' : 'simulation';
+          this.evaluateUserResponse(transcript, engine);
+        },
+        onError: (error) => {
+          console.error(`[RolePlayEngine] STT error pour index ${this.#currentIndex}:`, error);
+          this.#emit('roleplay:error', {
+            index: this.#currentIndex,
+            error: error
+          });
+        }
+      });
+      
+      console.log(`[RolePlayEngine] STT démarré avec succès pour index ${this.#currentIndex}`);
+    } catch (error) {
+      console.error(`[RolePlayEngine] Erreur dans startListening pour index ${this.#currentIndex}:`, error);
+      this.#emit('roleplay:error', {
+        index: this.#currentIndex,
+        error: error.message
+      });
+    }
   }
 
   /**

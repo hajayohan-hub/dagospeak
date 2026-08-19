@@ -90,6 +90,9 @@ export class RolePlayUI {
     console.log(`[RolePlayUI] Événement: ${event}`, data);
 
     switch (event) {
+      case 'roleplay:error':
+        this.#renderError(data);
+        break;
       case 'roleplay:partner-speaking':
         this.#renderPartnerTurn(data);
         break;
@@ -106,6 +109,23 @@ export class RolePlayUI {
         this.#cleanup();
         break;
     }
+  }
+
+    /**
+   * Affiche une erreur et propose de réessayer
+   */
+  #renderError(data) {
+    const speechFeedback = document.getElementById(`speech-feedback-v2-${data.index}`);
+    if (!speechFeedback) return;
+
+    speechFeedback.innerHTML = `
+      <div style="color:var(--ds-color-danger); margin-bottom:0.5rem;">
+        ⚠️ Erreur : ${data.error}
+      </div>
+      <button onclick="window.location.reload()" style="padding:0.5rem 1rem; background:var(--ds-color-danger); color:white; border:none; border-radius:var(--ds-radius-sm); cursor:pointer;">
+        🔄 Réessayer
+      </button>
+    `;
   }
 
   /**
@@ -182,10 +202,15 @@ export class RolePlayUI {
           <div style="font-size:0.75rem; text-transform:uppercase; color:var(--ds-color-primary); margin-bottom:0.5rem; font-weight:bold;">
             Mitenena izao (Parlez maintenant)
           </div>
-          <ds-button variant="primary" size="lg" id="btn-speak-v2" class="guide-active">
-            🎤 Mitenena izao (Parler maintenant)
-          </ds-button>
-          <div id="speech-feedback-v2" style="margin-top:0.75rem; font-size:0.9rem; font-weight:600; min-height:1.5em;"></div>
+          <div style="text-align:center; padding:1rem; background:var(--ds-color-primary-soft); border-radius:var(--ds-radius-md);">
+            <div style="font-size:0.75rem; text-transform:uppercase; color:var(--ds-color-primary); margin-bottom:0.5rem; font-weight:bold;">
+            🎤 À vous... (Le micro est actif automatiquement)
+            </div>
+            <div id="btn-speak-v2-${data.index}" style="padding:0.75rem 1.5rem; background:var(--ds-color-primary); color:white; border-radius:var(--ds-radius-md); font-weight:600; display:inline-block; cursor:pointer;">
+            🎙️ Écoute en cours...
+            </div>
+            <div id="speech-feedback-v2-${data.index}" style="margin-top:0.75rem; font-size:0.9rem; font-weight:600; min-height:1.5em;"></div>
+          </div>
         </div>
       </div>
     `;
@@ -193,9 +218,6 @@ export class RolePlayUI {
     this.#currentTurnElement = turnElement;
     this.#container.querySelector('#roleplay-current-turn').appendChild(turnElement);
     this.#scrollToCurrentTurn();
-
-    // Attacher le listener au bouton micro
-    this.#bindSpeakButton(data.index);
   }
 
   /**
