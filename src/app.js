@@ -6,6 +6,8 @@ import './core/device-check.js';  // ✅ Détection appareil modeste (doit charg
 import './core/share-manager.js';  // ✅ Partage natif (app + certificat)
 import './ui/components/ds-quiz.js';
 import { sttManager } from './core/stt-manager.js';
+// Exposer sttManager globalement pour RolePlayUI
+window.sttManager = sttManager;
 import { EventBus }            from './core/event-bus.js';
 import { Container }           from './core/container.js';
 import { Logger }              from './core/logger.js';
