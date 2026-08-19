@@ -4054,7 +4054,7 @@ syncProfileWithJourneys();
 
     // ✅ NOUVEAU CODE :
       document.getElementById('btn-go-roleplay').addEventListener('click', () => {
-        goToNextJourney('dialogues'); // → va automatiquement vers 'roleplay'
+        router.navigate('/roleplay-v2'); // ✅ Test V2 temporairement
       });
       document.getElementById('btn-restart-practice').addEventListener('click', () => {
         router.navigate('/practice'); // Retour à la révision (optionnel)
@@ -4734,7 +4734,7 @@ async function renderChallenge() {
           currentLineIndex--;
           renderLine();
         } else {
-          router.navigate('/roleplay');
+          router.navigate('/roleplay-v2'); // ✅ Test V2 temporairement
         }
       });
 
