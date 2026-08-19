@@ -32,7 +32,10 @@ import { DictionarySearch } from './ui/components/dictionary-search.js';
 const teacherAvatar = new TeacherAvatar();
 window.teacherAvatar = teacherAvatar;
 
-
+// Charger RolePlayView V2 globalement
+import('./ui/views/roleplay-view.js').then(module => {
+  window.rolePlayView = module.rolePlayView;
+});
 
 // ═══════════════════════════════════════════════════════════
 // PWA INSTALL PROMPT — Capturer pour déclencher manuellement
@@ -4111,6 +4114,27 @@ syncProfileWithJourneys();
   }
 }
 
+  // ═══════════════════════════════════════════════════════════
+  // VUE : ROLE PLAY V2 (Nouvelle architecture propre)
+  // ═══════════════════════════════════════════════════════════
+  async function renderRolePlayV2() {
+    const main = document.getElementById('app');
+    const themeId = currentTheme;
+    
+    if (!themeId || themeId === 'null') {
+      router.navigate('/themes');
+      return;
+    }
+
+    // Utiliser le nouveau RolePlayView
+    if (window.rolePlayView) {
+      await window.rolePlayView.render(main, themeId, 'guided');
+    } else {
+      console.error('[RolePlayV2] rolePlayView non disponible, fallback vers V1');
+      renderRolePlay();
+    }
+  }
+
 // ═══════════════════════════════════════════════════════════
 // VUE : ROLE PLAY GUIDÉ (L'utilisateur joue avec les réponses visibles)
 // ═══════════════════════════════════════════════════════════
@@ -6915,6 +6939,7 @@ router.addRoute('/practice-phrases', renderPracticePhrases);  // ✅ AJOUTER
 router.addRoute('/dialogues', renderDialogues);
 router.addRoute('/profile', renderProfile);
 router.addRoute('/roleplay', renderRolePlay);
+router.addRoute('/roleplay-v2', renderRolePlayV2);  // ✅ Test V2 en parallèle
 router.addRoute('/challenge', renderChallenge);
 router.addRoute('/about', renderAbout);
 router.addRoute('/alphabet', renderAlphabet);  // ✅ AJOUTER
