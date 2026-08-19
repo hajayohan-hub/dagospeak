@@ -4399,52 +4399,45 @@ async function renderRolePlay() {
         }
 
         // ✅ Fonction unlockNext avec auto-progression
-            const unlockNext = () => {
+                     const unlockNext = () => {
             console.log(`[RolePlay] unlockNext() appelé pour l'index ${currentLineIndex}`);
             
-            // ✅ Attendre 1.5s puis passer à l'échange suivant
             setTimeout(() => {
               console.log(`[RolePlay] unlockNext() timeout terminé, progression...`);
               
               if (currentLineIndex < dialogue.lines.length - 1) {
                 console.log(`[RolePlay] Passage à l'index ${currentLineIndex + 1}`);
-              // Sauvegarder l'échange actuel comme "fait"
-              const currentExchangeHtml = `
-                <div style="opacity:0.6; background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-lg); border:1px solid var(--ds-color-border);">
-                  <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;">
-                    <span style="font-size:1.2rem;">${speaker.avatar}</span>
-                    <strong>${speaker.name}</strong>
-                  </div>
-                  <div style="font-size:1rem; font-weight:500;">${line.text}</div>
-                  <div style="font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">${line.translation}</div>
-                </div>
-              `;
-              previousExchangesHtml.push(currentExchangeHtml);
-              
-              // ✅ Nettoyer le handler STT avant de passer à la suite
-              if (shadowEvalHandler) {
-                bus.off('pronunciation:evaluated', shadowEvalHandler);
-                shadowEvalHandler = null;
-              }
-              
-            // ✅ Réinitialiser le verrou TTS pour le prochain tour
+                
+                // ✅ Nettoyer le handler STT
+                if (shadowEvalHandler) {
+                  bus.off('pronunciation:evaluated', shadowEvalHandler);
+                  shadowEvalHandler = null;
+                }
+                
+                // ✅ Réinitialiser le verrou TTS
                 ttsLaunchedForIndex = -1;
                 
+                // ✅ Incrémenter et re-render
                 currentLineIndex++;
-              
-              // ✅ Auto-scroll vers le nouvel échange
-              setTimeout(() => {
-                const newExchange = document.getElementById('current-exchange');
-                if (newExchange) {
-                  newExchange.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-              }, 100);
-            } else {
-              renderRolePlayComplete();
-            }
-          }, 1500);
-        };
-      };
+                console.log(`[RolePlay] Index incrémenté à ${currentLineIndex}, appel de renderLine()`);
+                renderLine();
+                console.log('[RolePlay] renderLine() terminé');
+                
+                // ✅ Auto-scroll
+                setTimeout(() => {
+                  const newExchange = document.getElementById('current-exchange');
+                  if (newExchange) {
+                    newExchange.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }
+                }, 100);
+              } else {
+                console.log('[RolePlay] Fin du dialogue, appel de renderRolePlayComplete()');
+                renderRolePlayComplete();
+              }
+            }, 1500);
+          };
+
+       };
 
             // ✅ NOUVEAU : Stockage des échanges précédents pour affichage complet
       const previousExchangesHtml = [];
