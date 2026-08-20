@@ -159,20 +159,19 @@ export class RolePlayUI {
     }
   }
 
-  
+               
 
     /**
    * Affiche un bouton "Parler" si le joueur n'a pas parlé dans le délai
    */
-  #showRetryButton(data) {
-    // ✅ Vérifier si le bouton est déjà affiché (éviter les doublons)
-    const existingBtn = document.getElementById(`btn-retry-speak-${data.index}`);
-    if (existingBtn) {
-      console.log(`[RolePlayUI] Bouton retry déjà affiché pour index ${data.index}`);
-      return;
-    }
+   #showRetryButton(data) {
+    console.log('[RolePlayUI] >>> #showRetryButton APPELÉ pour index:', data.index);
+    
     const micIndicator = document.getElementById(`mic-indicator-${data.index}`);
     const speechFeedback = document.getElementById(`speech-feedback-v2-${data.index}`);
+    
+    console.log('[RolePlayUI] micIndicator trouvé:', !!micIndicator);
+    console.log('[RolePlayUI] speechFeedback trouvé:', !!speechFeedback);
 
     // Changer l'indicateur du micro
     if (micIndicator) {

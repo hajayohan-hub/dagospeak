@@ -167,9 +167,14 @@ export class RolePlayEngine {
       await this.#sttManager.startListening('fr-FR', {
         onResult: (result) => {
           console.log(`[RolePlayEngine] STT result reçu:`, result);
-          
-          // Annuler le timeout
-          sessionManager.cancel('roleplay-timeout');
+
+          // Session manager
+         sessionManager.setTimeout('roleplay-timeout', () => {
+        console.log(`[RolePlayEngine] >>> Timeout déclenché, émission de roleplay:stt-timeout pour index ${this.#currentIndex}`);
+        this.#emit('roleplay:stt-timeout', {
+          index: this.#currentIndex
+        });
+      }, timeoutDelay);       
           
           const transcript = result.transcript || '';
           const engine = result.isReal ? 'webspeech' : 'simulation';
