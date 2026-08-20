@@ -79,11 +79,20 @@ export class RolePlayView {
             </span>
           </div>
 
-          <h2 style="text-align:center; margin-bottom:1.5rem;">💬 ${this.#dialogue.title}</h2>
+         <h2 style="text-align:center; margin-bottom:1rem;">💬 ${this.#dialogue.title}</h2>
 
-          <div id="roleplay-container">
-            <!-- RolePlayUI va injecter le contenu ici -->
+        <div style="text-align:center; margin-bottom:1.5rem; padding:1rem; background:var(--ds-color-primary-soft); border-radius:var(--ds-radius-md);">
+          <div style="font-size:0.9rem; color:var(--ds-color-text-muted); margin-bottom:0.5rem;">
+            Vous jouez le rôle de
           </div>
+          <div style="font-size:1.5rem; font-weight:bold; color:var(--ds-color-primary);">
+            ${this.#dialogue.participants['B']?.avatar || '👤'} ${this.#dialogue.participants['B']?.name || 'Vous'}
+          </div>
+        </div>
+
+        <div id="roleplay-container">
+          <!-- RolePlayUI va injecter le contenu ici -->
+        </div>
         </section>
       `;
 

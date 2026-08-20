@@ -360,8 +360,9 @@ export class RolePlayUI {
         </div>
         ${expectedTextHtml}
         <div style="text-align:center; padding:1.5rem; background:var(--ds-color-primary-soft); border-radius:var(--ds-radius-md);">
-          <div style="font-size:0.75rem; text-transform:uppercase; color:var(--ds-color-primary); margin-bottom:0.75rem; font-weight:bold;">
-            🎤 À vous... (Le micro est actif automatiquement)
+          <div style="font-size:1rem; text-transform:uppercase; color:var(--ds-color-accent, #f59e0b); margin-bottom:0.75rem; font-weight:bold;">
+  🎤 À votre tour
+          </div>
           </div>
           <div id="mic-indicator-${data.index}" style="font-size:2.5rem; margin:0.5rem 0; animation:pulse 1.5s infinite;">
             🎙️
