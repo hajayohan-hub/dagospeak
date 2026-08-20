@@ -143,7 +143,7 @@ export class RolePlayEngine {
     /**
    * Tour de l'utilisateur : lance le STT automatiquement
    */
-    async #startUserTurn() {
+      async #startUserTurn() {
     this.#state = 'USER_TURN';
     const line = this.#dialogue.lines[this.#currentIndex];
     const speaker = this.#dialogue.participants[line.speaker];
@@ -158,8 +158,63 @@ export class RolePlayEngine {
       avatar: speaker.avatar
     });
 
-    // ✅ Utiliser la méthode qui inclut le timeout
-    await this.#startListeningWithTimeout();
+    // Vérifier si on est en mode simulation
+    const isSimulation = this.#sttManager && this.#sttManager.isSimulationMode && this.#sttManager.isSimulationMode();
+    
+    console.log(`[RolePlayEngine] Mode: ${isSimulation ? 'simulation' : 'web-api'}`);
+
+    try {
+      await this.#sttManager.startListening('fr-FR', {
+        onResult: (result) => {
+          console.log(`[RolePlayEngine] STT result reçu:`, result);
+          
+          // Annuler le timeout
+          sessionManager.cancel('roleplay-timeout');
+          
+          const transcript = result.transcript || '';
+          const engine = result.isReal ? 'webspeech' : 'simulation';
+          
+          this.#emit('roleplay:stt-result', {
+            index: this.#currentIndex,
+            transcript: transcript,
+            isReal: result.isReal,
+            confidence: result.confidence
+          });
+          
+          this.evaluateUserResponse(transcript, engine);
+        },
+        onError: (error) => {
+          console.error(`[RolePlayEngine] STT error:`, error);
+          
+          // Annuler le timeout
+          sessionManager.cancel('roleplay-timeout');
+          
+          if (error === 'no-speech' || error === 'aborted') {
+            this.#emit('roleplay:stt-timeout', {
+              index: this.#currentIndex
+            });
+          } else {
+            this.#emit('roleplay:error', {
+              index: this.#currentIndex,
+              error: error
+            });
+          }
+        }
+      });
+      
+      // Timeout différent selon le mode
+      const timeoutDelay = isSimulation ? 5000 : 8000;
+      
+      sessionManager.setTimeout('roleplay-timeout', () => {
+        console.log(`[RolePlayEngine] Timeout STT pour index ${this.#currentIndex} (${timeoutDelay}ms)`);
+        this.#emit('roleplay:stt-timeout', {
+          index: this.#currentIndex
+        });
+      }, timeoutDelay);
+      
+    } catch (error) {
+      console.error(`[RolePlayEngine] Erreur STT:`, error);
+    }
   }
 
     /**

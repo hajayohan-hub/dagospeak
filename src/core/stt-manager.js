@@ -258,6 +258,15 @@ export class STTManager {
   getTier() {
     return this.#deviceTier;
   }
+
+
+  /**
+   * Vérifie si on est en mode simulation
+   */
+  isSimulationMode() {
+    return this.#simulationMode;
+  }
+
 }
 
 export const sttManager = new STTManager();
