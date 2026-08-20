@@ -72,54 +72,174 @@ export class ConversationEngine {
       window.teacherAvatar.setState?.(node.svgState);
     }
 
-    this.#container.innerHTML = `
-      <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem;">
-        <button id="btn-quit-conversation" style="
-          background: transparent; border: none; color: var(--ds-color-text-muted);
-          cursor: pointer; font-size: 0.9rem; margin-bottom: 1rem;
-        ">← Quitter la conversation</button>
+          this.#container.innerHTML = `
+        <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem;">
+          <button id="btn-quit-conversation" style="
+            background: transparent; border: none; color: var(--ds-color-text-muted);
+            cursor: pointer; font-size: 0.9rem; margin-bottom: 1rem;
+          ">← Quitter la conversation</button>
 
-        <div style="text-align:center; margin-bottom:1.5rem;">
-          <span style="background:var(--ds-color-primary); color:white; padding:4px 12px; border-radius:20px; font-weight:600; font-size:0.8rem;">
-            💬 ${this.#dialogue.titleFr}
-          </span>
-        </div>
-
-        <div style="
-          background: var(--ds-color-surface);
-          padding: 2rem;
-          border-radius: var(--ds-radius-lg);
-          border: 2px solid var(--ds-color-primary);
-          box-shadow: var(--ds-shadow-md);
-          text-align: center;
-        ">
-          <div style="font-size: 4rem; margin-bottom: 1rem;">👩‍🏫</div>
-          <div style="font-size: 0.85rem; color: var(--ds-color-text-muted); margin-bottom: 0.5rem;">
-            Teacher Avatar • ${node.svgState || 'neutral'}
+          <div style="text-align:center; margin-bottom:1.5rem;">
+            <span style="background:var(--ds-color-accent); color:white; padding:4px 12px; border-radius:20px; font-weight:600; font-size:0.8rem;">
+              🎯 À votre tour !
+            </span>
+            ${this.#attempts[node.id] > 0 ? `
+              <div style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--ds-color-accent);">
+                Tentative ${this.#attempts[node.id]} / ${node.maxAttempts}
+              </div>
+            ` : ''}
           </div>
-          <p style="font-size: 1.2rem; color: var(--ds-color-text); margin-bottom: 0.5rem; font-weight: 500;">
-            "${node.textFr}"
-          </p>
-          <p style="font-size: 0.95rem; color: var(--ds-color-text-muted); font-style: italic; margin-bottom: 1.5rem;">
-            (${node.textMg})
-          </p>
 
-          <button id="btn-play-teacher" style="
-            background: var(--ds-color-primary); color: white; border: none;
-            padding: 12px 24px; border-radius: 12px; font-weight: 600;
-            cursor: pointer; font-size: 1rem; margin-bottom: 1rem;
-          ">🔊 Mihainoa (Écouter)</button>
+          <div style="
+            background: var(--ds-color-surface);
+            padding: 2rem;
+            border-radius: var(--ds-radius-lg);
+            border: 2px solid var(--ds-color-accent);
+            box-shadow: var(--ds-shadow-md);
+            text-align: center;
+          ">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">🗣️</div>
+            <p style="font-size: 1.1rem; color: var(--ds-color-text); margin-bottom: 1.5rem; font-weight: 500;">
+              Que voulez-vous répondre ?
+            </p>
 
-          <div>
-            <button id="btn-next-node" style="
-              background: var(--ds-color-success); color: white; border: none;
-              padding: 12px 24px; border-radius: 12px; font-weight: 600;
-              cursor: pointer; font-size: 1rem; opacity: 0.5;
-            " disabled>Manaraka → (Suivant)</button>
+            <!-- ✅ NOUVEAU : Bouton Parler maintenant -->
+            <button id="btn-speak-now" style="
+              background: var(--ds-color-accent);
+              color: white;
+              border: none;
+              padding: 1rem 2rem;
+              border-radius: 12px;
+              font-weight: 700;
+              font-size: 1.1rem;
+              cursor: pointer;
+              margin-bottom: 1.5rem;
+              width: 100%;
+            ">🎙️ Parler maintenant</button>
+
+            <div id="stt-status" style="display:none; margin-bottom:1rem;">
+              <div style="font-size:1.2rem; color:var(--ds-color-accent); font-weight:600;">
+                🎙️ Écoute en cours... Parlez maintenant
+              </div>
+              <div id="stt-feedback" style="margin-top:0.5rem; font-size:0.9rem; color:var(--ds-color-text-muted);"></div>
+            </div>
+
+            <div style="font-size:0.9rem; color:var(--ds-color-text-muted); margin-bottom:1rem;">
+              Ou choisissez une option :
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+              ${node.responseOptions.map((option, idx) => `
+                <button class="btn-response-option" data-index="${idx}" style="
+                  background: var(--ds-color-surface-2);
+                  color: var(--ds-color-text);
+                  border: 2px solid var(--ds-color-border);
+                  padding: 1rem;
+                  border-radius: 12px;
+                  cursor: pointer;
+                  text-align: left;
+                  transition: all 0.2s;
+                ">
+                  <div style="font-weight:600; margin-bottom:0.25rem;">${option.textFr}</div>
+                  <div style="font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">${option.textMg || ''}</div>
+                </button>
+              `).join('')}
+            </div>
           </div>
-        </div>
-      </section>
-    `;
+        </section>
+      `;
+
+          // ✅ NOUVEAU : Handler pour le bouton "Parler maintenant"
+      const btnSpeakNow = document.getElementById('btn-speak-now');
+      const sttStatus = document.getElementById('stt-status');
+      const sttFeedback = document.getElementById('stt-feedback');
+      
+      btnSpeakNow.addEventListener('click', async () => {
+        console.log('[ConversationEngine] Bouton Parler maintenant cliqué');
+        
+        // Changer le texte du bouton
+        btnSpeakNow.textContent = '🎙️ Écoute...';
+        btnSpeakNow.disabled = true;
+        btnSpeakNow.style.background = 'var(--ds-color-text-muted)';
+        
+        // Afficher le statut STT
+        sttStatus.style.display = 'block';
+        sttFeedback.textContent = 'Parlez maintenant...';
+        
+        // Vérifier si STTManager est disponible
+        const sttManager = window.sttManager;
+        if (!sttManager) {
+          sttFeedback.textContent = '❌ STT non disponible';
+          sttFeedback.style.color = 'var(--ds-color-danger)';
+          return;
+        }
+        
+        try {
+          await sttManager.startListening('fr-FR', {
+            onResult: (result) => {
+              console.log('[ConversationEngine] STT result:', result);
+              
+              const transcript = result.transcript || '';
+              
+              // Afficher la transcription
+              sttFeedback.innerHTML = `
+                <div style="color:var(--ds-color-success); font-weight:600;">✅ Vous avez dit :</div>
+                <div style="font-size:1rem; margin-top:0.25rem;">"${transcript}"</div>
+              `;
+              
+              // Chercher l'option correspondante
+              const matchedOption = this.#findMatchingOption(node.responseOptions, transcript);
+              
+              if (matchedOption) {
+                // Succès
+                sttFeedback.innerHTML += `
+                  <div style="margin-top:0.5rem; color:var(--ds-color-success);">✅ Correspondance trouvée !</div>
+                `;
+                
+                setTimeout(() => {
+                  this.#handleUserChoice(node, node.responseOptions[matchedOption.index], null);
+                }, 1500);
+              } else {
+                // Pas de correspondance
+                sttFeedback.innerHTML += `
+                  <div style="margin-top:0.5rem; color:var(--ds-color-danger);">❌ Aucune option correspondante</div>
+                `;
+                
+                // Réactiver le bouton après 2 secondes
+                setTimeout(() => {
+                  btnSpeakNow.textContent = '🎙️ Parler maintenant';
+                  btnSpeakNow.disabled = false;
+                  btnSpeakNow.style.background = 'var(--ds-color-accent)';
+                  sttStatus.style.display = 'none';
+                }, 2000);
+              }
+            },
+            onError: (error) => {
+              console.error('[ConversationEngine] STT error:', error);
+              sttFeedback.textContent = `❌ Erreur: ${error}`;
+              sttFeedback.style.color = 'var(--ds-color-danger)';
+              
+              setTimeout(() => {
+                btnSpeakNow.textContent = '🎙️ Parler maintenant';
+                btnSpeakNow.disabled = false;
+                btnSpeakNow.style.background = 'var(--ds-color-accent)';
+                sttStatus.style.display = 'none';
+              }, 2000);
+            }
+          });
+        } catch (error) {
+          console.error('[ConversationEngine] Erreur STT:', error);
+          sttFeedback.textContent = `❌ Erreur: ${error.message}`;
+        }
+      });
+
+      // Attacher les listeners aux boutons de réponse existants
+      document.querySelectorAll('.btn-response-option').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const idx = parseInt(btn.dataset.index);
+                   this.#handleUserChoice(node, node.responseOptions[idx], btn);
+        });
+      });
 
     const btnPlay = document.getElementById('btn-play-teacher');
     const btnNext = document.getElementById('btn-next-node');
@@ -392,6 +512,40 @@ export class ConversationEngine {
     if (this.#onComplete) this.#onComplete();
   }
 
+      /**
+   * Trouve l'option qui correspond le mieux à la transcription
+   */
+  #findMatchingOption(options, transcript) {
+    const normalizedTranscript = transcript.toLowerCase().trim();
+    
+    for (let i = 0; i < options.length; i++) {
+      const option = options[i];
+      const normalizedOption = option.textFr.toLowerCase().trim();
+      
+      // Correspondance exacte
+      if (normalizedTranscript === normalizedOption) {
+        return { index: i, score: 1.0 };
+      }
+      
+      // Correspondance partielle (au moins 60% des mots)
+      const transcriptWords = normalizedTranscript.split(/\s+/);
+      const optionWords = normalizedOption.split(/\s+/);
+      
+      const commonWords = transcriptWords.filter(w => optionWords.includes(w));
+      const matchScore = commonWords.length / Math.max(transcriptWords.length, optionWords.length);
+      
+      if (matchScore >= 0.6) {
+        return { index: i, score: matchScore };
+      }
+    }
+    
+    return null;
+  }
+
+  /**
+  /**
+   * Lit un texte en français avec synthèse vocale
+   */
   #speakFrench(text, rate = 0.9) {
     if (!('speechSynthesis' in window)) {
       console.warn('[ConversationEngine] SpeechSynthesis non supporté');
