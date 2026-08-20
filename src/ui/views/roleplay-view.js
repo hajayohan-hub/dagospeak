@@ -33,7 +33,23 @@ export class RolePlayView {
         <div style="font-size:2rem; margin-bottom:1rem;">🎭</div>
         <p>Famakiana ny Role Play...</p>
       </div>
+    <!-- ✅ Notification du mode STT -->
+            <div id="stt-mode-notification" style="
+              text-align: center;
+              padding: 0.75rem 1rem;
+              margin-bottom: 1rem;
+              border-radius: var(--ds-radius-md);
+              background: var(--ds-color-primary-soft);
+              border: 1px solid var(--ds-color-primary);
+              font-size: 0.9rem;
+            ">
+              <span style="color: var(--ds-color-primary); font-weight: 600;">
+                🎙️ Mode microphone actif
+              </span>
+      </div>
     `;
+
+
 
     try {
       // 1. Charger le dialogue
@@ -90,6 +106,11 @@ export class RolePlayView {
           </div>
         </div>
 
+            <!-- ✅ Notification du mode STT -->
+            <div id="stt-mode-notification" style="text-align:center; padding:0.75rem 1rem; margin-bottom:1rem; border-radius:var(--ds-radius-md); background:var(--ds-color-primary-soft); border:1px solid var(--ds-color-primary); font-size:0.9rem;">
+              <span style="color:var(--ds-color-primary); font-weight:600;">🎙️ Mode microphone actif</span>
+            </div>
+
         <div id="roleplay-container">
           <!-- RolePlayUI va injecter le contenu ici -->
         </div>
@@ -104,8 +125,8 @@ export class RolePlayView {
 
       // 6. Créer le moteur
       this.#engine = new RolePlayEngine(this.#dialogue, {
-        userRole: 'B',
         mode: mode,
+        
         eventBus: eventBus,
         sttManager: window.sttManager
       });

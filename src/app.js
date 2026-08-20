@@ -6020,6 +6020,11 @@ async function renderConversationLive() {
     main.innerHTML = `
       <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem;">
         <ds-button variant="ghost" size="sm" id="btn-back-conv" style="margin-bottom: 1rem;">← Retour</ds-button>
+          
+          <!-- ✅ Notification du mode STT -->
+          <div id="stt-mode-notification" style="text-align:center; padding:0.75rem 1rem; margin-bottom:1rem; border-radius:var(--ds-radius-md); background:var(--ds-color-primary-soft); border:1px solid var(--ds-color-primary); font-size:0.9rem;">
+            <span style="color:var(--ds-color-primary); font-weight:600;">🎙️ Mode microphone actif</span>
+          </div>
 
         <div style="text-align: center; margin-bottom: 2rem;">
           <div id="teacher-avatar-svg-container" style="display: flex; justify-content: center; align-items: center; margin: 1.5rem 0;"></div>
