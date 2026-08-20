@@ -143,14 +143,13 @@ export class RolePlayEngine {
     /**
    * Tour de l'utilisateur : lance le STT automatiquement
    */
-  async #startUserTurn() {
+    async #startUserTurn() {
     this.#state = 'USER_TURN';
     const line = this.#dialogue.lines[this.#currentIndex];
     const speaker = this.#dialogue.participants[line.speaker];
 
     console.log(`[RolePlayEngine] USER TURN START index=${this.#currentIndex}`);
 
-    // Émettre l'événement pour l'UI
     this.#emit('roleplay:user-turn', {
       index: this.#currentIndex,
       expectedText: this.#mode === 'guided' ? line.text : null,
@@ -159,24 +158,14 @@ export class RolePlayEngine {
       avatar: speaker.avatar
     });
 
-    // ✅ Lancer le STT automatiquement
-    console.log(`[RolePlayEngine] Appel de STTManager.startListening() pour index ${this.#currentIndex}`);
-    await this.#startListening();
-
-    // ✅ Ajouter un timeout pour afficher le bouton "Parler" si pas de réponse (15 secondes)
-    // Utiliser un nom de session unique pour éviter les doublons
-       sessionManager.setTimeout('roleplay-timeout', () => {
-      console.log(`[RolePlayEngine] Timeout STT pour index ${this.#currentIndex} (5s sans réponse)`);
-      this.#emit('roleplay:stt-timeout', {
-        index: this.#currentIndex
-      });
-    }, 7000);
+    // ✅ Utiliser la méthode qui inclut le timeout
+    await this.#startListeningWithTimeout();
   }
 
     /**
    * Relance le STT pour le tour utilisateur actuel (après timeout)
    */
-  retryUserTurn(index) {
+   retryUserTurn(index) {
     if (index !== this.#currentIndex) {
       console.warn(`[RolePlayEngine] retryUserTurn ignoré : index ${index} != currentIndex ${this.#currentIndex}`);
       return;
@@ -187,8 +176,24 @@ export class RolePlayEngine {
     // Annuler le timeout précédent
     sessionManager.cancel('roleplay-timeout');
     
-    // Relancer le STT
-    this.#startListening();
+    // ✅ Relancer avec timeout (pas juste #startListening)
+    this.#startListeningWithTimeout();
+  }
+
+    /**
+   * Démarre l'écoute STT avec timeout automatique
+   */
+  async #startListeningWithTimeout() {
+    console.log(`[RolePlayEngine] Appel de STTManager.startListening() pour index ${this.#currentIndex}`);
+    await this.#startListening();
+
+    // ✅ Planifier le timeout (7 secondes)
+    sessionManager.setTimeout('roleplay-timeout', () => {
+      console.log(`[RolePlayEngine] Timeout STT pour index ${this.#currentIndex} (7s sans réponse)`);
+      this.#emit('roleplay:stt-timeout', {
+        index: this.#currentIndex
+      });
+    }, 7000);
   }
 
   /**
