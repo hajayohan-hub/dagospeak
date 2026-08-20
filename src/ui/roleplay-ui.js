@@ -93,6 +93,9 @@ export class RolePlayUI {
       case 'roleplay:error':
         this.#renderError(data);
         break;
+      case 'roleplay:stt-timeout':
+        this.#showRetryButton(data);
+        break;
       case 'roleplay:partner-speaking':
         this.#renderPartnerTurn(data);
         break;
@@ -114,8 +117,117 @@ export class RolePlayUI {
     }
   }
 
-      /**
+    /**
+   * Affiche une notification et un bouton "Parler" après timeout
+   */
+  #showTimeoutNotification(data) {
+    const micIndicator = document.getElementById(`mic-indicator-${data.index}`);
+    const speechFeedback = document.getElementById(`speech-feedback-v2-${data.index}`);
+
+    // Changer l'indicateur du micro
+    if (micIndicator) {
+      micIndicator.textContent = '⏰';
+      micIndicator.style.animation = 'none';
+    }
+
+    // Afficher la notification et le bouton
+    if (speechFeedback) {
+      speechFeedback.innerHTML = `
+        <div style="background:var(--ds-color-warning-soft, #fef3c7); padding:1rem; border-radius:var(--ds-radius-md); border:1px solid var(--ds-color-warning, #f59e0b);">
+          <div style="color:var(--ds-color-warning, #f59e0b); font-weight:600; margin-bottom:0.75rem;">
+            ⏰ Le micro n'a rien détecté
+          </div>
+          <div style="margin-bottom:1rem; color:var(--ds-color-text);">
+            Voulez-vous réessayer ?
+          </div>
+          <ds-button variant="primary" size="lg" id="btn-retry-speak-${data.index}">
+            🎤 Parler maintenant
+          </ds-button>
+        </div>
+      `;
+
+      // Attacher le listener au bouton
+      const btnRetry = document.getElementById(`btn-retry-speak-${data.index}`);
+      if (btnRetry) {
+        btnRetry.addEventListener('click', () => {
+          console.log(`[RolePlayUI] Bouton retry cliqué pour index ${data.index}`);
+          this.#retrySTT(data.index);
+        });
+      }
+    }
+  }
+
+  
+
+    /**
+   * Affiche un bouton "Parler" si le joueur n'a pas parlé dans le délai
+   */
+  #showRetryButton(data) {
+    const micIndicator = document.getElementById(`mic-indicator-${data.index}`);
+    const speechFeedback = document.getElementById(`speech-feedback-v2-${data.index}`);
+
+    // Changer l'indicateur du micro
+    if (micIndicator) {
+      micIndicator.textContent = '⏰';
+      micIndicator.style.animation = 'none';
+    }
+
+    // Afficher le bouton "Parler"
+    if (speechFeedback) {
+      speechFeedback.innerHTML = `
+        <div style="text-align:center; padding:1rem; background:var(--ds-color-surface-2); border-radius:var(--ds-radius-md);">
+          <div style="margin-bottom:0.75rem; color:var(--ds-color-text-muted);">
+            Le micro n'a rien détecté. Voulez-vous réessayer ?
+          </div>
+          <ds-button variant="primary" size="lg" id="btn-retry-speak-${data.index}">
+            🎤 Parler maintenant
+          </ds-button>
+        </div>
+      `;
+
+      // Attacher le listener au bouton
+      const btnRetry = document.getElementById(`btn-retry-speak-${data.index}`);
+      if (btnRetry) {
+        btnRetry.addEventListener('click', () => {
+          console.log(`[RolePlayUI] Bouton retry cliqué pour index ${data.index}`);
+          this.#retrySTT(data.index);
+        });
+      }
+    }
+  }
+
+  /**
+   * Relance le STT manuellement
+   */
+  #retrySTT(index) {
+    // Cacher le bouton retry
+    const speechFeedback = document.getElementById(`speech-feedback-v2-${index}`);
+    if (speechFeedback) {
+      speechFeedback.innerHTML = `
+        <div style="text-align:center; color:var(--ds-color-primary);">
+          🎙️ Réécoute en cours...
+        </div>
+      `;
+    }
+
+    // Réactiver l'indicateur du micro
+    const micIndicator = document.getElementById(`mic-indicator-${index}`);
+    if (micIndicator) {
+      micIndicator.textContent = '🎙️';
+      micIndicator.style.animation = 'pulse 1.5s infinite';
+    }
+
+    // Relancer le STT via le moteur
+    if (this.#engine && this.#engine.retryUserTurn) {
+      this.#engine.retryUserTurn(index);
+    }
+  }
+
+  /**
    * Affiche le résultat du STT
+   */
+   /**
+   * Affiche le résultat du STT avec feedback visuel clair
    */
   #renderSTTResult(data) {
     const micIndicator = document.getElementById(`mic-indicator-${data.index}`);
@@ -127,11 +239,25 @@ export class RolePlayUI {
       micIndicator.style.animation = 'none';
     }
 
-    // Afficher la transcription
+    // Afficher la transcription avec un fond vert
     if (speechFeedback) {
       speechFeedback.innerHTML = `
-        <div style="color:var(--ds-color-text); margin-bottom:0.5rem;">
-          <strong>Vous avez dit :</strong> "${data.transcript}"
+        <div style="background:var(--ds-color-success-soft); padding:1rem; border-radius:var(--ds-radius-md); border:1px solid var(--ds-color-success);">
+          <div style="color:var(--ds-color-success); font-weight:bold; margin-bottom:0.5rem;">
+            🎤 Vous avez dit :
+          </div>
+          <div style="font-size:1.1rem; font-weight:500; color:var(--ds-color-text);">
+            "${data.transcript}"
+          </div>
+          ${data.isReal ? `
+            <div style="margin-top:0.5rem; font-size:0.85rem; color:var(--ds-color-text-muted);">
+              Confiance : ${Math.round((data.confidence || 0) * 100)}%
+            </div>
+          ` : `
+            <div style="margin-top:0.5rem; font-size:0.85rem; color:var(--ds-color-primary);">
+              Mode entraînement hors connexion
+            </div>
+          `}
         </div>
       `;
     }
