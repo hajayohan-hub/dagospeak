@@ -6644,10 +6644,13 @@ async function renderConversation() {
           scrollConversationToBottom();
 
 
-              document.getElementById('btn-continue').addEventListener('click', () => {
-                currentNodeId = node.nextNodeOnSuccess;
-                renderNode();
-              });
+              const btnContinue = document.getElementById("btn-continue");
+              if (btnContinue) {
+                btnContinue.addEventListener("click", () => {
+                  currentNodeId = node.nextNodeOnSuccess;
+                  renderNode();
+                });
+              }
 
             } else {
               if (clickedBtn) clickedBtn.style.borderColor = 'var(--ds-color-danger, #ef4444)';
