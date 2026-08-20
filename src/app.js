@@ -6706,7 +6706,7 @@ async function renderConversation() {
 
           // Ajout messge pédagogique
 
-                  function handleSTTResponse(btn, idx, expected, node, attempts, feedback) {
+                function handleSTTResponse(btn, idx, expected, node, attempts, feedback) {
               const currentFeedback = document.getElementById('feedback');
               
               // ✅ Toujours récupérer le bouton frais depuis le DOM
@@ -6717,6 +6717,53 @@ async function renderConversation() {
 
               const expectedFrench = expected;
               const isSimulation = sttManager.isSimulationMode();
+              
+              // ✅ TIMEOUT DE RÉCUPÉRATION UX (6 secondes)
+              let sttTimeoutId = null;
+              const STT_TIMEOUT_MS = 6000;
+              
+              const activateTimeout = () => {
+                sttTimeoutId = setTimeout(() => {
+                  console.log('[STT] ⏰ Timeout UX - utilisateur n\'a pas répondu');
+                  
+                  // Annuler l'écoute en cours si possible
+                  if (sttManager.stopListening) {
+                    sttManager.stopListening();
+                  }
+                  
+                  // Réactiver le bouton
+                  const timeoutBtn = document.querySelector(`.btn-microphone[data-idx="${idx}"]`);
+                  if (timeoutBtn) {
+                    timeoutBtn.textContent = '🎤 Parler maintenant';
+                    timeoutBtn.disabled = false;
+                    timeoutBtn.style.opacity = '1';
+                    timeoutBtn.style.cursor = 'pointer';
+                  }
+                  
+                  // Afficher le message de récupération
+                  if (currentFeedback) {
+                    currentFeedback.innerHTML = `
+                      <div style="background: var(--ds-color-primary-soft, #e0f2fe); padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-primary);">
+                        <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">💡</div>
+                        <p style="color: var(--ds-color-primary); font-weight: 600;">Prenez votre temps</p>
+                        <p style="color: var(--ds-color-text-muted); font-size: 0.9rem;">
+                          Cliquez sur le bouton pour réessayer, ou choisissez une autre option.
+                        </p>
+                      </div>
+                    `;
+                  }
+                }, STT_TIMEOUT_MS);
+              };
+              
+              const cancelTimeout = () => {
+                if (sttTimeoutId) {
+                  clearTimeout(sttTimeoutId);
+                  sttTimeoutId = null;
+                }
+              };
+              
+              // Démarrer le timeout
+              activateTimeout();
 
                   // ✅ MODE SIMULATION PÉDAGOGIQUE (hors-ligne)
                                         // ✅ MODE SIMULATION PÉDAGOGIQUE (hors-ligne)
@@ -6727,7 +6774,8 @@ async function renderConversation() {
                         onStart: () => {
                           console.log('[STT] 🎭 Écoute simulation démarrée');
                         },
-                                       onResult: (result) => {
+                                                  onResult: (result) => {
+                            cancelTimeout(); // ✅ Annuler le timeout
                             console.log('[STT] 🎭 Résultat simulation:', result);
                             
                             if (currentFeedback) {
@@ -6744,19 +6792,31 @@ async function renderConversation() {
                             freshBtn.textContent = '✅ Terminé';
                             freshBtn.disabled = true;
                             
-                            // ✅ Progression IMMÉDIATE (le simulateur a déjà attendu la fin de parole)
-                            const targetBtn = document.querySelector(`.btn-option[data-idx="${idx}"]`);
-                            if (targetBtn) {
-                              handleUserResponse(idx, node, attempts, currentFeedback, true);
-                            } else {
-                              console.warn('[STT] Bouton option non trouvé, passage au nœud suivant');
-                              currentNodeId = node.nextNodeOnSuccess;
-                              renderNode();
-                            }
+                            // Progression après 1.5s
+                            setTimeout(() => {
+                              const targetBtn = document.querySelector(`.btn-option[data-idx="${idx}"]`);
+                              if (targetBtn) {
+                                handleUserResponse(idx, node, attempts, currentFeedback, true);
+                              } else {
+                                console.warn('[STT] Bouton option non trouvé, passage au nœud suivant');
+                                currentNodeId = node.nextNodeOnSuccess;
+                                renderNode();
+                              }
+                            }, 1500);
                           },
-                          
-                          onError: (error) => {
+
+                                                  onError: (error) => {
+                          cancelTimeout(); // ✅ Annuler le timeout
                           console.error('[STT] 🎭 Erreur simulation:', error);
+                          
+                          // ✅ Réactiver le bouton
+                          const micBtn = document.querySelector(`.btn-microphone[data-idx="${idx}"]`);
+                          if (micBtn) {
+                            micBtn.textContent = '🎤 Parler maintenant';
+                            micBtn.disabled = false;
+                            micBtn.style.opacity = '1';
+                            micBtn.style.cursor = 'pointer';
+                          }
                           
                           if (error === 'no-speech') {
                             if (currentFeedback) {
@@ -6770,13 +6830,6 @@ async function renderConversation() {
                                 </div>
                               `;
                             }
-                            
-                            // ✅ SOLUTION DÉFINITIVE : Re-render le nœud pour réinitialiser TOUS les boutons
-                            setTimeout(() => {
-                              console.log('[STT] 🔄 Re-render du nœud pour réinitialiser les boutons');
-                              renderNode();
-                            }, 100);
-                            
                           } else {
                             if (currentFeedback) {
                               currentFeedback.innerHTML = `
