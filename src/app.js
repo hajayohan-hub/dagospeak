@@ -6706,10 +6706,14 @@ async function renderConversation() {
 
           // Ajout messge pédagogique
 
-        function handleSTTResponse(btn, idx, expected, node, attempts, feedback) {
-            const currentFeedback = document.getElementById('feedback');
-              btn.textContent = '🎤 Écoute...';
-              btn.disabled = true;
+                  function handleSTTResponse(btn, idx, expected, node, attempts, feedback) {
+              const currentFeedback = document.getElementById('feedback');
+              
+              // ✅ Toujours récupérer le bouton frais depuis le DOM
+              const freshBtn = document.querySelector(`.btn-microphone[data-idx="${idx}"]`) || btn;
+              
+              freshBtn.textContent = '🎤 Écoute...';
+              freshBtn.disabled = true;
 
               const expectedFrench = expected;
               const isSimulation = sttManager.isSimulationMode();
@@ -6736,8 +6740,9 @@ async function renderConversation() {
                             `;
                           }
                           
-                          btn.textContent = '✅ Terminé';
-                          btn.disabled = true;
+                            const freshBtn = document.querySelector(`.btn-microphone[data-idx="${idx}"]`) || btn;
+                            freshBtn.textContent = '✅ Terminé';
+                            freshBtn.disabled = true;
                           
                           // Progression après 1.5s
                           setTimeout(() => {
@@ -6756,7 +6761,7 @@ async function renderConversation() {
                           console.error('[STT] 🎭 Erreur simulation:', error);
                           
                           // ✅ Réactiver le bouton pour que l'utilisateur puisse réessayer
-                                                     // ✅ Réactiver le bouton pour que l'utilisateur puisse réessayer
+                          // ✅ Réactiver le bouton pour que l'utilisateur puisse réessayer
                             btn.textContent = '🎤 Prononcer cette réponse';
                             btn.disabled = false;
                             // ✅ Forcer le rafraîchissement visuel (important pour mobile)
@@ -6848,8 +6853,18 @@ async function renderConversation() {
                 },
                 onError: (error) => {
                   console.error('[STT] Erreur:', error);
-                  btn.textContent = '🎤 Prononcer cette réponse';
-                  btn.disabled = false;
+                                              // ✅ Réactiver le bouton frais pour que l'utilisateur puisse réessayer
+                            const freshBtn = document.querySelector(`.btn-microphone[data-idx="${idx}"]`);
+                            if (freshBtn) {
+                              freshBtn.textContent = '🎤 Prononcer cette réponse';
+                              freshBtn.disabled = false;
+                              freshBtn.style.opacity = '1';
+                              freshBtn.style.pointerEvents = 'auto';
+                              freshBtn.style.cursor = 'pointer';
+                              console.log('[STT] ✅ Bouton frais réactivé pour idx:', idx);
+                            } else {
+                              console.error('[STT] ❌ Bouton non trouvé pour idx:', idx);
+                            }
 
                   currentFeedback.innerHTML = `
                     <div style="background: #fee2e2; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-danger);">
