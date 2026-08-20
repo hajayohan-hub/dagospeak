@@ -6712,12 +6712,10 @@ async function renderConversation() {
               const isSimulation = sttManager.isSimulationMode();
 
                   // ✅ MODE SIMULATION PÉDAGOGIQUE (hors-ligne)
-                                      // ✅ MODE SIMULATION PÉDAGOGIQUE (hors-ligne)
+                                        // ✅ MODE SIMULATION PÉDAGOGIQUE (hors-ligne)
                     if (isSimulation) {
                       btn.textContent = '🎙️ Écoute en cours...';
                       
-                      // Utiliser startListening même en mode simulation
-                      // Le simulateur va déclencher onResult après détection de silence
                       sttManager.startListening('fr-FR', {
                         onStart: () => {
                           console.log('[STT] 🎭 Écoute simulation démarrée');
@@ -6725,48 +6723,64 @@ async function renderConversation() {
                         onResult: (result) => {
                           console.log('[STT] 🎭 Résultat simulation:', result);
                           
-                          // Feedback pédagogique
                           if (currentFeedback) {
                             currentFeedback.innerHTML = `
                               <div style="background: var(--ds-color-primary-soft, #e0f2fe); padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-primary);">
                                 <div style="font-size: 2rem;">✅</div>
                                 <p style="color: var(--ds-color-primary); font-weight: 600;">📶 Entraînement hors-ligne — Très bien !</p>
                                 <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">Tsara be !</p>
-                                <p style="color: var(--ds-color-text-muted); font-size: 0.85rem; margin-top: 0.5rem;">
-                                  💡 Connectez-vous pour une évaluation précise de votre prononciation.
-                                </p>
                               </div>
                             `;
                           }
                           
                           btn.textContent = '✅ Terminé';
+                          btn.disabled = true;
                           
-                          // Progression après que l'utilisateur a fini de parler
+                          // Progression après 1.5s
                           setTimeout(() => {
-                            handleUserResponse(idx, node, attempts, currentFeedback, true);
+                            // ✅ Vérifier que le bouton existe avant d'appeler handleUserResponse
+                            const targetBtn = document.querySelector(`.btn-option[data-idx="${idx}"]`);
+                            if (targetBtn) {
+                              handleUserResponse(idx, node, attempts, currentFeedback, true);
+                            } else {
+                              console.warn('[STT] Bouton option non trouvé, passage au nœud suivant');
+                              currentNodeId = node.nextNodeOnSuccess;
+                              renderNode();
+                            }
                           }, 1500);
                         },
                         onError: (error) => {
                           console.error('[STT] 🎭 Erreur simulation:', error);
                           
-                          if (currentFeedback) {
-                            currentFeedback.innerHTML = `
-                              <div style="background: #fef3c7; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-accent);">
-                                <p>⚠️ Erreur : ${error}</p>
-                                <button id="btn-retry-sim" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">🔁 Réessayer</button>
-                              </div>
-                            `;
-                            
-                          document.getElementById('btn-retry-sim').addEventListener('click', () => {
-                            btn.textContent = '🎤 Prononcer cette réponse';
-                            btn.disabled = false;
-                            currentFeedback.innerHTML = '';
-                          });
+                          // ✅ Réactiver le bouton pour que l'utilisateur puisse réessayer
+                          btn.textContent = '🎤 Prononcer cette réponse';
+                          btn.disabled = false;
+                          
+                          if (error === 'no-speech') {
+                            if (currentFeedback) {
+                              currentFeedback.innerHTML = `
+                                <div style="background: #fef3c7; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-accent);">
+                                  <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🎤</div>
+                                  <p style="color: var(--ds-color-accent); font-weight: 600;">Aucune parole détectée</p>
+                                  <p style="color: var(--ds-color-text-muted); font-size: 0.9rem;">
+                                    Cliquez sur le bouton pour réessayer, ou choisissez une autre option.
+                                  </p>
+                                </div>
+                              `;
+                            }
+                          } else {
+                            if (currentFeedback) {
+                              currentFeedback.innerHTML = `
+                                <div style="background: #fef3c7; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-accent);">
+                                  <p>⚠️ Erreur : ${error}</p>
+                                </div>
+                              `;
+                            }
                           }
                         }
                       });
                       
-                      return; // ✅ NE PAS appeler startListening() en dessous
+                      return;
                     }
               sttManager.startListening('fr-FR', {
                 onStart: () => {
