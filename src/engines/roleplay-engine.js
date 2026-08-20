@@ -165,12 +165,12 @@ export class RolePlayEngine {
 
     // ✅ Ajouter un timeout pour afficher le bouton "Parler" si pas de réponse (15 secondes)
     // Utiliser un nom de session unique pour éviter les doublons
-    sessionManager.setTimeout('roleplay-timeout', () => {
-      console.log(`[RolePlayEngine] Timeout STT pour index ${this.#currentIndex} (15s sans réponse)`);
+       sessionManager.setTimeout('roleplay-timeout', () => {
+      console.log(`[RolePlayEngine] Timeout STT pour index ${this.#currentIndex} (5s sans réponse)`);
       this.#emit('roleplay:stt-timeout', {
         index: this.#currentIndex
       });
-    }, 15000);
+    }, 7000);
   }
 
     /**
