@@ -132,7 +132,7 @@ export class RolePlayEngine {
         console.log(`[RolePlayEngine] TTS terminé pour tour ${this.#currentIndex}`);
         
         // Délai pédagogique avant de passer au tour suivant
-        sessionManager.setTimeout('roleplay', () => {
+        setTimeout(() => {
           this.#currentIndex++;
           this.#advanceToNextTurn();
         }, this.#config.delayAfterTTS);
@@ -163,13 +163,14 @@ export class RolePlayEngine {
     console.log(`[RolePlayEngine] Appel de STTManager.startListening() pour index ${this.#currentIndex}`);
     await this.#startListening();
 
-    // ✅ Ajouter un timeout pour afficher le bouton "Parler" si pas de réponse
-    sessionManager.setTimeout('roleplay', () => {
-      console.log(`[RolePlayEngine] Timeout STT pour index ${this.#currentIndex}`);
+    // ✅ Ajouter un timeout pour afficher le bouton "Parler" si pas de réponse (15 secondes)
+    // Utiliser un nom de session unique pour éviter les doublons
+    sessionManager.setTimeout('roleplay-timeout', () => {
+      console.log(`[RolePlayEngine] Timeout STT pour index ${this.#currentIndex} (15s sans réponse)`);
       this.#emit('roleplay:stt-timeout', {
         index: this.#currentIndex
       });
-    }, this.#config.sttTimeout);
+    }, 15000);
   }
 
     /**
@@ -198,6 +199,9 @@ export class RolePlayEngine {
       const result = await this.#sttManager.startListening('fr-FR', {
         onResult: (result) => {
           console.log(`[RolePlayEngine] STT result reçu pour index ${this.#currentIndex}:`, result);
+
+          // ✅ Annuler le timeout puisque le STT a reçu un résultat
+          sessionManager.cancel('roleplay-timeout');
           const transcript = result.transcript || '';
           const engine = result.isReal ? 'webspeech' : 'simulation';
           
@@ -210,25 +214,33 @@ export class RolePlayEngine {
           
           this.evaluateUserResponse(transcript, engine);
         },
-        onError: (error) => {
+           onError: (error) => {
           console.error(`[RolePlayEngine] STT error pour index ${this.#currentIndex}:`, error);
-          this.#emit('roleplay:error', {
-            index: this.#currentIndex,
-            error: error
-          });
+          
+          // ✅ Si c'est une erreur "no-speech", traiter comme un timeout immédiat
+          if (error === 'no-speech' || error === 'aborted') {
+            console.log(`[RolePlayEngine] Erreur no-speech détectée, affichage du bouton Parler`);
+            this.#emit('roleplay:stt-timeout', {
+              index: this.#currentIndex
+            });
+          } else {
+            this.#emit('roleplay:error', {
+              index: this.#currentIndex,
+              error: error
+            });
+          }
         }
-      });
-      
-      console.log(`[RolePlayEngine] STT relancé avec succès pour index ${this.#currentIndex}`);
-      
-      // ✅ Re-ajouter le timeout
-      sessionManager.setTimeout('roleplay', () => {
+      });  // ← Fermeture de l'objet et de l'appel startListening
+        
+        // ✅ Ajouter un timeout pour afficher le bouton "Parler" si pas de réponse
+        setTimeout(() => {
         console.log(`[RolePlayEngine] Timeout STT pour index ${this.#currentIndex}`);
         this.#emit('roleplay:stt-timeout', {
           index: this.#currentIndex
         });
-      }, this.#config.sttTimeout);
-    } catch (error) {
+        }, this.#config.sttTimeout || 15000);
+
+   } catch (error) {
       console.error(`[RolePlayEngine] Erreur dans #startListening pour index ${this.#currentIndex}:`, error);
       this.#emit('roleplay:error', {
         index: this.#currentIndex,
