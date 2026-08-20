@@ -364,8 +364,12 @@ export class RolePlayUI {
   🎤 À votre tour
           </div>
           </div>
-          <div id="mic-indicator-${data.index}" style="font-size:2.5rem; margin:0.5rem 0; animation:pulse 1.5s infinite;">
-            🎙️
+         <div id="mic-indicator-${data.index}" class="rp-mic-waves">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
           </div>
           <div style="font-size:0.9rem; color:var(--ds-color-text-muted);">
             Parlez maintenant, je vous écoute...
@@ -450,6 +454,20 @@ export class RolePlayUI {
 
     let html = '';
     let color = 'var(--ds-color-text-muted)';
+
+    // ajouter les confettis pour les scores > 85% :
+        if (data.score >= 0.85) {
+          html += `
+            <div class="rp-confetti-container">
+              <div class="rp-confetti-piece"></div>
+              <div class="rp-confetti-piece"></div>
+              <div class="rp-confetti-piece"></div>
+              <div class="rp-confetti-piece"></div>
+              <div class="rp-confetti-piece"></div>
+              <div class="rp-confetti-piece"></div>
+            </div>
+          `;
+        }
 
     // ✅ Afficher d'abord ce que l'utilisateur a dit
     if (data.transcript) {

@@ -1,0 +1,111 @@
+/* ═══════════════════════════════════════════════════════════ */
+/* ROLE PLAY — ANIMATIONS SPÉCIFIQUES                         */
+/* ═══════════════════════════════════════════════════════════ */
+
+/* --- Ondes sonores pour le micro actif --- */
+@keyframes mic-wave {
+  0%, 100% { height: 4px; }
+  50% { height: 24px; }
+}
+
+.rp-mic-waves {
+  display: flex;
+  gap: var(--ds-space-1);
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  margin: var(--ds-space-3) 0;
+}
+
+.rp-mic-waves span {
+  width: 4px;
+  background: var(--ds-color-accent);
+  border-radius: var(--ds-radius-xs);
+  animation: mic-wave 1.2s ease-in-out infinite;
+}
+
+.rp-mic-waves span:nth-child(2) { animation-delay: 0.1s; }
+.rp-mic-waves span:nth-child(3) { animation-delay: 0.2s; }
+.rp-mic-waves span:nth-child(4) { animation-delay: 0.3s; }
+.rp-mic-waves span:nth-child(5) { animation-delay: 0.4s; }
+
+/* --- Confettis pour les excellentes réponses --- */
+@keyframes confetti-fall {
+  0% { 
+    transform: translateY(-10px) rotate(0deg); 
+    opacity: 1; 
+  }
+  100% { 
+    transform: translateY(100px) rotate(720deg); 
+    opacity: 0; 
+  }
+}
+
+.rp-confetti-container {
+  position: relative;
+  height: 60px;
+  overflow: hidden;
+  margin-bottom: var(--ds-space-3);
+}
+
+.rp-confetti-piece {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--ds-radius-xs);
+  animation: confetti-fall 1.5s ease-in forwards;
+}
+
+.rp-confetti-piece:nth-child(1) { background: var(--ds-color-accent); left: 10%; animation-delay: 0s; }
+.rp-confetti-piece:nth-child(2) { background: var(--ds-color-success); left: 25%; animation-delay: 0.1s; }
+.rp-confetti-piece:nth-child(3) { background: var(--ds-color-primary); left: 40%; animation-delay: 0.2s; }
+.rp-confetti-piece:nth-child(4) { background: var(--ds-color-danger); left: 55%; animation-delay: 0.15s; }
+.rp-confetti-piece:nth-child(5) { background: var(--ds-color-info); left: 70%; animation-delay: 0.25s; }
+.rp-confetti-piece:nth-child(6) { background: var(--ds-color-accent-hover); left: 85%; animation-delay: 0.3s; }
+
+/* --- Animation de transition entre les tours --- */
+@keyframes turn-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rp-turn-enter {
+  animation: turn-slide-in 0.4s ease-out;
+}
+
+/* --- Respect des préférences utilisateur --- */
+@media (prefers-reduced-motion: reduce) {
+  .rp-mic-waves span {
+    animation: none;
+    height: 12px;
+  }
+  
+  .rp-confetti-piece {
+    animation: none;
+    opacity: 0;
+  }
+  
+  .rp-turn-enter {
+    animation: none;
+  }
+}
+
+/* --- Mode low-end : désactiver les animations coûteuses --- */
+html.low-end-mode .rp-mic-waves span {
+  animation: none;
+  height: 12px;
+}
+
+html.low-end-mode .rp-confetti-piece {
+  animation: none;
+}
+
+html.low-end-mode .rp-turn-enter {
+  animation: none;
+}

@@ -25,6 +25,18 @@ const STATIC_ASSETS = [
   '/content/fr/vocabulary/greetings.json', '/content/fr/vocabulary/body.json',
   '/content/fr/vocabulary/pronouns_basic.json',
 
+    // ✅ TOUS les dialogues pour Role Play
+  '/content/fr/dialogues/body_dialogue.json',
+  '/content/fr/dialogues/colors_dialogue.json',
+  '/content/fr/dialogues/days_dialogue.json',
+  '/content/fr/dialogues/family_dialogue.json',
+  '/content/fr/dialogues/greetings_dialogue.json',
+  '/content/fr/dialogues/market_dialogue.json',
+  '/content/fr/dialogues/months_dialogue.json',
+  '/content/fr/dialogues/numbers_dialogue.json',
+  '/content/fr/dialogues/numbers2_dialogue.json',
+  '/content/fr/dialogues/survival_dialogue.json',
+
   // Dictionary
   '/content/fr/dictionary/market.json', '/content/fr/dictionary/family.json',
   '/content/fr/dictionary/survival.json', '/content/fr/dictionary/numbers.json',
