@@ -6757,18 +6757,8 @@ async function renderConversation() {
                             }
                           }, 1500);
                         },
-                        onError: (error) => {
+                                               onError: (error) => {
                           console.error('[STT] 🎭 Erreur simulation:', error);
-                          
-                          // ✅ Réactiver le bouton pour que l'utilisateur puisse réessayer
-                          // ✅ Réactiver le bouton pour que l'utilisateur puisse réessayer
-                            btn.textContent = '🎤 Prononcer cette réponse';
-                            btn.disabled = false;
-                            // ✅ Forcer le rafraîchissement visuel (important pour mobile)
-                            btn.style.opacity = '1';
-                            btn.style.pointerEvents = 'auto';
-                            btn.style.cursor = 'pointer';
-                            console.log('[STT] ✅ Bouton réactivé:', btn.textContent);
                           
                           if (error === 'no-speech') {
                             if (currentFeedback) {
@@ -6782,6 +6772,13 @@ async function renderConversation() {
                                 </div>
                               `;
                             }
+                            
+                            // ✅ SOLUTION DÉFINITIVE : Re-render le nœud pour réinitialiser TOUS les boutons
+                            setTimeout(() => {
+                              console.log('[STT] 🔄 Re-render du nœud pour réinitialiser les boutons');
+                              renderNode();
+                            }, 100);
+                            
                           } else {
                             if (currentFeedback) {
                               currentFeedback.innerHTML = `
