@@ -54,13 +54,14 @@ export class RolePlayUI {
   /**
    * Attache les écouteurs d'événements au moteur via Event Bus
    */
-  #bindEvents() {
+   #bindEvents() {
     const events = [
       'roleplay:start',
       'roleplay:partner-speaking',
       'roleplay:user-turn',
       'roleplay:feedback',
       'roleplay:turn-start',
+      'roleplay:stt-timeout',  // ← CE ÉVÉNEMENT DOIT ÊTRE ICI
       'roleplay:complete',
       'roleplay:stopped'
     ];
@@ -86,14 +87,15 @@ export class RolePlayUI {
   /**
    * Gestionnaire central des événements
    */
-  #handleEvent(event, data) {
-    console.log(`[RolePlayUI] Événement: ${event}`, data);
-
+    #handleEvent(event, data) {
+    console.log(`[RolePlayUI] === handleEvent reçu: ${event}`, data);
+    
     switch (event) {
       case 'roleplay:error':
         this.#renderError(data);
         break;
       case 'roleplay:stt-timeout':
+        console.log('[RolePlayUI] >>> Appel de #showRetryButton');
         this.#showRetryButton(data);
         break;
       case 'roleplay:partner-speaking':
@@ -163,6 +165,12 @@ export class RolePlayUI {
    * Affiche un bouton "Parler" si le joueur n'a pas parlé dans le délai
    */
   #showRetryButton(data) {
+    // ✅ Vérifier si le bouton est déjà affiché (éviter les doublons)
+    const existingBtn = document.getElementById(`btn-retry-speak-${data.index}`);
+    if (existingBtn) {
+      console.log(`[RolePlayUI] Bouton retry déjà affiché pour index ${data.index}`);
+      return;
+    }
     const micIndicator = document.getElementById(`mic-indicator-${data.index}`);
     const speechFeedback = document.getElementById(`speech-feedback-v2-${data.index}`);
 
@@ -199,7 +207,9 @@ export class RolePlayUI {
   /**
    * Relance le STT manuellement
    */
-  #retrySTT(index) {
+   #retrySTT(index) {
+    console.log(`[RolePlayUI] #retrySTT appelé pour index ${index}`);
+    
     // Cacher le bouton retry
     const speechFeedback = document.getElementById(`speech-feedback-v2-${index}`);
     if (speechFeedback) {
@@ -222,7 +232,6 @@ export class RolePlayUI {
       this.#engine.retryUserTurn(index);
     }
   }
-
   /**
    * Affiche le résultat du STT
    */
