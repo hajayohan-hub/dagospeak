@@ -434,13 +434,24 @@ export class RolePlayUI {
   /**
    * Affiche le feedback après évaluation STT
    */
-  #renderFeedback(data) {
-    const speechFeedback = document.getElementById('speech-feedback-v2');
+   #renderFeedback(data) {
+    const speechFeedback = document.getElementById(`speech-feedback-v2-${data.index}`);
     if (!speechFeedback) return;
 
     let html = '';
     let color = 'var(--ds-color-text-muted)';
 
+    // ✅ Afficher d'abord ce que l'utilisateur a dit
+    if (data.transcript) {
+      html += `
+        <div style="background:var(--ds-color-success-soft); padding:0.75rem; border-radius:var(--ds-radius-md); margin-bottom:0.75rem;">
+          <div style="font-size:0.85rem; color:var(--ds-color-text-muted); margin-bottom:0.25rem;">Vous avez dit :</div>
+          <div style="font-size:1rem; font-weight:500;">"${data.transcript}"</div>
+        </div>
+      `;
+    }
+
+    // ✅ Puis le feedback
     switch (data.status) {
       case 'success':
         color = 'var(--ds-color-success)';
@@ -460,14 +471,6 @@ export class RolePlayUI {
         break;
     }
 
-    if (data.transcript) {
-      html += `<div style="margin-top:0.5rem; font-size:0.9rem;">Vous avez dit : <em>"${data.transcript}"</em></div>`;
-    }
-
-    if (data.expected && this.#mode === 'guided') {
-      html += `<div style="margin-top:0.25rem; font-size:0.85rem; color:var(--ds-color-text-muted);">Attendu : "${data.expected}"</div>`;
-    }
-
     if (data.score !== undefined) {
       const percent = Math.round(data.score * 100);
       html += `<div style="margin-top:0.5rem; font-size:0.85rem;">Correspondance : ${percent}%</div>`;
@@ -475,9 +478,10 @@ export class RolePlayUI {
 
     speechFeedback.innerHTML = html;
 
-    // Ajouter le feedback au feed si succès
     if (data.status === 'success' || data.status === 'acceptable' || data.status === 'simulation') {
-      this.#moveCurrentTurnToFeed(true, data);
+      setTimeout(() => {
+        this.#moveCurrentTurnToFeed(true, data);
+      }, 2000);
     }
   }
 
