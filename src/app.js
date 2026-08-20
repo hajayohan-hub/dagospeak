@@ -6756,8 +6756,14 @@ async function renderConversation() {
                           console.error('[STT] 🎭 Erreur simulation:', error);
                           
                           // ✅ Réactiver le bouton pour que l'utilisateur puisse réessayer
-                          btn.textContent = '🎤 Prononcer cette réponse';
-                          btn.disabled = false;
+                                                     // ✅ Réactiver le bouton pour que l'utilisateur puisse réessayer
+                            btn.textContent = '🎤 Prononcer cette réponse';
+                            btn.disabled = false;
+                            // ✅ Forcer le rafraîchissement visuel (important pour mobile)
+                            btn.style.opacity = '1';
+                            btn.style.pointerEvents = 'auto';
+                            btn.style.cursor = 'pointer';
+                            console.log('[STT] ✅ Bouton réactivé:', btn.textContent);
                           
                           if (error === 'no-speech') {
                             if (currentFeedback) {
