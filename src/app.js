@@ -6727,26 +6727,24 @@ async function renderConversation() {
                         onStart: () => {
                           console.log('[STT] 🎭 Écoute simulation démarrée');
                         },
-                        onResult: (result) => {
-                          console.log('[STT] 🎭 Résultat simulation:', result);
-                          
-                          if (currentFeedback) {
-                            currentFeedback.innerHTML = `
-                              <div style="background: var(--ds-color-primary-soft, #e0f2fe); padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-primary);">
-                                <div style="font-size: 2rem;">✅</div>
-                                <p style="color: var(--ds-color-primary); font-weight: 600;">📶 Entraînement hors-ligne — Très bien !</p>
-                                <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">Tsara be !</p>
-                              </div>
-                            `;
-                          }
-                          
+                                       onResult: (result) => {
+                            console.log('[STT] 🎭 Résultat simulation:', result);
+                            
+                            if (currentFeedback) {
+                              currentFeedback.innerHTML = `
+                                <div style="background: var(--ds-color-primary-soft, #e0f2fe); padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-primary);">
+                                  <div style="font-size: 2rem;">✅</div>
+                                  <p style="color: var(--ds-color-primary); font-weight: 600;">📶 Entraînement hors-ligne — Très bien !</p>
+                                  <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">Tsara be !</p>
+                                </div>
+                              `;
+                            }
+                            
                             const freshBtn = document.querySelector(`.btn-microphone[data-idx="${idx}"]`) || btn;
                             freshBtn.textContent = '✅ Terminé';
                             freshBtn.disabled = true;
-                          
-                          // Progression après 1.5s
-                          setTimeout(() => {
-                            // ✅ Vérifier que le bouton existe avant d'appeler handleUserResponse
+                            
+                            // ✅ Progression IMMÉDIATE (le simulateur a déjà attendu la fin de parole)
                             const targetBtn = document.querySelector(`.btn-option[data-idx="${idx}"]`);
                             if (targetBtn) {
                               handleUserResponse(idx, node, attempts, currentFeedback, true);
@@ -6755,9 +6753,9 @@ async function renderConversation() {
                               currentNodeId = node.nextNodeOnSuccess;
                               renderNode();
                             }
-                          }, 1500);
-                        },
-                                               onError: (error) => {
+                          },
+                          
+                          onError: (error) => {
                           console.error('[STT] 🎭 Erreur simulation:', error);
                           
                           if (error === 'no-speech') {

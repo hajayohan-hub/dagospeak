@@ -105,35 +105,113 @@ export class STTManager {
     return this.#startRealListening(lang, callbacks);
   }
 
-  /**
-   * Simulation d'écoute (mode offline)
+    /**
+   * Simulation d'écoute avec détection de fin de parole (VAD)
    */
   #simulateListening(callbacks) {
-    console.log('[STTManager] 🎭 Mode simulation activé');
+    console.log('[STTManager] 🎭 Mode simulation avec détection de fin de parole');
 
     callbacks.onStart?.();
     this.#isListening = true;
 
-    // Simuler un délai d'écoute (1-2 secondes)
-    const listenDuration = 1500 + Math.random() * 1000;
+    let hasStartedSpeaking = false;
+    let silenceStartTime = null;
+    let mediaStream = null;
+    let audioContext = null;
+    let analyser = null;
+    let animationFrameId = null;
 
-    setTimeout(() => {
-      this.#isListening = false;
+    const SILENCE_THRESHOLD = 0.01; // Seuil de silence (RMS)
+    const SILENCE_DURATION = 1500;  // 1.5s de silence = fin de parole
+    const MIN_SPEECH_DURATION = 500; // Durée minimum de parole avant de considérer la fin
 
-      // Simuler une reconnaissance (toujours "correcte" en mode encouragement)
-        callbacks.onResult?.({
-          transcript: '[Mode entraînement hors connexion]',
-          isReal: false,
-          confidence: 1.0
-        });
+    // Demander l'accès au microphone
+    navigator.mediaDevices.getUserMedia({ audio: true })
+      .then(stream => {
+        mediaStream = stream;
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = 2048;
 
-      callbacks.onEnd?.();
+        const source = audioContext.createMediaStreamSource(stream);
+        source.connect(analyser);
 
-      // Message pédagogique
-      console.log('[STTManager] 💡 Simulation terminée, feedback encourageant');
-    }, listenDuration);
+        const bufferLength = analyser.frequencyBinCount;
+        const dataArray = new Uint8Array(bufferLength);
+
+        const startTime = Date.now();
+
+        const checkAudio = () => {
+          analyser.getByteFrequencyData(dataArray);
+          
+          // Calculer le RMS (Root Mean Square) pour détecter le volume
+          let sum = 0;
+          for (let i = 0; i < bufferLength; i++) {
+            sum += dataArray[i] * dataArray[i];
+          }
+          const rms = Math.sqrt(sum / bufferLength) / 255;
+
+          const elapsed = Date.now() - startTime;
+
+          if (rms > SILENCE_THRESHOLD) {
+            // L'utilisateur parle
+            hasStartedSpeaking = true;
+            silenceStartTime = null;
+            console.log('[STTManager] 🎤 Parole détectée, RMS:', rms.toFixed(3));
+          } else if (hasStartedSpeaking) {
+            // Silence après avoir parlé
+            if (silenceStartTime === null) {
+              silenceStartTime = Date.now();
+            } else {
+              const silenceDuration = Date.now() - silenceStartTime;
+              
+              // Si silence assez long ET parole a duré assez longtemps
+              if (silenceDuration > SILENCE_DURATION && elapsed > MIN_SPEECH_DURATION) {
+                console.log('[STTManager] ✅ Fin de parole détectée après', silenceDuration, 'ms de silence');
+                
+                // Arrêter l'analyse
+                cancelAnimationFrame(animationFrameId);
+                this.#stopAudioStream(mediaStream, audioContext);
+                
+                // Simuler une reconnaissance
+                callbacks.onResult?.({
+                  transcript: '[Mode entraînement hors connexion]',
+                  isReal: false,
+                  confidence: 1.0
+                });
+                
+                callbacks.onEnd?.();
+                this.#isListening = false;
+                return;
+              }
+            }
+          }
+
+          // Continuer l'analyse
+          animationFrameId = requestAnimationFrame(checkAudio);
+        };
+
+        checkAudio();
+      })
+      .catch(error => {
+        console.error('[STTManager] ❌ Erreur accès micro:', error);
+        callbacks.onError?.('microphone-access-denied');
+        this.#isListening = false;
+      });
 
     return true;
+  }
+
+  /**
+   * Arrête proprement le flux audio
+   */
+  #stopAudioStream(stream, audioContext) {
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop());
+    }
+    if (audioContext && audioContext.state !== 'closed') {
+      audioContext.close();
+    }
   }
 
   /**
