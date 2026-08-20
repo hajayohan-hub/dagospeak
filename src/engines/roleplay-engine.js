@@ -16,6 +16,7 @@ export class RolePlayEngine {
   #state = 'IDLE'; // IDLE | PARTNER_SPEAKING | USER_TURN | FEEDBACK | ADVANCE
   #eventBus = null;
   #sttManager = null;
+  #sttTimeoutId = null;  // ← AJOUTER CETTE LIGNE
 
 
   // Configuration
@@ -208,10 +209,14 @@ export class RolePlayEngine {
       });
       
       // Timeout différent selon le mode
+            // Timeout différent selon le mode
+           // Timeout différent selon le mode (5s simulation, 8s web API)
       const timeoutDelay = isSimulation ? 5000 : 8000;
       
-      sessionManager.setTimeout('roleplay-timeout', () => {
-        console.log(`[RolePlayEngine] Timeout STT pour index ${this.#currentIndex} (${timeoutDelay}ms)`);
+      console.log(`[RolePlayEngine] ⏱️ Timeout programmé: ${timeoutDelay}ms pour index ${this.#currentIndex}`);
+      
+      setTimeout(() => {
+        console.log(`[RolePlayEngine] >>> Timeout déclenché pour index ${this.#currentIndex}`);
         this.#emit('roleplay:stt-timeout', {
           index: this.#currentIndex
         });
