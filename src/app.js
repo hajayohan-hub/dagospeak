@@ -6712,30 +6712,62 @@ async function renderConversation() {
               const isSimulation = sttManager.isSimulationMode();
 
                   // ✅ MODE SIMULATION PÉDAGOGIQUE (hors-ligne)
-                  if (isSimulation) {
-                    btn.textContent = '🎤 Parlez maintenant...';
-                    setTimeout(() => {
-                      btn.textContent = '🎤 Prononcer cette réponse';
-                      btn.disabled = false;
+                                      // ✅ MODE SIMULATION PÉDAGOGIQUE (hors-ligne)
+                    if (isSimulation) {
+                      btn.textContent = '🎙️ Écoute en cours...';
                       
-                      if (currentFeedback) {
-                        currentFeedback.innerHTML = `
-                          <div style="background: var(--ds-color-primary-soft, #e0f2fe); padding: 0.75rem; border-radius: 8px; border-left: 3px solid var(--ds-color-primary);">
-                            <p style="color: var(--ds-color-primary); font-weight: 600; margin: 0; font-size: 0.9rem;">
-                              📶 Entraînement hors-ligne — Bonne pratique !
-                            </p>
-                          </div>
-                        `;
-                      }
+                      // Utiliser startListening même en mode simulation
+                      // Le simulateur va déclencher onResult après détection de silence
+                      sttManager.startListening('fr-FR', {
+                        onStart: () => {
+                          console.log('[STT] 🎭 Écoute simulation démarrée');
+                        },
+                        onResult: (result) => {
+                          console.log('[STT] 🎭 Résultat simulation:', result);
+                          
+                          // Feedback pédagogique
+                          if (currentFeedback) {
+                            currentFeedback.innerHTML = `
+                              <div style="background: var(--ds-color-primary-soft, #e0f2fe); padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-primary);">
+                                <div style="font-size: 2rem;">✅</div>
+                                <p style="color: var(--ds-color-primary); font-weight: 600;">📶 Entraînement hors-ligne — Très bien !</p>
+                                <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">Tsara be !</p>
+                                <p style="color: var(--ds-color-text-muted); font-size: 0.85rem; margin-top: 0.5rem;">
+                                  💡 Connectez-vous pour une évaluation précise de votre prononciation.
+                                </p>
+                              </div>
+                            `;
+                          }
+                          
+                          btn.textContent = '✅ Terminé';
+                          
+                          // Progression après que l'utilisateur a fini de parler
+                          setTimeout(() => {
+                            handleUserResponse(idx, node, attempts, currentFeedback, true);
+                          }, 1500);
+                        },
+                        onError: (error) => {
+                          console.error('[STT] 🎭 Erreur simulation:', error);
+                          
+                          if (currentFeedback) {
+                            currentFeedback.innerHTML = `
+                              <div style="background: #fef3c7; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-accent);">
+                                <p>⚠️ Erreur : ${error}</p>
+                                <button id="btn-retry-sim" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">🔁 Réessayer</button>
+                              </div>
+                            `;
+                            
+                          document.getElementById('btn-retry-sim').addEventListener('click', () => {
+                            btn.textContent = '🎤 Prononcer cette réponse';
+                            btn.disabled = false;
+                            currentFeedback.innerHTML = '';
+                          });
+                          }
+                        }
+                      });
                       
-                      // ✅ Progression automatique après 1.5s
-                      setTimeout(() => {
-                        handleUserResponse(idx, node, attempts, currentFeedback, true);
-                      }, 1500);
-                    }, 1500);
-                    
-                    return; // ✅ NE PAS appeler startListening()
-                  }
+                      return; // ✅ NE PAS appeler startListening() en dessous
+                    }
               sttManager.startListening('fr-FR', {
                 onStart: () => {
                   console.log('[STT] Écoute démarrée');
