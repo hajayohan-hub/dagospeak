@@ -6023,6 +6023,11 @@ async function renderConversationLive() {
           
           <!-- ✅ Notification du mode STT -->
           <div id="stt-mode-notification" style="text-align:center; padding:0.75rem 1rem; margin-bottom:1rem; border-radius:var(--ds-radius-md); background:var(--ds-color-primary-soft); border:1px solid var(--ds-color-primary); font-size:0.9rem;">
+          
+          <!-- ✅ Notification du mode STT -->
+          <div id="stt-status-notification" style="text-align:center; padding:0.75rem 1rem; margin-bottom:1rem; border-radius:var(--ds-radius-md); background:var(--ds-color-surface-2); border:1px solid var(--ds-color-border); font-size:0.9rem;">
+            <span style="color:var(--ds-color-text-muted); font-weight:600;">Reconnaissance vocale : chargement...</span>
+          </div>
             <span style="color:var(--ds-color-primary); font-weight:600;">🎙️ Mode microphone actif</span>
           </div>
 
@@ -6089,6 +6094,21 @@ async function renderConversationLive() {
       if (window.pendingConversationLevel) {
         const requestedLevel = window.pendingConversationLevel;
         window.pendingConversationLevel = null; // Nettoyer
+        
+        // ✅ Mettre à jour la notification STT
+        const sttStatusNotification = document.getElementById("stt-status-notification");
+        if (sttStatusNotification && window.sttManager) {
+          const isSimulation = window.sttManager.isSimulationMode();
+          if (isSimulation) {
+            sttStatusNotification.innerHTML = '<span style="color:var(--ds-color-accent); font-weight:600;">🎭 Reconnaissance vocale : Mode simulation hors-ligne (évaluation simplifiée)</span>';
+            sttStatusNotification.style.background = "var(--ds-color-accent-soft, #fef3c7)";
+            sttStatusNotification.style.borderColor = "var(--ds-color-accent)";
+          } else {
+            sttStatusNotification.innerHTML = '<span style="color:var(--ds-color-primary); font-weight:600;">🌐 Reconnaissance vocale : Mode Web API (temps réel)</span>';
+            sttStatusNotification.style.background = "var(--ds-color-primary-soft)";
+            sttStatusNotification.style.borderColor = "var(--ds-color-primary)";
+          }
+        }
         
         const levelData = levels.find(l => l.id === requestedLevel);
         if (levelData && levelData.available) {
