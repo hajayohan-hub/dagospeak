@@ -111,6 +111,11 @@ export class RolePlayView {
               <span style="color:var(--ds-color-primary); font-weight:600;">🎙️ Mode microphone actif</span>
             </div>
 
+              <!-- ✅ Notification du mode STT -->
+              <div id="stt-status-notification" style="text-align:center; padding:0.75rem 1rem; margin-bottom:1rem; border-radius:var(--ds-radius-md); background:var(--ds-color-surface-2); border:1px solid var(--ds-color-border); font-size:0.9rem;">
+                <span style="color:var(--ds-color-text-muted); font-weight:600;">Reconnaissance vocale : chargement...</span>
+              </div>
+
         <div id="roleplay-container">
           <!-- RolePlayUI va injecter le contenu ici -->
         </div>
@@ -141,6 +146,21 @@ export class RolePlayView {
       document.getElementById('btn-back-roleplay').addEventListener('click', () => {
         this.#cleanup();
         if (window.router) {
+
+        // ✅ Mettre à jour la notification STT (Reconnaissance vocale)
+        const sttStatusNotification = document.getElementById("stt-status-notification");
+        if (sttStatusNotification && window.sttManager) {
+          const isSimulation = window.sttManager.isSimulationMode();
+          if (isSimulation) {
+            sttStatusNotification.innerHTML = '<span style="color:var(--ds-color-accent); font-weight:600;">🎭 Reconnaissance vocale : Mode simulation hors-ligne (évaluation simplifiée)</span>';
+            sttStatusNotification.style.background = "var(--ds-color-accent-soft, #fef3c7)";
+            sttStatusNotification.style.borderColor = "var(--ds-color-accent)";
+          } else {
+            sttStatusNotification.innerHTML = '<span style="color:var(--ds-color-primary); font-weight:600;">🌐 Reconnaissance vocale : Mode Web API (temps réel)</span>';
+            sttStatusNotification.style.background = "var(--ds-color-primary-soft)";
+            sttStatusNotification.style.borderColor = "var(--ds-color-primary)";
+          }
+        }
           window.router.navigate('/dialogues');
         }
       });
