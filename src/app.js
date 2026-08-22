@@ -5606,10 +5606,19 @@ async function renderThemeDetail() {
               <span style="font-weight:600; color:var(--ds-color-text);">📊 Progression</span>
               <span style="color:var(--ds-color-primary); font-weight:700;">${completedActivities}/${activityTypes.length} étapes</span>
             </div>
-            <div style="background:var(--ds-color-border); border-radius:20px; height:8px; overflow:hidden;">
-              <div style="height:100%; background:linear-gradient(90deg, var(--ds-color-success), var(--ds-color-primary)); width:${progressPercent}%; border-radius:20px;"></div>
+            <div id="progress-bar-container" style="background:var(--ds-color-border); border-radius:20px; height:8px; overflow:hidden;">
+              <div id="progress-bar-fill" style="height:100%; background:linear-gradient(90deg, var(--ds-color-success), var(--ds-color-primary)); width:${progressPercent}%; border-radius:20px;"></div>
             </div>
           </div>
+            <!-- Bannière de succès et confettis (cachés par défaut) -->
+            <div id="success-banner" style="display:none;" class="success-banner">
+              <span class="trophy">🏆</span>
+              <div>
+                <div>Thème complété ! +50 XP bonus</div>
+                <div style="font-size:0.85rem; opacity:0.9;">Arahaba ! Vita tamin'ny fahombiazana io lohahevitra io !</div>
+              </div>
+            </div>
+            <div id="confetti-container"></div>
         ${locked ? `
           <div style="background:var(--ds-color-primary-soft); padding:2rem; border-radius:var(--ds-radius-lg); border:2px solid var(--ds-color-primary); margin-bottom:2rem;">
             <div style="font-size:3rem; margin-bottom:1rem;">🔒</div>
@@ -5642,6 +5651,14 @@ async function renderThemeDetail() {
               .chain-icon.completed { background: var(--ds-color-success); color: white; }
               .chain-icon.pending { background: var(--ds-color-surface-2); color: var(--ds-color-text-muted); border: 1px solid var(--ds-color-border); }
               .chain-icon.current { background: var(--ds-color-primary); color: white; animation: pulse-focus 2s infinite; }
+                @keyframes confetti-fall { 0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
+                @keyframes banner-slide { 0% { transform: translateY(-100%); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
+                @keyframes glow-gold { 0%, 100% { box-shadow: 0 0 10px rgba(255, 215, 0, 0.5); } 50% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.9), 0 0 35px rgba(255, 215, 0, 0.6); } }
+                @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+                .success-banner { position: fixed; top: 70px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--ds-color-success), #059669); color: white; padding: 1rem 2rem; border-radius: var(--ds-radius-lg); box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3); z-index: 10000; animation: banner-slide 0.5s ease-out; display: flex; align-items: center; gap: 12px; font-weight: 600; }
+                .success-banner .trophy { font-size: 2rem; animation: bounce 1s infinite; }
+                .progress-bar-glow { animation: glow-gold 2s infinite; }
+                .confetti-piece { position: fixed; width: 10px; height: 10px; top: -10px; z-index: 9999; animation: confetti-fall linear forwards; }
             </style>
             <div style="display:flex; flex-direction:column; gap:1rem; text-align:left;">
               <div class="activity-card" id="card-lessons" style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:2px solid var(--ds-color-border); animation: staggerIn 0.5s ease-out 0.1s backwards;">
@@ -5747,6 +5764,48 @@ async function renderThemeDetail() {
               nextActivity = type;
               focusApplied = true;
               // Mettre à jour le connecteur vers l'activité courante
+          
+          // ✅ Déclencher la célébration si le thème est complété
+          if (completedActivities === activityTypes.length) {
+            console.log('[ThemeDetail] 🎉 Thème complété, déclenchement célébration');
+            
+            // 1. Afficher la bannière de succès
+            const banner = document.getElementById('success-banner');
+            if (banner) {
+              banner.style.display = 'flex';
+              setTimeout(() => { banner.style.display = 'none'; }, 5000);
+            }
+            
+            // 2. Ajouter l'effet de glow doré à la barre de progression
+            const progressBar = document.getElementById('progress-bar-fill');
+            if (progressBar) {
+              progressBar.classList.add('progress-bar-glow');
+            }
+            
+            // 3. Créer les confettis
+            const container = document.getElementById('confetti-container');
+            if (container) {
+              const colors = ['#3B82F6', '#10B981', '#F59E0B', '#8B5CF6', '#EC4899'];
+              for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti-piece';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                container.appendChild(confetti);
+              }
+              // Nettoyer après 4 secondes
+              setTimeout(() => { container.innerHTML = ''; }, 4000);
+            }
+            
+            // 4. Message vocal du Teacher Avatar
+            if (window.teacherAvatar && window.teacherAvatar.speak) {
+              setTimeout(() => {
+                window.teacherAvatar.speak("Félicitations ! Tu as complété ce thème ! Tu es prêt pour le suivant.");
+              }, 1000);
+            }
+          }
               if (index > 0) {
                 const connector = document.getElementById(`chain-${index}`);
                 if (connector) {
