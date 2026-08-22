@@ -5692,6 +5692,35 @@ async function renderThemeDetail() {
       document.getElementById('btn-dialogues')?.addEventListener('click', () => router.navigate('/dialogues'));
     }
 
+
+      // ✅ Appliquer les badges et le mode focus
+      if (!locked) {
+        setTimeout(() => {
+          const journeys = journeyTracker.getCompletedJourneys();
+          const activityOrder = ['lessons', 'practices', 'phraseLessons', 'phrasePractices', 'dialogues'];
+          let nextActivity = null;
+          let focusApplied = false;
+          activityOrder.forEach((type) => {
+            const card = document.getElementById(`card-${type}`);
+            const badge = document.getElementById(`badge-${type}`);
+            if (!card || !badge) return;
+            const isCompleted = journeys[type]?.includes(currentTheme);
+            if (isCompleted) {
+              card.classList.add('completed');
+              badge.textContent = '✓ Terminé';
+              badge.style.background = 'var(--ds-color-success)';
+              badge.style.color = 'white';
+            } else if (!nextActivity) {
+              card.classList.add('current');
+              badge.textContent = '👉 Continuez ici';
+              badge.style.background = 'var(--ds-color-primary)';
+              badge.style.color = 'white';
+              nextActivity = type;
+              focusApplied = true;
+            }
+          });
+        }, 100);
+      }
     window.teacherAvatar.show('theme-detail');
   } catch (e) {
     console.error(' Erreur renderThemeDetail:', e);
