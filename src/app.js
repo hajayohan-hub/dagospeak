@@ -5625,11 +5625,23 @@ async function renderThemeDetail() {
             <style>
               @keyframes staggerIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
               @keyframes pulse-soft { 0%, 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.5); } 50% { box-shadow: 0 0 0 8px rgba(59, 130, 246, 0); } }
-              .activity-card { transition: all 0.3s ease; cursor: pointer; }
+              @keyframes pulse-focus { 0%, 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7), 0 0 20px rgba(59, 130, 246, 0.3); } 50% { box-shadow: 0 0 0 12px rgba(59, 130, 246, 0), 0 0 30px rgba(59, 130, 246, 0.5); } }
+              .activity-card { transition: all 0.3s ease; cursor: pointer; position: relative; }
               .activity-card:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 8px 20px rgba(0,0,0,0.1); border-color: var(--ds-color-primary); }
               .activity-card.completed { background: linear-gradient(135deg, var(--ds-color-surface) 0%, rgba(16, 185, 129, 0.05) 100%); border-color: var(--ds-color-success); opacity: 0.85; }
-              .activity-card.current { background: linear-gradient(135deg, var(--ds-color-surface) 0%, rgba(59, 130, 246, 0.08) 100%); border-color: var(--ds-color-primary); animation: pulse-soft 2s infinite; }
+              .activity-card.current { background: linear-gradient(135deg, var(--ds-color-surface) 0%, rgba(59, 130, 246, 0.08) 100%); border: 3px solid var(--ds-color-primary); animation: pulse-focus 2s infinite; transform: scale(1.03); box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2); }
+              .activity-card.current:hover { transform: scale(1.05); }
+              .activity-card.pending { opacity: 0.6; }
+              .activity-card.pending:hover { opacity: 0.9; }
               .status-badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; margin-left: 8px; }
+              .time-estimate { display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; color: var(--ds-color-text-muted); background: var(--ds-color-surface-2); padding: 2px 8px; border-radius: 10px; margin-top: 0.5rem; }
+              .chain-connector { display: flex; justify-content: center; height: 20px; position: relative; }
+              .chain-connector::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: var(--ds-color-border); transform: translateX(-50%); }
+              .chain-connector.completed::before { background: var(--ds-color-success); }
+              .chain-icon { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; z-index: 1; }
+              .chain-icon.completed { background: var(--ds-color-success); color: white; }
+              .chain-icon.pending { background: var(--ds-color-surface-2); color: var(--ds-color-text-muted); border: 1px solid var(--ds-color-border); }
+              .chain-icon.current { background: var(--ds-color-primary); color: white; animation: pulse-focus 2s infinite; }
             </style>
             <div style="display:flex; flex-direction:column; gap:1rem; text-align:left;">
               <div class="activity-card" id="card-lessons" style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:2px solid var(--ds-color-border); animation: staggerIn 0.5s ease-out 0.1s backwards;">
@@ -5637,40 +5649,49 @@ async function renderThemeDetail() {
                   <h3 style="margin:0; color:var(--ds-color-text); font-size:1rem;">📖 Étape 1 : Les Mots</h3>
                   <span id="badge-lessons" class="status-badge"></span>
                 </div>
-                <p style="margin:0 0 0.75rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">Écoutez et répétez chaque mot</p>
-                <ds-button id="btn-lesson-words" variant="primary" size="md" style="width:100%;">Apprendre les mots</ds-button>
+                <p style="margin:0 0 0.5rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">Écoutez et répétez chaque mot</p>
+                <div class="time-estimate">⏱️ ≈ 5 min</div>
+                <ds-button id="btn-lesson-words" variant="primary" size="md" style="width:100%; margin-top:0.75rem;">Apprendre les mots</ds-button>
               </div>
+              <div class="chain-connector" id="chain-1"></div>
               <div class="activity-card" id="card-practices" style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:2px solid var(--ds-color-border); animation: staggerIn 0.5s ease-out 0.2s backwards;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
                   <h3 style="margin:0; color:var(--ds-color-text); font-size:1rem;">🎯 Étape 2 : Révision des Mots</h3>
                   <span id="badge-practices" class="status-badge"></span>
                 </div>
-                <p style="margin:0 0 0.75rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">Quiz + Shadowing sur les mots</p>
-                <ds-button id="btn-practice-words" variant="success" size="md" style="width:100%;">Réviser les mots</ds-button>
+                <p style="margin:0 0 0.5rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">Quiz + Shadowing sur les mots</p>
+                <div class="time-estimate">⏱️ ≈ 8 min</div>
+                <ds-button id="btn-practice-words" variant="success" size="md" style="width:100%; margin-top:0.75rem;">Réviser les mots</ds-button>
               </div>
+              <div class="chain-connector" id="chain-2"></div>
               <div class="activity-card" id="card-phraseLessons" style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:2px solid var(--ds-color-border); animation: staggerIn 0.5s ease-out 0.3s backwards;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
                   <h3 style="margin:0; color:var(--ds-color-text); font-size:1rem;">📝 Étape 3 : Les Phrases de contexte</h3>
                   <span id="badge-phraseLessons" class="status-badge"></span>
                 </div>
-                <p style="margin:0 0 0.75rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">Écoutez et répétez les phrases complètes</p>
-                <ds-button id="btn-lesson-phrases" variant="primary" size="md" style="width:100%;">Apprendre les phrases</ds-button>
+                <p style="margin:0 0 0.5rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">Écoutez et répétez les phrases complètes</p>
+                <div class="time-estimate">⏱️ ≈ 7 min</div>
+                <ds-button id="btn-lesson-phrases" variant="primary" size="md" style="width:100%; margin-top:0.75rem;">Apprendre les phrases</ds-button>
               </div>
+              <div class="chain-connector" id="chain-3"></div>
               <div class="activity-card" id="card-phrasePractices" style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:2px solid var(--ds-color-border); animation: staggerIn 0.5s ease-out 0.4s backwards;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
                   <h3 style="margin:0; color:var(--ds-color-text); font-size:1rem;">🎯 Étape 4 : Révision des Phrases</h3>
                   <span id="badge-phrasePractices" class="status-badge"></span>
                 </div>
-                <p style="margin:0 0 0.75rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">Quiz + Shadowing sur les phrases</p>
-                <ds-button id="btn-practice-phrases" variant="success" size="md" style="width:100%;">Réviser les phrases</ds-button>
+                <p style="margin:0 0 0.5rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">Quiz + Shadowing sur les phrases</p>
+                <div class="time-estimate">⏱️ ≈ 8 min</div>
+                <ds-button id="btn-practice-phrases" variant="success" size="md" style="width:100%; margin-top:0.75rem;">Réviser les phrases</ds-button>
               </div>
+              <div class="chain-connector" id="chain-4"></div>
               <div class="activity-card" id="card-dialogues" style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:2px solid var(--ds-color-border); animation: staggerIn 0.5s ease-out 0.5s backwards;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
                   <h3 style="margin:0; color:var(--ds-color-text); font-size:1rem;">💬 Étape 5 : Dialogue</h3>
                   <span id="badge-dialogues" class="status-badge"></span>
                 </div>
-                <p style="margin:0 0 0.75rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">Conversation complète avec Role Play</p>
-                <ds-button id="btn-dialogues" variant="accent" size="md" style="width:100%;">Faire le dialogue</ds-button>
+                <p style="margin:0 0 0.5rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">Conversation complète avec Role Play</p>
+                <div class="time-estimate">⏱️ ≈ 10 min</div>
+                <ds-button id="btn-dialogues" variant="accent" size="md" style="width:100%; margin-top:0.75rem;">Faire le dialogue</ds-button>
               </div>
             </div>
         `}
@@ -5700,7 +5721,7 @@ async function renderThemeDetail() {
           const activityOrder = ['lessons', 'practices', 'phraseLessons', 'phrasePractices', 'dialogues'];
           let nextActivity = null;
           let focusApplied = false;
-          activityOrder.forEach((type) => {
+          activityOrder.forEach((type, index) => {
             const card = document.getElementById(`card-${type}`);
             const badge = document.getElementById(`badge-${type}`);
             if (!card || !badge) return;
@@ -5710,6 +5731,14 @@ async function renderThemeDetail() {
               badge.textContent = '✓ Terminé';
               badge.style.background = 'var(--ds-color-success)';
               badge.style.color = 'white';
+              // Mettre à jour le connecteur
+              if (index > 0) {
+                const connector = document.getElementById(`chain-${index}`);
+                if (connector) {
+                  connector.classList.add('completed');
+                  connector.innerHTML = '<span class="chain-icon completed">✓</span>';
+                }
+              }
             } else if (!nextActivity) {
               card.classList.add('current');
               badge.textContent = '👉 Continuez ici';
@@ -5717,6 +5746,22 @@ async function renderThemeDetail() {
               badge.style.color = 'white';
               nextActivity = type;
               focusApplied = true;
+              // Mettre à jour le connecteur vers l'activité courante
+              if (index > 0) {
+                const connector = document.getElementById(`chain-${index}`);
+                if (connector) {
+                  connector.innerHTML = '<span class="chain-icon current">🎯</span>';
+                }
+              }
+            } else {
+              card.classList.add('pending');
+              // Connecteur pour les activités futures
+              if (index > 0) {
+                const connector = document.getElementById(`chain-${index}`);
+                if (connector) {
+                  connector.innerHTML = '<span class="chain-icon pending">○</span>';
+                }
+              }
             }
           });
         }, 100);
