@@ -5586,6 +5586,12 @@ async function renderThemeDetail() {
     const themeName = themeNames[currentTheme] || currentTheme;
     const locked = isThemeLocked(currentTheme, profile);
 
+      // ✅ Calculer la progression pour cette page
+      const journeys = journeyTracker.getCompletedJourneys();
+      const activityTypes = ['lessons', 'practices', 'phraseLessons', 'phrasePractices', 'dialogues'];
+      const completedActivities = activityTypes.filter(type => journeys[type]?.includes(currentTheme)).length;
+      const progressPercent = (completedActivities / activityTypes.length) * 100;
+
     main.innerHTML = `
       <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem; text-align:center;">
         <ds-button variant="ghost" size="sm" id="btn-back-themes" style="margin-bottom: 1rem; float:left;">← Thèmes</ds-button>
