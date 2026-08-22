@@ -5534,6 +5534,13 @@ async function renderThemeDetail() {
     const themeName = isPart1 ? 'Alphabet - Partie 1 (A-M)' : 'Alphabet - Partie 2 (N-Z)';
     const titleMg = isPart1 ? 'Alfabe - Ampahany 1 (A-M)' : 'Alfabe - Ampahany 2 (N-Z)';
 
+
+      // ✅ Calculer la progression pour cette page
+      const journeys = journeyTracker.getCompletedJourneys();
+      const activityTypes = ['lessons', 'practices', 'phraseLessons', 'phrasePractices', 'dialogues'];
+      const completedActivities = activityTypes.filter(type => journeys[type]?.includes(currentTheme)).length;
+      const progressPercent = (completedActivities / activityTypes.length) * 100;
+
     main.innerHTML = `
       <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem; text-align:center;">
         <ds-button variant="ghost" size="sm" id="btn-back-themes" style="margin-bottom: 1rem; float:left;">← Thèmes</ds-button>
@@ -5560,6 +5567,33 @@ async function renderThemeDetail() {
     `;
     document.getElementById('btn-back-themes').addEventListener('click', () => router.navigate('/themes'));
     document.getElementById('btn-start-alphabet').addEventListener('click', () => router.navigate('/alphabet'));
+
+      // ✅ Mettre à jour les indicateurs visuels
+      if (!locked) {
+        setTimeout(() => {
+          const journeys = journeyTracker.getCompletedJourneys();
+          const activityOrder = ['lessons', 'practices', 'phraseLessons', 'phrasePractices', 'dialogues'];
+          let nextActivity = null;
+          activityOrder.forEach((type) => {
+            const card = document.getElementById(`card-${type}`);
+            const badge = document.getElementById(`badge-${type}`);
+            if (!card || !badge) return;
+            const isCompleted = journeys[type]?.includes(currentTheme);
+            if (isCompleted) {
+              card.classList.add('completed');
+              badge.textContent = '✓ Terminé';
+              badge.style.background = 'var(--ds-color-success)';
+              badge.style.color = 'white';
+            } else if (!nextActivity) {
+              card.classList.add('current');
+              badge.textContent = '👉 Continuez ici';
+              badge.style.background = 'var(--ds-color-primary)';
+              badge.style.color = 'white';
+              nextActivity = type;
+            }
+          });
+        }, 100);
+      }
     window.teacherAvatar.show('theme-detail');
     return; // ⚠️ IMPORTANT : sortir de la fonction ici
   }
@@ -5586,7 +5620,17 @@ async function renderThemeDetail() {
           <span style="background:var(--ds-color-accent); color:white; padding:4px 12px; border-radius:20px; font-weight:600; font-size:0.8rem;">Niveau ${currentLevel}</span>
         </div>
         <h1 style="margin-top:1rem; color:var(--ds-color-primary);">${themeName}</h1>
-        <p style="color:var(--ds-color-text-muted); margin-bottom: 2rem;">${unitData.themeMg || ''} • ${unitData.items.length} mots</p>
+        <p style="color:var(--ds-color-text-muted); margin-bottom: 1rem;">${unitData.themeMg || ''} • ${unitData.items.length} mots</p>
+          <!-- Barre de progression globale -->
+          <div style="background:var(--ds-color-surface-2); padding:1rem; border-radius:var(--ds-radius-md); margin-bottom:1.5rem; text-align:left;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+              <span style="font-weight:600; color:var(--ds-color-text);">📊 Progression</span>
+              <span style="color:var(--ds-color-primary); font-weight:700;">${completedActivities}/${activityTypes.length} étapes</span>
+            </div>
+            <div style="background:var(--ds-color-border); border-radius:20px; height:8px; overflow:hidden;">
+              <div style="height:100%; background:linear-gradient(90deg, var(--ds-color-success), var(--ds-color-primary)); width:${progressPercent}%; border-radius:20px;"></div>
+            </div>
+          </div>
         ${locked ? `
           <div style="background:var(--ds-color-primary-soft); padding:2rem; border-radius:var(--ds-radius-lg); border:2px solid var(--ds-color-primary); margin-bottom:2rem;">
             <div style="font-size:3rem; margin-bottom:1rem;">🔒</div>
@@ -5599,33 +5643,57 @@ async function renderThemeDetail() {
             </ds-button>
           </div>
         ` : `
-          <div style="display:flex; flex-direction:column; gap:1rem; text-align:left;">
-            <div style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:1px solid var(--ds-color-border);">
-              <h3 style="margin:0 0 0.5rem 0; color:var(--ds-color-text); font-size:1rem;">📖 Étape 1 : Les Mots</h3>
-              <p style="margin:0 0 0.25rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">Écoutez et répétez chaque mot</p>
-              <ds-button id="btn-lesson-words" variant="primary" size="md" style="width:100%;">1. Apprendre les mots</ds-button>
+            <style>
+              @keyframes staggerIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+              @keyframes pulse-soft { 0%, 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.5); } 50% { box-shadow: 0 0 0 8px rgba(59, 130, 246, 0); } }
+              .activity-card { transition: all 0.3s ease; cursor: pointer; }
+              .activity-card:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 8px 20px rgba(0,0,0,0.1); border-color: var(--ds-color-primary); }
+              .activity-card.completed { background: linear-gradient(135deg, var(--ds-color-surface) 0%, rgba(16, 185, 129, 0.05) 100%); border-color: var(--ds-color-success); opacity: 0.85; }
+              .activity-card.current { background: linear-gradient(135deg, var(--ds-color-surface) 0%, rgba(59, 130, 246, 0.08) 100%); border-color: var(--ds-color-primary); animation: pulse-soft 2s infinite; }
+              .status-badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; margin-left: 8px; }
+            </style>
+            <div style="display:flex; flex-direction:column; gap:1rem; text-align:left;">
+              <div class="activity-card" id="card-lessons" style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:2px solid var(--ds-color-border); animation: staggerIn 0.5s ease-out 0.1s backwards;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+                  <h3 style="margin:0; color:var(--ds-color-text); font-size:1rem;">📖 Étape 1 : Les Mots</h3>
+                  <span id="badge-lessons" class="status-badge"></span>
+                </div>
+                <p style="margin:0 0 0.75rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">Écoutez et répétez chaque mot</p>
+                <ds-button id="btn-lesson-words" variant="primary" size="md" style="width:100%;">Apprendre les mots</ds-button>
+              </div>
+              <div class="activity-card" id="card-practices" style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:2px solid var(--ds-color-border); animation: staggerIn 0.5s ease-out 0.2s backwards;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+                  <h3 style="margin:0; color:var(--ds-color-text); font-size:1rem;">🎯 Étape 2 : Révision des Mots</h3>
+                  <span id="badge-practices" class="status-badge"></span>
+                </div>
+                <p style="margin:0 0 0.75rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">Quiz + Shadowing sur les mots</p>
+                <ds-button id="btn-practice-words" variant="success" size="md" style="width:100%;">Réviser les mots</ds-button>
+              </div>
+              <div class="activity-card" id="card-phraseLessons" style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:2px solid var(--ds-color-border); animation: staggerIn 0.5s ease-out 0.3s backwards;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+                  <h3 style="margin:0; color:var(--ds-color-text); font-size:1rem;">📝 Étape 3 : Les Phrases de contexte</h3>
+                  <span id="badge-phraseLessons" class="status-badge"></span>
+                </div>
+                <p style="margin:0 0 0.75rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">Écoutez et répétez les phrases complètes</p>
+                <ds-button id="btn-lesson-phrases" variant="primary" size="md" style="width:100%;">Apprendre les phrases</ds-button>
+              </div>
+              <div class="activity-card" id="card-phrasePractices" style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:2px solid var(--ds-color-border); animation: staggerIn 0.5s ease-out 0.4s backwards;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+                  <h3 style="margin:0; color:var(--ds-color-text); font-size:1rem;">🎯 Étape 4 : Révision des Phrases</h3>
+                  <span id="badge-phrasePractices" class="status-badge"></span>
+                </div>
+                <p style="margin:0 0 0.75rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">Quiz + Shadowing sur les phrases</p>
+                <ds-button id="btn-practice-phrases" variant="success" size="md" style="width:100%;">Réviser les phrases</ds-button>
+              </div>
+              <div class="activity-card" id="card-dialogues" style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:2px solid var(--ds-color-border); animation: staggerIn 0.5s ease-out 0.5s backwards;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+                  <h3 style="margin:0; color:var(--ds-color-text); font-size:1rem;">💬 Étape 5 : Dialogue</h3>
+                  <span id="badge-dialogues" class="status-badge"></span>
+                </div>
+                <p style="margin:0 0 0.75rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">Conversation complète avec Role Play</p>
+                <ds-button id="btn-dialogues" variant="accent" size="md" style="width:100%;">Faire le dialogue</ds-button>
+              </div>
             </div>
-            <div style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:1px solid var(--ds-color-border);">
-              <h3 style="margin:0 0 0.5rem 0; color:var(--ds-color-text); font-size:1rem;">🎯 Étape 2 : Révision des Mots</h3>
-              <p style="margin:0 0 0.25rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">Quiz + Shadowing sur les mots</p>
-              <ds-button id="btn-practice-words" variant="success" size="md" style="width:100%;">2. Réviser les mots</ds-button>
-            </div>
-            <div style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:1px solid var(--ds-color-border);">
-              <h3 style="margin:0 0 0.5rem 0; color:var(--ds-color-text); font-size:1rem;">📝 Étape 3 : Les Phrases de contexte</h3>
-              <p style="margin:0 0 0.25rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">Écoutez et répétez les phrases complètes</p>
-              <ds-button id="btn-lesson-phrases" variant="primary" size="md" style="width:100%;">3. Apprendre les phrases</ds-button>
-            </div>
-            <div style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:1px solid var(--ds-color-border);">
-              <h3 style="margin:0 0 0.5rem 0; color:var(--ds-color-text); font-size:1rem;">🎯 Étape 4 : Révision des Phrases</h3>
-              <p style="margin:0 0 0.25rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">Quiz + Shadowing sur les phrases</p>
-              <ds-button id="btn-practice-phrases" variant="success" size="md" style="width:100%;">4. Réviser les phrases</ds-button>
-            </div>
-            <div style="background:var(--ds-color-surface); padding:1rem; border-radius:var(--ds-radius-md); border:1px solid var(--ds-color-border);">
-              <h3 style="margin:0 0 0.5rem 0; color:var(--ds-color-text); font-size:1rem;">💬 Étape 5 : Dialogue</h3>
-              <p style="margin:0 0 0.25rem 0; font-size:0.85rem; color:var(--ds-color-text-muted); font-style:italic;">Conversation complète avec Role Play</p>
-              <ds-button id="btn-dialogues" variant="accent" size="md" style="width:100%;">5. Faire le dialogue</ds-button>
-            </div>
-          </div>
         `}
       </section>
     `;
