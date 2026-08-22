@@ -5567,34 +5567,6 @@ async function renderThemeDetail() {
     `;
     document.getElementById('btn-back-themes').addEventListener('click', () => router.navigate('/themes'));
     document.getElementById('btn-start-alphabet').addEventListener('click', () => router.navigate('/alphabet'));
-
-      // ✅ Mettre à jour les indicateurs visuels
-      if (!locked) {
-        setTimeout(() => {
-          const journeys = journeyTracker.getCompletedJourneys();
-          const activityTypes = ['lessons', 'practices', 'phraseLessons', 'phrasePractices', 'dialogues'];
-          const activityOrder = ['lessons', 'practices', 'phraseLessons', 'phrasePractices', 'dialogues'];
-          let nextActivity = null;
-          activityOrder.forEach((type) => {
-            const card = document.getElementById(`card-${type}`);
-            const badge = document.getElementById(`badge-${type}`);
-            if (!card || !badge) return;
-            const isCompleted = journeys[type]?.includes(currentTheme);
-            if (isCompleted) {
-              card.classList.add('completed');
-              badge.textContent = '✓ Terminé';
-              badge.style.background = 'var(--ds-color-success)';
-              badge.style.color = 'white';
-            } else if (!nextActivity) {
-              card.classList.add('current');
-              badge.textContent = '👉 Continuez ici';
-              badge.style.background = 'var(--ds-color-primary)';
-              badge.style.color = 'white';
-              nextActivity = type;
-            }
-          });
-        }, 100);
-      }
     window.teacherAvatar.show('theme-detail');
     return; // ⚠️ IMPORTANT : sortir de la fonction ici
   }
