@@ -64,10 +64,7 @@ export class RolePlayView {
 
       console.log(`[RolePlayView] Dialogue chargé: ${this.#dialogue.id} (${this.#dialogue.lines.length} lignes)`);
 
-      // 2. Désactiver TeacherAvatar pendant la session
-      if (window.teacherAvatar) {
-        window.teacherAvatar.setSessionActive(true);
-      }
+      // 2. Teacher Avatar reste actif pour guider l'utilisateur
 
       // 3. Annuler tout TTS/STT précédent
       ttsService.cancel();
@@ -260,6 +257,13 @@ export class RolePlayView {
    */
   #showCompletionButtons() {
     console.log('[RolePlayView] Affichage des boutons de complétion');
+
+    // ✅ Guider vers le Défi/Challenge à la fin
+    if (window.teacherAvatar && this.#mode === 'guided') {
+      setTimeout(() => {
+        window.teacherAvatar.show('roleplay-complete');
+      }, 1500);
+    }
     
     const container = document.getElementById('roleplay-container');
     if (!container) {

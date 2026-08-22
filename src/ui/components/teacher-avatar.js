@@ -311,10 +311,15 @@ export class TeacherAvatar {
             speak: "Lisez et écoutez la conversation."
           },
           'roleplay': {
-            fr: "Jouez les deux rôles de la conversation.",
-            mg: "Milalao anjara asa roa.",
-            speak: "Jouez les deux rôles de la conversation."
+              fr: "Mémorisez les expressions correspondantes à votre rôle.",
+              mg: "Tadidio ny fitenenana mifanaraka amin'ny anjara asanao.",
+              speak: "Mémorisez les expressions correspondantes à votre rôle."
           },
+            'roleplay-complete': {
+              fr: "Prêt pour le test ? Cliquez sur le bouton Défi pour être testé.",
+              mg: "Vonona ho amin'ny fitsapana? Tsindrio ny bokotra Fanamby.",
+              speak: "Prêt pour le test. Cliquez sur le bouton Défi pour être testé."
+            },
           'challenge': {
             fr: "Défi ! Parlez sans voir les réponses.",
             mg: "Fanamby ! Mitenena tsy mijery.",
