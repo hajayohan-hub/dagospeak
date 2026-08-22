@@ -4163,6 +4163,13 @@ syncProfileWithJourneys();
     try {
       await window.rolePlayView.render(main, themeId, 'guided');
       console.log('[RolePlayV2] ✅ render() terminé avec succès');
+        
+        // ✅ Guider l utilisateur avec le Teacher Avatar (message de mémorisation)
+        if (window.teacherAvatar) {
+          setTimeout(() => {
+            window.teacherAvatar.show('roleplay');
+          }, 800);
+        }
     } catch (e) {
       console.error('[RolePlayV2] ❌ Erreur dans render():', e);
       main.innerHTML = `
