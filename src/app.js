@@ -5572,6 +5572,7 @@ async function renderThemeDetail() {
       if (!locked) {
         setTimeout(() => {
           const journeys = journeyTracker.getCompletedJourneys();
+          const activityTypes = ['lessons', 'practices', 'phraseLessons', 'phrasePractices', 'dialogues'];
           const activityOrder = ['lessons', 'practices', 'phraseLessons', 'phrasePractices', 'dialogues'];
           let nextActivity = null;
           activityOrder.forEach((type) => {
