@@ -5695,8 +5695,11 @@ async function renderThemeDetail() {
 
       // ✅ Appliquer les badges et le mode focus
       if (!locked) {
+        console.log('[ThemeDetail] Application des badges, locked:', locked);
         setTimeout(() => {
+          console.log('[ThemeDetail] setTimeout exécuté');
           const journeys = journeyTracker.getCompletedJourneys();
+          console.log('[ThemeDetail] Journeys:', journeys);
           const activityOrder = ['lessons', 'practices', 'phraseLessons', 'phrasePractices', 'dialogues'];
           let nextActivity = null;
           let focusApplied = false;
