@@ -6746,7 +6746,7 @@ async function renderConversationLive() {
     // Initialiser le SVG avatar
      // Initialiser l'avatar avec cascade de fallback (3D → SVG → emoji)
       try {
-        const module = await import('./ui/components/teacher-avatar-renderer.js');
+        const module = await import('/src/ui/components/teacher-avatar-renderer.js');
         const TeacherAvatarRenderer = module.TeacherAvatarRenderer;
 
 
@@ -6899,7 +6899,7 @@ async function renderConversationLive() {
 async function mountLiveAvatar() {
   try {
     if (!window.TeacherAvatarRendererClass) {
-      const module = await import('./ui/components/teacher-avatar-renderer.js');
+      const module = await import('/src/ui/components/teacher-avatar-renderer.js');
       window.TeacherAvatarRendererClass = module.TeacherAvatarRenderer;
     }
     const avatar = new window.TeacherAvatarRendererClass('live-teacher-avatar');
