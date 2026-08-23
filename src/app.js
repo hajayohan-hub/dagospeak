@@ -230,6 +230,62 @@ function getProfileData() {
     
     // ✅ Activités de cette semaine
     const weekActivities = last30Days.slice(-7).reduce((sum, day) => sum + day.count, 0);
+    
+    // ✅ OBJECTIFS MENSUELS
+    const monthlyGoal = 20; // Objectif : 20 jours d'apprentissage par mois
+    const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
+    
+    // Compter les jours actifs ce mois-ci
+    let activeDaysThisMonth = 0;
+    last30Days.forEach(day => {
+      const dayDate = new Date(day.date);
+      if (dayDate.getMonth() === currentMonth && dayDate.getFullYear() === currentYear && day.count > 0) {
+        activeDaysThisMonth++;
+      }
+    });
+    
+    const monthlyProgress = Math.round((activeDaysThisMonth / monthlyGoal) * 100);
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    const daysRemaining = daysInMonth - new Date().getDate();
+    
+    // ✅ STATISTIQUES PRÉDICTIVES
+    const avgActivitiesPerDay = last30Days.reduce((sum, day) => sum + day.count, 0) / 30;
+    const predictedMonthlyDays = Math.min(daysInMonth, Math.round(avgActivitiesPerDay * daysInMonth));
+    
+    // Comparaison semaine actuelle vs précédente
+    const thisWeek = last30Days.slice(-7).reduce((sum, day) => sum + day.count, 0);
+    const lastWeek = last30Days.slice(-14, -7).reduce((sum, day) => sum + day.count, 0);
+    const weekComparison = lastWeek > 0 ? Math.round(((thisWeek - lastWeek) / lastWeek) * 100) : 0;
+    
+    // ✅ RECOMMANDATIONS INTELLIGENTES
+    let recommendation = '';
+    
+    // Vérifier si l'utilisateur n'a pas fait de conversation récemment
+    let daysSinceConversation = 0;
+    for (let i = last30Days.length - 1; i >= 0; i--) {
+      const day = last30Days[i];
+      const dayHistory = activityHistory[day.date] || {};
+      
+      // Vérifier s'il y a eu des dialogues ce jour-là
+      const hasDialogue = Object.keys(dayHistory).some(key => key.includes('dialogues'));
+      
+      if (hasDialogue) {
+        break;
+      } else {
+        daysSinceConversation++;
+      }
+    }
+    
+    if (daysSinceConversation >= 3 && activeDaysThisMonth > 0) {
+      recommendation = "Tsy nanao resaka ianao nandritra ny " + daysSinceConversation + " andro lasa. Andramo ny dialogues !";
+    } else if (thisWeek > lastWeek && weekComparison > 20) {
+      recommendation = "Tsara be! Nitranga " + weekComparison + "% bebe kokoa ny herinandro ity noho ny teo aloha.";
+    } else if (activeDaysThisMonth < monthlyGoal && daysRemaining <= 7) {
+      recommendation = "Mila manao asa " + (monthlyGoal - activeDaysThisMonth) + " andro hafa ianao amin'ity volana ity. Maika !";
+    } else if (activeDaysThisMonth >= monthlyGoal) {
+      recommendation = "Arahaba! Nahatratra ny tanjonao ianao amin'ity volana ity!";
+    }
 
     // ✅ Calcul du niveau CECR
     let level = 'A0';
@@ -278,6 +334,13 @@ function getProfileData() {
         bestStreak: bestStreak,
         weekActivities: weekActivities,
         last30Days: last30Days,
+        monthlyGoal: monthlyGoal,
+        activeDaysThisMonth: activeDaysThisMonth,
+        monthlyProgress: monthlyProgress,
+        daysRemaining: daysRemaining,
+        avgActivitiesPerDay: avgActivitiesPerDay.toFixed(1),
+        weekComparison: weekComparison,
+        recommendation: recommendation,
       badges: badges,
       completedJourneys: completedCount,
       totalJourneys: totalJourneys,
@@ -1159,7 +1222,10 @@ const heroHtml = `
 
       <!-- ✅ CALENDRIER DE STREAK -->
       <div style="background:var(--ds-color-surface); padding:1.5rem; border-radius:var(--ds-radius-lg); margin:2rem 0; border:1px solid var(--ds-color-border);">
-        <h3 style="margin:0 0 1rem 0; color:var(--ds-color-text); font-size:1.2rem;">📅 Calendrier d'apprentissage</h3>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+          <h3 style="margin:0; color:var(--ds-color-text); font-size:1.2rem;">📅 Calendrier d'apprentissage</h3>
+          <button id="btn-calendar-help" style="background:var(--ds-color-primary-soft); border:none; width:28px; height:28px; border-radius:50%; cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center;" title="Aide">❓</button>
+        </div>
         
         <!-- Statistiques -->
         <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:1rem; margin-bottom:1.5rem;">
@@ -1175,6 +1241,26 @@ const heroHtml = `
             <div style="font-size:2rem; font-weight:700; color:var(--ds-color-accent);">⚡ ${profileData.weekActivities}</div>
             <div style="font-size:0.85rem; color:var(--ds-color-text-muted);">Cette semaine</div>
           </div>
+
+        <!-- ✅ OBJECTIFS MENSUELS -->
+        <div style="margin-top:1.5rem; padding:1rem; background:var(--ds-color-surface-2); border-radius:var(--ds-radius-md);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+            <span style="font-weight:600; color:var(--ds-color-text);">🎯 Objectif du mois</span>
+            <span style="font-weight:700; color:var(--ds-color-primary);">${profileData.monthlyGoal} jours</span>
+          </div>
+          <div style="background:var(--ds-color-border); border-radius:10px; height:12px; overflow:hidden; margin-bottom:0.5rem;">
+            <div style="height:100%; background:linear-gradient(90deg, var(--ds-color-primary), var(--ds-color-success)); width:${profileData.monthlyProgress}%; border-radius:10px; transition:width 0.5s ease;"></div>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:0.85rem; color:var(--ds-color-text-muted);">
+            <span>${profileData.monthlyProgress}% complété</span>
+            <span>${profileData.daysRemaining} jours restants</span>
+          </div>
+          ${profileData.monthlyGoal - profileData.activeDaysThisMonth <= 5 && profileData.activeDaysThisMonth < profileData.monthlyGoal ? `
+          <div style="margin-top:0.75rem; padding:0.5rem; background:var(--ds-color-warning-soft); border-radius:var(--ds-radius-sm); text-align:center;">
+            <p style="margin:0; font-size:0.9rem; color:var(--ds-color-warning); font-weight:600;">💪 Encore ${profileData.monthlyGoal - profileData.activeDaysThisMonth} jours pour ton badge mensuel !</p>
+          </div>
+          ` : ''}
+        </div>
         </div>
         
         <!-- Grille du calendrier -->
@@ -1201,6 +1287,18 @@ const heroHtml = `
           <div style="width:12px; height:12px; background:#216e39; border-radius:2px;"></div>
           <span>Plus</span>
         </div>
+
+        <!-- ✅ RECOMMANDATIONS INTELLIGENTES -->
+        ${profileData.recommendation ? `
+        <div style="margin-top:1.5rem; padding:1rem; background:var(--ds-color-accent-soft); border-radius:var(--ds-radius-md); border-left:4px solid var(--ds-color-accent);">
+          <p style="margin:0; font-weight:600; color:var(--ds-color-accent); display:flex; align-items:center; gap:8px;">
+            💡 Recommandation :
+          </p>
+          <p style="margin:0.5rem 0 0 0; font-size:0.9rem; color:var(--ds-color-text);">
+            ${profileData.recommendation}
+          </p>
+        </div>
+        ` : ''}
         
         <!-- Message de motivation -->
         ${profileData.streak > 0 ? `
@@ -1701,6 +1799,77 @@ const heroHtml = `
     }
 
     renderFloatingHomeButtons();
+
+    // ✅ MODAL D'AIDE EN MALGACHE
+    const helpModalHtml = `
+      <div id="calendar-help-modal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index:10000; align-items:center; justify-content:center;">
+        <div style="background:var(--ds-color-surface); padding:2rem; border-radius:var(--ds-radius-lg); max-width:500px; max-height:80vh; overflow-y:auto; box-shadow:0 10px 40px rgba(0,0,0,0.2);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+            <h3 style="margin:0; color:var(--ds-color-text); font-size:1.3rem;">📅 Ahoana ny fiasan'ny kalandrie ?</h3>
+            <button id="btn-close-help" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--ds-color-text-muted);">✕</button>
+          </div>
+          
+          <div>
+            <div style="margin-bottom:1rem;">
+              <h4 style="margin:0 0 0.5rem 0; color:var(--ds-color-primary);">✅ Fanangonana ny asa</h4>
+              <p style="margin:0; font-size:0.9rem; color:var(--ds-color-text);">Isaky ny mianatra ianao (leçons, pratiques, dialogues), dia voarakitra avy hatrany ny asanao.</p>
+            </div>
+            
+            <div style="margin-bottom:1rem;">
+              <h4 style="margin:0 0 0.5rem 0; color:var(--ds-color-success);">🟢 Famantarana ny loko</h4>
+              <p style="margin:0; font-size:0.9rem; color:var(--ds-color-text);">
+                ⚪ Fotsy = Tsy nianatra<br>
+                🟢 Maitso maivana = 1-2 asa<br>
+                🟢 Maitso = 3-4 asa<br>
+                🟢 Maitso matroka = 5-6 asa<br>
+                🟢 Maitso matroka be = 7+ asa
+              </p>
+            </div>
+            
+            <div style="margin-bottom:1rem;">
+              <h4 style="margin:0 0 0.5rem 0; color:var(--ds-color-warning);">🔥 Streak</h4>
+              <p style="margin:0; font-size:0.9rem; color:var(--ds-color-text);">Ny streak dia ny isa n'andro mifanesy nianaranao. Mianara isan'andro mba hitazona azy !</p>
+            </div>
+            
+            <div style="margin-bottom:1rem;">
+              <h4 style="margin:0 0 0.5rem 0; color:var(--ds-color-accent);">🎯 Tanjona</h4>
+              <p style="margin:0; font-size:0.9rem; color:var(--ds-color-text);">Ny tanjona dia ny hahatratra ny isan'andro voafaritra isam-bolana mba hahazoana badge manokana.</p>
+            </div>
+            
+            <div>
+              <h4 style="margin:0 0 0.5rem 0; color:var(--ds-color-primary);">💡 Torohevitra</h4>
+              <p style="margin:0; font-size:0.9rem; color:var(--ds-color-text);">
+                • Mianara isan'andro na dia fohy aza<br>
+                • Ampiasao ny fotoana malalaka<br>
+                • Araho ny toromarika eo amin'ny kalandrie
+              </p>
+            </div>
+          </div>
+          
+          <button id="btn-close-help-footer" style="width:100%; margin-top:1.5rem; padding:0.75rem; background:var(--ds-color-primary); color:white; border:none; border-radius:var(--ds-radius-md); font-weight:600; cursor:pointer;">
+            Azo !
+          </button>
+        </div>
+      </div>
+    `;
+    
+    // Ajouter le modal au DOM
+    const helpModalContainer = document.createElement('div');
+    helpModalContainer.innerHTML = helpModalHtml;
+    document.body.appendChild(helpModalContainer.firstElementChild);
+    
+    // Gestionnaires d'événements
+    document.getElementById('btn-calendar-help')?.addEventListener('click', () => {
+      document.getElementById('calendar-help-modal').style.display = 'flex';
+    });
+    
+    document.getElementById('btn-close-help')?.addEventListener('click', () => {
+      document.getElementById('calendar-help-modal').style.display = 'none';
+    });
+    
+    document.getElementById('btn-close-help-footer')?.addEventListener('click', () => {
+      document.getElementById('calendar-help-modal').style.display = 'none';
+    });
 
     // ✅ Nettoyer le bouton d'installation quand on quitte l'accueil
       window.addEventListener('hashchange', () => {
