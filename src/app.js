@@ -263,21 +263,53 @@ function getProfileData() {
     
     // Vérifier si l'utilisateur n'a pas fait de conversation récemment
     let daysSinceConversation = 0;
-    for (let i = last30Days.length - 1; i >= 0; i--) {
-      const day = last30Days[i];
-      const dayHistory = activityHistory[day.date] || {};
-      
-      // Vérifier s'il y a eu des dialogues ce jour-là
-      const hasDialogue = Object.keys(dayHistory).some(key => key.includes('dialogues'));
-      
-      if (hasDialogue) {
-        break;
-      } else {
-        daysSinceConversation++;
-      }
+    let daysSinceLive = 0;
+    
+    // Charger l'historique détaillé pour vérifier les types d'activités
+    let detailedHistory = {};
+    try {
+      const detailedRaw = localStorage.getItem('dagospeak:detailedActivityHistory');
+      if (detailedRaw) detailedHistory = JSON.parse(detailedRaw);
+    } catch (e) {
+      console.warn('[Profile] Erreur lecture detailedActivityHistory:', e);
     }
     
-    if (daysSinceConversation >= 3 && activeDaysThisMonth > 0) {
+    // Compter les jours depuis la dernière conversation/dialogue
+    for (let i = last30Days.length - 1; i >= 0; i--) {
+      const day = last30Days[i];
+      const dayDetailed = detailedHistory[day.date] || { activities: [] };
+      
+      // Vérifier s'il y a eu des dialogues ou conversations live
+      const hasDialogue = dayDetailed.activities.some(act => 
+        act.type === 'dialogues' || act.type === 'live-conversation'
+      );
+      
+      const hasLive = dayDetailed.activities.some(act => act.type === 'live-conversation');
+      
+      if (hasDialogue) break;
+      daysSinceConversation++;
+    }
+    
+    // Compter les jours depuis la dernière conversation LIVE spécifiquement
+    for (let i = last30Days.length - 1; i >= 0; i--) {
+      const day = last30Days[i];
+      const dayDetailed = detailedHistory[day.date] || { activities: [] };
+      const hasLive = dayDetailed.activities.some(act => act.type === 'live-conversation');
+      if (hasLive) break;
+      daysSinceLive++;
+    }
+    
+    // Compter le total de conversations live
+    let totalLiveSessions = 0;
+    Object.values(detailedHistory).forEach(day => {
+      if (day.activities) {
+        totalLiveSessions += day.activities.filter(act => act.type === 'live-conversation').length;
+      }
+    });
+    
+    if (daysSinceLive >= 2 && activeDaysThisMonth > 0) {
+      recommendation = "Tsy nanao resaka mivantana (Live) ianao nandritra ny " + daysSinceLive + " andro lasa. Andramo ny Conversation Live amin'ny Teacher AI hanatsarana ny fiteninao !";
+    } else if (daysSinceConversation >= 3 && activeDaysThisMonth > 0) {
       recommendation = "Tsy nanao resaka ianao nandritra ny " + daysSinceConversation + " andro lasa. Andramo ny dialogues !";
     } else if (thisWeek > lastWeek && weekComparison > 20) {
       recommendation = "Tsara be! Nitranga " + weekComparison + "% bebe kokoa ny herinandro ity noho ny teo aloha.";
@@ -341,6 +373,8 @@ function getProfileData() {
         avgActivitiesPerDay: avgActivitiesPerDay.toFixed(1),
         weekComparison: weekComparison,
         recommendation: recommendation,
+        totalLiveSessions: totalLiveSessions,
+        daysSinceLive: daysSinceLive,
       badges: badges,
       completedJourneys: completedCount,
       totalJourneys: totalJourneys,
@@ -6145,6 +6179,21 @@ async function renderThemeDetail() {
       document.getElementById('btn-dialogues')?.addEventListener('click', () => {
         if (isActivityUnlocked('dialogues')) router.navigate('/dialogues'); else showLockedMessage();
       });
+        
+        // ✅ Event listener pour Conversation Live
+        document.getElementById('btn-live-conversation')?.addEventListener('click', () => {
+          // Conversation Live est accessible après les dialogues
+          const journeys = journeyTracker.getCompletedJourneys();
+          const hasCompletedDialogues = journeys.dialogues?.includes(currentTheme);
+          
+          if (hasCompletedDialogues) {
+            // Construire l'ID du dialogue basé sur le thème actuel
+            const dialogueId = currentTheme + '_01';
+            router.navigate('/conversation?dialogue=' + dialogueId);
+          } else {
+            showLockedMessage();
+          }
+        });
     }
 
 
@@ -7143,12 +7192,34 @@ async function renderConversation() {
         // ✅ Bouton Quitter
         document.getElementById('btn-quit').addEventListener('click', () => {
           if (confirm('Quitter la conversation ?')) {
+            // ✅ Enregistrer l'activité Conversation Live
+            try {
+              recordActivity('live-conversation', dialogue.theme || 'unknown', {
+                dialogue: dialogue.id,
+                title: dialogue.titleFr
+              });
+              console.log('[Conversation] ✅ Activité enregistrée pour le thème', dialogue.theme);
+            } catch (e) {
+              console.warn('[Conversation] ⚠️ Erreur enregistrement activité:', e);
+            }
+            
             router.navigate('/conversation-live');
           }
         });
 
         // ✅ Bouton Retour aux dialogues
         document.getElementById('btn-back-dialogue').addEventListener('click', () => {
+        // ✅ Enregistrer l'activité Conversation Live
+        try {
+          recordActivity('live-conversation', dialogue.theme || 'unknown', {
+            dialogue: dialogue.id,
+            title: dialogue.titleFr
+          });
+          console.log('[Conversation] ✅ Activité enregistrée (retour) pour le thème', dialogue.theme);
+        } catch (e) {
+          console.warn('[Conversation] ⚠️ Erreur enregistrement activité:', e);
+        }
+        
           router.navigate('/conversation-live');
         });
 
