@@ -1217,34 +1217,8 @@ const heroHtml = `
     `;
 
     // ✅ 4. 
-      <!-- ✅ STATISTIQUES DÉTAILLÉES PAR CATÉGORIE -->
-      <div style="background:var(--ds-color-surface); padding:1.5rem; border-radius:var(--ds-radius-lg); margin:2rem 0; border:1px solid var(--ds-color-border);">
-        <h3 style="margin:0 0 1rem 0; color:var(--ds-color-text); font-size:1.2rem;">📊 Progression par type d'activité</h3>
-        <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:1rem;">
-          <div style="text-align:center; padding:1rem; background:var(--ds-color-surface-2); border-radius:var(--ds-radius-md);">
-            <div style="font-size:2rem;">📖</div>
-            <div style="font-weight:700; color:var(--ds-color-text); margin:0.5rem 0;">Vocabulaire</div>
-            <div style="font-size:0.85rem; color:var(--ds-color-text-muted);">Leçons + Pratiques</div>
-          </div>
-          <div style="text-align:center; padding:1rem; background:var(--ds-color-surface-2); border-radius:var(--ds-radius-md);">
-            <div style="font-size:2rem;">💬</div>
-            <div style="font-weight:700; color:var(--ds-color-text); margin:0.5rem 0;">Conversation</div>
-            <div style="font-size:0.85rem; color:var(--ds-color-text-muted);">Dialogues + Live</div>
-          </div>
-          <div style="text-align:center; padding:1rem; background:var(--ds-color-surface-2); border-radius:var(--ds-radius-md);">
-            <div style="font-size:2rem;">🏆</div>
-            <div style="font-weight:700; color:var(--ds-color-text); margin:0.5rem 0;">Défis</div>
-            <div style="font-size:0.85rem; color:var(--ds-color-text-muted);">Challenges</div>
-          </div>
-          <div style="text-align:center; padding:1rem; background:var(--ds-color-surface-2); border-radius:var(--ds-radius-md);">
-            <div style="font-size:2rem;">📝</div>
-            <div style="font-weight:700; color:var(--ds-color-text); margin:0.5rem 0;">Examens</div>
-            <div style="font-size:0.85rem; color:var(--ds-color-text-muted);">Tests de niveau</div>
-          </div>
-        </div>
-      </div>
 
-BOUTON DICTIONNAIRE
+      // ✅ 4. BOUTON DICTIONNAIRE
     const dictionaryBtnHtml = `
       <button class="home-dictionary-btn" id="btn-open-dictionary">
         <span class="home-dictionary-icon">📖</span>
