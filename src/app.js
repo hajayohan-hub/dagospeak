@@ -184,9 +184,20 @@ function getProfileData() {
       return sum + ((journeys[type]?.length || 0) * (xpWeights[type] || 0));
     }, 0);
 
-    // ✅ Calcul du streak
+    // ✅ Calcul du streak avec historique détaillé
     const lastActivity = localStorage.getItem('dagospeak:lastActivity');
     let streak = parseInt(localStorage.getItem('dagospeak:streak') || '0');
+    let bestStreak = parseInt(localStorage.getItem('dagospeak:bestStreak') || '0');
+    
+    // Charger l'historique d'activités
+    let activityHistory = {};
+    try {
+      const historyRaw = localStorage.getItem('dagospeak:activityHistory');
+      if (historyRaw) activityHistory = JSON.parse(historyRaw);
+    } catch (e) {
+      console.warn('[Profile] Erreur lecture activityHistory:', e);
+    }
+    
     if (lastActivity) {
       const lastDate = new Date(lastActivity);
       const today = new Date();
@@ -196,6 +207,29 @@ function getProfileData() {
         localStorage.setItem('dagospeak:streak', '0');
       }
     }
+    
+    // ✅ Calculer les 30 derniers jours
+    const last30Days = [];
+    const todayDate = new Date();
+    todayDate.setHours(0, 0, 0, 0);
+    
+    for (let i = 29; i >= 0; i--) {
+      const date = new Date(todayDate);
+      date.setDate(date.getDate() - i);
+      const dateStr = date.toISOString().split('T')[0];
+      const count = activityHistory[dateStr] || 0;
+      
+      let intensity = 0;
+      if (count >= 7) intensity = 4;
+      else if (count >= 5) intensity = 3;
+      else if (count >= 3) intensity = 2;
+      else if (count >= 1) intensity = 1;
+      
+      last30Days.push({ date: dateStr, count, intensity });
+    }
+    
+    // ✅ Activités de cette semaine
+    const weekActivities = last30Days.slice(-7).reduce((sum, day) => sum + day.count, 0);
 
     // ✅ Calcul du niveau CECR
     let level = 'A0';
@@ -241,6 +275,9 @@ function getProfileData() {
       xp: totalXP,
       level: level,
       streak: streak,
+        bestStreak: bestStreak,
+        weekActivities: weekActivities,
+        last30Days: last30Days,
       badges: badges,
       completedJourneys: completedCount,
       totalJourneys: totalJourneys,
@@ -271,14 +308,36 @@ function saveProfile() {
   localStorage.setItem('dagospeak:profile', JSON.stringify(profile));
   localStorage.setItem('dagospeak:lastActivity', new Date().toISOString());
 
+    // ✅ Enregistrer l'activité dans l'historique
+    const todayStr = new Date().toISOString().split('T')[0];
+    let activityHistory = {};
+    try {
+      const historyRaw = localStorage.getItem('dagospeak:activityHistory');
+      if (historyRaw) activityHistory = JSON.parse(historyRaw);
+    } catch (e) {
+      console.warn('[Profile] Erreur lecture activityHistory:', e);
+    }
+    
+    // Incrémenter le compteur pour aujourd'hui
+    activityHistory[todayStr] = (activityHistory[todayStr] || 0) + 1;
+    localStorage.setItem('dagospeak:activityHistory', JSON.stringify(activityHistory));
+
   // Incrémenter le streak si pas déjà fait aujourd'hui
   const lastActivity = localStorage.getItem('dagospeak:lastActivity');
   const today = new Date().toDateString();
   if (lastActivity && new Date(lastActivity).toDateString() !== today) {
     const streak = parseInt(localStorage.getItem('dagospeak:streak') || '0');
     localStorage.setItem('dagospeak:streak', String(streak + 1));
+      
+      // Mettre à jour le meilleur streak
+      const bestStreak = parseInt(localStorage.getItem('dagospeak:bestStreak') || '0');
+      const newStreak = streak + 1;
+      if (newStreak > bestStreak) {
+        localStorage.setItem('dagospeak:bestStreak', String(newStreak));
+      }
   } else if (!lastActivity) {
     localStorage.setItem('dagospeak:streak', '1');
+      localStorage.setItem('dagospeak:bestStreak', '1');
   }
 
   console.log('[Profile] Sauvegardé:', profile);
@@ -1014,6 +1073,64 @@ const heroHtml = `
           <div class="home-stat-value">${profileData.percentage}%</div>
           <div class="home-stat-label">Progression</div>
         </div>
+      </div>
+
+      <!-- ✅ CALENDRIER DE STREAK -->
+      <div style="background:var(--ds-color-surface); padding:1.5rem; border-radius:var(--ds-radius-lg); margin:2rem 0; border:1px solid var(--ds-color-border);">
+        <h3 style="margin:0 0 1rem 0; color:var(--ds-color-text); font-size:1.2rem;">📅 Calendrier d'apprentissage</h3>
+        
+        <!-- Statistiques -->
+        <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:1rem; margin-bottom:1.5rem;">
+          <div style="text-align:center;">
+            <div style="font-size:2rem; font-weight:700; color:var(--ds-color-primary);">🔥 ${profileData.streak}</div>
+            <div style="font-size:0.85rem; color:var(--ds-color-text-muted);">Jours consécutifs</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:2rem; font-weight:700; color:var(--ds-color-success);">🏆 ${profileData.bestStreak}</div>
+            <div style="font-size:0.85rem; color:var(--ds-color-text-muted);">Meilleur streak</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:2rem; font-weight:700; color:var(--ds-color-accent);">⚡ ${profileData.weekActivities}</div>
+            <div style="font-size:0.85rem; color:var(--ds-color-text-muted);">Cette semaine</div>
+          </div>
+        </div>
+        
+        <!-- Grille du calendrier -->
+        <div style="display:grid; grid-template-columns:repeat(7, 1fr); gap:4px; margin-bottom:1rem;">
+          ${profileData.last30Days.map((day, idx) => {
+            const date = new Date(day.date);
+            const dayNames = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
+            const dayName = dayNames[date.getDay()];
+            const intensityColors = ['#ebedf0', '#9be9a8', '#40c463', '#30a14e', '#216e39'];
+            const bgColor = intensityColors[day.intensity];
+            const isToday = day.date === new Date().toISOString().split('T')[0];
+            const border = isToday ? '2px solid var(--ds-color-primary)' : '1px solid transparent';
+            return `<div style="aspect-ratio:1; background:${bgColor}; border-radius:3px; border:${border}; display:flex; align-items:center; justify-content:center; font-size:0.65rem; color:${day.intensity > 0 ? 'white' : 'var(--ds-color-text-muted)'};" title="${day.date}: ${day.count} activités">${day.count > 0 ? day.count : ''}</div>`;
+          }).join('')}
+        </div>
+        
+        <!-- Légende -->
+        <div style="display:flex; align-items:center; justify-content:center; gap:8px; font-size:0.75rem; color:var(--ds-color-text-muted);">
+          <span>Moins</span>
+          <div style="width:12px; height:12px; background:#ebedf0; border-radius:2px;"></div>
+          <div style="width:12px; height:12px; background:#9be9a8; border-radius:2px;"></div>
+          <div style="width:12px; height:12px; background:#40c463; border-radius:2px;"></div>
+          <div style="width:12px; height:12px; background:#30a14e; border-radius:2px;"></div>
+          <div style="width:12px; height:12px; background:#216e39; border-radius:2px;"></div>
+          <span>Plus</span>
+        </div>
+        
+        <!-- Message de motivation -->
+        ${profileData.streak > 0 ? `
+        <div style="margin-top:1rem; padding:0.75rem; background:var(--ds-color-primary-soft); border-radius:var(--ds-radius-md); text-align:center;">
+          <p style="margin:0; color:var(--ds-color-primary); font-weight:600;">
+            ${profileData.streak >= 7 ? '🔥 Incroyable ! Tu es en feu !' : profileData.streak >= 3 ? '💪 Continue comme ça !' : '🌱 Bon début, ne lâche rien !'}
+          </p>
+          <p style="margin:0.25rem 0 0 0; font-size:0.85rem; color:var(--ds-color-text-muted);">
+            Ne brise pas ta série de ${profileData.streak} jour${profileData.streak > 1 ? 's' : ''} !
+          </p>
+        </div>
+        ` : ''}
       </div>
     `;
 
