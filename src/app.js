@@ -5651,6 +5651,9 @@ async function renderThemeDetail() {
               .chain-icon.completed { background: var(--ds-color-success); color: white; }
               .chain-icon.pending { background: var(--ds-color-surface-2); color: var(--ds-color-text-muted); border: 1px solid var(--ds-color-border); }
               .chain-icon.current { background: var(--ds-color-primary); color: white; animation: pulse-focus 2s infinite; }
+                .activity-card.locked { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+                .activity-card.locked:hover { transform: none; box-shadow: none; }
+                .chain-connector.locked::before { border-left: 2px dashed var(--ds-color-border); background: none; width: 0; }
                 @keyframes confetti-fall { 0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
                 @keyframes banner-slide { 0% { transform: translateY(-100%); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
                 @keyframes glow-gold { 0%, 100% { box-shadow: 0 0 10px rgba(255, 215, 0, 0.5); } 50% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.9), 0 0 35px rgba(255, 215, 0, 0.6); } }
@@ -5723,11 +5726,40 @@ async function renderThemeDetail() {
       });
     } else {
       // ✅ Utilisation de ?. pour éviter les erreurs si l'élément n'est pas trouvé
-      document.getElementById('btn-lesson-words')?.addEventListener('click', () => router.navigate('/lesson'));
-      document.getElementById('btn-practice-words')?.addEventListener('click', () => router.navigate('/practice'));
-      document.getElementById('btn-lesson-phrases')?.addEventListener('click', () => router.navigate('/lesson-phrases'));
-      document.getElementById('btn-practice-phrases')?.addEventListener('click', () => router.navigate('/practice-phrases'));
-      document.getElementById('btn-dialogues')?.addEventListener('click', () => router.navigate('/dialogues'));
+      // 🔒 Fonction pour vérifier si une activité est débloquée
+      const isActivityUnlocked = (activityType) => {
+        const journeys = journeyTracker.getCompletedJourneys();
+        const activityOrder = ['lessons', 'practices', 'phraseLessons', 'phrasePractices', 'dialogues'];
+        const targetIndex = activityOrder.indexOf(activityType);
+        if (targetIndex === 0) return true;
+        const previousType = activityOrder[targetIndex - 1];
+        return journeys[previousType]?.includes(currentTheme);
+      };
+      
+      // 🔒 Message toast pour les activités verrouillées
+      const showLockedMessage = () => {
+        const toast = document.createElement('div');
+        toast.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#F59E0B;color:white;padding:1rem 2rem;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.15);z-index:10001;font-weight:600;';
+        toast.innerHTML = "🔒 Complétez l'étape précédente pour débloquer";
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+      };
+      
+      document.getElementById('btn-lesson-words')?.addEventListener('click', () => {
+        if (isActivityUnlocked('lessons')) router.navigate('/lesson'); else showLockedMessage();
+      });
+      document.getElementById('btn-practice-words')?.addEventListener('click', () => {
+        if (isActivityUnlocked('practices')) router.navigate('/practice'); else showLockedMessage();
+      });
+      document.getElementById('btn-lesson-phrases')?.addEventListener('click', () => {
+        if (isActivityUnlocked('phraseLessons')) router.navigate('/lesson-phrases'); else showLockedMessage();
+      });
+      document.getElementById('btn-practice-phrases')?.addEventListener('click', () => {
+        if (isActivityUnlocked('phrasePractices')) router.navigate('/practice-phrases'); else showLockedMessage();
+      });
+      document.getElementById('btn-dialogues')?.addEventListener('click', () => {
+        if (isActivityUnlocked('dialogues')) router.navigate('/dialogues'); else showLockedMessage();
+      });
     }
 
 
@@ -5819,6 +5851,17 @@ async function renderThemeDetail() {
                 const connector = document.getElementById(`chain-${index}`);
                 if (connector) {
                   connector.innerHTML = '<span class="chain-icon pending">○</span>';
+                }
+              }
+              // 🔒 Verrouiller les activités après la première non complétée
+              if (nextActivity && type !== nextActivity) {
+                card.classList.add('locked');
+                if (index > 0) {
+                  const connector = document.getElementById(`chain-${index}`);
+                  if (connector) {
+                    connector.classList.add('locked');
+                    connector.innerHTML = '<span class="chain-icon pending">🔒</span>';
+                  }
                 }
               }
             }
