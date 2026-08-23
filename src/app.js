@@ -7302,6 +7302,7 @@ async function renderConversation() {
 
         // ✅ Fonction pour gérer la réponse utilisateur (clic ou STT)
         function handleUserResponse(idx, node, attempts, feedback, isAutoEval = false) {
+            let ttsCompleted = false; // ✅ Protection contre les doubles callbacks
             const currentFeedback = document.getElementById('feedback');
             const selected = node.responseOptions[idx];
             attempts[node.id]++;
@@ -7336,6 +7337,12 @@ async function renderConversation() {
                 }
               },
               onEnd: () => {
+                  if (ttsCompleted) {
+                    console.warn('[Conversation] ⚠️ onEnd déjà appelé, ignoré');
+                    return;
+                  }
+                  ttsCompleted = true;
+                  console.log('[Conversation] ✅ Feedback TTS terminé, progression dans 800ms');
                 if (window.teacherAvatarSVG) {
                   window.teacherAvatarSVG.stopSpeaking();
                   window.teacherAvatarSVG.setExpression('neutral');
@@ -7349,15 +7356,6 @@ async function renderConversation() {
             });
 
           scrollConversationToBottom();
-
-
-              const btnContinue = document.getElementById("btn-continue");
-              if (btnContinue) {
-                btnContinue.addEventListener("click", () => {
-                  currentNodeId = node.nextNodeOnSuccess;
-                  renderNode();
-                });
-              }
 
             } else {
               if (clickedBtn) clickedBtn.style.borderColor = 'var(--ds-color-danger, #ef4444)';
