@@ -7155,6 +7155,18 @@ async function renderConversation() {
 
         // ✅ TTS automatique au chargement du nœud
         const btn = document.getElementById('btn-play');
+
+          // ✅ Protection contre les doubles callbacks TTS (téléphones modestes)
+          let nodeTtsCompleted = false;
+          // ✅ Timeout de sécurité : si TTS ne termine jamais, progression forcée après 15s
+          const safetyTimeout = setTimeout(() => {
+            if (!nodeTtsCompleted) {
+              console.warn('[Conversation] ⚠️ TTS timeout (15s), progression forcée vers', node.nextNode);
+              nodeTtsCompleted = true;
+              currentNodeId = node.nextNode;
+              renderNode();
+            }
+          }, 15000);
         btn.textContent = '🔊 ...';
 
         speakWithFeedback(personalizedTtsText, {
@@ -7166,6 +7178,13 @@ async function renderConversation() {
             }
           },
           onEnd: () => {
+            if (nodeTtsCompleted) {
+              console.warn('[Conversation] ⚠️ onEnd teacher déjà appelé, ignoré');
+              return;
+            }
+            nodeTtsCompleted = true;
+            clearTimeout(safetyTimeout);
+            console.log('[Conversation] ✅ TTS teacher terminé, progression dans 800ms vers', node.nextNode);
             btn.textContent = '🔊 Mihainoa';
             if (window.teacherAvatarSVG) {
               window.teacherAvatarSVG.stopSpeaking();
@@ -7177,6 +7196,13 @@ async function renderConversation() {
             }, 800);
           },
           onError: () => {
+            if (nodeTtsCompleted) {
+              console.warn('[Conversation] ⚠️ onError teacher déjà appelé (onEnd a gagné), ignoré');
+              return;
+            }
+            nodeTtsCompleted = true;
+            clearTimeout(safetyTimeout);
+            console.warn('[Conversation] ⚠️ Erreur TTS teacher, progression forcée vers', node.nextNode);
             btn.textContent = '🔊 Mihainoa';
             if (window.teacherAvatarSVG) {
               window.teacherAvatarSVG.stopSpeaking();
@@ -7326,7 +7352,17 @@ async function renderConversation() {
             </div>
           `;
 
-          // ✅ TTS du feedback (utilise speakWithFeedback pour respecter le genre)
+            // ✅ TTS du feedback (utilise speakWithFeedback pour respecter le genre)
+            // ✅ Timeout de sécurité pour le feedback succès (15s)
+            const successSafetyTimeout = setTimeout(() => {
+              if (!ttsCompleted) {
+                console.warn('[Conversation] ⚠️ TTS success timeout (15s), progression forcée');
+                ttsCompleted = true;
+                currentNodeId = node.nextNodeOnSuccess;
+                renderNode();
+              }
+            }, 15000);
+
             speakWithFeedback(successTtsText, {
               rate: 0.9,
               gender: 'female', // Teacher Avatar
@@ -7337,12 +7373,13 @@ async function renderConversation() {
                 }
               },
               onEnd: () => {
-                  if (ttsCompleted) {
-                    console.warn('[Conversation] ⚠️ onEnd déjà appelé, ignoré');
-                    return;
-                  }
-                  ttsCompleted = true;
-                  console.log('[Conversation] ✅ Feedback TTS terminé, progression dans 800ms');
+                if (ttsCompleted) {
+                  console.warn('[Conversation] ⚠️ onEnd déjà appelé, ignoré');
+                  return;
+                }
+                ttsCompleted = true;
+                clearTimeout(successSafetyTimeout);
+                console.log('[Conversation] ✅ Feedback TTS terminé, progression dans 800ms');
                 if (window.teacherAvatarSVG) {
                   window.teacherAvatarSVG.stopSpeaking();
                   window.teacherAvatarSVG.setExpression('neutral');
@@ -7352,6 +7389,24 @@ async function renderConversation() {
                   currentNodeId = node.nextNodeOnSuccess;
                   renderNode();
                 }, 800);
+              },
+              onError: (error) => {
+                if (ttsCompleted) {
+                  console.warn('[Conversation] ⚠️ onError success ignoré (onEnd a gagné)');
+                  return;
+                }
+                ttsCompleted = true;
+                clearTimeout(successSafetyTimeout);
+                console.error('[Conversation] ❌ Erreur TTS feedback succès:', error?.message || 'unknown');
+                if (window.teacherAvatarSVG) {
+                  window.teacherAvatarSVG.stopSpeaking();
+                  window.teacherAvatarSVG.setExpression('neutral');
+                }
+                // ✅ Progression même en cas d'erreur (ne pas bloquer l'utilisateur)
+                setTimeout(() => {
+                  currentNodeId = node.nextNodeOnSuccess;
+                  renderNode();
+                }, 500);
               }
             });
 
@@ -7385,7 +7440,7 @@ async function renderConversation() {
                   <button id="btn-retry" class="pulse-animation" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">🔁 Réessayer</button>
                 `;
                   // ✅ TTS du feedback d'échec
-                  // ✅ TTS du feedback d'échec (utilise speakWithFeedback pour respecter le genre)
+                    // ✅ TTS du feedback d'échec (utilise speakWithFeedback pour respecter le genre)
                     speakWithFeedback(failTtsText, {
                       rate: node.feedbackOnFail?.audio?.ttsRate || 0.9,
                       gender: 'female', // Teacher Avatar
@@ -7395,6 +7450,13 @@ async function renderConversation() {
                         }
                       },
                       onEnd: () => {
+                        console.log('[Conversation] ✅ TTS feedback échec terminé');
+                        if (window.teacherAvatarSVG) {
+                          window.teacherAvatarSVG.stopSpeaking();
+                        }
+                      },
+                      onError: (error) => {
+                        console.warn('[Conversation] ⚠️ Erreur TTS feedback échec:', error?.message || 'unknown');
                         if (window.teacherAvatarSVG) {
                           window.teacherAvatarSVG.stopSpeaking();
                         }
