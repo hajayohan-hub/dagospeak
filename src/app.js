@@ -7461,7 +7461,7 @@ async function renderConversation() {
                     <p style="color: var(--ds-color-danger); font-weight: 600;">${failFeedbackFr}</p>
                     <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${failFeedbackMg})</p>
                   </div>
-                  <button id="btn-retry" class="pulse-animation" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">🔁 Réessayer</button>
+                  <button id="btn-retry" class="pulse-animation" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;" disabled>🔁 Réessayer</button>
                 `;
                   // ✅ TTS du feedback d'échec
                     // ✅ TTS du feedback d'échec (utilise speakWithFeedback pour respecter le genre)
@@ -7477,12 +7477,24 @@ async function renderConversation() {
                         console.log('[Conversation] ✅ TTS feedback échec terminé');
                         if (window.teacherAvatarSVG) {
                           window.teacherAvatarSVG.stopSpeaking();
+                          // ✅ Réactiver le bouton Réessayer après TTS
+                          const retryBtn = document.getElementById('btn-retry');
+                          if (retryBtn) {
+                            retryBtn.disabled = false;
+                            console.log('[Conversation] 🔓 Bouton Réessayer activé');
+                          }
                         }
                       },
                       onError: (error) => {
                         console.warn('[Conversation] ⚠️ Erreur TTS feedback échec:', error?.message || 'unknown');
                         if (window.teacherAvatarSVG) {
                           window.teacherAvatarSVG.stopSpeaking();
+                          // ✅ Réactiver le bouton Réessayer même en cas d'erreur
+                          const retryBtn = document.getElementById('btn-retry');
+                          if (retryBtn) {
+                            retryBtn.disabled = false;
+                            console.log('[Conversation] 🔓 Bouton Réessayer activé (après erreur)');
+                          }
                         }
                       }
                     });
@@ -7514,7 +7526,7 @@ async function renderConversation() {
               
               // ✅ TIMEOUT DE RÉCUPÉRATION UX (6 secondes)
               let sttTimeoutId = null;
-              const STT_TIMEOUT_MS = 6000;
+              const STT_TIMEOUT_MS = 12000; // ✅ 12s pour apprenants débutants
               
               const activateTimeout = () => {
                 sttTimeoutId = setTimeout(() => {
@@ -7556,8 +7568,8 @@ async function renderConversation() {
                 }
               };
               
-              // Démarrer le timeout
-              activateTimeout();
+              // ✅ Timeout maintenant démarré dans onStart (après acquisition micro)
+              // activateTimeout(); // Retiré d'ici
 
                   // ✅ MODE SIMULATION PÉDAGOGIQUE (hors-ligne)
                                         // ✅ MODE SIMULATION PÉDAGOGIQUE (hors-ligne)
@@ -7567,6 +7579,8 @@ async function renderConversation() {
                       sttManager.startListening('fr-FR', {
                         onStart: () => {
                           console.log('[STT] 🎭 Écoute simulation démarrée');
+                          // ✅ Démarrer le timeout APRÈS acquisition du micro
+                          activateTimeout();
                         },
                                                   onResult: (result) => {
                             cancelTimeout(); // ✅ Annuler le timeout

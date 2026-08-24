@@ -138,6 +138,11 @@ export class STTManager {
    */
      startListening(lang = 'fr-FR', callbacks = {}) {
       console.log(`[STTManager] startListening appelé, isListening=${this.#isListening}, simulationMode=${this.#simulationMode}`);
+      // ✅ FORCER simulation si offline (override toute détection précédente)
+      if (!navigator.onLine) {
+        this.#simulationMode = true;
+        console.log('[STTManager] 🌐 Offline détecté → simulation forcée');
+      }
       
     // ✅ BUG 2 FIX : Vérifier si les retries sont bloqués
     if (this.#retryBlocked) {
