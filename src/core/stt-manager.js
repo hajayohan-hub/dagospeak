@@ -280,6 +280,7 @@ export class STTManager {
    */
   #startRealListening(lang, callbacks) {
     try {
+      const turnId = this.#currentTurnId; // ✅ Capturer turnId pour ce tour
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       this.#recognition = new SpeechRecognition();
 
