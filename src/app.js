@@ -1035,6 +1035,12 @@ function initHeroCarousel() {
 }
 
 
+
+// ✅ Helper : Détecter si on est en mode hors-ligne (PWA offline)
+function isOfflineMode() {
+  return !navigator.onLine || (window.matchMedia && window.matchMedia('(offline)').matches);
+}
+
 async function renderHome() {
   console.log('[renderHome] 1. Début de la fonction');
   updateNavActiveState();
@@ -7158,15 +7164,20 @@ async function renderConversation() {
 
           // ✅ Protection contre les doubles callbacks TTS (téléphones modestes)
           let nodeTtsCompleted = false;
-          // ✅ Timeout de sécurité : si TTS ne termine jamais, progression forcée après 15s
-          const safetyTimeout = setTimeout(() => {
-            if (!nodeTtsCompleted) {
-              console.warn('[Conversation] ⚠️ TTS timeout (15s), progression forcée vers', node.nextNode);
-              nodeTtsCompleted = true;
-              currentNodeId = node.nextNode;
-              renderNode();
-            }
-          }, 15000);
+          // ✅ Timeout de sécurité : désactivé en mode hors-ligne (PWA gère déjà le cache)
+          let safetyTimeout = null;
+          if (!isOfflineMode()) {
+            safetyTimeout = setTimeout(() => {
+              if (!nodeTtsCompleted) {
+                console.warn('[Conversation] ⚠️ TTS timeout (15s), progression forcée vers', node.nextNode);
+                nodeTtsCompleted = true;
+                currentNodeId = node.nextNode;
+                renderNode();
+              }
+            }, 15000);
+          } else {
+            console.log('[Conversation] ℹ️ Mode hors-ligne détecté, timeout de sécurité désactivé');
+          }
         btn.textContent = '🔊 ...';
 
         speakWithFeedback(personalizedTtsText, {
@@ -7183,7 +7194,7 @@ async function renderConversation() {
               return;
             }
             nodeTtsCompleted = true;
-            clearTimeout(safetyTimeout);
+            if (safetyTimeout) clearTimeout(safetyTimeout);
             console.log('[Conversation] ✅ TTS teacher terminé, progression dans 800ms vers', node.nextNode);
             btn.textContent = '🔊 Mihainoa';
             if (window.teacherAvatarSVG) {
@@ -7201,7 +7212,7 @@ async function renderConversation() {
               return;
             }
             nodeTtsCompleted = true;
-            clearTimeout(safetyTimeout);
+            if (safetyTimeout) clearTimeout(safetyTimeout);
             console.warn('[Conversation] ⚠️ Erreur TTS teacher, progression forcée vers', node.nextNode);
             btn.textContent = '🔊 Mihainoa';
             if (window.teacherAvatarSVG) {
@@ -7353,15 +7364,18 @@ async function renderConversation() {
           `;
 
             // ✅ TTS du feedback (utilise speakWithFeedback pour respecter le genre)
-            // ✅ Timeout de sécurité pour le feedback succès (15s)
-            const successSafetyTimeout = setTimeout(() => {
-              if (!ttsCompleted) {
-                console.warn('[Conversation] ⚠️ TTS success timeout (15s), progression forcée');
-                ttsCompleted = true;
-                currentNodeId = node.nextNodeOnSuccess;
-                renderNode();
-              }
-            }, 15000);
+            // ✅ Timeout de sécurité pour le feedback succès (désactivé en offline)
+            let successSafetyTimeout = null;
+            if (!isOfflineMode()) {
+              successSafetyTimeout = setTimeout(() => {
+                if (!ttsCompleted) {
+                  console.warn('[Conversation] ⚠️ TTS success timeout (15s), progression forcée');
+                  ttsCompleted = true;
+                  currentNodeId = node.nextNodeOnSuccess;
+                  renderNode();
+                }
+              }, 15000);
+            }
 
             speakWithFeedback(successTtsText, {
               rate: 0.9,
@@ -7378,7 +7392,7 @@ async function renderConversation() {
                   return;
                 }
                 ttsCompleted = true;
-                clearTimeout(successSafetyTimeout);
+                if (successSafetyTimeout) clearTimeout(successSafetyTimeout);
                 console.log('[Conversation] ✅ Feedback TTS terminé, progression dans 800ms');
                 if (window.teacherAvatarSVG) {
                   window.teacherAvatarSVG.stopSpeaking();
@@ -7396,7 +7410,7 @@ async function renderConversation() {
                   return;
                 }
                 ttsCompleted = true;
-                clearTimeout(successSafetyTimeout);
+                if (successSafetyTimeout) clearTimeout(successSafetyTimeout);
                 console.error('[Conversation] ❌ Erreur TTS feedback succès:', error?.message || 'unknown');
                 if (window.teacherAvatarSVG) {
                   window.teacherAvatarSVG.stopSpeaking();
