@@ -10,6 +10,9 @@ export class STTManager {
   #deviceTier = 'unknown';
   #isOffline = false;
   #simulationMode = false;
+  #turnCounter = 0;      // ✅ Compteur global de tours
+  #currentTurnId = 0;    // ✅ ID du tour courant (protection contre callbacks tardifs)
+  #lastStartAttempt = 0; // ✅ Anti-boucle : timestamp du dernier startListening
 
   constructor() {
     this.#detectCapabilities();
@@ -31,8 +34,11 @@ export class STTManager {
   }
 
   #detectCapabilities() {
+    // ✅ FIX 1 : Déterminer l'état réseau IMMÉDIATEMENT (pas attendre l'événement)
+    this.#isOffline = !navigator.onLine;
+    
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    this.#isSupported = !!SpeechRecognition && !this.#isOffline;
+    this.#isSupported = !!SpeechRecognition;
 
     // Détection du tier appareil
     if (window.deviceCheck) {
@@ -78,6 +84,20 @@ export class STTManager {
    */
   isSimulationMode() {
     return this.#simulationMode;
+  }
+
+  /**
+   * Retourne l'ID du tour courant (pour protection callbacks tardifs)
+   */
+  getCurrentTurnId() {
+    return this.#currentTurnId;
+  }
+
+  /**
+   * Vérifie si un turnId correspond au tour courant
+   */
+  isCurrentTurn(turnId) {
+    return turnId === this.#currentTurnId;
   }
 
   /**
