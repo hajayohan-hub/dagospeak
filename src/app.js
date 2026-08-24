@@ -6971,8 +6971,10 @@ async function renderConversation() {
     // Afficher le premier nœud
     let currentNodeId = dialogue.nodes[0].id;
     let attempts = {};
+      let turnProcessed = false; // ✅ Verrou contre les doubles progressions
 
     const renderNode = () => {
+        turnProcessed = false; // ✅ Reset du verrou pour ce nouveau nœud
       const node = dialogue.nodes.find(n => n.id === currentNodeId);
       if (!node) {
         main.innerHTML = `<p style="color:red; text-align:center;">Nœud introuvable : ${currentNodeId}</p>`;
@@ -7339,6 +7341,13 @@ async function renderConversation() {
 
         // ✅ Fonction pour gérer la réponse utilisateur (clic ou STT)
         function handleUserResponse(idx, node, attempts, feedback, isAutoEval = false) {
+            // ✅ Protection contre les doubles progressions (clic + micro)
+            if (turnProcessed) {
+              console.warn('[Conversation] ⚠️ handleUserResponse ignoré (tour déjà traité)');
+              return;
+            }
+            turnProcessed = true;
+            
             let ttsCompleted = false; // ✅ Protection contre les doubles callbacks
             const currentFeedback = document.getElementById('feedback');
             const selected = node.responseOptions[idx];
@@ -7439,6 +7448,7 @@ async function renderConversation() {
                   <button id="btn-continue" class="pulse-animation" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">Manaraka →</button>
                 `;
                 document.getElementById('btn-continue').addEventListener('click', () => {
+                  turnProcessed = false; // ✅ Reset du verrou
                   currentNodeId = node.nextNodeOnMaxAttemptsReached;
                   renderNode();
                 });
@@ -7480,7 +7490,10 @@ async function renderConversation() {
                 if (window.teacherAvatarSVG) {
                   window.teacherAvatarSVG.setExpression('encouraging');
                 }
-                document.getElementById('btn-retry').addEventListener('click', renderNode);
+                document.getElementById('btn-retry').addEventListener('click', () => {
+                    turnProcessed = false; // ✅ Reset du verrou pour réessayer
+                    renderNode();
+                  });
               }
             }
           }
@@ -7563,8 +7576,8 @@ async function renderConversation() {
                               currentFeedback.innerHTML = `
                                 <div style="background: var(--ds-color-primary-soft, #e0f2fe); padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-primary);">
                                   <div style="font-size: 2rem;">✅</div>
-                                  <p style="color: var(--ds-color-primary); font-weight: 600;">📶 Entraînement hors-ligne — Très bien !</p>
-                                  <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">Tsara be !</p>
+                                  <p style="color: var(--ds-color-primary); font-weight: 600;">📶 Réponse reçue</p>
+                                  <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">Tsara be ! Mitohy ny fianarana.</p>
                                 </div>
                               `;
                             }
@@ -7573,17 +7586,32 @@ async function renderConversation() {
                             freshBtn.textContent = '✅ Terminé';
                             freshBtn.disabled = true;
                             
-                            // Progression après 1.5s
-                            setTimeout(() => {
-                              const targetBtn = document.querySelector(`.btn-option[data-idx="${idx}"]`);
-                              if (targetBtn) {
-                                handleUserResponse(idx, node, attempts, currentFeedback, true);
-                              } else {
-                                console.warn('[STT] Bouton option non trouvé, passage au nœud suivant');
+                            // ✅ Progression UNIQUE : feedback → TTS → nextNode
+                            // (supprime le double traitement setTimeout 1500 + handleUserResponse)
+                            const feedbackText = personalizeText("Très bien {firstName} ! Continuons.");
+                            speakWithFeedback(feedbackText, {
+                              rate: 0.9,
+                              gender: 'female',
+                              onStart: () => {
+                                if (window.teacherAvatarSVG) {
+                                  window.teacherAvatarSVG.startSpeaking();
+                                  window.teacherAvatarSVG.setExpression('happy');
+                                }
+                              },
+                              onEnd: () => {
+                                if (window.teacherAvatarSVG) window.teacherAvatarSVG.stopSpeaking();
+                                console.log('[STT] ✅ TTS feedback terminé, progression vers', node.nextNodeOnSuccess);
                                 currentNodeId = node.nextNodeOnSuccess;
-                                renderNode();
+                                setTimeout(() => renderNode(), 300);
+                              },
+                              onError: () => {
+                                if (window.teacherAvatarSVG) window.teacherAvatarSVG.stopSpeaking();
+                                console.warn('[STT] ⚠️ Erreur TTS, progression quand même vers', node.nextNodeOnSuccess);
+                                currentNodeId = node.nextNodeOnSuccess;
+                                setTimeout(() => renderNode(), 300);
                               }
-                            }, 1500);
+                            });
+
                           },
 
                                                   onError: (error) => {
