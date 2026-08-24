@@ -66,7 +66,7 @@ const STATIC_ASSETS = [
     '/src/ui/components/teacher-avatar-renderer.js',
 
     // ✅ STT Manager pour Conversation Live
-    '/src/core/stt-manager.js',
+    // '/src/core/stt-manager.js',  // ✅ TEMPORAIREMENT RETIRÉ pour forcer rechargement
 
   '/content/fr/levels.json', '/content/fr/exams.json',
 ];
