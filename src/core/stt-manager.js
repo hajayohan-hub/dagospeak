@@ -10,7 +10,6 @@ export class STTManager {
   #deviceTier = 'unknown';
   #isOffline = false;
   #simulationMode = false;
-  #retryBlocked = false;  // ✅ Anti-retry : bloque les relances automatiques
   #turnCounter = 0;      // ✅ Compteur global de tours
   #currentTurnId = 0;    // ✅ ID du tour courant (protection contre callbacks tardifs)
   #lastStartAttempt = 0; // ✅ Anti-boucle : timestamp du dernier startListening
@@ -138,20 +137,21 @@ export class STTManager {
    */
      startListening(lang = 'fr-FR', callbacks = {}) {
       console.log(`[STTManager] startListening appelé, isListening=${this.#isListening}, simulationMode=${this.#simulationMode}`);
+      
+      // ✅ FORÇAGE ABSOLU : Si offline, SIMULATION OBLIGATOIRE (override tout)
+      if (!navigator.onLine) {
+        this.#simulationMode = true;
+        console.log('[STTManager] 🌐 OFFLINE → simulation FORCÉE');
+      }
+      
+      // ✅ Re-log après forçage
+      console.log(`[STTManager] 🎯 Mode final: simulationMode=${this.#simulationMode}`);
       // ✅ FORCER simulation si offline (override toute détection précédente)
       if (!navigator.onLine) {
         this.#simulationMode = true;
         console.log('[STTManager] 🌐 Offline détecté → simulation forcée');
       }
       
-    // ✅ BUG 2 FIX : Vérifier si les retries sont bloqués
-    if (this.#retryBlocked) {
-      console.warn('[STTManager] ⚠️ startListening ignoré (retry bloqué après erreur critique)');
-      console.log('[STTManager] Attente d\'une action utilisateur explicite');
-      callbacks.onError?.('retry-blocked');
-      return false;
-    }
-    
     if (this.#isListening) {
       console.warn('[STTManager] Écoute déjà active, arrêt de la précédente');
       this.stopListening();
@@ -320,7 +320,6 @@ export class STTManager {
         
         // ✅ BUG 2 FIX : Bloquer tout retry automatique après erreur critique
         if (event.error === 'network' || event.error === 'not-allowed') {
-          this.#retryBlocked = true;
           console.warn(`[STTManager] 🛑 Erreur critique (${event.error}) - retry automatique BLOQUÉ`);
           console.log('[STTManager] Bouton 🎤 disponible - attendre action utilisateur');
         }
