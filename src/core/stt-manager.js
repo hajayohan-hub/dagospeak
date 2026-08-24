@@ -56,20 +56,39 @@ export class STTManager {
       else this.#deviceTier = 'high';
     }
 
-    // Mode simulation si offline
-      // Si online, vérifier le toggle utilisateur
+      // ✅ Règle stricte de sélection du moteur
+      // Règle :
+      //   1. Si !navigator.onLine → simulation FORCÉE (peu importe le toggle)
+      //   2. Sinon → respecter le toggle utilisateur
+      
+      let engineSelected = '';
+      let toggleValue = '';
+      
       if (this.#isOffline) {
+        // Offline = simulation OBLIGATOIRE
         this.#simulationMode = true;
+        engineSelected = 'SIMULATION (offline forced)';
+        toggleValue = 'ignored (offline)';
       } else {
-        // Vérifier le toggle utilisateur dans les settings
+        // Online = respecter le toggle
         const settings = JSON.parse(localStorage.getItem('dagospeak:settings') || '{}');
-        const userWantsRealSTT = settings.sttEnabled !== false; // Par défaut activé
+        const userWantsRealSTT = settings.sttEnabled !== false;
+        toggleValue = userWantsRealSTT ? 'web-api' : 'simulation';
         
-        // Si l'utilisateur veut du STT réel ET que c'est supporté, utiliser le mode réel
-        this.#simulationMode = !userWantsRealSTT || !this.#isSupported;
+        if (!userWantsRealSTT || !this.#isSupported) {
+          this.#simulationMode = true;
+          engineSelected = userWantsRealSTT ? 'SIMULATION (not supported)' : 'SIMULATION (user toggle)';
+        } else {
+          this.#simulationMode = false;
+          engineSelected = 'WEB_API';
+        }
       }
 
-    console.log(`[STTManager] Support: ${this.#isSupported}, Tier: ${this.#deviceTier}, Offline: ${this.#isOffline}, Simulation: ${this.#simulationMode}`);
+      // ✅ Logs explicites
+      console.log(`[STTManager] 🌐 Network: ${navigator.onLine ? 'ONLINE' : 'OFFLINE'}`);
+      console.log(`[STTManager] ⚙️ Toggle: ${toggleValue}`);
+      console.log(`[STTManager] 🎯 EngineSelected: ${engineSelected}`);
+      console.log(`[STTManager] Support: ${this.#isSupported}, Tier: ${this.#deviceTier}, Offline: ${this.#isOffline}, Simulation: ${this.#simulationMode}`);
   }
 
   /**
@@ -87,6 +106,19 @@ export class STTManager {
   }
 
   /**
+      // ✅ Protection anti-boucle : pas plus d'1 appel toutes les 2s
+      const now = Date.now();
+      if (this.#lastStartAttempt && now - this.#lastStartAttempt < 2000) {
+        console.warn('[STTManager] ⚠️ startListening ignoré (anti-boucle < 2s)');
+        callbacks.onError?.('rate-limited');
+        return false;
+      }
+      this.#lastStartAttempt = now;
+      
+      // ✅ Incrémenter le turnId pour invalider les anciens callbacks
+      this.#currentTurnId = ++this.#turnCounter;
+      const turnId = this.#currentTurnId;
+      
    * Retourne l'ID du tour courant (pour protection callbacks tardifs)
    */
   getCurrentTurnId() {
@@ -270,7 +302,25 @@ export class STTManager {
 
       this.#recognition.onerror = (event) => {
         this.#isListening = false;
+        
+        // ✅ Protection contre les callbacks tardifs
+        if (!this.isCurrentTurn(turnId)) {
+          console.warn('[STTManager] ⚠️ onerror ignoré (tour obsolète)');
+          return;
+        }
+        
         console.error('[STTManager] Erreur:', event.error);
+        
+        // ✅ Stop net après 'network' : pas de retry automatique
+        if (event.error === 'network' || event.error === 'not-allowed') {
+          console.warn('[STTManager] 🛑 Erreur critique - arrêt propre, aucun retry automatique');
+          if (event.error === 'network') {
+            this.#isOffline = true;
+            this.#simulationMode = true;
+            console.log('[STTManager] 🔄 Bascule automatique en mode simulation');
+          }
+        }
+        
         callbacks.onError?.(event.error);
       };
 
