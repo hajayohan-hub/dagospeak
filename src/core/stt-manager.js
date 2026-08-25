@@ -206,6 +206,7 @@ export class STTManager {
         const dataArray = new Uint8Array(bufferLength);
 
         const startTime = Date.now();
+          let lastRmsLogTime = 0; // Pour log RMS périodique
 
         const checkAudio = () => {
           analyser.getByteFrequencyData(dataArray);
