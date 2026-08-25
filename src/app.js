@@ -1563,6 +1563,12 @@ const heroHtml = `
           // Sauvegarder dans localStorage
           localStorage.setItem('toggleMicro', microEnabled);
           localStorage.setItem('toggleWebSpeech', webSpeechEnabled);
+          
+          // ✅ FIX : Écrire aussi dans dagospeak:settings (clé lue par STTManager)
+          const settings = JSON.parse(localStorage.getItem('dagospeak:settings') || '{}');
+          settings.sttEnabled = webSpeechEnabled;
+          localStorage.setItem('dagospeak:settings', JSON.stringify(settings));
+          console.log('[STT] 💾 Settings synchronisées:', settings);
 
           // Mettre à jour sttAvailable globalement
           if (!microEnabled) {
@@ -1572,7 +1578,10 @@ const heroHtml = `
             // Force la simulation pédagogique
             window.sttAvailable = true;
             window.sttManager = window.sttManager || {};
-            window.sttManager.isSimulationMode = () => true;
+            // ✅ FIX : Appeler refreshSettings() au lieu du monkey-patch
+            if (window.sttManager && window.sttManager.refreshSettings) {
+              window.sttManager.refreshSettings();
+            }
             console.log('[STT] Mode simulation pédagogique activé');
             
             // ✅ Notification pédagogique UNIQUEMENT si c'est le toggle Web Speech
