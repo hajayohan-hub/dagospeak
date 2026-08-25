@@ -7636,6 +7636,8 @@ async function renderConversation() {
                                     </div>
                                     <button id="btn-retry" class="pulse-animation" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;" disabled>🔁 Réessayer</button>
                                   `;
+                                  // ✅ Désactiver les boutons de réponse pour forcer l'utilisation de Réessayer
+                                  document.querySelectorAll('.btn-option, .btn-microphone, .btn-auto-eval').forEach(b => b.disabled = true);
                                 }
                                 
                                 // TTS du feedback d'échec
