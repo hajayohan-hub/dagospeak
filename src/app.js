@@ -7602,29 +7602,111 @@ async function renderConversation() {
                             
                             // ✅ Progression UNIQUE : feedback → TTS → nextNode
                             // (supprime le double traitement setTimeout 1500 + handleUserResponse)
-                            const feedbackText = personalizeText("Très bien {firstName} ! Continuons.");
-                            speakWithFeedback(feedbackText, {
-                              rate: 0.9,
-                              gender: 'female',
-                              onStart: () => {
-                                if (window.teacherAvatarSVG) {
-                                  window.teacherAvatarSVG.startSpeaking();
-                                  window.teacherAvatarSVG.setExpression('happy');
+                              // ✅ LOGIQUE PÉDAGOGIQUE : déterminer bonne/mauvaise réponse
+                              // Simulation : 1ère tentative = incorrecte (pédagogique), 2ème = correcte
+                              if (!attempts[node.id]) attempts[node.id] = 0;
+                              attempts[node.id]++;
+                              
+                              const isFirstAttempt = attempts[node.id] === 1;
+                              const isIncorrect = isFirstAttempt && node.feedbackOnFail; // Simuler échec pédagogique
+                              
+                              if (isIncorrect) {
+                                // ❌ MAUVAISE RÉPONSE : feedbackOnFail + rester sur même node
+                                console.log('[STT] ❌ Mauvaise réponse simulée, tentative', attempts[node.id]);
+                                
+                                const failFeedbackFr = personalizeText(node.feedbackOnFail?.textFr || 'Non, réessayez.');
+                                const failFeedbackMg = personalizeText(node.feedbackOnFail?.textMg || '');
+                                const failTtsText = personalizeText(node.feedbackOnFail?.audio?.ttsTextFr || failFeedbackFr);
+                                
+                                if (currentFeedback) {
+                                  currentFeedback.innerHTML = `
+                                    <div class="feedback-fail" style="background: #fee2e2; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-danger);">
+                                      <div style="font-size: 2rem;">🔄</div>
+                                      <p style="color: var(--ds-color-danger); font-weight: 600;">${failFeedbackFr}</p>
+                                      <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${failFeedbackMg})</p>
+                                    </div>
+                                    <button id="btn-retry" class="pulse-animation" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;" disabled>🔁 Réessayer</button>
+                                  `;
                                 }
-                              },
-                              onEnd: () => {
-                                if (window.teacherAvatarSVG) window.teacherAvatarSVG.stopSpeaking();
-                                console.log('[STT] ✅ TTS feedback terminé, progression vers', node.nextNodeOnSuccess);
-                                currentNodeId = node.nextNodeOnSuccess;
-                                setTimeout(() => renderNode(), 300);
-                              },
-                              onError: () => {
-                                if (window.teacherAvatarSVG) window.teacherAvatarSVG.stopSpeaking();
-                                console.warn('[STT] ⚠️ Erreur TTS, progression quand même vers', node.nextNodeOnSuccess);
-                                currentNodeId = node.nextNodeOnSuccess;
-                                setTimeout(() => renderNode(), 300);
+                                
+                                // TTS du feedback d'échec
+                                speakWithFeedback(failTtsText, {
+                                  rate: node.feedbackOnFail?.audio?.ttsRate || 0.9,
+                                  gender: 'female',
+                                  onStart: () => {
+                                    if (window.teacherAvatarSVG) window.teacherAvatarSVG.startSpeaking();
+                                  },
+                                  onEnd: () => {
+                                    console.log('[STT] ✅ TTS feedback échec terminé');
+                                    if (window.teacherAvatarSVG) window.teacherAvatarSVG.stopSpeaking();
+                                    // Réactiver le bouton Réessayer
+                                    const retryBtn = document.getElementById('btn-retry');
+                                    if (retryBtn) {
+                                      retryBtn.disabled = false;
+                                      console.log('[STT] 🔓 Bouton Réessayer activé');
+                                    }
+                                    // NE PAS progresser : rester sur même node
+                                    turnProcessed = false; // Permettre nouvelle tentative
+                                  },
+                                  onError: () => {
+                                    if (window.teacherAvatarSVG) window.teacherAvatarSVG.stopSpeaking();
+                                    const retryBtn = document.getElementById('btn-retry');
+                                    if (retryBtn) retryBtn.disabled = false;
+                                    turnProcessed = false;
+                                  }
+                                });
+                                
+                                // Ajouter event listener au bouton Réessayer
+                                setTimeout(() => {
+                                  const retryBtn = document.getElementById('btn-retry');
+                                  if (retryBtn) {
+                                    retryBtn.addEventListener('click', () => {
+                                      turnProcessed = false;
+                                      renderNode(); // Reste sur même node
+                                    });
+                                  }
+                                }, 100);
+                                
+                              } else {
+                                // ✅ BONNE RÉPONSE : feedbackOnSuccess + progression
+                                console.log('[STT] ✅ Bonne réponse simulée, tentative', attempts[node.id]);
+                                
+                                const successFeedbackFr = personalizeText(node.feedbackOnSuccess?.textFr || 'Très bien !');
+                                const successTtsText = personalizeText(node.feedbackOnSuccess?.audio?.ttsTextFr || successFeedbackFr);
+                                
+                                if (currentFeedback) {
+                                  currentFeedback.innerHTML = `
+                                    <div style="background: #d1fae5; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-success);">
+                                      <div style="font-size: 2rem;">✅</div>
+                                      <p style="color: var(--ds-color-success); font-weight: 600;">${successFeedbackFr}</p>
+                                    </div>
+                                  `;
+                                }
+                                
+                                speakWithFeedback(successTtsText, {
+                                  rate: node.feedbackOnSuccess?.audio?.ttsRate || 0.9,
+                                  gender: 'female',
+                                  onStart: () => {
+                                    if (window.teacherAvatarSVG) {
+                                      window.teacherAvatarSVG.startSpeaking();
+                                      window.teacherAvatarSVG.setExpression('happy');
+                                    }
+                                  },
+                                  onEnd: () => {
+                                    if (window.teacherAvatarSVG) window.teacherAvatarSVG.stopSpeaking();
+                                    console.log('[STT] ✅ TTS feedback succès terminé, progression vers', node.nextNodeOnSuccess);
+                                    currentNodeId = node.nextNodeOnSuccess;
+                                    setTimeout(() => renderNode(), 300);
+                                  },
+                                  onError: () => {
+                                    if (window.teacherAvatarSVG) window.teacherAvatarSVG.stopSpeaking();
+                                    console.warn('[STT] ⚠️ Erreur TTS, progression quand même vers', node.nextNodeOnSuccess);
+                                    currentNodeId = node.nextNodeOnSuccess;
+                                    setTimeout(() => renderNode(), 300);
+                                  }
+                                });
                               }
-                            });
+
 
                           },
 
