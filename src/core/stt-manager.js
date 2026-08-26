@@ -206,11 +206,11 @@ export class STTManager {
         const dataArray = new Uint8Array(bufferLength);
 
         const startTime = Date.now();
+          let finished = false; // ✅ Flag idempotent (AVANT checkAudio pour scope correct)
           let lastRmsLogTime = 0; // Pour log RMS périodique
 
         const checkAudio = () => {
             if (finished) return; // ✅ Protection contre doubles appels
-            let finished = false; // ✅ Flag pour empêcher doubles fins
           analyser.getByteFrequencyData(dataArray);
           
           // Calculer le RMS (Root Mean Square) pour détecter le volume
@@ -267,7 +267,11 @@ export class STTManager {
         checkAudio();
       })
       .catch(error => {
-        console.error('[STTManager] ❌ Erreur accès micro:', error);
+          console.error('[STTManager] ❌ getUserMedia FAILED');
+          console.error('[STTManager] name:', error?.name);
+          console.error('[STTManager] message:', error?.message);
+          console.error('[STTManager] secureContext:', window.isSecureContext);
+          console.error('[STTManager] mediaDevices:', !!navigator.mediaDevices);
         callbacks.onError?.('microphone-access-denied');
         this.#isListening = false;
       });
