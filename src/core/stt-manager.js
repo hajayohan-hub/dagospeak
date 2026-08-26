@@ -209,6 +209,8 @@ export class STTManager {
           let lastRmsLogTime = 0; // Pour log RMS périodique
 
         const checkAudio = () => {
+            if (finished) return; // ✅ Protection contre doubles appels
+            let finished = false; // ✅ Flag pour empêcher doubles fins
           analyser.getByteFrequencyData(dataArray);
           
           // Calculer le RMS (Root Mean Square) pour détecter le volume
@@ -222,12 +224,15 @@ export class STTManager {
 
           if (rms > SILENCE_THRESHOLD) {
             // L'utilisateur parle
-            hasStartedSpeaking = true;
-            silenceStartTime = null;
-            console.log('[STTManager] 🎤 Parole détectée, RMS:', rms.toFixed(3));
+              // ✅ Log seulement au début de la parole (pas à chaque frame)
+              if (!hasStartedSpeaking) {
+                console.log('[STTManager] 🎤 Début de parole, RMS:', rms.toFixed(3));
+              }
+              hasStartedSpeaking = true;
           } else if (hasStartedSpeaking) {
             // Silence après avoir parlé
             if (silenceStartTime === null) {
+                console.log('[STTManager] 🤫 Silence détecté (début du chronométrage)');
               silenceStartTime = Date.now();
             } else {
               const silenceDuration = Date.now() - silenceStartTime;
@@ -237,6 +242,7 @@ export class STTManager {
                 console.log('[STTManager] ✅ Fin de parole détectée après', silenceDuration, 'ms de silence');
                 
                 // Arrêter l'analyse
+                  finished = true; // ✅ Marquer comme terminé avant d'appeler onResult
                 cancelAnimationFrame(animationFrameId);
                 this.#stopAudioStream(mediaStream, audioContext);
                 
