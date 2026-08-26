@@ -3614,33 +3614,61 @@ async function speakWithFeedback(text, options = {}) {
   }
 
   speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = 'fr-FR';
-  utterance.rate = options.rate || 0.9;
-  utterance.pitch = options.pitch || 1.1;
-
-  // Sélection de la voix
-  const voices = speechSynthesis.getVoices();
-  const frenchVoice = voices.find(v =>
-    v.lang.startsWith('fr') &&
-    (options.gender === 'male' ?
-      v.name.toLowerCase().includes('male') || v.name.includes('Thomas') :
-      v.name.toLowerCase().includes('female') || v.name.includes('Amélie') || v.name.includes('Marie'))
-  ) || voices.find(v => v.lang.startsWith('fr'));
-
-  if (frenchVoice) utterance.voice = frenchVoice;
-
-  console.log(`[TTS] 🎙️ gender=${options.gender || 'female'}, voice=${frenchVoice?.name || 'default'}`);
-
-  if (options.onStart) options.onStart();
-  utterance.onend = () => {
-    if (options.onEnd) options.onEnd();
+  
+  // ✅ TTS SÉQUENTIEL : Découper en phrases pour robustesse mobile
+  const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+  console.log(`[TTS] 📝 Texte découpé en ${sentences.length} phrase(s)`);
+  
+  let currentSentenceIndex = 0;
+  
+  const speakNextSentence = () => {
+    if (currentSentenceIndex >= sentences.length) {
+      console.log('[TTS] ✅ Toutes les phrases terminées');
+      if (options.onEnd) options.onEnd();
+      return;
+    }
+  
+    const sentence = sentences[currentSentenceIndex].trim();
+    console.log(`[TTS] 🎙️ Phrase ${currentSentenceIndex + 1}/${sentences.length}: ${sentence}`);
+  
+    const utterance = new SpeechSynthesisUtterance(sentence);
+    utterance.lang = 'fr-FR';
+    utterance.rate = options.rate || 0.9;
+    utterance.pitch = options.pitch || 1.1;
+  
+    // Sélection de la voix
+    const voices = speechSynthesis.getVoices();
+    const frenchVoice = voices.find(v =>
+      v.lang.startsWith('fr') &&
+      (options.gender === 'male' ?
+        v.name.toLowerCase().includes('male') || v.name.includes('Thomas') :
+        v.name.toLowerCase().includes('female') || v.name.includes('Amélie') || v.name.includes('Marie'))
+    ) || voices.find(v => v.lang.startsWith('fr'));
+  
+    if (frenchVoice) utterance.voice = frenchVoice;
+  
+    if (currentSentenceIndex === 0 && options.onStart) {
+      console.log(`[TTS] 🎙️ gender=${options.gender || 'female'}, voice=${frenchVoice?.name || 'default'}`);
+      options.onStart();
+    }
+  
+    utterance.onend = () => {
+      console.log(`[TTS] ✅ Phrase ${currentSentenceIndex + 1} terminée`);
+      currentSentenceIndex++;
+      speakNextSentence();
+    };
+  
+    utterance.onerror = (error) => {
+      console.warn(`[TTS] ⚠️ Erreur phrase ${currentSentenceIndex + 1}:`, error);
+      currentSentenceIndex++;
+      speakNextSentence();
+    };
+  
+    speechSynthesis.speak(utterance);
   };
-  utterance.onerror = () => {
-    if (options.onEnd) options.onEnd();
-  };
-
-  speechSynthesis.speak(utterance);
+  
+  // ✅ Démarrer la séquence
+  speakNextSentence();
 }
 
 // ═══════════════════════════════════════════════════════════
