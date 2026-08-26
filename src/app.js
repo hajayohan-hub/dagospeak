@@ -7764,8 +7764,10 @@ async function renderConversation() {
                 onStart: () => {
                   console.log('[STT] Écoute démarrée');
                 },
-                onResult: (results) => {
-                  const recognized = results[0];
+                onResult: (result) => {
+                  const recognized = result?.transcript || result?.text || '';
+                  console.log('[STT DEBUG] Objet brut reçu:', result);
+                  console.log('[STT DEBUG] Transcript extrait:', recognized);
                   console.log('[STT] Reconnu:', recognized);
 
                   const comparison = sttManager.compareTexts(recognized, expectedFrench);
