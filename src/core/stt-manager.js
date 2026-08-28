@@ -12,7 +12,8 @@ export class STTManager {
   #simulationMode = false;
   #turnCounter = 0;      // ✅ Compteur global de tours
   #currentTurnId = 0;    // ✅ ID du tour courant (protection contre callbacks tardifs)
-  #lastStartAttempt = 0; // ✅ Anti-boucle : timestamp du dernier startListening
+  #lastStartAttempt = 0;
+  #simulationCleanup = null; // ✅ Anti-boucle : timestamp du dernier startListening
 
   constructor() {
     this.#detectCapabilities();
@@ -186,6 +187,35 @@ export class STTManager {
     let audioContext = null;
     let analyser = null;
     let animationFrameId = null;
+
+    let finished = false;
+
+    const cleanup = () => {
+      if (finished) return;
+      finished = true;
+
+      if (animationFrameId !== null) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+      }
+
+      this.#stopAudioStream(mediaStream, audioContext);
+
+      mediaStream = null;
+      audioContext = null;
+      analyser = null;
+
+      if (this.#simulationCleanup === cleanup) {
+        this.#simulationCleanup = null;
+      }
+
+      this.#isListening = false;
+
+      console.log('[STTManager] 🧹 Simulation VAD nettoyée');
+    };
+
+    this.#simulationCleanup = cleanup;
+
 
     const SILENCE_THRESHOLD = 0.01; // Seuil de silence (RMS)
     const SILENCE_DURATION = 1500;  // 1.5s de silence = fin de parole
