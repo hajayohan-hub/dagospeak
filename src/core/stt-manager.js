@@ -14,6 +14,10 @@ export class STTManager {
   #currentTurnId = 0;    // ✅ ID du tour courant (protection contre callbacks tardifs)
   #lastStartAttempt = 0;
   #simulationCleanup = null; // ✅ Anti-boucle : timestamp du dernier startListening
+  #simulationStream = null;
+  #simulationAudioContext = null;
+  #simulationAnimationFrameId = null;
+  #simulationFinished = false;
 
   constructor() {
     this.#detectCapabilities();
@@ -217,6 +221,37 @@ export class STTManager {
     this.#simulationCleanup = cleanup;
 
 
+    const finishSession = () => {
+      if (this.#simulationFinished) return;
+      this.#simulationFinished = true;
+      
+      console.log('[STTManager] 🧹 finishSession() - nettoyage centralisé');
+      
+      // Annuler l'animation frame
+      if (this.#simulationAnimationFrameId !== null) {
+        cancelAnimationFrame(this.#simulationAnimationFrameId);
+        this.#simulationAnimationFrameId = null;
+      }
+      
+      // Arrêter le MediaStream
+      if (this.#simulationStream) {
+        this.#simulationStream.getTracks().forEach(track => track.stop());
+        this.#simulationStream = null;
+      }
+      
+      // Fermer l'AudioContext
+      if (this.#simulationAudioContext && this.#simulationAudioContext.state !== 'closed') {
+        try {
+          this.#simulationAudioContext.close();
+        } catch (e) {
+          console.warn('[STTManager] ⚠️ Erreur fermeture AudioContext:', e);
+        }
+        this.#simulationAudioContext = null;
+      }
+      
+      this.#isListening = false;
+    };
+
     const SILENCE_THRESHOLD = 0.01; // Seuil de silence (RMS)
     const SILENCE_DURATION = 1500;  // 1.5s de silence = fin de parole
     const MIN_SPEECH_DURATION = 500; // Durée minimum de parole avant de considérer la fin
@@ -236,6 +271,11 @@ export class STTManager {
         const dataArray = new Uint8Array(bufferLength);
 
         const startTime = Date.now();
+
+    // ✅ Stocker les ressources pour cleanup centralisé
+    this.#simulationStream = mediaStream;
+    this.#simulationAudioContext = audioContext;
+    this.#simulationFinished = false;
           let finished = false; // ✅ Flag idempotent (AVANT checkAudio pour scope correct)
           let lastRmsLogTime = 0; // Pour log RMS périodique
 
@@ -271,11 +311,8 @@ export class STTManager {
               // Si silence assez long ET parole a duré assez longtemps
               if (silenceDuration > SILENCE_DURATION && elapsed > MIN_SPEECH_DURATION) {
                 console.log('[STTManager] ✅ Fin de parole détectée après', silenceDuration, 'ms de silence');
-                
-                // Arrêter l'analyse
-                  finished = true; // ✅ Marquer comme terminé avant d'appeler onResult
-                cancelAnimationFrame(animationFrameId);
-                this.#stopAudioStream(mediaStream, audioContext);
+
+                  finishSession(); // ✅ Nettoyage centralisé
                 
                 // Simuler une reconnaissance
                 callbacks.onResult?.({
@@ -293,6 +330,7 @@ export class STTManager {
 
           // Continuer l'analyse
           animationFrameId = requestAnimationFrame(checkAudio);
+        this.#simulationAnimationFrameId = animationFrameId;
         };
 
         checkAudio();
@@ -401,12 +439,46 @@ export class STTManager {
    * Arrête l'écoute
    */
   stopListening() {
+    // Mode Web Speech
     if (this.#recognition && this.#isListening) {
-      this.#recognition.stop();
+      try {
+        this.#recognition.stop();
+      } catch (e) {
+        console.warn('[STTManager] ⚠️ Erreur arrêt Web Speech:', e);
+      }
+      
       this.#isListening = false;
-    } else if (this.#isListening) {
-      // Mode simulation : juste arrêter le flag
+      return;
+    }
+    
+    // Mode simulation : cleanup centralisé
+    if (this.#isListening) {
+      console.log('[STTManager] 🛑 stopListening() - arrêt forcé simulation');
+      
+      // Annuler l'animation frame
+      if (this.#simulationAnimationFrameId !== null) {
+        cancelAnimationFrame(this.#simulationAnimationFrameId);
+        this.#simulationAnimationFrameId = null;
+      }
+      
+      // Arrêter le MediaStream
+      if (this.#simulationStream) {
+        this.#simulationStream.getTracks().forEach(track => track.stop());
+        this.#simulationStream = null;
+      }
+      
+      // Fermer l'AudioContext
+      if (this.#simulationAudioContext && this.#simulationAudioContext.state !== 'closed') {
+        try {
+          this.#simulationAudioContext.close();
+        } catch (e) {
+          console.warn('[STTManager] ⚠️ Erreur fermeture AudioContext:', e);
+        }
+        this.#simulationAudioContext = null;
+      }
+      
       this.#isListening = false;
+      console.log('[STTManager] ✅ Ressources simulation nettoyées');
     }
   }
 
