@@ -7619,6 +7619,10 @@ async function renderConversation() {
                           // ✅ Démarrer le timeout APRÈS acquisition du micro
                           activateTimeout();
                         },
+                          onSpeechStart: () => {
+                            console.log('[STT] 🎤 Parole détectée, annulation du timeout UX');
+                            cancelTimeout(); // ✅ Annuler le timeout dès que l'utilisateur commence à parler
+                          },
                                                   onResult: (result) => {
                             cancelTimeout(); // ✅ Annuler le timeout
                             console.log('[STT] 🎭 Résultat simulation:', result);

@@ -227,6 +227,7 @@ export class STTManager {
               // ✅ Log seulement au début de la parole (pas à chaque frame)
               if (!hasStartedSpeaking) {
                 console.log('[STTManager] 🎤 Début de parole, RMS:', rms.toFixed(3));
+              callbacks.onSpeechStart?.(); // ✅ Notifier app.js que parole a commencé
               }
               hasStartedSpeaking = true;
           } else if (hasStartedSpeaking) {
