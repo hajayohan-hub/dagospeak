@@ -7648,12 +7648,13 @@ async function renderConversation() {
                               if (!attempts[node.id]) attempts[node.id] = 0;
                               attempts[node.id]++;
                               
-                              const isFirstAttempt = attempts[node.id] === 1;
-                              const isIncorrect = isFirstAttempt && node.feedbackOnFail; // Simuler échec pédagogique
+                              // ✅ VRAIE détection : basée sur la réponse sélectionnée (pas simulation forcée)
+                              const selected = node.responseOptions?.[idx];
+                              const isIncorrect = selected?.isCorrect !== true;
                               
                               if (isIncorrect) {
                                 // ❌ MAUVAISE RÉPONSE : feedbackOnFail + rester sur même node
-                                console.log('[STT] ❌ Mauvaise réponse simulée, tentative', attempts[node.id]);
+                                console.log('[STT] ❌ Mauvaise réponse, tentative', attempts[node.id]);
                                 
                                 const failFeedbackFr = personalizeText(node.feedbackOnFail?.textFr || 'Non, réessayez.');
                                 const failFeedbackMg = personalizeText(node.feedbackOnFail?.textMg || '');
@@ -7712,7 +7713,7 @@ async function renderConversation() {
                                 
                               } else {
                                 // ✅ BONNE RÉPONSE : feedbackOnSuccess + progression
-                                console.log('[STT] ✅ Bonne réponse simulée, tentative', attempts[node.id]);
+                                console.log('[STT] ✅ Bonne réponse, tentative', attempts[node.id]);
                                 
                                 const successFeedbackFr = personalizeText(node.feedbackOnSuccess?.textFr || 'Très bien !');
                                 const successTtsText = personalizeText(node.feedbackOnSuccess?.audio?.ttsTextFr || successFeedbackFr);
