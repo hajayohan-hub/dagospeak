@@ -3634,8 +3634,9 @@ async function speakWithFeedback(text, options = {}) {
   
     const utterance = new SpeechSynthesisUtterance(sentence);
     utterance.lang = 'fr-FR';
-    utterance.rate = options.rate || 0.9;
-    utterance.pitch = options.pitch || 1.1;
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      utterance.rate = options.rate || (isMobile ? 0.85 : 0.9);
+    utterance.pitch = options.pitch || (isMobile ? 1.0 : 1.1);
   
     // Sélection de la voix
     const voices = speechSynthesis.getVoices();
@@ -3659,7 +3660,7 @@ async function speakWithFeedback(text, options = {}) {
       
       // ✅ Délai + resume avant la prochaine phrase (robustesse mobile)
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      const delay = isMobile ? 200 : 100;
+      const delay = isMobile ? 300 : 150;
       
       setTimeout(() => {
         if ('speechSynthesis' in window) {
