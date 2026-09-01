@@ -3613,74 +3613,111 @@ async function speakWithFeedback(text, options = {}) {
     return;
   }
 
-  speechSynthesis.cancel();
-  
-  // ✅ TTS SÉQUENTIEL : Découper en phrases pour robustesse mobile
-  const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
-  console.log(`[TTS] 📝 Texte découpé en ${sentences.length} phrase(s)`);
-  
-  let currentSentenceIndex = 0;
-  
-  const speakNextSentence = () => {
-    if (currentSentenceIndex >= sentences.length) {
-      console.log('[TTS] ✅ Toutes les phrases terminées');
-      if (options.onEnd) options.onEnd();
+    speechSynthesis.cancel();
+    
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    
+    // ═══════════════════════════════════════════════════════
+    // STRATÉGIE MOBILE : UNE SEULE utterance (évite mots sautés)
+    // ═══════════════════════════════════════════════════════
+    if (isMobile) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'fr-FR';
+      utterance.rate = options.rate || 0.85;
+      utterance.pitch = options.pitch || 1.0;
+      
+      // Sélection de la voix
+      const voices = speechSynthesis.getVoices();
+      const frenchVoice = voices.find(v =>
+        v.lang.startsWith('fr') &&
+        (options.gender === 'male' ?
+          v.name.toLowerCase().includes('male') || v.name.includes('Thomas') :
+          v.name.toLowerCase().includes('female') || v.name.includes('Amélie') || v.name.includes('Marie'))
+      ) || voices.find(v => v.lang.startsWith('fr'));
+      
+      if (frenchVoice) utterance.voice = frenchVoice;
+      
+      console.log(`[TTS] 📱 Mobile: 1 utterance complète (${text.length} caractères)`);
+      console.log(`[TTS] 🎙️ gender=${options.gender || 'female'}, voice=${frenchVoice?.name || 'default'}`);
+      
+      if (options.onStart) options.onStart();
+      
+      utterance.onend = () => {
+        console.log('[TTS] ✅ Utterance mobile terminée');
+        if (options.onEnd) options.onEnd();
+      };
+      
+      utterance.onerror = (error) => {
+        console.warn('[TTS] ⚠️ Erreur utterance mobile:', error);
+        if (options.onEnd) options.onEnd();
+      };
+      
+      speechSynthesis.speak(utterance);
       return;
     }
-  
-    const sentence = sentences[currentSentenceIndex].trim();
-    console.log(`[TTS] 🎙️ Phrase ${currentSentenceIndex + 1}/${sentences.length}: ${sentence}`);
-    console.log(`[TTS] 📏 Longueur: ${sentence.length} caractères`);
-  
-    const utterance = new SpeechSynthesisUtterance(sentence);
-    utterance.lang = 'fr-FR';
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      utterance.rate = options.rate || (isMobile ? 0.85 : 0.9);
-    utterance.pitch = options.pitch || (isMobile ? 1.0 : 1.1);
-  
-    // Sélection de la voix
-    const voices = speechSynthesis.getVoices();
-    const frenchVoice = voices.find(v =>
-      v.lang.startsWith('fr') &&
-      (options.gender === 'male' ?
-        v.name.toLowerCase().includes('male') || v.name.includes('Thomas') :
-        v.name.toLowerCase().includes('female') || v.name.includes('Amélie') || v.name.includes('Marie'))
-    ) || voices.find(v => v.lang.startsWith('fr'));
-  
-    if (frenchVoice) utterance.voice = frenchVoice;
-  
-    if (currentSentenceIndex === 0 && options.onStart) {
-      console.log(`[TTS] 🎙️ gender=${options.gender || 'female'}, voice=${frenchVoice?.name || 'default'}`);
-      options.onStart();
-    }
-  
-    utterance.onend = () => {
-      console.log(`[TTS] ✅ Phrase ${currentSentenceIndex + 1} terminée`);
-      currentSentenceIndex++;
-      
-      // ✅ Délai + resume avant la prochaine phrase (robustesse mobile)
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      const delay = isMobile ? 300 : 150;
-      
-      setTimeout(() => {
-        if ('speechSynthesis' in window) {
-          speechSynthesis.resume(); // Débloquer le moteur TTS mobile
-        }
+    
+    // ═══════════════════════════════════════════════════════
+    // STRATÉGIE PC : Découpage séquentiel (comportement actuel)
+    // ═══════════════════════════════════════════════════════
+    const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+    console.log(`[TTS] 📝 Texte découpé en ${sentences.length} phrase(s)`);
+    
+    let currentSentenceIndex = 0;
+    
+    const speakNextSentence = () => {
+      if (currentSentenceIndex >= sentences.length) {
+        console.log('[TTS] ✅ Toutes les phrases terminées');
+        if (options.onEnd) options.onEnd();
+        return;
+      }
+    
+      const sentence = sentences[currentSentenceIndex].trim();
+      console.log(`[TTS] 🎙️ Phrase ${currentSentenceIndex + 1}/${sentences.length}: ${sentence}`);
+      console.log(`[TTS] 📏 Longueur: ${sentence.length} caractères`);
+    
+      const utterance = new SpeechSynthesisUtterance(sentence);
+      utterance.lang = 'fr-FR';
+      utterance.rate = options.rate || 0.9;
+      utterance.pitch = options.pitch || 1.1;
+    
+      // Sélection de la voix
+      const voices = speechSynthesis.getVoices();
+      const frenchVoice = voices.find(v =>
+        v.lang.startsWith('fr') &&
+        (options.gender === 'male' ?
+          v.name.toLowerCase().includes('male') || v.name.includes('Thomas') :
+          v.name.toLowerCase().includes('female') || v.name.includes('Amélie') || v.name.includes('Marie'))
+      ) || voices.find(v => v.lang.startsWith('fr'));
+    
+      if (frenchVoice) utterance.voice = frenchVoice;
+    
+      if (currentSentenceIndex === 0 && options.onStart) {
+        console.log(`[TTS] 🎙️ gender=${options.gender || 'female'}, voice=${frenchVoice?.name || 'default'}`);
+        options.onStart();
+      }
+    
+      utterance.onend = () => {
+        console.log(`[TTS] ✅ Phrase ${currentSentenceIndex + 1} terminée`);
+        currentSentenceIndex++;
+        
+        const delay = 150;
+        
+        setTimeout(() => {
+          speakNextSentence();
+        }, delay);
+      };
+    
+      utterance.onerror = (error) => {
+        console.warn(`[TTS] ⚠️ Erreur phrase ${currentSentenceIndex + 1}:`, error);
+        currentSentenceIndex++;
         speakNextSentence();
-      }, delay);
+      };
+    
+      speechSynthesis.speak(utterance);
     };
-  
-    utterance.onerror = (error) => {
-      console.warn(`[TTS] ⚠️ Erreur phrase ${currentSentenceIndex + 1}:`, error);
-      currentSentenceIndex++;
-      speakNextSentence();
-    };
-  
-    speechSynthesis.speak(utterance);
-  };
-  
-  // ✅ Démarrer la séquence
-  speakNextSentence();
+    
+    // ✅ Démarrer la séquence
+    speakNextSentence();
 }
 
 // ═══════════════════════════════════════════════════════════
