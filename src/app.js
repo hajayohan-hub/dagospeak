@@ -7599,6 +7599,21 @@ async function renderConversation() {
           // Ajout messge pédagogique
 
                 function handleSTTResponse(btn, idx, expected, node, attempts, feedback) {
+    // ✅ V4 : Variations de feedback pour éviter la répétition
+    const successVariations = [
+      "Très bien !",
+      "Exact !",
+      "Parfait !",
+      "Bravo !",
+      "Oui, c'est ça !"
+    ];
+    
+    const failVariations = [
+      "Pas tout à fait.",
+      "Presque !",
+      "Essayez encore.",
+      "Ce n'est pas exactement ça."
+    ];
               const currentFeedback = document.getElementById('feedback');
               
               // ✅ Toujours récupérer le bouton frais depuis le DOM
@@ -7705,7 +7720,8 @@ async function renderConversation() {
                                 // ❌ MAUVAISE RÉPONSE : feedbackOnFail + rester sur même node
                                 console.log('[STT] ❌ Mauvaise réponse, tentative', attempts[node.id]);
                                 
-                                const failFeedbackFr = personalizeText(node.feedbackOnFail?.textFr || 'Non, réessayez.');
+                                const defaultFailFeedback = failVariations[Math.floor(Math.random() * failVariations.length)];
+                                const failFeedbackFr = personalizeText(node.feedbackOnFail?.textFr || defaultFailFeedback);
                                 const failFeedbackMg = personalizeText(node.feedbackOnFail?.textMg || '');
                                 const failTtsText = personalizeText(node.feedbackOnFail?.audio?.ttsTextFr || failFeedbackFr);
                                 
@@ -7764,14 +7780,17 @@ async function renderConversation() {
                                 // ✅ BONNE RÉPONSE : feedbackOnSuccess + progression
                                 console.log('[STT] ✅ Bonne réponse, tentative', attempts[node.id]);
                                 
-                                const successFeedbackFr = personalizeText(node.feedbackOnSuccess?.textFr || 'Très bien !');
+                                const defaultSuccessFeedback = successVariations[Math.floor(Math.random() * successVariations.length)];
+                                const successFeedbackFr = personalizeText(node.feedbackOnSuccess?.textFr || defaultSuccessFeedback);
                                 const successTtsText = personalizeText(node.feedbackOnSuccess?.audio?.ttsTextFr || successFeedbackFr);
+                                const successFeedbackMg = personalizeText(node.feedbackOnSuccess?.textMg || '');
                                 
                                 if (currentFeedback) {
                                   currentFeedback.innerHTML = `
                                     <div style="background: #d1fae5; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-success);">
                                       <div style="font-size: 2rem;">✅</div>
                                       <p style="color: var(--ds-color-success); font-weight: 600;">${successFeedbackFr}</p>
+                                        ${successFeedbackMg ? `<p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${successFeedbackMg})</p>` : ''}
                                     </div>
                                   `;
                                 }
