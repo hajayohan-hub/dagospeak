@@ -3630,6 +3630,7 @@ async function speakWithFeedback(text, options = {}) {
   
     const sentence = sentences[currentSentenceIndex].trim();
     console.log(`[TTS] 🎙️ Phrase ${currentSentenceIndex + 1}/${sentences.length}: ${sentence}`);
+    console.log(`[TTS] 📏 Longueur: ${sentence.length} caractères`);
   
     const utterance = new SpeechSynthesisUtterance(sentence);
     utterance.lang = 'fr-FR';
@@ -3655,7 +3656,17 @@ async function speakWithFeedback(text, options = {}) {
     utterance.onend = () => {
       console.log(`[TTS] ✅ Phrase ${currentSentenceIndex + 1} terminée`);
       currentSentenceIndex++;
-      speakNextSentence();
+      
+      // ✅ Délai + resume avant la prochaine phrase (robustesse mobile)
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      const delay = isMobile ? 200 : 100;
+      
+      setTimeout(() => {
+        if ('speechSynthesis' in window) {
+          speechSynthesis.resume(); // Débloquer le moteur TTS mobile
+        }
+        speakNextSentence();
+      }, delay);
     };
   
     utterance.onerror = (error) => {
