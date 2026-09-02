@@ -7614,6 +7614,78 @@ async function renderConversation() {
 
           // Ajout messge pédagogique
 
+// ═══════════════════════════════════════════════════════════
+// V5.2 : Capturer les réponses utilisateur dans le contexte
+// ═══════════════════════════════════════════════════════════
+function captureUserResponse(nodeId, selectedOption) {
+  if (!window.conversationContext || !selectedOption) return;
+  
+  // Mapping nodeId → {slot, extractor}
+  const captureRules = {
+    'user_origin': {
+      slot: 'origin',
+      extract: (text) => {
+        const match = text.match(/(?:de|d'|à|en)\s+([A-ZÀ-Ü][a-zà-ü]+(?:\s+[A-ZÀ-Ü][a-zà-ü]+)*)/);
+        return match ? match[1] : text.replace(/^(?:je viens|j'habite|j'habite à|je suis de)\s+/i, '').trim();
+      }
+    },
+    'user_feeling': {
+      slot: 'feeling',
+      extract: (text) => text.replace(/\s*(?:merci|et vous\s*\?)\.?$/i, '').trim()
+    },
+    'user_father': {
+      slot: 'fatherName',
+      extract: (text) => {
+        const match = text.match(/(?:s'appelle|est|c'est)\s+([A-ZÀ-Ü][a-zà-ü]+)/);
+        return match ? match[1] : null;
+      }
+    },
+    'user_mother': {
+      slot: 'motherName',
+      extract: (text) => {
+        const match = text.match(/(?:s'appelle|est|c'est)\s+([A-ZÀ-Ü][a-zà-ü]+)/);
+        return match ? match[1] : null;
+      }
+    },
+    'user_siblings': {
+      slot: 'siblings',
+      extract: (text) => text.replace(/^(?:oui|non|j'ai)\s*/i, '').trim()
+    },
+    'user_name': {
+      slot: 'firstName',
+      extract: (text) => {
+        const match = text.match(/(?:je suis|je m'appelle|m'appelle)\s+([A-ZÀ-Ü][a-zà-ü]+)/);
+        return match ? match[1] : null;
+      }
+    },
+    'user_age': {
+      slot: 'age',
+      extract: (text) => {
+        const match = text.match(/(\d+)\s*(?:ans?|années?)/);
+        return match ? match[1] : null;
+      }
+    },
+    'user_profession': {
+      slot: 'profession',
+      extract: (text) => {
+        const match = text.match(/(?:je suis|suis)\s+(?:un|une)?\s*([a-zà-ü]+(?:\s+[a-zà-ü]+)*)/i);
+        return match ? match[1] : null;
+      }
+    }
+  };
+  
+  const rule = captureRules[nodeId];
+  if (!rule) return;
+  
+  const text = selectedOption.textFr || '';
+  const value = rule.extract(text);
+  
+  if (value) {
+    window.conversationContext.setUserSlot(rule.slot, value);
+    console.log(`[V5.2] 💾 Capturé: ${rule.slot} = "${value}" (depuis ${nodeId})`);
+  }
+}
+
                 function handleSTTResponse(btn, idx, expected, node, attempts, feedback) {
     // ✅ V4 : Variations de feedback pour éviter la répétition
     const successVariations = [
@@ -7795,6 +7867,10 @@ async function renderConversation() {
                               } else {
                                 // ✅ BONNE RÉPONSE : feedbackOnSuccess + progression
                                 console.log('[STT] ✅ Bonne réponse, tentative', attempts[node.id]);
+                                
+                                // ✅ V5.2 : Capturer la réponse dans le contexte
+                                const selectedOption = node.responseOptions?.[idx];
+                                captureUserResponse(node.id, selectedOption);
                                 
                                 const defaultSuccessFeedback = successVariations[Math.floor(Math.random() * successVariations.length)];
                                 const successFeedbackFr = personalizeText(node.feedbackOnSuccess?.textFr || defaultSuccessFeedback);
