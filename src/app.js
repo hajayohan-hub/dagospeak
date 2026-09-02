@@ -3652,7 +3652,18 @@ async function speakWithFeedback(text, options = {}) {
         if (options.onEnd) options.onEnd();
       };
       
-      speechSynthesis.speak(utterance);
+      // ✅ Délai de 300ms + resume() avant speak() (évite mots coupés au début)
+      setTimeout(() => {
+        try {
+          if ('speechSynthesis' in window) {
+            speechSynthesis.resume(); // Débloquer le moteur TTS mobile
+          }
+          speechSynthesis.speak(utterance);
+        } catch (error) {
+          console.warn('[TTS] ⚠️ Erreur speak() mobile:', error);
+          if (options.onEnd) options.onEnd();
+        }
+      }, 300);
       return;
     }
     
