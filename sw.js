@@ -6,7 +6,7 @@
 // ⚠️ Change ce numéro à CHAQUE déploiement — c'est ce qui déclenche
 // la détection de mise à jour (le navigateur compare ce fichier octet
 // par octet à la version active).
-const CACHE_VERSION = 'v47';
+const CACHE_VERSION = 'v48';
 const CACHE_NAME = `dagospeak-${CACHE_VERSION}`;
 
 const STATIC_ASSETS = [
