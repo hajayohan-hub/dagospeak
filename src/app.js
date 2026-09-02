@@ -7831,6 +7831,52 @@ function captureUserResponse(nodeId, selectedOption) {
                               
                               if (isIncorrect) {
                                 // ❌ MAUVAISE RÉPONSE : feedbackOnFail + rester sur même node
+                                // ✅ V5.5: Vérifier si réponse conversationnellement acceptable
+                                const selectedOption = node.responseOptions?.[idx];
+                                const continueConversation = selectedOption?.continueConversation || false;
+                                const responseType = selectedOption?.responseType || 'unknown';
+                                const conversationReaction = selectedOption?.conversationReaction || 'correction';
+                                
+                                if (continueConversation && !selectedOption?.isCorrect) {
+                                  // Réponse conversationnellement cohérente (isCorrect = false mais acceptable)
+                                  console.log(`[STT] 💬 Réponse conversationnelle: type=${responseType}, reaction=${conversationReaction}`);
+                                  
+                                  const convFeedback = node.conversationFeedback?.[conversationReaction];
+                                  const feedbackFr = convFeedback?.textFr || 'Je comprends.';
+                                  const feedbackMg = convFeedback?.textMg || '';
+                                  
+                                  if (currentFeedback) {
+                                    currentFeedback.innerHTML = `
+                                      <div style="background: #dbeafe; padding: 1rem; border-radius: 12px; border-left: 4px solid #3b82f6;">
+                                        <div style="font-size: 2rem;">💬</div>
+                                        <p style="color: #1e40af; font-weight: 600;">${feedbackFr}</p>
+                                        ${feedbackMg ? `<p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${feedbackMg})</p>` : ''}
+                                      </div>
+                                    `;
+                                  }
+                                  
+                                  speakWithFeedback(feedbackFr, {
+                                    rate: 0.9,
+                                    gender: 'female',
+                                    onStart: () => {
+                                      if (window.teacherAvatarSVG) {
+                                        window.teacherAvatarSVG.startSpeaking();
+                                      }
+                                    },
+                                    onEnd: () => {
+                                      console.log('[STT] ✅ Feedback conversationnel terminé');
+                                      if (window.teacherAvatarSVG) {
+                                        window.teacherAvatarSVG.stopSpeaking();
+                                      }
+                                      // Progresser vers le prochain nœud (comme une bonne réponse)
+                                      currentNodeId = node.nextNodeOnSuccess || node.nextNode;
+                                      setTimeout(() => renderNode(), 800);
+                                    }
+                                  });
+                                  
+                                  return;
+                                }
+                                
                                 console.log('[STT] ❌ Mauvaise réponse, tentative', attempts[node.id]);
                                 
                                 const defaultFailFeedback = failVariations[Math.floor(Math.random() * failVariations.length)];
