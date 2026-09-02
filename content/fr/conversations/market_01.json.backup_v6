@@ -69,10 +69,10 @@
         }
       },
       "feedbackOnFail": {
-        "textFr": "Presque ! {firstName}, vous voulez une banane.",
+        "textFr": "Non {firstName}, vous voulez une banane.",
         "textMg": "Tsia {firstName}, te hividy akondro ianao.",
         "audio": {
-          "ttsTextFr": "Presque ! {firstName}, vous voulez une banane.",
+          "ttsTextFr": "Non {firstName}, vous voulez une banane.",
           "ttsRate": 0.9
         }
       },

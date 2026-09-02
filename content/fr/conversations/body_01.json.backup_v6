@@ -1,0 +1,119 @@
+{
+  "id": "body_01",
+  "titleFr": "Parler de son corps",
+  "titleMg": "Fitantarana ny vatana",
+  "level": "A0",
+  "theme": "body",
+  "participants": {
+    "A": { "name": "Médecin", "avatar": "👨‍⚕️", "gender": "male" },
+    "B": { "name": "Vous", "avatar": "🙋", "gender": "neutral" }
+  },
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "teacher",
+      "textFr": "Bonjour {firstName}! Où avez-vous mal ?",
+      "textMg": "Manahoana! Aiza no marary?",
+      "audio": {
+        "ttsTextFr": "Bonjour {firstName}! Où avez-vous mal ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_pain"
+    },
+    {
+      "id": "user_pain",
+      "speaker": "user",
+      "responseOptions": [
+        { "textFr": "J'ai mal à la tête.", "textMg": "Marary ny lohako.", "isCorrect": true },
+        { "textFr": "J'ai mal au ventre.", "textMg": "Marary ny kiboko.", "isCorrect": true },
+        { "textFr": "Je suis content.", "textMg": "Faly aho.", "isCorrect": false }
+      ],
+      "maxAttempts": 2,
+      "feedbackOnSuccess": {
+        "textFr": "Je vois. Depuis quand ?",
+        "textMg": "Azo. Hatramin'ny oviana?",
+        "audio": { "ttsTextFr": "Je vois. Depuis quand ?" }
+      },
+      "feedbackOnFail": {
+        "textFr": "Non, il faut dire : J'ai mal à...",
+        "textMg": "Tsia, tokony holazaina hoe: marary ny ...",
+        "audio": { "ttsTextFr": "Non, il faut dire : J'ai mal à..." }
+      },
+      "nextNodeOnSuccess": "ask_duration",
+      "nextNodeOnMaxAttemptsReached": "ask_duration"
+    },
+    {
+      "id": "ask_duration",
+      "speaker": "teacher",
+      "textFr": "Depuis quand avez-vous mal {firstName}?",
+      "textMg": "Hatramin'ny oviana no marary ianao?",
+      "audio": {
+        "ttsTextFr": "Depuis quand avez-vous mal ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_duration"
+    },
+    {
+      "id": "user_duration",
+      "speaker": "user",
+      "responseOptions": [
+        { "textFr": "Depuis deux jours.", "textMg": "Efa ho roa andro.", "isCorrect": true },
+        { "textFr": "Depuis hier.", "textMg": "Hatramin'ny omaly.", "isCorrect": true },
+        { "textFr": "Je suis médecin.", "textMg": "Mpitsabo aho.", "isCorrect": false }
+      ],
+      "maxAttempts": 2,
+      "feedbackOnSuccess": {
+        "textFr": "D'accord. Prenez ce médicament.",
+        "textMg": "Mety. Mihinàna ity fanafody ity.",
+        "audio": { "ttsTextFr": "D'accord. Prenez ce médicament." }
+      },
+      "feedbackOnFail": {
+        "textFr": "Non {firstName}, il faut dire : Depuis...",
+        "textMg": "Tsia, tokony holazaina hoe: Hatramin'ny ...",
+        "audio": { "ttsTextFr": "Non {firstName}, il faut dire : Depuis..." }
+      },
+      "nextNodeOnSuccess": "user_thanks",
+      "nextNodeOnMaxAttemptsReached": "user_thanks"
+    },
+    {
+      "id": "user_thanks",
+      "speaker": "teacher",
+      "textFr": "Prenez ce médicament trois fois par jour. Comment dites-vous merci ?",
+      "textMg": "Mihinàna ity fanafody ity intelo isan'andro. Ahoana no fisaoranao?",
+      "audio": {
+        "ttsTextFr": "Prenez ce médicament trois fois par jour. Comment dites-vous merci ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_thanks_answer"
+    },
+    {
+      "id": "user_thanks_answer",
+      "speaker": "user",
+      "responseOptions": [
+        { "textFr": "Merci beaucoup, docteur.", "textMg": "Misaotra betsaka, dokotera.", "isCorrect": true },
+        { "textFr": "Au revoir.", "textMg": "Veloma.", "isCorrect": false },
+        { "textFr": "Je suis malade.", "textMg": "Marary aho.", "isCorrect": false }
+      ],
+      "maxAttempts": 2,
+      "feedbackOnSuccess": {
+        "textFr": "Excellent ! Vous savez parler de votre santé !",
+        "textMg": "Tena tsara! Mahay mitantara ny fahasalamanao ianao!",
+        "audio": { "ttsTextFr": "Excellent ! Vous savez parler de votre santé !" }
+      },
+      "feedbackOnFail": {
+        "textFr": "Non {firstName}, il faut dire : Merci beaucoup.",
+        "textMg": "Tsia, tokony holazaina hoe: Misaotra betsaka.",
+        "audio": { "ttsTextFr": "Non {firstName}, il faut dire : Merci beaucoup." }
+      },
+      "nextNodeOnSuccess": "end",
+      "nextNodeOnMaxAttemptsReached": "end"
+    },
+    {
+      "id": "end",
+      "isEnd": true,
+      "speaker": "teacher",
+      "textFr": "Bravo {firstName} ! Vous savez parler de votre corps en français !",
+      "textMg": "Arahabaina! Mahay mitantara ny momban'ny vatanao amin'ny teny frantsay ianao!"
+    }
+  ]
+}

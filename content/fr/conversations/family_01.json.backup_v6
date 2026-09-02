@@ -73,10 +73,10 @@
         }
       },
       "feedbackOnFail": {
-        "textFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Mon père s'appelle...",
+        "textFr": "Non, il faut dire : Mon père s'appelle...",
         "textMg": "Tsia, tokony holazaina hoe: Rabe no anaran'ny raiko.",
         "audio": {
-          "ttsTextFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Mon père s'appelle..."
+          "ttsTextFr": "Non, il faut dire : Mon père s'appelle..."
         }
       },
       "nextNodeOnSuccess": "user_mother",
@@ -132,10 +132,10 @@
         }
       },
       "feedbackOnFail": {
-        "textFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Ma mère s'appelle...",
+        "textFr": "Non, il faut dire : Ma mère s'appelle...",
         "textMg": "Tsia, tokony holazaina hoe: Rasoa no anaran'ny reniko.",
         "audio": {
-          "ttsTextFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Ma mère s'appelle..."
+          "ttsTextFr": "Non, il faut dire : Ma mère s'appelle..."
         }
       },
       "nextNodeOnSuccess": "user_siblings",
@@ -181,10 +181,10 @@
         }
       },
       "feedbackOnFail": {
-        "textFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Oui, j'ai...",
+        "textFr": "Non, il faut dire : Oui, j'ai...",
         "textMg": "Tsia, tokony hovaliana hoe: Eny, manana ... aho.",
         "audio": {
-          "ttsTextFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Oui, j'ai..."
+          "ttsTextFr": "Non, il faut dire : Oui, j'ai..."
         }
       },
       "nextNodeOnSuccess": "end",

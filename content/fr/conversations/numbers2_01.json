@@ -5,8 +5,16 @@
   "level": "A0",
   "theme": "numbers",
   "participants": {
-    "A": { "name": "Vendeur", "avatar": "👨‍🌾", "gender": "male" },
-    "B": { "name": "Vous", "avatar": "🙋", "gender": "neutral" }
+    "A": {
+      "name": "Vendeur",
+      "avatar": "👨‍🌾",
+      "gender": "male"
+    },
+    "B": {
+      "name": "Vous",
+      "avatar": "🙋",
+      "gender": "neutral"
+    }
   },
   "nodes": [
     {
@@ -24,23 +32,65 @@
       "id": "user_apples",
       "speaker": "user",
       "responseOptions": [
-        { "textFr": "Douze pommes, s'il vous plaît.", "textMg": "Paoma roa ambin'ny folo, azafady.", "isCorrect": true },
-        { "textFr": "Les pommes sont bonnes.", "textMg": "Tsara ny paoma.", "isCorrect": false },
-        { "textFr": "Merci beaucoup.", "textMg": "Misaotra betsaka.", "isCorrect": false }
+        {
+          "textFr": "Douze pommes, s'il vous plaît.",
+          "textMg": "Paoma roa ambin'ny folo, azafady.",
+          "isCorrect": true
+        },
+        {
+          "textFr": "Les pommes sont bonnes.",
+          "textMg": "Tsara ny paoma.",
+          "isCorrect": false
+        },
+        {
+          "textFr": "Merci beaucoup.",
+          "textMg": "Misaotra betsaka.",
+          "isCorrect": false
+        },
+        {
+          "textFr": "Je n'aime pas les pommes.",
+          "textMg": "Tsy tiako ny paoma.",
+          "isCorrect": false,
+          "responseType": "emotional",
+          "conversationReaction": "understanding",
+          "continueConversation": true
+        },
+        {
+          "textFr": "Je suis allergique aux bananes.",
+          "textMg": "Allergique amin'ny akondro aho.",
+          "isCorrect": false,
+          "responseType": "health",
+          "conversationReaction": "empathetic",
+          "continueConversation": true
+        }
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
         "textFr": "Parfait ! Douze pommes.",
         "textMg": "Tena tsara! Paoma roa ambin'ny folo.",
-        "audio": { "ttsTextFr": "Parfait ! Douze pommes." }
+        "audio": {
+          "ttsTextFr": "Parfait ! Douze pommes."
+        }
       },
       "feedbackOnFail": {
-        "textFr": "Non {firstName}, il faut dire : Douze pommes, s'il vous plaît.",
+        "textFr": "Presque ! {firstName}, il faut dire : Douze pommes, s'il vous plaît.",
         "textMg": "Tsia, tokony holazaina hoe: Paoma roa ambin'ny folo, azafady.",
-        "audio": { "ttsTextFr": "Non {firstName}, il faut dire : Douze pommes, s'il vous plaît." }
+        "audio": {
+          "ttsTextFr": "Presque ! {firstName}, il faut dire : Douze pommes, s'il vous plaît."
+        }
       },
       "nextNodeOnSuccess": "ask_bananas",
-      "nextNodeOnMaxAttemptsReached": "ask_bananas"
+      "nextNodeOnMaxAttemptsReached": "ask_bananas",
+      "conversationFeedback": {
+        "understanding": {
+          "textFr": "Je comprends ! Chacun a ses goûts. Quel fruit préférez-vous ?",
+          "textMg": "Azoko! Samy manana ny safidiny ny olona. Inona ny voankazo tianao?"
+        },
+        "empathetic": {
+          "textFr": "Oh, je suis désolé ! C'est important de faire attention aux allergies.",
+          "textMg": "Miala tsiny aho! Zava-dehibe ny mitandrina amin'ny allergie."
+        }
+      }
     },
     {
       "id": "ask_bananas",
@@ -57,23 +107,65 @@
       "id": "user_bananas",
       "speaker": "user",
       "responseOptions": [
-        { "textFr": "Quinze bananes, s'il vous plaît.", "textMg": "Akondro dimy ambin'ny folo, azafady.", "isCorrect": true },
-        { "textFr": "Les bananes sont chères.", "textMg": "Lafo ny akondro.", "isCorrect": false },
-        { "textFr": "Je n'aime pas les bananes.", "textMg": "Tsy tiako ny akondro.", "isCorrect": false }
+        {
+          "textFr": "Quinze bananes, s'il vous plaît.",
+          "textMg": "Akondro dimy ambin'ny folo, azafady.",
+          "isCorrect": true
+        },
+        {
+          "textFr": "Les bananes sont chères.",
+          "textMg": "Lafo ny akondro.",
+          "isCorrect": false
+        },
+        {
+          "textFr": "Je n'aime pas les bananes.",
+          "textMg": "Tsy tiako ny akondro.",
+          "isCorrect": false
+        },
+        {
+          "textFr": "Je n'aime pas les pommes.",
+          "textMg": "Tsy tiako ny paoma.",
+          "isCorrect": false,
+          "responseType": "emotional",
+          "conversationReaction": "understanding",
+          "continueConversation": true
+        },
+        {
+          "textFr": "Je suis allergique aux bananes.",
+          "textMg": "Allergique amin'ny akondro aho.",
+          "isCorrect": false,
+          "responseType": "health",
+          "conversationReaction": "empathetic",
+          "continueConversation": true
+        }
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
         "textFr": "Très bien ! Quinze bananes.",
         "textMg": "Tena tsara! Akondro dimy ambin'ny folo.",
-        "audio": { "ttsTextFr": "Très bien ! Quinze bananes." }
+        "audio": {
+          "ttsTextFr": "Très bien ! Quinze bananes."
+        }
       },
       "feedbackOnFail": {
-        "textFr": "Non {firstName}, il faut dire : Quinze bananes, s'il vous plaît.",
+        "textFr": "Presque ! {firstName}, il faut dire : Quinze bananes, s'il vous plaît.",
         "textMg": "Tsia, tokony holazaina hoe: Akondro dimy ambin'ny folo, azafady.",
-        "audio": { "ttsTextFr": "Non {firstName}, il faut dire : Quinze bananes, s'il vous plaît." }
+        "audio": {
+          "ttsTextFr": "Presque ! {firstName}, il faut dire : Quinze bananes, s'il vous plaît."
+        }
       },
       "nextNodeOnSuccess": "ask_total",
-      "nextNodeOnMaxAttemptsReached": "ask_total"
+      "nextNodeOnMaxAttemptsReached": "ask_total",
+      "conversationFeedback": {
+        "understanding": {
+          "textFr": "Je comprends ! Chacun a ses goûts. Quel fruit préférez-vous ?",
+          "textMg": "Azoko! Samy manana ny safidiny ny olona. Inona ny voankazo tianao?"
+        },
+        "empathetic": {
+          "textFr": "Oh, je suis désolé ! C'est important de faire attention aux allergies.",
+          "textMg": "Miala tsiny aho! Zava-dehibe ny mitandrina amin'ny allergie."
+        }
+      }
     },
     {
       "id": "ask_total",
@@ -90,23 +182,65 @@
       "id": "user_payment",
       "speaker": "user",
       "responseOptions": [
-        { "textFr": "Je paie avec cinquante mille.", "textMg": "Mandoa amin'ny dimampolo arivo aho.", "isCorrect": true },
-        { "textFr": "C'est trop cher.", "textMg": "Lafo loatra izany.", "isCorrect": false },
-        { "textFr": "Je n'ai pas d'argent.", "textMg": "Tsy manam-bola aho.", "isCorrect": false }
+        {
+          "textFr": "Je paie avec cinquante mille.",
+          "textMg": "Mandoa amin'ny dimampolo arivo aho.",
+          "isCorrect": true
+        },
+        {
+          "textFr": "C'est trop cher.",
+          "textMg": "Lafo loatra izany.",
+          "isCorrect": false
+        },
+        {
+          "textFr": "Je n'ai pas d'argent.",
+          "textMg": "Tsy manam-bola aho.",
+          "isCorrect": false
+        },
+        {
+          "textFr": "Je n'aime pas les pommes.",
+          "textMg": "Tsy tiako ny paoma.",
+          "isCorrect": false,
+          "responseType": "emotional",
+          "conversationReaction": "understanding",
+          "continueConversation": true
+        },
+        {
+          "textFr": "Je suis allergique aux bananes.",
+          "textMg": "Allergique amin'ny akondro aho.",
+          "isCorrect": false,
+          "responseType": "health",
+          "conversationReaction": "empathetic",
+          "continueConversation": true
+        }
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
         "textFr": "Parfait ! Voici votre monnaie : trente mille ariary.",
         "textMg": "Tena tsara! Inty ny ambim-bolanao: telopolo arivo ariary.",
-        "audio": { "ttsTextFr": "Parfait ! Voici votre monnaie : trente mille ariary." }
+        "audio": {
+          "ttsTextFr": "Parfait ! Voici votre monnaie : trente mille ariary."
+        }
       },
       "feedbackOnFail": {
-        "textFr": "Non {firstName}, il faut dire : Je paie avec cinquante mille.",
+        "textFr": "Presque ! {firstName}, il faut dire : Je paie avec cinquante mille.",
         "textMg": "Tsia, tokony holazaina hoe: Mandoa amin'ny dimampolo arivo aho.",
-        "audio": { "ttsTextFr": "Non {firstName}, il faut dire : Je paie avec cinquante mille." }
+        "audio": {
+          "ttsTextFr": "Presque ! {firstName}, il faut dire : Je paie avec cinquante mille."
+        }
       },
       "nextNodeOnSuccess": "end",
-      "nextNodeOnMaxAttemptsReached": "end"
+      "nextNodeOnMaxAttemptsReached": "end",
+      "conversationFeedback": {
+        "understanding": {
+          "textFr": "Je comprends ! Chacun a ses goûts. Quel fruit préférez-vous ?",
+          "textMg": "Azoko! Samy manana ny safidiny ny olona. Inona ny voankazo tianao?"
+        },
+        "empathetic": {
+          "textFr": "Oh, je suis désolé ! C'est important de faire attention aux allergies.",
+          "textMg": "Miala tsiny aho! Zava-dehibe ny mitandrina amin'ny allergie."
+        }
+      }
     },
     {
       "id": "end",

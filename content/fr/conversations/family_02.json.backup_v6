@@ -1,0 +1,129 @@
+{
+  "id": "family_02",
+  "titleFr": "Parler de sa famille (avec mémoire)",
+  "titleMg": "Miresaka momba ny fianakaviana (misy fahatsiarovana)",
+  "level": "A0",
+  "theme": "family",
+  "participants": {
+    "A": { "name": "Professeur", "avatar": "👩‍🏫", "gender": "female" },
+    "B": { "name": "Vous", "avatar": "🙋", "gender": "neutral" }
+  },
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "teacher",
+      "textFr": "Bonjour {firstName} ! Parlons de ta famille.",
+      "textMg": "Manahoana {firstName}! Andeha hiresaka momba ny fianakavianao.",
+      "audio": {
+        "ttsTextFr": "Bonjour {firstName} ! Parlons de ta famille."
+      },
+      "nextNode": "ask_origin"
+    },
+    {
+      "id": "ask_origin",
+      "speaker": "teacher",
+      "textFr": "D'abord, d'où viens-tu ?",
+      "textMg": "Aloha, avy aiza ianao ?",
+      "audio": {
+        "ttsTextFr": "D'abord, d'où viens-tu ?"
+      },
+      "nextNode": "user_origin"
+    },
+    {
+      "id": "user_origin",
+      "speaker": "user",
+      "responseOptions": [
+        { "textFr": "Je viens d'Antananarivo.", "textMg": "Avy any Antananarivo aho.", "isCorrect": true },
+        { "textFr": "Je viens de Toamasina.", "textMg": "Avy any Toamasina aho.", "isCorrect": true },
+        { "textFr": "Je viens de Fianarantsoa.", "textMg": "Avy any Fianarantsoa aho.", "isCorrect": true }
+      ],
+      "maxAttempts": 2,
+      "feedbackOnSuccess": {
+        "textFr": "Ah, tu viens de {origin} ! C'est une belle ville.",
+        "textMg": "Oh, avy any {origin} ianao! Tanàna tsara izany.",
+        "audio": { "ttsTextFr": "Ah, tu viens de {origin} ! C'est une belle ville." }
+      },
+      "feedbackOnFail": {
+        "textFr": "Réponds avec : Je viens de...",
+        "textMg": "Valio hoe: Avy any...",
+        "audio": { "ttsTextFr": "Réponds avec : Je viens de..." }
+      },
+      "nextNodeOnSuccess": "ask_father",
+      "nextNodeOnMaxAttemptsReached": "ask_father"
+    },
+    {
+      "id": "ask_father",
+      "speaker": "teacher",
+      "textFr": "Parle-moi de ton père. Comment s'appelle-t-il ?",
+      "textMg": "Milazao ahy momba ny rainao. Iza ny anarany ?",
+      "audio": {
+        "ttsTextFr": "Parle-moi de ton père. Comment s'appelle-t-il ?"
+      },
+      "nextNode": "user_father"
+    },
+    {
+      "id": "user_father",
+      "speaker": "user",
+      "responseOptions": [
+        { "textFr": "Mon père s'appelle Rakoto.", "textMg": "Ny raiko dia atao hoe Rakoto.", "isCorrect": true },
+        { "textFr": "Mon père s'appelle Jean.", "textMg": "Ny raiko dia atao hoe Jean.", "isCorrect": true },
+        { "textFr": "Il s'appelle Pierre.", "textMg": "Pierre no anarany.", "isCorrect": true }
+      ],
+      "maxAttempts": 2,
+      "feedbackOnSuccess": {
+        "textFr": "{fatherName}, c'est un beau prénom ! Et ta mère ?",
+        "textMg": "{fatherName}, anarana tsara! Ary ny reninao?",
+        "audio": { "ttsTextFr": "{fatherName}, c'est un beau prénom ! Et ta mère ?" }
+      },
+      "feedbackOnFail": {
+        "textFr": "Dis : Mon père s'appelle...",
+        "textMg": "Lazao hoe: Ny raiko dia...",
+        "audio": { "ttsTextFr": "Dis : Mon père s'appelle..." }
+      },
+      "nextNodeOnSuccess": "ask_mother",
+      "nextNodeOnMaxAttemptsReached": "ask_mother"
+    },
+    {
+      "id": "ask_mother",
+      "speaker": "teacher",
+      "textFr": "Et ta mère, comment s'appelle-t-elle ?",
+      "textMg": "Ary ny reninao, iza no anarany?",
+      "audio": {
+        "ttsTextFr": "Et ta mère, comment s'appelle-t-elle ?"
+      },
+      "nextNode": "user_mother"
+    },
+    {
+      "id": "user_mother",
+      "speaker": "user",
+      "responseOptions": [
+        { "textFr": "Ma mère s'appelle Rabe.", "textMg": "Ny reniko dia atao hoe Rabe.", "isCorrect": true },
+        { "textFr": "Ma mère s'appelle Marie.", "textMg": "Ny reniko dia atao hoe Marie.", "isCorrect": true },
+        { "textFr": "Elle s'appelle Jeanne.", "textMg": "Jeanne no anarany.", "isCorrect": true }
+      ],
+      "maxAttempts": 2,
+      "feedbackOnSuccess": {
+        "textFr": "Donc ton père {fatherName} et ta mère {motherName} habitent à {origin} ?",
+        "textMg": "Ka ny rainao {fatherName} sy ny reninao {motherName} dia monina any {origin}?",
+        "audio": { "ttsTextFr": "Donc ton père {fatherName} et ta mère {motherName} habitent à {origin} ?" }
+      },
+      "feedbackOnFail": {
+        "textFr": "Dis : Ma mère s'appelle...",
+        "textMg": "Lazao hoe: Ny reniko dia...",
+        "audio": { "ttsTextFr": "Dis : Ma mère s'appelle..." }
+      },
+      "nextNodeOnSuccess": "end",
+      "nextNodeOnMaxAttemptsReached": "end"
+    },
+    {
+      "id": "end",
+      "isEnd": true,
+      "speaker": "teacher",
+      "textFr": "Bravo {firstName} ! Tu as bien présenté ta famille. Ton père {fatherName} et ta mère {motherName} doivent être fiers de toi !",
+      "textMg": "Arahabaina {firstName}! Tsara ny famelabelaranao ny fianakavianao. Ny rainao {fatherName} sy ny reninao {motherName} dia tokony hirehareha aminao!",
+      "audio": {
+        "ttsTextFr": "Bravo {firstName} ! Tu as bien présenté ta famille."
+      }
+    }
+  ]
+}

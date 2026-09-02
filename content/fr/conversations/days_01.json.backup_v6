@@ -73,10 +73,10 @@
         }
       },
       "feedbackOnFail": {
-        "textFr": "Pas tout à fait. pour dire le jour, utilisez : Lundi, Mardi, Mercredi...",
+        "textFr": "Non, pour dire le jour, utilisez : Lundi, Mardi, Mercredi...",
         "textMg": "Tsia, raha hilaza andro, lazaina hoe: Alatsinainy, Talata, Alarobia...",
         "audio": {
-          "ttsTextFr": "Pas tout à fait. pour dire le jour, utilisez : Lundi, Mardi, Mercredi..."
+          "ttsTextFr": "Non, pour dire le jour, utilisez : Lundi, Mardi, Mercredi..."
         }
       },
       "nextNodeOnSuccess": "teacher_next",

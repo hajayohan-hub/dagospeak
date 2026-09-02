@@ -5,8 +5,16 @@
   "level": "A0",
   "theme": "body",
   "participants": {
-    "A": { "name": "Médecin", "avatar": "👨‍⚕️", "gender": "male" },
-    "B": { "name": "Vous", "avatar": "🙋", "gender": "neutral" }
+    "A": {
+      "name": "Médecin",
+      "avatar": "👨‍⚕️",
+      "gender": "male"
+    },
+    "B": {
+      "name": "Vous",
+      "avatar": "🙋",
+      "gender": "neutral"
+    }
   },
   "nodes": [
     {
@@ -24,23 +32,65 @@
       "id": "user_pain",
       "speaker": "user",
       "responseOptions": [
-        { "textFr": "J'ai mal à la tête.", "textMg": "Marary ny lohako.", "isCorrect": true },
-        { "textFr": "J'ai mal au ventre.", "textMg": "Marary ny kiboko.", "isCorrect": true },
-        { "textFr": "Je suis content.", "textMg": "Faly aho.", "isCorrect": false }
+        {
+          "textFr": "J'ai mal à la tête.",
+          "textMg": "Marary ny lohako.",
+          "isCorrect": true
+        },
+        {
+          "textFr": "J'ai mal au ventre.",
+          "textMg": "Marary ny kiboko.",
+          "isCorrect": true
+        },
+        {
+          "textFr": "Je suis content.",
+          "textMg": "Faly aho.",
+          "isCorrect": false
+        },
+        {
+          "textFr": "J'ai très mal, c'est urgent.",
+          "textMg": "Marary be aho, maika izany.",
+          "isCorrect": false,
+          "responseType": "emergency",
+          "conversationReaction": "urgent",
+          "continueConversation": true
+        },
+        {
+          "textFr": "Ça fait longtemps que j'ai mal.",
+          "textMg": "Ela be aho no marary.",
+          "isCorrect": false,
+          "responseType": "emotional",
+          "conversationReaction": "empathetic",
+          "continueConversation": true
+        }
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
         "textFr": "Je vois. Depuis quand ?",
         "textMg": "Azo. Hatramin'ny oviana?",
-        "audio": { "ttsTextFr": "Je vois. Depuis quand ?" }
+        "audio": {
+          "ttsTextFr": "Je vois. Depuis quand ?"
+        }
       },
       "feedbackOnFail": {
-        "textFr": "Non, il faut dire : J'ai mal à...",
+        "textFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : J'ai mal à...",
         "textMg": "Tsia, tokony holazaina hoe: marary ny ...",
-        "audio": { "ttsTextFr": "Non, il faut dire : J'ai mal à..." }
+        "audio": {
+          "ttsTextFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : J'ai mal à..."
+        }
       },
       "nextNodeOnSuccess": "ask_duration",
-      "nextNodeOnMaxAttemptsReached": "ask_duration"
+      "nextNodeOnMaxAttemptsReached": "ask_duration",
+      "conversationFeedback": {
+        "urgent": {
+          "textFr": "Oh non, j'espère que ce n'est pas grave. Voulez-vous que j'appelle de l'aide ?",
+          "textMg": "Isy ratsy anie izany! Tianao ve ny hiantso fanampiana?"
+        },
+        "empathetic": {
+          "textFr": "Je suis désolé de l'entendre. J'espère que vous allez bientôt vous sentir mieux.",
+          "textMg": "Miala tsiny aho maheno izany. Antenaina ho sitrana haingana ianao."
+        }
+      }
     },
     {
       "id": "ask_duration",
@@ -57,23 +107,65 @@
       "id": "user_duration",
       "speaker": "user",
       "responseOptions": [
-        { "textFr": "Depuis deux jours.", "textMg": "Efa ho roa andro.", "isCorrect": true },
-        { "textFr": "Depuis hier.", "textMg": "Hatramin'ny omaly.", "isCorrect": true },
-        { "textFr": "Je suis médecin.", "textMg": "Mpitsabo aho.", "isCorrect": false }
+        {
+          "textFr": "Depuis deux jours.",
+          "textMg": "Efa ho roa andro.",
+          "isCorrect": true
+        },
+        {
+          "textFr": "Depuis hier.",
+          "textMg": "Hatramin'ny omaly.",
+          "isCorrect": true
+        },
+        {
+          "textFr": "Je suis médecin.",
+          "textMg": "Mpitsabo aho.",
+          "isCorrect": false
+        },
+        {
+          "textFr": "J'ai très mal, c'est urgent.",
+          "textMg": "Marary be aho, maika izany.",
+          "isCorrect": false,
+          "responseType": "emergency",
+          "conversationReaction": "urgent",
+          "continueConversation": true
+        },
+        {
+          "textFr": "Ça fait longtemps que j'ai mal.",
+          "textMg": "Ela be aho no marary.",
+          "isCorrect": false,
+          "responseType": "emotional",
+          "conversationReaction": "empathetic",
+          "continueConversation": true
+        }
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
         "textFr": "D'accord. Prenez ce médicament.",
         "textMg": "Mety. Mihinàna ity fanafody ity.",
-        "audio": { "ttsTextFr": "D'accord. Prenez ce médicament." }
+        "audio": {
+          "ttsTextFr": "D'accord. Prenez ce médicament."
+        }
       },
       "feedbackOnFail": {
-        "textFr": "Non {firstName}, il faut dire : Depuis...",
+        "textFr": "Presque ! {firstName}, il faut dire : Depuis...",
         "textMg": "Tsia, tokony holazaina hoe: Hatramin'ny ...",
-        "audio": { "ttsTextFr": "Non {firstName}, il faut dire : Depuis..." }
+        "audio": {
+          "ttsTextFr": "Presque ! {firstName}, il faut dire : Depuis..."
+        }
       },
       "nextNodeOnSuccess": "user_thanks",
-      "nextNodeOnMaxAttemptsReached": "user_thanks"
+      "nextNodeOnMaxAttemptsReached": "user_thanks",
+      "conversationFeedback": {
+        "urgent": {
+          "textFr": "Oh non, j'espère que ce n'est pas grave. Voulez-vous que j'appelle de l'aide ?",
+          "textMg": "Isy ratsy anie izany! Tianao ve ny hiantso fanampiana?"
+        },
+        "empathetic": {
+          "textFr": "Je suis désolé de l'entendre. J'espère que vous allez bientôt vous sentir mieux.",
+          "textMg": "Miala tsiny aho maheno izany. Antenaina ho sitrana haingana ianao."
+        }
+      }
     },
     {
       "id": "user_thanks",
@@ -90,23 +182,65 @@
       "id": "user_thanks_answer",
       "speaker": "user",
       "responseOptions": [
-        { "textFr": "Merci beaucoup, docteur.", "textMg": "Misaotra betsaka, dokotera.", "isCorrect": true },
-        { "textFr": "Au revoir.", "textMg": "Veloma.", "isCorrect": false },
-        { "textFr": "Je suis malade.", "textMg": "Marary aho.", "isCorrect": false }
+        {
+          "textFr": "Merci beaucoup, docteur.",
+          "textMg": "Misaotra betsaka, dokotera.",
+          "isCorrect": true
+        },
+        {
+          "textFr": "Au revoir.",
+          "textMg": "Veloma.",
+          "isCorrect": false
+        },
+        {
+          "textFr": "Je suis malade.",
+          "textMg": "Marary aho.",
+          "isCorrect": false
+        },
+        {
+          "textFr": "J'ai très mal, c'est urgent.",
+          "textMg": "Marary be aho, maika izany.",
+          "isCorrect": false,
+          "responseType": "emergency",
+          "conversationReaction": "urgent",
+          "continueConversation": true
+        },
+        {
+          "textFr": "Ça fait longtemps que j'ai mal.",
+          "textMg": "Ela be aho no marary.",
+          "isCorrect": false,
+          "responseType": "emotional",
+          "conversationReaction": "empathetic",
+          "continueConversation": true
+        }
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
         "textFr": "Excellent ! Vous savez parler de votre santé !",
         "textMg": "Tena tsara! Mahay mitantara ny fahasalamanao ianao!",
-        "audio": { "ttsTextFr": "Excellent ! Vous savez parler de votre santé !" }
+        "audio": {
+          "ttsTextFr": "Excellent ! Vous savez parler de votre santé !"
+        }
       },
       "feedbackOnFail": {
-        "textFr": "Non {firstName}, il faut dire : Merci beaucoup.",
+        "textFr": "Presque ! {firstName}, il faut dire : Merci beaucoup.",
         "textMg": "Tsia, tokony holazaina hoe: Misaotra betsaka.",
-        "audio": { "ttsTextFr": "Non {firstName}, il faut dire : Merci beaucoup." }
+        "audio": {
+          "ttsTextFr": "Presque ! {firstName}, il faut dire : Merci beaucoup."
+        }
       },
       "nextNodeOnSuccess": "end",
-      "nextNodeOnMaxAttemptsReached": "end"
+      "nextNodeOnMaxAttemptsReached": "end",
+      "conversationFeedback": {
+        "urgent": {
+          "textFr": "Oh non, j'espère que ce n'est pas grave. Voulez-vous que j'appelle de l'aide ?",
+          "textMg": "Isy ratsy anie izany! Tianao ve ny hiantso fanampiana?"
+        },
+        "empathetic": {
+          "textFr": "Je suis désolé de l'entendre. J'espère que vous allez bientôt vous sentir mieux.",
+          "textMg": "Miala tsiny aho maheno izany. Antenaina ho sitrana haingana ianao."
+        }
+      }
     },
     {
       "id": "end",

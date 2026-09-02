@@ -73,10 +73,10 @@
         }
       },
       "feedbackOnFail": {
-        "textFr": "Presque ! {firstName}, il faut dire : Deux kilos, s'il vous plaît.",
+        "textFr": "Non {firstName}, il faut dire : Deux kilos, s'il vous plaît.",
         "textMg": "Tsia, tokony holazaina hoe: Roa Kilaograma, azafady.",
         "audio": {
-          "ttsTextFr": "Presque ! {firstName}, il faut dire : Deux kilos, s'il vous plaît."
+          "ttsTextFr": "Non {firstName}, il faut dire : Deux kilos, s'il vous plaît."
         }
       },
       "nextNodeOnSuccess": "ask_price",
@@ -148,10 +148,10 @@
         }
       },
       "feedbackOnFail": {
-        "textFr": "Presque ! {firstName}, il faut dire : Oui, ... aussi. ou Pas tout à fait. merci.",
+        "textFr": "Non {firstName}, il faut dire : Oui, ... aussi. ou Non, merci.",
         "textMg": "Tsia, tokony hovaliana hoe: Eny, ... koa. na Tsia, misaotra.",
         "audio": {
-          "ttsTextFr": "Presque ! {firstName}, il faut dire : Oui, ... aussi. ou Pas tout à fait. merci."
+          "ttsTextFr": "Non {firstName}, il faut dire : Oui, ... aussi. ou Non, merci."
         }
       },
       "nextNodeOnSuccess": "end",

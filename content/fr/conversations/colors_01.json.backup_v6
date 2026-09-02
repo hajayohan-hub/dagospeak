@@ -73,10 +73,10 @@
         }
       },
       "feedbackOnFail": {
-        "textFr": "Pas tout à fait. le ciel est bleu.",
+        "textFr": "Non, le ciel est bleu.",
         "textMg": "Tsia, manga ny lanitra.",
         "audio": {
-          "ttsTextFr": "Pas tout à fait. le ciel est bleu."
+          "ttsTextFr": "Non, le ciel est bleu."
         }
       },
       "nextNodeOnSuccess": "user_grass",
@@ -132,10 +132,10 @@
         }
       },
       "feedbackOnFail": {
-        "textFr": "Pas tout à fait. l'herbe est verte.",
+        "textFr": "Non, l'herbe est verte.",
         "textMg": "Tsia, maitso ny ahi-maitso.",
         "audio": {
-          "ttsTextFr": "Presque ! {firstName}, l'herbe est verte."
+          "ttsTextFr": "Non {firstName}, l'herbe est verte."
         }
       },
       "nextNodeOnSuccess": "user_sun",
@@ -181,10 +181,10 @@
         }
       },
       "feedbackOnFail": {
-        "textFr": "Pas tout à fait. le soleil est jaune.",
+        "textFr": "Non, le soleil est jaune.",
         "textMg": "Tsia, mavo ny masoandro.",
         "audio": {
-          "ttsTextFr": "Presque ! {firstName}, le soleil est jaune."
+          "ttsTextFr": "Non {firstName}, le soleil est jaune."
         }
       },
       "nextNodeOnSuccess": "end",

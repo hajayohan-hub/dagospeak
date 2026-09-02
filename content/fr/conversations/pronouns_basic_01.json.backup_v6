@@ -1,0 +1,134 @@
+{
+  "id": "pronouns_basic_01",
+  "titleFr": "Les pronoms de base",
+  "titleMg": "Ny mpisolo tena fototra",
+  "level": "A0",
+  "theme": "pronouns",
+  "participants": {
+    "A": { "name": "Professeur", "avatar": "👩‍🏫", "gender": "female" },
+    "B": { "name": "Vous", "avatar": "🙋", "gender": "neutral" }
+  },
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "teacher",
+      "textFr": "Bonjour {firstName} ! Aujourd'hui, nous allons apprendre les pronoms. Présentez-vous en utilisant « Je ».",
+      "textMg": "Manahoana {firstName}! Androany, hianatra ny mpisolo tena isika. Ampahafantaro tena amin'ny alalan'ny « Je ».",
+      "audio": {
+        "ttsTextFr": "Bonjour {firstName} ! Aujourd'hui, nous allons apprendre les pronoms. Présentez-vous en utilisant « Je ».",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_introduce"
+    },
+    {
+      "id": "user_introduce",
+      "speaker": "user",
+      "responseOptions": [
+        { "textFr": "Je m'appelle {firstName}.", "textMg": "{firstName} no anarako.", "isCorrect": true },
+        { "textFr": "Tu t'appelles Marie.", "textMg": "Marie no anaranao.", "isCorrect": false },
+        { "textFr": "Il mange du riz.", "textMg": "Mihinana vary izy.", "isCorrect": false }
+      ],
+      "maxAttempts": 2,
+      "feedbackOnSuccess": {
+        "textFr": "Parfait ! « Je » est utilisé pour parler de soi-même.",
+        "textMg": "Tena tsara! « Je » dia ampiasaina raha miresaka momba ny tena.",
+        "audio": { "ttsTextFr": "Parfait ! « Je » est utilisé pour parler de soi-même." }
+      },
+      "feedbackOnFail": {
+        "textFr": "Pour vous présenter, utilisez « Je » : Je m'appelle...",
+        "textMg": "Raha hampahafantatra tena, ampiasao « Je »: Je m'appelle...",
+        "audio": { "ttsTextFr": "Pour vous présenter, utilisez « Je » : Je m'appelle..." }
+      },
+      "nextNodeOnSuccess": "teacher_you",
+      "nextNodeOnMaxAttemptsReached": "teacher_you"
+    },
+    {
+      "id": "teacher_you",
+      "speaker": "teacher",
+      "textFr": "Très bien ! Maintenant, demandez-moi mon nom en utilisant « Tu » ou « Vous ».",
+      "textMg": "Tena tsara! Izao, anontanio ny anarako amin'ny alalan'ny « Tu » na « Vous ».",
+      "audio": {
+        "ttsTextFr": "Très bien ! Maintenant, demandez-moi mon nom en utilisant « Tu » ou « Vous ».",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_ask_name"
+    },
+    {
+      "id": "user_ask_name",
+      "speaker": "user",
+      "responseOptions": [
+        { "textFr": "Comment vous appelez-vous ?", "textMg": "Iza no anaranao?", "isCorrect": true },
+        { "textFr": "Je mange du pain.", "textMg": "Mihinana mofo aho.", "isCorrect": false },
+        { "textFr": "Nous sommes amis.", "textMg": "Sakaiza isika.", "isCorrect": false }
+      ],
+      "maxAttempts": 2,
+      "feedbackOnSuccess": {
+        "textFr": "Excellent ! « Vous » est poli, « Tu » est plus familier.",
+        "textMg": "Tena mahatalanjona! « Vous » dia feno fanajana, « Tu » dia tsy dia ofisialy loatra.",
+        "audio": { "ttsTextFr": "Excellent ! « Vous » est poli, « Tu » est plus familier." }
+      },
+      "feedbackOnFail": {
+        "textFr": "Pour demander un nom, dites : Comment vous appelez-vous ?",
+        "textMg": "Raha hanontany anarana, lazaina hoe: Iza no anaranao?",
+        "audio": { "ttsTextFr": "Pour demander un nom, dites : Comment vous appelez-vous ?" }
+      },
+      "nextNodeOnSuccess": "teacher_we",
+      "nextNodeOnMaxAttemptsReached": "teacher_we"
+    },
+    {
+      "id": "teacher_we",
+      "speaker": "teacher",
+      "textFr": "Maintenant, utilisez « Nous » pour parler de nous deux ensemble.",
+      "textMg": "Izao, ampiasao « Nous » raha miresaka momba antsika roa miaraka.",
+      "audio": {
+        "ttsTextFr": "Maintenant, utilisez « Nous » pour parler de nous deux ensemble.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_we"
+    },
+    {
+      "id": "user_we",
+      "speaker": "user",
+      "responseOptions": [
+        { "textFr": "Nous apprenons le français.", "textMg": "Mianatra teny frantsay isika.", "isCorrect": true },
+        { "textFr": "Il va à l'école.", "textMg": "Mandeha an-tsekoly izy.", "isCorrect": false },
+        { "textFr": "Elle chante bien.", "textMg": "Mahay mihira tsara izy.", "isCorrect": false }
+      ],
+      "maxAttempts": 2,
+      "feedbackOnSuccess": {
+        "textFr": "Bravo ! « Nous » inclut vous et moi ensemble.",
+        "textMg": "Tena mahatalanjona! « Nous » dia mampiditra anao sy ahy miaraka.",
+        "audio": { "ttsTextFr": "Bravo ! « Nous » inclut vous et moi ensemble." }
+      },
+      "feedbackOnFail": {
+        "textFr": "Pour parler de nous deux, utilisez « Nous » : Nous apprenons...",
+        "textMg": "Raha miresaka momba antsika roa, ampiasao « Nous »: Mianatra isika...",
+        "audio": { "ttsTextFr": "Pour parler de nous deux, utilisez « Nous » : Nous apprenons..." }
+      },
+      "nextNodeOnSuccess": "teacher_end",
+      "nextNodeOnMaxAttemptsReached": "teacher_end"
+    },
+    {
+      "id": "teacher_end",
+      "speaker": "teacher",
+      "textFr": "Excellent {firstName} ! Vous connaissez maintenant les pronoms de base : Je, Tu, Vous, Nous.",
+      "textMg": "Tena mahatalanjona {firstName}! Fantatrao izao ny mpisolo tena fototra: Je, Tu, Vous, Nous.",
+      "audio": {
+        "ttsTextFr": "Excellent {firstName} ! Vous connaissez maintenant les pronoms de base : Je, Tu, Vous, Nous.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "end"
+    },
+    {
+      "id": "end",
+      "speaker": "teacher",
+      "isEnd": true,
+      "textFr": "Félicitations {firstName} ! Vous savez maintenant utiliser les pronoms de base en français !",
+      "textMg": "Tena mahatalanjona {firstName}! Fantatrao izao ny fampiasana ny mpisolo tena fototra amin'ny teny frantsay!",
+      "audio": {
+        "ttsTextFr": "Félicitations {firstName} ! Vous savez maintenant utiliser les pronoms de base en français !",
+        "ttsRate": 0.9
+      }
+    }
+  ]
+}

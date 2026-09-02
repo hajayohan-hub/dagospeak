@@ -73,10 +73,10 @@
         }
       },
       "feedbackOnFail": {
-        "textFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Excusez-moi, aidez-moi.",
+        "textFr": "Non, il faut dire : Excusez-moi, aidez-moi.",
         "textMg": "Tsia, tokony holazaina hoe: Azafady, vonjeo aho.",
         "audio": {
-          "ttsTextFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Excusez-moi, aidez-moi."
+          "ttsTextFr": "Non, il faut dire : Excusez-moi, aidez-moi."
         }
       },
       "nextNodeOnSuccess": "ask_direction",
@@ -132,10 +132,10 @@
         }
       },
       "feedbackOnFail": {
-        "textFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Où est la gare ?",
+        "textFr": "Non, il faut dire : Où est la gare ?",
         "textMg": "Tsia, tokony holazaina hoe: Aiza ny gara?",
         "audio": {
-          "ttsTextFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Où est la gare ?"
+          "ttsTextFr": "Non, il faut dire : Où est la gare ?"
         }
       },
       "nextNodeOnSuccess": "user_thanks",
@@ -181,10 +181,10 @@
         }
       },
       "feedbackOnFail": {
-        "textFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Merci beaucoup.",
+        "textFr": "Non, il faut dire : Merci beaucoup.",
         "textMg": "Tsia, tokony holazaina hoe: Misaotra betsaka.",
         "audio": {
-          "ttsTextFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Merci beaucoup."
+          "ttsTextFr": "Non, il faut dire : Merci beaucoup."
         }
       },
       "nextNodeOnSuccess": "end",

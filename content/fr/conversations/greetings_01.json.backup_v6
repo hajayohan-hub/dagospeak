@@ -57,10 +57,10 @@
         }
       },
       "feedbackOnFail": {
-        "textFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Oui, je suis...",
+        "textFr": "Non, il faut dire : Oui, je suis...",
         "textMg": "Tsia, tokony holazaina hoe: Eny, ... aho.",
         "audio": {
-          "ttsTextFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Oui, je suis..."
+          "ttsTextFr": "Non, il faut dire : Oui, je suis..."
         }
       },
       "nextNodeOnSuccess": "ask_feeling",
@@ -115,10 +115,10 @@
         }
       },
       "feedbackOnFail": {
-        "textFr": "Presque ! La bonne formulation serait : Ça va bien, merci.",
+        "textFr": "Non, il faut répondre : Ça va bien, merci.",
         "textMg": "Tsia, tokony hovaliana hoe: Tsara, misaotra.",
         "audio": {
-          "ttsTextFr": "Presque ! La bonne formulation serait : Ça va bien, merci."
+          "ttsTextFr": "Non, il faut répondre : Ça va bien, merci."
         }
       },
       "nextNodeOnSuccess": "ask_origin",
@@ -174,10 +174,10 @@
         }
       },
       "feedbackOnFail": {
-        "textFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Je viens de...",
+        "textFr": "Non, il faut dire : Je viens de...",
         "textMg": "Tsia, tokony holazaina hoe: Avy any ... aho.",
         "audio": {
-          "ttsTextFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Je viens de..."
+          "ttsTextFr": "Non, il faut dire : Je viens de..."
         }
       },
       "nextNodeOnSuccess": "end",
