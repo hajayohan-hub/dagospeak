@@ -6766,6 +6766,7 @@ async function renderConversationLive() {
           { id: 'numbers2_01', title: 'Acheter plusieurs articles', icon: '🔢', description: 'Compter de 11 à 100 et payer au marché' },
           { id: 'market_01', title: 'Au marché', icon: '🏪', description: 'Acheter du riz et des légumes' },
           { id: 'family_01', title: 'Parler de sa famille', icon: '👨‍👩‍👧', description: 'Présenter ses parents et frères/sœurs' },
+          { id: 'family_02', title: 'Parler de sa famille (avec mémoire)', icon: '🧠', description: 'Conversation qui se souvient de ce que tu dis' },
           { id: 'colors_01', title: 'Décrire des couleurs', icon: '🎨', description: 'Identifier les couleurs du ciel et de la nature' },
           { id: 'survival_01', title: 'Demander de l\'aide', icon: '🆘', description: 'Demander son chemin et remercier' },
           { id: 'body_01', title: 'Parler de son corps', icon: '🏥', description: 'Décrire une douleur chez le médecin' },
