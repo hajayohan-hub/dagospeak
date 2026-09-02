@@ -7027,8 +7027,32 @@ function personalizeText(text) {
 
   const profile = getProfileData();
   const firstName = profile.firstName || 'ami';
-
-  return text.replace(/\{firstName\}/g, firstName);
+  
+  // ✅ V5.3 : Récupérer les données du contexte de conversation
+  const context = window.conversationContext;
+  
+  // Construire le dictionnaire de remplacements
+  const replacements = {
+    '{firstName}': firstName,
+    '{origin}': context?.getSlot('origin')?.value || '',
+    '{fatherName}': context?.getSlot('fatherName')?.value || '',
+    '{motherName}': context?.getSlot('motherName')?.value || '',
+    '{feeling}': context?.getSlot('feeling')?.value || '',
+    '{siblings}': context?.getSlot('siblings')?.value || '',
+    '{age}': context?.getSlot('age')?.value || '',
+    '{profession}': context?.getSlot('profession')?.value || ''
+  };
+  
+  // Appliquer tous les remplacements
+  let result = text;
+  for (const [placeholder, value] of Object.entries(replacements)) {
+    // Remplacer seulement si la valeur n'est pas vide
+    if (value) {
+      result = result.split(placeholder).join(value);
+    }
+  }
+  
+  return result;
 }
 
 // ═══════════════════════════════════════════════════════════
