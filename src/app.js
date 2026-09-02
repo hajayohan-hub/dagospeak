@@ -13,6 +13,7 @@ import { Container }           from './core/container.js';
 import { Logger }              from './core/logger.js';
 import { DagoDB }              from './storage/dago-db.js';
 import { ContentLoader }       from './data/content-loader.js';
+import { ConversationContext } from './core/conversation-context.js';  // ✅ V5: Mémoire de conversation
 import { Router }              from './business/router.js';
 import { SRSEngine }           from './engines/learning/srs.js';
 import { GamificationEngine }  from './engines/gamification/index.js';
@@ -6963,6 +6964,10 @@ async function renderConversationLive() {
         card.addEventListener('click', () => {
           const dialogueId = card.dataset.dialogueId;
           console.log(`[ConversationLive] 🚀 Lancement dialogue: ${dialogueId}`);
+          
+          // ✅ V5: Initialiser le contexte de conversation
+          window.conversationContext = new ConversationContext();
+          console.log(`[ConversationLive] 🧠 Contexte V5 initialisé pour ${dialogueId}`);
           window.currentConversationId = dialogueId;
           router.navigate('/conversation');
         });
