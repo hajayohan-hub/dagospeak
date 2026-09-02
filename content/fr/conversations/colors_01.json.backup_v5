@@ -1,0 +1,119 @@
+{
+  "id": "colors_01",
+  "titleFr": "Décrire des couleurs",
+  "titleMg": "Fitantarana ny loko",
+  "level": "A0",
+  "theme": "colors",
+  "participants": {
+    "A": { "name": "Professeur", "avatar": "👩‍🏫", "gender": "female" },
+    "B": { "name": "Vous", "avatar": "🙋", "gender": "neutral" }
+  },
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "teacher",
+      "textFr": "Regardez cette image {firstName}. De quelle couleur est le ciel ?",
+      "textMg": "Jereo ity sary ity. Loko inona ny lanitra?",
+      "audio": {
+        "ttsTextFr": "Regardez cette image {firstName}. De quelle couleur est le ciel ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_sky"
+    },
+    {
+      "id": "user_sky",
+      "speaker": "user",
+      "responseOptions": [
+        { "textFr": "Le ciel est bleu.", "textMg": "Manga ny lanitra.", "isCorrect": true },
+        { "textFr": "Le ciel est rouge.", "textMg": "Mena ny lanitra.", "isCorrect": false },
+        { "textFr": "Le ciel est vert.", "textMg": "Maitso ny lanitra.", "isCorrect": false }
+      ],
+      "maxAttempts": 2,
+      "feedbackOnSuccess": {
+        "textFr": "Exact {firstName}! Le ciel est bleu. Et l'herbe ?",
+        "textMg": "Marina! Manga ny lanitra. Ary ny ahi-maitso?",
+        "audio": { "ttsTextFr": "Exact {firstName}! Le ciel est bleu. Et l'herbe ?" }
+      },
+      "feedbackOnFail": {
+        "textFr": "Non, le ciel est bleu.",
+        "textMg": "Tsia, manga ny lanitra.",
+        "audio": { "ttsTextFr": "Non, le ciel est bleu." }
+      },
+      "nextNodeOnSuccess": "user_grass",
+      "nextNodeOnMaxAttemptsReached": "user_grass"
+    },
+    {
+      "id": "user_grass",
+      "speaker": "teacher",
+      "textFr": "De quelle couleur est l'herbe ?",
+      "textMg": "Loko inona ny ahi-maitso?",
+      "audio": {
+        "ttsTextFr": "De quelle couleur est l'herbe ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_grass_answer"
+    },
+    {
+      "id": "user_grass_answer",
+      "speaker": "user",
+      "responseOptions": [
+        { "textFr": "L'herbe est verte.", "textMg": "Maitso ny ahi-maitso.", "isCorrect": true },
+        { "textFr": "L'herbe est jaune.", "textMg": "Mavo ny ahi-maitso.", "isCorrect": false },
+        { "textFr": "L'herbe est noire.", "textMg": "Mainty ny ahi-maitso.", "isCorrect": false }
+      ],
+      "maxAttempts": 2,
+      "feedbackOnSuccess": {
+        "textFr": "Parfait {firstName}! L'herbe est verte. Et le soleil ?",
+        "textMg": "Tena tsara! Maitso ny ahi-maitso. Ary ny masoandro?",
+        "audio": { "ttsTextFr": "Parfait {firstName} ! L'herbe est verte. Et le soleil ?" }
+      },
+      "feedbackOnFail": {
+        "textFr": "Non, l'herbe est verte.",
+        "textMg": "Tsia, maitso ny ahi-maitso.",
+        "audio": { "ttsTextFr": "Non {firstName}, l'herbe est verte." }
+      },
+      "nextNodeOnSuccess": "user_sun",
+      "nextNodeOnMaxAttemptsReached": "user_sun"
+    },
+    {
+      "id": "user_sun",
+      "speaker": "teacher",
+      "textFr": "De quelle couleur est le soleil ?",
+      "textMg": "Loko inona ny masoandro?",
+      "audio": {
+        "ttsTextFr": "De quelle couleur est le soleil ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_sun_answer"
+    },
+    {
+      "id": "user_sun_answer",
+      "speaker": "user",
+      "responseOptions": [
+        { "textFr": "Le soleil est jaune.", "textMg": "Mavo ny masoandro.", "isCorrect": true },
+        { "textFr": "Le soleil est bleu.", "textMg": "Manga ny masoandro.", "isCorrect": false },
+        { "textFr": "Le soleil est blanc.", "textMg": "Fotsy ny masoandro.", "isCorrect": false }
+      ],
+      "maxAttempts": 2,
+      "feedbackOnSuccess": {
+        "textFr": "Excellent {firstName}! Vous connaissez bien les couleurs !",
+        "textMg": "Tena tsara! Mahalala tsara ny loko ianao!",
+        "audio": { "ttsTextFr": "Excellent {firstName}! Vous connaissez bien les couleurs !" }
+      },
+      "feedbackOnFail": {
+        "textFr": "Non, le soleil est jaune.",
+        "textMg": "Tsia, mavo ny masoandro.",
+        "audio": { "ttsTextFr": "Non {firstName}, le soleil est jaune." }
+      },
+      "nextNodeOnSuccess": "end",
+      "nextNodeOnMaxAttemptsReached": "end"
+    },
+    {
+      "id": "end",
+      "isEnd": true,
+      "speaker": "teacher",
+      "textFr": "Bravo {firstName}! Vous savez décrire les couleurs !",
+      "textMg": "Arahabaina! Mahay mamaritra ny loko ianao!"
+    }
+  ]
+}

@@ -5,16 +5,8 @@
   "level": "A0",
   "theme": "survival",
   "participants": {
-    "A": {
-      "name": "Passant",
-      "avatar": "🚶",
-      "gender": "neutral"
-    },
-    "B": {
-      "name": "Vous",
-      "avatar": "🙋",
-      "gender": "neutral"
-    }
+    "A": { "name": "Passant", "avatar": "🚶", "gender": "neutral" },
+    "B": { "name": "Vous", "avatar": "🙋", "gender": "neutral" }
   },
   "nodes": [
     {
@@ -32,65 +24,23 @@
       "id": "user_help",
       "speaker": "user",
       "responseOptions": [
-        {
-          "textFr": "Excusez-moi, aidez-moi s'il vous plaît.",
-          "textMg": "Azafady, vonjeo aho azafady.",
-          "isCorrect": true
-        },
-        {
-          "textFr": "Bonjour, comment ça va ?",
-          "textMg": "Manahoana, manao ahoana?",
-          "isCorrect": false
-        },
-        {
-          "textFr": "Au revoir, merci.",
-          "textMg": "Veloma, misaotra.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "J'ai mal, j'ai besoin d'un médecin.",
-          "textMg": "Marary aho, mila dokotera aho.",
-          "isCorrect": false,
-          "responseType": "emergency",
-          "conversationReaction": "urgent",
-          "continueConversation": true
-        },
-        {
-          "textFr": "Je suis perdu, où suis-je ?",
-          "textMg": "Very aho, aiza moa aho?",
-          "isCorrect": false,
-          "responseType": "distress",
-          "conversationReaction": "helpful",
-          "continueConversation": true
-        }
+        { "textFr": "Excusez-moi, aidez-moi s'il vous plaît.", "textMg": "Azafady, vonjeo aho azafady.", "isCorrect": true },
+        { "textFr": "Bonjour, comment ça va ?", "textMg": "Manahoana, manao ahoana?", "isCorrect": false },
+        { "textFr": "Au revoir, merci.", "textMg": "Veloma, misaotra.", "isCorrect": false }
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
         "textFr": "Très bien {firstName}! Que voulez-vous demander ?",
         "textMg": "Tsara! Inona no tianao hotantaraina?",
-        "audio": {
-          "ttsTextFr": "Très bien {firstName}! Que voulez-vous demander ?"
-        }
+        "audio": { "ttsTextFr": "Très bien {firstName}! Que voulez-vous demander ?" }
       },
       "feedbackOnFail": {
         "textFr": "Non, il faut dire : Excusez-moi, aidez-moi.",
         "textMg": "Tsia, tokony holazaina hoe: Azafady, vonjeo aho.",
-        "audio": {
-          "ttsTextFr": "Non, il faut dire : Excusez-moi, aidez-moi."
-        }
+        "audio": { "ttsTextFr": "Non, il faut dire : Excusez-moi, aidez-moi." }
       },
       "nextNodeOnSuccess": "ask_direction",
-      "nextNodeOnMaxAttemptsReached": "ask_direction",
-      "conversationFeedback": {
-        "urgent": {
-          "textFr": "Oh non, j'espère que ce n'est pas grave. Voulez-vous que j'appelle de l'aide ?",
-          "textMg": "Isy ratsy anie izany! Tianao ve ny hiantso fanampiana?"
-        },
-        "helpful": {
-          "textFr": "Ne vous inquiétez pas, je vais vous aider à trouver votre chemin.",
-          "textMg": "Aza matahotra, hanampy anao aho hahita ny lalana."
-        }
-      }
+      "nextNodeOnMaxAttemptsReached": "ask_direction"
     },
     {
       "id": "ask_direction",
@@ -107,36 +57,20 @@
       "id": "user_direction",
       "speaker": "user",
       "responseOptions": [
-        {
-          "textFr": "Où est la gare, s'il vous plaît ?",
-          "textMg": "Aiza ny gara, azafady?",
-          "isCorrect": true
-        },
-        {
-          "textFr": "Je veux du riz.",
-          "textMg": "Tiako ny vary.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "Merci beaucoup.",
-          "textMg": "Misaotra betsaka.",
-          "isCorrect": false
-        }
+        { "textFr": "Où est la gare, s'il vous plaît ?", "textMg": "Aiza ny gara, azafady?", "isCorrect": true },
+        { "textFr": "Je veux du riz.", "textMg": "Tiako ny vary.", "isCorrect": false },
+        { "textFr": "Merci beaucoup.", "textMg": "Misaotra betsaka.", "isCorrect": false }
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
         "textFr": "Parfait ! La gare est à droite. Vous comprenez ?",
         "textMg": "Tena tsara! Any ankavanana ny gara. Azonao ve?",
-        "audio": {
-          "ttsTextFr": "Parfait ! La gare est à droite. Vous comprenez ?"
-        }
+        "audio": { "ttsTextFr": "Parfait ! La gare est à droite. Vous comprenez ?" }
       },
       "feedbackOnFail": {
         "textFr": "Non, il faut dire : Où est la gare ?",
         "textMg": "Tsia, tokony holazaina hoe: Aiza ny gara?",
-        "audio": {
-          "ttsTextFr": "Non, il faut dire : Où est la gare ?"
-        }
+        "audio": { "ttsTextFr": "Non, il faut dire : Où est la gare ?" }
       },
       "nextNodeOnSuccess": "user_thanks",
       "nextNodeOnMaxAttemptsReached": "user_thanks"
@@ -156,36 +90,20 @@
       "id": "user_thanks_answer",
       "speaker": "user",
       "responseOptions": [
-        {
-          "textFr": "Merci beaucoup, au revoir !",
-          "textMg": "Misaotra betsaka, veloma!",
-          "isCorrect": true
-        },
-        {
-          "textFr": "Je ne comprends pas.",
-          "textMg": "Tsy azoko.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "Oui, je comprends.",
-          "textMg": "Eny, azoko.",
-          "isCorrect": false
-        }
+        { "textFr": "Merci beaucoup, au revoir !", "textMg": "Misaotra betsaka, veloma!", "isCorrect": true },
+        { "textFr": "Je ne comprends pas.", "textMg": "Tsy azoko.", "isCorrect": false },
+        { "textFr": "Oui, je comprends.", "textMg": "Eny, azoko.", "isCorrect": false }
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
         "textFr": "Excellent ! Vous savez demander de l'aide !",
         "textMg": "Tena tsara! Mahay mitady vonjy ianao!",
-        "audio": {
-          "ttsTextFr": "Excellent ! Vous savez demander de l'aide !"
-        }
+        "audio": { "ttsTextFr": "Excellent ! Vous savez demander de l'aide !" }
       },
       "feedbackOnFail": {
         "textFr": "Non, il faut dire : Merci beaucoup.",
         "textMg": "Tsia, tokony holazaina hoe: Misaotra betsaka.",
-        "audio": {
-          "ttsTextFr": "Non, il faut dire : Merci beaucoup."
-        }
+        "audio": { "ttsTextFr": "Non, il faut dire : Merci beaucoup." }
       },
       "nextNodeOnSuccess": "end",
       "nextNodeOnMaxAttemptsReached": "end"

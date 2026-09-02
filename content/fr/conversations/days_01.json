@@ -5,8 +5,16 @@
   "level": "A0",
   "theme": "days",
   "participants": {
-    "A": { "name": "Professeur", "avatar": "👩‍🏫", "gender": "female" },
-    "B": { "name": "Vous", "avatar": "🙋", "gender": "neutral" }
+    "A": {
+      "name": "Professeur",
+      "avatar": "👩‍🏫",
+      "gender": "female"
+    },
+    "B": {
+      "name": "Vous",
+      "avatar": "🙋",
+      "gender": "neutral"
+    }
   },
   "nodes": [
     {
@@ -24,23 +32,65 @@
       "id": "user_day",
       "speaker": "user",
       "responseOptions": [
-        { "textFr": "Aujourd'hui, c'est lundi.", "textMg": "Anio dia alatsinainy.", "isCorrect": true },
-        { "textFr": "Je mange du riz.", "textMg": "Mihinana vary aho.", "isCorrect": false },
-        { "textFr": "Il fait beau.", "textMg": "Tsara ny toetr'andro.", "isCorrect": false }
+        {
+          "textFr": "Aujourd'hui, c'est lundi.",
+          "textMg": "Anio dia alatsinainy.",
+          "isCorrect": true
+        },
+        {
+          "textFr": "Je mange du riz.",
+          "textMg": "Mihinana vary aho.",
+          "isCorrect": false
+        },
+        {
+          "textFr": "Il fait beau.",
+          "textMg": "Tsara ny toetr'andro.",
+          "isCorrect": false
+        },
+        {
+          "textFr": "Je suis en retard aujourd'hui.",
+          "textMg": "Tara aho androany.",
+          "isCorrect": false,
+          "responseType": "emotional",
+          "conversationReaction": "understanding",
+          "continueConversation": true
+        },
+        {
+          "textFr": "C'est mon jour préféré.",
+          "textMg": "Io no andro tiako indrindra.",
+          "isCorrect": false,
+          "responseType": "positive",
+          "conversationReaction": "positive",
+          "continueConversation": true
+        }
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
         "textFr": "Très bien ! Lundi est le premier jour de la semaine.",
         "textMg": "Tena tsara! Alatsinainy no andro voalohany amin'ny herinandro.",
-        "audio": { "ttsTextFr": "Très bien ! Lundi est le premier jour de la semaine." }
+        "audio": {
+          "ttsTextFr": "Très bien ! Lundi est le premier jour de la semaine."
+        }
       },
       "feedbackOnFail": {
         "textFr": "Non, pour dire le jour, utilisez : Lundi, Mardi, Mercredi...",
         "textMg": "Tsia, raha hilaza andro, lazaina hoe: Alatsinainy, Talata, Alarobia...",
-        "audio": { "ttsTextFr": "Non, pour dire le jour, utilisez : Lundi, Mardi, Mercredi..." }
+        "audio": {
+          "ttsTextFr": "Non, pour dire le jour, utilisez : Lundi, Mardi, Mercredi..."
+        }
       },
       "nextNodeOnSuccess": "teacher_next",
-      "nextNodeOnMaxAttemptsReached": "teacher_next"
+      "nextNodeOnMaxAttemptsReached": "teacher_next",
+      "conversationFeedback": {
+        "understanding": {
+          "textFr": "Ça arrive à tout le monde ! L'important est d'être là maintenant.",
+          "textMg": "Mitranga amin'ny olona rehetra izany! Ny zava-dehibe dia ny ho eto izao."
+        },
+        "positive": {
+          "textFr": "Super ! Qu'est-ce que vous aimez faire ce jour-là ?",
+          "textMg": "Tsara be! Inona no tianao atao amin'io andro io?"
+        }
+      }
     },
     {
       "id": "teacher_next",
@@ -57,23 +107,65 @@
       "id": "user_tomorrow",
       "speaker": "user",
       "responseOptions": [
-        { "textFr": "Demain, c'est mardi.", "textMg": "Rahampitso dia talata.", "isCorrect": true },
-        { "textFr": "Hier, c'était dimanche.", "textMg": "Omaly dia alahady.", "isCorrect": false },
-        { "textFr": "Je vais à l'école.", "textMg": "Mandeha an-tsekoly aho.", "isCorrect": false }
+        {
+          "textFr": "Demain, c'est mardi.",
+          "textMg": "Rahampitso dia talata.",
+          "isCorrect": true
+        },
+        {
+          "textFr": "Hier, c'était dimanche.",
+          "textMg": "Omaly dia alahady.",
+          "isCorrect": false
+        },
+        {
+          "textFr": "Je vais à l'école.",
+          "textMg": "Mandeha an-tsekoly aho.",
+          "isCorrect": false
+        },
+        {
+          "textFr": "Je suis en retard aujourd'hui.",
+          "textMg": "Tara aho androany.",
+          "isCorrect": false,
+          "responseType": "emotional",
+          "conversationReaction": "understanding",
+          "continueConversation": true
+        },
+        {
+          "textFr": "C'est mon jour préféré.",
+          "textMg": "Io no andro tiako indrindra.",
+          "isCorrect": false,
+          "responseType": "positive",
+          "conversationReaction": "positive",
+          "continueConversation": true
+        }
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
         "textFr": "Excellent ! Vous progressez vite !",
         "textMg": "Tena mahatalanjona! Mivoatra haingana ianao!",
-        "audio": { "ttsTextFr": "Excellent ! Vous progressez vite !" }
+        "audio": {
+          "ttsTextFr": "Excellent ! Vous progressez vite !"
+        }
       },
       "feedbackOnFail": {
         "textFr": "Attention, demain c'est mardi, pas dimanche.",
         "textMg": "Tandremo, rahampitso dia talata, fa tsy alahady.",
-        "audio": { "ttsTextFr": "Attention, demain c'est mardi, pas dimanche." }
+        "audio": {
+          "ttsTextFr": "Attention, demain c'est mardi, pas dimanche."
+        }
       },
       "nextNodeOnSuccess": "teacher_activity",
-      "nextNodeOnMaxAttemptsReached": "teacher_activity"
+      "nextNodeOnMaxAttemptsReached": "teacher_activity",
+      "conversationFeedback": {
+        "understanding": {
+          "textFr": "Ça arrive à tout le monde ! L'important est d'être là maintenant.",
+          "textMg": "Mitranga amin'ny olona rehetra izany! Ny zava-dehibe dia ny ho eto izao."
+        },
+        "positive": {
+          "textFr": "Super ! Qu'est-ce que vous aimez faire ce jour-là ?",
+          "textMg": "Tsara be! Inona no tianao atao amin'io andro io?"
+        }
+      }
     },
     {
       "id": "teacher_activity",
@@ -90,23 +182,65 @@
       "id": "user_weekend",
       "speaker": "user",
       "responseOptions": [
-        { "textFr": "Le samedi, je joue au football.", "textMg": "Amin'ny asabotsy, milalao baolina aho.", "isCorrect": true },
-        { "textFr": "J'ai cinq frères.", "textMg": "Manana rahalahy dimy aho.", "isCorrect": false },
-        { "textFr": "Le riz est bon.", "textMg": "Tsara ny vary.", "isCorrect": false }
+        {
+          "textFr": "Le samedi, je joue au football.",
+          "textMg": "Amin'ny asabotsy, milalao baolina aho.",
+          "isCorrect": true
+        },
+        {
+          "textFr": "J'ai cinq frères.",
+          "textMg": "Manana rahalahy dimy aho.",
+          "isCorrect": false
+        },
+        {
+          "textFr": "Le riz est bon.",
+          "textMg": "Tsara ny vary.",
+          "isCorrect": false
+        },
+        {
+          "textFr": "Je suis en retard aujourd'hui.",
+          "textMg": "Tara aho androany.",
+          "isCorrect": false,
+          "responseType": "emotional",
+          "conversationReaction": "understanding",
+          "continueConversation": true
+        },
+        {
+          "textFr": "C'est mon jour préféré.",
+          "textMg": "Io no andro tiako indrindra.",
+          "isCorrect": false,
+          "responseType": "positive",
+          "conversationReaction": "positive",
+          "continueConversation": true
+        }
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
         "textFr": "Super ! Le samedi et le dimanche sont le week-end.",
         "textMg": "Tena tsara! Asabotsy sy alahady no faran'ny herinandro.",
-        "audio": { "ttsTextFr": "Super ! Le samedi et le dimanche sont le week-end." }
+        "audio": {
+          "ttsTextFr": "Super ! Le samedi et le dimanche sont le week-end."
+        }
       },
       "feedbackOnFail": {
         "textFr": "Pour le week-end, parlez d'activités : jouer, manger, dormir...",
         "textMg": "Ho an'ny faran'ny herinandro, lazaina ny zavatra ataonao: milalao, mihinana, matory...",
-        "audio": { "ttsTextFr": "Pour le week-end, parlez d'activités : jouer, manger, dormir..." }
+        "audio": {
+          "ttsTextFr": "Pour le week-end, parlez d'activités : jouer, manger, dormir..."
+        }
       },
       "nextNodeOnSuccess": "teacher_end",
-      "nextNodeOnMaxAttemptsReached": "teacher_end"
+      "nextNodeOnMaxAttemptsReached": "teacher_end",
+      "conversationFeedback": {
+        "understanding": {
+          "textFr": "Ça arrive à tout le monde ! L'important est d'être là maintenant.",
+          "textMg": "Mitranga amin'ny olona rehetra izany! Ny zava-dehibe dia ny ho eto izao."
+        },
+        "positive": {
+          "textFr": "Super ! Qu'est-ce que vous aimez faire ce jour-là ?",
+          "textMg": "Tsara be! Inona no tianao atao amin'io andro io?"
+        }
+      }
     },
     {
       "id": "teacher_end",

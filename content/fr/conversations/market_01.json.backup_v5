@@ -5,16 +5,8 @@
   "titleFr": "Acheter des fruits au marché",
   "titleMg": "Mividy voankazo eny an-tsena",
   "participants": {
-    "A": {
-      "name": "Professeur",
-      "avatar": "👩‍🏫",
-      "gender": "female"
-    },
-    "B": {
-      "name": "Vous",
-      "avatar": "🙋",
-      "gender": "neutral"
-    }
+    "A": { "name": "Professeur", "avatar": "👩‍🏫", "gender": "female" },
+    "B": { "name": "Vous", "avatar": "🙋", "gender": "neutral" }
   },
   "nodes": [
     {
@@ -41,22 +33,6 @@
           "textFr": "Je veux une pomme.",
           "textMg": "Te hividy paoma aho.",
           "isCorrect": false
-        },
-        {
-          "textFr": "C'est trop cher pour moi.",
-          "textMg": "Lafo be ho ahy izany.",
-          "isCorrect": false,
-          "responseType": "emotional",
-          "conversationReaction": "empathetic",
-          "continueConversation": true
-        },
-        {
-          "textFr": "Je n'ai pas assez d'argent.",
-          "textMg": "Tsy ampy vola aho.",
-          "isCorrect": false,
-          "responseType": "emotional",
-          "conversationReaction": "empathetic",
-          "continueConversation": true
         }
       ],
       "maxAttempts": 2,
@@ -77,13 +53,7 @@
         }
       },
       "nextNodeOnSuccess": "node_price",
-      "nextNodeOnMaxAttemptsReached": "node_price",
-      "conversationFeedback": {
-        "empathetic": {
-          "textFr": "Je comprends, le prix peut être élevé. Peut-être pouvons-nous regarder autre chose ?",
-          "textMg": "Azoko, mety ho lafo ny vidiny. Angamba afaka mijery zavatra hafa isika?"
-        }
-      }
+      "nextNodeOnMaxAttemptsReached": "node_price"
     },
     {
       "id": "node_price",

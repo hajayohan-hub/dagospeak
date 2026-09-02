@@ -1,0 +1,86 @@
+{
+  "id": "numbers_01",
+  "titleFr": "Compter et demander des prix",
+  "titleMg": "Fanisana sy fanontaniana vidiny",
+  "level": "A0",
+  "theme": "numbers",
+  "participants": {
+    "A": { "name": "Vendeur", "avatar": "👨‍🌾", "gender": "male" },
+    "B": { "name": "Vous", "avatar": "🙋", "gender": "neutral" }
+  },
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "teacher",
+      "textFr": "Bienvenue {firstName}! Combien de kilos de riz voulez-vous ?",
+      "textMg": "Tongasoa! Vary firy Kilaograma no tianao?",
+      "audio": {
+        "ttsTextFr": "Bienvenue {firstName}! Combien de kilos de riz voulez-vous ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_quantity"
+    },
+    {
+      "id": "user_quantity",
+      "speaker": "user",
+      "responseOptions": [
+        { "textFr": "Deux kilos, s'il vous plaît.", "textMg": "Kilaograma roa, azafady.", "isCorrect": true },
+        { "textFr": "Le riz est bon.", "textMg": "Tsara ilay vary.", "isCorrect": false },
+        { "textFr": "Merci beaucoup.", "textMg": "Misaotra betsaka.", "isCorrect": false }
+      ],
+      "maxAttempts": 2,
+      "feedbackOnSuccess": {
+        "textFr": "Parfait ! Deux kilos de riz.",
+        "textMg": "Tena tsara! Vary roa Kilaograma.",
+        "audio": { "ttsTextFr": "Parfait ! Deux kilos de riz." }
+      },
+      "feedbackOnFail": {
+        "textFr": "Non {firstName}, il faut dire : Deux kilos, s'il vous plaît.",
+        "textMg": "Tsia, tokony holazaina hoe: Roa Kilaograma, azafady.",
+        "audio": { "ttsTextFr": "Non {firstName}, il faut dire : Deux kilos, s'il vous plaît." }
+      },
+      "nextNodeOnSuccess": "ask_price",
+      "nextNodeOnMaxAttemptsReached": "ask_price"
+    },
+    {
+      "id": "ask_price",
+      "speaker": "teacher",
+      "textFr": "Ça fait quatre mille ariary. Vous voulez autre chose ?",
+      "textMg": "Efatra arivo ariary izany. Mbola mila zavatra hafa ve ianao?",
+      "audio": {
+        "ttsTextFr": "Ça fait quatre mille ariary. Vous voulez autre chose ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_more"
+    },
+    {
+      "id": "user_more",
+      "speaker": "user",
+      "responseOptions": [
+        { "textFr": "Oui, cinq tomates aussi.", "textMg": "Eny, voatabia dimy koa.", "isCorrect": true },
+        { "textFr": "Non, merci.", "textMg": "Tsia, misaotra.", "isCorrect": true },
+        { "textFr": "Le riz est cher.", "textMg": "Lafo ny vary.", "isCorrect": false }
+      ],
+      "maxAttempts": 2,
+      "feedbackOnSuccess": {
+        "textFr": "Très bien ! C'est noté.",
+        "textMg": "Tsara! Voasoratra.",
+        "audio": { "ttsTextFr": "Très bien ! C'est noté." }
+      },
+      "feedbackOnFail": {
+        "textFr": "Non {firstName}, il faut dire : Oui, ... aussi. ou Non, merci.",
+        "textMg": "Tsia, tokony hovaliana hoe: Eny, ... koa. na Tsia, misaotra.",
+        "audio": { "ttsTextFr": "Non {firstName}, il faut dire : Oui, ... aussi. ou Non, merci." }
+      },
+      "nextNodeOnSuccess": "end",
+      "nextNodeOnMaxAttemptsReached": "end"
+    },
+    {
+      "id": "end",
+      "isEnd": true,
+      "speaker": "teacher",
+      "textFr": "Merci ! À bientôt !",
+      "textMg": "Misaotra! Mandra-piahaona indray!"
+    }
+  ]
+}
