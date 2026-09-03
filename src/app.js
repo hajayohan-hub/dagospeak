@@ -7869,7 +7869,8 @@ function captureUserResponse(nodeId, selectedOption) {
                                         window.teacherAvatarSVG.stopSpeaking();
                                       }
                                       // Progresser vers le prochain nœud (comme une bonne réponse)
-                                      currentNodeId = node.nextNodeOnSuccess || node.nextNode;
+                                      // ✅ V5.8: Utiliser nextNodeOnConversation si défini
+                                      currentNodeId = selectedOption?.nextNodeOnConversation || node.nextNodeOnSuccess || node.nextNode;
                                       setTimeout(() => renderNode(), 800);
                                     }
                                   });
