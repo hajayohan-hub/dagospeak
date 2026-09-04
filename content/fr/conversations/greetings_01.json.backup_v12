@@ -167,10 +167,10 @@
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
-        "textFr": "Excellent {firstName} ! C'est une belle ville.",
-        "textMg": "Tena tsara {firstName} ! Tanàna tsara izany.",
+        "textFr": "Excellent {firstName} ! ... est une belle ville.",
+        "textMg": "Tena tsara! Tanàna tsara i ....",
         "audio": {
-          "ttsTextFr": "Excellent ! C'est une belle ville."
+          "ttsTextFr": "Excellent {firstName}! C'est une belle ville."
         }
       },
       "feedbackOnFail": {

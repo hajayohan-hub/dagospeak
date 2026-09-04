@@ -59,10 +59,10 @@
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
-        "textFr": "Ah, vous venez de chez vous ! C'est une belle ville.",
-        "textMg": "Oh, avy any aminareo ianao! Tanàna tsara izany.",
+        "textFr": "Ah, tu viens de {origin} ! C'est une belle ville.",
+        "textMg": "Oh, avy any {origin} ianao! Tanàna tsara izany.",
         "audio": {
-          "ttsTextFr": "Ah, vous venez de chez vous ! C'est une belle ville."
+          "ttsTextFr": "Ah, tu viens de {origin} ! C'est une belle ville."
         }
       },
       "feedbackOnFail": {
@@ -107,10 +107,10 @@
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
-        "textFr": "C'est un beau prénom ! Et votre mère ?",
-        "textMg": "Anarana tsara izany! Ary ny reninao?",
+        "textFr": "{fatherName}, c'est un beau prénom ! Et votre mère ?",
+        "textMg": "{fatherName}, anarana tsara! Ary ny reninao?",
         "audio": {
-          "ttsTextFr": "C'est un beau prénom ! Et votre mère ?",
+          "ttsTextFr": "{fatherName}, c'est un beau prénom ! Et votre mère ?",
           "ttsRate": 0.9
         }
       },
@@ -156,10 +156,10 @@
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
-        "textFr": "Donc vos parents habitent ensemble ? Racontez-moi plus sur votre famille.",
-        "textMg": "Ka miaraka monina ny ray aman-dreninao? Milazao bebe kokoa momba ny fianakavianao.",
+        "textFr": "Donc votre père {fatherName} et votre mère {motherName} habitent à {origin} ?",
+        "textMg": "Ka ny rainao {fatherName} sy ny reninao {motherName} dia monina any {origin}?",
         "audio": {
-          "ttsTextFr": "Donc vos parents habitent ensemble ? Racontez-moi plus sur votre famille.",
+          "ttsTextFr": "Donc votre père {fatherName} et votre mère {motherName} habitent à {origin} ?",
           "ttsRate": 0.9
         }
       },
