@@ -98,6 +98,9 @@ function getSettings() {
 // ═══════════════════════════════════════════════════════════
 let levelsConfig = null; // Sera chargé depuis levels.json
 
+// ✅ V5.13: Verrou d'instance pour Conversation Live (anti-recréation)
+let conversationLiveInstanceId = 0;
+
 function isThemeLocked(themeId, profile) {
   // Fallback si levels.json n'est pas encore chargé
   if (!levelsConfig || !levelsConfig.levels) {
@@ -6741,6 +6744,11 @@ function getSkeletonThemesList() {
 // ═══════════════════════════════════════════════════════════
 async function renderConversationLive() {
   console.log('[ConversationLive] 🚀 Fonction appelée');
+
+  // ✅ V5.13: Incrémenter l'ID d'instance pour invalider les anciens callbacks
+  conversationLiveInstanceId++;
+  const instanceId = conversationLiveInstanceId;
+  console.log(`[ConversationLive] 🔒 Instance ${instanceId} démarrée`);
   updateNavActiveState();
   const main = document.getElementById('app');
 
@@ -7871,7 +7879,13 @@ function captureUserResponse(nodeId, selectedOption) {
                                       // Progresser vers le prochain nœud (comme une bonne réponse)
                                       // ✅ V5.8: Utiliser nextNodeOnConversation si défini
                                       currentNodeId = selectedOption?.nextNodeOnConversation || node.nextNodeOnSuccess || node.nextNode;
-                                      setTimeout(() => renderNode(), 800);
+                                      setTimeout(() => {
+                                        if (instanceId !== conversationLiveInstanceId) {
+                                          console.log(`[ConversationLive] ⏭️ Callback obsolète ignoré (instance ${instanceId} vs ${conversationLiveInstanceId})`);
+                                          return;
+                                        }
+                                        renderNode();
+                                      }, 800);
                                     }
                                   });
                                   
@@ -7972,13 +7986,25 @@ function captureUserResponse(nodeId, selectedOption) {
                                     if (window.teacherAvatarSVG) window.teacherAvatarSVG.stopSpeaking();
                                     console.log('[STT] ✅ TTS feedback succès terminé, progression vers', node.nextNodeOnSuccess);
                                     currentNodeId = node.nextNodeOnSuccess;
-                                    setTimeout(() => renderNode(), 300);
+                                    setTimeout(() => {
+                                      if (instanceId !== conversationLiveInstanceId) {
+                                        console.log(`[ConversationLive] ⏭️ Callback obsolète ignoré (instance ${instanceId} vs ${conversationLiveInstanceId})`);
+                                        return;
+                                      }
+                                      renderNode();
+                                    }, 300);
                                   },
                                   onError: () => {
                                     if (window.teacherAvatarSVG) window.teacherAvatarSVG.stopSpeaking();
                                     console.warn('[STT] ⚠️ Erreur TTS, progression quand même vers', node.nextNodeOnSuccess);
                                     currentNodeId = node.nextNodeOnSuccess;
-                                    setTimeout(() => renderNode(), 300);
+                                    setTimeout(() => {
+                                      if (instanceId !== conversationLiveInstanceId) {
+                                        console.log(`[ConversationLive] ⏭️ Callback obsolète ignoré (instance ${instanceId} vs ${conversationLiveInstanceId})`);
+                                        return;
+                                      }
+                                      renderNode();
+                                    }, 300);
                                   }
                                 });
                               }
@@ -8536,8 +8562,7 @@ function startAppAndShowHome() {
       });
   }
 
-  // ✅ CORRECTION : Toujours repartir sur l'accueil, sans condition
-  window.location.hash = '/';
+    // ✅ V5.13: Ne plus forcer '/' - laisser le routeur utiliser le hash actuel
 
   // ✅ Laisser le routeur gérer le rendu (pas de renderHome() direct)
   router.start();
