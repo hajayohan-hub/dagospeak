@@ -33,33 +33,19 @@
       "speaker": "user",
       "responseOptions": [
         {
-          "textFr": "Un kilo, s'il vous plaît.",
-          "textMg": "Kilao iray, azafady.",
-          "isCorrect": true
-        },
-        {
           "textFr": "Deux kilos, s'il vous plaît.",
-          "textMg": "Kilao roa, azafady.",
-          "isCorrect": true
-        },
-        {
-          "textFr": "Trois kilos, s'il vous plaît.",
-          "textMg": "Kilao telo, azafady.",
+          "textMg": "Kilaograma roa, azafady.",
           "isCorrect": true
         },
         {
           "textFr": "Le riz est bon.",
-          "textMg": "Tsara ny vary.",
-          "isCorrect": false,
-          "responseType": "off_topic",
-          "conversationReaction": "correction"
+          "textMg": "Tsara ilay vary.",
+          "isCorrect": false
         },
         {
           "textFr": "Merci beaucoup.",
           "textMg": "Misaotra betsaka.",
-          "isCorrect": false,
-          "responseType": "off_topic",
-          "conversationReaction": "correction"
+          "isCorrect": false
         },
         {
           "textFr": "Je ne sais pas compter.",
@@ -80,17 +66,17 @@
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
-        "textFr": "Excellent ! Vous avez demandé une quantité de riz.",
-        "textMg": "Tena tsara! Nangataka vary ianao.",
+        "textFr": "Parfait ! Deux kilos de riz.",
+        "textMg": "Tena tsara! Vary roa Kilaograma.",
         "audio": {
-          "ttsTextFr": "Excellent ! Vous avez demandé une quantité de riz."
+          "ttsTextFr": "Parfait ! Deux kilos de riz."
         }
       },
       "feedbackOnFail": {
-        "textFr": "Pas tout à fait. Pour répondre, vous pouvez dire : Un kilo, deux kilos, ou trois kilos.",
-        "textMg": "Tsia, tokony hovaliana hoe: Kilao iray, kilao roa, na kilao telo.",
+        "textFr": "Presque ! {firstName}, il faut dire : Deux kilos, s'il vous plaît.",
+        "textMg": "Tsia, tokony holazaina hoe: Roa Kilaograma, azafady.",
         "audio": {
-          "ttsTextFr": "Pas tout à fait. Pour répondre, vous pouvez dire : Un kilo, deux kilos, ou trois kilos."
+          "ttsTextFr": "Presque ! {firstName}, il faut dire : Deux kilos, s'il vous plaît."
         }
       },
       "nextNodeOnSuccess": "ask_price",

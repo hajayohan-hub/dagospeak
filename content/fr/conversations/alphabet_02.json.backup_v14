@@ -141,10 +141,10 @@
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
-        "textFr": "Excellent ! Vous avez donné votre ville.",
-        "textMg": "Tena tsara! Nolazainao ny tanànanao.",
+        "textFr": "Parfait ! ANTANANARIVO contient les lettres N, T, R, V.",
+        "textMg": "Tena tsara! ANTANANARIVO dia misy ny litera N, T, R, V.",
         "audio": {
-          "ttsTextFr": "Excellent ! Vous avez donné votre ville."
+          "ttsTextFr": "Parfait ! ANTANANARIVO contient les lettres N, T, R, V."
         }
       },
       "feedbackOnFail": {

@@ -33,8 +33,8 @@
       "speaker": "user",
       "responseOptions": [
         {
-          "textFr": "Mon nom est ...",
-          "textMg": "... no fanampin'anarako.",
+          "textFr": "Mon nom est RAKOTO.",
+          "textMg": "RAKOTO no fanampin'anarako.",
           "isCorrect": true
         },
         {
@@ -66,17 +66,17 @@
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
-        "textFr": "Excellent ! Vous avez donné votre nom de famille.",
-        "textMg": "Tena tsara! Nolazainao ny fanampin'anaranao.",
+        "textFr": "D'accord. Pouvez-vous l'épeler ?",
+        "textMg": "Tsara. Afaka manoratra azy amin'ny litera ve ianao?",
         "audio": {
-          "ttsTextFr": "Excellent ! Vous avez donné votre nom de famille."
+          "ttsTextFr": "D'accord. Pouvez-vous l'épeler ?"
         }
       },
       "feedbackOnFail": {
-        "textFr": "Pas tout à fait. Pour répondre, vous pouvez dire : Mon nom est ...",
-        "textMg": "Tsia, tokony hovaliana hoe: ... no fanampin'anarako.",
+        "textFr": "Presque ! {firstName}, il faut dire : Mon nom est...",
+        "textMg": "Tsia, tokony holazaina hoe: ... no fanampin'anarako.",
         "audio": {
-          "ttsTextFr": "Pas tout à fait. Pour répondre, vous pouvez dire : Mon nom est ..."
+          "ttsTextFr": "Presque ! {firstName}, il faut dire : Mon nom est..."
         }
       },
       "nextNodeOnSuccess": "ask_spelling",
