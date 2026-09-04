@@ -107,11 +107,10 @@
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
-        "textFr": "{fatherName}, c'est un beau prénom ! Et votre mère ?",
+        "textFr": "{fatherName}, c'est un beau prénom ! Et ta mère ?",
         "textMg": "{fatherName}, anarana tsara! Ary ny reninao?",
         "audio": {
-          "ttsTextFr": "{fatherName}, c'est un beau prénom ! Et votre mère ?",
-          "ttsRate": 0.9
+          "ttsTextFr": "{fatherName}, c'est un beau prénom ! Et ta mère ?"
         }
       },
       "feedbackOnFail": {
@@ -156,11 +155,10 @@
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
-        "textFr": "Donc votre père {fatherName} et votre mère {motherName} habitent à {origin} ?",
+        "textFr": "Donc ton père {fatherName} et ta mère {motherName} habitent à {origin} ?",
         "textMg": "Ka ny rainao {fatherName} sy ny reninao {motherName} dia monina any {origin}?",
         "audio": {
-          "ttsTextFr": "Donc votre père {fatherName} et votre mère {motherName} habitent à {origin} ?",
-          "ttsRate": 0.9
+          "ttsTextFr": "Donc ton père {fatherName} et ta mère {motherName} habitent à {origin} ?"
         }
       },
       "feedbackOnFail": {

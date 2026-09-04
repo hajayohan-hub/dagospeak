@@ -77,10 +77,10 @@
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
-        "textFr": "Très bien {firstName} ! Excellent choix.",
-        "textMg": "Tena tsara {firstName} ! Safidy tsara.",
+        "textFr": "Très bien {firstName}! La banane coûte 500 Ariary.",
+        "textMg": "Tena tsara {firstName}! Ny akondro dia 500 Ariary.",
         "audio": {
-          "ttsTextFr": "Très bien ! Excellent choix.",
+          "ttsTextFr": "Très bien {firstName}! La banane coûte 500 Ariary.",
           "ttsRate": 0.9
         }
       },

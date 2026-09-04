@@ -6,7 +6,7 @@
 // ⚠️ Change ce numéro à CHAQUE déploiement — c'est ce qui déclenche
 // la détection de mise à jour (le navigateur compare ce fichier octet
 // par octet à la version active).
-const CACHE_VERSION = 'v48';
+const CACHE_VERSION = 'v49';
 const CACHE_NAME = `dagospeak-${CACHE_VERSION}`;
 
 const STATIC_ASSETS = [
@@ -50,6 +50,7 @@ const STATIC_ASSETS = [
    '/content/fr/conversations/greetings_01.json',
   '/content/fr/conversations/market_01.json', 
   '/content/fr/conversations/family_01.json',
+  '/content/fr/conversations/family_02.json',
   '/content/fr/conversations/numbers_01.json',
   '/content/fr/conversations/colors_01.json',
   '/content/fr/conversations/survival_01.json',

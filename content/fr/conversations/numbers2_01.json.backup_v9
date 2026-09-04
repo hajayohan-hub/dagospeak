@@ -143,11 +143,10 @@
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
-        "textFr": "Très bien {firstName} ! Bon choix.",
-        "textMg": "Tena tsara {firstName} ! Safidy tsara.",
+        "textFr": "Très bien ! Quinze bananes.",
+        "textMg": "Tena tsara! Akondro dimy ambin'ny folo.",
         "audio": {
-          "ttsTextFr": "Très bien ! Bon choix.",
-          "ttsRate": 0.9
+          "ttsTextFr": "Très bien ! Quinze bananes."
         }
       },
       "feedbackOnFail": {

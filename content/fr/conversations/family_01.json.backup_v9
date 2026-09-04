@@ -68,11 +68,10 @@
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
-        "textFr": "Très bien {firstName} ! Vous avez donné le nom de votre père.",
-        "textMg": "Tena tsara {firstName} ! Nolazainao ny anaran'ny rainao.",
+        "textFr": "Très bien ! Et votre mère ?",
+        "textMg": "Tsara! Ary ny reninao?",
         "audio": {
-          "ttsTextFr": "Très bien ! Vous avez donné le nom de votre père.",
-          "ttsRate": 0.9
+          "ttsTextFr": "Très bien ! Et votre mère ?"
         }
       },
       "feedbackOnFail": {
