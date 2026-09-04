@@ -33,13 +33,13 @@
       "speaker": "user",
       "responseOptions": [
         {
-          "textFr": "Mon père s'appelle ....",
-          "textMg": "... no anaran'ny raiko.",
+          "textFr": "Mon père s'appelle Rabe.",
+          "textMg": "Rabe no anaran'ny raiko.",
           "isCorrect": true
         },
         {
-          "textFr": "Ma mère s'appelle ....",
-          "textMg": "... no anaran'ny reniko.",
+          "textFr": "Ma mère s'appelle Rasoa.",
+          "textMg": "Rasoa no anaran'ny reniko.",
           "isCorrect": false
         },
         {
@@ -121,13 +121,13 @@
       "speaker": "user",
       "responseOptions": [
         {
-          "textFr": "Ma mère s'appelle ....",
-          "textMg": "... no anaran'ny reniko.",
+          "textFr": "Ma mère s'appelle Rasoa.",
+          "textMg": "Rasoa no anaran'ny reniko.",
           "isCorrect": true
         },
         {
-          "textFr": "Mon père s'appelle ....",
-          "textMg": "... no anaran'ny raiko.",
+          "textFr": "Mon père s'appelle Rabe.",
+          "textMg": "Rabe no anaran'ny raiko.",
           "isCorrect": false
         },
         {
@@ -180,8 +180,8 @@
           "isCorrect": false
         },
         {
-          "textFr": "Ma mère s'appelle ....",
-          "textMg": "... no anaran'ny reniko.",
+          "textFr": "Ma mère s'appelle Rasoa.",
+          "textMg": "Rasoa no anaran'ny reniko.",
           "isCorrect": false
         }
       ],

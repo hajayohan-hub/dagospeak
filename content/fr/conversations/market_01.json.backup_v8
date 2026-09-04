@@ -35,14 +35,12 @@
         {
           "textFr": "Je veux une banane.",
           "textMg": "Te hividy akondro aho.",
-          "isCorrect": true,
-          "nextNodeOnSuccess": "node_price_banana"
+          "isCorrect": true
         },
         {
           "textFr": "Je veux une pomme.",
           "textMg": "Te hividy paoma aho.",
-          "isCorrect": true,
-          "nextNodeOnSuccess": "node_price_pomme"
+          "isCorrect": false
         },
         {
           "textFr": "C'est trop cher pour moi.",
@@ -61,18 +59,6 @@
           "conversationReaction": "empathetic",
           "continueConversation": true,
           "nextNodeOnConversation": "suggest_cheaper"
-        },
-        {
-          "textFr": "Je veux une orange.",
-          "textMg": "Te hividy voasary aho.",
-          "isCorrect": true,
-          "nextNodeOnSuccess": "node_price_orange"
-        },
-        {
-          "textFr": "Je veux une mangue.",
-          "textMg": "Te hividy manga aho.",
-          "isCorrect": true,
-          "nextNodeOnSuccess": "node_price_mangue"
         }
       ],
       "maxAttempts": 2,
@@ -102,56 +88,23 @@
       }
     },
     {
+      "id": "node_price",
+      "speaker": "teacher",
+      "textFr": "Voici vos bananes. 500 Ariary, merci {firstName} !",
+      "textMg": "Ity ny akondro. 500 Ariary, misaotra {firstName} !",
+      "audio": {
+        "ttsTextFr": "Voici vos bananes. 500 Ariary, merci {firstName} !",
+        "ttsRate": 0.9
+      },
+      "nextNode": "end"
+    },
+    {
       "id": "suggest_cheaper",
       "speaker": "teacher",
       "textFr": "Je comprends {firstName}. Nous avons aussi des oranges à 300 Ariary. Voulez-vous voir ?",
       "textMg": "Azoko tsara {firstName}. Manana voasary 300 Ariary izahay. Tianao hijery ve?",
       "audio": {
         "ttsTextFr": "Je comprends. Nous avons aussi des oranges à 300 Ariary. Voulez-vous voir ?",
-        "ttsRate": 0.9
-      },
-      "nextNode": "end"
-    },
-    {
-      "id": "node_price_banana",
-      "speaker": "teacher",
-      "textFr": "Voici votre banane. 500 Ariary, merci {firstName} !",
-      "textMg": "Ity ny akondro. 500 Ariary, misaotra {firstName} !",
-      "audio": {
-        "ttsTextFr": "Voici votre banane. 500 Ariary, merci !",
-        "ttsRate": 0.9
-      },
-      "nextNode": "end"
-    },
-    {
-      "id": "node_price_pomme",
-      "speaker": "teacher",
-      "textFr": "Voici votre pomme. 400 Ariary, merci {firstName} !",
-      "textMg": "Ity ny paoma. 400 Ariary, misaotra {firstName} !",
-      "audio": {
-        "ttsTextFr": "Voici votre pomme. 400 Ariary, merci !",
-        "ttsRate": 0.9
-      },
-      "nextNode": "end"
-    },
-    {
-      "id": "node_price_orange",
-      "speaker": "teacher",
-      "textFr": "Voici votre orange. 300 Ariary, merci {firstName} !",
-      "textMg": "Ity ny voasary. 300 Ariary, misaotra {firstName} !",
-      "audio": {
-        "ttsTextFr": "Voici votre orange. 300 Ariary, merci !",
-        "ttsRate": 0.9
-      },
-      "nextNode": "end"
-    },
-    {
-      "id": "node_price_mangue",
-      "speaker": "teacher",
-      "textFr": "Voici votre mangue. 600 Ariary, merci {firstName} !",
-      "textMg": "Ity ny manga. 600 Ariary, misaotra {firstName} !",
-      "audio": {
-        "ttsTextFr": "Voici votre mangue. 600 Ariary, merci !",
         "ttsRate": 0.9
       },
       "nextNode": "end"
