@@ -1,0 +1,222 @@
+/* ============================================================
+   DAGOSPEAK — CONVERSATION LIVE ANIMATIONS
+   Animations continues pour éléments interactifs
+   ============================================================ */
+
+/* ──────────── Carte instruction utilisateur ──────────── */
+
+.live-user-prompt {
+  animation: fadeInUp 0.25s var(--ds-ease-out), gentlePulse 3s ease-in-out infinite;
+}
+
+@keyframes gentlePulse {
+  0%, 100% {
+    box-shadow: var(--ds-shadow-sm);
+  }
+  50% {
+    box-shadow: 0 8px 20px rgba(10, 138, 110, 0.18), var(--ds-shadow-md);
+  }
+}
+
+/* Icône de la carte */
+.live-user-prompt-icon {
+  animation: iconFloat 2.5s ease-in-out infinite;
+}
+
+@keyframes iconFloat {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-4px) scale(1.05);
+  }
+}
+
+/* ──────────── Boutons micro et validation ──────────── */
+
+.btn-microphone {
+  animation: micPulse 2.8s ease-in-out infinite;
+}
+
+@keyframes micPulse {
+  0%, 100% {
+    box-shadow: 0 4px 12px rgba(10, 138, 110, 0.30);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 8px 20px rgba(10, 138, 110, 0.45);
+    transform: scale(1.03);
+  }
+}
+
+.btn-microphone:hover {
+  animation: none;
+}
+
+.btn-auto-eval {
+  animation: checkPulse 2.8s ease-in-out infinite;
+}
+
+@keyframes checkPulse {
+  0%, 100% {
+    box-shadow: 0 4px 12px rgba(232, 163, 61, 0.30);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 8px 20px rgba(232, 163, 61, 0.45);
+    transform: scale(1.03);
+  }
+}
+
+.btn-auto-eval:hover {
+  animation: none;
+}
+
+/* ──────────── Emojis alphabétiques ──────────── */
+
+.live-option-btn > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.live-option-btn > div:first-child::first-letter {
+  display: inline-block;
+  animation: letterBounce 2s ease-in-out infinite;
+}
+
+@keyframes letterBounce {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-2px) scale(1.15);
+  }
+}
+
+/* Désactiver animation au hover */
+.live-option-btn:hover > div:first-child::first-letter {
+  animation: none;
+  transform: scale(1.2);
+  transition: transform 0.2s var(--ds-ease);
+}
+
+/* ──────────── Badge LIVE ──────────── */
+
+.live-badge {
+  animation: liveBadgePulse 2s ease-in-out infinite;
+}
+
+@keyframes liveBadgePulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(47, 158, 68, 0.5);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(47, 158, 68, 0);
+    transform: scale(1.05);
+  }
+}
+
+/* ──────────── Bulle Teacher ──────────── */
+
+.live-bubble.teacher {
+  animation: messageIn 0.32s var(--ds-ease-out), bubbleBreath 4s ease-in-out infinite;
+}
+
+@keyframes bubbleBreath {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.008);
+  }
+}
+
+.live-bubble.teacher:hover {
+  animation: none;
+  transform: scale(1.02);
+  transition: transform 0.3s var(--ds-ease);
+}
+
+/* ──────────── Avatar Teacher ──────────── */
+
+.live-teacher-wrap {
+  animation: avatarFloat 3.5s ease-in-out infinite;
+}
+
+@keyframes avatarFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-3px) rotate(1deg);
+  }
+}
+
+.live-teacher-wrap:hover {
+  animation: none;
+  transform: scale(1.1);
+  transition: transform 0.3s var(--ds-ease);
+}
+
+/* ──────────── Options de réponse ──────────── */
+
+.live-option-btn {
+  animation: optionBreath 3s ease-in-out infinite;
+}
+
+.live-option-btn:nth-child(1) { animation-delay: 0s; }
+.live-option-btn:nth-child(2) { animation-delay: 0.2s; }
+.live-option-btn:nth-child(3) { animation-delay: 0.4s; }
+.live-option-btn:nth-child(4) { animation-delay: 0.6s; }
+.live-option-btn:nth-child(5) { animation-delay: 0.8s; }
+
+@keyframes optionBreath {
+  0%, 100% {
+    box-shadow: var(--ds-shadow-sm);
+    transform: translateY(0px);
+  }
+  50% {
+    box-shadow: var(--ds-shadow-md);
+    transform: translateY(-1px);
+  }
+}
+
+.live-option-btn:hover {
+  animation: none;
+}
+
+/* ──────────── Réduire animations pour accessibilité ──────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .live-user-prompt,
+  .live-user-prompt-icon,
+  .btn-microphone,
+  .btn-auto-eval,
+  .live-badge,
+  .live-bubble.teacher,
+  .live-teacher-wrap,
+  .live-option-btn {
+    animation: none;
+  }
+  
+  .live-option-btn > div:first-child::first-letter {
+    animation: none;
+  }
+}
+
+/* ──────────── Mode sombre : ajuster intensité ──────────── */
+
+[data-theme="dark"] .live-user-prompt {
+  animation: fadeInUp 0.25s var(--ds-ease-out), gentlePulseDark 3s ease-in-out infinite;
+}
+
+@keyframes gentlePulseDark {
+  0%, 100% {
+    box-shadow: var(--ds-shadow-sm);
+  }
+  50% {
+    box-shadow: 0 8px 20px rgba(52, 211, 153, 0.22), var(--ds-shadow-md);
+  }
+}
