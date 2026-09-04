@@ -7107,6 +7107,7 @@ async function renderConversation() {
     // Afficher le premier nœud
     let currentNodeId = dialogue.nodes[0].id;
     let attempts = {};
+    let nodeHistory = [currentNodeId]; // ✅ V5.21: Historique de navigation
       let turnProcessed = false; // ✅ Verrou contre les doubles progressions
 
     const renderNode = () => {
@@ -7309,6 +7310,11 @@ async function renderConversation() {
               if (!nodeTtsCompleted) {
                 console.warn('[Conversation] ⚠️ TTS timeout (15s), progression forcée vers', node.nextNode);
                 nodeTtsCompleted = true;
+                // ✅ V5.21: Tracker l'historique avant changement
+                if (currentNodeId !== node.nextNode) {
+                  nodeHistory.push(node.nextNode);
+                  if (nodeHistory.length > 10) nodeHistory.shift(); // Limiter à 10 nœuds
+                }
                 currentNodeId = node.nextNode;
                 renderNode();
               }
@@ -7340,6 +7346,11 @@ async function renderConversation() {
             }
             // ✅ Auto-progression après délai pédagogique
             setTimeout(() => {
+              // ✅ V5.21: Tracker l'historique avant changement
+              if (currentNodeId !== node.nextNode) {
+                nodeHistory.push(node.nextNode);
+                if (nodeHistory.length > 10) nodeHistory.shift(); // Limiter à 10 nœuds
+              }
               currentNodeId = node.nextNode;
               renderNode();
             }, 800);
@@ -7358,6 +7369,11 @@ async function renderConversation() {
             }
             // ✅ Auto-progression même en cas d'erreur
             setTimeout(() => {
+              // ✅ V5.21: Tracker l'historique avant changement
+              if (currentNodeId !== node.nextNode) {
+                nodeHistory.push(node.nextNode);
+                if (nodeHistory.length > 10) nodeHistory.shift(); // Limiter à 10 nœuds
+              }
               currentNodeId = node.nextNode;
               renderNode();
             }, 800);
@@ -7532,6 +7548,11 @@ async function renderConversation() {
                 if (!ttsCompleted) {
                   console.warn('[Conversation] ⚠️ TTS success timeout (15s), progression forcée');
                   ttsCompleted = true;
+                  // ✅ V5.21: Tracker l'historique avant changement
+                  if (currentNodeId !== node.nextNodeOnSuccess) {
+                    nodeHistory.push(node.nextNodeOnSuccess);
+                    if (nodeHistory.length > 10) nodeHistory.shift(); // Limiter à 10 nœuds
+                  }
                   currentNodeId = node.nextNodeOnSuccess;
                   renderNode();
                 }
@@ -7561,6 +7582,11 @@ async function renderConversation() {
                 }
                 // ✅ Auto-progression après délai pédagogique
                 setTimeout(() => {
+                  // ✅ V5.21: Tracker l'historique avant changement
+                  if (currentNodeId !== node.nextNodeOnSuccess) {
+                    nodeHistory.push(node.nextNodeOnSuccess);
+                    if (nodeHistory.length > 10) nodeHistory.shift(); // Limiter à 10 nœuds
+                  }
                   currentNodeId = node.nextNodeOnSuccess;
                   renderNode();
                 }, 800);
@@ -7579,6 +7605,11 @@ async function renderConversation() {
                 }
                 // ✅ Progression même en cas d'erreur (ne pas bloquer l'utilisateur)
                 setTimeout(() => {
+                  // ✅ V5.21: Tracker l'historique avant changement
+                  if (currentNodeId !== node.nextNodeOnSuccess) {
+                    nodeHistory.push(node.nextNodeOnSuccess);
+                    if (nodeHistory.length > 10) nodeHistory.shift(); // Limiter à 10 nœuds
+                  }
                   currentNodeId = node.nextNodeOnSuccess;
                   renderNode();
                 }, 500);
@@ -7601,6 +7632,11 @@ async function renderConversation() {
                 `;
                 document.getElementById('btn-continue').addEventListener('click', () => {
                   turnProcessed = false; // ✅ Reset du verrou
+                  // ✅ V5.21: Tracker l'historique avant changement
+                  if (currentNodeId !== node.nextNodeOnMaxAttemptsReached) {
+                    nodeHistory.push(node.nextNodeOnMaxAttemptsReached);
+                    if (nodeHistory.length > 10) nodeHistory.shift(); // Limiter à 10 nœuds
+                  }
                   currentNodeId = node.nextNodeOnMaxAttemptsReached;
                   renderNode();
                 });
@@ -7895,6 +7931,11 @@ function captureUserResponse(nodeId, selectedOption) {
                                       }
                                       // Progresser vers le prochain nœud (comme une bonne réponse)
                                       // ✅ V5.8: Utiliser nextNodeOnConversation si défini
+                                      // ✅ V5.21: Tracker l'historique avant changement
+                                      if (currentNodeId !== selectedOption?.nextNodeOnConversation || node.nextNodeOnSuccess || node.nextNode) {
+                                        nodeHistory.push(selectedOption?.nextNodeOnConversation || node.nextNodeOnSuccess || node.nextNode);
+                                        if (nodeHistory.length > 10) nodeHistory.shift(); // Limiter à 10 nœuds
+                                      }
                                       currentNodeId = selectedOption?.nextNodeOnConversation || node.nextNodeOnSuccess || node.nextNode;
                                       setTimeout(() => {
                                         if (conversationLiveInstanceId !== conversationLiveInstanceId) {
@@ -8002,6 +8043,11 @@ function captureUserResponse(nodeId, selectedOption) {
                                   onEnd: () => {
                                     if (window.teacherAvatarSVG) window.teacherAvatarSVG.stopSpeaking();
                                     console.log('[STT] ✅ TTS feedback succès terminé, progression vers', node.nextNodeOnSuccess);
+                                    // ✅ V5.21: Tracker l'historique avant changement
+                                    if (currentNodeId !== node.nextNodeOnSuccess) {
+                                      nodeHistory.push(node.nextNodeOnSuccess);
+                                      if (nodeHistory.length > 10) nodeHistory.shift(); // Limiter à 10 nœuds
+                                    }
                                     currentNodeId = node.nextNodeOnSuccess;
                                     setTimeout(() => {
                                       if (conversationLiveInstanceId !== conversationLiveInstanceId) {
@@ -8014,6 +8060,11 @@ function captureUserResponse(nodeId, selectedOption) {
                                   onError: () => {
                                     if (window.teacherAvatarSVG) window.teacherAvatarSVG.stopSpeaking();
                                     console.warn('[STT] ⚠️ Erreur TTS, progression quand même vers', node.nextNodeOnSuccess);
+                                    // ✅ V5.21: Tracker l'historique avant changement
+                                    if (currentNodeId !== node.nextNodeOnSuccess) {
+                                      nodeHistory.push(node.nextNodeOnSuccess);
+                                      if (nodeHistory.length > 10) nodeHistory.shift(); // Limiter à 10 nœuds
+                                    }
                                     currentNodeId = node.nextNodeOnSuccess;
                                     setTimeout(() => {
                                       if (conversationLiveInstanceId !== conversationLiveInstanceId) {
@@ -8100,6 +8151,11 @@ function captureUserResponse(nodeId, selectedOption) {
                       `;
 
                       document.getElementById('btn-continue').addEventListener('click', () => {
+                        // ✅ V5.21: Tracker l'historique avant changement
+                        if (currentNodeId !== node.nextNodeOnSuccess) {
+                          nodeHistory.push(node.nextNodeOnSuccess);
+                          if (nodeHistory.length > 10) nodeHistory.shift(); // Limiter à 10 nœuds
+                        }
                         currentNodeId = node.nextNodeOnSuccess;
                         renderNode();
                       });
