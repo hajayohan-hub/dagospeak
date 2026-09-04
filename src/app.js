@@ -7421,19 +7421,35 @@ async function renderConversation() {
 
   main.innerHTML = `
     <section class="live-container">
-      <!-- ... header ... -->
+      <div class="live-header">
+        <button id="btn-back-dialogue" class="live-quit" aria-label="Retour aux dialogues">←</button>
+        <div class="live-teacher-wrap" id="live-teacher-avatar"></div>
+        <div class="live-teacher-info">
+          <div class="live-teacher-name">Teacher AI <span class="live-badge">● LIVE</span></div>
+          <div class="live-dialogue-title">💬 ${dialogue.titleFr}</div>
+        </div>
+        <button id="btn-quit" class="live-quit" aria-label="Quitter">✕</button>
+      </div>
+
       <div class="live-chat">
+        <div class="live-user-prompt">
+          <div class="live-user-prompt-icon">🎙️</div>
+          <div>
+            <div class="live-user-prompt-title">À vous de répondre</div>
+            <div class="live-user-prompt-subtitle">Choisissez la phrase qui correspond le mieux à votre situation.</div>
+          </div>
+        </div>
           <div class="live-options">
             ${personalizedOptions.map((opt, idx) => `
-              <div style="display: flex; gap: 0.5rem; align-items: stretch; margin-bottom: 0.5rem;">
+              <div class="live-option-row">
                 <button class="live-option-btn btn-option" data-idx="${idx}" style="flex: 1;">
-                  <div style="font-weight: 600;">${idx === 0 ? '🅰️' : idx === 1 ? '🅱️' : '🅲'} ${opt.textFr}</div>
-                  <div style="font-size: 0.85rem; opacity: 0.7; font-style: italic;">(${opt.textMg})</div>
+                  <div>${['🅰️','🅱️','🅲','🅳','🅴','🅵','🅶','🅷'][idx] || '▫️'} ${opt.textFr}</div>
+                  <div>(${opt.textMg})</div>
                 </button>
                 ${window.sttAvailable ? `
-                  <button class="btn-microphone" data-idx="${idx}" data-expected="${opt.textFr}" style="background: var(--ds-color-primary); color: white; border: none; padding: 0.75rem 1rem; border-radius: 12px; font-size: 1.5rem; cursor: pointer; transition: transform 0.2s;">🎤</button>
+                  <button class="btn-microphone" data-idx="${idx}" data-expected="${opt.textFr}">🎤</button>
                 ` : `
-                  <button class="btn-auto-eval" data-idx="${idx}" style="background: var(--ds-color-accent); color: white; border: none; padding: 0.75rem 1rem; border-radius: 12px; font-size: 1.5rem; cursor: pointer; transition: transform 0.2s;">✓</button>
+                  <button class="btn-auto-eval" data-idx="${idx}">✓</button>
                 `}
               </div>
             `).join('')}
