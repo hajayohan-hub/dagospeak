@@ -7430,7 +7430,7 @@ async function renderConversation() {
                   <div style="font-weight: 600;">${idx === 0 ? '🅰️' : idx === 1 ? '🅱️' : '🅲'} ${opt.textFr}</div>
                   <div style="font-size: 0.85rem; opacity: 0.7; font-style: italic;">(${opt.textMg})</div>
                 </button>
-                ${sttAvailable ? `
+                ${window.sttAvailable ? `
                   <button class="btn-microphone" data-idx="${idx}" data-expected="${opt.textFr}" style="background: var(--ds-color-primary); color: white; border: none; padding: 0.75rem 1rem; border-radius: 12px; font-size: 1.5rem; cursor: pointer; transition: transform 0.2s;">🎤</button>
                 ` : `
                   <button class="btn-auto-eval" data-idx="${idx}" style="background: var(--ds-color-accent); color: white; border: none; padding: 0.75rem 1rem; border-radius: 12px; font-size: 1.5rem; cursor: pointer; transition: transform 0.2s;">✓</button>
