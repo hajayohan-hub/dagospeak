@@ -6748,6 +6748,7 @@ async function renderConversationLive() {
   // ✅ V5.13: Incrémenter l'ID d'instance pour invalider les anciens callbacks
   conversationLiveInstanceId++;
   const instanceId = conversationLiveInstanceId;
+  window.currentConversationInstanceId = instanceId; // ✅ V5.13: Rendre accessible globalement
   console.log(`[ConversationLive] 🔒 Instance ${instanceId} démarrée`);
   updateNavActiveState();
   const main = document.getElementById('app');
@@ -7880,8 +7881,8 @@ function captureUserResponse(nodeId, selectedOption) {
                                       // ✅ V5.8: Utiliser nextNodeOnConversation si défini
                                       currentNodeId = selectedOption?.nextNodeOnConversation || node.nextNodeOnSuccess || node.nextNode;
                                       setTimeout(() => {
-                                        if (instanceId !== conversationLiveInstanceId) {
-                                          console.log(`[ConversationLive] ⏭️ Callback obsolète ignoré (instance ${instanceId} vs ${conversationLiveInstanceId})`);
+                                        if (conversationLiveInstanceId !== conversationLiveInstanceId) {
+                                          console.log('[ConversationLive] ⏭️ Callback obsolète ignoré');
                                           return;
                                         }
                                         renderNode();
@@ -7987,8 +7988,8 @@ function captureUserResponse(nodeId, selectedOption) {
                                     console.log('[STT] ✅ TTS feedback succès terminé, progression vers', node.nextNodeOnSuccess);
                                     currentNodeId = node.nextNodeOnSuccess;
                                     setTimeout(() => {
-                                      if (instanceId !== conversationLiveInstanceId) {
-                                        console.log(`[ConversationLive] ⏭️ Callback obsolète ignoré (instance ${instanceId} vs ${conversationLiveInstanceId})`);
+                                      if (conversationLiveInstanceId !== conversationLiveInstanceId) {
+                                        console.log('[ConversationLive] ⏭️ Callback obsolète ignoré');
                                         return;
                                       }
                                       renderNode();
@@ -7999,8 +8000,8 @@ function captureUserResponse(nodeId, selectedOption) {
                                     console.warn('[STT] ⚠️ Erreur TTS, progression quand même vers', node.nextNodeOnSuccess);
                                     currentNodeId = node.nextNodeOnSuccess;
                                     setTimeout(() => {
-                                      if (instanceId !== conversationLiveInstanceId) {
-                                        console.log(`[ConversationLive] ⏭️ Callback obsolète ignoré (instance ${instanceId} vs ${conversationLiveInstanceId})`);
+                                      if (conversationLiveInstanceId !== conversationLiveInstanceId) {
+                                        console.log('[ConversationLive] ⏭️ Callback obsolète ignoré');
                                         return;
                                       }
                                       renderNode();
