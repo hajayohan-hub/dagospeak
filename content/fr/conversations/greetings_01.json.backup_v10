@@ -150,8 +150,8 @@
       "speaker": "user",
       "responseOptions": [
         {
-          "textFr": "Je viens d'....",
-          "textMg": "Avy any ... aho.",
+          "textFr": "Je viens d'Antananarivo.",
+          "textMg": "Avy any Antananarivo aho.",
           "isCorrect": true
         },
         {
@@ -167,8 +167,8 @@
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
-        "textFr": "Excellent {firstName} ! ... est une belle ville.",
-        "textMg": "Tena tsara! Tanàna tsara i ....",
+        "textFr": "Excellent {firstName} ! Antananarivo est une belle ville.",
+        "textMg": "Tena tsara! Tanàna tsara i Antananarivo.",
         "audio": {
           "ttsTextFr": "Excellent {firstName}! Antananarivo est une belle ville."
         }

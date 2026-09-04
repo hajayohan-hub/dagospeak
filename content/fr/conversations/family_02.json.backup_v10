@@ -42,18 +42,18 @@
       "speaker": "user",
       "responseOptions": [
         {
-          "textFr": "Je viens d'....",
-          "textMg": "Avy any ... aho.",
+          "textFr": "Je viens d'Antananarivo.",
+          "textMg": "Avy any Antananarivo aho.",
           "isCorrect": true
         },
         {
-          "textFr": "Je viens de ....",
-          "textMg": "Avy any ... aho.",
+          "textFr": "Je viens de Toamasina.",
+          "textMg": "Avy any Toamasina aho.",
           "isCorrect": true
         },
         {
-          "textFr": "Je viens de ....",
-          "textMg": "Avy any ... aho.",
+          "textFr": "Je viens de Fianarantsoa.",
+          "textMg": "Avy any Fianarantsoa aho.",
           "isCorrect": true
         }
       ],

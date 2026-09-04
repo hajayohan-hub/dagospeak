@@ -43,7 +43,7 @@
           "isCorrect": false
         },
         {
-          "textFr": "J'ai ....",
+          "textFr": "J'ai deux frères.",
           "textMg": "Manana anadahy roa aho.",
           "isCorrect": false
         },
@@ -77,7 +77,7 @@
       },
       "feedbackOnFail": {
         "textFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Mon père s'appelle...",
-        "textMg": "Tsia, tokony holazaina hoe: ... no anaran'ny raiko.",
+        "textMg": "Tsia, tokony holazaina hoe: Rabe no anaran'ny raiko.",
         "audio": {
           "ttsTextFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Mon père s'appelle..."
         }
@@ -147,7 +147,7 @@
       },
       "feedbackOnFail": {
         "textFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Ma mère s'appelle...",
-        "textMg": "Tsia, tokony holazaina hoe: ... no anaran'ny reniko.",
+        "textMg": "Tsia, tokony holazaina hoe: Rasoa no anaran'ny reniko.",
         "audio": {
           "ttsTextFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Ma mère s'appelle..."
         }
@@ -171,7 +171,7 @@
       "speaker": "user",
       "responseOptions": [
         {
-          "textFr": "Oui, j'ai ... et une sœur.",
+          "textFr": "Oui, j'ai deux frères et une sœur.",
           "textMg": "Eny, manana anadahy roa sy anabavy iray aho.",
           "isCorrect": true
         },
