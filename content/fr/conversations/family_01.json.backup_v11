@@ -1,0 +1,215 @@
+{
+  "id": "family_01",
+  "titleFr": "Parler de sa famille",
+  "titleMg": "Fitantarana ny fianakaviana",
+  "level": "A0",
+  "theme": "family",
+  "participants": {
+    "A": {
+      "name": "Professeur",
+      "avatar": "👩‍🏫",
+      "gender": "female"
+    },
+    "B": {
+      "name": "Vous",
+      "avatar": "🙋",
+      "gender": "neutral"
+    }
+  },
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "teacher",
+      "textFr": "Parlez-moi de votre famille. Comment s'appelle votre père ?",
+      "textMg": "Lazao amiko ny fianakavianao. Iza no anaran'ny rainao?",
+      "audio": {
+        "ttsTextFr": "Parlez-moi de votre famille. Comment s'appelle votre père ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_father"
+    },
+    {
+      "id": "user_father",
+      "speaker": "user",
+      "responseOptions": [
+        {
+          "textFr": "Mon père s'appelle ....",
+          "textMg": "... no anaran'ny raiko.",
+          "isCorrect": true
+        },
+        {
+          "textFr": "Ma mère s'appelle ....",
+          "textMg": "... no anaran'ny reniko.",
+          "isCorrect": false
+        },
+        {
+          "textFr": "J'ai ....",
+          "textMg": "Manana anadahy roa aho.",
+          "isCorrect": false
+        },
+        {
+          "textFr": "Mon père est décédé.",
+          "textMg": "Maty ny raiko.",
+          "isCorrect": false,
+          "responseType": "emotional",
+          "conversationReaction": "empathetic",
+          "continueConversation": true,
+          "nextNodeOnConversation": "gentle_transition"
+        },
+        {
+          "textFr": "Je préfère ne pas en parler.",
+          "textMg": "Tsy tiako ny hiresaka momba izany.",
+          "isCorrect": false,
+          "responseType": "boundary",
+          "conversationReaction": "respectful",
+          "continueConversation": true,
+          "nextNodeOnConversation": "gentle_transition"
+        }
+      ],
+      "maxAttempts": 2,
+      "feedbackOnSuccess": {
+        "textFr": "Très bien {firstName} ! Vous avez donné le nom de votre père.",
+        "textMg": "Tena tsara {firstName} ! Nolazainao ny anaran'ny rainao.",
+        "audio": {
+          "ttsTextFr": "Très bien ! Vous avez donné le nom de votre père.",
+          "ttsRate": 0.9
+        }
+      },
+      "feedbackOnFail": {
+        "textFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Mon père s'appelle...",
+        "textMg": "Tsia, tokony holazaina hoe: ... no anaran'ny raiko.",
+        "audio": {
+          "ttsTextFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Mon père s'appelle..."
+        }
+      },
+      "nextNodeOnSuccess": "user_mother",
+      "nextNodeOnMaxAttemptsReached": "user_mother",
+      "conversationFeedback": {
+        "empathetic": {
+          "textFr": "Je suis vraiment désolé de l'entendre. Mes sincères condoléances.",
+          "textMg": "Miala tsiny tokoa aho maheno izany. Araho fiaraha-miory."
+        },
+        "respectful": {
+          "textFr": "Je comprends, c'est tout à fait normal. Passons à autre chose.",
+          "textMg": "Azafady, azoko tsara izany. Andeha hiresaka zavatra hafa."
+        }
+      }
+    },
+    {
+      "id": "gentle_transition",
+      "speaker": "teacher",
+      "textFr": "Je comprends {firstName}. Prenez votre temps. Si vous êtes d'accord, parlons maintenant de votre mère.",
+      "textMg": "Azoko tsara {firstName}. Makà fotoana. Raha manaiky ianao, andeha hiresaka momba ny reninao izao.",
+      "audio": {
+        "ttsTextFr": "Je comprends. Prenez votre temps. Si vous êtes d'accord, parlons maintenant de votre mère.",
+        "ttsRate": 0.85
+      },
+      "nextNode": "user_mother"
+    },
+    {
+      "id": "user_mother",
+      "speaker": "teacher",
+      "textFr": "Comment s'appelle votre mère {firstName} ?",
+      "textMg": "Iza no anaran'ny reninao?",
+      "audio": {
+        "ttsTextFr": "Comment s'appelle votre mère {firstName}?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_mother_answer"
+    },
+    {
+      "id": "user_mother_answer",
+      "speaker": "user",
+      "responseOptions": [
+        {
+          "textFr": "Ma mère s'appelle ....",
+          "textMg": "... no anaran'ny reniko.",
+          "isCorrect": true
+        },
+        {
+          "textFr": "Mon père s'appelle ....",
+          "textMg": "... no anaran'ny raiko.",
+          "isCorrect": false
+        },
+        {
+          "textFr": "J'ai une sœur.",
+          "textMg": "Manana anabavy iray aho.",
+          "isCorrect": false
+        }
+      ],
+      "maxAttempts": 2,
+      "feedbackOnSuccess": {
+        "textFr": "Parfait ! Avez-vous des frères et sœurs ?",
+        "textMg": "Tena tsara! Manana anadahy sy anabavy ve ianao?",
+        "audio": {
+          "ttsTextFr": "Parfait ! Avez-vous des frères et sœurs ?"
+        }
+      },
+      "feedbackOnFail": {
+        "textFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Ma mère s'appelle...",
+        "textMg": "Tsia, tokony holazaina hoe: ... no anaran'ny reniko.",
+        "audio": {
+          "ttsTextFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Ma mère s'appelle..."
+        }
+      },
+      "nextNodeOnSuccess": "user_siblings",
+      "nextNodeOnMaxAttemptsReached": "user_siblings"
+    },
+    {
+      "id": "user_siblings",
+      "speaker": "teacher",
+      "textFr": "Avez-vous des frères et sœurs ?",
+      "textMg": "Manana anadahy sy anabavy ve ianao?",
+      "audio": {
+        "ttsTextFr": "Avez-vous des frères et sœurs ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_siblings_answer"
+    },
+    {
+      "id": "user_siblings_answer",
+      "speaker": "user",
+      "responseOptions": [
+        {
+          "textFr": "Oui, j'ai ... et une sœur.",
+          "textMg": "Eny, manana anadahy roa sy anabavy iray aho.",
+          "isCorrect": true
+        },
+        {
+          "textFr": "Non, je n'ai pas de famille.",
+          "textMg": "Tsia, tsy manana fianakaviana aho.",
+          "isCorrect": false
+        },
+        {
+          "textFr": "Ma mère s'appelle ....",
+          "textMg": "... no anaran'ny reniko.",
+          "isCorrect": false
+        }
+      ],
+      "maxAttempts": 2,
+      "feedbackOnSuccess": {
+        "textFr": "Excellent {firstName} ! Vous avez une belle famille !",
+        "textMg": "Tena tsara! Manana fianakaviana tsara ianao!",
+        "audio": {
+          "ttsTextFr": "Excellent {firstName}! Vous avez une belle famille !"
+        }
+      },
+      "feedbackOnFail": {
+        "textFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Oui, j'ai...",
+        "textMg": "Tsia, tokony hovaliana hoe: Eny, manana ... aho.",
+        "audio": {
+          "ttsTextFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Oui, j'ai..."
+        }
+      },
+      "nextNodeOnSuccess": "end",
+      "nextNodeOnMaxAttemptsReached": "end"
+    },
+    {
+      "id": "end",
+      "isEnd": true,
+      "speaker": "teacher",
+      "textFr": "Bravo {firstName}! Vous savez parler de votre famille !",
+      "textMg": "Arahabaina! Mahay mitantara ny fianakavianao ianao!"
+    }
+  ]
+}

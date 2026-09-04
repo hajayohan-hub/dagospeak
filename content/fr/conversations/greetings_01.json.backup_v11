@@ -170,7 +170,7 @@
         "textFr": "Excellent {firstName} ! ... est une belle ville.",
         "textMg": "Tena tsara! Tanàna tsara i ....",
         "audio": {
-          "ttsTextFr": "Excellent {firstName}! C'est une belle ville."
+          "ttsTextFr": "Excellent {firstName}! Antananarivo est une belle ville."
         }
       },
       "feedbackOnFail": {
