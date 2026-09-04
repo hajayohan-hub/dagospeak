@@ -203,8 +203,7 @@
           "isCorrect": false,
           "responseType": "unknown",
           "conversationReaction": "encouraging",
-          "continueConversation": true,
-          "nextNodeOnConversation": "learn_months"
+          "continueConversation": true
         },
         {
           "textFr": "Je préfère ne pas donner ma date d'anniversaire.",
@@ -212,8 +211,7 @@
           "isCorrect": false,
           "responseType": "boundary",
           "conversationReaction": "respectful",
-          "continueConversation": true,
-          "nextNodeOnConversation": "respect_privacy"
+          "continueConversation": true
         }
       ],
       "maxAttempts": 2,
@@ -243,28 +241,6 @@
           "textMg": "Azoko tsara izany, zonao izany. Afaka hiresaka zavatra hafa isika."
         }
       }
-    },
-    {
-      "id": "respect_privacy",
-      "speaker": "teacher",
-      "textFr": "Je comprends tout à fait {firstName}. C'est votre droit. Continuons simplement à apprendre les mois de l'année.",
-      "textMg": "Azoko tsara izany {firstName}. Zonao izany. Andeha foana hianatra ny volana amin'ny taona.",
-      "audio": {
-        "ttsTextFr": "Je comprends tout à fait. C'est votre droit. Continuons simplement à apprendre les mois de l'année.",
-        "ttsRate": 0.9
-      },
-      "nextNode": "teacher_end"
-    },
-    {
-      "id": "learn_months",
-      "speaker": "teacher",
-      "textFr": "Pas de souci ! Comptons ensemble : janvier, février, mars, avril, mai, juin, juillet, août, septembre, octobre, novembre, décembre.",
-      "textMg": "Tsy maninona! Andeha hanisa miaraka: janoary, febroary, martsa, aprily, mey, jona, jolay, aogositra, septambra, oktobra, novambra, desambra.",
-      "audio": {
-        "ttsTextFr": "Pas de souci ! Comptons ensemble : janvier, février, mars, avril, mai, juin, juillet, août, septembre, octobre, novembre, décembre.",
-        "ttsRate": 0.85
-      },
-      "nextNode": "teacher_end"
     },
     {
       "id": "teacher_end",

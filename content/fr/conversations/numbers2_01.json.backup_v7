@@ -128,8 +128,7 @@
           "isCorrect": false,
           "responseType": "emotional",
           "conversationReaction": "understanding",
-          "continueConversation": true,
-          "nextNodeOnConversation": "ask_preference"
+          "continueConversation": true
         },
         {
           "textFr": "Je suis allergique aux bananes.",
@@ -137,8 +136,7 @@
           "isCorrect": false,
           "responseType": "health",
           "conversationReaction": "empathetic",
-          "continueConversation": true,
-          "nextNodeOnConversation": "avoid_bananas"
+          "continueConversation": true
         }
       ],
       "maxAttempts": 2,
@@ -168,28 +166,6 @@
           "textMg": "Miala tsiny aho! Zava-dehibe ny mitandrina amin'ny allergie."
         }
       }
-    },
-    {
-      "id": "avoid_bananas",
-      "speaker": "teacher",
-      "textFr": "Ah, dans ce cas évitons les bananes {firstName} ! Voulez-vous des oranges ou des mangues à la place ?",
-      "textMg": "Raha izany, aoka aloha ny akondro {firstName}! Tianao ve ny voasary na manga?",
-      "audio": {
-        "ttsTextFr": "Ah, dans ce cas évitons les bananes ! Voulez-vous des oranges ou des mangues à la place ?",
-        "ttsRate": 0.9
-      },
-      "nextNode": "end"
-    },
-    {
-      "id": "ask_preference",
-      "speaker": "teacher",
-      "textFr": "Je comprends ! Chacun a ses goûts. Quel fruit préférez-vous alors ?",
-      "textMg": "Azoko! Samy manana ny safidiny. Inona ary ny voankazo tianao?",
-      "audio": {
-        "ttsTextFr": "Je comprends ! Chacun a ses goûts. Quel fruit préférez-vous alors ?",
-        "ttsRate": 0.9
-      },
-      "nextNode": "end"
     },
     {
       "id": "ask_total",

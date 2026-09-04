@@ -53,8 +53,7 @@
           "isCorrect": false,
           "responseType": "emotional",
           "conversationReaction": "empathetic",
-          "continueConversation": true,
-          "nextNodeOnConversation": "gentle_transition"
+          "continueConversation": true
         },
         {
           "textFr": "Je préfère ne pas en parler.",
@@ -62,8 +61,7 @@
           "isCorrect": false,
           "responseType": "boundary",
           "conversationReaction": "respectful",
-          "continueConversation": true,
-          "nextNodeOnConversation": "gentle_transition"
+          "continueConversation": true
         }
       ],
       "maxAttempts": 2,
@@ -93,17 +91,6 @@
           "textMg": "Azafady, azoko tsara izany. Andeha hiresaka zavatra hafa."
         }
       }
-    },
-    {
-      "id": "gentle_transition",
-      "speaker": "teacher",
-      "textFr": "Je comprends {firstName}. Prenez votre temps. Si vous êtes d'accord, parlons maintenant de votre mère.",
-      "textMg": "Azoko tsara {firstName}. Makà fotoana. Raha manaiky ianao, andeha hiresaka momba ny reninao izao.",
-      "audio": {
-        "ttsTextFr": "Je comprends. Prenez votre temps. Si vous êtes d'accord, parlons maintenant de votre mère.",
-        "ttsRate": 0.85
-      },
-      "nextNode": "user_mother"
     },
     {
       "id": "user_mother",

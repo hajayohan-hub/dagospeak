@@ -53,8 +53,7 @@
           "isCorrect": false,
           "responseType": "emergency",
           "conversationReaction": "urgent",
-          "continueConversation": true,
-          "nextNodeOnConversation": "medical_help"
+          "continueConversation": true
         },
         {
           "textFr": "Je suis perdu, où suis-je ?",
@@ -62,8 +61,7 @@
           "isCorrect": false,
           "responseType": "distress",
           "conversationReaction": "helpful",
-          "continueConversation": true,
-          "nextNodeOnConversation": "help_lost"
+          "continueConversation": true
         }
       ],
       "maxAttempts": 2,
@@ -191,28 +189,6 @@
       },
       "nextNodeOnSuccess": "end",
       "nextNodeOnMaxAttemptsReached": "end"
-    },
-    {
-      "id": "medical_help",
-      "speaker": "teacher",
-      "textFr": "Oh non {firstName} ! Si c'est urgent, appelez le 101 ou allez à l'hôpital le plus proche. Votre santé est importante !",
-      "textMg": "Isy ratsy anie izany {firstName}! Raha maika, antsoy ny 101 na mandehana any amin'ny hopitaly akaiky. Zava-dehibe ny fahasalamanao!",
-      "audio": {
-        "ttsTextFr": "Oh non ! Si c'est urgent, appelez le 101 ou allez à l'hôpital le plus proche. Votre santé est importante !",
-        "ttsRate": 0.85
-      },
-      "nextNode": "end"
-    },
-    {
-      "id": "help_lost",
-      "speaker": "teacher",
-      "textFr": "Ne vous inquiétez pas {firstName}. Regardez autour de vous. Voyez-vous un panneau ou un magasin ?",
-      "textMg": "Aza matahotra {firstName}. Jereo ny manodidina anao. Mahita takela-pejy na fivarotana ve ianao?",
-      "audio": {
-        "ttsTextFr": "Ne vous inquiétez pas. Regardez autour de vous. Voyez-vous un panneau ou un magasin ?",
-        "ttsRate": 0.9
-      },
-      "nextNode": "end"
     },
     {
       "id": "end",
