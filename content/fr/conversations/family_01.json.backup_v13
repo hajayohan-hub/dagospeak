@@ -171,52 +171,38 @@
       "speaker": "user",
       "responseOptions": [
         {
-          "textFr": "Oui, j'ai ... frères et ... sœurs.",
-          "textMg": "Eny, manana anadahy ... sy anabavy ... aho.",
+          "textFr": "Oui, j'ai ... et une sœur.",
+          "textMg": "Eny, manana anadahy roa sy anabavy iray aho.",
           "isCorrect": true
         },
         {
-          "textFr": "Je n'ai pas de frères ni de sœurs.",
-          "textMg": "Tsy manana anadahy na anabavy aho.",
-          "isCorrect": true,
-          "responseType": "personal",
-          "conversationReaction": "positive",
-          "continueConversation": true
+          "textFr": "Non, je n'ai pas de famille.",
+          "textMg": "Tsia, tsy manana fianakaviana aho.",
+          "isCorrect": false
         },
         {
-          "textFr": "Oui, j'ai ... frères.",
-          "textMg": "Eny, manana anadahy ... aho.",
-          "isCorrect": true
-        },
-        {
-          "textFr": "Oui, j'ai ... sœurs.",
-          "textMg": "Eny, manana anabavy ... aho.",
-          "isCorrect": true
+          "textFr": "Ma mère s'appelle ....",
+          "textMg": "... no anaran'ny reniko.",
+          "isCorrect": false
         }
       ],
       "maxAttempts": 2,
       "feedbackOnSuccess": {
         "textFr": "Excellent {firstName} ! Vous avez une belle famille !",
-        "textMg": "Tena tsara {firstName}! Manana fianakaviana tsara ianao!",
+        "textMg": "Tena tsara! Manana fianakaviana tsara ianao!",
         "audio": {
-          "ttsTextFr": "Excellent ! Vous avez une belle famille !"
+          "ttsTextFr": "Excellent {firstName}! Vous avez une belle famille !"
         }
       },
       "feedbackOnFail": {
-        "textFr": "Pas tout à fait. Pour répondre, vous pouvez dire : Oui, j'ai ... frères et ... sœurs.",
-        "textMg": "Tsia, tokony hovaliana hoe: Eny, manana anadahy ... sy anabavy ... aho.",
+        "textFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Oui, j'ai...",
+        "textMg": "Tsia, tokony hovaliana hoe: Eny, manana ... aho.",
         "audio": {
-          "ttsTextFr": "Pas tout à fait. Pour répondre, vous pouvez dire : Oui, j'ai des frères et des sœurs."
+          "ttsTextFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Oui, j'ai..."
         }
       },
       "nextNodeOnSuccess": "end",
-      "nextNodeOnMaxAttemptsReached": "end",
-      "conversationFeedback": {
-        "positive": {
-          "textFr": "Je comprends ! Vous êtes donc enfant unique. C'est bien aussi !",
-          "textMg": "Azoko tsara! Ianao dia zanaka tokana. Tsara izany!"
-        }
-      }
+      "nextNodeOnMaxAttemptsReached": "end"
     },
     {
       "id": "end",
