@@ -7108,6 +7108,43 @@ async function renderConversation() {
     let currentNodeId = dialogue.nodes[0].id;
     let attempts = {};
     let nodeHistory = [currentNodeId]; // ✅ V5.21: Historique de navigation
+    let navigationGeneration = 0; // ✅ V5.28: Génération pour invalider les anciens callbacks
+    
+    // ✅ V5.28: Fonction centralisée pour naviguer vers un nœud
+    function goToNode(nextNodeId) {
+      if (!nextNodeId) {
+        console.warn('[Conversation] ⚠️ Tentative de navigation vers un nœud null');
+        return;
+      }
+      
+      console.log(`[Conversation] 🚀 Navigation: ${currentNodeId} → ${nextNodeId}`);
+      
+      // Ajouter à l'historique si différent
+      if (currentNodeId !== nextNodeId) {
+        nodeHistory.push(nextNodeId);
+        // Limiter à 10 nœuds
+        if (nodeHistory.length > 10) nodeHistory.shift();
+      }
+      
+      // Naviguer
+      currentNodeId = nextNodeId;
+      renderNode();
+    }
+    
+    // ✅ V5.28: Fonction centralisée pour planifier une transition
+    function scheduleTransition(nextNodeId, delay = 800) {
+      const generation = navigationGeneration;
+      
+      setTimeout(() => {
+        // Vérifier que cette transition est encore valide
+        if (generation !== navigationGeneration) {
+          console.log('[Conversation] ⏭️ Transition obsolète ignorée (generation mismatch)');
+          return;
+        }
+        
+        goToNode(nextNodeId);
+      }, delay);
+    }
       let turnProcessed = false; // ✅ Verrou contre les doubles progressions
 
     const renderNode = () => {
@@ -7400,18 +7437,55 @@ async function renderConversation() {
 
         // ✅ Bouton Retour aux dialogues
         document.getElementById('btn-back-dialogue').addEventListener('click', () => {
-        // ✅ Enregistrer l'activité Conversation Live
-        try {
-          recordActivity('live-conversation', dialogue.theme || 'unknown', {
-            dialogue: dialogue.id,
-            title: dialogue.titleFr
-          });
-          console.log('[Conversation] ✅ Activité enregistrée (retour) pour le thème', dialogue.theme);
-        } catch (e) {
-          console.warn('[Conversation] ⚠️ Erreur enregistrement activité:', e);
-        }
-        
-          router.navigate('/conversation-live');
+          // ✅ V5.28: Navigation arrière dans l'historique
+          console.log(`[Conversation] ⬅️ Clic retour, historique: ${nodeHistory.length} nœuds`);
+          
+          // Incrémenter la génération pour invalider les anciens callbacks
+          navigationGeneration++;
+          console.log(`[Conversation] 🔄 Génération incrémentée: ${navigationGeneration}`);
+          
+          // Arrêter le TTS en cours
+          if (typeof speechSynthesis !== 'undefined') {
+            speechSynthesis.cancel();
+          }
+          
+          // Arrêter le STT si actif
+          if (window.sttManager && typeof window.sttManager.stopListening === 'function') {
+            window.sttManager.stopListening();
+          }
+          
+          // S'il n'y a pas de précédent
+          if (nodeHistory.length <= 1) {
+            console.log('[Conversation] ℹ️ Premier nœud atteint, retour à la sélection');
+            
+            // Enregistrer l'activité
+            try {
+              recordActivity('live-conversation', dialogue.theme || 'unknown', {
+                dialogue: dialogue.id,
+                title: dialogue.titleFr
+              });
+            } catch (e) {
+              console.warn('[Conversation] ⚠️ Erreur enregistrement activité:', e);
+            }
+            
+            router.navigate('/conversation-live');
+            return;
+          }
+          
+          // Retirer le nœud actuel
+          nodeHistory.pop();
+          
+          // Revenir au précédent
+          const previousNodeId = nodeHistory[nodeHistory.length - 1];
+          console.log(`[Conversation] ⬅️ Retour: ${currentNodeId} → ${previousNodeId}`);
+          
+          currentNodeId = previousNodeId;
+          renderNode();
+          
+          // Feedback sonore si disponible
+          if (window.feedbackSounds && typeof window.feedbackSounds.playClick === 'function') {
+            window.feedbackSounds.playClick();
+          }
         });
 
 
