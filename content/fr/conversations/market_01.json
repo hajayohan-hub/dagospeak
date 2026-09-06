@@ -92,8 +92,6 @@
           "ttsRate": 0.9
         }
       },
-      "nextNodeOnSuccess": "node_price",
-      "nextNodeOnMaxAttemptsReached": "node_price",
       "conversationFeedback": {
         "empathetic": {
           "textFr": "Je comprends, le prix peut être élevé. Peut-être pouvons-nous regarder autre chose ?",
