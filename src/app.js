@@ -7148,12 +7148,28 @@ async function renderConversation() {
       let turnProcessed = false; // ✅ Verrou contre les doubles progressions
 
     const renderNode = () => {
-        turnProcessed = false; // ✅ Reset du verrou pour ce nouveau nœud
-      const node = dialogue.nodes.find(n => n.id === currentNodeId);
+    // ✅ V5.30: Fonction de sécurité pour récupérer un nœud
+    function getNodeOrWarn(nodeId) {
+      const node = dialogue.nodes.find(n => n.id === nodeId);
+      
       if (!node) {
-        main.innerHTML = `<p style="color:red; text-align:center;">Nœud introuvable : ${currentNodeId}</p>`;
-        return;
+        console.error(
+          `[Conversation] ❌ Nœud introuvable: "${nodeId}"`,
+          {
+            dialogueId: dialogue.id,
+            currentNodeId: currentNodeId,
+            availableNodes: dialogue.nodes.map(n => n.id)
+          }
+        );
+        return null;
       }
+      
+      return node;
+    }
+    
+    turnProcessed = false; // ✅ Reset du verrou pour ce nouveau nœud
+      const node = getNodeOrWarn(currentNodeId);
+      if (!node) return;
 
               if (node.isEnd) {
           main.innerHTML = `
@@ -7562,7 +7578,7 @@ async function renderConversation() {
         });
 
         // ✅ Event listeners pour les boutons microphone (STT)
-        if (sttAvailable) {
+        if (window.sttAvailable) {
           document.querySelectorAll('.btn-microphone').forEach(btn => {
             btn.addEventListener('click', () => {
               const idx = parseInt(btn.dataset.idx);
