@@ -7113,7 +7113,16 @@ async function renderConversation() {
     // ✅ V5.28: Fonction centralisée pour naviguer vers un nœud
     function goToNode(nextNodeId) {
       if (!nextNodeId) {
-        console.warn('[Conversation] ⚠️ Tentative de navigation vers un nœud null');
+        console.warn('[Conversation] ⚠️ Tentative de navigation vers un nœud null/undefined');
+        console.warn('[Conversation] 📍 currentNodeId actuel:', currentNodeId);
+        return;
+      }
+      
+      // Vérifier que le nœud existe réellement
+      const targetNode = dialogue.nodes.find(n => n.id === nextNodeId);
+      if (!targetNode) {
+        console.error('[Conversation] ❌ goToNode(): Nœud cible inexistant:', nextNodeId);
+        console.error('[Conversation] 📋 Nœuds disponibles:', dialogue.nodes.map(n => n.id));
         return;
       }
       
@@ -7168,8 +7177,21 @@ async function renderConversation() {
     }
     
     turnProcessed = false; // ✅ Reset du verrou pour ce nouveau nœud
+    
+    // ✅ V5.31: Protection contre currentNodeId undefined
+    if (!currentNodeId || currentNodeId === 'undefined') {
+      console.error('[Conversation] ❌ currentNodeId est undefined, retour au premier nœud');
+      console.error('[Conversation] 📋 Trace: nodeHistory =', nodeHistory);
+      currentNodeId = dialogue.nodes[0].id;
+      console.log('[Conversation] 🔄 Reset vers premier nœud:', currentNodeId);
+    }
+    
       const node = getNodeOrWarn(currentNodeId);
-      if (!node) return;
+      if (!node) {
+        console.error('[Conversation] ❌ Nœud non trouvé, retour au premier nœud');
+        currentNodeId = dialogue.nodes[0].id;
+        return renderNode(); // Réessayer avec le premier nœud
+      }
 
               if (node.isEnd) {
           main.innerHTML = `
