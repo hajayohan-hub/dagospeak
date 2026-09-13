@@ -37,9 +37,20 @@
             "fr": "Au marché, on utilise 'Bonjour' et 'Madame' pour être poli.",
             "mg": "Eny an-tsena, mampiasa 'Manao ahoana' sy 'Ramatoa' isika mba ho mahalala fomba."
           },
-          "nextNodeOnFail": "greeting_response"
+          "nextNodeOnFail": "greeting_hint"
         }
       ]
+    },
+    {
+      "id": "greeting_hint",
+      "speaker": "teacher",
+      "textFr": "Au marché, on dit 'Bonjour Madame' pour être poli. Essayez encore !",
+      "textMg": "Eny an-tsena, lazao 'Manao ahoana Ramatoa' mba ho mahalala fomba. Andramo indray!",
+      "audio": {
+        "ttsTextFr": "Au marché, on dit 'Bonjour Madame' pour être poli. Essayez encore !",
+        "ttsRate": 0.9
+      },
+      "nextNode": "greeting_response"
     },
     {
       "id": "ask_what_to_buy",
@@ -223,7 +234,7 @@
         "ttsRate": 0.9,
         "ttsTextFr": "Parfait! Un kilo de bananes, ça fait 2000 ariary. Voulez-vous autre chose?"
       },
-      "nextNode": "ask_more"
+      "nextNode": "ask_more_after_banana"
     },
     {
       "id": "total_banana_2",
@@ -234,7 +245,7 @@
         "ttsRate": 0.9,
         "ttsTextFr": "Deux kilos de bananes, ça fait 4000 ariary. Autre chose?"
       },
-      "nextNode": "ask_more"
+      "nextNode": "ask_more_after_banana"
     },
     {
       "id": "total_banana_half",
@@ -245,7 +256,7 @@
         "ttsRate": 0.9,
         "ttsTextFr": "Un demi-kilo, ça fait 1000 ariary. Voulez-vous prendre autre chose?"
       },
-      "nextNode": "ask_more"
+      "nextNode": "ask_more_after_banana"
     },
     {
       "id": "total_pomme_1",
@@ -256,7 +267,7 @@
         "ttsRate": 0.9,
         "ttsTextFr": "Un kilo de pommes, ça fait 5000 ariary. Autre chose?"
       },
-      "nextNode": "ask_more"
+      "nextNode": "ask_more_after_pomme"
     },
     {
       "id": "total_pomme_2",
@@ -267,7 +278,7 @@
         "ttsRate": 0.9,
         "ttsTextFr": "Deux kilos de pommes, ça fait 10000 ariary. Voulez-vous autre chose?"
       },
-      "nextNode": "ask_more"
+      "nextNode": "ask_more_after_pomme"
     },
     {
       "id": "total_orange_1",
@@ -278,7 +289,7 @@
         "ttsRate": 0.9,
         "ttsTextFr": "Un kilo d'oranges, ça fait 3000 ariary. Autre chose?"
       },
-      "nextNode": "ask_more"
+      "nextNode": "ask_more_after_orange"
     },
     {
       "id": "total_orange_2",
@@ -289,7 +300,7 @@
         "ttsRate": 0.9,
         "ttsTextFr": "Deux kilos d'oranges, ça fait 6000 ariary. Voulez-vous autre chose?"
       },
-      "nextNode": "ask_more"
+      "nextNode": "ask_more_after_orange"
     },
     {
       "id": "total_mangue_1",
@@ -300,7 +311,7 @@
         "ttsRate": 0.9,
         "ttsTextFr": "Un kilo de mangues, ça fait 4000 ariary. Autre chose?"
       },
-      "nextNode": "ask_more"
+      "nextNode": "ask_more_after_mangue"
     },
     {
       "id": "total_mangue_3",
@@ -311,31 +322,109 @@
         "ttsRate": 0.9,
         "ttsTextFr": "Trois kilos de mangues, ça fait 12000 ariary. Voulez-vous autre chose?"
       },
-      "nextNode": "ask_more"
+      "nextNode": "ask_more_after_mangue"
     },
     {
-      "id": "ask_more",
+      "id": "ask_more_after_banana",
       "speaker": "user",
       "textFr": "Voulez-vous acheter autre chose ?",
       "textMg": "Mbola te-hividy zavatra hafa ve ianao?",
       "responseOptions": [
         {
-          "textFr": "Non merci, c'est tout pour aujourd'hui.",
-          "textMg": "Tsia misaotra, izay ihany androany.",
+          "textFr": "Oui, je voudrais aussi des pommes.",
+          "textMg": "Eny, te-hividy paoma koa aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "farewell"
+          "nextNodeOnSuccess": "node_price_pomme"
         },
         {
-          "textFr": "Oui, je voudrais aussi des oranges.",
-          "textMg": "Eny, te-hividy voasary koa aho.",
+          "textFr": "Oui, donnez-moi aussi des oranges.",
+          "textMg": "Eny, omeo voasary koa aho.",
           "isCorrect": true,
           "nextNodeOnSuccess": "node_price_orange"
+        },
+        {
+          "textFr": "Non merci, c'est tout.",
+          "textMg": "Tsia misaotra, izay ihany.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "farewell"
+        }
+      ]
+    },
+    {
+      "id": "ask_more_after_pomme",
+      "speaker": "user",
+      "textFr": "Voulez-vous acheter autre chose ?",
+      "textMg": "Mbola te-hividy zavatra hafa ve ianao?",
+      "responseOptions": [
+        {
+          "textFr": "Oui, je voudrais aussi des bananes.",
+          "textMg": "Eny, te-hividy akondro koa aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "node_price_banana"
         },
         {
           "textFr": "Oui, donnez-moi aussi des mangues.",
           "textMg": "Eny, omeo manga koa aho.",
           "isCorrect": true,
           "nextNodeOnSuccess": "node_price_mangue"
+        },
+        {
+          "textFr": "Non merci, c'est tout.",
+          "textMg": "Tsia misaotra, izay ihany.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "farewell"
+        }
+      ]
+    },
+    {
+      "id": "ask_more_after_orange",
+      "speaker": "user",
+      "textFr": "Voulez-vous acheter autre chose ?",
+      "textMg": "Mbola te-hividy zavatra hafa ve ianao?",
+      "responseOptions": [
+        {
+          "textFr": "Oui, je voudrais aussi des bananes.",
+          "textMg": "Eny, te-hividy akondro koa aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "node_price_banana"
+        },
+        {
+          "textFr": "Oui, donnez-moi aussi des pommes.",
+          "textMg": "Eny, omeo paoma koa aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "node_price_pomme"
+        },
+        {
+          "textFr": "Non merci, c'est tout.",
+          "textMg": "Tsia misaotra, izay ihany.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "farewell"
+        }
+      ]
+    },
+    {
+      "id": "ask_more_after_mangue",
+      "speaker": "user",
+      "textFr": "Voulez-vous acheter autre chose ?",
+      "textMg": "Mbola te-hividy zavatra hafa ve ianao?",
+      "responseOptions": [
+        {
+          "textFr": "Oui, je voudrais aussi des bananes.",
+          "textMg": "Eny, te-hividy akondro koa aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "node_price_banana"
+        },
+        {
+          "textFr": "Oui, donnez-moi aussi des oranges.",
+          "textMg": "Eny, omeo voasary koa aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "node_price_orange"
+        },
+        {
+          "textFr": "Non merci, c'est tout.",
+          "textMg": "Tsia misaotra, izay ihany.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "farewell"
         }
       ]
     },
