@@ -1,29 +1,53 @@
 {
   "id": "market_01",
-  "level": "A0",
-  "theme": "market",
   "titleFr": "Acheter des fruits au marché",
   "titleMg": "Mividy voankazo eny an-tsena",
-  "participants": {
-    "A": {
-      "name": "Professeur",
-      "avatar": "👩‍🏫",
-      "gender": "female"
-    },
-    "B": {
-      "name": "Vous",
-      "avatar": "🙋",
-      "gender": "neutral"
-    }
-  },
+  "level": "A2",
+  "descriptionFr": "Pratiquez l'achat de fruits au marché avec la vendeuse",
+  "descriptionMg": "Mianara mividy voankazo amin'ny mpivarotra",
   "nodes": [
     {
       "id": "start",
       "speaker": "teacher",
-      "textFr": "Bonjour {firstName}! Que voulez-vous acheter aujourd'hui ?",
-      "textMg": "Manahoana ! Inona no tianao hividy androany ?",
+      "textFr": "Bonjour ! Bienvenue au marché. Je suis la vendeuse de fruits.",
+      "textMg": "Manao ahoana! Tongasoa eto an-tsena. Izaho no mpivarotra voankazo.",
       "audio": {
-        "ttsTextFr": "Bonjour {firstName}! Que voulez-vous acheter aujourd'hui ?",
+        "ttsText": "Bonjour! Bienvenue au marché. Je suis la vendeuse de fruits.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "greeting_response"
+    },
+    {
+      "id": "greeting_response",
+      "speaker": "user",
+      "textFr": "Comment allez-vous répondre ?",
+      "textMg": "Ahoana no hamalianao?",
+      "responseOptions": [
+        {
+          "textFr": "Bonjour Madame ! Je voudrais acheter des fruits.",
+          "textMg": "Manao ahoana Ramatoa! Te-hividy voankazo aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "ask_what_to_buy"
+        },
+        {
+          "textFr": "Salut ! Tu as quoi comme fruits ?",
+          "textMg": "Salama! Inona no voankazo misy?",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Au marché, on utilise 'Bonjour' et 'Madame' pour être poli.",
+            "mg": "Eny an-tsena, mampiasa 'Manao ahoana' sy 'Ramatoa' isika mba ho mahalala fomba."
+          },
+          "nextNodeOnFail": "greeting_response"
+        }
+      ]
+    },
+    {
+      "id": "ask_what_to_buy",
+      "speaker": "teacher",
+      "textFr": "Très bien ! Aujourd'hui j'ai des bananes, des pommes, des oranges et des mangues. Que voulez-vous acheter ?",
+      "textMg": "Tsara! Androany dia misy akondro, paoma, voasary ary manga. Inona no tianao hovidina?",
+      "audio": {
+        "ttsText": "Très bien! Aujourd'hui j'ai des bananes, des pommes, des oranges et des mangues. Que voulez-vous acheter?",
         "ttsRate": 0.9
       },
       "nextNode": "user_choice"
@@ -31,137 +55,309 @@
     {
       "id": "user_choice",
       "speaker": "user",
+      "textFr": "Choisissez votre fruit préféré.",
+      "textMg": "Safidio ny voankazo tianao indrindra.",
       "responseOptions": [
         {
-          "textFr": "Je veux une banane.",
-          "textMg": "Te hividy akondro aho.",
+          "textFr": "Je veux des bananes, s'il vous plaît.",
+          "textMg": "Te-hividy akondro aho, azafady.",
           "isCorrect": true,
           "nextNodeOnSuccess": "node_price_banana"
         },
         {
-          "textFr": "Je veux une pomme.",
-          "textMg": "Te hividy paoma aho.",
+          "textFr": "Je voudrais des pommes.",
+          "textMg": "Te-hividy paoma aho.",
           "isCorrect": true,
           "nextNodeOnSuccess": "node_price_pomme"
         },
         {
-          "textFr": "C'est trop cher pour moi.",
-          "textMg": "Lafo be ho ahy izany.",
-          "isCorrect": false,
-          "responseType": "emotional",
-          "conversationReaction": "empathetic",
-          "continueConversation": true,
-          "nextNodeOnConversation": "suggest_cheaper"
-        },
-        {
-          "textFr": "Je n'ai pas assez d'argent.",
-          "textMg": "Tsy ampy vola aho.",
-          "isCorrect": false,
-          "responseType": "emotional",
-          "conversationReaction": "empathetic",
-          "continueConversation": true,
-          "nextNodeOnConversation": "suggest_cheaper"
-        },
-        {
-          "textFr": "Je veux une orange.",
-          "textMg": "Te hividy voasary aho.",
+          "textFr": "Donnez-moi des oranges.",
+          "textMg": "Omeo voasary aho.",
           "isCorrect": true,
           "nextNodeOnSuccess": "node_price_orange"
         },
         {
-          "textFr": "Je veux une mangue.",
-          "textMg": "Te hividy manga aho.",
+          "textFr": "Je prends des mangues.",
+          "textMg": "Maka manga aho.",
           "isCorrect": true,
           "nextNodeOnSuccess": "node_price_mangue"
         }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Très bien {firstName} ! Excellent choix.",
-        "textMg": "Tena tsara {firstName} ! Safidy tsara.",
-        "audio": {
-          "ttsTextFr": "Très bien ! Excellent choix.",
-          "ttsRate": 0.9
-        }
-      },
-      "feedbackOnFail": {
-        "textFr": "Presque ! {firstName}, vous voulez une banane.",
-        "textMg": "Tsia {firstName}, te hividy akondro ianao.",
-        "audio": {
-          "ttsTextFr": "Presque ! {firstName}, vous voulez une banane.",
-          "ttsRate": 0.9
-        }
-      },
-      "conversationFeedback": {
-        "empathetic": {
-          "textFr": "Je comprends, le prix peut être élevé. Peut-être pouvons-nous regarder autre chose ?",
-          "textMg": "Azoko, mety ho lafo ny vidiny. Angamba afaka mijery zavatra hafa isika?"
-        }
-      }
-    },
-    {
-      "id": "suggest_cheaper",
-      "speaker": "teacher",
-      "textFr": "Je comprends {firstName}. Nous avons aussi des oranges à 300 Ariary. Voulez-vous voir ?",
-      "textMg": "Azoko tsara {firstName}. Manana voasary 300 Ariary izahay. Tianao hijery ve?",
-      "audio": {
-        "ttsTextFr": "Je comprends. Nous avons aussi des oranges à 300 Ariary. Voulez-vous voir ?",
-        "ttsRate": 0.9
-      },
-      "nextNode": "end"
+      ]
     },
     {
       "id": "node_price_banana",
       "speaker": "teacher",
-      "textFr": "Voici votre banane. 500 Ariary, merci {firstName} !",
-      "textMg": "Ity ny akondro. 500 Ariary, misaotra {firstName} !",
+      "textFr": "Excellente idée ! Les bananes coûtent 2000 ariary le kilo. Combien de kilos voulez-vous ?",
+      "textMg": "Tsara be ny hevitra! 2000 ariary ny kilao akondro. Firy kilao no tianao?",
       "audio": {
-        "ttsTextFr": "Voici votre banane. 500 Ariary, merci !",
+        "ttsText": "Excellente idée! Les bananes coûtent 2000 ariary le kilo. Combien de kilos voulez-vous?",
         "ttsRate": 0.9
       },
-      "nextNode": "end"
+      "nextNode": "quantity_banana"
     },
     {
       "id": "node_price_pomme",
       "speaker": "teacher",
-      "textFr": "Voici votre pomme. 400 Ariary, merci {firstName} !",
-      "textMg": "Ity ny paoma. 400 Ariary, misaotra {firstName} !",
+      "textFr": "Bon choix ! Les pommes coûtent 5000 ariary le kilo. Combien voulez-vous ?",
+      "textMg": "Safidy tsara! 5000 ariary ny kilao paoma. Firy no tianao?",
       "audio": {
-        "ttsTextFr": "Voici votre pomme. 400 Ariary, merci !",
+        "ttsText": "Bon choix! Les pommes coûtent 5000 ariary le kilo. Combien voulez-vous?",
         "ttsRate": 0.9
       },
-      "nextNode": "end"
+      "nextNode": "quantity_pomme"
     },
     {
       "id": "node_price_orange",
       "speaker": "teacher",
-      "textFr": "Voici votre orange. 300 Ariary, merci {firstName} !",
-      "textMg": "Ity ny voasary. 300 Ariary, misaotra {firstName} !",
+      "textFr": "Très bon choix ! Les oranges coûtent 3000 ariary le kilo. Quelle quantité ?",
+      "textMg": "Safidy tsara be! 3000 ariary ny kilao voasary. Firy no tianao?",
       "audio": {
-        "ttsTextFr": "Voici votre orange. 300 Ariary, merci !",
+        "ttsText": "Très bon choix! Les oranges coûtent 3000 ariary le kilo. Quelle quantité?",
         "ttsRate": 0.9
       },
-      "nextNode": "end"
+      "nextNode": "quantity_orange"
     },
     {
       "id": "node_price_mangue",
       "speaker": "teacher",
-      "textFr": "Voici votre mangue. 600 Ariary, merci {firstName} !",
-      "textMg": "Ity ny manga. 600 Ariary, misaotra {firstName} !",
+      "textFr": "Parfait ! Les mangues coûtent 4000 ariary le kilo. Combien de kilos ?",
+      "textMg": "Tonga lafatra! 4000 ariary ny kilao manga. Firy kilao?",
       "audio": {
-        "ttsTextFr": "Voici votre mangue. 600 Ariary, merci !",
+        "ttsText": "Parfait! Les mangues coûtent 4000 ariary le kilo. Combien de kilos?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quantity_mangue"
+    },
+    {
+      "id": "quantity_banana",
+      "speaker": "user",
+      "textFr": "Choisissez la quantité.",
+      "textMg": "Safidio ny habetsahana.",
+      "responseOptions": [
+        {
+          "textFr": "Je voudrais un kilo, s'il vous plaît.",
+          "textMg": "Te-hividy kilao iray aho, azafady.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "total_banana_1"
+        },
+        {
+          "textFr": "Deux kilos, s'il vous plaît.",
+          "textMg": "Kilao roa, azafady.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "total_banana_2"
+        },
+        {
+          "textFr": "Un demi-kilo seulement.",
+          "textMg": "Antsasaka kilao fotsiny.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "total_banana_half"
+        }
+      ]
+    },
+    {
+      "id": "quantity_pomme",
+      "speaker": "user",
+      "textFr": "Choisissez la quantité.",
+      "textMg": "Safidio ny habetsahana.",
+      "responseOptions": [
+        {
+          "textFr": "Un kilo de pommes.",
+          "textMg": "Kilao iray paoma.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "total_pomme_1"
+        },
+        {
+          "textFr": "Deux kilos, s'il vous plaît.",
+          "textMg": "Kilao roa, azafady.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "total_pomme_2"
+        }
+      ]
+    },
+    {
+      "id": "quantity_orange",
+      "speaker": "user",
+      "textFr": "Choisissez la quantité.",
+      "textMg": "Safidio ny habetsahana.",
+      "responseOptions": [
+        {
+          "textFr": "Un kilo d'oranges.",
+          "textMg": "Kilao iray voasary.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "total_orange_1"
+        },
+        {
+          "textFr": "Deux kilos, merci.",
+          "textMg": "Kilao roa, misaotra.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "total_orange_2"
+        }
+      ]
+    },
+    {
+      "id": "quantity_mangue",
+      "speaker": "user",
+      "textFr": "Choisissez la quantité.",
+      "textMg": "Safidio ny habetsahana.",
+      "responseOptions": [
+        {
+          "textFr": "Un kilo de mangues.",
+          "textMg": "Kilao iray manga.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "total_mangue_1"
+        },
+        {
+          "textFr": "Trois kilos, s'il vous plaît.",
+          "textMg": "Kilao telo, azafady.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "total_mangue_3"
+        }
+      ]
+    },
+    {
+      "id": "total_banana_1",
+      "speaker": "teacher",
+      "textFr": "Parfait ! Un kilo de bananes, ça fait 2000 ariary. Voulez-vous autre chose ?",
+      "textMg": "Tonga lafatra! Kilao iray akondro dia 2000 ariary. Mbola te-hividy zavatra hafa ve ianao?",
+      "audio": {
+        "ttsText": "Parfait! Un kilo de bananes, ça fait 2000 ariary. Voulez-vous autre chose?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "ask_more"
+    },
+    {
+      "id": "total_banana_2",
+      "speaker": "teacher",
+      "textFr": "Deux kilos de bananes, ça fait 4000 ariary. Autre chose ?",
+      "textMg": "Kilao roa akondro dia 4000 ariary. Zavatra hafa?",
+      "audio": {
+        "ttsText": "Deux kilos de bananes, ça fait 4000 ariary. Autre chose?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "ask_more"
+    },
+    {
+      "id": "total_banana_half",
+      "speaker": "teacher",
+      "textFr": "Un demi-kilo, ça fait 1000 ariary. Voulez-vous prendre autre chose ?",
+      "textMg": "Antsasaka kilao dia 1000 ariary. Mbola te-hividy zavatra hafa ve?",
+      "audio": {
+        "ttsText": "Un demi-kilo, ça fait 1000 ariary. Voulez-vous prendre autre chose?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "ask_more"
+    },
+    {
+      "id": "total_pomme_1",
+      "speaker": "teacher",
+      "textFr": "Un kilo de pommes, ça fait 5000 ariary. Autre chose ?",
+      "textMg": "Kilao iray paoma dia 5000 ariary. Zavatra hafa?",
+      "audio": {
+        "ttsText": "Un kilo de pommes, ça fait 5000 ariary. Autre chose?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "ask_more"
+    },
+    {
+      "id": "total_pomme_2",
+      "speaker": "teacher",
+      "textFr": "Deux kilos de pommes, ça fait 10000 ariary. Voulez-vous autre chose ?",
+      "textMg": "Kilao roa paoma dia 10000 ariary. Mbola te-hividy zavatra hafa ve?",
+      "audio": {
+        "ttsText": "Deux kilos de pommes, ça fait 10000 ariary. Voulez-vous autre chose?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "ask_more"
+    },
+    {
+      "id": "total_orange_1",
+      "speaker": "teacher",
+      "textFr": "Un kilo d'oranges, ça fait 3000 ariary. Autre chose ?",
+      "textMg": "Kilao iray voasary dia 3000 ariary. Zavatra hafa?",
+      "audio": {
+        "ttsText": "Un kilo d'oranges, ça fait 3000 ariary. Autre chose?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "ask_more"
+    },
+    {
+      "id": "total_orange_2",
+      "speaker": "teacher",
+      "textFr": "Deux kilos d'oranges, ça fait 6000 ariary. Voulez-vous autre chose ?",
+      "textMg": "Kilao roa voasary dia 6000 ariary. Mbola te-hividy zavatra hafa ve?",
+      "audio": {
+        "ttsText": "Deux kilos d'oranges, ça fait 6000 ariary. Voulez-vous autre chose?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "ask_more"
+    },
+    {
+      "id": "total_mangue_1",
+      "speaker": "teacher",
+      "textFr": "Un kilo de mangues, ça fait 4000 ariary. Autre chose ?",
+      "textMg": "Kilao iray manga dia 4000 ariary. Zavatra hafa?",
+      "audio": {
+        "ttsText": "Un kilo de mangues, ça fait 4000 ariary. Autre chose?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "ask_more"
+    },
+    {
+      "id": "total_mangue_3",
+      "speaker": "teacher",
+      "textFr": "Trois kilos de mangues, ça fait 12000 ariary. Voulez-vous autre chose ?",
+      "textMg": "Kilao telo manga dia 12000 ariary. Mbola te-hividy zavatra hafa ve?",
+      "audio": {
+        "ttsText": "Trois kilos de mangues, ça fait 12000 ariary. Voulez-vous autre chose?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "ask_more"
+    },
+    {
+      "id": "ask_more",
+      "speaker": "user",
+      "textFr": "Voulez-vous acheter autre chose ?",
+      "textMg": "Mbola te-hividy zavatra hafa ve ianao?",
+      "responseOptions": [
+        {
+          "textFr": "Non merci, c'est tout pour aujourd'hui.",
+          "textMg": "Tsia misaotra, izay ihany androany.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "farewell"
+        },
+        {
+          "textFr": "Oui, je voudrais aussi des oranges.",
+          "textMg": "Eny, te-hividy voasary koa aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "node_price_orange"
+        },
+        {
+          "textFr": "Oui, donnez-moi aussi des mangues.",
+          "textMg": "Eny, omeo manga koa aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "node_price_mangue"
+        }
+      ]
+    },
+    {
+      "id": "farewell",
+      "speaker": "teacher",
+      "textFr": "Très bien ! Merci beaucoup et bonne journée ! Au revoir !",
+      "textMg": "Tsara be! Misaotra betsaka ary mirary tontolo andro tsara! Veloma!",
+      "audio": {
+        "ttsText": "Très bien! Merci beaucoup et bonne journée! Au revoir!",
         "ttsRate": 0.9
       },
       "nextNode": "end"
     },
     {
       "id": "end",
-      "isEnd": true,
       "speaker": "teacher",
-      "textFr": "Bravo {firstName}! Maintenant vous savez comment acheter au marché !",
-      "textMg": "Arahabaina {firstName}! Mahay mividy eny an-tsena ianao izao!",
+      "isEnd": true,
+      "textFr": "Bravo ! Vous avez terminé la conversation au marché.",
+      "textMg": "Arahabaina! Vita ny resaka teny an-tsena.",
       "audio": {
-        "ttsTextFr": "Bravo {firstName}! Maintenant vous savez comment acheter au marché !",
+        "ttsText": "Bravo! Vous avez terminé la conversation au marché.",
         "ttsRate": 0.9
       }
     }
