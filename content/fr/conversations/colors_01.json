@@ -1,7 +1,7 @@
 {
   "id": "colors_01",
-  "titleFr": "Décrire des couleurs",
-  "titleMg": "Fitantarana ny loko",
+  "titleFr": "Les couleurs autour de nous",
+  "titleMg": "Ny loko manodidina antsika",
   "level": "A0",
   "theme": "colors",
   "participants": {
@@ -20,10 +20,21 @@
     {
       "id": "start",
       "speaker": "teacher",
-      "textFr": "Regardez cette image {firstName}. De quelle couleur est le ciel ?",
-      "textMg": "Jereo ity sary ity. Loko inona ny lanitra?",
+      "textFr": "Bonjour {firstName} ! Regardez autour de vous. Quelles couleurs voyez-vous ?",
+      "textMg": "Manao ahoana {firstName}! Jereo manodidina anao. Loko inona no hitanao?",
       "audio": {
-        "ttsTextFr": "Regardez cette image {firstName}. De quelle couleur est le ciel ?",
+        "ttsTextFr": "Bonjour {firstName} ! Regardez autour de vous. Quelles couleurs voyez-vous ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "teacher_sky"
+    },
+    {
+      "id": "teacher_sky",
+      "speaker": "teacher",
+      "textFr": "Regardez le ciel. De quelle couleur est le ciel ?",
+      "textMg": "Jereo ny lanitra. Inona ny lokon'ny lanitra?",
+      "audio": {
+        "ttsTextFr": "Regardez le ciel. De quelle couleur est le ciel ?",
         "ttsRate": 0.9
       },
       "nextNode": "user_sky"
@@ -31,171 +42,259 @@
     {
       "id": "user_sky",
       "speaker": "user",
+      "textFr": "De quelle couleur est le ciel ?",
+      "textMg": "Inona ny lokon'ny lanitra?",
       "responseOptions": [
         {
           "textFr": "Le ciel est bleu.",
           "textMg": "Manga ny lanitra.",
-          "isCorrect": true
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_correct_blue"
+        },
+        {
+          "textFr": "Bleu.",
+          "textMg": "Manga.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_correct_blue"
         },
         {
           "textFr": "Le ciel est rouge.",
           "textMg": "Mena ny lanitra.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "Le ciel est vert.",
-          "textMg": "Maitso ny lanitra.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "Je ne connais pas cette couleur.",
-          "textMg": "Tsy fantatro io loko io.",
           "isCorrect": false,
-          "responseType": "unknown",
-          "conversationReaction": "educational",
-          "continueConversation": true
-        },
-        {
-          "textFr": "C'est une belle couleur.",
-          "textMg": "Loko tsara izany.",
-          "isCorrect": false,
-          "responseType": "positive",
-          "conversationReaction": "positive",
-          "continueConversation": true
+          "feedback": {
+            "fr": "Non, le ciel est bleu.",
+            "mg": "Tsia, manga ny lanitra."
+          },
+          "nextNodeOnFail": "user_sky"
         }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Exact {firstName}! Le ciel est bleu. Et l'herbe ?",
-        "textMg": "Marina! Manga ny lanitra. Ary ny ahi-maitso?",
-        "audio": {
-          "ttsTextFr": "Exact {firstName}! Le ciel est bleu. Et l'herbe ?"
-        }
-      },
-      "feedbackOnFail": {
-        "textFr": "Pas tout à fait. le ciel est bleu.",
-        "textMg": "Tsia, manga ny lanitra.",
-        "audio": {
-          "ttsTextFr": "Pas tout à fait. le ciel est bleu."
-        }
-      },
-      "nextNodeOnSuccess": "user_grass",
-      "nextNodeOnMaxAttemptsReached": "user_grass",
-      "conversationFeedback": {
-        "educational": {
-          "textFr": "Pas de souci ! On va apprendre ensemble. Cette couleur est très courante.",
-          "textMg": "Tsy maninona! Hianatra miaraka isika. Loko mahazatra be io."
-        },
-        "positive": {
-          "textFr": "Oui, c'est vrai ! J'aime aussi beaucoup cette couleur.",
-          "textMg": "Eny tokoa! Tiako koa io loko io."
-        }
-      }
+      ]
     },
     {
-      "id": "user_grass",
+      "id": "teacher_correct_blue",
       "speaker": "teacher",
-      "textFr": "De quelle couleur est l'herbe ?",
-      "textMg": "Loko inona ny ahi-maitso?",
+      "textFr": "Oui, le ciel est bleu ! Et les arbres ?",
+      "textMg": "Eny, manga ny lanitra! Ary ny hazo?",
       "audio": {
-        "ttsTextFr": "De quelle couleur est l'herbe ?",
+        "ttsTextFr": "Oui, le ciel est bleu ! Et les arbres ?",
         "ttsRate": 0.9
       },
-      "nextNode": "user_grass_answer"
+      "nextNode": "user_trees"
     },
     {
-      "id": "user_grass_answer",
+      "id": "user_trees",
       "speaker": "user",
+      "textFr": "De quelle couleur sont les arbres ?",
+      "textMg": "Inona ny lokon'ny hazo?",
       "responseOptions": [
         {
-          "textFr": "L'herbe est verte.",
-          "textMg": "Maitso ny ahi-maitso.",
-          "isCorrect": true
+          "textFr": "Les arbres sont verts.",
+          "textMg": "Maintso ny hazo.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_correct_green"
         },
         {
-          "textFr": "L'herbe est jaune.",
-          "textMg": "Mavo ny ahi-maitso.",
-          "isCorrect": false
+          "textFr": "Vert.",
+          "textMg": "Maintso.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_correct_green"
         },
         {
-          "textFr": "L'herbe est noire.",
-          "textMg": "Mainty ny ahi-maitso.",
-          "isCorrect": false
+          "textFr": "Les arbres sont bleus.",
+          "textMg": "Manga ny hazo.",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, les arbres sont verts.",
+            "mg": "Tsia, maintso ny hazo."
+          },
+          "nextNodeOnFail": "user_trees"
         }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Parfait {firstName}! L'herbe est verte. Et le soleil ?",
-        "textMg": "Tena tsara! Maitso ny ahi-maitso. Ary ny masoandro?",
-        "audio": {
-          "ttsTextFr": "Parfait {firstName} ! L'herbe est verte. Et le soleil ?"
-        }
+      ]
+    },
+    {
+      "id": "teacher_correct_green",
+      "speaker": "teacher",
+      "textFr": "Bravo ! Le vert, c'est la nature. Et le soleil ?",
+      "textMg": "Tsara! Ny maintso dia ny zavaboary. Ary ny masoandro?",
+      "audio": {
+        "ttsTextFr": "Bravo ! Le vert, c'est la nature. Et le soleil ?",
+        "ttsRate": 0.9
       },
-      "feedbackOnFail": {
-        "textFr": "Pas tout à fait. l'herbe est verte.",
-        "textMg": "Tsia, maitso ny ahi-maitso.",
-        "audio": {
-          "ttsTextFr": "Presque ! {firstName}, l'herbe est verte."
-        }
-      },
-      "nextNodeOnSuccess": "user_sun",
-      "nextNodeOnMaxAttemptsReached": "user_sun"
+      "nextNode": "user_sun"
     },
     {
       "id": "user_sun",
-      "speaker": "teacher",
-      "textFr": "De quelle couleur est le soleil ?",
-      "textMg": "Loko inona ny masoandro?",
-      "audio": {
-        "ttsTextFr": "De quelle couleur est le soleil ?",
-        "ttsRate": 0.9
-      },
-      "nextNode": "user_sun_answer"
-    },
-    {
-      "id": "user_sun_answer",
       "speaker": "user",
+      "textFr": "De quelle couleur est le soleil ?",
+      "textMg": "Inona ny lokon'ny masoandro?",
       "responseOptions": [
         {
           "textFr": "Le soleil est jaune.",
           "textMg": "Mavo ny masoandro.",
-          "isCorrect": true
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_correct_yellow"
         },
         {
-          "textFr": "Le soleil est bleu.",
-          "textMg": "Manga ny masoandro.",
-          "isCorrect": false
+          "textFr": "Jaune.",
+          "textMg": "Mavo.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_correct_yellow"
+        }
+      ]
+    },
+    {
+      "id": "teacher_correct_yellow",
+      "speaker": "teacher",
+      "textFr": "Oui ! Jaune comme le soleil. Et votre couleur préférée ?",
+      "textMg": "Eny! Mavo hoatran'ny masoandro. Ary ny loko tianao indrindra?",
+      "audio": {
+        "ttsTextFr": "Oui ! Jaune comme le soleil. Et votre couleur préférée ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_fav_color"
+    },
+    {
+      "id": "user_fav_color",
+      "speaker": "user",
+      "textFr": "Quelle est votre couleur préférée ?",
+      "textMg": "Inona ny loko tianao indrindra?",
+      "responseOptions": [
+        {
+          "textFr": "J'aime le rouge.",
+          "textMg": "Tiako ny mena.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_red"
         },
         {
-          "textFr": "Le soleil est blanc.",
-          "textMg": "Fotsy ny masoandro.",
-          "isCorrect": false
+          "textFr": "J'aime le bleu.",
+          "textMg": "Tiako ny manga.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_blue"
+        },
+        {
+          "textFr": "J'aime le vert.",
+          "textMg": "Tiako ny maintso.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_green"
+        },
+        {
+          "textFr": "J'aime le blanc.",
+          "textMg": "Tiako ny fotsy.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_white"
         }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Excellent {firstName}! Vous connaissez bien les couleurs !",
-        "textMg": "Tena tsara! Mahalala tsara ny loko ianao!",
-        "audio": {
-          "ttsTextFr": "Excellent {firstName}! Vous connaissez bien les couleurs !"
-        }
+      ]
+    },
+    {
+      "id": "teacher_red",
+      "speaker": "teacher",
+      "textFr": "Le rouge ! Comme les fleurs. C'est une belle couleur.",
+      "textMg": "Ny mena! Hoatran'ny voninkazo. Loko tsara izany.",
+      "audio": {
+        "ttsTextFr": "Le rouge ! Comme les fleurs. C'est une belle couleur.",
+        "ttsRate": 0.9
       },
-      "feedbackOnFail": {
-        "textFr": "Pas tout à fait. le soleil est jaune.",
-        "textMg": "Tsia, mavo ny masoandro.",
-        "audio": {
-          "ttsTextFr": "Presque ! {firstName}, le soleil est jaune."
-        }
+      "nextNode": "teacher_quiz"
+    },
+    {
+      "id": "teacher_blue",
+      "speaker": "teacher",
+      "textFr": "Le bleu ! Comme le ciel et la mer. Magnifique !",
+      "textMg": "Ny manga! Hoatran'ny lanitra sy ny ranomasina. Kanto!",
+      "audio": {
+        "ttsTextFr": "Le bleu ! Comme le ciel et la mer. Magnifique !",
+        "ttsRate": 0.9
       },
-      "nextNodeOnSuccess": "end",
-      "nextNodeOnMaxAttemptsReached": "end"
+      "nextNode": "teacher_quiz"
+    },
+    {
+      "id": "teacher_green",
+      "speaker": "teacher",
+      "textFr": "Le vert ! Comme la nature. C'est rafraîchissant !",
+      "textMg": "Ny maintso! Hoatran'ny zavaboary. Mamelombelona!",
+      "audio": {
+        "ttsTextFr": "Le vert ! Comme la nature. C'est rafraîchissant !",
+        "ttsRate": 0.9
+      },
+      "nextNode": "teacher_quiz"
+    },
+    {
+      "id": "teacher_white",
+      "speaker": "teacher",
+      "textFr": "Le blanc ! Comme les nuages. C'est pur et beau.",
+      "textMg": "Ny fotsy! Hoatran'ny rahona. Madio sy tsara.",
+      "audio": {
+        "ttsTextFr": "Le blanc ! Comme les nuages. C'est pur et beau.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "teacher_quiz"
+    },
+    {
+      "id": "teacher_quiz",
+      "speaker": "teacher",
+      "textFr": "Petit jeu ! Le drapeau de Madagascar a trois couleurs. Lesquelles ?",
+      "textMg": "Lalao kely! Ny sainan'i Madagasikara dia misy loko telo. Inona avy?",
+      "audio": {
+        "ttsTextFr": "Petit jeu ! Le drapeau de Madagascar a trois couleurs. Lesquelles ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_flag"
+    },
+    {
+      "id": "user_flag",
+      "speaker": "user",
+      "textFr": "Quelles couleurs a le drapeau de Madagascar ?",
+      "textMg": "Inona avy ny lokon'ny sainan'i Madagasikara?",
+      "responseOptions": [
+        {
+          "textFr": "Blanc, rouge et vert.",
+          "textMg": "Fotsy, mena ary maintso.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_congrats"
+        },
+        {
+          "textFr": "Bleu, blanc, rouge.",
+          "textMg": "Manga, fotsy, mena.",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "C'est le drapeau français ! Le drapeau malgache est blanc, rouge et vert.",
+            "mg": "Izay ny sainan'i Frantsa! Ny sainan'i Madagasikara dia fotsy, mena ary maintso."
+          },
+          "nextNodeOnFail": "user_flag"
+        }
+      ]
+    },
+    {
+      "id": "teacher_congrats",
+      "speaker": "teacher",
+      "textFr": "Bravo {firstName} ! Vous connaissez bien les couleurs !",
+      "textMg": "Tsara {firstName}! Mahay tsara ny loko ianao!",
+      "audio": {
+        "ttsTextFr": "Bravo {firstName} ! Vous connaissez bien les couleurs !",
+        "ttsRate": 0.9
+      },
+      "nextNode": "farewell"
+    },
+    {
+      "id": "farewell",
+      "speaker": "teacher",
+      "textFr": "Au revoir ! Le monde est plein de belles couleurs !",
+      "textMg": "Veloma! Feno loko tsara izao tontolo izao!",
+      "audio": {
+        "ttsTextFr": "Au revoir ! Le monde est plein de belles couleurs !",
+        "ttsRate": 0.9
+      },
+      "nextNode": "end"
     },
     {
       "id": "end",
-      "isEnd": true,
       "speaker": "teacher",
-      "textFr": "Bravo {firstName}! Vous savez décrire les couleurs !",
-      "textMg": "Arahabaina! Mahay mamaritra ny loko ianao!"
+      "isEnd": true,
+      "textFr": "Bravo ! Vous connaissez les couleurs en français et en malgache !",
+      "textMg": "Arahabaina! Mahay ny loko amin'ny frantsay sy malagasy ianao!",
+      "audio": {
+        "ttsTextFr": "Bravo ! Vous connaissez les couleurs en français et en malgache !",
+        "ttsRate": 0.9
+      }
     }
   ]
 }

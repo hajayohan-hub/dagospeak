@@ -1,14 +1,14 @@
 {
   "id": "numbers_01",
-  "titleFr": "Compter et demander des prix",
-  "titleMg": "Fanisana sy fanontaniana vidiny",
+  "titleFr": "Compter au quotidien",
+  "titleMg": "Manisa isan'andro",
   "level": "A0",
   "theme": "numbers",
   "participants": {
     "A": {
-      "name": "Vendeur",
-      "avatar": "👨‍🌾",
-      "gender": "male"
+      "name": "Professeur",
+      "avatar": "👩‍🏫",
+      "gender": "female"
     },
     "B": {
       "name": "Vous",
@@ -20,173 +20,282 @@
     {
       "id": "start",
       "speaker": "teacher",
-      "textFr": "Bienvenue {firstName}! Combien de kilos de riz voulez-vous ?",
-      "textMg": "Tongasoa! Vary firy Kilaograma no tianao?",
+      "textFr": "Bonjour {firstName} ! Aujourd'hui, on apprend les nombres.",
+      "textMg": "Manao ahoana {firstName}! Androany, mianatra ny isa isika.",
       "audio": {
-        "ttsTextFr": "Bienvenue {firstName}! Combien de kilos de riz voulez-vous ?",
+        "ttsTextFr": "Bonjour {firstName} ! Aujourd'hui, on apprend les nombres.",
         "ttsRate": 0.9
       },
-      "nextNode": "user_quantity"
+      "nextNode": "teacher_count_1"
     },
     {
-      "id": "user_quantity",
-      "speaker": "user",
-      "responseOptions": [
-        {
-          "textFr": "Un kilo, s'il vous plaît.",
-          "textMg": "Kilao iray, azafady.",
-          "isCorrect": true
-        },
-        {
-          "textFr": "Deux kilos, s'il vous plaît.",
-          "textMg": "Kilao roa, azafady.",
-          "isCorrect": true
-        },
-        {
-          "textFr": "Trois kilos, s'il vous plaît.",
-          "textMg": "Kilao telo, azafady.",
-          "isCorrect": true
-        },
-        {
-          "textFr": "Le riz est bon.",
-          "textMg": "Tsara ny vary.",
-          "isCorrect": false,
-          "responseType": "off_topic",
-          "conversationReaction": "correction"
-        },
-        {
-          "textFr": "Merci beaucoup.",
-          "textMg": "Misaotra betsaka.",
-          "isCorrect": false,
-          "responseType": "off_topic",
-          "conversationReaction": "correction"
-        },
-        {
-          "textFr": "Je ne sais pas compter.",
-          "textMg": "Tsy mahay manisa aho.",
-          "isCorrect": false,
-          "responseType": "unknown",
-          "conversationReaction": "encouraging",
-          "continueConversation": true
-        },
-        {
-          "textFr": "C'est difficile pour moi.",
-          "textMg": "Sarotra ho ahy izany.",
-          "isCorrect": false,
-          "responseType": "emotional",
-          "conversationReaction": "supportive",
-          "continueConversation": true
-        }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Excellent ! Vous avez demandé une quantité de riz.",
-        "textMg": "Tena tsara! Nangataka vary ianao.",
-        "audio": {
-          "ttsTextFr": "Excellent ! Vous avez demandé une quantité de riz."
-        }
-      },
-      "feedbackOnFail": {
-        "textFr": "Pas tout à fait. Pour répondre, vous pouvez dire : Un kilo, deux kilos, ou trois kilos.",
-        "textMg": "Tsia, tokony hovaliana hoe: Kilao iray, kilao roa, na kilao telo.",
-        "audio": {
-          "ttsTextFr": "Pas tout à fait. Pour répondre, vous pouvez dire : Un kilo, deux kilos, ou trois kilos."
-        }
-      },
-      "nextNodeOnSuccess": "ask_price",
-      "nextNodeOnMaxAttemptsReached": "ask_price",
-      "conversationFeedback": {
-        "encouraging": {
-          "textFr": "Pas de souci, tout le monde apprend à son rythme. On va compter ensemble !",
-          "textMg": "Tsy maninona, mianatra araka ny fahafahany ny olona. Andeha hanisa miaraka!"
-        },
-        "supportive": {
-          "textFr": "Je comprends, les nombres peuvent être difficiles. Vous progressez bien !",
-          "textMg": "Azoko, sarotra ny isa. Fandrosoana tsara izao!"
-        }
-      }
-    },
-    {
-      "id": "ask_price",
+      "id": "teacher_count_1",
       "speaker": "teacher",
-      "textFr": "Ça fait quatre mille ariary. Vous voulez autre chose ?",
-      "textMg": "Efatra arivo ariary izany. Mbola mila zavatra hafa ve ianao?",
+      "textFr": "Commençons ! Répétez après moi : un, deux, trois.",
+      "textMg": "Andao manomboka! Avereno: iray, roa, telo.",
       "audio": {
-        "ttsTextFr": "Ça fait quatre mille ariary. Vous voulez autre chose ?",
+        "ttsTextFr": "Commençons ! Répétez après moi : un, deux, trois.",
         "ttsRate": 0.9
       },
-      "nextNode": "user_more"
+      "nextNode": "user_count_1"
     },
     {
-      "id": "user_more",
+      "id": "user_count_1",
       "speaker": "user",
+      "textFr": "Comptez de un à trois.",
+      "textMg": "Isao ny iray ka hatramin'ny telo.",
       "responseOptions": [
         {
-          "textFr": "Oui, cinq tomates aussi.",
-          "textMg": "Eny, voatabia dimy koa.",
-          "isCorrect": true
+          "textFr": "Un, deux, trois.",
+          "textMg": "Iray, roa, telo.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_count_2"
         },
         {
-          "textFr": "Non, merci.",
-          "textMg": "Tsia, misaotra.",
-          "isCorrect": true
+          "textFr": "Iray, roa, telo.",
+          "textMg": "Iray, roa, telo.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_count_2"
         },
         {
-          "textFr": "Le riz est cher.",
-          "textMg": "Lafo ny vary.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "Je ne sais pas compter.",
-          "textMg": "Tsy mahay manisa aho.",
+          "textFr": "Quatre, cinq.",
+          "textMg": "Efatra, dimy.",
           "isCorrect": false,
-          "responseType": "unknown",
-          "conversationReaction": "encouraging",
-          "continueConversation": true
+          "feedback": {
+            "fr": "Non, on commence par un, deux, trois.",
+            "mg": "Tsia, manomboha amin'ny iray, roa, telo."
+          },
+          "nextNodeOnFail": "user_count_1"
+        }
+      ]
+    },
+    {
+      "id": "teacher_count_2",
+      "speaker": "teacher",
+      "textFr": "Très bien ! Maintenant : quatre, cinq, six.",
+      "textMg": "Tsara! Izao: efatra, dimy, enina.",
+      "audio": {
+        "ttsTextFr": "Très bien ! Maintenant : quatre, cinq, six.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_count_2"
+    },
+    {
+      "id": "user_count_2",
+      "speaker": "user",
+      "textFr": "Comptez de quatre à six.",
+      "textMg": "Isao ny efatra ka hatramin'ny enina.",
+      "responseOptions": [
+        {
+          "textFr": "Quatre, cinq, six.",
+          "textMg": "Efatra, dimy, enina.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_count_3"
         },
         {
-          "textFr": "C'est difficile pour moi.",
-          "textMg": "Sarotra ho ahy izany.",
-          "isCorrect": false,
-          "responseType": "emotional",
-          "conversationReaction": "supportive",
-          "continueConversation": true
+          "textFr": "Efatra, dimy, enina.",
+          "textMg": "Efatra, dimy, enina.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_count_3"
         }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Très bien ! C'est noté.",
-        "textMg": "Tsara! Voasoratra.",
-        "audio": {
-          "ttsTextFr": "Très bien ! C'est noté."
-        }
+      ]
+    },
+    {
+      "id": "teacher_count_3",
+      "speaker": "teacher",
+      "textFr": "Parfait ! Et maintenant : sept, huit, neuf, dix.",
+      "textMg": "Tonga lafatra! Ary izao: fito, valo, sivy, folo.",
+      "audio": {
+        "ttsTextFr": "Parfait ! Et maintenant : sept, huit, neuf, dix.",
+        "ttsRate": 0.9
       },
-      "feedbackOnFail": {
-        "textFr": "Presque ! {firstName}, il faut dire : Oui, ... aussi. ou Pas tout à fait. merci.",
-        "textMg": "Tsia, tokony hovaliana hoe: Eny, ... koa. na Tsia, misaotra.",
-        "audio": {
-          "ttsTextFr": "Presque ! {firstName}, il faut dire : Oui, ... aussi. ou Pas tout à fait. merci."
-        }
-      },
-      "nextNodeOnSuccess": "end",
-      "nextNodeOnMaxAttemptsReached": "end",
-      "conversationFeedback": {
-        "encouraging": {
-          "textFr": "Pas de souci, tout le monde apprend à son rythme. On va compter ensemble !",
-          "textMg": "Tsy maninona, mianatra araka ny fahafahany ny olona. Andeha hanisa miaraka!"
+      "nextNode": "user_count_3"
+    },
+    {
+      "id": "user_count_3",
+      "speaker": "user",
+      "textFr": "Comptez de sept à dix.",
+      "textMg": "Isao ny fito ka hatramin'ny folo.",
+      "responseOptions": [
+        {
+          "textFr": "Sept, huit, neuf, dix.",
+          "textMg": "Fito, valo, sivy, folo.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_ask_age"
         },
-        "supportive": {
-          "textFr": "Je comprends, les nombres peuvent être difficiles. Vous progressez bien !",
-          "textMg": "Azoko, sarotra ny isa. Fandrosoana tsara izao!"
+        {
+          "textFr": "Fito, valo, sivy, folo.",
+          "textMg": "Fito, valo, sivy, folo.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_ask_age"
         }
-      }
+      ]
+    },
+    {
+      "id": "teacher_ask_age",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Maintenant, dites-moi : quel âge avez-vous ?",
+      "textMg": "Tonga lafatra! Izao, lazao: firy taona ianao?",
+      "audio": {
+        "ttsTextFr": "Excellent ! Maintenant, dites-moi : quel âge avez-vous ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_age"
+    },
+    {
+      "id": "user_age",
+      "speaker": "user",
+      "textFr": "Quel âge avez-vous ?",
+      "textMg": "Firy taona ianao?",
+      "responseOptions": [
+        {
+          "textFr": "J'ai dix ans.",
+          "textMg": "Folo taona aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_quiz"
+        },
+        {
+          "textFr": "J'ai douze ans.",
+          "textMg": "Roa ambin'ny folo taona aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_quiz"
+        },
+        {
+          "textFr": "J'ai quinze ans.",
+          "textMg": "Dimy ambin'ny folo taona aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_quiz"
+        },
+        {
+          "textFr": "J'ai vingt ans.",
+          "textMg": "Roapolo taona aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_quiz"
+        }
+      ]
+    },
+    {
+      "id": "teacher_quiz",
+      "speaker": "teacher",
+      "textFr": "Très bien ! Petit quiz : combien font deux plus trois ?",
+      "textMg": "Tsara! Fanadinana kely: firy ny roa ampiana telo?",
+      "audio": {
+        "ttsTextFr": "Très bien ! Petit quiz : combien font deux plus trois ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_quiz_1"
+    },
+    {
+      "id": "user_quiz_1",
+      "speaker": "user",
+      "textFr": "Deux plus trois font combien ?",
+      "textMg": "Firy ny roa ampiana telo?",
+      "responseOptions": [
+        {
+          "textFr": "Cinq.",
+          "textMg": "Dimy.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_quiz_2"
+        },
+        {
+          "textFr": "Quatre.",
+          "textMg": "Efatra.",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, deux plus trois font cinq.",
+            "mg": "Tsia, roa ampiana telo dia dimy."
+          },
+          "nextNodeOnFail": "user_quiz_1"
+        },
+        {
+          "textFr": "Six.",
+          "textMg": "Enina.",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, deux plus trois font cinq.",
+            "mg": "Tsia, roa ampiana telo dia dimy."
+          },
+          "nextNodeOnFail": "user_quiz_1"
+        }
+      ]
+    },
+    {
+      "id": "teacher_quiz_2",
+      "speaker": "teacher",
+      "textFr": "Bravo ! Et combien font quatre plus quatre ?",
+      "textMg": "Tsara! Ary firy ny efatra ampiana efatra?",
+      "audio": {
+        "ttsTextFr": "Bravo ! Et combien font quatre plus quatre ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_quiz_2"
+    },
+    {
+      "id": "user_quiz_2",
+      "speaker": "user",
+      "textFr": "Quatre plus quatre font combien ?",
+      "textMg": "Firy ny efatra ampiana efatra?",
+      "responseOptions": [
+        {
+          "textFr": "Huit.",
+          "textMg": "Valo.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_congrats"
+        },
+        {
+          "textFr": "Sept.",
+          "textMg": "Fito.",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, quatre plus quatre font huit.",
+            "mg": "Tsia, efatra ampiana efatra dia valo."
+          },
+          "nextNodeOnFail": "user_quiz_2"
+        },
+        {
+          "textFr": "Neuf.",
+          "textMg": "Sivy.",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, quatre plus quatre font huit.",
+            "mg": "Tsia, efatra ampiana efatra dia valo."
+          },
+          "nextNodeOnFail": "user_quiz_2"
+        }
+      ]
+    },
+    {
+      "id": "teacher_congrats",
+      "speaker": "teacher",
+      "textFr": "Excellent {firstName} ! Vous savez compter de un à dix !",
+      "textMg": "Tonga lafatra {firstName}! Mahay manisa iray ka hatramin'ny folo ianao!",
+      "audio": {
+        "ttsTextFr": "Excellent {firstName} ! Vous savez compter de un à dix !",
+        "ttsRate": 0.9
+      },
+      "nextNode": "farewell"
+    },
+    {
+      "id": "farewell",
+      "speaker": "teacher",
+      "textFr": "Au revoir ! Continuez à pratiquer les nombres.",
+      "textMg": "Veloma! Manohy mianatra ny isa.",
+      "audio": {
+        "ttsTextFr": "Au revoir ! Continuez à pratiquer les nombres.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "end"
     },
     {
       "id": "end",
-      "isEnd": true,
       "speaker": "teacher",
-      "textFr": "Merci ! À bientôt !",
-      "textMg": "Misaotra! Mandra-piahaona indray!"
+      "isEnd": true,
+      "textFr": "Bravo ! Vous savez compter en français et en malgache !",
+      "textMg": "Arahabaina! Mahay manisa amin'ny frantsay sy malagasy ianao!",
+      "audio": {
+        "ttsTextFr": "Bravo ! Vous savez compter en français et en malgache !",
+        "ttsRate": 0.9
+      }
     }
   ]
 }

@@ -1,13 +1,13 @@
 {
   "id": "family_02",
-  "titleFr": "Parler de sa famille (avec mémoire)",
-  "titleMg": "Miresaka momba ny fianakaviana (misy fahatsiarovana)",
+  "titleFr": "Chez les grands-parents",
+  "titleMg": "Any amin'ny raibe sy renibe",
   "level": "A0",
   "theme": "family",
   "participants": {
     "A": {
-      "name": "Professeur",
-      "avatar": "👩‍🏫",
+      "name": "Grand-mère",
+      "avatar": "👵",
       "gender": "female"
     },
     "B": {
@@ -20,167 +20,276 @@
     {
       "id": "start",
       "speaker": "teacher",
-      "textFr": "Bonjour {firstName} ! Parlons de ta famille.",
-      "textMg": "Manahoana {firstName}! Andeha hiresaka momba ny fianakavianao.",
+      "textFr": "Oh, {firstName} ! Mon petit-enfant ! Entre, entre !",
+      "textMg": "Oh, {firstName}! Ny zafiko! Midira, midira!",
       "audio": {
-        "ttsTextFr": "Bonjour {firstName} ! Parlons de ta famille."
+        "ttsTextFr": "Oh, {firstName} ! Mon petit-enfant ! Entre, entre !",
+        "ttsRate": 0.9
       },
-      "nextNode": "ask_origin"
+      "nextNode": "grandma_ask_kiss"
     },
     {
-      "id": "ask_origin",
+      "id": "grandma_ask_kiss",
       "speaker": "teacher",
-      "textFr": "D'abord, d'où viens-tu ?",
-      "textMg": "Aloha, avy aiza ianao ?",
+      "textFr": "Viens me faire un bisou ! Comment vas-tu ?",
+      "textMg": "Avia hanoroka ahy! Manao ahoana ianao?",
       "audio": {
-        "ttsTextFr": "D'abord, d'où viens-tu ?"
+        "ttsTextFr": "Viens me faire un bisou ! Comment vas-tu ?",
+        "ttsRate": 0.9
       },
-      "nextNode": "user_origin"
+      "nextNode": "user_greet_grandma"
     },
     {
-      "id": "user_origin",
+      "id": "user_greet_grandma",
       "speaker": "user",
+      "textFr": "Saluez votre grand-mère.",
+      "textMg": "Arahabao ny renibenao.",
       "responseOptions": [
         {
-          "textFr": "Je viens d'....",
-          "textMg": "Avy any ... aho.",
-          "isCorrect": true
+          "textFr": "Bonjour grand-mère ! Je vais bien.",
+          "textMg": "Manao ahoana renibe! Tsara aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "grandma_happy"
         },
         {
-          "textFr": "Je viens de ....",
-          "textMg": "Avy any ... aho.",
-          "isCorrect": true
+          "textFr": "Salut mamie !",
+          "textMg": "Salama beby!",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "grandma_happy"
         },
         {
-          "textFr": "Je viens de ....",
-          "textMg": "Avy any ... aho.",
-          "isCorrect": true
+          "textFr": "Au revoir.",
+          "textMg": "Veloma.",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Vous venez d'arriver ! Dites bonjour.",
+            "mg": "Vao tonga ianao! Miarahaba."
+          },
+          "nextNodeOnFail": "user_greet_grandma"
         }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Ah, vous venez de chez vous ! C'est une belle ville.",
-        "textMg": "Oh, avy any aminareo ianao! Tanàna tsara izany.",
-        "audio": {
-          "ttsTextFr": "Ah, vous venez de chez vous ! C'est une belle ville."
-        }
-      },
-      "feedbackOnFail": {
-        "textFr": "Réponds avec : Je viens de...",
-        "textMg": "Valio hoe: Avy any...",
-        "audio": {
-          "ttsTextFr": "Réponds avec : Je viens de..."
-        }
-      },
-      "nextNodeOnSuccess": "ask_father",
-      "nextNodeOnMaxAttemptsReached": "ask_father"
+      ]
     },
     {
-      "id": "ask_father",
+      "id": "grandma_happy",
       "speaker": "teacher",
-      "textFr": "Parle-moi de ton père. Comment s'appelle-t-il ?",
-      "textMg": "Milazao ahy momba ny rainao. Iza ny anarany ?",
+      "textFr": "Tu as grandi ! Ton grand-père est dans le jardin. Tu veux le voir ?",
+      "textMg": "Nihalehibe ianao! Ny raibenao dia any an-jaridaina. Te-hahita azy ve ianao?",
       "audio": {
-        "ttsTextFr": "Parle-moi de ton père. Comment s'appelle-t-il ?"
+        "ttsTextFr": "Tu as grandi ! Ton grand-père est dans le jardin. Tu veux le voir ?",
+        "ttsRate": 0.9
       },
-      "nextNode": "user_father"
+      "nextNode": "user_see_grandpa"
     },
     {
-      "id": "user_father",
+      "id": "user_see_grandpa",
       "speaker": "user",
+      "textFr": "Voulez-vous voir grand-père ?",
+      "textMg": "Te-hahita ny raibenao ve ianao?",
       "responseOptions": [
         {
-          "textFr": "Mon père s'appelle ....",
-          "textMg": "Ny raiko dia atao hoe ....",
-          "isCorrect": true
+          "textFr": "Oui, je veux voir grand-père.",
+          "textMg": "Eny, te-hahita an-dRaibe aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "grandma_go_garden"
         },
         {
-          "textFr": "Mon père s'appelle ....",
-          "textMg": "Ny raiko dia atao hoe ....",
-          "isCorrect": true
+          "textFr": "Oui, allons au jardin !",
+          "textMg": "Eny, andao any an-jaridaina!",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "grandma_go_garden"
         },
         {
-          "textFr": "Il s'appelle ....",
-          "textMg": "... no anarany.",
-          "isCorrect": true
+          "textFr": "Plus tard. Je suis fatigué.",
+          "textMg": "Aoriana. Vizaka aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "grandma_rest"
         }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "C'est un beau prénom ! Et votre mère ?",
-        "textMg": "Anarana tsara izany! Ary ny reninao?",
-        "audio": {
-          "ttsTextFr": "C'est un beau prénom ! Et votre mère ?",
-          "ttsRate": 0.9
-        }
-      },
-      "feedbackOnFail": {
-        "textFr": "Dis : Mon père s'appelle...",
-        "textMg": "Lazao hoe: Ny raiko dia...",
-        "audio": {
-          "ttsTextFr": "Dis : Mon père s'appelle..."
-        }
-      },
-      "nextNodeOnSuccess": "ask_mother",
-      "nextNodeOnMaxAttemptsReached": "ask_mother"
+      ]
     },
     {
-      "id": "ask_mother",
+      "id": "grandma_go_garden",
       "speaker": "teacher",
-      "textFr": "Et ta mère, comment s'appelle-t-elle ?",
-      "textMg": "Ary ny reninao, iza no anarany?",
+      "textFr": "Allons-y ! Grand-père sera content de te voir.",
+      "textMg": "Andao! Ho faly ny raibenao mahita anao.",
       "audio": {
-        "ttsTextFr": "Et ta mère, comment s'appelle-t-elle ?"
+        "ttsTextFr": "Allons-y ! Grand-père sera content de te voir.",
+        "ttsRate": 0.9
       },
-      "nextNode": "user_mother"
+      "nextNode": "grandpa_greet"
     },
     {
-      "id": "user_mother",
+      "id": "grandma_rest",
+      "speaker": "teacher",
+      "textFr": "D'accord. Repose-toi d'abord. Tu as faim ?",
+      "textMg": "Eny ary. Mialà sasatra aloha. Noana ve ianao?",
+      "audio": {
+        "ttsTextFr": "D'accord. Repose-toi d'abord. Tu as faim ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_hungry"
+    },
+    {
+      "id": "grandpa_greet",
+      "speaker": "teacher",
+      "textFr": "Ah, {firstName} ! Mon petit ! Viens m'aider dans le jardin !",
+      "textMg": "Ah, {firstName}! Avia manampy ahy eto an-jaridaina!",
+      "audio": {
+        "ttsTextFr": "Ah, {firstName} ! Mon petit ! Viens m'aider dans le jardin !",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_help_garden"
+    },
+    {
+      "id": "user_help_garden",
       "speaker": "user",
+      "textFr": "Grand-père demande votre aide.",
+      "textMg": "Mangataka fanampianao ny raibenao.",
       "responseOptions": [
         {
-          "textFr": "Ma mère s'appelle ....",
-          "textMg": "Ny reniko dia atao hoe ....",
-          "isCorrect": true
+          "textFr": "Oui grand-père, j'arrive !",
+          "textMg": "Eny Raibe, tonga aho!",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "grandpa_happy"
         },
         {
-          "textFr": "Ma mère s'appelle ....",
-          "textMg": "Ny reniko dia atao hoe ....",
-          "isCorrect": true
+          "textFr": "Qu'est-ce que je fais ?",
+          "textMg": "Inona no ataoko?",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "grandpa_explain"
         },
         {
-          "textFr": "Elle s'appelle ...ne.",
-          "textMg": "...ne no anarany.",
-          "isCorrect": true
+          "textFr": "D'accord, je t'aide.",
+          "textMg": "Eny ary, manampy anao aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "grandpa_happy"
         }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Donc vos parents habitent ensemble ? Racontez-moi plus sur votre famille.",
-        "textMg": "Ka miaraka monina ny ray aman-dreninao? Milazao bebe kokoa momba ny fianakavianao.",
-        "audio": {
-          "ttsTextFr": "Donc vos parents habitent ensemble ? Racontez-moi plus sur votre famille.",
-          "ttsRate": 0.9
-        }
+      ]
+    },
+    {
+      "id": "grandpa_explain",
+      "speaker": "teacher",
+      "textFr": "Aide-moi à arroser les fleurs. Prends cet arrosoir.",
+      "textMg": "Ampio aho mandena ireo voninkazo. Raiso io fandenarana io.",
+      "audio": {
+        "ttsTextFr": "Aide-moi à arroser les fleurs. Prends cet arrosoir.",
+        "ttsRate": 0.9
       },
-      "feedbackOnFail": {
-        "textFr": "Dis : Ma mère s'appelle...",
-        "textMg": "Lazao hoe: Ny reniko dia...",
-        "audio": {
-          "ttsTextFr": "Dis : Ma mère s'appelle..."
-        }
+      "nextNode": "user_water"
+    },
+    {
+      "id": "grandpa_happy",
+      "speaker": "teacher",
+      "textFr": "Bravo ! Tu es un bon petit-enfant. Grand-mère a préparé le repas.",
+      "textMg": "Tsara! Zaza tsara ianao. Nanomana sakafo ny renibenao.",
+      "audio": {
+        "ttsTextFr": "Bravo ! Tu es un bon petit-enfant. Grand-mère a préparé le repas.",
+        "ttsRate": 0.9
       },
-      "nextNodeOnSuccess": "end",
-      "nextNodeOnMaxAttemptsReached": "end"
+      "nextNode": "user_hungry"
+    },
+    {
+      "id": "user_water",
+      "speaker": "user",
+      "textFr": "Arrosez les fleurs.",
+      "textMg": "Tendreho ny voninkazo.",
+      "responseOptions": [
+        {
+          "textFr": "C'est fait, grand-père !",
+          "textMg": "Vita Raibe!",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "grandpa_happy"
+        },
+        {
+          "textFr": "Les fleurs sont belles.",
+          "textMg": "Tsara ny voninkazo.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "grandpa_happy"
+        }
+      ]
+    },
+    {
+      "id": "user_hungry",
+      "speaker": "user",
+      "textFr": "Grand-mère a préparé le repas. Avez-vous faim ?",
+      "textMg": "Nanomana sakafo ny renibenao. Noana ve ianao?",
+      "responseOptions": [
+        {
+          "textFr": "Oui, j'ai très faim !",
+          "textMg": "Eny, noana be aho!",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "grandma_food"
+        },
+        {
+          "textFr": "Oui, merci grand-mère.",
+          "textMg": "Eny, misaotra renibe.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "grandma_food"
+        },
+        {
+          "textFr": "Un peu.",
+          "textMg": "Kely.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "grandma_food"
+        }
+      ]
+    },
+    {
+      "id": "grandma_food",
+      "speaker": "teacher",
+      "textFr": "J'ai fait du riz avec du poulet. Ton plat préféré !",
+      "textMg": "Nanao vary sy akoho aho. Ny sakafo tianao indrindra!",
+      "audio": {
+        "ttsTextFr": "J'ai fait du riz avec du poulet. Ton plat préféré !",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_eat"
+    },
+    {
+      "id": "user_eat",
+      "speaker": "user",
+      "textFr": "Que dites-vous ?",
+      "textMg": "Inona no lazainao?",
+      "responseOptions": [
+        {
+          "textFr": "Merci grand-mère ! C'est délicieux !",
+          "textMg": "Misaotra renibe! Matsiro be!",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "farewell"
+        },
+        {
+          "textFr": "J'adore le poulet !",
+          "textMg": "Tiako be ny akoho!",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "farewell"
+        },
+        {
+          "textFr": "Miam, c'est bon !",
+          "textMg": "Matsiro!",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "farewell"
+        }
+      ]
+    },
+    {
+      "id": "farewell",
+      "speaker": "teacher",
+      "textFr": "Mange bien, {firstName}. Reviens nous voir bientôt. On t'aime !",
+      "textMg": "Mihinana tsara, {firstName}. Miverena haingana. Tianay ianao!",
+      "audio": {
+        "ttsTextFr": "Mange bien, {firstName}. Reviens nous voir bientôt. On t'aime !",
+        "ttsRate": 0.9
+      },
+      "nextNode": "end"
     },
     {
       "id": "end",
-      "isEnd": true,
       "speaker": "teacher",
-      "textFr": "Bravo {firstName} ! Tu as bien présenté ta famille. Ton père {fatherName} et ta mère {motherName} doivent être fiers de toi !",
-      "textMg": "Arahabaina {firstName}! Tsara ny famelabelaranao ny fianakavianao. Ny rainao {fatherName} sy ny reninao {motherName} dia tokony hirehareha aminao!",
+      "isEnd": true,
+      "textFr": "Bravo ! Vous savez parler avec vos grands-parents !",
+      "textMg": "Arahabaina! Mahay miresaka amin'ny raibe sy renibenao ianao!",
       "audio": {
-        "ttsTextFr": "Bravo {firstName} ! Tu as bien présenté ta famille."
+        "ttsTextFr": "Bravo ! Vous savez parler avec vos grands-parents !",
+        "ttsRate": 0.9
       }
     }
   ]

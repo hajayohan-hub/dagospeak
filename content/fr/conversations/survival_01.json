@@ -1,14 +1,14 @@
 {
   "id": "survival_01",
-  "titleFr": "Demander de l'aide",
-  "titleMg": "Fitadiavana vonjy",
+  "titleFr": "Phrases de survie",
+  "titleMg": "Fehezanteny ilaina",
   "level": "A0",
   "theme": "survival",
   "participants": {
     "A": {
-      "name": "Passant",
-      "avatar": "🚶",
-      "gender": "neutral"
+      "name": "Guide",
+      "avatar": "👩‍🏫",
+      "gender": "female"
     },
     "B": {
       "name": "Vous",
@@ -20,206 +20,320 @@
     {
       "id": "start",
       "speaker": "teacher",
-      "textFr": "Vous êtes perdu dans la rue. Vous voulez demander de l'aide. Que dites-vous ?",
-      "textMg": "Very an-dalana ianao. Te hitady vonjy ianao. Inona no lazainao?",
+      "textFr": "Bonjour {firstName} ! Vous arrivez à Madagascar. Bienvenue !",
+      "textMg": "Manao ahoana {firstName}! Tonga eto Madagasikara ianao. Tongasoa!",
       "audio": {
-        "ttsTextFr": "Vous êtes perdu dans la rue. Vous voulez demander de l'aide. Que dites-vous ?",
+        "ttsTextFr": "Bonjour {firstName} ! Vous arrivez à Madagascar. Bienvenue !",
         "ttsRate": 0.9
       },
-      "nextNode": "user_help"
+      "nextNode": "teacher_situation_1"
     },
     {
-      "id": "user_help",
+      "id": "teacher_situation_1",
+      "speaker": "teacher",
+      "textFr": "Vous êtes à l'aéroport. Vous cherchez un taxi. Que dites-vous ?",
+      "textMg": "Eny amin'ny seranam-piaramanidina ianao. Mitady taxi ianao. Inona no lazainao?",
+      "audio": {
+        "ttsTextFr": "Vous êtes à l'aéroport. Vous cherchez un taxi. Que dites-vous ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_taxi"
+    },
+    {
+      "id": "user_taxi",
       "speaker": "user",
+      "textFr": "Vous cherchez un taxi.",
+      "textMg": "Mitady taxi ianao.",
       "responseOptions": [
         {
-          "textFr": "Excusez-moi, aidez-moi s'il vous plaît.",
-          "textMg": "Azafady, vonjeo aho azafady.",
-          "isCorrect": true
+          "textFr": "Excusez-moi, je cherche un taxi.",
+          "textMg": "Azafady, mitady taxi aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_taxi_found"
         },
         {
-          "textFr": "Bonjour, comment ça va ?",
-          "textMg": "Manahoana, manao ahoana?",
-          "isCorrect": false
+          "textFr": "Taxi, s'il vous plaît.",
+          "textMg": "Taxi, azafady.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_taxi_found"
         },
         {
-          "textFr": "Au revoir, merci.",
-          "textMg": "Veloma, misaotra.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "J'ai mal, j'ai besoin d'un médecin.",
-          "textMg": "Marary aho, mila dokotera aho.",
+          "textFr": "Donnez-moi un taxi !",
+          "textMg": "Omeo taxi aho!",
           "isCorrect": false,
-          "responseType": "emergency",
-          "conversationReaction": "urgent",
-          "continueConversation": true,
-          "nextNodeOnConversation": "medical_help"
-        },
-        {
-          "textFr": "Je suis perdu, où suis-je ?",
-          "textMg": "Very aho, aiza moa aho?",
-          "isCorrect": false,
-          "responseType": "distress",
-          "conversationReaction": "helpful",
-          "continueConversation": true,
-          "nextNodeOnConversation": "help_lost"
+          "feedback": {
+            "fr": "Soyez plus poli. Dites 'Excusez-moi' ou 's'il vous plaît'.",
+            "mg": "Mahalala fomba kokoa. Lazao 'Azafady'."
+          },
+          "nextNodeOnFail": "user_taxi"
         }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Très bien {firstName}! Que voulez-vous demander ?",
-        "textMg": "Tsara! Inona no tianao hotantaraina?",
-        "audio": {
-          "ttsTextFr": "Très bien {firstName}! Que voulez-vous demander ?"
-        }
-      },
-      "feedbackOnFail": {
-        "textFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Excusez-moi, aidez-moi.",
-        "textMg": "Tsia, tokony holazaina hoe: Azafady, vonjeo aho.",
-        "audio": {
-          "ttsTextFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Excusez-moi, aidez-moi."
-        }
-      },
-      "nextNodeOnSuccess": "ask_direction",
-      "nextNodeOnMaxAttemptsReached": "ask_direction",
-      "conversationFeedback": {
-        "urgent": {
-          "textFr": "Oh non, j'espère que ce n'est pas grave. Voulez-vous que j'appelle de l'aide ?",
-          "textMg": "Isy ratsy anie izany! Tianao ve ny hiantso fanampiana?"
-        },
-        "helpful": {
-          "textFr": "Ne vous inquiétez pas, je vais vous aider à trouver votre chemin.",
-          "textMg": "Aza matahotra, hanampy anao aho hahita ny lalana."
-        }
-      }
+      ]
     },
     {
-      "id": "ask_direction",
+      "id": "teacher_taxi_found",
       "speaker": "teacher",
-      "textFr": "Vous cherchez la gare. Comment demandez-vous ?",
-      "textMg": "Mitady ny gara ianao. Ahoana no fanontanianao?",
+      "textFr": "Voici un taxi ! Le chauffeur demande : Où allez-vous ?",
+      "textMg": "Ity ny taxi! Ny chauffeur manontany: Ho aiza ianao?",
       "audio": {
-        "ttsTextFr": "Vous cherchez la gare. Comment demandez-vous ?",
+        "ttsTextFr": "Voici un taxi ! Le chauffeur demande : Où allez-vous ?",
         "ttsRate": 0.9
       },
-      "nextNode": "user_direction"
+      "nextNode": "user_destination"
     },
     {
-      "id": "user_direction",
+      "id": "user_destination",
       "speaker": "user",
+      "textFr": "Le chauffeur demande où vous allez.",
+      "textMg": "Ny chauffeur manontany ho aiza ianao.",
       "responseOptions": [
         {
-          "textFr": "Où est la gare, s'il vous plaît ?",
-          "textMg": "Aiza ny gara, azafady?",
-          "isCorrect": true
+          "textFr": "Je vais à l'hôtel.",
+          "textMg": "Mankany amin'ny hotely aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_hotel"
         },
         {
-          "textFr": "Je veux du riz.",
-          "textMg": "Tiako ny vary.",
-          "isCorrect": false
+          "textFr": "Au centre-ville, s'il vous plaît.",
+          "textMg": "Ao an-tanàna, azafady.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_hotel"
         },
         {
-          "textFr": "Merci beaucoup.",
-          "textMg": "Misaotra betsaka.",
-          "isCorrect": false
+          "textFr": "Hôtel Colbert, s'il vous plaît.",
+          "textMg": "Hotely Colbert, azafady.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_hotel"
         }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Parfait ! La gare est à droite. Vous comprenez ?",
-        "textMg": "Tena tsara! Any ankavanana ny gara. Azonao ve?",
-        "audio": {
-          "ttsTextFr": "Parfait ! La gare est à droite. Vous comprenez ?"
-        }
-      },
-      "feedbackOnFail": {
-        "textFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Où est la gare ?",
-        "textMg": "Tsia, tokony holazaina hoe: Aiza ny gara?",
-        "audio": {
-          "ttsTextFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Où est la gare ?"
-        }
-      },
-      "nextNodeOnSuccess": "user_thanks",
-      "nextNodeOnMaxAttemptsReached": "user_thanks"
+      ]
     },
     {
-      "id": "user_thanks",
+      "id": "teacher_hotel",
       "speaker": "teacher",
-      "textFr": "La gare est à droite. Comment remerciez-vous ?",
-      "textMg": "Any ankavanana ny gara. Ahoana no fomba fisaoranao?",
+      "textFr": "D'accord ! Vous arrivez à l'hôtel. Le réceptionniste dit : Bonjour, je peux vous aider ?",
+      "textMg": "Eny ary! Tonga any amin'ny hotely ianao. Ny mpandray manontany: Manao ahoana, afaka manampy ahy ve?",
       "audio": {
-        "ttsTextFr": "La gare est à droite. Comment remerciez-vous ?",
+        "ttsTextFr": "D'accord ! Vous arrivez à l'hôtel. Le réceptionniste dit : Bonjour, je peux vous aider ?",
         "ttsRate": 0.9
       },
-      "nextNode": "user_thanks_answer"
+      "nextNode": "user_hotel"
     },
     {
-      "id": "user_thanks_answer",
+      "id": "user_hotel",
       "speaker": "user",
+      "textFr": "Vous arrivez à l'hôtel.",
+      "textMg": "Tonga any amin'ny hotely ianao.",
       "responseOptions": [
         {
-          "textFr": "Merci beaucoup, au revoir !",
-          "textMg": "Misaotra betsaka, veloma!",
-          "isCorrect": true
+          "textFr": "Bonjour, j'ai une réservation.",
+          "textMg": "Manao ahoana, manana reservation aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_room"
         },
         {
-          "textFr": "Je ne comprends pas.",
-          "textMg": "Tsy azoko.",
-          "isCorrect": false
+          "textFr": "Je voudrais une chambre.",
+          "textMg": "Te-hahazo efitrano aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_room"
         },
         {
-          "textFr": "Oui, je comprends.",
-          "textMg": "Eny, azoko.",
-          "isCorrect": false
+          "textFr": "Une chambre pour une nuit, s'il vous plaît.",
+          "textMg": "Efitrano ho an'ny alina iray, azafady.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_room"
         }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Excellent ! Vous savez demander de l'aide !",
-        "textMg": "Tena tsara! Mahay mitady vonjy ianao!",
-        "audio": {
-          "ttsTextFr": "Excellent ! Vous savez demander de l'aide !"
-        }
-      },
-      "feedbackOnFail": {
-        "textFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Merci beaucoup.",
-        "textMg": "Tsia, tokony holazaina hoe: Misaotra betsaka.",
-        "audio": {
-          "ttsTextFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Merci beaucoup."
-        }
-      },
-      "nextNodeOnSuccess": "end",
-      "nextNodeOnMaxAttemptsReached": "end"
+      ]
     },
     {
-      "id": "medical_help",
+      "id": "teacher_room",
       "speaker": "teacher",
-      "textFr": "Oh non {firstName} ! Si c'est urgent, appelez le 101 ou allez à l'hôpital le plus proche. Votre santé est importante !",
-      "textMg": "Isy ratsy anie izany {firstName}! Raha maika, antsoy ny 101 na mandehana any amin'ny hopitaly akaiky. Zava-dehibe ny fahasalamanao!",
+      "textFr": "Votre chambre est prête. Vous avez faim maintenant ?",
+      "textMg": "Vonona ny efitrano anao. Noana ve ianao izao?",
       "audio": {
-        "ttsTextFr": "Oh non ! Si c'est urgent, appelez le 101 ou allez à l'hôpital le plus proche. Votre santé est importante !",
-        "ttsRate": 0.85
+        "ttsTextFr": "Votre chambre est prête. Vous avez faim maintenant ?",
+        "ttsRate": 0.9
       },
-      "nextNode": "end"
+      "nextNode": "user_hungry"
     },
     {
-      "id": "help_lost",
+      "id": "user_hungry",
+      "speaker": "user",
+      "textFr": "Avez-vous faim ?",
+      "textMg": "Noana ve ianao?",
+      "responseOptions": [
+        {
+          "textFr": "Oui, j'ai très faim.",
+          "textMg": "Eny, noana be aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_restaurant"
+        },
+        {
+          "textFr": "Oui, où est le restaurant ?",
+          "textMg": "Eny, aiza ny trano fisakafoanana?",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_restaurant"
+        },
+        {
+          "textFr": "Non, je suis fatigué.",
+          "textMg": "Tsia, vizaka aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_rest"
+        }
+      ]
+    },
+    {
+      "id": "teacher_rest",
       "speaker": "teacher",
-      "textFr": "Ne vous inquiétez pas {firstName}. Regardez autour de vous. Voyez-vous un panneau ou un magasin ?",
-      "textMg": "Aza matahotra {firstName}. Jereo ny manodidina anao. Mahita takela-pejy na fivarotana ve ianao?",
+      "textFr": "Reposez-vous bien ! Si vous avez besoin de quelque chose, appelez la réception.",
+      "textMg": "Mialà sasatra tsara! Raha mila zavatra, antsoy ny reception.",
       "audio": {
-        "ttsTextFr": "Ne vous inquiétez pas. Regardez autour de vous. Voyez-vous un panneau ou un magasin ?",
+        "ttsTextFr": "Reposez-vous bien ! Si vous avez besoin de quelque chose, appelez la réception.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_need"
+    },
+    {
+      "id": "user_need",
+      "speaker": "user",
+      "textFr": "Avez-vous besoin de quelque chose ?",
+      "textMg": "Mila zavatra ve ianao?",
+      "responseOptions": [
+        {
+          "textFr": "Où sont les toilettes ?",
+          "textMg": "Aiza ny efitrano fivoahana?",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_toilets"
+        },
+        {
+          "textFr": "Je voudrais de l'eau.",
+          "textMg": "Mila rano aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_water"
+        },
+        {
+          "textFr": "Non merci, ça va.",
+          "textMg": "Tsia misaotra, tsara.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "farewell"
+        }
+      ]
+    },
+    {
+      "id": "teacher_toilets",
+      "speaker": "teacher",
+      "textFr": "Les toilettes sont à droite, au bout du couloir.",
+      "textMg": "Ny efitrano fivoahana dia eo ankavanana, amin'ny faran'ny zohy.",
+      "audio": {
+        "ttsTextFr": "Les toilettes sont à droite, au bout du couloir.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "farewell"
+    },
+    {
+      "id": "teacher_water",
+      "speaker": "teacher",
+      "textFr": "Voici de l'eau. Bonne nuit !",
+      "textMg": "Inty rano. Tory soa!",
+      "audio": {
+        "ttsTextFr": "Voici de l'eau. Bonne nuit !",
+        "ttsRate": 0.9
+      },
+      "nextNode": "farewell"
+    },
+    {
+      "id": "teacher_restaurant",
+      "speaker": "teacher",
+      "textFr": "Le restaurant est au premier étage. Le serveur demande : Que voulez-vous manger ?",
+      "textMg": "Ny trano fisakafoanana dia eny amin'ny rihana voalohany. Ny serveur manontany: Inona no tianao hohanina?",
+      "audio": {
+        "ttsTextFr": "Le restaurant est au premier étage. Le serveur demande : Que voulez-vous manger ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_food"
+    },
+    {
+      "id": "user_food",
+      "speaker": "user",
+      "textFr": "Que voulez-vous manger ?",
+      "textMg": "Inona no tianao hohanina?",
+      "responseOptions": [
+        {
+          "textFr": "Du riz avec du poulet, s'il vous plaît.",
+          "textMg": "Vary sy akoho, azafady.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_drink"
+        },
+        {
+          "textFr": "Un plat du jour.",
+          "textMg": "Sakafo anio.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_drink"
+        },
+        {
+          "textFr": "Qu'est-ce que vous recommandez ?",
+          "textMg": "Inona no torohevitrao?",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_drink"
+        }
+      ]
+    },
+    {
+      "id": "teacher_drink",
+      "speaker": "teacher",
+      "textFr": "Et comme boisson ?",
+      "textMg": "Ary inona no hosotroina?",
+      "audio": {
+        "ttsTextFr": "Et comme boisson ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_drink"
+    },
+    {
+      "id": "user_drink",
+      "speaker": "user",
+      "textFr": "Que voulez-vous boire ?",
+      "textMg": "Inona no tianao hosotroina?",
+      "responseOptions": [
+        {
+          "textFr": "De l'eau, s'il vous plaît.",
+          "textMg": "Rano, azafady.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "farewell"
+        },
+        {
+          "textFr": "Un jus de fruits.",
+          "textMg": "Ranom-boankazo.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "farewell"
+        },
+        {
+          "textFr": "Un café.",
+          "textMg": "Kafe.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "farewell"
+        }
+      ]
+    },
+    {
+      "id": "farewell",
+      "speaker": "teacher",
+      "textFr": "Merci {firstName} ! Vous vous débrouillez bien à Madagascar. Bonne chance !",
+      "textMg": "Misaotra {firstName}! Mahay mandeha eto Madagasikara ianao. Soa aman-tsara!",
+      "audio": {
+        "ttsTextFr": "Merci {firstName} ! Vous vous débrouillez bien à Madagascar. Bonne chance !",
         "ttsRate": 0.9
       },
       "nextNode": "end"
     },
     {
       "id": "end",
-      "isEnd": true,
       "speaker": "teacher",
-      "textFr": "Bravo {firstName}! Vous savez demander de l'aide en français !",
-      "textMg": "Arahabaina! Mahay mitady vonjy amin'ny teny frantsay ianao!"
+      "isEnd": true,
+      "textFr": "Bravo ! Vous connaissez les phrases de survie essentielles !",
+      "textMg": "Arahabaina! Mahay ny fehezanteny ilaina ianao!",
+      "audio": {
+        "ttsTextFr": "Bravo ! Vous connaissez les phrases de survie essentielles !",
+        "ttsRate": 0.9
+      }
     }
   ]
 }

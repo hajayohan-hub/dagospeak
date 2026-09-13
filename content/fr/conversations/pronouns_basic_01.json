@@ -1,9 +1,9 @@
 {
   "id": "pronouns_basic_01",
-  "titleFr": "Les pronoms de base",
-  "titleMg": "Ny mpisolo tena fototra",
+  "titleFr": "Les pronoms personnels",
+  "titleMg": "Ny solo-tena",
   "level": "A0",
-  "theme": "pronouns",
+  "theme": "pronouns_basic",
   "participants": {
     "A": {
       "name": "Professeur",
@@ -20,235 +20,261 @@
     {
       "id": "start",
       "speaker": "teacher",
-      "textFr": "Bonjour {firstName} ! Aujourd'hui, nous allons apprendre les pronoms. Présentez-vous en utilisant « Je ».",
-      "textMg": "Manahoana {firstName}! Androany, hianatra ny mpisolo tena isika. Ampahafantaro tena amin'ny alalan'ny « Je ».",
+      "textFr": "Bonjour {firstName} ! Aujourd'hui, on apprend les pronoms. JE, TU, IL, ELLE.",
+      "textMg": "Manao ahoana {firstName}! Androany, mianatra ny solo-tena isika. IZAHO, IANAO, IZY.",
       "audio": {
-        "ttsTextFr": "Bonjour {firstName} ! Aujourd'hui, nous allons apprendre les pronoms. Présentez-vous en utilisant « Je ».",
+        "ttsTextFr": "Bonjour {firstName} ! Aujourd'hui, on apprend les pronoms. JE, TU, IL, ELLE.",
         "ttsRate": 0.9
       },
-      "nextNode": "user_introduce"
+      "nextNode": "teacher_je"
     },
     {
-      "id": "user_introduce",
-      "speaker": "user",
-      "responseOptions": [
-        {
-          "textFr": "Je m'appelle {firstName}.",
-          "textMg": "{firstName} no anarako.",
-          "isCorrect": true
-        },
-        {
-          "textFr": "Tu t'appelles ....",
-          "textMg": "... no anaranao.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "Il mange du riz.",
-          "textMg": "Mihinana vary izy.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "Je suis timide.",
-          "textMg": "Henatra aho.",
-          "isCorrect": false,
-          "responseType": "emotional",
-          "conversationReaction": "supportive",
-          "continueConversation": true
-        },
-        {
-          "textFr": "Je ne comprends pas.",
-          "textMg": "Tsy azoko izany.",
-          "isCorrect": false,
-          "responseType": "confusion",
-          "conversationReaction": "clarifying",
-          "continueConversation": true
-        }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Parfait ! « Je » est utilisé pour parler de soi-même.",
-        "textMg": "Tena tsara! « Je » dia ampiasaina raha miresaka momba ny tena.",
-        "audio": {
-          "ttsTextFr": "Parfait ! « Je » est utilisé pour parler de soi-même."
-        }
-      },
-      "feedbackOnFail": {
-        "textFr": "Pour vous présenter, utilisez « Je » : Je m'appelle...",
-        "textMg": "Raha hampahafantatra tena, ampiasao « Je »: Je m'appelle...",
-        "audio": {
-          "ttsTextFr": "Pour vous présenter, utilisez « Je » : Je m'appelle..."
-        }
-      },
-      "nextNodeOnSuccess": "teacher_you",
-      "nextNodeOnMaxAttemptsReached": "teacher_you",
-      "conversationFeedback": {
-        "supportive": {
-          "textFr": "C'est tout à fait normal ! Avec de la pratique, vous serez plus à l'aise.",
-          "textMg": "Amin'ny fahazarana no hahazatra anao. Tsy maninona izany!"
-        },
-        "clarifying": {
-          "textFr": "Pas de problème, je vais vous expliquer plus simplement.",
-          "textMg": "Tsy maninona, hazavaiko tsotra kokoa ho anao."
-        }
-      }
-    },
-    {
-      "id": "teacher_you",
+      "id": "teacher_je",
       "speaker": "teacher",
-      "textFr": "Très bien ! Maintenant, demandez-moi mon nom en utilisant « Tu » ou « Vous ».",
-      "textMg": "Tena tsara! Izao, anontanio ny anarako amin'ny alalan'ny « Tu » na « Vous ».",
+      "textFr": "JE, c'est moi. Par exemple : JE suis professeur. Et vous ?",
+      "textMg": "IZAHO, izany hoe izaho. Ohatra: IZAHO mpampianatra. Ary ianao?",
       "audio": {
-        "ttsTextFr": "Très bien ! Maintenant, demandez-moi mon nom en utilisant « Tu » ou « Vous ».",
+        "ttsTextFr": "JE, c'est moi. Par exemple : JE suis professeur. Et vous ?",
         "ttsRate": 0.9
       },
-      "nextNode": "user_ask_name"
+      "nextNode": "user_je"
     },
     {
-      "id": "user_ask_name",
+      "id": "user_je",
       "speaker": "user",
+      "textFr": "Utilisez JE dans une phrase.",
+      "textMg": "Ampiasao IZAHO amin'ny fehezanteny.",
       "responseOptions": [
         {
-          "textFr": "Comment vous appelez-vous ?",
-          "textMg": "Iza no anaranao?",
-          "isCorrect": true
+          "textFr": "Je suis {firstName}.",
+          "textMg": "Izaho {firstName}.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_tu"
         },
         {
-          "textFr": "Je mange du pain.",
-          "textMg": "Mihinana mofo aho.",
-          "isCorrect": false
+          "textFr": "Je suis un élève.",
+          "textMg": "Izaho mpianatra.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_tu"
         },
         {
-          "textFr": "Nous sommes amis.",
-          "textMg": "Sakaiza isika.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "Je suis timide.",
-          "textMg": "Henatra aho.",
-          "isCorrect": false,
-          "responseType": "emotional",
-          "conversationReaction": "supportive",
-          "continueConversation": true
-        },
-        {
-          "textFr": "Je ne comprends pas.",
-          "textMg": "Tsy azoko izany.",
-          "isCorrect": false,
-          "responseType": "confusion",
-          "conversationReaction": "clarifying",
-          "continueConversation": true
+          "textFr": "Je parle français.",
+          "textMg": "Izaho miteny frantsay.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_tu"
         }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Excellent ! « Vous » est poli, « Tu » est plus familier.",
-        "textMg": "Tena mahatalanjona! « Vous » dia feno fanajana, « Tu » dia tsy dia ofisialy loatra.",
-        "audio": {
-          "ttsTextFr": "Excellent ! « Vous » est poli, « Tu » est plus familier."
-        }
-      },
-      "feedbackOnFail": {
-        "textFr": "Pour demander un nom, dites : Comment vous appelez-vous ?",
-        "textMg": "Raha hanontany anarana, lazaina hoe: Iza no anaranao?",
-        "audio": {
-          "ttsTextFr": "Pour demander un nom, dites : Comment vous appelez-vous ?"
-        }
-      },
-      "nextNodeOnSuccess": "teacher_we",
-      "nextNodeOnMaxAttemptsReached": "teacher_we",
-      "conversationFeedback": {
-        "supportive": {
-          "textFr": "C'est tout à fait normal ! Avec de la pratique, vous serez plus à l'aise.",
-          "textMg": "Amin'ny fahazarana no hahazatra anao. Tsy maninona izany!"
-        },
-        "clarifying": {
-          "textFr": "Pas de problème, je vais vous expliquer plus simplement.",
-          "textMg": "Tsy maninona, hazavaiko tsotra kokoa ho anao."
-        }
-      }
+      ]
     },
     {
-      "id": "teacher_we",
+      "id": "teacher_tu",
       "speaker": "teacher",
-      "textFr": "Maintenant, utilisez « Nous » pour parler de nous deux ensemble.",
-      "textMg": "Izao, ampiasao « Nous » raha miresaka momba antsika roa miaraka.",
+      "textFr": "Très bien ! TU, c'est quand on parle à quelqu'un. TU es mon élève.",
+      "textMg": "Tsara! IANAO, rehefa miresaka amin'ny olona iray. IANAO mpianatro.",
       "audio": {
-        "ttsTextFr": "Maintenant, utilisez « Nous » pour parler de nous deux ensemble.",
+        "ttsTextFr": "Très bien ! TU, c'est quand on parle à quelqu'un. TU es mon élève.",
         "ttsRate": 0.9
       },
-      "nextNode": "user_we"
+      "nextNode": "teacher_il_elle"
     },
     {
-      "id": "user_we",
+      "id": "teacher_il_elle",
+      "speaker": "teacher",
+      "textFr": "IL, c'est un garçon. ELLE, c'est une fille. IL parle. ELLE écoute.",
+      "textMg": "IZY lahy, izany hoe zazalahy. IZY vavy, izany hoe zazavavy. IZY miteny. IZY mihaino.",
+      "audio": {
+        "ttsTextFr": "IL, c'est un garçon. ELLE, c'est une fille. IL parle. ELLE écoute.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "teacher_ask_il"
+    },
+    {
+      "id": "teacher_ask_il",
+      "speaker": "teacher",
+      "textFr": "Votre père est gentil. Comment dit-on avec IL ?",
+      "textMg": "Tsara fanahy ny rainao. Ahoana no lazaina amin'ny IZY?",
+      "audio": {
+        "ttsTextFr": "Votre père est gentil. Comment dit-on avec IL ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_il"
+    },
+    {
+      "id": "user_il",
       "speaker": "user",
+      "textFr": "Parlez de votre père avec IL.",
+      "textMg": "Resaho momba ny rainao amin'ny IZY.",
       "responseOptions": [
         {
-          "textFr": "Nous apprenons le français.",
-          "textMg": "Mianatra teny frantsay isika.",
-          "isCorrect": true
+          "textFr": "Il est gentil.",
+          "textMg": "Tsara fanahy izy.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_elle"
         },
         {
-          "textFr": "Il va à l'école.",
-          "textMg": "Mandeha an-tsekoly izy.",
-          "isCorrect": false
+          "textFr": "Il est grand.",
+          "textMg": "Lava izy.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_elle"
         },
         {
-          "textFr": "Elle chante bien.",
-          "textMg": "Mahay mihira tsara izy.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "Je suis timide.",
-          "textMg": "Henatra aho.",
+          "textFr": "Elle est gentil.",
+          "textMg": "Tsara fanahy izy vavy.",
           "isCorrect": false,
-          "responseType": "emotional",
-          "conversationReaction": "supportive",
-          "continueConversation": true
-        },
-        {
-          "textFr": "Je ne comprends pas.",
-          "textMg": "Tsy azoko izany.",
-          "isCorrect": false,
-          "responseType": "confusion",
-          "conversationReaction": "clarifying",
-          "continueConversation": true
+          "feedback": {
+            "fr": "Votre père est un homme. On dit IL, pas ELLE.",
+            "mg": "Ny rainao dia lehilahy. Lazao IZY lahy, fa tsy IZY vavy."
+          },
+          "nextNodeOnFail": "user_il"
         }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Bravo ! « Nous » inclut vous et moi ensemble.",
-        "textMg": "Tena mahatalanjona! « Nous » dia mampiditra anao sy ahy miaraka.",
-        "audio": {
-          "ttsTextFr": "Bravo ! « Nous » inclut vous et moi ensemble."
-        }
-      },
-      "feedbackOnFail": {
-        "textFr": "Pour parler de nous deux, utilisez « Nous » : Nous apprenons...",
-        "textMg": "Raha miresaka momba antsika roa, ampiasao « Nous »: Mianatra isika...",
-        "audio": {
-          "ttsTextFr": "Pour parler de nous deux, utilisez « Nous » : Nous apprenons..."
-        }
-      },
-      "nextNodeOnSuccess": "teacher_end",
-      "nextNodeOnMaxAttemptsReached": "teacher_end",
-      "conversationFeedback": {
-        "supportive": {
-          "textFr": "C'est tout à fait normal ! Avec de la pratique, vous serez plus à l'aise.",
-          "textMg": "Amin'ny fahazarana no hahazatra anao. Tsy maninona izany!"
-        },
-        "clarifying": {
-          "textFr": "Pas de problème, je vais vous expliquer plus simplement.",
-          "textMg": "Tsy maninona, hazavaiko tsotra kokoa ho anao."
-        }
-      }
+      ]
     },
     {
-      "id": "teacher_end",
+      "id": "teacher_elle",
       "speaker": "teacher",
-      "textFr": "Excellent {firstName} ! Vous connaissez maintenant les pronoms de base : Je, Tu, Vous, Nous.",
-      "textMg": "Tena mahatalanjona {firstName}! Fantatrao izao ny mpisolo tena fototra: Je, Tu, Vous, Nous.",
+      "textFr": "Et votre mère ? Comment dit-on avec ELLE ?",
+      "textMg": "Ary ny reninao? Ahoana no lazaina amin'ny IZY vavy?",
       "audio": {
-        "ttsTextFr": "Excellent {firstName} ! Vous connaissez maintenant les pronoms de base : Je, Tu, Vous, Nous.",
+        "ttsTextFr": "Et votre mère ? Comment dit-on avec ELLE ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_elle"
+    },
+    {
+      "id": "user_elle",
+      "speaker": "user",
+      "textFr": "Parlez de votre mère avec ELLE.",
+      "textMg": "Resaho momba ny reninao amin'ny IZY vavy.",
+      "responseOptions": [
+        {
+          "textFr": "Elle est belle.",
+          "textMg": "Tsara tarehy izy.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_nous"
+        },
+        {
+          "textFr": "Elle est gentille.",
+          "textMg": "Tsara fanahy izy.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_nous"
+        },
+        {
+          "textFr": "Elle cuisine bien.",
+          "textMg": "Mahay mahandro izy.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_nous"
+        }
+      ]
+    },
+    {
+      "id": "teacher_nous",
+      "speaker": "teacher",
+      "textFr": "NOUS, c'est quand on parle de plusieurs personnes ensemble. NOUS sommes une famille.",
+      "textMg": "IZAHAY, rehefa miresaka momba ny maro miaraka. IZAHAY fianakaviana.",
+      "audio": {
+        "ttsTextFr": "NOUS, c'est quand on parle de plusieurs personnes ensemble. NOUS sommes une famille.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "teacher_vous"
+    },
+    {
+      "id": "teacher_vous",
+      "speaker": "teacher",
+      "textFr": "VOUS, c'est pour parler poliment ou à plusieurs personnes. VOUS êtes mes élèves.",
+      "textMg": "IANAREO, ho an'ny fahamarinana na olona maro. IANAREO mpianatro.",
+      "audio": {
+        "ttsTextFr": "VOUS, c'est pour parler poliment ou à plusieurs personnes. VOUS êtes mes élèves.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "teacher_ils"
+    },
+    {
+      "id": "teacher_ils",
+      "speaker": "teacher",
+      "textFr": "ILS, c'est pour les garçons. ELLES, pour les filles. ILS jouent. ELLES chantent.",
+      "textMg": "IZY IREO lahy, ho an'ny zazalahy. IZY IREO vavy, ho an'ny zazavavy.",
+      "audio": {
+        "ttsTextFr": "ILS, c'est pour les garçons. ELLES, pour les filles. ILS jouent. ELLES chantent.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "teacher_quiz"
+    },
+    {
+      "id": "teacher_quiz",
+      "speaker": "teacher",
+      "textFr": "Quiz ! Complétez : Marie est à l'école. ... est une bonne élève.",
+      "textMg": "Fanadinana! Fenoy: Marie dia any an-tsekoly. ... mpianatra tsara.",
+      "audio": {
+        "ttsTextFr": "Quiz ! Complétez : Marie est à l'école. ... est une bonne élève.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_quiz"
+    },
+    {
+      "id": "user_quiz",
+      "speaker": "user",
+      "textFr": "Marie est une fille. Quel pronom ?",
+      "textMg": "Marie dia zazavavy. Solo-tena inona?",
+      "responseOptions": [
+        {
+          "textFr": "Elle est une bonne élève.",
+          "textMg": "Mpianatra tsara izy.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_quiz_2"
+        },
+        {
+          "textFr": "Il est un bon élève.",
+          "textMg": "Mpianatra tsara izy.",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Marie est une fille ! On utilise ELLE.",
+            "mg": "Marie dia zazavavy! Ampiasao ILAY vavy."
+          },
+          "nextNodeOnFail": "user_quiz"
+        }
+      ]
+    },
+    {
+      "id": "teacher_quiz_2",
+      "speaker": "teacher",
+      "textFr": "Parfait ! Et : Jean et Marc jouent. ... sont amis.",
+      "textMg": "Tonga lafatra! Ary: Jean sy Marc milalao. ... mpinamana.",
+      "audio": {
+        "ttsTextFr": "Parfait ! Et : Jean et Marc jouent. ... sont amis.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_quiz_2"
+    },
+    {
+      "id": "user_quiz_2",
+      "speaker": "user",
+      "textFr": "Jean et Marc sont des garçons.",
+      "textMg": "Jean sy Marc dia zazalahy.",
+      "responseOptions": [
+        {
+          "textFr": "Ils sont amis.",
+          "textMg": "Mpinamana izy ireo.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "farewell"
+        },
+        {
+          "textFr": "Elles sont amies.",
+          "textMg": "Mpinamana izy ireo vavy.",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Jean et Marc sont des garçons ! On dit ILS.",
+            "mg": "Jean sy Marc dia zazalahy! Lazao IZY IREO lahy."
+          },
+          "nextNodeOnFail": "user_quiz_2"
+        }
+      ]
+    },
+    {
+      "id": "farewell",
+      "speaker": "teacher",
+      "textFr": "Excellent {firstName} ! Vous maîtrisez les pronoms personnels !",
+      "textMg": "Tonga lafatra {firstName}! Mahay ny solo-tena ianao!",
+      "audio": {
+        "ttsTextFr": "Excellent {firstName} ! Vous maîtrisez les pronoms personnels !",
         "ttsRate": 0.9
       },
       "nextNode": "end"
@@ -257,10 +283,10 @@
       "id": "end",
       "speaker": "teacher",
       "isEnd": true,
-      "textFr": "Félicitations {firstName} ! Vous savez maintenant utiliser les pronoms de base en français !",
-      "textMg": "Tena mahatalanjona {firstName}! Fantatrao izao ny fampiasana ny mpisolo tena fototra amin'ny teny frantsay!",
+      "textFr": "Bravo ! Vous connaissez les pronoms personnels !",
+      "textMg": "Arahabaina! Mahay ny solo-tena ianao!",
       "audio": {
-        "ttsTextFr": "Félicitations {firstName} ! Vous savez maintenant utiliser les pronoms de base en français !",
+        "ttsTextFr": "Bravo ! Vous connaissez les pronoms personnels !",
         "ttsRate": 0.9
       }
     }

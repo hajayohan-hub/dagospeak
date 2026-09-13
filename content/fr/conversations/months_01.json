@@ -1,7 +1,7 @@
 {
   "id": "months_01",
-  "titleFr": "Les mois de l'année",
-  "titleMg": "Ny volana amin'ny taona",
+  "titleFr": "Les mois et les saisons",
+  "titleMg": "Ny volana sy ny vanim-potoana",
   "level": "A0",
   "theme": "months",
   "participants": {
@@ -20,160 +20,80 @@
     {
       "id": "start",
       "speaker": "teacher",
-      "textFr": "Bonjour {firstName} ! Savez-vous combien de mois il y a dans une année ?",
-      "textMg": "Manahoana {firstName}! Fantatrao ve fa misy volana firy ny taona iray?",
+      "textFr": "Bonjour {firstName} ! Quel mois sommes-nous ?",
+      "textMg": "Manao ahoana {firstName}! Volana inona isika izao?",
       "audio": {
-        "ttsTextFr": "Bonjour {firstName} ! Savez-vous combien de mois il y a dans une année ?",
+        "ttsTextFr": "Bonjour {firstName} ! Quel mois sommes-nous ?",
         "ttsRate": 0.9
       },
-      "nextNode": "user_months_count"
+      "nextNode": "user_current_month"
     },
     {
-      "id": "user_months_count",
+      "id": "user_current_month",
       "speaker": "user",
+      "textFr": "Quel mois est-ce ?",
+      "textMg": "Volana inona izao?",
       "responseOptions": [
         {
-          "textFr": "Il y a douze mois dans une année.",
-          "textMg": "Misy volana roa ambin'ny folo ny taona iray.",
-          "isCorrect": true
+          "textFr": "Nous sommes en janvier.",
+          "textMg": "Volana janoary isika.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_jan"
         },
         {
-          "textFr": "Il y a sept jours dans une semaine.",
-          "textMg": "Misy andro fito ny herinandro iray.",
-          "isCorrect": false
+          "textFr": "Nous sommes en septembre.",
+          "textMg": "Volana septambra isika.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_sept"
         },
         {
-          "textFr": "J'aime le riz.",
-          "textMg": "Tianao ny vary.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "Je ne sais pas compter les mois.",
-          "textMg": "Tsy mahay manisa ny volana aho.",
-          "isCorrect": false,
-          "responseType": "unknown",
-          "conversationReaction": "encouraging",
-          "continueConversation": true
-        },
-        {
-          "textFr": "Je préfère ne pas donner ma date d'anniversaire.",
-          "textMg": "Tsy tiako ny manome ny daty nahaterahako.",
-          "isCorrect": false,
-          "responseType": "boundary",
-          "conversationReaction": "respectful",
-          "continueConversation": true
+          "textFr": "Nous sommes en mars.",
+          "textMg": "Volana martsa isika.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_march"
         }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Exactement ! Il y a douze mois : janvier, février, mars...",
-        "textMg": "Marina tokoa! Misy volana roa ambin'ny folo: janoary, febroary, martsa...",
-        "audio": {
-          "ttsTextFr": "Exactement ! Il y a douze mois : janvier, février, mars..."
-        }
-      },
-      "feedbackOnFail": {
-        "textFr": "Pas tout à fait. une année a douze mois, pas sept jours.",
-        "textMg": "Tsia, misy volana roa ambin'ny folo ny taona iray, fa tsy andro fito.",
-        "audio": {
-          "ttsTextFr": "Pas tout à fait. une année a douze mois, pas sept jours."
-        }
-      },
-      "nextNodeOnSuccess": "teacher_season",
-      "nextNodeOnMaxAttemptsReached": "teacher_season",
-      "conversationFeedback": {
-        "encouraging": {
-          "textFr": "Pas de souci ! On va compter ensemble : janvier, février, mars...",
-          "textMg": "Tsy maninona! Andeha hanisa miaraka: janoary, febroary, martsa..."
-        },
-        "respectful": {
-          "textFr": "Je comprends, c'est votre droit. On peut parler d'autre chose.",
-          "textMg": "Azoko tsara izany, zonao izany. Afaka hiresaka zavatra hafa isika."
-        }
-      }
+      ]
     },
     {
-      "id": "teacher_season",
+      "id": "teacher_jan",
       "speaker": "teacher",
-      "textFr": "Très bien ! Et maintenant, quel est votre mois préféré ?",
-      "textMg": "Tena tsara! Ary izao, iza no volana tianao indrindra?",
+      "textFr": "Janvier ! Le premier mois de l'année. C'est la saison des pluies à Madagascar.",
+      "textMg": "Janoary! Ny volana voalohany. Fotoanan'ny orana eto Madagasikara.",
       "audio": {
-        "ttsTextFr": "Très bien ! Et maintenant, quel est votre mois préféré ?",
+        "ttsTextFr": "Janvier ! Le premier mois de l'année. C'est la saison des pluies à Madagascar.",
         "ttsRate": 0.9
       },
-      "nextNode": "user_favorite_month"
+      "nextNode": "teacher_birthday"
     },
     {
-      "id": "user_favorite_month",
-      "speaker": "user",
-      "responseOptions": [
-        {
-          "textFr": "Mon mois préféré est décembre.",
-          "textMg": "Desambra no volana tiako indrindra.",
-          "isCorrect": true
-        },
-        {
-          "textFr": "Je mange du pain.",
-          "textMg": "Mihinana mofo aho.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "Il pleut aujourd'hui.",
-          "textMg": "Mirotsaka ny orana anio.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "Je ne sais pas compter les mois.",
-          "textMg": "Tsy mahay manisa ny volana aho.",
-          "isCorrect": false,
-          "responseType": "unknown",
-          "conversationReaction": "encouraging",
-          "continueConversation": true
-        },
-        {
-          "textFr": "Je préfère ne pas donner ma date d'anniversaire.",
-          "textMg": "Tsy tiako ny manome ny daty nahaterahako.",
-          "isCorrect": false,
-          "responseType": "boundary",
-          "conversationReaction": "respectful",
-          "continueConversation": true
-        }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Décembre est un beau mois ! C'est le mois de Noël.",
-        "textMg": "Desambra dia volana tsara! Volana Krismasy izy io.",
-        "audio": {
-          "ttsTextFr": "Décembre est un beau mois ! C'est le mois de Noël."
-        }
+      "id": "teacher_sept",
+      "speaker": "teacher",
+      "textFr": "Septembre ! C'est bientôt la rentrée. Le temps commence à se réchauffer.",
+      "textMg": "Septambra! Efa akaiky ny fiantombohan'ny taom-pianarana. Manomboka mafana ny andro.",
+      "audio": {
+        "ttsTextFr": "Septembre ! C'est bientôt la rentrée. Le temps commence à se réchauffer.",
+        "ttsRate": 0.9
       },
-      "feedbackOnFail": {
-        "textFr": "Pour parler de votre mois préféré, dites : Mon mois préféré est...",
-        "textMg": "Raha hilaza ny volana tianao, lazaina hoe: Ny volana tiako indrindra dia...",
-        "audio": {
-          "ttsTextFr": "Pour parler de votre mois préféré, dites : Mon mois préféré est..."
-        }
+      "nextNode": "teacher_birthday"
+    },
+    {
+      "id": "teacher_march",
+      "speaker": "teacher",
+      "textFr": "Mars ! C'est encore la saison des pluies. Il fait chaud.",
+      "textMg": "Martsa! Mbola fotoanan'ny orana. Mafana ny andro.",
+      "audio": {
+        "ttsTextFr": "Mars ! C'est encore la saison des pluies. Il fait chaud.",
+        "ttsRate": 0.9
       },
-      "nextNodeOnSuccess": "teacher_birthday",
-      "nextNodeOnMaxAttemptsReached": "teacher_birthday",
-      "conversationFeedback": {
-        "encouraging": {
-          "textFr": "Pas de souci ! On va compter ensemble : janvier, février, mars...",
-          "textMg": "Tsy maninona! Andeha hanisa miaraka: janoary, febroary, martsa..."
-        },
-        "respectful": {
-          "textFr": "Je comprends, c'est votre droit. On peut parler d'autre chose.",
-          "textMg": "Azoko tsara izany, zonao izany. Afaka hiresaka zavatra hafa isika."
-        }
-      }
+      "nextNode": "teacher_birthday"
     },
     {
       "id": "teacher_birthday",
       "speaker": "teacher",
-      "textFr": "Maintenant, en quel mois est votre anniversaire ?",
-      "textMg": "Izao, amin'ny volana inona ny tsingerin'ny andro nahaterahanao?",
+      "textFr": "Quand est votre anniversaire ? Quel mois ?",
+      "textMg": "Rahoviana ny tsingerin-taonanao? Volana inona?",
       "audio": {
-        "ttsTextFr": "Maintenant, en quel mois est votre anniversaire ?",
+        "ttsTextFr": "Quand est votre anniversaire ? Quel mois ?",
         "ttsRate": 0.9
       },
       "nextNode": "user_birthday"
@@ -181,98 +101,157 @@
     {
       "id": "user_birthday",
       "speaker": "user",
+      "textFr": "Quel mois est votre anniversaire ?",
+      "textMg": "Volana inona ny tsingerin-taonanao?",
       "responseOptions": [
         {
           "textFr": "Mon anniversaire est en juin.",
-          "textMg": "Jona no tsingerin'ny andro nahaterahako.",
-          "isCorrect": true
+          "textMg": "Ny tsingerin-taonako dia amin'ny jona.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_june"
         },
         {
-          "textFr": "J'ai des sœurs.",
-          "textMg": "Manana anabavy aho.",
-          "isCorrect": false
+          "textFr": "En décembre.",
+          "textMg": "Amin'ny desambra.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_december"
         },
         {
-          "textFr": "Le ciel est bleu.",
-          "textMg": "Manga ny lanitra.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "Je ne sais pas compter les mois.",
-          "textMg": "Tsy mahay manisa ny volana aho.",
-          "isCorrect": false,
-          "responseType": "unknown",
-          "conversationReaction": "encouraging",
-          "continueConversation": true,
-          "nextNodeOnConversation": "learn_months"
-        },
-        {
-          "textFr": "Je préfère ne pas donner ma date d'anniversaire.",
-          "textMg": "Tsy tiako ny manome ny daty nahaterahako.",
-          "isCorrect": false,
-          "responseType": "boundary",
-          "conversationReaction": "respectful",
-          "continueConversation": true,
-          "nextNodeOnConversation": "respect_privacy"
+          "textFr": "En mars.",
+          "textMg": "Amin'ny martsa.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_march_bday"
         }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Super ! Vous savez maintenant parler des mois de l'année.",
-        "textMg": "Tena tsara! Fantatrao izao ny volana amin'ny taona.",
-        "audio": {
-          "ttsTextFr": "Super ! Vous savez maintenant parler des mois de l'année."
-        }
-      },
-      "feedbackOnFail": {
-        "textFr": "Pour dire votre anniversaire, utilisez : Mon anniversaire est en...",
-        "textMg": "Raha hilaza ny tsingerin'ny nahaterahanao, lazaina hoe: Ny tsingerin'ny andro nahaterahako dia amin'ny...",
-        "audio": {
-          "ttsTextFr": "Pour dire votre anniversaire, utilisez : Mon anniversaire est en..."
-        }
-      },
-      "nextNodeOnSuccess": "teacher_end",
-      "nextNodeOnMaxAttemptsReached": "teacher_end",
-      "conversationFeedback": {
-        "encouraging": {
-          "textFr": "Pas de souci ! On va compter ensemble : janvier, février, mars...",
-          "textMg": "Tsy maninona! Andeha hanisa miaraka: janoary, febroary, martsa..."
-        },
-        "respectful": {
-          "textFr": "Je comprends, c'est votre droit. On peut parler d'autre chose.",
-          "textMg": "Azoko tsara izany, zonao izany. Afaka hiresaka zavatra hafa isika."
-        }
-      }
+      ]
     },
     {
-      "id": "respect_privacy",
+      "id": "teacher_june",
       "speaker": "teacher",
-      "textFr": "Je comprends tout à fait {firstName}. C'est votre droit. Continuons simplement à apprendre les mois de l'année.",
-      "textMg": "Azoko tsara izany {firstName}. Zonao izany. Andeha foana hianatra ny volana amin'ny taona.",
+      "textFr": "Juin ! C'est l'hiver à Madagascar. Il fait frais.",
+      "textMg": "Jona! Fotoanan'ny ririnina eto Madagasikara. Mangatsiaka.",
       "audio": {
-        "ttsTextFr": "Je comprends tout à fait. C'est votre droit. Continuons simplement à apprendre les mois de l'année.",
+        "ttsTextFr": "Juin ! C'est l'hiver à Madagascar. Il fait frais.",
         "ttsRate": 0.9
       },
-      "nextNode": "teacher_end"
+      "nextNode": "teacher_seasons"
     },
     {
-      "id": "learn_months",
+      "id": "teacher_december",
       "speaker": "teacher",
-      "textFr": "Pas de souci ! Comptons ensemble : janvier, février, mars, avril, mai, juin, juillet, août, septembre, octobre, novembre, décembre.",
-      "textMg": "Tsy maninona! Andeha hanisa miaraka: janoary, febroary, martsa, aprily, mey, jona, jolay, aogositra, septambra, oktobra, novambra, desambra.",
+      "textFr": "Décembre ! C'est Noël et le Nouvel An. C'est la saison chaude.",
+      "textMg": "Desambra! Noely sy Taom-baovao. Fotoana mafana.",
       "audio": {
-        "ttsTextFr": "Pas de souci ! Comptons ensemble : janvier, février, mars, avril, mai, juin, juillet, août, septembre, octobre, novembre, décembre.",
-        "ttsRate": 0.85
+        "ttsTextFr": "Décembre ! C'est Noël et le Nouvel An. C'est la saison chaude.",
+        "ttsRate": 0.9
       },
-      "nextNode": "teacher_end"
+      "nextNode": "teacher_seasons"
     },
     {
-      "id": "teacher_end",
+      "id": "teacher_march_bday",
       "speaker": "teacher",
-      "textFr": "Excellent {firstName} ! Vous connaissez maintenant les mois de l'année.",
-      "textMg": "Tena mahatalanjona {firstName}! Fantatrao izao ny volana amin'ny taona.",
+      "textFr": "Mars ! C'est la fin de la saison des pluies.",
+      "textMg": "Martsa! Faran'ny fotoanan'ny orana.",
       "audio": {
-        "ttsTextFr": "Excellent {firstName} ! Vous connaissez maintenant les mois de l'année.",
+        "ttsTextFr": "Mars ! C'est la fin de la saison des pluies.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "teacher_seasons"
+    },
+    {
+      "id": "teacher_seasons",
+      "speaker": "teacher",
+      "textFr": "À Madagascar, il y a deux saisons : la saison chaude et la saison fraîche. Laquelle préférez-vous ?",
+      "textMg": "Eto Madagasikara, misy vanim-potoana roa: ny mafana sy ny mangatsiaka. Iza no tianao?",
+      "audio": {
+        "ttsTextFr": "À Madagascar, il y a deux saisons : la saison chaude et la saison fraîche. Laquelle préférez-vous ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_season"
+    },
+    {
+      "id": "user_season",
+      "speaker": "user",
+      "textFr": "Quelle saison préférez-vous ?",
+      "textMg": "Vanim-potoana inona no tianao?",
+      "responseOptions": [
+        {
+          "textFr": "Je préfère la saison chaude.",
+          "textMg": "Aleoko ny fotoana mafana.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_hot"
+        },
+        {
+          "textFr": "Je préfère la saison fraîche.",
+          "textMg": "Aleoko ny fotoana mangatsiaka.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_cold"
+        }
+      ]
+    },
+    {
+      "id": "teacher_hot",
+      "speaker": "teacher",
+      "textFr": "La saison chaude ! Il y a les fruits : mangues, litchis. C'est délicieux !",
+      "textMg": "Ny fotoana mafana! Misy voankazo: manga, letchi. Matsiro!",
+      "audio": {
+        "ttsTextFr": "La saison chaude ! Il y a les fruits : mangues, litchis. C'est délicieux !",
+        "ttsRate": 0.9
+      },
+      "nextNode": "teacher_quiz_months"
+    },
+    {
+      "id": "teacher_cold",
+      "speaker": "teacher",
+      "textFr": "La saison fraîche ! C'est agréable. On dort bien quand il fait frais.",
+      "textMg": "Ny fotoana mangatsiaka! Mahafinaritra. Matory tsara rehefa mangatsiaka.",
+      "audio": {
+        "ttsTextFr": "La saison fraîche ! C'est agréable. On dort bien quand il fait frais.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "teacher_quiz_months"
+    },
+    {
+      "id": "teacher_quiz_months",
+      "speaker": "teacher",
+      "textFr": "Combien de mois y a-t-il dans une année ?",
+      "textMg": "Firy volana no ao anatin'ny taona iray?",
+      "audio": {
+        "ttsTextFr": "Combien de mois y a-t-il dans une année ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_how_many"
+    },
+    {
+      "id": "user_how_many",
+      "speaker": "user",
+      "textFr": "Combien de mois dans l'année ?",
+      "textMg": "Firy volana ao anatin'ny taona?",
+      "responseOptions": [
+        {
+          "textFr": "Douze mois.",
+          "textMg": "Volana roa ambin'ny folo.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "farewell"
+        },
+        {
+          "textFr": "Dix mois.",
+          "textMg": "Volana folo.",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, il y a douze mois dans une année.",
+            "mg": "Tsia, roa ambin'ny folo volana ao anatin'ny taona iray."
+          },
+          "nextNodeOnFail": "user_how_many"
+        }
+      ]
+    },
+    {
+      "id": "farewell",
+      "speaker": "teacher",
+      "textFr": "Bravo {firstName} ! Vous connaissez les mois et les saisons de Madagascar !",
+      "textMg": "Tsara {firstName}! Mahay ny volana sy ny vanim-potoana eto Madagasikara ianao!",
+      "audio": {
+        "ttsTextFr": "Bravo {firstName} ! Vous connaissez les mois et les saisons de Madagascar !",
         "ttsRate": 0.9
       },
       "nextNode": "end"
@@ -281,10 +260,10 @@
       "id": "end",
       "speaker": "teacher",
       "isEnd": true,
-      "textFr": "Félicitations {firstName} ! Vous savez maintenant parler des mois de l'année en français !",
-      "textMg": "Tena mahatalanjona {firstName}! Fantatrao izao ny volana amin'ny taona amin'ny teny frantsay!",
+      "textFr": "Bravo ! Vous connaissez les mois et les saisons !",
+      "textMg": "Arahabaina! Mahay ny volana sy ny vanim-potoana ianao!",
       "audio": {
-        "ttsTextFr": "Félicitations {firstName} ! Vous savez maintenant parler des mois de l'année en français !",
+        "ttsTextFr": "Bravo ! Vous connaissez les mois et les saisons !",
         "ttsRate": 0.9
       }
     }

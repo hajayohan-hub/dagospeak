@@ -20,10 +20,21 @@
     {
       "id": "start",
       "speaker": "teacher",
-      "textFr": "Bonjour! Vous êtes bien {firstName}, c'est ça ?",
-      "textMg": "Manahoana! Ianao tokoa ve i {firstName}?",
+      "textFr": "Bonjour ! Bienvenue ! Je suis votre professeur.",
+      "textMg": "Manao ahoana! Tongasoa! Izaho no mpampianatra anao.",
       "audio": {
-        "ttsTextFr": "Bonjour! Vous êtes bien {firstName}, c'est ça ?",
+        "ttsTextFr": "Bonjour ! Bienvenue ! Je suis votre professeur.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "teacher_ask_name"
+    },
+    {
+      "id": "teacher_ask_name",
+      "speaker": "teacher",
+      "textFr": "Comment vous appelez-vous ?",
+      "textMg": "Iza ny anaranao?",
+      "audio": {
+        "ttsTextFr": "Comment vous appelez-vous ?",
         "ttsRate": 0.9
       },
       "nextNode": "user_name"
@@ -31,111 +42,115 @@
     {
       "id": "user_name",
       "speaker": "user",
+      "textFr": "Dites votre nom.",
+      "textMg": "Lazao ny anaranao.",
       "responseOptions": [
         {
-          "textFr": "Oui, je suis {firstName}.",
-          "textMg": "Eny, {firstName} aho.",
-          "isCorrect": true
+          "textFr": "Je m'appelle {firstName}.",
+          "textMg": "I {firstName} ny anarako.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_greet_name"
         },
         {
-          "textFr": "Non, je ne suis pas là.",
-          "textMg": "Tsia, tsy ato aho.",
-          "isCorrect": false
+          "textFr": "Mon nom est {firstName}.",
+          "textMg": "{firstName} no anarako.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_greet_name"
+        },
+        {
+          "textFr": "Bonjour !",
+          "textMg": "Manao ahoana!",
+          "isCorrect": false,
+          "nextNodeOnSuccess": "correct_name",
+          "feedback": {
+            "fr": "Dites d'abord votre nom.",
+            "mg": "Lazao aloha ny anaranao."
+          }
+        }
+      ]
+    },
+    {
+      "id": "correct_name",
+      "speaker": "teacher",
+      "textFr": "Très bien ! Maintenant, dites votre nom.",
+      "textMg": "Tsara! Izao, lazao ny anaranao.",
+      "audio": {
+        "ttsTextFr": "Très bien ! Maintenant, dites votre nom.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_name"
+    },
+    {
+      "id": "teacher_greet_name",
+      "speaker": "teacher",
+      "textFr": "Enchanté, {firstName} ! Comment allez-vous ?",
+      "textMg": "Faly mahafantatra anao, {firstName}! Manao ahoana ianao?",
+      "audio": {
+        "ttsTextFr": "Enchanté, {firstName} ! Comment allez-vous ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_how_are_you"
+    },
+    {
+      "id": "user_how_are_you",
+      "speaker": "user",
+      "textFr": "Comment répondez-vous ?",
+      "textMg": "Ahoana no valinao?",
+      "responseOptions": [
+        {
+          "textFr": "Je vais bien, merci.",
+          "textMg": "Tsara aho, misaotra.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_happy"
+        },
+        {
+          "textFr": "Ça va.",
+          "textMg": "Mbola tsara.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_happy"
+        },
+        {
+          "textFr": "Très bien !",
+          "textMg": "Tsara be!",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_happy"
         },
         {
           "textFr": "Au revoir.",
           "textMg": "Veloma.",
-          "isCorrect": false
+          "isCorrect": false,
+          "nextNodeOnSuccess": "retry_greeting",
+          "feedback": {
+            "fr": "On dit d'abord comment on va.",
+            "mg": "Lazao aloha ny fahasalamanao."
+          }
         }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Parfait ! Ravi de vous voir !",
-        "textMg": "Tena tsara! Faly mahita anao!",
-        "audio": {
-          "ttsTextFr": "Parfait ! Ravi de vous voir !"
-        }
-      },
-      "feedbackOnFail": {
-        "textFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Oui, je suis...",
-        "textMg": "Tsia, tokony holazaina hoe: Eny, ... aho.",
-        "audio": {
-          "ttsTextFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Oui, je suis..."
-        }
-      },
-      "nextNodeOnSuccess": "ask_feeling",
-      "nextNodeOnMaxAttemptsReached": "ask_feeling"
+      ]
     },
     {
-      "id": "ask_feeling",
+      "id": "retry_greeting",
       "speaker": "teacher",
-      "textFr": "Comment ça va aujourd'hui ?",
-      "textMg": "Manao ahoana ianao androany?",
+      "textFr": "Attendez ! On dit d'abord comment on va. Essayez encore.",
+      "textMg": "Andraso! Lazao aloha ny fahasalamanao. Andramo indray.",
       "audio": {
-        "ttsTextFr": "Comment ça va aujourd'hui ?",
+        "ttsTextFr": "Attendez ! On dit d'abord comment on va. Essayez encore.",
         "ttsRate": 0.9
       },
-      "nextNode": "user_feeling"
+      "nextNode": "user_how_are_you"
     },
     {
-      "id": "user_feeling",
-      "speaker": "user",
-      "responseOptions": [
-        {
-          "textFr": "Ça va bien, merci.",
-          "textMg": "Tsara, misaotra.",
-          "isCorrect": true,
-          "responseType": "positive",
-          "conversationReaction": "positive",
-          "continueConversation": true
-        },
-        {
-          "textFr": "Je suis fatigué.",
-          "textMg": "Vizaka aho.",
-          "isCorrect": false,
-          "responseType": "emotional",
-          "conversationReaction": "empathetic",
-          "continueConversation": true
-        },
-        {
-          "textFr": "Je ne vais pas très bien.",
-          "textMg": "Tsy tsara loatra aho.",
-          "isCorrect": false,
-          "responseType": "emotional",
-          "conversationReaction": "empathetic",
-          "continueConversation": true
-        }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Parfait ! Je suis content pour vous.",
-        "textMg": "Tena tsara! Faly aho ho anao.",
-        "audio": {
-          "ttsTextFr": "Parfait ! Je suis content pour vous."
-        }
+      "id": "teacher_happy",
+      "speaker": "teacher",
+      "textFr": "Je suis content ! Et moi, je vais très bien aussi.",
+      "textMg": "Faly aho! Izaho koa dia tsara be.",
+      "audio": {
+        "ttsTextFr": "Je suis content ! Et moi, je vais très bien aussi.",
+        "ttsRate": 0.9
       },
-      "feedbackOnFail": {
-        "textFr": "Presque ! La bonne formulation serait : Ça va bien, merci.",
-        "textMg": "Tsia, tokony hovaliana hoe: Tsara, misaotra.",
-        "audio": {
-          "ttsTextFr": "Presque ! La bonne formulation serait : Ça va bien, merci."
-        }
-      },
-      "nextNodeOnSuccess": "ask_origin",
-      "nextNodeOnMaxAttemptsReached": "ask_origin",
-      "conversationFeedback": {
-        "positive": {
-          "textFr": "Très bien ! Je suis content de l'entendre.",
-          "textMg": "Tena tsara! Faly aho maheno izany."
-        },
-        "empathetic": {
-          "textFr": "Je suis désolé de l'entendre. J'espère que vous pourrez vous reposer.",
-          "textMg": "Malahelo aho maheno izany. Antenaina hoe afaka miala sasatra ianao."
-        }
-      }
+      "nextNode": "teacher_ask_origin"
     },
     {
-      "id": "ask_origin",
+      "id": "teacher_ask_origin",
       "speaker": "teacher",
       "textFr": "D'où venez-vous ?",
       "textMg": "Avy aiza ianao?",
@@ -148,49 +163,119 @@
     {
       "id": "user_origin",
       "speaker": "user",
+      "textFr": "Dites d'où vous venez.",
+      "textMg": "Lazao avy aiza ianao.",
       "responseOptions": [
         {
-          "textFr": "Je viens d'....",
-          "textMg": "Avy any ... aho.",
-          "isCorrect": true
+          "textFr": "Je viens de Madagascar.",
+          "textMg": "Avy eto Madagasikara aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_madagascar"
         },
         {
-          "textFr": "Ça va bien.",
-          "textMg": "Tsara.",
-          "isCorrect": false
+          "textFr": "Je suis de Madagascar.",
+          "textMg": "Avy eto Madagasikara aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_madagascar"
         },
         {
-          "textFr": "Merci beaucoup.",
-          "textMg": "Misaotra betsaka.",
-          "isCorrect": false
+          "textFr": "Madagascar.",
+          "textMg": "Madagasikara.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_madagascar"
         }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Excellent {firstName} ! C'est une belle ville.",
-        "textMg": "Tena tsara {firstName} ! Tanàna tsara izany.",
-        "audio": {
-          "ttsTextFr": "Excellent ! C'est une belle ville."
-        }
+      ]
+    },
+    {
+      "id": "teacher_madagascar",
+      "speaker": "teacher",
+      "textFr": "Madagascar ! C'est un beau pays. J'aime Madagascar.",
+      "textMg": "Madagasikara! Tany tsara izany. Tiako i Madagasikara.",
+      "audio": {
+        "ttsTextFr": "Madagascar ! C'est un beau pays. J'aime Madagascar.",
+        "ttsRate": 0.9
       },
-      "feedbackOnFail": {
-        "textFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Je viens de...",
-        "textMg": "Tsia, tokony holazaina hoe: Avy any ... aho.",
-        "audio": {
-          "ttsTextFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : Je viens de..."
-        }
+      "nextNode": "teacher_ask_language"
+    },
+    {
+      "id": "teacher_ask_language",
+      "speaker": "teacher",
+      "textFr": "Quelle langue parlez-vous ?",
+      "textMg": "Teny inona no teneninao?",
+      "audio": {
+        "ttsTextFr": "Quelle langue parlez-vous ?",
+        "ttsRate": 0.9
       },
-      "nextNodeOnSuccess": "end",
-      "nextNodeOnMaxAttemptsReached": "end"
+      "nextNode": "user_language"
+    },
+    {
+      "id": "user_language",
+      "speaker": "user",
+      "textFr": "Quelle langue parlez-vous ?",
+      "textMg": "Teny inona no teneninao?",
+      "responseOptions": [
+        {
+          "textFr": "Je parle malgache.",
+          "textMg": "Miteny malagasy aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_good"
+        },
+        {
+          "textFr": "Je parle français.",
+          "textMg": "Miteny frantsay aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_good"
+        },
+        {
+          "textFr": "Je parle malgache et français.",
+          "textMg": "Miteny malagasy sy frantsay aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_excellent"
+        }
+      ]
+    },
+    {
+      "id": "teacher_good",
+      "speaker": "teacher",
+      "textFr": "Très bien ! Vous apprenez vite.",
+      "textMg": "Tsara be! Mianatra haingana ianao.",
+      "audio": {
+        "ttsTextFr": "Très bien ! Vous apprenez vite.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "farewell"
+    },
+    {
+      "id": "teacher_excellent",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Deux langues, c'est fantastique !",
+      "textMg": "Tonga lafatra! Teny roa, mahafinaritra izany!",
+      "audio": {
+        "ttsTextFr": "Excellent ! Deux langues, c'est fantastique !",
+        "ttsRate": 0.9
+      },
+      "nextNode": "farewell"
+    },
+    {
+      "id": "farewell",
+      "speaker": "teacher",
+      "textFr": "Merci {firstName} ! Au revoir et bonne journée !",
+      "textMg": "Misaotra {firstName}! Veloma ary mirary tontolo andro tsara!",
+      "audio": {
+        "ttsTextFr": "Merci {firstName} ! Au revoir et bonne journée !",
+        "ttsRate": 0.9
+      },
+      "nextNode": "end"
     },
     {
       "id": "end",
-      "isEnd": true,
       "speaker": "teacher",
-      "textFr": "Bravo {firstName} ! Vous savez vous présenter en français !",
-      "textMg": "Arahabaina {firstName}! Mahay mampahafantatra tena amin'ny teny frantsay ianao!",
+      "isEnd": true,
+      "textFr": "Bravo ! Vous savez vous présenter en français !",
+      "textMg": "Arahabaina! Mahay mampahafantatra tena amin'ny teny frantsay ianao!",
       "audio": {
-        "ttsTextFr": "Bravo {firstName} ! Vous savez vous présenter en français !"
+        "ttsTextFr": "Bravo ! Vous savez vous présenter en français !",
+        "ttsRate": 0.9
       }
     }
   ]

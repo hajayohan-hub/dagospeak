@@ -1,13 +1,13 @@
 {
   "id": "alphabet_01",
-  "titleFr": "Épeler son nom",
-  "titleMg": "Manoratra ny anarana amin'ny litera",
+  "titleFr": "Les voyelles",
+  "titleMg": "Ny zanatsoratra",
   "level": "A0",
   "theme": "alphabet",
   "participants": {
     "A": {
-      "name": "Agent",
-      "avatar": "👮",
+      "name": "Professeur",
+      "avatar": "👩‍🏫",
       "gender": "female"
     },
     "B": {
@@ -20,85 +20,180 @@
     {
       "id": "start",
       "speaker": "teacher",
-      "textFr": "Bonjour {firstName} ! Quel est votre nom de famille ?",
-      "textMg": "Manahoana {firstName}! Inona ny fanampin'anaranao?",
+      "textFr": "Bonjour {firstName} ! Aujourd'hui, on apprend les voyelles : A, E, I, O.",
+      "textMg": "Manao ahoana {firstName}! Androany, mianatra ny zanatsoratra: A, E, I, O.",
       "audio": {
-        "ttsTextFr": "Bonjour {firstName} ! Quel est votre nom de famille ?",
+        "ttsTextFr": "Bonjour {firstName} ! Aujourd'hui, on apprend les voyelles : A, E, I, O.",
         "ttsRate": 0.9
       },
-      "nextNode": "user_surname"
+      "nextNode": "teacher_a"
     },
     {
-      "id": "user_surname",
+      "id": "teacher_a",
+      "speaker": "teacher",
+      "textFr": "La première voyelle est A. Comme dans ANANA. Répétez : A.",
+      "textMg": "Ny zanatsoratra voalohany dia A. Hoatry ny ao amin'ny ANANA. Avereno: A.",
+      "audio": {
+        "ttsTextFr": "La première voyelle est A. Comme dans ANANA. Répétez : A.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_a"
+    },
+    {
+      "id": "user_a",
       "speaker": "user",
+      "textFr": "Dites la lettre A.",
+      "textMg": "Lazao ny litera A.",
       "responseOptions": [
         {
-          "textFr": "Mon nom est ...",
-          "textMg": "... no fanampin'anarako.",
-          "isCorrect": true
+          "textFr": "A ! Comme dans anana.",
+          "textMg": "A! Hoatry ny ao amin'ny anana.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_e"
         },
         {
-          "textFr": "Je suis malgache.",
-          "textMg": "Malgache aho.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "J'ai vingt ans.",
-          "textMg": "Roapolo taona aho.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "Je préfère ne pas donner mon nom.",
-          "textMg": "Tsy tiako ny manome ny anarako.",
-          "isCorrect": false,
-          "responseType": "boundary",
-          "conversationReaction": "respectful",
-          "continueConversation": true
-        },
-        {
-          "textFr": "Je ne sais pas épeler.",
-          "textMg": "Tsy mahay manoratra aho.",
-          "isCorrect": false,
-          "responseType": "unknown",
-          "conversationReaction": "encouraging",
-          "continueConversation": true
+          "textFr": "A.",
+          "textMg": "A.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_e"
         }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Excellent ! Vous avez donné votre nom de famille.",
-        "textMg": "Tena tsara! Nolazainao ny fanampin'anaranao.",
-        "audio": {
-          "ttsTextFr": "Excellent ! Vous avez donné votre nom de famille."
-        }
-      },
-      "feedbackOnFail": {
-        "textFr": "Pas tout à fait. Pour répondre, vous pouvez dire : Mon nom est ...",
-        "textMg": "Tsia, tokony hovaliana hoe: ... no fanampin'anarako.",
-        "audio": {
-          "ttsTextFr": "Pas tout à fait. Pour répondre, vous pouvez dire : Mon nom est ..."
-        }
-      },
-      "nextNodeOnSuccess": "ask_spelling",
-      "nextNodeOnMaxAttemptsReached": "ask_spelling",
-      "conversationFeedback": {
-        "respectful": {
-          "textFr": "Je comprends, c'est votre droit. On peut continuer sans ça.",
-          "textMg": "Azoko tsara izany, zonao izany. Afaka manohy isika."
-        },
-        "encouraging": {
-          "textFr": "Pas de souci, on va apprendre ensemble ! C'est en pratiquant qu'on progresse.",
-          "textMg": "Tsy maninona, hianatra miaraka isika! Amin'ny fanazaran-tena no hivoarana."
-        }
-      }
+      ]
     },
     {
-      "id": "ask_spelling",
+      "id": "teacher_e",
       "speaker": "teacher",
-      "textFr": "Pouvez-vous épeler votre nom, lettre par lettre ?",
-      "textMg": "Afaka manoratra ny anaranao litera amin'ny litera ve ianao?",
+      "textFr": "Très bien ! La deuxième voyelle est E. Comme dans ELY, un prénom malgache.",
+      "textMg": "Tsara! Ny zanatsoratra faharoa dia E. Hoatry ny ao amin'ny ELY.",
       "audio": {
-        "ttsTextFr": "Pouvez-vous épeler votre nom, lettre par lettre ?",
+        "ttsTextFr": "Très bien ! La deuxième voyelle est E. Comme dans ELY, un prénom malgache.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_e"
+    },
+    {
+      "id": "user_e",
+      "speaker": "user",
+      "textFr": "Dites la lettre E.",
+      "textMg": "Lazao ny litera E.",
+      "responseOptions": [
+        {
+          "textFr": "E ! Comme dans Ely.",
+          "textMg": "E! Hoatry ny ao amin'ny Ely.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_i"
+        },
+        {
+          "textFr": "E.",
+          "textMg": "E.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_i"
+        }
+      ]
+    },
+    {
+      "id": "teacher_i",
+      "speaker": "teacher",
+      "textFr": "La troisième voyelle est I. Comme dans IRY, un beau prénom.",
+      "textMg": "Ny fahatelo dia I. Hoatry ny ao amin'ny IRY.",
+      "audio": {
+        "ttsTextFr": "La troisième voyelle est I. Comme dans IRY, un beau prénom.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_i"
+    },
+    {
+      "id": "user_i",
+      "speaker": "user",
+      "textFr": "Dites la lettre I.",
+      "textMg": "Lazao ny litera I.",
+      "responseOptions": [
+        {
+          "textFr": "I ! Comme dans Iry.",
+          "textMg": "I! Hoatry ny ao amin'ny Iry.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_o"
+        },
+        {
+          "textFr": "I.",
+          "textMg": "I.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_o"
+        }
+      ]
+    },
+    {
+      "id": "teacher_o",
+      "speaker": "teacher",
+      "textFr": "Et enfin O. Comme dans OLA, qui veut dire vague.",
+      "textMg": "Ary farany O. Hoatry ny ao amin'ny OLA, izay midika onjan-drano.",
+      "audio": {
+        "ttsTextFr": "Et enfin O. Comme dans OLA, qui veut dire vague.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_o"
+    },
+    {
+      "id": "user_o",
+      "speaker": "user",
+      "textFr": "Dites la lettre O.",
+      "textMg": "Lazao ny litera O.",
+      "responseOptions": [
+        {
+          "textFr": "O ! Comme dans ola.",
+          "textMg": "O! Hoatry ny ao amin'ny ola.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_all_vowels"
+        },
+        {
+          "textFr": "O.",
+          "textMg": "O.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_all_vowels"
+        }
+      ]
+    },
+    {
+      "id": "teacher_all_vowels",
+      "speaker": "teacher",
+      "textFr": "Parfait ! Maintenant, dites toutes les voyelles : A, E, I, O.",
+      "textMg": "Tonga lafatra! Izao, lazao ny zanatsoratra rehetra: A, E, I, O.",
+      "audio": {
+        "ttsTextFr": "Parfait ! Maintenant, dites toutes les voyelles : A, E, I, O.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_all"
+    },
+    {
+      "id": "user_all",
+      "speaker": "user",
+      "textFr": "Dites toutes les voyelles.",
+      "textMg": "Lazao ny zanatsoratra rehetra.",
+      "responseOptions": [
+        {
+          "textFr": "A, E, I, O.",
+          "textMg": "A, E, I, O.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_spell"
+        },
+        {
+          "textFr": "A, B, C.",
+          "textMg": "A, B, C.",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Ce sont les consonnes ! Les voyelles sont A, E, I, O.",
+            "mg": "Ireo dia renisoratra! Ny zanatsoratra dia A, E, I, O."
+          },
+          "nextNodeOnFail": "user_all"
+        }
+      ]
+    },
+    {
+      "id": "teacher_spell",
+      "speaker": "teacher",
+      "textFr": "Bravo ! Épelez votre prénom. Par exemple : M-A-R-I-E.",
+      "textMg": "Tsara! Tononavy ny anaranao. Ohatra: M-A-R-I-E.",
+      "audio": {
+        "ttsTextFr": "Bravo ! Épelez votre prénom. Par exemple : M-A-R-I-E.",
         "ttsRate": 0.9
       },
       "nextNode": "user_spell"
@@ -106,150 +201,42 @@
     {
       "id": "user_spell",
       "speaker": "user",
+      "textFr": "Épelez votre prénom.",
+      "textMg": "Tononavy ny anaranao.",
       "responseOptions": [
         {
-          "textFr": "R, A, K, O, T, O.",
-          "textMg": "R, A, K, O, T, O.",
-          "isCorrect": true
+          "textFr": "Mon prénom : {firstName}.",
+          "textMg": "Ny anarako: {firstName}.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "farewell"
         },
         {
-          "textFr": "Je ne sais pas.",
-          "textMg": "Tsy fantatro.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "C'est difficile.",
-          "textMg": "Sarotra izany.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "Je préfère ne pas donner mon nom.",
-          "textMg": "Tsy tiako ny manome ny anarako.",
-          "isCorrect": false,
-          "responseType": "boundary",
-          "conversationReaction": "respectful",
-          "continueConversation": true
-        },
-        {
-          "textFr": "Je ne sais pas épeler.",
-          "textMg": "Tsy mahay manoratra aho.",
-          "isCorrect": false,
-          "responseType": "unknown",
-          "conversationReaction": "encouraging",
-          "continueConversation": true
+          "textFr": "{firstName}.",
+          "textMg": "{firstName}.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "farewell"
         }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Parfait ! RAKOTO. C'est noté.",
-        "textMg": "Tena tsara! RAKOTO. Voasoratra.",
-        "audio": {
-          "ttsTextFr": "Parfait ! RAKOTO. C'est noté."
-        }
-      },
-      "feedbackOnFail": {
-        "textFr": "Presque ! {firstName}, épeler c'est dire chaque lettre : R, A, K, O, T, O.",
-        "textMg": "Tsia, manoratra dia milaza litera tsirairay: R, A, K, O, T, O.",
-        "audio": {
-          "ttsTextFr": "Presque ! {firstName}, épeler c'est dire chaque lettre : R, A, K, O, T, O."
-        }
-      },
-      "nextNodeOnSuccess": "ask_firstname",
-      "nextNodeOnMaxAttemptsReached": "ask_firstname",
-      "conversationFeedback": {
-        "respectful": {
-          "textFr": "Je comprends, c'est votre droit. On peut continuer sans ça.",
-          "textMg": "Azoko tsara izany, zonao izany. Afaka manohy isika."
-        },
-        "encouraging": {
-          "textFr": "Pas de souci, on va apprendre ensemble ! C'est en pratiquant qu'on progresse.",
-          "textMg": "Tsy maninona, hianatra miaraka isika! Amin'ny fanazaran-tena no hivoarana."
-        }
-      }
+      ]
     },
     {
-      "id": "ask_firstname",
+      "id": "farewell",
       "speaker": "teacher",
-      "textFr": "Très bien. Et votre prénom, pouvez-vous l'épeler ?",
-      "textMg": "Tena tsara. Ary ny anaranao fiantsoana, afaka manoratra azy ve ianao?",
+      "textFr": "Excellent {firstName} ! Vous connaissez les voyelles !",
+      "textMg": "Tonga lafatra {firstName}! Mahay ny zanatsoratra ianao!",
       "audio": {
-        "ttsTextFr": "Très bien. Et votre prénom, pouvez-vous l'épeler ?",
+        "ttsTextFr": "Excellent {firstName} ! Vous connaissez les voyelles !",
         "ttsRate": 0.9
       },
-      "nextNode": "user_firstname_spell"
-    },
-    {
-      "id": "user_firstname_spell",
-      "speaker": "user",
-      "responseOptions": [
-        {
-          "textFr": "Mon prénom est {firstName}.",
-          "textMg": "{firstName} no anarako fiantsoana.",
-          "isCorrect": true
-        },
-        {
-          "textFr": "Je n'ai pas de prénom.",
-          "textMg": "Tsy manan-anarana fiantsoana aho.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "C'est trop long.",
-          "textMg": "Lava loatra izany.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "Je préfère ne pas donner mon nom.",
-          "textMg": "Tsy tiako ny manome ny anarako.",
-          "isCorrect": false,
-          "responseType": "boundary",
-          "conversationReaction": "respectful",
-          "continueConversation": true
-        },
-        {
-          "textFr": "Je ne sais pas épeler.",
-          "textMg": "Tsy mahay manoratra aho.",
-          "isCorrect": false,
-          "responseType": "unknown",
-          "conversationReaction": "encouraging",
-          "continueConversation": true
-        }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Excellent ! Tout est noté. Merci {firstName} !",
-        "textMg": "Tena mahatalanjona! Voasoratra daholo. Misaotra {firstName}!",
-        "audio": {
-          "ttsTextFr": "Excellent ! Tout est noté. Merci {firstName} !"
-        }
-      },
-      "feedbackOnFail": {
-        "textFr": "Presque ! {firstName}, dites juste votre prénom.",
-        "textMg": "Tsia, lazao fotsiny ny anaranao fiantsoana.",
-        "audio": {
-          "ttsTextFr": "Presque ! {firstName}, dites juste votre prénom."
-        }
-      },
-      "nextNodeOnSuccess": "end",
-      "nextNodeOnMaxAttemptsReached": "end",
-      "conversationFeedback": {
-        "respectful": {
-          "textFr": "Je comprends, c'est votre droit. On peut continuer sans ça.",
-          "textMg": "Azoko tsara izany, zonao izany. Afaka manohy isika."
-        },
-        "encouraging": {
-          "textFr": "Pas de souci, on va apprendre ensemble ! C'est en pratiquant qu'on progresse.",
-          "textMg": "Tsy maninona, hianatra miaraka isika! Amin'ny fanazaran-tena no hivoarana."
-        }
-      }
+      "nextNode": "end"
     },
     {
       "id": "end",
-      "isEnd": true,
       "speaker": "teacher",
-      "textFr": "Merci {firstName} ! Bonne journée !",
-      "textMg": "Misaotra {firstName}! Mirary anao tontolo andro tsara!",
+      "isEnd": true,
+      "textFr": "Bravo ! Vous connaissez les voyelles en français !",
+      "textMg": "Arahabaina! Mahay ny zanatsoratra amin'ny frantsay ianao!",
       "audio": {
-        "ttsTextFr": "Merci {firstName} ! Bonne journée !",
+        "ttsTextFr": "Bravo ! Vous connaissez les voyelles en français !",
         "ttsRate": 0.9
       }
     }

@@ -1,14 +1,14 @@
 {
   "id": "body_01",
-  "titleFr": "Parler de son corps",
-  "titleMg": "Fitantarana ny vatana",
+  "titleFr": "Les parties du corps",
+  "titleMg": "Ny faritra amin'ny vatana",
   "level": "A0",
   "theme": "body",
   "participants": {
     "A": {
-      "name": "Médecin",
-      "avatar": "👨‍⚕️",
-      "gender": "male"
+      "name": "Docteur",
+      "avatar": "👩‍⚕️",
+      "gender": "female"
     },
     "B": {
       "name": "Vous",
@@ -20,10 +20,47 @@
     {
       "id": "start",
       "speaker": "teacher",
-      "textFr": "Bonjour {firstName}! Où avez-vous mal ?",
-      "textMg": "Manahoana! Aiza no marary?",
+      "textFr": "Bonjour {firstName} ! Je suis le docteur. Comment allez-vous ?",
+      "textMg": "Manao ahoana {firstName}! Izaho no dokotera. Manao ahoana ianao?",
       "audio": {
-        "ttsTextFr": "Bonjour {firstName}! Où avez-vous mal ?",
+        "ttsTextFr": "Bonjour {firstName} ! Je suis le docteur. Comment allez-vous ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_feel"
+    },
+    {
+      "id": "user_feel",
+      "speaker": "user",
+      "textFr": "Comment vous sentez-vous ?",
+      "textMg": "Manao ahoana ianao?",
+      "responseOptions": [
+        {
+          "textFr": "Bonjour docteur. J'ai mal.",
+          "textMg": "Manao ahoana dokotera. Marary aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_where"
+        },
+        {
+          "textFr": "Je ne me sens pas bien.",
+          "textMg": "Tsy salama aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_where"
+        },
+        {
+          "textFr": "Je suis malade.",
+          "textMg": "Marary aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_where"
+        }
+      ]
+    },
+    {
+      "id": "teacher_where",
+      "speaker": "teacher",
+      "textFr": "Où avez-vous mal ? Montrez-moi.",
+      "textMg": "Aiza no maharary anao? Asehoy ahy.",
+      "audio": {
+        "ttsTextFr": "Où avez-vous mal ? Montrez-moi.",
         "ttsRate": 0.9
       },
       "nextNode": "user_pain"
@@ -31,223 +68,265 @@
     {
       "id": "user_pain",
       "speaker": "user",
+      "textFr": "Où avez-vous mal ?",
+      "textMg": "Aiza no maharary anao?",
       "responseOptions": [
         {
           "textFr": "J'ai mal à la tête.",
           "textMg": "Marary ny lohako.",
-          "isCorrect": true
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_head"
         },
         {
           "textFr": "J'ai mal au ventre.",
           "textMg": "Marary ny kiboko.",
-          "isCorrect": true
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_stomach"
         },
         {
-          "textFr": "Je suis content.",
-          "textMg": "Faly aho.",
-          "isCorrect": false
+          "textFr": "J'ai mal au bras.",
+          "textMg": "Marary ny sandriko.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_arm"
         },
         {
-          "textFr": "J'ai très mal, c'est urgent.",
-          "textMg": "Marary be aho, maika izany.",
-          "isCorrect": false,
-          "responseType": "emergency",
-          "conversationReaction": "urgent",
-          "continueConversation": true
-        },
-        {
-          "textFr": "Ça fait longtemps que j'ai mal.",
-          "textMg": "Ela be aho no marary.",
-          "isCorrect": false,
-          "responseType": "emotional",
-          "conversationReaction": "empathetic",
-          "continueConversation": true
+          "textFr": "J'ai mal à la jambe.",
+          "textMg": "Marary ny tongotro.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_leg"
         }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Je vois. Depuis quand ?",
-        "textMg": "Azo. Hatramin'ny oviana?",
-        "audio": {
-          "ttsTextFr": "Je vois. Depuis quand ?"
-        }
-      },
-      "feedbackOnFail": {
-        "textFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : J'ai mal à...",
-        "textMg": "Tsia, tokony holazaina hoe: marary ny ...",
-        "audio": {
-          "ttsTextFr": "Pas tout à fait. Pour bien répondre, vous pouvez dire : J'ai mal à..."
-        }
-      },
-      "nextNodeOnSuccess": "ask_duration",
-      "nextNodeOnMaxAttemptsReached": "ask_duration",
-      "conversationFeedback": {
-        "urgent": {
-          "textFr": "Oh non, j'espère que ce n'est pas grave. Voulez-vous que j'appelle de l'aide ?",
-          "textMg": "Isy ratsy anie izany! Tianao ve ny hiantso fanampiana?"
-        },
-        "empathetic": {
-          "textFr": "Je suis désolé de l'entendre. J'espère que vous allez bientôt vous sentir mieux.",
-          "textMg": "Miala tsiny aho maheno izany. Antenaina ho sitrana haingana ianao."
-        }
-      }
+      ]
     },
     {
-      "id": "ask_duration",
+      "id": "teacher_head",
       "speaker": "teacher",
-      "textFr": "Depuis quand avez-vous mal {firstName}?",
-      "textMg": "Hatramin'ny oviana no marary ianao?",
+      "textFr": "Mal à la tête. Depuis quand ?",
+      "textMg": "Marary ny loha. Hatramin'ny oviana?",
       "audio": {
-        "ttsTextFr": "Depuis quand avez-vous mal ?",
+        "ttsTextFr": "Mal à la tête. Depuis quand ?",
         "ttsRate": 0.9
       },
-      "nextNode": "user_duration"
+      "nextNode": "user_since"
     },
     {
-      "id": "user_duration",
+      "id": "teacher_stomach",
+      "speaker": "teacher",
+      "textFr": "Mal au ventre. Qu'avez-vous mangé hier ?",
+      "textMg": "Marary ny kibo. Inona no nohaninao omaly?",
+      "audio": {
+        "ttsTextFr": "Mal au ventre. Qu'avez-vous mangé hier ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_ate"
+    },
+    {
+      "id": "teacher_arm",
+      "speaker": "teacher",
+      "textFr": "Mal au bras. Le bras droit ou le bras gauche ?",
+      "textMg": "Marary ny sandry. Ny sandry havanana sa ny sandry havia?",
+      "audio": {
+        "ttsTextFr": "Mal au bras. Le bras droit ou le bras gauche ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_which_arm"
+    },
+    {
+      "id": "teacher_leg",
+      "speaker": "teacher",
+      "textFr": "Mal à la jambe. Vous pouvez marcher ?",
+      "textMg": "Marary ny tongotra. Afaka mandeha ve ianao?",
+      "audio": {
+        "ttsTextFr": "Mal à la jambe. Vous pouvez marcher ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_walk"
+    },
+    {
+      "id": "user_since",
       "speaker": "user",
+      "textFr": "Depuis quand avez-vous mal ?",
+      "textMg": "Hatramin'ny oviana?",
       "responseOptions": [
         {
-          "textFr": "Depuis deux jours.",
-          "textMg": "Efa ho roa andro.",
-          "isCorrect": true
+          "textFr": "Depuis ce matin.",
+          "textMg": "Hatramin'ny maraina.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_medicine"
         },
         {
           "textFr": "Depuis hier.",
           "textMg": "Hatramin'ny omaly.",
-          "isCorrect": true
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_medicine"
         },
         {
-          "textFr": "Je suis médecin.",
-          "textMg": "Mpitsabo aho.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "J'ai très mal, c'est urgent.",
-          "textMg": "Marary be aho, maika izany.",
-          "isCorrect": false,
-          "responseType": "emergency",
-          "conversationReaction": "urgent",
-          "continueConversation": true
-        },
-        {
-          "textFr": "Ça fait longtemps que j'ai mal.",
-          "textMg": "Ela be aho no marary.",
-          "isCorrect": false,
-          "responseType": "emotional",
-          "conversationReaction": "empathetic",
-          "continueConversation": true
+          "textFr": "Depuis deux jours.",
+          "textMg": "Hatramin'ny roa andro.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_medicine"
         }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "D'accord. Prenez ce médicament.",
-        "textMg": "Mety. Mihinàna ity fanafody ity.",
-        "audio": {
-          "ttsTextFr": "D'accord. Prenez ce médicament."
-        }
-      },
-      "feedbackOnFail": {
-        "textFr": "Presque ! {firstName}, il faut dire : Depuis...",
-        "textMg": "Tsia, tokony holazaina hoe: Hatramin'ny ...",
-        "audio": {
-          "ttsTextFr": "Presque ! {firstName}, il faut dire : Depuis..."
-        }
-      },
-      "nextNodeOnSuccess": "user_thanks",
-      "nextNodeOnMaxAttemptsReached": "user_thanks",
-      "conversationFeedback": {
-        "urgent": {
-          "textFr": "Oh non, j'espère que ce n'est pas grave. Voulez-vous que j'appelle de l'aide ?",
-          "textMg": "Isy ratsy anie izany! Tianao ve ny hiantso fanampiana?"
-        },
-        "empathetic": {
-          "textFr": "Je suis désolé de l'entendre. J'espère que vous allez bientôt vous sentir mieux.",
-          "textMg": "Miala tsiny aho maheno izany. Antenaina ho sitrana haingana ianao."
-        }
-      }
+      ]
     },
     {
-      "id": "user_thanks",
-      "speaker": "teacher",
-      "textFr": "Prenez ce médicament trois fois par jour. Comment dites-vous merci ?",
-      "textMg": "Mihinàna ity fanafody ity intelo isan'andro. Ahoana no fisaoranao?",
-      "audio": {
-        "ttsTextFr": "Prenez ce médicament trois fois par jour. Comment dites-vous merci ?",
-        "ttsRate": 0.9
-      },
-      "nextNode": "user_thanks_answer"
-    },
-    {
-      "id": "user_thanks_answer",
+      "id": "user_ate",
       "speaker": "user",
+      "textFr": "Qu'avez-vous mangé ?",
+      "textMg": "Inona no nohaninao?",
       "responseOptions": [
         {
-          "textFr": "Merci beaucoup, docteur.",
-          "textMg": "Misaotra betsaka, dokotera.",
-          "isCorrect": true
+          "textFr": "J'ai mangé du riz.",
+          "textMg": "Nihinana vary aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_medicine"
         },
         {
-          "textFr": "Au revoir.",
-          "textMg": "Veloma.",
-          "isCorrect": false
+          "textFr": "J'ai mangé du poisson.",
+          "textMg": "Nihinana trondro aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_medicine"
         },
         {
-          "textFr": "Je suis malade.",
-          "textMg": "Marary aho.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "J'ai très mal, c'est urgent.",
-          "textMg": "Marary be aho, maika izany.",
-          "isCorrect": false,
-          "responseType": "emergency",
-          "conversationReaction": "urgent",
-          "continueConversation": true
-        },
-        {
-          "textFr": "Ça fait longtemps que j'ai mal.",
-          "textMg": "Ela be aho no marary.",
-          "isCorrect": false,
-          "responseType": "emotional",
-          "conversationReaction": "empathetic",
-          "continueConversation": true
+          "textFr": "Je ne sais pas.",
+          "textMg": "Tsy fantatro.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_medicine"
         }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Excellent ! Vous savez parler de votre santé !",
-        "textMg": "Tena tsara! Mahay mitantara ny fahasalamanao ianao!",
-        "audio": {
-          "ttsTextFr": "Excellent ! Vous savez parler de votre santé !"
+      ]
+    },
+    {
+      "id": "user_which_arm",
+      "speaker": "user",
+      "textFr": "Quel bras ?",
+      "textMg": "Sandry iza?",
+      "responseOptions": [
+        {
+          "textFr": "Le bras droit.",
+          "textMg": "Ny sandry havanana.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_medicine"
+        },
+        {
+          "textFr": "Le bras gauche.",
+          "textMg": "Ny sandry havia.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_medicine"
         }
+      ]
+    },
+    {
+      "id": "user_walk",
+      "speaker": "user",
+      "textFr": "Pouvez-vous marcher ?",
+      "textMg": "Afaka mandeha ve ianao?",
+      "responseOptions": [
+        {
+          "textFr": "Oui, un peu.",
+          "textMg": "Eny, kely.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_medicine"
+        },
+        {
+          "textFr": "Non, ça fait trop mal.",
+          "textMg": "Tsia, maharary loatra.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_medicine"
+        }
+      ]
+    },
+    {
+      "id": "teacher_medicine",
+      "speaker": "teacher",
+      "textFr": "D'accord. Prenez ce médicament. Reposez-vous bien.",
+      "textMg": "Eny ary. Sotrohy ity fanafody ity. Mialà sasatra tsara.",
+      "audio": {
+        "ttsTextFr": "D'accord. Prenez ce médicament. Reposez-vous bien.",
+        "ttsRate": 0.9
       },
-      "feedbackOnFail": {
-        "textFr": "Presque ! {firstName}, il faut dire : Merci beaucoup.",
-        "textMg": "Tsia, tokony holazaina hoe: Misaotra betsaka.",
-        "audio": {
-          "ttsTextFr": "Presque ! {firstName}, il faut dire : Merci beaucoup."
-        }
+      "nextNode": "teacher_body_quiz"
+    },
+    {
+      "id": "teacher_body_quiz",
+      "speaker": "teacher",
+      "textFr": "Petit quiz ! Montrez-moi votre main.",
+      "textMg": "Fanadinana kely! Asehoy ahy ny tananao.",
+      "audio": {
+        "ttsTextFr": "Petit quiz ! Montrez-moi votre main.",
+        "ttsRate": 0.9
       },
-      "nextNodeOnSuccess": "end",
-      "nextNodeOnMaxAttemptsReached": "end",
-      "conversationFeedback": {
-        "urgent": {
-          "textFr": "Oh non, j'espère que ce n'est pas grave. Voulez-vous que j'appelle de l'aide ?",
-          "textMg": "Isy ratsy anie izany! Tianao ve ny hiantso fanampiana?"
+      "nextNode": "user_hand"
+    },
+    {
+      "id": "user_hand",
+      "speaker": "user",
+      "textFr": "Montrez votre main.",
+      "textMg": "Asehoy ny tananao.",
+      "responseOptions": [
+        {
+          "textFr": "Voici ma main.",
+          "textMg": "Inty ny tanako.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_eyes"
         },
-        "empathetic": {
-          "textFr": "Je suis désolé de l'entendre. J'espère que vous allez bientôt vous sentir mieux.",
-          "textMg": "Miala tsiny aho maheno izany. Antenaina ho sitrana haingana ianao."
+        {
+          "textFr": "Ma main droite ou gauche ?",
+          "textMg": "Ny tanako havanana sa havia?",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_eyes"
         }
-      }
+      ]
+    },
+    {
+      "id": "teacher_eyes",
+      "speaker": "teacher",
+      "textFr": "Très bien ! Et fermez les yeux.",
+      "textMg": "Tsara! Ary akatony ny masonao.",
+      "audio": {
+        "ttsTextFr": "Très bien ! Et fermez les yeux.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_eyes"
+    },
+    {
+      "id": "user_eyes",
+      "speaker": "user",
+      "textFr": "Le docteur dit de fermer les yeux.",
+      "textMg": "Ny dokotera milaza hanakatona ny maso.",
+      "responseOptions": [
+        {
+          "textFr": "D'accord, je ferme les yeux.",
+          "textMg": "Eny ary, makatona ny masoko aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "farewell"
+        },
+        {
+          "textFr": "Mes yeux sont fermés.",
+          "textMg": "Mikombona ny masoko.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "farewell"
+        }
+      ]
+    },
+    {
+      "id": "farewell",
+      "speaker": "teacher",
+      "textFr": "Parfait {firstName} ! Vous connaissez les parties du corps. Bonne guérison !",
+      "textMg": "Tonga lafatra {firstName}! Mahay ny faritra amin'ny vatana ianao. Sitrano haingana!",
+      "audio": {
+        "ttsTextFr": "Parfait {firstName} ! Vous connaissez les parties du corps. Bonne guérison !",
+        "ttsRate": 0.9
+      },
+      "nextNode": "end"
     },
     {
       "id": "end",
-      "isEnd": true,
       "speaker": "teacher",
-      "textFr": "Bravo {firstName} ! Vous savez parler de votre corps en français !",
-      "textMg": "Arahabaina! Mahay mitantara ny momban'ny vatanao amin'ny teny frantsay ianao!"
+      "isEnd": true,
+      "textFr": "Bravo ! Vous savez parler de votre corps chez le docteur !",
+      "textMg": "Arahabaina! Mahay miresaka momba ny vataninao amin'ny dokotera ianao!",
+      "audio": {
+        "ttsTextFr": "Bravo ! Vous savez parler de votre corps chez le docteur !",
+        "ttsRate": 0.9
+      }
     }
   ]
 }

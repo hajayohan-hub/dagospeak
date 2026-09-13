@@ -1,14 +1,14 @@
 {
   "id": "numbers2_01",
-  "titleFr": "Acheter plusieurs articles",
-  "titleMg": "Mividy entana maro",
+  "titleFr": "Les grands nombres",
+  "titleMg": "Ny isa lehibe",
   "level": "A0",
-  "theme": "numbers",
+  "theme": "numbers2",
   "participants": {
     "A": {
-      "name": "Vendeur",
-      "avatar": "👨‍🌾",
-      "gender": "male"
+      "name": "Professeur",
+      "avatar": "👩‍🏫",
+      "gender": "female"
     },
     "B": {
       "name": "Vous",
@@ -20,261 +20,211 @@
     {
       "id": "start",
       "speaker": "teacher",
-      "textFr": "Bonjour {firstName} ! Vous voulez combien de pommes ?",
-      "textMg": "Manahoana {firstName}! Paoma firy no tianao?",
+      "textFr": "Bonjour {firstName} ! On continue avec les grands nombres.",
+      "textMg": "Manao ahoana {firstName}! Manohy amin'ny isa lehibe isika.",
       "audio": {
-        "ttsTextFr": "Bonjour {firstName} ! Vous voulez combien de pommes ?",
+        "ttsTextFr": "Bonjour {firstName} ! On continue avec les grands nombres.",
         "ttsRate": 0.9
       },
-      "nextNode": "user_apples"
+      "nextNode": "teacher_tens"
     },
     {
-      "id": "user_apples",
-      "speaker": "user",
-      "responseOptions": [
-        {
-          "textFr": "Douze pommes, s'il vous plaît.",
-          "textMg": "Paoma roa ambin'ny folo, azafady.",
-          "isCorrect": true
-        },
-        {
-          "textFr": "Les pommes sont bonnes.",
-          "textMg": "Tsara ny paoma.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "Merci beaucoup.",
-          "textMg": "Misaotra betsaka.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "Je n'aime pas les pommes.",
-          "textMg": "Tsy tiako ny paoma.",
-          "isCorrect": false,
-          "responseType": "emotional",
-          "conversationReaction": "understanding",
-          "continueConversation": true
-        },
-        {
-          "textFr": "Je suis allergique aux bananes.",
-          "textMg": "Allergique amin'ny akondro aho.",
-          "isCorrect": false,
-          "responseType": "health",
-          "conversationReaction": "empathetic",
-          "continueConversation": true
-        }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Parfait ! Douze pommes.",
-        "textMg": "Tena tsara! Paoma roa ambin'ny folo.",
-        "audio": {
-          "ttsTextFr": "Parfait ! Douze pommes."
-        }
-      },
-      "feedbackOnFail": {
-        "textFr": "Presque ! {firstName}, il faut dire : Douze pommes, s'il vous plaît.",
-        "textMg": "Tsia, tokony holazaina hoe: Paoma roa ambin'ny folo, azafady.",
-        "audio": {
-          "ttsTextFr": "Presque ! {firstName}, il faut dire : Douze pommes, s'il vous plaît."
-        }
-      },
-      "nextNodeOnSuccess": "ask_bananas",
-      "nextNodeOnMaxAttemptsReached": "ask_bananas",
-      "conversationFeedback": {
-        "understanding": {
-          "textFr": "Je comprends ! Chacun a ses goûts. Quel fruit préférez-vous ?",
-          "textMg": "Azoko! Samy manana ny safidiny ny olona. Inona ny voankazo tianao?"
-        },
-        "empathetic": {
-          "textFr": "Oh, je suis désolé ! C'est important de faire attention aux allergies.",
-          "textMg": "Miala tsiny aho! Zava-dehibe ny mitandrina amin'ny allergie."
-        }
-      }
-    },
-    {
-      "id": "ask_bananas",
+      "id": "teacher_tens",
       "speaker": "teacher",
-      "textFr": "D'accord. Et combien de bananes voulez-vous ?",
-      "textMg": "Tsara. Ary akondro firy no tianao?",
+      "textFr": "Écoutez bien : dix, vingt, trente, quarante, cinquante.",
+      "textMg": "Henoy tsara: folo, roapolo, telopolo, efapolo, dimampolo.",
       "audio": {
-        "ttsTextFr": "D'accord. Et combien de bananes voulez-vous ?",
+        "ttsTextFr": "Écoutez bien : dix, vingt, trente, quarante, cinquante.",
         "ttsRate": 0.9
       },
-      "nextNode": "user_bananas"
+      "nextNode": "user_tens"
     },
     {
-      "id": "user_bananas",
+      "id": "user_tens",
       "speaker": "user",
+      "textFr": "Répétez les dizaines.",
+      "textMg": "Avereno ny ampolony.",
       "responseOptions": [
         {
-          "textFr": "Quinze bananes, s'il vous plaît.",
-          "textMg": "Akondro dimy ambin'ny folo, azafady.",
-          "isCorrect": true
+          "textFr": "Dix, vingt, trente, quarante, cinquante.",
+          "textMg": "Folo, roapolo, telopolo, efapolo, dimampolo.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_tens_2"
         },
         {
-          "textFr": "Les bananes sont chères.",
-          "textMg": "Lafo ny akondro.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "Je n'aime pas les bananes.",
-          "textMg": "Tsy tiako ny akondro.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "Je n'aime pas les pommes.",
-          "textMg": "Tsy tiako ny paoma.",
-          "isCorrect": false,
-          "responseType": "emotional",
-          "conversationReaction": "understanding",
-          "continueConversation": true,
-          "nextNodeOnConversation": "ask_preference"
-        },
-        {
-          "textFr": "Je suis allergique aux bananes.",
-          "textMg": "Allergique amin'ny akondro aho.",
-          "isCorrect": false,
-          "responseType": "health",
-          "conversationReaction": "empathetic",
-          "continueConversation": true,
-          "nextNodeOnConversation": "avoid_bananas"
+          "textFr": "Folo, roapolo, telopolo.",
+          "textMg": "Folo, roapolo, telopolo.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_tens_2"
         }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Très bien {firstName} ! Bon choix.",
-        "textMg": "Tena tsara {firstName} ! Safidy tsara.",
-        "audio": {
-          "ttsTextFr": "Très bien ! Bon choix.",
-          "ttsRate": 0.9
-        }
-      },
-      "feedbackOnFail": {
-        "textFr": "Presque ! {firstName}, il faut dire : Quinze bananes, s'il vous plaît.",
-        "textMg": "Tsia, tokony holazaina hoe: Akondro dimy ambin'ny folo, azafady.",
-        "audio": {
-          "ttsTextFr": "Presque ! {firstName}, il faut dire : Quinze bananes, s'il vous plaît."
-        }
-      },
-      "nextNodeOnSuccess": "ask_total",
-      "nextNodeOnMaxAttemptsReached": "ask_total",
-      "conversationFeedback": {
-        "understanding": {
-          "textFr": "Je comprends ! Chacun a ses goûts. Quel fruit préférez-vous ?",
-          "textMg": "Azoko! Samy manana ny safidiny ny olona. Inona ny voankazo tianao?"
-        },
-        "empathetic": {
-          "textFr": "Oh, je suis désolé ! C'est important de faire attention aux allergies.",
-          "textMg": "Miala tsiny aho! Zava-dehibe ny mitandrina amin'ny allergie."
-        }
-      }
+      ]
     },
     {
-      "id": "avoid_bananas",
+      "id": "teacher_tens_2",
       "speaker": "teacher",
-      "textFr": "Ah, dans ce cas évitons les bananes {firstName} ! Voulez-vous des oranges ou des mangues à la place ?",
-      "textMg": "Raha izany, aoka aloha ny akondro {firstName}! Tianao ve ny voasary na manga?",
+      "textFr": "Et la suite : soixante, soixante-dix, quatre-vingts, quatre-vingt-dix, cent.",
+      "textMg": "Sy ny manaraka: enimpolo, fitopolo, valopolo, sivifolo, zato.",
       "audio": {
-        "ttsTextFr": "Ah, dans ce cas évitons les bananes ! Voulez-vous des oranges ou des mangues à la place ?",
+        "ttsTextFr": "Et la suite : soixante, soixante-dix, quatre-vingts, quatre-vingt-dix, cent.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_tens_2"
+    },
+    {
+      "id": "user_tens_2",
+      "speaker": "user",
+      "textFr": "Répétez la suite.",
+      "textMg": "Avereno ny manaraka.",
+      "responseOptions": [
+        {
+          "textFr": "Soixante, soixante-dix, quatre-vingts.",
+          "textMg": "Enimpolo, fitopolo, valopolo.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_price"
+        },
+        {
+          "textFr": "Quatre-vingts, quatre-vingt-dix, cent.",
+          "textMg": "Valopolo, sivifolo, zato.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_price"
+        }
+      ]
+    },
+    {
+      "id": "teacher_price",
+      "speaker": "teacher",
+      "textFr": "Au marché, on utilise les nombres pour les prix. Combien coûte un kilo de riz ?",
+      "textMg": "Eny an-tsena, ampiasaina ny isa ho an'ny vidiny. Ohatrinona ny kilao vary iray?",
+      "audio": {
+        "ttsTextFr": "Au marché, on utilise les nombres pour les prix. Combien coûte un kilo de riz ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_price_rice"
+    },
+    {
+      "id": "user_price_rice",
+      "speaker": "user",
+      "textFr": "Combien coûte le riz ?",
+      "textMg": "Ohatrinona ny vary?",
+      "responseOptions": [
+        {
+          "textFr": "Deux mille ariary.",
+          "textMg": "Roa arivo ariary.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_price_2"
+        },
+        {
+          "textFr": "Mille cinq cents ariary.",
+          "textMg": "Arivo dimanjato ariary.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_price_2"
+        },
+        {
+          "textFr": "Trois mille ariary.",
+          "textMg": "Telo arivo ariary.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_price_2"
+        }
+      ]
+    },
+    {
+      "id": "teacher_price_2",
+      "speaker": "teacher",
+      "textFr": "Très bien ! Et si vous achetez deux kilos ?",
+      "textMg": "Tsara! Ary raha mividy kilao roa ianao?",
+      "audio": {
+        "ttsTextFr": "Très bien ! Et si vous achetez deux kilos ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_price_double"
+    },
+    {
+      "id": "user_price_double",
+      "speaker": "user",
+      "textFr": "Combien pour deux kilos ?",
+      "textMg": "Ohatrinona ny kilao roa?",
+      "responseOptions": [
+        {
+          "textFr": "Quatre mille ariary.",
+          "textMg": "Efatra arivo ariary.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_phone"
+        },
+        {
+          "textFr": "Six mille ariary.",
+          "textMg": "Enina arivo ariary.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_phone"
+        },
+        {
+          "textFr": "Trois mille ariary.",
+          "textMg": "Telo arivo ariary.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_phone"
+        }
+      ]
+    },
+    {
+      "id": "teacher_phone",
+      "speaker": "teacher",
+      "textFr": "Bien ! Maintenant, donnez-moi votre numéro de téléphone.",
+      "textMg": "Tsara! Izao, omeo ahy ny laharana finday anao.",
+      "audio": {
+        "ttsTextFr": "Bien ! Maintenant, donnez-moi votre numéro de téléphone.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_phone"
+    },
+    {
+      "id": "user_phone",
+      "speaker": "user",
+      "textFr": "Quel est votre numéro ?",
+      "textMg": "Inona ny laharan-finday anao?",
+      "responseOptions": [
+        {
+          "textFr": "Mon numéro est le zéro trois quatre.",
+          "textMg": "Ny laharako dia aotra telo efatra.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_congrats"
+        },
+        {
+          "textFr": "C'est le zéro trois deux.",
+          "textMg": "Aotra telo roa.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_congrats"
+        }
+      ]
+    },
+    {
+      "id": "teacher_congrats",
+      "speaker": "teacher",
+      "textFr": "Excellent {firstName} ! Vous maîtrisez les grands nombres !",
+      "textMg": "Tonga lafatra {firstName}! Mahay ny isa lehibe ianao!",
+      "audio": {
+        "ttsTextFr": "Excellent {firstName} ! Vous maîtrisez les grands nombres !",
+        "ttsRate": 0.9
+      },
+      "nextNode": "farewell"
+    },
+    {
+      "id": "farewell",
+      "speaker": "teacher",
+      "textFr": "Au revoir ! Les nombres sont très utiles au quotidien.",
+      "textMg": "Veloma! Tena ilaina isan'andro ny isa.",
+      "audio": {
+        "ttsTextFr": "Au revoir ! Les nombres sont très utiles au quotidien.",
         "ttsRate": 0.9
       },
       "nextNode": "end"
-    },
-    {
-      "id": "ask_preference",
-      "speaker": "teacher",
-      "textFr": "Je comprends ! Chacun a ses goûts. Quel fruit préférez-vous alors ?",
-      "textMg": "Azoko! Samy manana ny safidiny. Inona ary ny voankazo tianao?",
-      "audio": {
-        "ttsTextFr": "Je comprends ! Chacun a ses goûts. Quel fruit préférez-vous alors ?",
-        "ttsRate": 0.9
-      },
-      "nextNode": "end"
-    },
-    {
-      "id": "ask_total",
-      "speaker": "teacher",
-      "textFr": "Ça fait vingt mille ariary au total. Vous payez comment ?",
-      "textMg": "Roapolo arivo ariary ny totaliny. Ahoana no fandoavanao?",
-      "audio": {
-        "ttsTextFr": "Ça fait vingt mille ariary au total. Vous payez comment ?",
-        "ttsRate": 0.9
-      },
-      "nextNode": "user_payment"
-    },
-    {
-      "id": "user_payment",
-      "speaker": "user",
-      "responseOptions": [
-        {
-          "textFr": "Je paie avec cinquante mille.",
-          "textMg": "Mandoa amin'ny dimampolo arivo aho.",
-          "isCorrect": true
-        },
-        {
-          "textFr": "C'est trop cher.",
-          "textMg": "Lafo loatra izany.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "Je n'ai pas d'argent.",
-          "textMg": "Tsy manam-bola aho.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "Je n'aime pas les pommes.",
-          "textMg": "Tsy tiako ny paoma.",
-          "isCorrect": false,
-          "responseType": "emotional",
-          "conversationReaction": "understanding",
-          "continueConversation": true
-        },
-        {
-          "textFr": "Je suis allergique aux bananes.",
-          "textMg": "Allergique amin'ny akondro aho.",
-          "isCorrect": false,
-          "responseType": "health",
-          "conversationReaction": "empathetic",
-          "continueConversation": true
-        }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Parfait ! Voici votre monnaie : trente mille ariary.",
-        "textMg": "Tena tsara! Inty ny ambim-bolanao: telopolo arivo ariary.",
-        "audio": {
-          "ttsTextFr": "Parfait ! Voici votre monnaie : trente mille ariary."
-        }
-      },
-      "feedbackOnFail": {
-        "textFr": "Presque ! {firstName}, il faut dire : Je paie avec cinquante mille.",
-        "textMg": "Tsia, tokony holazaina hoe: Mandoa amin'ny dimampolo arivo aho.",
-        "audio": {
-          "ttsTextFr": "Presque ! {firstName}, il faut dire : Je paie avec cinquante mille."
-        }
-      },
-      "nextNodeOnSuccess": "end",
-      "nextNodeOnMaxAttemptsReached": "end",
-      "conversationFeedback": {
-        "understanding": {
-          "textFr": "Je comprends ! Chacun a ses goûts. Quel fruit préférez-vous ?",
-          "textMg": "Azoko! Samy manana ny safidiny ny olona. Inona ny voankazo tianao?"
-        },
-        "empathetic": {
-          "textFr": "Oh, je suis désolé ! C'est important de faire attention aux allergies.",
-          "textMg": "Miala tsiny aho! Zava-dehibe ny mitandrina amin'ny allergie."
-        }
-      }
     },
     {
       "id": "end",
-      "isEnd": true,
       "speaker": "teacher",
-      "textFr": "Merci {firstName} ! À bientôt !",
-      "textMg": "Misaotra {firstName}! Mandra-pihaona indray!",
+      "isEnd": true,
+      "textFr": "Bravo ! Vous maîtrisez les grands nombres !",
+      "textMg": "Arahabaina! Mahay ny isa lehibe ianao!",
       "audio": {
-        "ttsTextFr": "Merci {firstName} ! À bientôt !",
+        "ttsTextFr": "Bravo ! Vous maîtrisez les grands nombres !",
         "ttsRate": 0.9
       }
     }

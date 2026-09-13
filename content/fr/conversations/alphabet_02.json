@@ -1,7 +1,7 @@
 {
   "id": "alphabet_02",
-  "titleFr": "Épeler des mots du quotidien",
-  "titleMg": "Manoratra teny isan'andro",
+  "titleFr": "Les consonnes",
+  "titleMg": "Ny renisoratra",
   "level": "A0",
   "theme": "alphabet",
   "participants": {
@@ -20,311 +20,260 @@
     {
       "id": "start",
       "speaker": "teacher",
-      "textFr": "Bonjour {firstName} ! Aujourd'hui, nous allons épeler des mots. Quel jour de la semaine contient la lettre W ?",
-      "textMg": "Manahoana {firstName}! Androany dia hanoratra teny isika. Iza amin'ny andro amin'ny herinandro no misy ny litera W?",
+      "textFr": "Bonjour {firstName} ! Après les voyelles, voici les consonnes.",
+      "textMg": "Manao ahoana {firstName}! Aorian'ny zanatsoratra, inty ny renisoratra.",
       "audio": {
-        "ttsTextFr": "Bonjour {firstName} ! Aujourd'hui, nous allons épeler des mots. Quel jour de la semaine contient la lettre W ?",
+        "ttsTextFr": "Bonjour {firstName} ! Après les voyelles, voici les consonnes.",
         "ttsRate": 0.9
       },
-      "nextNode": "user_weekend"
+      "nextNode": "teacher_b_d"
     },
     {
-      "id": "user_weekend",
-      "speaker": "user",
-      "responseOptions": [
-        {
-          "textFr": "Le week-end contient la lettre W.",
-          "textMg": "Ny faran'ny herinandro no misy ny litera W.",
-          "isCorrect": true
-        },
-        {
-          "textFr": "Le lundi contient la lettre W.",
-          "textMg": "Ny alatsinainy no misy ny litera W.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "Le vendredi contient la lettre W.",
-          "textMg": "Ny zoma no misy ny litera W.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "Je ne connais pas ce mot.",
-          "textMg": "Tsy fantatro io teny io.",
-          "isCorrect": false,
-          "responseType": "unknown",
-          "conversationReaction": "educational",
-          "continueConversation": true
-        },
-        {
-          "textFr": "C'est difficile pour moi.",
-          "textMg": "Sarotra ho ahy izany.",
-          "isCorrect": false,
-          "responseType": "emotional",
-          "conversationReaction": "supportive",
-          "continueConversation": true
-        }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Exactement ! Le week-end commence par la lettre W.",
-        "textMg": "Marina tokoa! Ny faran'ny herinandro dia manomboka amin'ny litera W.",
-        "audio": {
-          "ttsTextFr": "Exactement ! Le week-end commence par la lettre W."
-        }
-      },
-      "feedbackOnFail": {
-        "textFr": "Presque ! {firstName}, c'est le week-end qui contient la lettre W.",
-        "textMg": "Tsia, ny faran'ny herinandro no misy ny litera W.",
-        "audio": {
-          "ttsTextFr": "Presque ! {firstName}, c'est le week-end qui contient la lettre W."
-        }
-      },
-      "nextNodeOnSuccess": "ask_city",
-      "nextNodeOnMaxAttemptsReached": "ask_city",
-      "conversationFeedback": {
-        "educational": {
-          "textFr": "Pas de problème ! C'est un mot nouveau. On va l'apprendre ensemble.",
-          "textMg": "Tsy maninona! Teny vaovao io. Hianatra miaraka isika."
-        },
-        "supportive": {
-          "textFr": "Je comprends, l'alphabet peut être difficile. Vous progressez bien !",
-          "textMg": "Azoko, sarotra ny abidia. Fandrosoana tsara izao!"
-        }
-      }
-    },
-    {
-      "id": "ask_city",
+      "id": "teacher_b_d",
       "speaker": "teacher",
-      "textFr": "Très bien ! Maintenant, pouvez-vous épeler le nom de la capitale de Madagascar ?",
-      "textMg": "Tena tsara! Izao, afaka manoratra ny anaran'ny renivohitr'i Madagasikara ve ianao?",
+      "textFr": "Les premières consonnes : B comme Baba, D comme Dada.",
+      "textMg": "Ny renisoratra voalohany: B hoatry ny Baba, D hoatry ny Dada.",
       "audio": {
-        "ttsTextFr": "Très bien ! Maintenant, pouvez-vous épeler le nom de la capitale de Madagascar ?",
+        "ttsTextFr": "Les premières consonnes : B comme Baba, D comme Dada.",
         "ttsRate": 0.9
       },
-      "nextNode": "user_city_spell"
+      "nextNode": "user_b_d"
     },
     {
-      "id": "user_city_spell",
+      "id": "user_b_d",
       "speaker": "user",
+      "textFr": "Répétez B et D.",
+      "textMg": "Avereno B sy D.",
       "responseOptions": [
         {
-          "textFr": "A, N, T, A, N, A, N, A, R, I, V, E.",
-          "textMg": "A, N, T, A, N, A, N, A, R, I, V, E.",
-          "isCorrect": true
+          "textFr": "B comme Baba, D comme Dada.",
+          "textMg": "B hoatry ny Baba, D hoatry ny Dada.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_f_k"
         },
         {
-          "textFr": "Je ne connais pas la capitale.",
-          "textMg": "Tsy fantatro ny renivohitra.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "C'est trop difficile.",
-          "textMg": "Sarotra loatra izany.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "Je ne connais pas ce mot.",
-          "textMg": "Tsy fantatro io teny io.",
-          "isCorrect": false,
-          "responseType": "unknown",
-          "conversationReaction": "educational",
-          "continueConversation": true
-        },
-        {
-          "textFr": "C'est difficile pour moi.",
-          "textMg": "Sarotra ho ahy izany.",
-          "isCorrect": false,
-          "responseType": "emotional",
-          "conversationReaction": "supportive",
-          "continueConversation": true
+          "textFr": "B, D.",
+          "textMg": "B, D.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_f_k"
         }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Excellent ! Vous avez donné votre ville.",
-        "textMg": "Tena tsara! Nolazainao ny tanànanao.",
-        "audio": {
-          "ttsTextFr": "Excellent ! Vous avez donné votre ville."
-        }
-      },
-      "feedbackOnFail": {
-        "textFr": "Presque ! {firstName}, épeler c'est dire chaque lettre : A, N, T, A, N, A, N, A, R, I, V, E.",
-        "textMg": "Tsia, manoratra dia milaza litera tsirairay: A, N, T, A, N, A, N, A, R, I, V, E.",
-        "audio": {
-          "ttsTextFr": "Presque ! {firstName}, épeler c'est dire chaque lettre : A, N, T, A, N, A, N, A, R, I, V, E."
-        }
-      },
-      "nextNodeOnSuccess": "ask_animal",
-      "nextNodeOnMaxAttemptsReached": "ask_animal",
-      "conversationFeedback": {
-        "educational": {
-          "textFr": "Pas de problème ! C'est un mot nouveau. On va l'apprendre ensemble.",
-          "textMg": "Tsy maninona! Teny vaovao io. Hianatra miaraka isika."
-        },
-        "supportive": {
-          "textFr": "Je comprends, l'alphabet peut être difficile. Vous progressez bien !",
-          "textMg": "Azoko, sarotra ny abidia. Fandrosoana tsara izao!"
-        }
-      }
+      ]
     },
     {
-      "id": "ask_animal",
+      "id": "teacher_f_k",
       "speaker": "teacher",
-      "textFr": "Excellent ! Quel animal commence par la lettre Z ?",
-      "textMg": "Tena mahatalanjona! Iza amin'ny biby no manomboka amin'ny litera Z?",
+      "textFr": "Ensuite : F comme Faly, K comme Kely, L comme Lova.",
+      "textMg": "Manaraka: F hoatry ny Faly, K hoatry ny Kely, L hoatry ny Lova.",
       "audio": {
-        "ttsTextFr": "Excellent ! Quel animal commence par la lettre Z ?",
+        "ttsTextFr": "Ensuite : F comme Faly, K comme Kely, L comme Lova.",
         "ttsRate": 0.9
       },
-      "nextNode": "user_animal"
+      "nextNode": "user_f_k"
     },
     {
-      "id": "user_animal",
+      "id": "user_f_k",
       "speaker": "user",
+      "textFr": "Répétez F, K, L.",
+      "textMg": "Avereno F, K, L.",
       "responseOptions": [
         {
-          "textFr": "Le zèbre commence par la lettre Z.",
-          "textMg": "Ny zebra no manomboka amin'ny litera Z.",
-          "isCorrect": true
+          "textFr": "F comme Faly, K comme Kely, L comme Lova.",
+          "textMg": "F hoatry ny Faly, K hoatry ny Kely, L hoatry ny Lova.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_m_n"
         },
         {
-          "textFr": "Le lion commence par la lettre Z.",
-          "textMg": "Ny liona no manomboka amin'ny litera Z.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "L'éléphant commence par la lettre Z.",
-          "textMg": "Ny elefanta no manomboka amin'ny litera Z.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "Je ne connais pas ce mot.",
-          "textMg": "Tsy fantatro io teny io.",
-          "isCorrect": false,
-          "responseType": "unknown",
-          "conversationReaction": "educational",
-          "continueConversation": true
-        },
-        {
-          "textFr": "C'est difficile pour moi.",
-          "textMg": "Sarotra ho ahy izany.",
-          "isCorrect": false,
-          "responseType": "emotional",
-          "conversationReaction": "supportive",
-          "continueConversation": true
+          "textFr": "F, K, L.",
+          "textMg": "F, K, L.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_m_n"
         }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Bravo ! Le zèbre est un bel animal africain.",
-        "textMg": "Tena tsara! Ny zebra dia biby tsara tarehy avy any Afrika.",
-        "audio": {
-          "ttsTextFr": "Bravo ! Le zèbre est un bel animal africain."
-        }
-      },
-      "feedbackOnFail": {
-        "textFr": "Presque ! {firstName}, c'est le zèbre qui commence par la lettre Z.",
-        "textMg": "Tsia, ny zebra no manomboka amin'ny litera Z.",
-        "audio": {
-          "ttsTextFr": "Presque ! {firstName}, c'est le zèbre qui commence par la lettre Z."
-        }
-      },
-      "nextNodeOnSuccess": "ask_vehicle",
-      "nextNodeOnMaxAttemptsReached": "ask_vehicle",
-      "conversationFeedback": {
-        "educational": {
-          "textFr": "Pas de problème ! C'est un mot nouveau. On va l'apprendre ensemble.",
-          "textMg": "Tsy maninona! Teny vaovao io. Hianatra miaraka isika."
-        },
-        "supportive": {
-          "textFr": "Je comprends, l'alphabet peut être difficile. Vous progressez bien !",
-          "textMg": "Azoko, sarotra ny abidia. Fandrosoana tsara izao!"
-        }
-      }
+      ]
     },
     {
-      "id": "ask_vehicle",
+      "id": "teacher_m_n",
       "speaker": "teacher",
-      "textFr": "Dernière question. Quel moyen de transport commence par la lettre V ?",
-      "textMg": "Fanontaniana farany. Iza amin'ny fitaterana no manomboka amin'ny litera V?",
+      "textFr": "M comme Mama, N comme Neny, c'est maman en malgache.",
+      "textMg": "M hoatry ny Mama, N hoatry ny Neny.",
       "audio": {
-        "ttsTextFr": "Dernière question. Quel moyen de transport commence par la lettre V ?",
+        "ttsTextFr": "M comme Mama, N comme Neny, c'est maman en malgache.",
         "ttsRate": 0.9
       },
-      "nextNode": "user_vehicle"
+      "nextNode": "user_m_n"
     },
     {
-      "id": "user_vehicle",
+      "id": "user_m_n",
       "speaker": "user",
+      "textFr": "Répétez M et N.",
+      "textMg": "Avereno M sy N.",
       "responseOptions": [
         {
-          "textFr": "La voiture commence par la lettre V.",
-          "textMg": "Ny fiara no manomboka amin'ny litera V.",
-          "isCorrect": true
+          "textFr": "M comme Mama, N comme Neny.",
+          "textMg": "M hoatry ny Mama, N hoatry ny Neny.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_r_s_t"
         },
         {
-          "textFr": "Le bateau commence par la lettre V.",
-          "textMg": "Ny sambo no manomboka amin'ny litera V.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "L'avion commence par la lettre V.",
-          "textMg": "Ny fiaramanidina no manomboka amin'ny litera V.",
-          "isCorrect": false
-        },
-        {
-          "textFr": "Je ne connais pas ce mot.",
-          "textMg": "Tsy fantatro io teny io.",
-          "isCorrect": false,
-          "responseType": "unknown",
-          "conversationReaction": "educational",
-          "continueConversation": true
-        },
-        {
-          "textFr": "C'est difficile pour moi.",
-          "textMg": "Sarotra ho ahy izany.",
-          "isCorrect": false,
-          "responseType": "emotional",
-          "conversationReaction": "supportive",
-          "continueConversation": true
+          "textFr": "M, N.",
+          "textMg": "M, N.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_r_s_t"
         }
-      ],
-      "maxAttempts": 2,
-      "feedbackOnSuccess": {
-        "textFr": "Parfait {firstName} ! Vous maîtrisez maintenant les lettres de N à Z.",
-        "textMg": "Tena mahatalanjona {firstName}! Mahay ny litera N ka hatramin'ny Z ianao izao.",
-        "audio": {
-          "ttsTextFr": "Parfait {firstName} ! Vous maîtrisez maintenant les lettres de N à Z."
-        }
+      ]
+    },
+    {
+      "id": "teacher_r_s_t",
+      "speaker": "teacher",
+      "textFr": "R comme Rano, S comme Soa, T comme Tiana. Rano, c'est l'eau.",
+      "textMg": "R hoatry ny Rano, S hoatry ny Soa, T hoatry ny Tiana. Rano dia rano.",
+      "audio": {
+        "ttsTextFr": "R comme Rano, S comme Soa, T comme Tiana. Rano, c'est l'eau.",
+        "ttsRate": 0.9
       },
-      "feedbackOnFail": {
-        "textFr": "Presque ! {firstName}, c'est la voiture qui commence par la lettre V.",
-        "textMg": "Tsia, ny fiara no manomboka amin'ny litera V.",
-        "audio": {
-          "ttsTextFr": "Presque ! {firstName}, c'est la voiture qui commence par la lettre V."
-        }
-      },
-      "nextNodeOnSuccess": "end",
-      "nextNodeOnMaxAttemptsReached": "end",
-      "conversationFeedback": {
-        "educational": {
-          "textFr": "Pas de problème ! C'est un mot nouveau. On va l'apprendre ensemble.",
-          "textMg": "Tsy maninona! Teny vaovao io. Hianatra miaraka isika."
+      "nextNode": "user_r_s_t"
+    },
+    {
+      "id": "user_r_s_t",
+      "speaker": "user",
+      "textFr": "Répétez R, S, T.",
+      "textMg": "Avereno R, S, T.",
+      "responseOptions": [
+        {
+          "textFr": "R comme Rano, S comme Soa, T comme Tiana.",
+          "textMg": "R hoatry ny Rano, S hoatry ny Soa, T hoatry ny Tiana.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_v_z"
         },
-        "supportive": {
-          "textFr": "Je comprends, l'alphabet peut être difficile. Vous progressez bien !",
-          "textMg": "Azoko, sarotra ny abidia. Fandrosoana tsara izao!"
+        {
+          "textFr": "R, S, T.",
+          "textMg": "R, S, T.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_v_z"
         }
-      }
+      ]
+    },
+    {
+      "id": "teacher_v_z",
+      "speaker": "teacher",
+      "textFr": "Et enfin : V comme Vary, Z comme Zaza. Vary, c'est le riz.",
+      "textMg": "Ary farany: V hoatry ny Vary, Z hoatry ny Zaza. Vary dia vary.",
+      "audio": {
+        "ttsTextFr": "Et enfin : V comme Vary, Z comme Zaza. Vary, c'est le riz.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_v_z"
+    },
+    {
+      "id": "user_v_z",
+      "speaker": "user",
+      "textFr": "Répétez V et Z.",
+      "textMg": "Avereno V sy Z.",
+      "responseOptions": [
+        {
+          "textFr": "V comme Vary, Z comme Zaza.",
+          "textMg": "V hoatry ny Vary, Z hoatry ny Zaza.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_quiz"
+        },
+        {
+          "textFr": "V, Z.",
+          "textMg": "V, Z.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_quiz"
+        }
+      ]
+    },
+    {
+      "id": "teacher_quiz",
+      "speaker": "teacher",
+      "textFr": "Quiz ! Quel son fait la lettre M ?",
+      "textMg": "Fanadinana! Feo inona ny litera M?",
+      "audio": {
+        "ttsTextFr": "Quiz ! Quel son fait la lettre M ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_quiz_m"
+    },
+    {
+      "id": "user_quiz_m",
+      "speaker": "user",
+      "textFr": "Quel son fait M ?",
+      "textMg": "Feo inona ny M?",
+      "responseOptions": [
+        {
+          "textFr": "M comme Mama.",
+          "textMg": "M hoatry ny Mama.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_quiz_2"
+        },
+        {
+          "textFr": "Ma.",
+          "textMg": "Ma.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_quiz_2"
+        },
+        {
+          "textFr": "M comme Kely.",
+          "textMg": "M hoatry ny Kely.",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, K comme Kely. M comme Mama.",
+            "mg": "Tsia, K hoatry ny Kely. M hoatry ny Mama."
+          },
+          "nextNodeOnFail": "user_quiz_m"
+        }
+      ]
+    },
+    {
+      "id": "teacher_quiz_2",
+      "speaker": "teacher",
+      "textFr": "Et la lettre S ?",
+      "textMg": "Ary ny litera S?",
+      "audio": {
+        "ttsTextFr": "Et la lettre S ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_quiz_s"
+    },
+    {
+      "id": "user_quiz_s",
+      "speaker": "user",
+      "textFr": "Quel son fait S ?",
+      "textMg": "Feo inona ny S?",
+      "responseOptions": [
+        {
+          "textFr": "S comme Soa.",
+          "textMg": "S hoatry ny Soa.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "farewell"
+        },
+        {
+          "textFr": "Sa.",
+          "textMg": "Sa.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "farewell"
+        }
+      ]
+    },
+    {
+      "id": "farewell",
+      "speaker": "teacher",
+      "textFr": "Excellent {firstName} ! Vous connaissez les consonnes malgaches !",
+      "textMg": "Tonga lafatra {firstName}! Mahay ny renisoratra malagasy ianao!",
+      "audio": {
+        "ttsTextFr": "Excellent {firstName} ! Vous connaissez les consonnes malgaches !",
+        "ttsRate": 0.9
+      },
+      "nextNode": "end"
     },
     {
       "id": "end",
-      "isEnd": true,
       "speaker": "teacher",
-      "textFr": "Félicitations {firstName} ! Vous connaissez maintenant tout l'alphabet français !",
-      "textMg": "Arahaba tontolo andro tsara {firstName}! Fantatrao izao ny abidia frantsay rehetra!",
+      "isEnd": true,
+      "textFr": "Bravo ! Vous connaissez les consonnes !",
+      "textMg": "Arahabaina! Mahay ny renisoratra ianao!",
       "audio": {
-        "ttsTextFr": "Félicitations {firstName} ! Vous connaissez maintenant tout l'alphabet français !",
+        "ttsTextFr": "Bravo ! Vous connaissez les consonnes !",
         "ttsRate": 0.9
       }
     }
