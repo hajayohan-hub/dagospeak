@@ -7085,6 +7085,9 @@ function scrollConversationToBottom() {
 // ═══════════════════════════════════════════════════════════
 
 async function renderConversation() {
+  // ✅ V5.37: Capturer l'instance pour invalider les anciens callbacks
+  const currentInstanceId = ++conversationLiveInstanceId;
+  console.log('[ConversationLive] 🔒 Instance ' + currentInstanceId + ' démarrée');
   const main = document.getElementById('app');
   main.innerHTML = getSkeletonThemesList();
   // ✅ Afficher le Teacher Avatar flottant pour guider l'utilisateur
@@ -7140,17 +7143,30 @@ async function renderConversation() {
       renderNode();
     }
     
-    // ✅ V5.28: Fonction centralisée pour planifier une transition
+    // ✅ V5.37: Fonction centralisée pour planifier une transition (renforcée)
     function scheduleTransition(nextNodeId, delay = 800) {
+      const instanceId = conversationLiveInstanceId;
       const generation = navigationGeneration;
       
+      if (!nextNodeId) {
+        console.warn('[Conversation] ⚠️ scheduleTransition: nextNodeId null/undefined, ignoré');
+        return;
+      }
+      
+      console.log('[Conversation] 🔒 Transition programmée:', { nextNodeId: nextNodeId, delay: delay, instanceId: instanceId, generation: generation });
+      
       setTimeout(() => {
-        // Vérifier que cette transition est encore valide
+        if (instanceId !== conversationLiveInstanceId) {
+          console.log('[Conversation] ⏭️ Transition obsolète ignorée (instance mismatch)');
+          return;
+        }
+        
         if (generation !== navigationGeneration) {
           console.log('[Conversation] ⏭️ Transition obsolète ignorée (generation mismatch)');
           return;
         }
         
+        console.log('[Conversation] 🚀 Transition exécutée vers', nextNodeId);
         goToNode(nextNodeId);
       }, delay);
     }
@@ -7385,13 +7401,8 @@ async function renderConversation() {
               if (!nodeTtsCompleted) {
                 console.warn('[Conversation] ⚠️ TTS timeout (15s), progression forcée vers', node.nextNode);
                 nodeTtsCompleted = true;
-                // ✅ V5.21: Tracker l'historique avant changement
-                if (currentNodeId !== node.nextNode) {
-                  nodeHistory.push(node.nextNode);
-                  if (nodeHistory.length > 10) nodeHistory.shift(); // Limiter à 10 nœuds
-                }
-                currentNodeId = node.nextNode;
-                renderNode();
+                // ✅ V5.37: Transition centralisée via scheduleTransition (timeout 15s)
+                scheduleTransition(node.nextNode, 0);
               }
             }, 15000);
           } else {
@@ -7419,16 +7430,8 @@ async function renderConversation() {
             if (window.teacherAvatarSVG) {
               window.teacherAvatarSVG.stopSpeaking();
             }
-            // ✅ Auto-progression après délai pédagogique
-            setTimeout(() => {
-              // ✅ V5.21: Tracker l'historique avant changement
-              if (currentNodeId !== node.nextNode) {
-                nodeHistory.push(node.nextNode);
-                if (nodeHistory.length > 10) nodeHistory.shift(); // Limiter à 10 nœuds
-              }
-              currentNodeId = node.nextNode;
-              renderNode();
-            }, 800);
+            // ✅ V5.37: Transition centralisée via scheduleTransition (Teacher onEnd)
+            scheduleTransition(node.nextNode, 800);
           },
           onError: () => {
             if (nodeTtsCompleted) {
@@ -7442,16 +7445,8 @@ async function renderConversation() {
             if (window.teacherAvatarSVG) {
               window.teacherAvatarSVG.stopSpeaking();
             }
-            // ✅ Auto-progression même en cas d'erreur
-            setTimeout(() => {
-              // ✅ V5.21: Tracker l'historique avant changement
-              if (currentNodeId !== node.nextNode) {
-                nodeHistory.push(node.nextNode);
-                if (nodeHistory.length > 10) nodeHistory.shift(); // Limiter à 10 nœuds
-              }
-              currentNodeId = node.nextNode;
-              renderNode();
-            }, 800);
+            // ✅ V5.37: Transition centralisée via scheduleTransition (Teacher onError)
+            scheduleTransition(node.nextNode, 800);
           }
         });
 
@@ -8159,37 +8154,13 @@ function captureUserResponse(nodeId, selectedOption) {
                                   },
                                   onEnd: () => {
                                     if (window.teacherAvatarSVG) window.teacherAvatarSVG.stopSpeaking();
-                                    console.log('[STT] ✅ TTS feedback succès terminé, progression vers', selectedOption?.nextNodeOnSuccess);
-                                    // ✅ V5.21: Tracker l'historique avant changement
-                                    if (currentNodeId !== selectedOption?.nextNodeOnSuccess) {
-                                      nodeHistory.push(selectedOption?.nextNodeOnSuccess);
-                                      if (nodeHistory.length > 10) nodeHistory.shift(); // Limiter à 10 nœuds
-                                    }
-                                    currentNodeId = selectedOption?.nextNodeOnSuccess;
-                                    setTimeout(() => {
-                                      if (currentInstanceId !== conversationLiveInstanceId) {
-                                        console.log('[ConversationLive] ⏭️ Callback obsolète ignoré');
-                                        return;
-                                      }
-                                      renderNode();
-                                    }, 300);
+                                    // ✅ V5.37: Transition centralisée via scheduleTransition
+                                    scheduleTransition(selectedOption?.nextNodeOnSuccess, 300);
                                   },
                                   onError: () => {
                                     if (window.teacherAvatarSVG) window.teacherAvatarSVG.stopSpeaking();
-                                    console.warn('[STT] ⚠️ Erreur TTS, progression quand même vers', selectedOption?.nextNodeOnSuccess);
-                                    // ✅ V5.21: Tracker l'historique avant changement
-                                    if (currentNodeId !== selectedOption?.nextNodeOnSuccess) {
-                                      nodeHistory.push(selectedOption?.nextNodeOnSuccess);
-                                      if (nodeHistory.length > 10) nodeHistory.shift(); // Limiter à 10 nœuds
-                                    }
-                                    currentNodeId = selectedOption?.nextNodeOnSuccess;
-                                    setTimeout(() => {
-                                      if (currentInstanceId !== conversationLiveInstanceId) {
-                                        console.log('[ConversationLive] ⏭️ Callback obsolète ignoré');
-                                        return;
-                                      }
-                                      renderNode();
-                                    }, 300);
+                                    // ✅ V5.37: Transition centralisée via scheduleTransition
+                                    scheduleTransition(selectedOption?.nextNodeOnSuccess, 300);
                                   }
                                 });
                               }
@@ -8268,21 +8239,15 @@ function captureUserResponse(nodeId, selectedOption) {
                       `;
 
                       document.getElementById('btn-continue').addEventListener('click', () => {
-                        // ✅ V5.36: Déterminer la destination avec validation stricte
-                        const nextNodeId = selected?.nextNodeOnSuccess || selectedOption?.nextNodeOnSuccess;
-                        
-                        if (!nextNodeId) {
-                          console.error('[Conversation] ❌ btn-continue: Aucune destination disponible', {
-                            nodeId: node.id,
-                            selected: selected?.textFr,
-                            selectedOption: selectedOption?.textFr
-                          });
-                          return;
+                        // ✅ V5.21: Tracker l'historique avant changement
+                        if (currentNodeId !== selected?.nextNodeOnSuccess || selectedOption?.nextNodeOnSuccess) {
+                          nodeHistory.push(selected?.nextNodeOnSuccess || selectedOption?.nextNodeOnSuccess);
+                          if (nodeHistory.length > 10) nodeHistory.shift(); // Limiter à 10 nœuds
                         }
-                        
-                        console.log('[Conversation] 🚀 btn-continue: progression vers', nextNodeId);
-                        scheduleTransition(nextNodeId, 0);
+                        currentNodeId = selected?.nextNodeOnSuccess || selectedOption?.nextNodeOnSuccess;
+                        renderNode();
                       });
+                    } else {
                       // Mode réel : feedback normal
                       handleUserResponse(idx, node, attempts, feedback);
                     }
