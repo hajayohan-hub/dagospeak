@@ -6,7 +6,7 @@
 // ⚠️ Change ce numéro à CHAQUE déploiement — c'est ce qui déclenche
 // la détection de mise à jour (le navigateur compare ce fichier octet
 // par octet à la version active).
-const CACHE_VERSION = 'v69';
+const CACHE_VERSION = 'v70';
 const CACHE_NAME = `dagospeak-${CACHE_VERSION}`;
 
 const STATIC_ASSETS = [
@@ -162,7 +162,7 @@ self.addEventListener('fetch', (event) => {
             }
             return response;
           })
-          .catch(() => cached); // hors-ligne → on retombe sur le cache
+          .catch(() => cached || new Response(JSON.stringify({error: "Offline - No cache available"}), { status: 503, headers: {"Content-Type": "application/json"} })); // hors-ligne → cache ou Response 503
         return cached || networkFetch;
       })
     );
