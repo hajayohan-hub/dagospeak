@@ -12,8 +12,8 @@
       "textFr": "Bonjour ! Bienvenue au marché. Je suis la vendeuse de fruits.",
       "textMg": "Manao ahoana! Tongasoa eto an-tsena. Izaho no mpivarotra voankazo.",
       "audio": {
-        "ttsText": "Bonjour! Bienvenue au marché. Je suis la vendeuse de fruits.",
-        "ttsRate": 0.9
+        "ttsRate": 0.9,
+        "ttsTextFr": "Bonjour! Bienvenue au marché. Je suis la vendeuse de fruits."
       },
       "nextNode": "greeting_response"
     },
@@ -47,8 +47,8 @@
       "textFr": "Très bien ! Aujourd'hui j'ai des bananes, des pommes, des oranges et des mangues. Que voulez-vous acheter ?",
       "textMg": "Tsara! Androany dia misy akondro, paoma, voasary ary manga. Inona no tianao hovidina?",
       "audio": {
-        "ttsText": "Très bien! Aujourd'hui j'ai des bananes, des pommes, des oranges et des mangues. Que voulez-vous acheter?",
-        "ttsRate": 0.9
+        "ttsRate": 0.9,
+        "ttsTextFr": "Très bien! Aujourd'hui j'ai des bananes, des pommes, des oranges et des mangues. Que voulez-vous acheter?"
       },
       "nextNode": "user_choice"
     },
@@ -90,8 +90,8 @@
       "textFr": "Excellente idée ! Les bananes coûtent 2000 ariary le kilo. Combien de kilos voulez-vous ?",
       "textMg": "Tsara be ny hevitra! 2000 ariary ny kilao akondro. Firy kilao no tianao?",
       "audio": {
-        "ttsText": "Excellente idée! Les bananes coûtent 2000 ariary le kilo. Combien de kilos voulez-vous?",
-        "ttsRate": 0.9
+        "ttsRate": 0.9,
+        "ttsTextFr": "Excellente idée! Les bananes coûtent 2000 ariary le kilo. Combien de kilos voulez-vous?"
       },
       "nextNode": "quantity_banana"
     },
@@ -101,8 +101,8 @@
       "textFr": "Bon choix ! Les pommes coûtent 5000 ariary le kilo. Combien voulez-vous ?",
       "textMg": "Safidy tsara! 5000 ariary ny kilao paoma. Firy no tianao?",
       "audio": {
-        "ttsText": "Bon choix! Les pommes coûtent 5000 ariary le kilo. Combien voulez-vous?",
-        "ttsRate": 0.9
+        "ttsRate": 0.9,
+        "ttsTextFr": "Bon choix! Les pommes coûtent 5000 ariary le kilo. Combien voulez-vous?"
       },
       "nextNode": "quantity_pomme"
     },
@@ -112,8 +112,8 @@
       "textFr": "Très bon choix ! Les oranges coûtent 3000 ariary le kilo. Quelle quantité ?",
       "textMg": "Safidy tsara be! 3000 ariary ny kilao voasary. Firy no tianao?",
       "audio": {
-        "ttsText": "Très bon choix! Les oranges coûtent 3000 ariary le kilo. Quelle quantité?",
-        "ttsRate": 0.9
+        "ttsRate": 0.9,
+        "ttsTextFr": "Très bon choix! Les oranges coûtent 3000 ariary le kilo. Quelle quantité?"
       },
       "nextNode": "quantity_orange"
     },
@@ -123,8 +123,8 @@
       "textFr": "Parfait ! Les mangues coûtent 4000 ariary le kilo. Combien de kilos ?",
       "textMg": "Tonga lafatra! 4000 ariary ny kilao manga. Firy kilao?",
       "audio": {
-        "ttsText": "Parfait! Les mangues coûtent 4000 ariary le kilo. Combien de kilos?",
-        "ttsRate": 0.9
+        "ttsRate": 0.9,
+        "ttsTextFr": "Parfait! Les mangues coûtent 4000 ariary le kilo. Combien de kilos?"
       },
       "nextNode": "quantity_mangue"
     },
@@ -220,8 +220,8 @@
       "textFr": "Parfait ! Un kilo de bananes, ça fait 2000 ariary. Voulez-vous autre chose ?",
       "textMg": "Tonga lafatra! Kilao iray akondro dia 2000 ariary. Mbola te-hividy zavatra hafa ve ianao?",
       "audio": {
-        "ttsText": "Parfait! Un kilo de bananes, ça fait 2000 ariary. Voulez-vous autre chose?",
-        "ttsRate": 0.9
+        "ttsRate": 0.9,
+        "ttsTextFr": "Parfait! Un kilo de bananes, ça fait 2000 ariary. Voulez-vous autre chose?"
       },
       "nextNode": "ask_more"
     },
@@ -231,8 +231,8 @@
       "textFr": "Deux kilos de bananes, ça fait 4000 ariary. Autre chose ?",
       "textMg": "Kilao roa akondro dia 4000 ariary. Zavatra hafa?",
       "audio": {
-        "ttsText": "Deux kilos de bananes, ça fait 4000 ariary. Autre chose?",
-        "ttsRate": 0.9
+        "ttsRate": 0.9,
+        "ttsTextFr": "Deux kilos de bananes, ça fait 4000 ariary. Autre chose?"
       },
       "nextNode": "ask_more"
     },
@@ -242,8 +242,8 @@
       "textFr": "Un demi-kilo, ça fait 1000 ariary. Voulez-vous prendre autre chose ?",
       "textMg": "Antsasaka kilao dia 1000 ariary. Mbola te-hividy zavatra hafa ve?",
       "audio": {
-        "ttsText": "Un demi-kilo, ça fait 1000 ariary. Voulez-vous prendre autre chose?",
-        "ttsRate": 0.9
+        "ttsRate": 0.9,
+        "ttsTextFr": "Un demi-kilo, ça fait 1000 ariary. Voulez-vous prendre autre chose?"
       },
       "nextNode": "ask_more"
     },
@@ -253,8 +253,8 @@
       "textFr": "Un kilo de pommes, ça fait 5000 ariary. Autre chose ?",
       "textMg": "Kilao iray paoma dia 5000 ariary. Zavatra hafa?",
       "audio": {
-        "ttsText": "Un kilo de pommes, ça fait 5000 ariary. Autre chose?",
-        "ttsRate": 0.9
+        "ttsRate": 0.9,
+        "ttsTextFr": "Un kilo de pommes, ça fait 5000 ariary. Autre chose?"
       },
       "nextNode": "ask_more"
     },
@@ -264,8 +264,8 @@
       "textFr": "Deux kilos de pommes, ça fait 10000 ariary. Voulez-vous autre chose ?",
       "textMg": "Kilao roa paoma dia 10000 ariary. Mbola te-hividy zavatra hafa ve?",
       "audio": {
-        "ttsText": "Deux kilos de pommes, ça fait 10000 ariary. Voulez-vous autre chose?",
-        "ttsRate": 0.9
+        "ttsRate": 0.9,
+        "ttsTextFr": "Deux kilos de pommes, ça fait 10000 ariary. Voulez-vous autre chose?"
       },
       "nextNode": "ask_more"
     },
@@ -275,8 +275,8 @@
       "textFr": "Un kilo d'oranges, ça fait 3000 ariary. Autre chose ?",
       "textMg": "Kilao iray voasary dia 3000 ariary. Zavatra hafa?",
       "audio": {
-        "ttsText": "Un kilo d'oranges, ça fait 3000 ariary. Autre chose?",
-        "ttsRate": 0.9
+        "ttsRate": 0.9,
+        "ttsTextFr": "Un kilo d'oranges, ça fait 3000 ariary. Autre chose?"
       },
       "nextNode": "ask_more"
     },
@@ -286,8 +286,8 @@
       "textFr": "Deux kilos d'oranges, ça fait 6000 ariary. Voulez-vous autre chose ?",
       "textMg": "Kilao roa voasary dia 6000 ariary. Mbola te-hividy zavatra hafa ve?",
       "audio": {
-        "ttsText": "Deux kilos d'oranges, ça fait 6000 ariary. Voulez-vous autre chose?",
-        "ttsRate": 0.9
+        "ttsRate": 0.9,
+        "ttsTextFr": "Deux kilos d'oranges, ça fait 6000 ariary. Voulez-vous autre chose?"
       },
       "nextNode": "ask_more"
     },
@@ -297,8 +297,8 @@
       "textFr": "Un kilo de mangues, ça fait 4000 ariary. Autre chose ?",
       "textMg": "Kilao iray manga dia 4000 ariary. Zavatra hafa?",
       "audio": {
-        "ttsText": "Un kilo de mangues, ça fait 4000 ariary. Autre chose?",
-        "ttsRate": 0.9
+        "ttsRate": 0.9,
+        "ttsTextFr": "Un kilo de mangues, ça fait 4000 ariary. Autre chose?"
       },
       "nextNode": "ask_more"
     },
@@ -308,8 +308,8 @@
       "textFr": "Trois kilos de mangues, ça fait 12000 ariary. Voulez-vous autre chose ?",
       "textMg": "Kilao telo manga dia 12000 ariary. Mbola te-hividy zavatra hafa ve?",
       "audio": {
-        "ttsText": "Trois kilos de mangues, ça fait 12000 ariary. Voulez-vous autre chose?",
-        "ttsRate": 0.9
+        "ttsRate": 0.9,
+        "ttsTextFr": "Trois kilos de mangues, ça fait 12000 ariary. Voulez-vous autre chose?"
       },
       "nextNode": "ask_more"
     },
@@ -345,8 +345,8 @@
       "textFr": "Très bien ! Merci beaucoup et bonne journée ! Au revoir !",
       "textMg": "Tsara be! Misaotra betsaka ary mirary tontolo andro tsara! Veloma!",
       "audio": {
-        "ttsText": "Très bien! Merci beaucoup et bonne journée! Au revoir!",
-        "ttsRate": 0.9
+        "ttsRate": 0.9,
+        "ttsTextFr": "Très bien! Merci beaucoup et bonne journée! Au revoir!"
       },
       "nextNode": "end"
     },
@@ -357,8 +357,8 @@
       "textFr": "Bravo ! Vous avez terminé la conversation au marché.",
       "textMg": "Arahabaina! Vita ny resaka teny an-tsena.",
       "audio": {
-        "ttsText": "Bravo! Vous avez terminé la conversation au marché.",
-        "ttsRate": 0.9
+        "ttsRate": 0.9,
+        "ttsTextFr": "Bravo! Vous avez terminé la conversation au marché."
       }
     }
   ]
