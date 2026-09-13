@@ -8268,15 +8268,21 @@ function captureUserResponse(nodeId, selectedOption) {
                       `;
 
                       document.getElementById('btn-continue').addEventListener('click', () => {
-                        // ✅ V5.21: Tracker l'historique avant changement
-                        if (currentNodeId !== selected?.nextNodeOnSuccess || selectedOption?.nextNodeOnSuccess) {
-                          nodeHistory.push(selected?.nextNodeOnSuccess || selectedOption?.nextNodeOnSuccess);
-                          if (nodeHistory.length > 10) nodeHistory.shift(); // Limiter à 10 nœuds
+                        // ✅ V5.36: Déterminer la destination avec validation stricte
+                        const nextNodeId = selected?.nextNodeOnSuccess || selectedOption?.nextNodeOnSuccess;
+                        
+                        if (!nextNodeId) {
+                          console.error('[Conversation] ❌ btn-continue: Aucune destination disponible', {
+                            nodeId: node.id,
+                            selected: selected?.textFr,
+                            selectedOption: selectedOption?.textFr
+                          });
+                          return;
                         }
-                        currentNodeId = selected?.nextNodeOnSuccess || selectedOption?.nextNodeOnSuccess;
-                        renderNode();
+                        
+                        console.log('[Conversation] 🚀 btn-continue: progression vers', nextNodeId);
+                        scheduleTransition(nextNodeId, 0);
                       });
-                    } else {
                       // Mode réel : feedback normal
                       handleUserResponse(idx, node, attempts, feedback);
                     }
