@@ -7085,9 +7085,6 @@ function scrollConversationToBottom() {
 // ═══════════════════════════════════════════════════════════
 
 async function renderConversation() {
-  // ✅ V5.37: Capturer l'instance pour invalider les anciens callbacks
-  const currentInstanceId = ++conversationLiveInstanceId;
-  console.log('[ConversationLive] 🔒 Instance ' + currentInstanceId + ' démarrée');
   const main = document.getElementById('app');
   main.innerHTML = getSkeletonThemesList();
   // ✅ Afficher le Teacher Avatar flottant pour guider l'utilisateur
