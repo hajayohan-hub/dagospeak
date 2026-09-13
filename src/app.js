@@ -7661,12 +7661,12 @@ async function renderConversation() {
                   console.warn('[Conversation] ⚠️ TTS success timeout (15s), progression forcée');
                   ttsCompleted = true;
                   // ✅ V5.21: Tracker l'historique avant changement
-                  if (currentNodeId !== node.nextNodeOnSuccess) {
-                    nodeHistory.push(node.nextNodeOnSuccess);
-                    if (nodeHistory.length > 10) nodeHistory.shift(); // Limiter à 10 nœuds
+                  // ✅ V5.34: Utiliser selected.nextNodeOnSuccess
+                  if (!selected.nextNodeOnSuccess) {
+                    console.error('[Conversation] ❌ selected.nextNodeOnSuccess undefined');
+                    return;
                   }
-                  currentNodeId = node.nextNodeOnSuccess;
-                  renderNode();
+                  scheduleTransition(selected.nextNodeOnSuccess, 0);
                 }
               }, 15000);
             }
@@ -7695,12 +7695,12 @@ async function renderConversation() {
                 // ✅ Auto-progression après délai pédagogique
                 setTimeout(() => {
                   // ✅ V5.21: Tracker l'historique avant changement
-                  if (currentNodeId !== node.nextNodeOnSuccess) {
-                    nodeHistory.push(node.nextNodeOnSuccess);
-                    if (nodeHistory.length > 10) nodeHistory.shift(); // Limiter à 10 nœuds
+                  // ✅ V5.34: Utiliser selected.nextNodeOnSuccess
+                  if (!selected.nextNodeOnSuccess) {
+                    console.error('[Conversation] ❌ selected.nextNodeOnSuccess undefined');
+                    return;
                   }
-                  currentNodeId = node.nextNodeOnSuccess;
-                  renderNode();
+                  scheduleTransition(selected.nextNodeOnSuccess, 0);
                 }, 800);
               },
               onError: (error) => {
@@ -7718,12 +7718,12 @@ async function renderConversation() {
                 // ✅ Progression même en cas d'erreur (ne pas bloquer l'utilisateur)
                 setTimeout(() => {
                   // ✅ V5.21: Tracker l'historique avant changement
-                  if (currentNodeId !== node.nextNodeOnSuccess) {
-                    nodeHistory.push(node.nextNodeOnSuccess);
-                    if (nodeHistory.length > 10) nodeHistory.shift(); // Limiter à 10 nœuds
+                  // ✅ V5.34: Utiliser selected.nextNodeOnSuccess
+                  if (!selected.nextNodeOnSuccess) {
+                    console.error('[Conversation] ❌ selected.nextNodeOnSuccess undefined');
+                    return;
                   }
-                  currentNodeId = node.nextNodeOnSuccess;
-                  renderNode();
+                  scheduleTransition(selected.nextNodeOnSuccess, 0);
                 }, 500);
               }
             });
@@ -7743,14 +7743,19 @@ async function renderConversation() {
                   <button id="btn-continue" class="pulse-animation" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">Manaraka →</button>
                 `;
                 document.getElementById('btn-continue').addEventListener('click', () => {
-                  turnProcessed = false; // ✅ Reset du verrou
-                  // ✅ V5.21: Tracker l'historique avant changement
-                  if (currentNodeId !== node.nextNodeOnMaxAttemptsReached) {
-                    nodeHistory.push(node.nextNodeOnMaxAttemptsReached);
-                    if (nodeHistory.length > 10) nodeHistory.shift(); // Limiter à 10 nœuds
+                  // ✅ V5.35: Utiliser selectedOption.nextNodeOnSuccess (pas node.nextNodeOnSuccess)
+                  const nextNodeId = selectedOption?.nextNodeOnSuccess;
+                  
+                  if (!nextNodeId) {
+                    console.error('[Conversation] ❌ selectedOption.nextNodeOnSuccess undefined', {
+                      nodeId: node.id,
+                      selectedText: selectedOption?.textFr
+                    });
+                    return;
                   }
-                  currentNodeId = node.nextNodeOnMaxAttemptsReached;
-                  renderNode();
+                  
+                  console.log('[Conversation] 🚀 btn-continue: navigation vers', nextNodeId);
+                  scheduleTransition(nextNodeId, 0);
                 });
 
               } else {
@@ -8044,13 +8049,13 @@ function captureUserResponse(nodeId, selectedOption) {
                                       // Progresser vers le prochain nœud (comme une bonne réponse)
                                       // ✅ V5.8: Utiliser nextNodeOnConversation si défini
                                       // ✅ V5.21: Tracker l'historique avant changement
-                                      if (currentNodeId !== selectedOption?.nextNodeOnConversation || node.nextNodeOnSuccess || node.nextNode) {
-                                        nodeHistory.push(selectedOption?.nextNodeOnConversation || node.nextNodeOnSuccess || node.nextNode);
+                                      if (currentNodeId !== selectedOption?.nextNodeOnConversation) {
+                                        nodeHistory.push(selectedOption?.nextNodeOnConversation);
                                         if (nodeHistory.length > 10) nodeHistory.shift(); // Limiter à 10 nœuds
                                       }
-                                      currentNodeId = selectedOption?.nextNodeOnConversation || node.nextNodeOnSuccess || node.nextNode;
+                                      currentNodeId = selectedOption?.nextNodeOnConversation;
                                       setTimeout(() => {
-                                        if (conversationLiveInstanceId !== conversationLiveInstanceId) {
+                                        if (currentInstanceId !== conversationLiveInstanceId) {
                                           console.log('[ConversationLive] ⏭️ Callback obsolète ignoré');
                                           return;
                                         }
@@ -8154,15 +8159,15 @@ function captureUserResponse(nodeId, selectedOption) {
                                   },
                                   onEnd: () => {
                                     if (window.teacherAvatarSVG) window.teacherAvatarSVG.stopSpeaking();
-                                    console.log('[STT] ✅ TTS feedback succès terminé, progression vers', node.nextNodeOnSuccess);
+                                    console.log('[STT] ✅ TTS feedback succès terminé, progression vers', selectedOption?.nextNodeOnSuccess);
                                     // ✅ V5.21: Tracker l'historique avant changement
-                                    if (currentNodeId !== node.nextNodeOnSuccess) {
-                                      nodeHistory.push(node.nextNodeOnSuccess);
+                                    if (currentNodeId !== selectedOption?.nextNodeOnSuccess) {
+                                      nodeHistory.push(selectedOption?.nextNodeOnSuccess);
                                       if (nodeHistory.length > 10) nodeHistory.shift(); // Limiter à 10 nœuds
                                     }
-                                    currentNodeId = node.nextNodeOnSuccess;
+                                    currentNodeId = selectedOption?.nextNodeOnSuccess;
                                     setTimeout(() => {
-                                      if (conversationLiveInstanceId !== conversationLiveInstanceId) {
+                                      if (currentInstanceId !== conversationLiveInstanceId) {
                                         console.log('[ConversationLive] ⏭️ Callback obsolète ignoré');
                                         return;
                                       }
@@ -8171,15 +8176,15 @@ function captureUserResponse(nodeId, selectedOption) {
                                   },
                                   onError: () => {
                                     if (window.teacherAvatarSVG) window.teacherAvatarSVG.stopSpeaking();
-                                    console.warn('[STT] ⚠️ Erreur TTS, progression quand même vers', node.nextNodeOnSuccess);
+                                    console.warn('[STT] ⚠️ Erreur TTS, progression quand même vers', selectedOption?.nextNodeOnSuccess);
                                     // ✅ V5.21: Tracker l'historique avant changement
-                                    if (currentNodeId !== node.nextNodeOnSuccess) {
-                                      nodeHistory.push(node.nextNodeOnSuccess);
+                                    if (currentNodeId !== selectedOption?.nextNodeOnSuccess) {
+                                      nodeHistory.push(selectedOption?.nextNodeOnSuccess);
                                       if (nodeHistory.length > 10) nodeHistory.shift(); // Limiter à 10 nœuds
                                     }
-                                    currentNodeId = node.nextNodeOnSuccess;
+                                    currentNodeId = selectedOption?.nextNodeOnSuccess;
                                     setTimeout(() => {
-                                      if (conversationLiveInstanceId !== conversationLiveInstanceId) {
+                                      if (currentInstanceId !== conversationLiveInstanceId) {
                                         console.log('[ConversationLive] ⏭️ Callback obsolète ignoré');
                                         return;
                                       }
@@ -8264,11 +8269,11 @@ function captureUserResponse(nodeId, selectedOption) {
 
                       document.getElementById('btn-continue').addEventListener('click', () => {
                         // ✅ V5.21: Tracker l'historique avant changement
-                        if (currentNodeId !== node.nextNodeOnSuccess) {
-                          nodeHistory.push(node.nextNodeOnSuccess);
+                        if (currentNodeId !== selected?.nextNodeOnSuccess || selectedOption?.nextNodeOnSuccess) {
+                          nodeHistory.push(selected?.nextNodeOnSuccess || selectedOption?.nextNodeOnSuccess);
                           if (nodeHistory.length > 10) nodeHistory.shift(); // Limiter à 10 nœuds
                         }
-                        currentNodeId = node.nextNodeOnSuccess;
+                        currentNodeId = selected?.nextNodeOnSuccess || selectedOption?.nextNodeOnSuccess;
                         renderNode();
                       });
                     } else {
