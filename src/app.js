@@ -7303,32 +7303,39 @@ async function renderConversation() {
           // Avatar
           mountLiveAvatar();
           
-          // ✅ V5.43: Déclencher la vibration des boutons microphone pour encourager la réponse vocale
+          // ✅ V5.43: Déclencher la vibration douce des boutons microphone pour encourager la réponse vocale
           if (window.sttAvailable) {
             setTimeout(() => {
               const micButtons = document.querySelectorAll(".btn-microphone");
               if (micButtons.length > 0) {
-                console.log("[Microphone] 🎤 Activation vibration pour", micButtons.length, "boutons");
+                console.log("[Microphone] 🎤 Activation vibration douce pour", micButtons.length, "boutons");
                 
-                // Ajouter la classe vibrating à tous les boutons micro
-                micButtons.forEach(btn => {
-                  btn.classList.add("vibrating");
-                });
+                // Vérifier si l'utilisateur préfère le mouvement réduit
+                const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
                 
-                // Retour haptique si disponible
-                if (window.haptics && window.haptics.vibrate) {
-                  window.haptics.vibrate("light");
+                if (!prefersReducedMotion) {
+                  // Ajouter la classe vibrating à tous les boutons micro
+                  micButtons.forEach(btn => {
+                    btn.classList.add("vibrating");
+                  });
+                  
+                  // Retour haptique très léger si disponible (pas de vibration forte)
+                  if (window.haptics && window.haptics.vibrate) {
+                    window.haptics.vibrate(10); // 10ms seulement, très subtil
+                  }
+                } else {
+                  console.log("[Microphone] ♿ Mode mouvement réduit activé, pas d'animation");
                 }
                 
-                // Arrêter la vibration après 5 secondes
+                // Arrêter la vibration après 8 secondes (plus long car plus doux)
                 setTimeout(() => {
                   micButtons.forEach(btn => {
                     btn.classList.remove("vibrating");
                   });
-                  console.log("[Microphone] ⏹️ Vibration arrêtée (timeout 5s)");
-                }, 5000);
+                  console.log("[Microphone] ⏹️ Vibration douce arrêtée (timeout 8s)");
+                }, 8000);
               }
-            }, 500); // Délai de 500ms pour laisser le rendu se terminer
+            }, 800); // Délai de 800ms pour laisser le TTS teacher se terminer
           }
           scrollConversationToBottom();
 
@@ -7421,32 +7428,39 @@ async function renderConversation() {
 
         mountLiveAvatar();
           
-          // ✅ V5.43: Déclencher la vibration des boutons microphone pour encourager la réponse vocale
+          // ✅ V5.43: Déclencher la vibration douce des boutons microphone pour encourager la réponse vocale
           if (window.sttAvailable) {
             setTimeout(() => {
               const micButtons = document.querySelectorAll(".btn-microphone");
               if (micButtons.length > 0) {
-                console.log("[Microphone] 🎤 Activation vibration pour", micButtons.length, "boutons");
+                console.log("[Microphone] 🎤 Activation vibration douce pour", micButtons.length, "boutons");
                 
-                // Ajouter la classe vibrating à tous les boutons micro
-                micButtons.forEach(btn => {
-                  btn.classList.add("vibrating");
-                });
+                // Vérifier si l'utilisateur préfère le mouvement réduit
+                const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
                 
-                // Retour haptique si disponible
-                if (window.haptics && window.haptics.vibrate) {
-                  window.haptics.vibrate("light");
+                if (!prefersReducedMotion) {
+                  // Ajouter la classe vibrating à tous les boutons micro
+                  micButtons.forEach(btn => {
+                    btn.classList.add("vibrating");
+                  });
+                  
+                  // Retour haptique très léger si disponible (pas de vibration forte)
+                  if (window.haptics && window.haptics.vibrate) {
+                    window.haptics.vibrate(10); // 10ms seulement, très subtil
+                  }
+                } else {
+                  console.log("[Microphone] ♿ Mode mouvement réduit activé, pas d'animation");
                 }
                 
-                // Arrêter la vibration après 5 secondes
+                // Arrêter la vibration après 8 secondes (plus long car plus doux)
                 setTimeout(() => {
                   micButtons.forEach(btn => {
                     btn.classList.remove("vibrating");
                   });
-                  console.log("[Microphone] ⏹️ Vibration arrêtée (timeout 5s)");
-                }, 5000);
+                  console.log("[Microphone] ⏹️ Vibration douce arrêtée (timeout 8s)");
+                }, 8000);
               }
-            }, 500); // Délai de 500ms pour laisser le rendu se terminer
+            }, 800); // Délai de 800ms pour laisser le TTS teacher se terminer
           }
         scrollConversationToBottom();
 
@@ -7644,32 +7658,39 @@ async function renderConversation() {
   `;
                 mountLiveAvatar();
           
-          // ✅ V5.43: Déclencher la vibration des boutons microphone pour encourager la réponse vocale
+          // ✅ V5.43: Déclencher la vibration douce des boutons microphone pour encourager la réponse vocale
           if (window.sttAvailable) {
             setTimeout(() => {
               const micButtons = document.querySelectorAll(".btn-microphone");
               if (micButtons.length > 0) {
-                console.log("[Microphone] 🎤 Activation vibration pour", micButtons.length, "boutons");
+                console.log("[Microphone] 🎤 Activation vibration douce pour", micButtons.length, "boutons");
                 
-                // Ajouter la classe vibrating à tous les boutons micro
-                micButtons.forEach(btn => {
-                  btn.classList.add("vibrating");
-                });
+                // Vérifier si l'utilisateur préfère le mouvement réduit
+                const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
                 
-                // Retour haptique si disponible
-                if (window.haptics && window.haptics.vibrate) {
-                  window.haptics.vibrate("light");
+                if (!prefersReducedMotion) {
+                  // Ajouter la classe vibrating à tous les boutons micro
+                  micButtons.forEach(btn => {
+                    btn.classList.add("vibrating");
+                  });
+                  
+                  // Retour haptique très léger si disponible (pas de vibration forte)
+                  if (window.haptics && window.haptics.vibrate) {
+                    window.haptics.vibrate(10); // 10ms seulement, très subtil
+                  }
+                } else {
+                  console.log("[Microphone] ♿ Mode mouvement réduit activé, pas d'animation");
                 }
                 
-                // Arrêter la vibration après 5 secondes
+                // Arrêter la vibration après 8 secondes (plus long car plus doux)
                 setTimeout(() => {
                   micButtons.forEach(btn => {
                     btn.classList.remove("vibrating");
                   });
-                  console.log("[Microphone] ⏹️ Vibration arrêtée (timeout 5s)");
-                }, 5000);
+                  console.log("[Microphone] ⏹️ Vibration douce arrêtée (timeout 8s)");
+                }, 8000);
               }
-            }, 500); // Délai de 500ms pour laisser le rendu se terminer
+            }, 800); // Délai de 800ms pour laisser le TTS teacher se terminer
           }
 
         // ✅ AJOUTER CETTE LIGNE

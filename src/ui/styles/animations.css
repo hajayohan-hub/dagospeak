@@ -170,14 +170,57 @@
 .btn-step { flex-shrink: 0; }
 
 /* Microphone vibration for encouraging voice responses */
-@keyframes microphone-vibrate {
-  0%, 100% { transform: translateX(0) scale(1); }
-  10%, 30%, 50%, 70%, 90% { transform: translateX(-2px) scale(1.05); }
-  20%, 40%, 60%, 80% { transform: translateX(2px) scale(1.05); }
+/* Sophisticated, inclusive, immersive - not an alarm */
+@keyframes microphone-breathe {
+  0%, 100% { 
+    transform: scale(1);
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+  }
+  50% { 
+    transform: scale(1.08);
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.5), 0 0 24px rgba(59, 130, 246, 0.3);
+  }
+}
+
+@keyframes microphone-glow {
+  0%, 100% { 
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+  }
+  50% { 
+    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4), 0 0 32px rgba(59, 130, 246, 0.2);
+  }
 }
 
 .btn-microphone.vibrating {
-  animation: microphone-vibrate 0.5s ease-in-out infinite;
-  background: linear-gradient(135deg, #ef4444, #dc2626) !important;
-  box-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+  animation: microphone-breathe 1.8s ease-in-out infinite;
+  background: linear-gradient(135deg, var(--ds-color-primary, #3b82f6), var(--ds-color-primary-dark, #2563eb)) !important;
+  position: relative;
+}
+
+/* Pseudo-élément pour un glow supplémentaire */
+.btn-microphone.vibrating::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(139, 92, 246, 0.3));
+  z-index: -1;
+  animation: microphone-glow 1.8s ease-in-out infinite;
+}
+
+/* Accessibilité : respect des préférences de mouvement réduit */
+@media (prefers-reduced-motion: reduce) {
+  .btn-microphone.vibrating {
+    animation: none;
+    background: var(--ds-color-primary, #3b82f6) !important;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+  }
+  
+  .btn-microphone.vibrating::after {
+    animation: none;
+    display: none;
+  }
 }
