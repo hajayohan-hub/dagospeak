@@ -7764,6 +7764,8 @@ async function renderConversation() {
                     // ✅ TTS du feedback d'échec (utilise speakWithFeedback pour respecter le genre)
                     // ✅ V5.39: Utiliser le feedback spécifique de l'option choisie
                     const actualFailTtsText = selected?.feedback?.fr || failTtsText;
+                      console.log("[TTS DEBUG] Texte feedback échec:", actualFailTtsText);
+                      console.log("[TTS DEBUG] selected.feedback:", selected?.feedback);
 
                     speakWithFeedback(failTtsText, {
                       rate: node.feedbackOnFail?.audio?.ttsRate || 0.9,
