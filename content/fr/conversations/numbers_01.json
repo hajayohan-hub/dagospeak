@@ -171,6 +171,36 @@
           "textMg": "Roapolo taona aho.",
           "isCorrect": true,
           "nextNodeOnSuccess": "teacher_quiz"
+        },
+        {
+          "textFr": "J'ai huit ans.",
+          "textMg": "Valo taona aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_quiz"
+        },
+        {
+          "textFr": "J'ai quatorze ans.",
+          "textMg": "Fito ambin'ny folo taona aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_quiz"
+        },
+        {
+          "textFr": "J'ai dix-huit ans.",
+          "textMg": "Volo ambin'ny folo taona aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_quiz"
+        },
+        {
+          "textFr": "J'ai vingt-cinq ans.",
+          "textMg": "Dimy amby roapolo taona aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_quiz"
+        },
+        {
+          "textFr": "J'ai trente ans.",
+          "textMg": "Telopolo taona aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_quiz"
         }
       ]
     },
