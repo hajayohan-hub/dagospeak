@@ -168,3 +168,16 @@
 .step-subtitle { margin: 0; color: var(--ds-color-text-muted); font-size: 0.9rem; }
 .step-badge { font-size: 2rem; flex-shrink: 0; }
 .btn-step { flex-shrink: 0; }
+
+/* Microphone vibration for encouraging voice responses */
+@keyframes microphone-vibrate {
+  0%, 100% { transform: translateX(0) scale(1); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-2px) scale(1.05); }
+  20%, 40%, 60%, 80% { transform: translateX(2px) scale(1.05); }
+}
+
+.btn-microphone.vibrating {
+  animation: microphone-vibrate 0.5s ease-in-out infinite;
+  background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+}

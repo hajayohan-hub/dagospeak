@@ -7302,6 +7302,34 @@ async function renderConversation() {
 
           // Avatar
           mountLiveAvatar();
+          
+          // ✅ V5.43: Déclencher la vibration des boutons microphone pour encourager la réponse vocale
+          if (window.sttAvailable) {
+            setTimeout(() => {
+              const micButtons = document.querySelectorAll(".btn-microphone");
+              if (micButtons.length > 0) {
+                console.log("[Microphone] 🎤 Activation vibration pour", micButtons.length, "boutons");
+                
+                // Ajouter la classe vibrating à tous les boutons micro
+                micButtons.forEach(btn => {
+                  btn.classList.add("vibrating");
+                });
+                
+                // Retour haptique si disponible
+                if (window.haptics && window.haptics.vibrate) {
+                  window.haptics.vibrate("light");
+                }
+                
+                // Arrêter la vibration après 5 secondes
+                setTimeout(() => {
+                  micButtons.forEach(btn => {
+                    btn.classList.remove("vibrating");
+                  });
+                  console.log("[Microphone] ⏹️ Vibration arrêtée (timeout 5s)");
+                }, 5000);
+              }
+            }, 500); // Délai de 500ms pour laisser le rendu se terminer
+          }
           scrollConversationToBottom();
 
           // Retour aux thèmes de conversation
@@ -7392,6 +7420,34 @@ async function renderConversation() {
         `;
 
         mountLiveAvatar();
+          
+          // ✅ V5.43: Déclencher la vibration des boutons microphone pour encourager la réponse vocale
+          if (window.sttAvailable) {
+            setTimeout(() => {
+              const micButtons = document.querySelectorAll(".btn-microphone");
+              if (micButtons.length > 0) {
+                console.log("[Microphone] 🎤 Activation vibration pour", micButtons.length, "boutons");
+                
+                // Ajouter la classe vibrating à tous les boutons micro
+                micButtons.forEach(btn => {
+                  btn.classList.add("vibrating");
+                });
+                
+                // Retour haptique si disponible
+                if (window.haptics && window.haptics.vibrate) {
+                  window.haptics.vibrate("light");
+                }
+                
+                // Arrêter la vibration après 5 secondes
+                setTimeout(() => {
+                  micButtons.forEach(btn => {
+                    btn.classList.remove("vibrating");
+                  });
+                  console.log("[Microphone] ⏹️ Vibration arrêtée (timeout 5s)");
+                }, 5000);
+              }
+            }, 500); // Délai de 500ms pour laisser le rendu se terminer
+          }
         scrollConversationToBottom();
 
         // ✅ TTS automatique au chargement du nœud
@@ -7587,6 +7643,34 @@ async function renderConversation() {
       </section>
   `;
                 mountLiveAvatar();
+          
+          // ✅ V5.43: Déclencher la vibration des boutons microphone pour encourager la réponse vocale
+          if (window.sttAvailable) {
+            setTimeout(() => {
+              const micButtons = document.querySelectorAll(".btn-microphone");
+              if (micButtons.length > 0) {
+                console.log("[Microphone] 🎤 Activation vibration pour", micButtons.length, "boutons");
+                
+                // Ajouter la classe vibrating à tous les boutons micro
+                micButtons.forEach(btn => {
+                  btn.classList.add("vibrating");
+                });
+                
+                // Retour haptique si disponible
+                if (window.haptics && window.haptics.vibrate) {
+                  window.haptics.vibrate("light");
+                }
+                
+                // Arrêter la vibration après 5 secondes
+                setTimeout(() => {
+                  micButtons.forEach(btn => {
+                    btn.classList.remove("vibrating");
+                  });
+                  console.log("[Microphone] ⏹️ Vibration arrêtée (timeout 5s)");
+                }, 5000);
+              }
+            }, 500); // Délai de 500ms pour laisser le rendu se terminer
+          }
 
         // ✅ AJOUTER CETTE LIGNE
         const feedback = document.getElementById('feedback');
