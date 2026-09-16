@@ -2958,8 +2958,6 @@ async function renderLesson() {
         wordButtons.forEach((btn, index) => {
           btn.addEventListener('click', () => {
             speechSynthesis.cancel();
-    // ✅ V5.41: Délai pour laisser le TTS se stabiliser après cancel
-    await new Promise(resolve => setTimeout(resolve, 200));
             btn.textContent = '🔊 ...';
 
             const wordId = btn.dataset.wordId || btn.dataset.target?.toLowerCase().replace(/\s+/g, '-');
@@ -3131,8 +3129,6 @@ async function renderLessonPhrases() {
         phraseButtons.forEach((btn, index) => {
           btn.addEventListener('click', () => {
             speechSynthesis.cancel();
-    // ✅ V5.41: Délai pour laisser le TTS se stabiliser après cancel
-    await new Promise(resolve => setTimeout(resolve, 200));
             btn.textContent = '🔊 ...';
 
             speakWithFeedback(btn.dataset.phrase, {
@@ -3442,8 +3438,6 @@ async function renderAlphabet() {
 
           // Écouter la lettre
           speechSynthesis.cancel();
-    // ✅ V5.41: Délai pour laisser le TTS se stabiliser après cancel
-    await new Promise(resolve => setTimeout(resolve, 200));
           indicator.style.opacity = '1';
           indicator.textContent = '🔊 ...';
 
@@ -3624,7 +3618,7 @@ async function speakWithFeedback(text, options = {}) {
   }
 
     speechSynthesis.cancel();
-    // ✅ V5.41: Délai pour laisser le TTS se stabiliser après cancel
+    // ✅ V5.41: Délai pour laisser le TTS se stabiliser
     await new Promise(resolve => setTimeout(resolve, 200));
     
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -3856,8 +3850,6 @@ async function renderPractice() {
 
       shadowing.forceStop();
       speechSynthesis.cancel();
-    // ✅ V5.41: Délai pour laisser le TTS se stabiliser après cancel
-    await new Promise(resolve => setTimeout(resolve, 200));
       if (shadowEvalHandler) {
         bus.off('pronunciation:evaluated', shadowEvalHandler);
         shadowEvalHandler = null;
@@ -3947,8 +3939,6 @@ async function renderPractice() {
       document.getElementById('btn-back-practice').addEventListener('click', () => {
         shadowing.forceStop();
         speechSynthesis.cancel();
-    // ✅ V5.41: Délai pour laisser le TTS se stabiliser après cancel
-    await new Promise(resolve => setTimeout(resolve, 200));
         router.navigate('/theme-detail');
       });
 
@@ -4212,8 +4202,6 @@ async function renderPracticePhrases() {
       }
       shadowing.forceStop();
       speechSynthesis.cancel();
-    // ✅ V5.41: Délai pour laisser le TTS se stabiliser après cancel
-    await new Promise(resolve => setTimeout(resolve, 200));
       if (shadowEvalHandler) {
         bus.off('pronunciation:evaluated', shadowEvalHandler);
         shadowEvalHandler = null;
@@ -4285,8 +4273,6 @@ async function renderPracticePhrases() {
       document.getElementById('btn-back-practice').addEventListener('click', () => {
         shadowing.forceStop();
         speechSynthesis.cancel();
-    // ✅ V5.41: Délai pour laisser le TTS se stabiliser après cancel
-    await new Promise(resolve => setTimeout(resolve, 200));
         router.navigate('/theme-detail');
       });
 
@@ -4730,8 +4716,6 @@ syncProfileWithJourneys();
 async function renderRolePlay() {
   // ✅ Cleanup : annuler tout TTS/STT précédent
   speechSynthesis.cancel();
-    // ✅ V5.41: Délai pour laisser le TTS se stabiliser après cancel
-    await new Promise(resolve => setTimeout(resolve, 200));
   if (window.shadowing) {
     window.shadowing.forceStop();
   }
@@ -5284,8 +5268,6 @@ async function renderChallenge() {
       document.getElementById('btn-back-guided').addEventListener('click', () => {
         shadowing.forceStop();
         speechSynthesis.cancel();
-    // ✅ V5.41: Délai pour laisser le TTS se stabiliser après cancel
-    await new Promise(resolve => setTimeout(resolve, 200));
         if (currentLineIndex > 0) {
           currentLineIndex--;
           renderLine();
@@ -5423,8 +5405,6 @@ async function renderChallenge() {
         shadowEvalHandler = null;
       }
       speechSynthesis.cancel();
-    // ✅ V5.41: Délai pour laisser le TTS se stabiliser après cancel
-    await new Promise(resolve => setTimeout(resolve, 200));
       feedbackSounds.playCelebration();
       await gamification.addXP(100, 'Défi terminé !');
 
@@ -7499,8 +7479,6 @@ async function renderConversation() {
           // Arrêter le TTS en cours
           if (typeof speechSynthesis !== 'undefined') {
             speechSynthesis.cancel();
-    // ✅ V5.41: Délai pour laisser le TTS se stabiliser après cancel
-    await new Promise(resolve => setTimeout(resolve, 200));
           }
           
           // Arrêter le STT si actif
