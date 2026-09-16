@@ -3573,7 +3573,10 @@ const VOICE_PROFILES = {
  * @param {object} options - Options : rate, gender, onEnd, themeId, wordId
  */
 async function speakWithFeedback(text, options = {}) {
+  console.log('[TTS FAIL DEBUG] 🎯 speakWithFeedback appelé:', { text: text?.slice(0, 50), hasText: !!text });
+  
   if (!text) {
+    console.log('[TTS FAIL DEBUG] ❌ Pas de texte, appel onEnd immédiat');
     if (options.onEnd) options.onEnd();
     return;
   }
@@ -3617,9 +3620,11 @@ async function speakWithFeedback(text, options = {}) {
     return;
   }
 
+    console.log('[TTS FAIL DEBUG] 🛑 speechSynthesis.cancel()');
     speechSynthesis.cancel();
     // ✅ V5.41: Délai pour laisser le TTS se stabiliser
     await new Promise(resolve => setTimeout(resolve, 200));
+    console.log('[TTS FAIL DEBUG] ⏱️ Délai 200ms terminé');
     
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     
@@ -3725,7 +3730,8 @@ async function speakWithFeedback(text, options = {}) {
       };
     
       utterance.onerror = (error) => {
-        console.warn(`[TTS] ⚠️ Erreur phrase ${currentSentenceIndex + 1}:`, error);
+        console.warn(`[TTS] ⚠️ Erreur phrase ${currentSentenceIndex + 1}:`, error?.error, error?.message);
+        console.log('[TTS FAIL DEBUG] ❌ onerror PC:', { error: error?.error, message: error?.message });
         currentSentenceIndex++;
         speakNextSentence();
       };
@@ -7769,15 +7775,22 @@ async function renderConversation() {
                       console.log("[TTS DEBUG] Texte feedback échec:", actualFailTtsText);
                       console.log("[TTS DEBUG] selected.feedback:", selected?.feedback);
 
-                    speakWithFeedback(failTtsText, {
+                    window._feedbackInProgress = true;
+                    console.log("[TTS FAIL DEBUG] 🚩 Flag feedback activé");
+                    console.log("[TTS FAIL DEBUG] 📞 Appel speakWithFeedback avec:", actualFailTtsText);
+                    speakWithFeedback(actualFailTtsText, {
                       rate: node.feedbackOnFail?.audio?.ttsRate || 0.9,
                       gender: 'female', // Teacher Avatar
                       onStart: () => {
+                        console.log("[TTS FAIL DEBUG] ▶️ onstart feedback échec");
                         if (window.teacherAvatarSVG) {
                           window.teacherAvatarSVG.startSpeaking();
                         }
                       },
                       onEnd: () => {
+                        window._feedbackInProgress = false;
+                        console.log('[TTS FAIL DEBUG] 🚩 Flag feedback désactivé');
+                        console.log('[TTS FAIL DEBUG] ⏹️ onEnd feedback échec');
                         console.log('[Conversation] ✅ TTS feedback échec terminé');
                         if (window.teacherAvatarSVG) {
                           window.teacherAvatarSVG.stopSpeaking();
@@ -7790,7 +7803,10 @@ async function renderConversation() {
                         }
                       },
                       onError: (error) => {
-                        console.warn('[Conversation] ⚠️ Erreur TTS feedback échec:', error?.message || 'unknown');
+                        window._feedbackInProgress = false;
+                        console.log('[TTS FAIL DEBUG] 🚩 Flag feedback désactivé (erreur)');
+                        console.log('[TTS FAIL DEBUG] ❌ onError feedback échec:', { error: error?.error, message: error?.message });
+                        console.warn('[Conversation] ⚠️ Erreur TTS feedback échec:', error?.error, error?.message || 'unknown');
                         if (window.teacherAvatarSVG) {
                           window.teacherAvatarSVG.stopSpeaking();
                           // ✅ Réactiver le bouton Réessayer même en cas d'erreur
