@@ -8831,6 +8831,13 @@ function showSettingsModal() {
 function startAppAndShowHome() {
   console.log("[App] 🚀 Démarrage de l'application...");
 
+  // ✅ V5.44: Forcer le retour à l'accueil au démarrage (après reload Ctrl+Shift+R)
+  // Cela évite de tomber sur une conversation orpheline (ex: Market)
+  if (window.location.hash && window.location.hash !== '#/' && window.location.hash !== '#') {
+    console.log("[App] 🏠 Reset vers accueil (hash précédent:", window.location.hash, ")");
+    window.location.hash = '/';
+  }
+
   // Charger levels.json au démarrage
   if (!levelsConfig) {
     fetch('/content/fr/levels.json')
