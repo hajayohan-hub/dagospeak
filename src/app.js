@@ -7762,6 +7762,9 @@ async function renderConversation() {
                 `;
                   // ✅ TTS du feedback d'échec
                     // ✅ TTS du feedback d'échec (utilise speakWithFeedback pour respecter le genre)
+                    // ✅ V5.39: Utiliser le feedback spécifique de l'option choisie
+                    const actualFailTtsText = selected?.feedback?.fr || failTtsText;
+
                     speakWithFeedback(failTtsText, {
                       rate: node.feedbackOnFail?.audio?.ttsRate || 0.9,
                       gender: 'female', // Teacher Avatar
@@ -8212,7 +8215,8 @@ function captureUserResponse(nodeId, selectedOption) {
                   const recognized = result?.transcript || result?.text || '';
                   console.log('[STT DEBUG] Objet brut reçu:', result);
                   console.log('[STT DEBUG] Transcript extrait:', recognized);
-                  console.log('[STT] Reconnu:', recognized);
+                  console.log('[STT DEBUG] onResult appelé avec:', result);
+                    console.log('[STT] Reconnu:', recognized);
 
                   const comparison = sttManager.compareTexts(recognized, expectedFrench);
                   console.log('[STT] Comparaison:', comparison);
