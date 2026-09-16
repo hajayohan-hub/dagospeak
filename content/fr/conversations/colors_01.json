@@ -181,6 +181,18 @@
           "textMg": "Tiako ny fotsy.",
           "isCorrect": true,
           "nextNodeOnSuccess": "teacher_white"
+        },
+        {
+          "textFr": "J'aime le jaune.",
+          "textMg": "Tiako ny mavo.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_yellow"
+        },
+        {
+          "textFr": "J'aime le noir.",
+          "textMg": "Tiako ny mainty.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_black"
         }
       ]
     },
@@ -224,6 +236,28 @@
       "textMg": "Ny fotsy! Hoatran'ny rahona. Madio sy tsara.",
       "audio": {
         "ttsTextFr": "Le blanc ! Comme les nuages. C'est pur et beau.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "teacher_quiz"
+    },
+    {
+      "id": "teacher_yellow",
+      "speaker": "teacher",
+      "textFr": "Le jaune ! Comme le soleil. C'est une couleur joyeuse.",
+      "textMg": "Ny mavo! Hoatran'ny masoandro. Loko feno hafaliana.",
+      "audio": {
+        "ttsTextFr": "Le jaune! Comme le soleil. C'est une couleur joyeuse.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "teacher_quiz"
+    },
+    {
+      "id": "teacher_black",
+      "speaker": "teacher",
+      "textFr": "Le noir ! C'est élégant et mystérieux.",
+      "textMg": "Ny mainty! Manana kanto sy mistery.",
+      "audio": {
+        "ttsTextFr": "Le noir! C'est élégant et mystérieux.",
         "ttsRate": 0.9
       },
       "nextNode": "teacher_quiz"

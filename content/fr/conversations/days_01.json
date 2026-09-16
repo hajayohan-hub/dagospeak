@@ -110,6 +110,18 @@
           "textMg": "Mijanona ao an-trano aho.",
           "isCorrect": true,
           "nextNodeOnSuccess": "teacher_home"
+        },
+        {
+          "textFr": "Je fais du sport.",
+          "textMg": "Manao fanatanjahan-tena aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_school"
+        },
+        {
+          "textFr": "Je cuisine.",
+          "textMg": "Mahandro aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_school"
         }
       ]
     },

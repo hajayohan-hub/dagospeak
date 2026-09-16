@@ -214,6 +214,18 @@
           "textMg": "Tsia misaotra, tsara.",
           "isCorrect": true,
           "nextNodeOnSuccess": "farewell"
+        },
+        {
+          "textFr": "Je voudrais appeler un médecin.",
+          "textMg": "Te-hiantso dokotera aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_medicine"
+        },
+        {
+          "textFr": "Où est la gare routière ?",
+          "textMg": "Aiza ny gara fitaterana?",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_toilets"
         }
       ]
     },

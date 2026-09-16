@@ -94,6 +94,18 @@
           "textMg": "Marary ny tongotro.",
           "isCorrect": true,
           "nextNodeOnSuccess": "teacher_leg"
+        },
+        {
+          "textFr": "J'ai mal au dos.",
+          "textMg": "Marary ny lamosiko.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_back"
+        },
+        {
+          "textFr": "J'ai mal aux yeux.",
+          "textMg": "Marary ny masoko.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_eyes_pain"
         }
       ]
     },
@@ -232,6 +244,28 @@
           "nextNodeOnSuccess": "teacher_medicine"
         }
       ]
+    },
+    {
+      "id": "teacher_back",
+      "speaker": "teacher",
+      "textFr": "Mal au dos. C'est fréquent. Reposez-vous bien.",
+      "textMg": "Marary ny lamosina. Mahazatra izany. Mialà sasatra tsara.",
+      "audio": {
+        "ttsTextFr": "Mal au dos. C'est fréquent. Reposez-vous bien.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "teacher_medicine"
+    },
+    {
+      "id": "teacher_eyes_pain",
+      "speaker": "teacher",
+      "textFr": "Mal aux yeux. Évitez les écrans trop longtemps.",
+      "textMg": "Marary ny maso. Aza mijery efijery ela loatra.",
+      "audio": {
+        "ttsTextFr": "Mal aux yeux. Évitez les écrans trop longtemps.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "teacher_medicine"
     },
     {
       "id": "teacher_medicine",

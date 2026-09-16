@@ -92,6 +92,18 @@
           "textMg": "Maka manga aho.",
           "isCorrect": true,
           "nextNodeOnSuccess": "node_price_mangue"
+        },
+        {
+          "textFr": "Je voudrais des ananas.",
+          "textMg": "Te-hividy manakoho aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "node_price_ananas"
+        },
+        {
+          "textFr": "Je voudrais des papayes.",
+          "textMg": "Te-hividy papaya aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "node_price_papaye"
         }
       ]
     },
@@ -323,6 +335,152 @@
         "ttsTextFr": "Trois kilos de mangues, ça fait 12000 ariary. Voulez-vous autre chose?"
       },
       "nextNode": "ask_more_after_mangue"
+    },
+    {
+      "id": "node_price_ananas",
+      "speaker": "teacher",
+      "textFr": "Les ananas coûtent 3000 ariary l'unité. Combien en voulez-vous ?",
+      "textMg": "Ny manakoho dia 3000 ariary ny iray. Firy no tianao?",
+      "audio": {
+        "ttsTextFr": "Les ananas coûtent 3000 ariary l'unité. Combien en voulez-vous?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quantity_ananas"
+    },
+    {
+      "id": "quantity_ananas",
+      "speaker": "user",
+      "textFr": "Combien d'ananas voulez-vous ?",
+      "textMg": "Firy manakoho no tianao?",
+      "responseOptions": [
+        {
+          "textFr": "Un ananas, s'il vous plaît.",
+          "textMg": "Manakoho iray, azafady.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "total_ananas_1"
+        },
+        {
+          "textFr": "Deux ananas, s'il vous plaît.",
+          "textMg": "Manakoho roa, azafady.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "total_ananas_2"
+        }
+      ]
+    },
+    {
+      "id": "total_ananas_1",
+      "speaker": "teacher",
+      "textFr": "Un ananas, ça fait 3000 ariary. Merci !",
+      "textMg": "Manakoho iray, 3000 ariary izany. Misaotra!",
+      "audio": {
+        "ttsTextFr": "Un ananas, ça fait 3000 ariary. Merci!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "ask_more_after_ananas"
+    },
+    {
+      "id": "total_ananas_2",
+      "speaker": "teacher",
+      "textFr": "Deux ananas, ça fait 6000 ariary. Merci !",
+      "textMg": "Manakoho roa, 6000 ariary izany. Misaotra!",
+      "audio": {
+        "ttsTextFr": "Deux ananas, ça fait 6000 ariary. Merci!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "ask_more_after_ananas"
+    },
+    {
+      "id": "ask_more_after_ananas",
+      "speaker": "user",
+      "textFr": "Voulez-vous acheter autre chose ?",
+      "textMg": "Mbola te-hividy zavatra hafa ve ianao?",
+      "responseOptions": [
+        {
+          "textFr": "Oui, je voudrais aussi des bananes.",
+          "textMg": "Eny, te-hividy akondro koa aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "node_price_banana"
+        },
+        {
+          "textFr": "Non merci, c'est tout.",
+          "textMg": "Tsia misaotra, izay ihany.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "farewell"
+        }
+      ]
+    },
+    {
+      "id": "node_price_papaye",
+      "speaker": "teacher",
+      "textFr": "Les papayes coûtent 1500 ariary l'unité. Combien en voulez-vous ?",
+      "textMg": "Ny papaya dia 1500 ariary ny iray. Firy no tianao?",
+      "audio": {
+        "ttsTextFr": "Les papayes coûtent 1500 ariary l'unité. Combien en voulez-vous?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quantity_papaye"
+    },
+    {
+      "id": "quantity_papaye",
+      "speaker": "user",
+      "textFr": "Combien de papayes voulez-vous ?",
+      "textMg": "Firy papaya no tianao?",
+      "responseOptions": [
+        {
+          "textFr": "Une papaye, s'il vous plaît.",
+          "textMg": "Papaya iray, azafady.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "total_papaye_1"
+        },
+        {
+          "textFr": "Trois papayes, s'il vous plaît.",
+          "textMg": "Papaya telo, azafady.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "total_papaye_3"
+        }
+      ]
+    },
+    {
+      "id": "total_papaye_1",
+      "speaker": "teacher",
+      "textFr": "Une papaye, ça fait 1500 ariary. Merci !",
+      "textMg": "Papaya iray, 1500 ariary izany. Misaotra!",
+      "audio": {
+        "ttsTextFr": "Une papaye, ça fait 1500 ariary. Merci!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "ask_more_after_papaye"
+    },
+    {
+      "id": "total_papaye_3",
+      "speaker": "teacher",
+      "textFr": "Trois papayes, ça fait 4500 ariary. Merci !",
+      "textMg": "Papaya telo, 4500 ariary izany. Misaotra!",
+      "audio": {
+        "ttsTextFr": "Trois papayes, ça fait 4500 ariary. Merci!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "ask_more_after_papaye"
+    },
+    {
+      "id": "ask_more_after_papaye",
+      "speaker": "user",
+      "textFr": "Voulez-vous acheter autre chose ?",
+      "textMg": "Mbola te-hividy zavatra hafa ve ianao?",
+      "responseOptions": [
+        {
+          "textFr": "Oui, je voudrais aussi des oranges.",
+          "textMg": "Eny, te-hividy voasary koa aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "node_price_orange"
+        },
+        {
+          "textFr": "Non merci, c'est tout.",
+          "textMg": "Tsia misaotra, izay ihany.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "farewell"
+        }
+      ]
     },
     {
       "id": "ask_more_after_banana",

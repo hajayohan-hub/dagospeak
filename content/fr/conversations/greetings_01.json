@@ -124,6 +124,18 @@
             "fr": "On dit d'abord comment on va.",
             "mg": "Lazao aloha ny fahasalamanao."
           }
+        },
+        {
+          "textFr": "Je suis fatigué.",
+          "textMg": "Vizaka aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_happy"
+        },
+        {
+          "textFr": "Je suis content.",
+          "textMg": "Faly aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_happy"
         }
       ]
     },

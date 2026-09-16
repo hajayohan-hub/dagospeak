@@ -121,6 +121,18 @@
           "textMg": "Amin'ny martsa.",
           "isCorrect": true,
           "nextNodeOnSuccess": "teacher_march_bday"
+        },
+        {
+          "textFr": "Mon anniversaire est en avril.",
+          "textMg": "Ny tsingerin-taonako dia amin'ny aprily.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_april"
+        },
+        {
+          "textFr": "Mon anniversaire est en août.",
+          "textMg": "Ny tsingerin-taonako dia amin'ny aogositra.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_august"
         }
       ]
     },
@@ -153,6 +165,28 @@
       "textMg": "Martsa! Faran'ny fotoanan'ny orana.",
       "audio": {
         "ttsTextFr": "Mars ! C'est la fin de la saison des pluies.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "teacher_seasons"
+    },
+    {
+      "id": "teacher_april",
+      "speaker": "teacher",
+      "textFr": "Avril ! Le mois des fleurs. C'est le printemps.",
+      "textMg": "Aprily! Volan'ny voninkazo. Fotoanan'ny lohataona.",
+      "audio": {
+        "ttsTextFr": "Avril! Le mois des fleurs. C'est le printemps.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "teacher_seasons"
+    },
+    {
+      "id": "teacher_august",
+      "speaker": "teacher",
+      "textFr": "Août ! C'est l'hiver à Madagascar. Il fait frais.",
+      "textMg": "Aogositra! Fotoanan'ny ririnina eto Madagasikara. Mangatsiaka.",
+      "audio": {
+        "ttsTextFr": "Août! C'est l'hiver à Madagascar. Il fait frais.",
         "ttsRate": 0.9
       },
       "nextNode": "teacher_seasons"

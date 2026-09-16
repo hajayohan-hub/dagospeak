@@ -170,6 +170,18 @@
           "textMg": "Ny raiko, ny renyko, ny rahalahiko ary ny rahavaviko.",
           "isCorrect": true,
           "nextNodeOnSuccess": "teacher_ask_siblings"
+        },
+        {
+          "textFr": "J'ai un oncle et une tante.",
+          "textMg": "Manana raibato sy renibato aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_ask_siblings"
+        },
+        {
+          "textFr": "J'ai des cousins.",
+          "textMg": "Manana havakava aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_ask_siblings"
         }
       ]
     },
