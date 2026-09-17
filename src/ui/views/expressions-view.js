@@ -1,3 +1,4 @@
+import { reviewMode } from "./review-mode.js";
 /**
  * ExpressionsView - UI pour visualiser et réviser les expressions mémorisées
  */
@@ -177,11 +178,9 @@ export class ExpressionsView {
   }
 
   #startReview(expression) {
-    // TODO: Implémenter le mode révision
-    // Pour l'instant, on redirige vers le thème de l'expression
     const expr = window.expressionMemory.getAllExpressions().find(e => e.expression === expression);
     if (expr && expr.themes.length > 0) {
-      window.router.navigate('/theme-detail', { theme: expr.themes[0] });
+      reviewMode.start(expression, expr.themes[0]);
     }
   }
 }

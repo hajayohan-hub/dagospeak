@@ -232,3 +232,24 @@ export class ExpressionMemory {
 
 // Instance singleton
 export const expressionMemory = new ExpressionMemory();
+
+  /**
+   * Met à jour la maîtrise d'une expression spécifique
+   * @param {string} expression - L'expression à mettre à jour
+   * @param {number} newMastery - Nouvelle valeur de maîtrise (0-1)
+   */
+  updateMastery(expression, newMastery) {
+    const normalized = this.#normalize(expression);
+    
+    if (this.#memory[normalized]) {
+      this.#memory[normalized].mastery = Math.min(1, Math.max(0, newMastery));
+      this.#memory[normalized].lastUsed = new Date().toISOString();
+      this.#save();
+      
+      console.log(`[ExpressionMemory] 📊 Maîtrise mise à jour: "${expression}" → ${Math.round(newMastery * 100)}%`);
+      return true;
+    }
+    
+    console.warn(`[ExpressionMemory] ⚠️ Expression non trouvée: "${expression}"`);
+    return false;
+  }
