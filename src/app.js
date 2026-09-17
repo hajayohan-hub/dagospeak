@@ -4368,6 +4368,7 @@ async function renderPracticePhrases() {
         if (window.sttManager) {
             window.sttManager.startListening('fr-FR', {
               onStart: () => console.log('[PracticePhrases] 🎤 STT démarré pour:', itemData.context),
+              expectedText: itemData.context,
               onResult: (result) => {
                 isRecording = false;
                 btnShadow.removeAttribute('disabled');

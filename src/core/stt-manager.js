@@ -140,7 +140,7 @@ export class STTManager {
   /**
    * Démarre l'écoute (réelle ou simulée)
    */
-     startListening(lang = 'fr-FR', callbacks = {}) {
+     startListening(lang = 'fr-FR', callbacks = {}, expectedText = null) {
       console.log(`[STTManager] startListening appelé, isListening=${this.#isListening}, simulationMode=${this.#simulationMode}`);
       
       // ✅ FORÇAGE ABSOLU : Si offline, SIMULATION OBLIGATOIRE (override tout)
@@ -169,7 +169,7 @@ export class STTManager {
 
     // ✅ Mode simulation (offline ou low-end)
     if (this.#simulationMode) {
-      return this.#simulateListening(callbacks);
+      return this.#simulateListening(callbacks, expectedText);
     }
 
     // ✅ Mode réel (Web Speech API)
@@ -179,7 +179,7 @@ export class STTManager {
     /**
    * Simulation d'écoute avec détection de fin de parole (VAD)
    */
-  #simulateListening(callbacks) {
+  #simulateListening(callbacks, expectedText = null) {
     console.log('[STTManager] 🎭 Mode simulation avec détection de fin de parole');
 
     callbacks.onStart?.();
