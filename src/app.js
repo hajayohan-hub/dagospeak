@@ -4030,7 +4030,56 @@ async function renderPractice() {
         btnShadow.textContent = '🎙️ Mandre... (Écoute en cours)';
         shadowFeedback.innerHTML = '<span style="color:var(--ds-color-accent);">Mitenena izao... (Je vous écoute...)</span>';
         isRecording = true;
-        // ✅ V5.45: STT Manager intégré directement
+        // ✅ V5.45: STT Manager pour Practice mots
+        if (window.sttManager) {
+          window.sttManager.startListening('fr-FR', {
+            onStart: () => console.log('[Practice] 🎤 STT démarré pour:', itemData.target),
+            onResult: (result) => {
+              isRecording = false;
+              btnShadow.removeAttribute('disabled');
+              const recognized = result?.transcript || result?.text || '';
+              console.log('[Practice] Reconnu:', recognized);
+              if (!recognized) {
+                shadowFeedback.innerHTML = '<span style="color:var(--ds-color-text-muted);">⚠️ Aucune voix détectée</span>';
+                btnShadow.textContent = '🎤 Mitenena izao';
+                return;
+              }
+              const similarity = calculateSimilarity(recognized.toLowerCase(), itemData.target.toLowerCase());
+              const percent = Math.round(similarity * 100);
+              if (similarity > 0.60) {
+                if (typeof feedbackSounds !== 'undefined') feedbackSounds.playSuccess();
+                shadowFeedback.innerHTML = `<div class="feedback-success" style="padding:0.75rem; font-size:0.9rem;">✅ Tena tsara ! (${percent}%)</div>`;
+                btnShadow.textContent = '✅ Vita';
+                gamification.addXP(5, 'Prononciation excellente');
+                document.getElementById('btn-shadow').classList.remove('guide-active');
+                unlockNext();
+              } else if (similarity > 0.40) {
+                if (typeof feedbackSounds !== 'undefined') feedbackSounds.playSuccess();
+                shadowFeedback.innerHTML = `<div class="feedback-success" style="padding:0.75rem; font-size:0.9rem;">✅ Tsara ! (${percent}%)</div>`;
+                btnShadow.textContent = '✅ Vita';
+                gamification.addXP(3, 'Bonne prononciation');
+                document.getElementById('btn-shadow').classList.remove('guide-active');
+                unlockNext();
+              } else {
+                if (typeof feedbackSounds !== 'undefined') feedbackSounds.playRetry();
+                shadowFeedback.innerHTML = `<div class="feedback-fail" style="padding:0.75rem; font-size:0.9rem;">🔄 Havereno (${percent}%)</div>`;
+                btnShadow.textContent = '🎤 Mitenena indray (Réessayer)';
+              }
+            },
+            onError: (error) => {
+              isRecording = false;
+              btnShadow.removeAttribute('disabled');
+              console.error('[Practice] Erreur STT:', error);
+              shadowFeedback.innerHTML = '<span style="color:var(--ds-color-danger);">⚠️ Tsy mandeha ny mikrô</span>';
+              btnShadow.textContent = '🎤 Mitenena izao';
+              unlockNext();
+            }
+          });
+        } else {
+          shadowFeedback.innerHTML = '<span style="color:var(--ds-color-danger);">⚠️ Tsy mandeha ny mikrô</span>';
+          btnShadow.textContent = '🎤 Mitenena izao';
+          unlockNext();
+        }
         if (window.sttManager) {
           window.sttManager.startListening('fr-FR', {
             onStart: () => console.log('[Generic] 🎤 STT démarré'),
@@ -5017,7 +5066,54 @@ async function renderRolePlay() {
             isRecording = true;
             // ✅ V5.45: STT Manager intégré directement
             if (window.sttManager) {
-              window.sttManager.startListening('fr-FR', {
+              // ✅ V5.45: STT Manager pour RolePlay
+              if (window.sttManager) {
+                window.sttManager.startListening('fr-FR', {
+                  onStart: () => console.log('[RolePlay] 🎤 STT démarré pour:', line.text),
+                  onResult: (result) => {
+                    isRecording = false;
+                    btnSpeak.removeAttribute('disabled');
+                    const recognized = result?.transcript || result?.text || '';
+                    console.log('[RolePlay] Reconnu:', recognized);
+                    if (!recognized) {
+                      speechFeedback.innerHTML = '<span style="color:var(--ds-color-text-muted);">⚠️ Aucune voix détectée</span>';
+                      btnSpeak.textContent = '🎤 Mitenena izao';
+                      return;
+                    }
+                    const similarity = calculateSimilarity(recognized.toLowerCase(), line.text.toLowerCase());
+                    const percent = Math.round(similarity * 100);
+                    if (similarity > 0.50) {
+                      if (typeof feedbackSounds !== 'undefined') feedbackSounds.playSuccess();
+                      speechFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Tena tsara ! (${percent}%)</span>`;
+                      btnSpeak.textContent = '✅ Vita';
+                      gamification.addXP(8, 'RolePlay réussi');
+                      unlockNext();
+                    } else if (similarity > 0.30) {
+                      if (typeof feedbackSounds !== 'undefined') feedbackSounds.playSuccess();
+                      speechFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Tsara ! (${percent}%)</span>`;
+                      btnSpeak.textContent = '✅ Vita';
+                      gamification.addXP(5, 'RolePlay correct');
+                      unlockNext();
+                    } else {
+                      if (typeof feedbackSounds !== 'undefined') feedbackSounds.playRetry();
+                      speechFeedback.innerHTML = `<span style="color:var(--ds-color-accent);">🔄 Havereno (${percent}%)</span>`;
+                      btnSpeak.textContent = '🎤 Mitenena indray';
+                    }
+                  },
+                  onError: (error) => {
+                    isRecording = false;
+                    btnSpeak.removeAttribute('disabled');
+                    console.error('[RolePlay] Erreur STT:', error);
+                    speechFeedback.innerHTML = '<span style="color:var(--ds-color-danger);">⚠️ Tsy mandeha ny mikrô</span>';
+                    btnSpeak.textContent = '🎤 Mitenena izao';
+                    unlockNext();
+                  }
+                });
+              } else {
+                speechFeedback.innerHTML = '<span style="color:var(--ds-color-danger);">⚠️ Tsy mandeha ny mikrô</span>';
+                btnSpeak.textContent = '🎤 Mitenena izao';
+                unlockNext();
+              }
                 onStart: () => console.log('[Generic] 🎤 STT démarré'),
                 onResult: (result) => {
                   isRecording = false;
@@ -5403,7 +5499,54 @@ async function renderChallenge() {
           isRecording = true;
           // ✅ V5.45: STT Manager intégré directement
           if (window.sttManager) {
-            window.sttManager.startListening('fr-FR', {
+            // ✅ V5.45: STT Manager pour Challenge
+            if (window.sttManager) {
+              window.sttManager.startListening('fr-FR', {
+                onStart: () => console.log('[Challenge] 🎤 STT démarré pour:', line.text),
+                onResult: (result) => {
+                  isRecording = false;
+                  btnSpeak.removeAttribute('disabled');
+                  const recognized = result?.transcript || result?.text || '';
+                  console.log('[Challenge] Reconnu:', recognized);
+                  if (!recognized) {
+                    speechFeedback.innerHTML = '<span style="color:var(--ds-color-text-muted);">⚠️ Aucune voix détectée</span>';
+                    btnSpeak.textContent = '🎤 Mitenena izao';
+                    return;
+                  }
+                  const similarity = calculateSimilarity(recognized.toLowerCase(), line.text.toLowerCase());
+                  const percent = Math.round(similarity * 100);
+                  if (similarity > 0.60) {
+                    if (typeof feedbackSounds !== 'undefined') feedbackSounds.playSuccess();
+                    speechFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Tena tsara ! (${percent}%)</span>`;
+                    btnSpeak.textContent = '✅ Vita';
+                    gamification.addXP(10, 'Challenge réussi');
+                    unlockNext();
+                  } else if (similarity > 0.40) {
+                    if (typeof feedbackSounds !== 'undefined') feedbackSounds.playSuccess();
+                    speechFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Tsara ! (${percent}%)</span>`;
+                    btnSpeak.textContent = '✅ Vita';
+                    gamification.addXP(5, 'Challenge correct');
+                    unlockNext();
+                  } else {
+                    if (typeof feedbackSounds !== 'undefined') feedbackSounds.playRetry();
+                    speechFeedback.innerHTML = `<span style="color:var(--ds-color-accent);">🔄 Havereno (${percent}%)</span>`;
+                    btnSpeak.textContent = '🎤 Mitenena indray';
+                  }
+                },
+                onError: (error) => {
+                  isRecording = false;
+                  btnSpeak.removeAttribute('disabled');
+                  console.error('[Challenge] Erreur STT:', error);
+                  speechFeedback.innerHTML = '<span style="color:var(--ds-color-danger);">⚠️ Micro non supporté</span>';
+                  btnSpeak.textContent = '🎤 Mitenena izao';
+                  unlockNext();
+                }
+              });
+            } else {
+              speechFeedback.innerHTML = '<span style="color:var(--ds-color-danger);">⚠️ Micro non supporté</span>';
+              btnSpeak.textContent = '🎤 Mitenena izao';
+              unlockNext();
+            }
               onStart: () => console.log('[Generic] 🎤 STT démarré'),
               onResult: (result) => {
                 isRecording = false;
