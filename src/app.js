@@ -4030,7 +4030,33 @@ async function renderPractice() {
         btnShadow.textContent = '🎙️ Mandre... (Écoute en cours)';
         shadowFeedback.innerHTML = '<span style="color:var(--ds-color-accent);">Mitenena izao... (Je vous écoute...)</span>';
         isRecording = true;
-        shadowing.startRecording();
+        // ✅ V5.45: STT Manager intégré directement
+        if (window.sttManager) {
+          window.sttManager.startListening('fr-FR', {
+            onStart: () => console.log('[Generic] 🎤 STT démarré'),
+            onResult: (result) => {
+              isRecording = false;
+              btnShadow.removeAttribute('disabled');
+              const recognized = result?.transcript || result?.text || '';
+              console.log('[Generic] Reconnu:', recognized);
+              shadowFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Reconnu: ${recognized}</span>`;
+              btnShadow.textContent = '✅ Vita';
+              unlockNext();
+            },
+            onError: (error) => {
+              isRecording = false;
+              btnShadow.removeAttribute('disabled');
+              console.error('[Generic] Erreur STT:', error);
+              shadowFeedback.innerHTML = '<span style="color:var(--ds-color-danger);">⚠️ Tsy mandeha ny mikrô</span>';
+              btnShadow.textContent = '🎤 Mitenena izao';
+              unlockNext();
+            }
+          });
+        } else {
+          shadowFeedback.innerHTML = '<span style="color:var(--ds-color-danger);">⚠️ Tsy mandeha ny mikrô</span>';
+          btnShadow.textContent = '🎤 Mitenena izao';
+          unlockNext();
+        }
       });
 
       shadowEvalHandler = (data) => {
@@ -4356,7 +4382,33 @@ async function renderPracticePhrases() {
         btnShadow.textContent = '🎙️ Mandre...';
         shadowFeedback.innerHTML = '<span style="color:var(--ds-color-accent);">Mitenena izao...</span>';
         isRecording = true;
-        shadowing.startRecording();
+        // ✅ V5.45: STT Manager intégré directement
+        if (window.sttManager) {
+          window.sttManager.startListening('fr-FR', {
+            onStart: () => console.log('[Generic] 🎤 STT démarré'),
+            onResult: (result) => {
+              isRecording = false;
+              btnShadow.removeAttribute('disabled');
+              const recognized = result?.transcript || result?.text || '';
+              console.log('[Generic] Reconnu:', recognized);
+              shadowFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Reconnu: ${recognized}</span>`;
+              btnShadow.textContent = '✅ Vita';
+              unlockNext();
+            },
+            onError: (error) => {
+              isRecording = false;
+              btnShadow.removeAttribute('disabled');
+              console.error('[Generic] Erreur STT:', error);
+              shadowFeedback.innerHTML = '<span style="color:var(--ds-color-danger);">⚠️ Tsy mandeha ny mikrô</span>';
+              btnShadow.textContent = '🎤 Mitenena izao';
+              unlockNext();
+            }
+          });
+        } else {
+          shadowFeedback.innerHTML = '<span style="color:var(--ds-color-danger);">⚠️ Tsy mandeha ny mikrô</span>';
+          btnShadow.textContent = '🎤 Mitenena izao';
+          unlockNext();
+        }
       });
 
       shadowEvalHandler = (data) => {
@@ -4963,7 +5015,33 @@ async function renderRolePlay() {
             btnSpeak.textContent = '🎙️ Mandre... (Écoute en cours)';
             speechFeedback.innerHTML = '<span style="color:var(--ds-color-accent);">Mitenena izao... (Je vous écoute...)</span>';
             isRecording = true;
-            shadowing.startRecording();
+            // ✅ V5.45: STT Manager intégré directement
+            if (window.sttManager) {
+              window.sttManager.startListening('fr-FR', {
+                onStart: () => console.log('[Generic] 🎤 STT démarré'),
+                onResult: (result) => {
+                  isRecording = false;
+                  btnSpeak.removeAttribute('disabled');
+                  const recognized = result?.transcript || result?.text || '';
+                  console.log('[Generic] Reconnu:', recognized);
+                  speechFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Reconnu: ${recognized}</span>`;
+                  btnSpeak.textContent = '✅ Vita';
+                  unlockNext();
+                },
+                onError: (error) => {
+                  isRecording = false;
+                  btnSpeak.removeAttribute('disabled');
+                  console.error('[Generic] Erreur STT:', error);
+                  speechFeedback.innerHTML = '<span style="color:var(--ds-color-danger);">⚠️ Tsy mandeha ny mikrô</span>';
+                  btnSpeak.textContent = '🎤 Mitenena izao';
+                  unlockNext();
+                }
+              });
+            } else {
+              speechFeedback.innerHTML = '<span style="color:var(--ds-color-danger);">⚠️ Tsy mandeha ny mikrô</span>';
+              btnSpeak.textContent = '🎤 Mitenena izao';
+              unlockNext();
+            }
           });
 
           shadowEvalHandler = (data) => {
@@ -5323,7 +5401,33 @@ async function renderChallenge() {
           btnSpeak.textContent = '🎙️ Mandre... (Écoute en cours)';
           speechFeedback.innerHTML = '<span style="color:var(--ds-color-accent);">Mitenena izao... (Je vous écoute...)</span>';
           isRecording = true;
-          shadowing.startRecording();
+          // ✅ V5.45: STT Manager intégré directement
+          if (window.sttManager) {
+            window.sttManager.startListening('fr-FR', {
+              onStart: () => console.log('[Generic] 🎤 STT démarré'),
+              onResult: (result) => {
+                isRecording = false;
+                btnSpeak.removeAttribute('disabled');
+                const recognized = result?.transcript || result?.text || '';
+                console.log('[Generic] Reconnu:', recognized);
+                speechFeedback.innerHTML = `<span style="color:var(--ds-color-success);">✅ Reconnu: ${recognized}</span>`;
+                btnSpeak.textContent = '✅ Vita';
+                unlockNext();
+              },
+              onError: (error) => {
+                isRecording = false;
+                btnSpeak.removeAttribute('disabled');
+                console.error('[Generic] Erreur STT:', error);
+                speechFeedback.innerHTML = '<span style="color:var(--ds-color-danger);">⚠️ Tsy mandeha ny mikrô</span>';
+                btnSpeak.textContent = '🎤 Mitenena izao';
+                unlockNext();
+              }
+            });
+          } else {
+            speechFeedback.innerHTML = '<span style="color:var(--ds-color-danger);">⚠️ Tsy mandeha ny mikrô</span>';
+            btnSpeak.textContent = '🎤 Mitenena izao';
+            unlockNext();
+          }
         });
 
         shadowEvalHandler = async (data) => {
