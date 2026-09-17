@@ -6,6 +6,8 @@ import './core/device-check.js';  // ✅ Détection appareil modeste (doit charg
 import './core/share-manager.js';  // ✅ Partage natif (app + certificat)
 import './ui/components/ds-quiz.js';
 import { sttManager } from './core/stt-manager.js';
+import { expressionMemory } from './core/expression-memory.js';  // ✅ Mémoire pédagogique des expressions
+window.expressionMemory = expressionMemory;
 // Exposer sttManager globalement pour RolePlayUI
 window.sttManager = sttManager;
 import { EventBus }            from './core/event-bus.js';
@@ -4046,6 +4048,12 @@ async function renderPractice() {
               }
               const similarity = calculateSimilarity(recognized.toLowerCase(), itemData.target.toLowerCase());
               const percent = Math.round(similarity * 100);
+              
+              // ✅ Enregistrer dans la mémoire pédagogique
+              if (window.expressionMemory) {
+                window.expressionMemory.recordExpression(itemData.target, currentTheme, 'practice', similarity);
+              }
+              
               if (similarity > 0.60) {
                 if (typeof feedbackSounds !== 'undefined') feedbackSounds.playSuccess();
                 shadowFeedback.innerHTML = `<div class="feedback-success" style="padding:0.75rem; font-size:0.9rem;">✅ Tena tsara ! (${percent}%)</div>`;
