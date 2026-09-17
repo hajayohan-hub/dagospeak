@@ -4388,6 +4388,12 @@ async function renderPracticePhrases() {
                   return;
                 }
                 const similarity = calculateSimilarity(recognized.toLowerCase(), itemData.context.toLowerCase());
+            
+            // ✅ Enregistrer dans la mémoire pédagogique
+            if (window.expressionMemory) {
+              window.expressionMemory.recordExpression(itemData.context, currentTheme, 'practice-phrases', similarity);
+            }
+            
                 const percent = Math.round(similarity * 100);
                 if (similarity > 0.60) {
                   if (typeof feedbackSounds !== 'undefined') feedbackSounds.playSuccess();
@@ -5010,6 +5016,12 @@ async function renderRolePlay() {
                       return;
                     }
                     const similarity = calculateSimilarity(recognized.toLowerCase(), line.text.toLowerCase());
+                      
+                      // ✅ Enregistrer dans la mémoire pédagogique
+                      if (window.expressionMemory) {
+                        window.expressionMemory.recordExpression(line.text, currentTheme, 'roleplay', similarity);
+                      }
+                      
                     const percent = Math.round(similarity * 100);
                     if (similarity > 0.50) {
                       if (typeof feedbackSounds !== 'undefined') feedbackSounds.playSuccess();
@@ -5380,6 +5392,12 @@ async function renderChallenge() {
                     return;
                   }
                   const similarity = calculateSimilarity(recognized.toLowerCase(), line.text.toLowerCase());
+              
+              // ✅ Enregistrer dans la mémoire pédagogique
+              if (window.expressionMemory) {
+                window.expressionMemory.recordExpression(line.text, currentTheme, 'challenge', similarity);
+              }
+              
                   const percent = Math.round(similarity * 100);
                   if (similarity > 0.60) {
                     if (typeof feedbackSounds !== 'undefined') feedbackSounds.playSuccess();
