@@ -6,7 +6,8 @@ import './core/device-check.js';  // ✅ Détection appareil modeste (doit charg
 import './core/share-manager.js';  // ✅ Partage natif (app + certificat)
 import './ui/components/ds-quiz.js';
 import { sttManager } from './core/stt-manager.js';
-import { expressionMemory } from './core/expression-memory.js';  // ✅ Mémoire pédagogique des expressions
+import { expressionMemory } from './core/expression-memory.js';
+import { expressionsView } from './ui/views/expressions-view.js';  // ✅ Mémoire pédagogique des expressions
 window.expressionMemory = expressionMemory;
 // Exposer sttManager globalement pour RolePlayUI
 window.sttManager = sttManager;
@@ -8652,6 +8653,10 @@ router.addRoute('/alphabet', renderAlphabet);  // ✅ AJOUTER
 router.addRoute('/conversation-live', renderConversationLive);
 router.addRoute('/conversation', renderConversation);
 router.addRoute('/dictionary', renderDictionary);
+router.addRoute('/expressions', async () => {
+  const main = document.getElementById('app');
+  await expressionsView.render(main);
+});
 router.addRoute('/certification', renderCertification);
 
 initTheme();
