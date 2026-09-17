@@ -3854,7 +3854,7 @@ async function renderPractice() {
         return;
       }
 
-      shadowing.forceStop();
+      if (window.sttManager) window.sttManager.stopListening();
       speechSynthesis.cancel();
       if (shadowEvalHandler) {
         bus.off('pronunciation:evaluated', shadowEvalHandler);
@@ -3943,7 +3943,7 @@ async function renderPractice() {
 
       // --- GESTION DES ÉVÉNEMENTS ---
       document.getElementById('btn-back-practice').addEventListener('click', () => {
-        shadowing.forceStop();
+        if (window.sttManager) window.sttManager.stopListening();
         speechSynthesis.cancel();
         router.navigate('/theme-detail');
       });
@@ -4020,7 +4020,7 @@ async function renderPractice() {
 
       btnShadow.addEventListener('click', () => {
         if (isRecording) {
-          shadowing.forceStop();
+          if (window.sttManager) window.sttManager.stopListening();
           isRecording = false;
           btnShadow.textContent = '🎤 Mitenena izao (Parler maintenant)';
           return;
@@ -4206,7 +4206,7 @@ async function renderPracticePhrases() {
         renderSessionComplete();
         return;
       }
-      shadowing.forceStop();
+      if (window.sttManager) window.sttManager.stopListening();
       speechSynthesis.cancel();
       if (shadowEvalHandler) {
         bus.off('pronunciation:evaluated', shadowEvalHandler);
@@ -4277,7 +4277,7 @@ async function renderPracticePhrases() {
       `;
 
       document.getElementById('btn-back-practice').addEventListener('click', () => {
-        shadowing.forceStop();
+        if (window.sttManager) window.sttManager.stopListening();
         speechSynthesis.cancel();
         router.navigate('/theme-detail');
       });
@@ -4347,7 +4347,7 @@ async function renderPracticePhrases() {
 
       btnShadow.addEventListener('click', () => {
         if (isRecording) {
-          shadowing.forceStop();
+          if (window.sttManager) window.sttManager.stopListening();
           isRecording = false;
           btnShadow.textContent = '🎤 Mitenena izao';
           return;
@@ -4723,7 +4723,7 @@ async function renderRolePlay() {
   // ✅ Cleanup : annuler tout TTS/STT précédent
   speechSynthesis.cancel();
   if (window.shadowing) {
-    window.shadowing.forceStop();
+    if (window.sttManager) window.sttManager.stopListening();
   }
 
   updateNavActiveState();
@@ -4953,7 +4953,7 @@ async function renderRolePlay() {
 
           btnSpeak.addEventListener('click', () => {
             if (isRecording) {
-              shadowing.forceStop();
+              if (window.sttManager) window.sttManager.stopListening();
               isRecording = false;
               btnSpeak.textContent = '🎤 Mitenena izao (Parler maintenant)';
               return;
@@ -5272,7 +5272,7 @@ async function renderChallenge() {
 
       // --- GESTION DES ÉVÉNEMENTS ---
       document.getElementById('btn-back-guided').addEventListener('click', () => {
-        shadowing.forceStop();
+        if (window.sttManager) window.sttManager.stopListening();
         speechSynthesis.cancel();
         if (currentLineIndex > 0) {
           currentLineIndex--;
@@ -5313,7 +5313,7 @@ async function renderChallenge() {
 
         btnSpeak.addEventListener('click', () => {
           if (isRecording) {
-            shadowing.forceStop();
+            if (window.sttManager) window.sttManager.stopListening();
             isRecording = false;
             btnSpeak.textContent = '🎤 Mitenena izao (Parler maintenant)';
             return;
