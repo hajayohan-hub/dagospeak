@@ -223,16 +223,7 @@ export class ExpressionMemory {
   /**
    * Réinitialise la mémoire (pour les tests)
    */
-  reset() {
-    this.#memory = {};
-    localStorage.removeItem(this.#storageKey);
-    console.log('[ExpressionMemory] Mémoire réinitialisée');
-  }
-}
-
-// Instance singleton
-export const expressionMemory = new ExpressionMemory();
-
+  
   /**
    * Met à jour la maîtrise d'une expression spécifique
    * @param {string} expression - L'expression à mettre à jour
@@ -253,3 +244,13 @@ export const expressionMemory = new ExpressionMemory();
     console.warn(`[ExpressionMemory] ⚠️ Expression non trouvée: "${expression}"`);
     return false;
   }
+
+  reset() {
+    this.#memory = {};
+    localStorage.removeItem(this.#storageKey);
+    console.log('[ExpressionMemory] Mémoire réinitialisée');
+  }
+}
+
+// Instance singleton
+export const expressionMemory = new ExpressionMemory();
