@@ -1,5 +1,5 @@
-import { sttManager } from '../core/stt-manager.js';
-import { expressionMemory } from '../core/expression-memory.js';
+import { sttManager } from '../../core/stt-manager.js';
+import { expressionMemory } from '../../core/expression-memory.js';
 
 /**
  * ReviewMode - Mode de révision intelligente pour les expressions faibles
