@@ -76,7 +76,8 @@ export class STTManager {
         toggleValue = 'ignored (offline)';
       } else {
         // Online = respecter le toggle
-        const settings = JSON.parse(localStorage.getItem('dagospeak:settings') || '{}');
+        // ✅ V5.60: Clé unifiée 'dagospeak:sttSettings'
+        const settings = JSON.parse(localStorage.getItem('dagospeak:sttSettings') || '{}');
         const userWantsRealSTT = settings.sttEnabled !== false;
         toggleValue = userWantsRealSTT ? 'web-api' : 'simulation';
         
