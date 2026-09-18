@@ -187,6 +187,43 @@ export class STTManager {
 
     let hasStartedSpeaking = false;
     let silenceStartTime = null;
+    
+    // ✅ V5.59: Timeout global de sécurité (15s)
+    const GLOBAL_TIMEOUT = 15000;
+    let globalTimeoutId = null;
+    let sessionEnded = false;
+    
+    const endSessionWithFlag = (flag, transcript = '') => {
+      if (sessionEnded) return;
+      sessionEnded = true;
+      
+      if (globalTimeoutId) {
+        clearTimeout(globalTimeoutId);
+        globalTimeoutId = null;
+      }
+      
+      finishSession();
+      callbacks.onResult?.({
+        transcript: transcript,
+        isReal: false,
+        simulated: true,
+        noSpeechDetected: flag === 'noSpeech',
+        incompleteAttempt: flag === 'incomplete'
+      });
+      callbacks.onEnd?.();
+      this.#isListening = false;
+    };
+    
+    globalTimeoutId = setTimeout(() => {
+      console.warn('[STTManager] ⏱️ Timeout 15s atteint');
+      if (!hasStartedSpeaking) {
+        console.log('[STTManager] 🤫 Aucune parole détectée');
+        endSessionWithFlag('noSpeech');
+      } else {
+        console.log('[STTManager] ⚠️ Tentative incomplète');
+        endSessionWithFlag('incomplete');
+      }
+    }, GLOBAL_TIMEOUT);
     let mediaStream = null;
     let audioContext = null;
     let analyser = null;
@@ -312,17 +349,9 @@ export class STTManager {
               if (silenceDuration > SILENCE_DURATION && elapsed > MIN_SPEECH_DURATION) {
                 console.log('[STTManager] ✅ Fin de parole détectée après', silenceDuration, 'ms de silence');
 
-                  finishSession(); // ✅ Nettoyage centralisé
-                
-                // Simuler une reconnaissance
-                callbacks.onResult?.({
-                  transcript: '[Mode entraînement hors connexion]',
-                  isReal: false,
-                  confidence: 1.0
-                });
-                
-                callbacks.onEnd?.();
-                this.#isListening = false;
+                  // ✅ V5.59: Fin VAD - tentative complète
+                  console.log('[STTManager] ✅ Tentative complète détectée');
+                  endSessionWithFlag('complete');
                 return;
               }
             }
