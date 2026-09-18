@@ -1,18 +1,102 @@
 {
   "id": "market_dialogue",
+  "title": "Au marché - Dialogue de lecture",
+  "titleMg": "Eny an-tsena - Resaka famakiana",
   "level": "A0",
   "theme": "market",
-  "title": "Au marché",
-  "titleMg": "Any an-tsena",
-  "participants": {
-    "A": { "name": "M. Dupont", "avatar": "👨‍🦳", "gender": "male" },
-    "B": { "name": "Lucas", "avatar": "👦🏻", "gender": "boy" }
-  },
+  "description": "Un dialogue simple au marché pour acheter du riz et des légumes",
+  "descriptionMg": "Resaka tsotra eny an-tsena hividianana vary sy legioma",
   "lines": [
-    { "speaker": "B", "text": "Bonjour, je voudrais du riz.", "translation": "Manahoana, te hividy vary aho.", "highlight": "riz" },
-    { "speaker": "A", "text": "Voilà. Et avec ça ?", "translation": "Ito tompoko. Ary inona koa?", "highlight": "Voilà" },
-    { "speaker": "B", "text": "Aussi du poisson, s'il vous plaît.", "translation": "Trondro koa, azafady.", "highlight": "poisson" },
-    { "speaker": "A", "text": "Ça fait 5000 Ariary.", "translation": "5000 Ariary.", "highlight": "5000" },
-    { "speaker": "B", "text": "Merci, au revoir !", "translation": "Misaotra, veloma!", "highlight": "Merci" }
+    {
+      "speaker": "B",
+      "speakerName": "Client",
+      "text": "Bonjour ! Je vais au marché aujourd'hui.",
+      "translation": "Manao ahoana! Handeha any an-tsena aho androany.",
+      "audio": ""
+    },
+    {
+      "speaker": "A",
+      "speakerName": "Vendeur",
+      "text": "Bonjour ! Bienvenue au marché. Que voulez-vous acheter ?",
+      "translation": "Manao ahoana! Tongasoa eto an-tsena. Inona no tianao hovidina?",
+      "audio": ""
+    },
+    {
+      "speaker": "B",
+      "speakerName": "Client",
+      "text": "Je voudrais acheter du riz, s'il vous plaît.",
+      "translation": "Te-hividy vary aho, azafady.",
+      "audio": ""
+    },
+    {
+      "speaker": "A",
+      "speakerName": "Vendeur",
+      "text": "Très bien. Le prix du riz est de 4000 Ariary le kilo.",
+      "translation": "Tsara be. 4000 Ariary ny kilao vary.",
+      "audio": ""
+    },
+    {
+      "speaker": "B",
+      "speakerName": "Client",
+      "text": "D'accord. Je voudrais deux kilos de riz.",
+      "translation": "Aoka. Te-hividy kilao roa vary aho.",
+      "audio": ""
+    },
+    {
+      "speaker": "A",
+      "speakerName": "Vendeur",
+      "text": "Deux kilos de riz, ça fait 8000 Ariary. Voulez-vous autre chose ?",
+      "translation": "Kilao roa vary dia 8000 Ariary. Mbola te-hividy zavatra hafa ve ianao?",
+      "audio": ""
+    },
+    {
+      "speaker": "B",
+      "speakerName": "Client",
+      "text": "Oui, je voudrais aussi des légumes.",
+      "translation": "Eny, te-hividy legioma koa aho.",
+      "audio": ""
+    },
+    {
+      "speaker": "A",
+      "speakerName": "Vendeur",
+      "text": "J'ai de bons légumes frais. C'est pas cher : 2000 Ariary le kilo.",
+      "translation": "Manana legioma vaovao tsara aho. Mora izany: 2000 Ariary ny kilao.",
+      "audio": ""
+    },
+    {
+      "speaker": "B",
+      "speakerName": "Client",
+      "text": "Parfait ! Un kilo de légumes, s'il vous plaît.",
+      "translation": "Tsara be! Kilao iray legioma, azafady.",
+      "audio": ""
+    },
+    {
+      "speaker": "A",
+      "speakerName": "Vendeur",
+      "text": "Voilà ! Riz et légumes, ça fait 10000 Ariary en tout.",
+      "translation": "Ity! Vary sy legioma dia 10000 Ariary rehetra.",
+      "audio": ""
+    },
+    {
+      "speaker": "B",
+      "speakerName": "Client",
+      "text": "Voilà l'argent. Merci beaucoup !",
+      "translation": "Ity ny vola. Misaotra betsaka!",
+      "audio": ""
+    },
+    {
+      "speaker": "A",
+      "speakerName": "Vendeur",
+      "text": "Merci ! Je suis content de vendre de bonnes choses. Au revoir !",
+      "translation": "Misaotra! Faly aho mivarotra zavatra tsara. Veloma!",
+      "audio": ""
+    },
+    {
+      "speaker": "B",
+      "speakerName": "Client",
+      "text": "Au revoir ! À bientôt au marché !",
+      "translation": "Veloma! Miverina haingana eto an-tsena!",
+      "audio": ""
+    }
   ]
 }

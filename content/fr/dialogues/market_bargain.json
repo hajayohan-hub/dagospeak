@@ -1,17 +1,102 @@
 {
   "id": "market_bargain",
-  "level": "A1",
-  "title": "Négocier au marché",
-  "titleMg": "Mifampiraharaha any an-tsena",
-  "participants": {
-    "A": { "name": "Vendeur", "nameMg": "Mpivarotra", "avatar": "👨🏾‍🌾" },
-    "B": { "name": "Client", "nameMg": "Mpanjifa", "avatar": "👩🏽" }
-  },
+  "title": "Négociation au marché",
+  "titleMg": "Fifampiraharahana eny an-tsena",
+  "level": "A0",
+  "theme": "market",
+  "description": "Apprenez à négocier le prix des légumes au marché",
+  "descriptionMg": "Mianara mifampiraharaha amin'ny vidin'ny legioma eny an-tsena",
   "lines": [
-    { "speaker": "B", "text": "Bonjour ! Combien coûte le poulet ?", "translation": "Manahoana ! Ohatrinona ny akoho?", "highlight": "Combien" },
-    { "speaker": "A", "text": "Bonjour ! C'est 10 000 Ariary.", "translation": "Manahoana ! 10 000 Ariary izany.", "highlight": "10 000" },
-    { "speaker": "B", "text": "C'est trop cher ! C'est bon marché ailleurs.", "translation": "Lafo loatra izany ! Mora any amin'ny hafa.", "highlight": "cher" },
-    { "speaker": "A", "text": "D'accord, pour vous, 8 000 Ariary.", "translation": "Tsy maninona, ho anao, 8 000 Ariary.", "highlight": "D'accord" },
-    { "speaker": "B", "text": "Merci beaucoup ! Je le prends.", "translation": "Misaotra betsaka ! Azoko izany.", "highlight": "Merci" }
+    {
+      "speaker": "B",
+      "speakerName": "Client",
+      "text": "Bonjour ! Quel est le prix de ces légumes ?",
+      "translation": "Manao ahoana! Ohatrinona ny vidin'ireo legioma ireo?",
+      "audio": ""
+    },
+    {
+      "speaker": "A",
+      "speakerName": "Vendeur",
+      "text": "Bonjour ! Ces légumes coûtent 8000 Ariary le kilo.",
+      "translation": "Manao ahoana! 8000 Ariary ny kilao ireo legioma ireo.",
+      "audio": ""
+    },
+    {
+      "speaker": "B",
+      "speakerName": "Client",
+      "text": "C'est trop cher ! Au marché d'à côté, c'est moins cher.",
+      "translation": "Lafo loatra izany! Mora kokoa eny an-tsena akaiky.",
+      "audio": ""
+    },
+    {
+      "speaker": "A",
+      "speakerName": "Vendeur",
+      "text": "D'accord, pour vous, je peux vendre à 6000 Ariary le kilo.",
+      "translation": "Aoka, ho anao, azoko atao mivarotra 6000 Ariary ny kilao.",
+      "audio": ""
+    },
+    {
+      "speaker": "B",
+      "speakerName": "Client",
+      "text": "C'est encore cher. Je peux payer 5000 Ariary le kilo.",
+      "translation": "Mbola lafo izany. Azoko atao mandoa 5000 Ariary ny kilao.",
+      "audio": ""
+    },
+    {
+      "speaker": "A",
+      "speakerName": "Vendeur",
+      "text": "Bon, d'accord. 5500 Ariary le kilo. C'est pas cher !",
+      "translation": "Aoka ary. 5500 Ariary ny kilao. Mora izany!",
+      "audio": ""
+    },
+    {
+      "speaker": "B",
+      "speakerName": "Client",
+      "text": "D'accord, je vais acheter deux kilos de légumes.",
+      "translation": "Aoka, te-hividy kilao roa legioma aho.",
+      "audio": ""
+    },
+    {
+      "speaker": "A",
+      "speakerName": "Vendeur",
+      "text": "Très bien ! Deux kilos, ça fait 11000 Ariary.",
+      "translation": "Tsara be! Kilao roa dia 11000 Ariary.",
+      "audio": ""
+    },
+    {
+      "speaker": "B",
+      "speakerName": "Client",
+      "text": "Je voudrais aussi acheter du riz. Combien ça coûte ?",
+      "translation": "Te-hividy vary koa aho. Ohatrinona izany?",
+      "audio": ""
+    },
+    {
+      "speaker": "A",
+      "speakerName": "Vendeur",
+      "text": "Le riz coûte 4000 Ariary le kilo. Pour vous, 3500 Ariary.",
+      "translation": "4000 Ariary ny kilao vary. Ho anao, 3500 Ariary.",
+      "audio": ""
+    },
+    {
+      "speaker": "B",
+      "speakerName": "Client",
+      "text": "Parfait ! Un kilo de riz. Voilà l'argent : 14500 Ariary.",
+      "translation": "Tsara be! Kilao iray vary. Ity ny vola: 14500 Ariary.",
+      "audio": ""
+    },
+    {
+      "speaker": "A",
+      "speakerName": "Vendeur",
+      "text": "Merci beaucoup ! Au revoir et à bientôt au marché !",
+      "translation": "Misaotra betsaka! Veloma ary miverina haingana eto an-tsena!",
+      "audio": ""
+    },
+    {
+      "speaker": "B",
+      "speakerName": "Client",
+      "text": "Merci ! Vous vendez de bonnes choses. Au revoir !",
+      "translation": "Misaotra! Mivarotra zavatra tsara ianao. Veloma!",
+      "audio": ""
+    }
   ]
 }
