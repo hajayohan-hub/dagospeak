@@ -55,11 +55,11 @@
     {
       "id": "ask_what_to_buy",
       "speaker": "teacher",
-      "textFr": "Très bien ! Aujourd'hui j'ai des bananes, des pommes, des oranges et des mangues. Que voulez-vous acheter ?",
-      "textMg": "Tsara! Androany dia misy akondro, paoma, voasary ary manga. Inona no tianao hovidina?",
+      "textFr": "Très bien ! Aujourd'hui j'ai des bananes, des pommes, des oranges, des mangues, du riz et des légumes. Que voulez-vous acheter ?",
+      "textMg": "Tsara! Androany dia misy akondro, paoma, voasary, manga, vary ary legioma. Inona no tianao hovidina?",
       "audio": {
         "ttsRate": 0.9,
-        "ttsTextFr": "Très bien! Aujourd'hui j'ai des bananes, des pommes, des oranges et des mangues. Que voulez-vous acheter?"
+        "ttsTextFr": "Très bien ! Aujourd'hui j'ai des bananes, des pommes, des oranges, des mangues, du riz et des légumes. Que voulez-vous acheter ?"
       },
       "nextNode": "user_choice"
     },
@@ -104,6 +104,18 @@
           "textMg": "Te-hividy papaya aho.",
           "isCorrect": true,
           "nextNodeOnSuccess": "node_price_papaye"
+        },
+        {
+          "textFr": "Je voudrais du riz, s'il vous plaît.",
+          "textMg": "Te-hividy vary aho, azafady.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "node_price_riz"
+        },
+        {
+          "textFr": "Je voudrais des légumes.",
+          "textMg": "Te-hividy legioma aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "node_price_legumes"
         }
       ]
     },
@@ -589,11 +601,11 @@
     {
       "id": "farewell",
       "speaker": "teacher",
-      "textFr": "Très bien ! Merci beaucoup et bonne journée ! Au revoir !",
-      "textMg": "Tsara be! Misaotra betsaka ary mirary tontolo andro tsara! Veloma!",
+      "textFr": "Très bien ! Merci de vendre de si bonnes choses au marché ! Bonne journée ! Au revoir !",
+      "textMg": "Tsara be! Misaotra noho ny fivarotanao zavatra tsara eto an-tsena! Arahabaina tontolo andro tsara! Veloma!",
       "audio": {
         "ttsRate": 0.9,
-        "ttsTextFr": "Très bien! Merci beaucoup et bonne journée! Au revoir!"
+        "ttsTextFr": "Très bien ! Merci de vendre de si bonnes choses au marché ! Bonne journée ! Au revoir !"
       },
       "nextNode": "end"
     },
@@ -607,6 +619,282 @@
         "ttsRate": 0.9,
         "ttsTextFr": "Bravo! Vous avez terminé la conversation au marché."
       }
+    },
+    {
+      "id": "node_price_riz",
+      "speaker": "teacher",
+      "textFr": "Excellent choix ! Le riz coûte 4000 Ariary le kilo. Combien de kilos voulez-vous ?",
+      "textMg": "Safidy tsara! 4000 Ariary ny kilao vary. Firy kilao no tianao?",
+      "audio": {
+        "ttsRate": 0.9,
+        "ttsTextFr": "Excellent choix! Le riz coûte 4000 Ariary le kilo. Combien de kilos voulez-vous?"
+      },
+      "nextNode": "quantity_riz"
+    },
+    {
+      "id": "quantity_riz",
+      "speaker": "user",
+      "textFr": "Choisissez la quantité de riz.",
+      "textMg": "Safidio ny habetsahan'ny vary.",
+      "responseOptions": [
+        {
+          "textFr": "Un kilo de riz, s'il vous plaît.",
+          "textMg": "Kilao iray vary, azafady.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "total_riz_1"
+        },
+        {
+          "textFr": "Deux kilos de riz.",
+          "textMg": "Kilao roa vary.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "total_riz_2"
+        },
+        {
+          "textFr": "Cinq kilos de riz, s'il vous plaît.",
+          "textMg": "Kilao dimy vary, azafady.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "total_riz_5"
+        }
+      ]
+    },
+    {
+      "id": "total_riz_1",
+      "speaker": "teacher",
+      "textFr": "Parfait ! Un kilo de riz, ça fait 4000 Ariary. Voulez-vous autre chose ?",
+      "textMg": "Tonga lafatra! Kilao iray vary dia 4000 Ariary. Mbola te-hividy zavatra hafa ve ianao?",
+      "audio": {
+        "ttsRate": 0.9,
+        "ttsTextFr": "Parfait! Un kilo de riz, ça fait 4000 Ariary. Voulez-vous autre chose?"
+      },
+      "nextNode": "ask_more_after_riz"
+    },
+    {
+      "id": "total_riz_2",
+      "speaker": "teacher",
+      "textFr": "Deux kilos de riz, ça fait 8000 Ariary. Autre chose ?",
+      "textMg": "Kilao roa vary dia 8000 Ariary. Zavatra hafa?",
+      "audio": {
+        "ttsRate": 0.9,
+        "ttsTextFr": "Deux kilos de riz, ça fait 8000 Ariary. Autre chose?"
+      },
+      "nextNode": "ask_more_after_riz"
+    },
+    {
+      "id": "total_riz_5",
+      "speaker": "teacher",
+      "textFr": "Cinq kilos de riz, ça fait 20000 Ariary. Voulez-vous autre chose ?",
+      "textMg": "Kilao dimy vary dia 20000 Ariary. Mbola te-hividy zavatra hafa ve?",
+      "audio": {
+        "ttsRate": 0.9,
+        "ttsTextFr": "Cinq kilos de riz, ça fait 20000 Ariary. Voulez-vous autre chose?"
+      },
+      "nextNode": "ask_more_after_riz"
+    },
+    {
+      "id": "ask_more_after_riz",
+      "speaker": "user",
+      "textFr": "Voulez-vous acheter autre chose ?",
+      "textMg": "Mbola te-hividy zavatra hafa ve ianao?",
+      "responseOptions": [
+        {
+          "textFr": "Oui, je voudrais aussi des légumes.",
+          "textMg": "Eny, te-hividy legioma koa aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "node_price_legumes"
+        },
+        {
+          "textFr": "Oui, je voudrais aussi des bananes.",
+          "textMg": "Eny, te-hividy akondro koa aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "node_price_banana"
+        },
+        {
+          "textFr": "Non merci, c'est tout. Vous vendez de bonnes choses !",
+          "textMg": "Tsia misaotra, izay ihany. Mivarotra zavatra tsara ianao!",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "farewell"
+        }
+      ]
+    },
+    {
+      "id": "node_price_legumes",
+      "speaker": "teacher",
+      "textFr": "Très bon choix ! J'ai de bons légumes frais. Le prix est de 2000 Ariary le kilo. Quelle quantité ?",
+      "textMg": "Safidy tsara be! Manana legioma vaovao tsara aho. 2000 Ariary ny kilao. Firy no tianao?",
+      "audio": {
+        "ttsRate": 0.9,
+        "ttsTextFr": "Très bon choix! J'ai de bons légumes frais. Le prix est de 2000 Ariary le kilo. Quelle quantité?"
+      },
+      "nextNode": "quantity_legumes"
+    },
+    {
+      "id": "quantity_legumes",
+      "speaker": "user",
+      "textFr": "Choisissez la quantité de légumes.",
+      "textMg": "Safidio ny habetsahan'ny legioma.",
+      "responseOptions": [
+        {
+          "textFr": "Un kilo de légumes, s'il vous plaît.",
+          "textMg": "Kilao iray legioma, azafady.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "total_legumes_1"
+        },
+        {
+          "textFr": "Deux kilos de légumes.",
+          "textMg": "Kilao roa legioma.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "total_legumes_2"
+        },
+        {
+          "textFr": "C'est cher ! Vous pouvez baisser le prix ?",
+          "textMg": "Lafo izany! Azonao atao ve ny mampidina ny vidiny?",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "bargain_legumes"
+        }
+      ]
+    },
+    {
+      "id": "bargain_legumes",
+      "speaker": "teacher",
+      "textFr": "D'accord, pour vous, c'est pas cher : 1500 Ariary le kilo ! Combien voulez-vous ?",
+      "textMg": "Aoka ho anao, mora izany: 1500 Ariary ny kilao! Firy no tianao?",
+      "audio": {
+        "ttsRate": 0.9,
+        "ttsTextFr": "D'accord, pour vous, c'est pas cher: 1500 Ariary le kilo! Combien voulez-vous?"
+      },
+      "nextNode": "quantity_legumes_bargain"
+    },
+    {
+      "id": "quantity_legumes_bargain",
+      "speaker": "user",
+      "textFr": "Choisissez la quantité de légumes.",
+      "textMg": "Safidio ny habetsahan'ny legioma.",
+      "responseOptions": [
+        {
+          "textFr": "Deux kilos de légumes, s'il vous plaît.",
+          "textMg": "Kilao roa legioma, azafady.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "total_legumes_bargain_2"
+        },
+        {
+          "textFr": "Trois kilos de légumes.",
+          "textMg": "Kilao telo legioma.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "total_legumes_bargain_3"
+        }
+      ]
+    },
+    {
+      "id": "total_legumes_1",
+      "speaker": "teacher",
+      "textFr": "Un kilo de légumes, ça fait 2000 Ariary. Autre chose ?",
+      "textMg": "Kilao iray legioma dia 2000 Ariary. Zavatra hafa?",
+      "audio": {
+        "ttsRate": 0.9,
+        "ttsTextFr": "Un kilo de légumes, ça fait 2000 Ariary. Autre chose?"
+      },
+      "nextNode": "ask_more_after_legumes"
+    },
+    {
+      "id": "total_legumes_2",
+      "speaker": "teacher",
+      "textFr": "Deux kilos de légumes, ça fait 4000 Ariary. Voulez-vous autre chose ?",
+      "textMg": "Kilao roa legioma dia 4000 Ariary. Mbola te-hividy zavatra hafa ve?",
+      "audio": {
+        "ttsRate": 0.9,
+        "ttsTextFr": "Deux kilos de légumes, ça fait 4000 Ariary. Voulez-vous autre chose?"
+      },
+      "nextNode": "ask_more_after_legumes"
+    },
+    {
+      "id": "total_legumes_bargain_2",
+      "speaker": "teacher",
+      "textFr": "Deux kilos de légumes, ça fait 3000 Ariary. C'est pas cher ! Autre chose ?",
+      "textMg": "Kilao roa legioma dia 3000 Ariary. Mora izany! Zavatra hafa?",
+      "audio": {
+        "ttsRate": 0.9,
+        "ttsTextFr": "Deux kilos de légumes, ça fait 3000 Ariary. C'est pas cher! Autre chose?"
+      },
+      "nextNode": "ask_more_after_legumes"
+    },
+    {
+      "id": "total_legumes_bargain_3",
+      "speaker": "teacher",
+      "textFr": "Trois kilos de légumes, ça fait 4500 Ariary. Voulez-vous autre chose ?",
+      "textMg": "Kilao telo legioma dia 4500 Ariary. Mbola te-hividy zavatra hafa ve?",
+      "audio": {
+        "ttsRate": 0.9,
+        "ttsTextFr": "Trois kilos de légumes, ça fait 4500 Ariary. Voulez-vous autre chose?"
+      },
+      "nextNode": "ask_more_after_legumes"
+    },
+    {
+      "id": "ask_more_after_legumes",
+      "speaker": "user",
+      "textFr": "Voulez-vous acheter autre chose ?",
+      "textMg": "Mbola te-hividy zavatra hafa ve ianao?",
+      "responseOptions": [
+        {
+          "textFr": "Oui, je voudrais aussi du riz.",
+          "textMg": "Eny, te-hividy vary koa aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "node_price_riz"
+        },
+        {
+          "textFr": "Oui, je voudrais aussi des oranges.",
+          "textMg": "Eny, te-hividy voasary koa aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "node_price_orange"
+        },
+        {
+          "textFr": "Non merci, c'est tout. Combien je vous dois ?",
+          "textMg": "Tsia misaotra, izay ihany. Firy no trosako?",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "final_total"
+        }
+      ]
+    },
+    {
+      "id": "final_total",
+      "speaker": "teacher",
+      "textFr": "Alors... ça fait 8500 Ariary en tout. Vous avez l'argent ?",
+      "textMg": "Dia... 8500 Ariary izany rehetra izany. Manam-bola ve ianao?",
+      "audio": {
+        "ttsRate": 0.9,
+        "ttsTextFr": "Alors... ça fait 8500 Ariary en tout. Vous avez l'argent?"
+      },
+      "nextNode": "payment"
+    },
+    {
+      "id": "payment",
+      "speaker": "user",
+      "textFr": "Comment voulez-vous payer ?",
+      "textMg": "Ahoana no fomba handoavanao?",
+      "responseOptions": [
+        {
+          "textFr": "Voilà l'argent. Merci beaucoup !",
+          "textMg": "Ity ny vola. Misaotra betsaka!",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "farewell"
+        },
+        {
+          "textFr": "Je n'ai pas assez d'argent. Je vais revenir.",
+          "textMg": "Tsy ampy ny volako. hiverina aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "farewell_later"
+        }
+      ]
+    },
+    {
+      "id": "farewell_later",
+      "speaker": "teacher",
+      "textFr": "Pas de problème ! Revenez quand vous voulez. Au revoir !",
+      "textMg": "Tsy maninona! Miverena rehefa tianao. Veloma!",
+      "audio": {
+        "ttsRate": 0.9,
+        "ttsTextFr": "Pas de problème! Revenez quand vous voulez. Au revoir!"
+      },
+      "nextNode": "end"
     }
   ]
 }
