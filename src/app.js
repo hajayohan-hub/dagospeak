@@ -4123,6 +4123,13 @@ async function renderPractice() {
 
       if (typeof feedbackSounds !== 'undefined') feedbackSounds.playCelebration();
       await gamification.addXP(50, 'Session de révision terminée');
+        
+        // ✅ V5.58: Conseil intelligent après session
+        setTimeout(() => {
+          if (window.teacherAvatar && window.aiManager) {
+            window.teacherAvatar.showIntelligentAdvice('after-session');
+          }
+        }, 2000);
       journeyTracker.markJourneyComplete('practices', unitId);
       saveProfile();
 

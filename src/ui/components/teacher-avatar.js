@@ -13,6 +13,7 @@ export class TeacherAvatar {
   #lastTipShown = {};  // ✅ NOUVEAU : Anti-spam
    #lastGlobalSpeak = 0;  // ✅ NOUVEAU : Délai global
      #isSessionActive = false;  // ✅ Désactiver pendant Role Play/Challenge
+  #lastIntelligentAdviceTime = 0;  // ✅ V5.58: Anti-spam conseils intelligents
 
   constructor() {
     this.#loadMasteredThemes();
@@ -268,7 +269,66 @@ export class TeacherAvatar {
   }
 
   // ─────────── AFFICHAGE DES CONSEILS PAR PAGE ───────────
-  show(tipKey) {
+
+  /**
+   * ✅ V5.58: Conseil intelligent basé sur la mémoire pédagogique
+   * Analyse les expressions maîtrisées et propose des conseils personnalisés
+   * @param {string} context - Contexte actuel ('home', 'practice', 'after-session')
+   */
+  showIntelligentAdvice(context = 'home') {
+    if (!window.aiManager) {
+      console.log('[TeacherAvatar] AIManager non disponible');
+      return;
+    }
+
+    // Vérifier le délai anti-spam (5 secondes entre conseils intelligents)
+    const now = Date.now();
+    if (this.#lastIntelligentAdviceTime && now - this.#lastIntelligentAdviceTime < 5000) {
+      return;
+    }
+    this.#lastIntelligentAdviceTime = now;
+
+    // Obtenir le conseil personnalisé
+    const advice = window.aiManager.getPersonalizedAdvice();
+    
+    // Selon le contexte, adapter le message
+    let message = '';
+    let shouldSpeak = false;
+
+    if (context === 'home') {
+      // Sur la page d'accueil : conseil général + suggestion
+      const suggestion = window.aiManager.suggestNextExpression();
+      if (suggestion) {
+        message = `${advice} Je vous suggère de pratiquer : "${suggestion.expression}"`;
+        shouldSpeak = true;
+      } else {
+        message = advice;
+        shouldSpeak = true;
+      }
+    } 
+    else if (context === 'after-session') {
+      // Après une session : félicitations + prochaine étape
+      message = `Bravo pour cette session ! ${advice}`;
+      shouldSpeak = true;
+    }
+    else if (context === 'practice') {
+      // Pendant la pratique : encouragement
+      const encouragement = window.aiManager.getPersonalizedAdvice();
+      message = encouragement;
+      shouldSpeak = false; // Ne pas parler pendant la pratique (distrait)
+    }
+
+    // Afficher et parler si nécessaire
+    if (message) {
+      console.log(`[TeacherAvatar] 💡 Conseil intelligent (${context}):`, message);
+      this.show('intelligent-advice', { 
+        fr: message, 
+        speak: message 
+      });
+    }
+  }
+
+  show(tipKey, customData = null) {
     const tips = {
           'home': {
             fr: "Je suis votre professeure virtuelle ! Cliquez sur un niveau pour commencer. 🎓",
