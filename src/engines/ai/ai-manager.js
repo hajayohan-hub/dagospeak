@@ -3,6 +3,7 @@
  * Permet de basculer entre Local (ONNX/WebLLM), Cloud ou Fallback sans toucher à l'UI.
  */
 import { DeviceCheck } from './device-check.js';
+import { pedagogicalIntelligence } from './pedagogical-intelligence.js';
 
 export class AIManager {
   constructor(bus) {
@@ -27,6 +28,13 @@ export class AIManager {
     // if (this.deviceCheck.canRunHeavyAI()) { await import('...onnx...'); }
 
     this.isInitialized = true;
+    
+    // Initialiser l'intelligence pédagogique
+    const expressionMemory = window.expressionMemory;
+    if (expressionMemory) {
+      pedagogicalIntelligence.initialize(expressionMemory);
+    }
+    
     this.bus.emit('ai:ready');
   }
 
@@ -65,4 +73,26 @@ export class AIManager {
     await new Promise(resolve => setTimeout(resolve, 1000));
     return `Ceci est une réponse simulée à : "${userMessage}" dans le contexte : "${context}".`;
   }
+
+  /**
+   * Obtient un conseil pédagogique personnalisé
+   */
+  getPersonalizedAdvice() {
+    return pedagogicalIntelligence.getPersonalizedAdvice();
+  }
+
+  /**
+   * Suggère la prochaine expression à pratiquer
+   */
+  suggestNextExpression(currentTheme = null) {
+    return pedagogicalIntelligence.suggestNextExpression(currentTheme);
+  }
+
+  /**
+   * Génère une variation d'expression
+   */
+  generateVariation(baseExpression) {
+    return pedagogicalIntelligence.generateVariation(baseExpression);
+  }
+
 }
