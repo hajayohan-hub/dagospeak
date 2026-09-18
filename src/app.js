@@ -7,10 +7,14 @@ import './core/share-manager.js';  // ✅ Partage natif (app + certificat)
 import './ui/components/ds-quiz.js';
 import { sttManager } from './core/stt-manager.js';
 import { expressionMemory } from './core/expression-memory.js';
+import { spacedRepetition } from './core/spaced-repetition.js';  // ✅ V5.61: Spaced Repetition
+import { reviewNotification } from './ui/views/review-notification.js';  // ✅ V5.61: UI notification
 import { expressionsView } from './ui/views/expressions-view.js';  // ✅ Mémoire pédagogique des expressions
 import { reviewMode } from './ui/views/review-mode.js';  // ✅ Mode révision intelligent
 window.reviewMode = reviewMode;
 window.expressionMemory = expressionMemory;
+window.spacedRepetition = spacedRepetition;  // ✅ V5.61
+window.reviewNotification = reviewNotification;  // ✅ V5.61
 // Exposer sttManager globalement pour RolePlayUI
 window.sttManager = sttManager;
 import { EventBus }            from './core/event-bus.js';
@@ -1048,6 +1052,47 @@ function initHeroCarousel() {
 // ✅ Helper : Détecter si on est en mode hors-ligne (PWA offline)
 function isOfflineMode() {
   return !navigator.onLine || (window.matchMedia && window.matchMedia('(offline)').matches);
+}
+
+// ✅ V5.61: Vérification Spaced Repetition
+function checkSpacedRepetition() {
+  if (!window.spacedRepetition || !window.expressionMemory) {
+    console.log('[App] Spaced Repetition non disponible');
+    return;
+  }
+
+  const notification = window.spacedRepetition.shouldShowNotification(window.expressionMemory);
+  
+  if (!notification) {
+    console.log('[App] Pas de révision nécessaire');
+    return;
+  }
+
+  console.log(`[App] 🧠 ${notification.count} expression(s) à réviser`);
+
+  const message = window.spacedRepetition.generateNotificationMessage(notification.count);
+
+  window.reviewNotification.show(
+    notification.expressions,
+    message,
+    // onAccept: lancer la révision
+    (expressions) => {
+      console.log('[App] ✅ Utilisateur accepte la révision');
+      window.spacedRepetition.markNotificationShown();
+      
+      // Lancer le mode révision avec la première expression
+      if (expressions.length > 0 && window.reviewMode) {
+        const firstExpr = expressions[0];
+        const theme = firstExpr.themes[0] || 'survival';
+        window.reviewMode.start(firstExpr.expression, theme);
+      }
+    },
+    // onDismiss: juste marquer comme vu
+    () => {
+      console.log('[App] ⏸️  Utilisateur reporte la révision');
+      window.spacedRepetition.markNotificationShown();
+    }
+  );
 }
 
 async function renderHome() {
