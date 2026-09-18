@@ -8,6 +8,7 @@ import './ui/components/ds-quiz.js';
 import { sttManager } from './core/stt-manager.js';
 import { expressionMemory } from './core/expression-memory.js';
 import { expressionsView } from './ui/views/expressions-view.js';  // ✅ Mémoire pédagogique des expressions
+import { reviewMode } from './ui/views/review-mode.js';  // ✅ Mode révision intelligent
 window.reviewMode = reviewMode;
 window.expressionMemory = expressionMemory;
 // Exposer sttManager globalement pour RolePlayUI
