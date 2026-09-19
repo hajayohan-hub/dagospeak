@@ -1,0 +1,160 @@
+{
+  "id": "verbes_er_01",
+  "titleFr": "Apprendre les verbes en -er",
+  "titleMg": "Mianatra ny matoanteny -er",
+  "level": "A0",
+  "theme": "verbes_er",
+  "descriptionFr": "Parler, manger, aimer - 90% des verbes français",
+  "descriptionMg": "Miteny, mihinana, tia - 90% amin'ny matoanteny frantsay",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "teacher",
+      "textFr": "Bonjour {firstName} ! Aujourd'hui, nous allons apprendre les verbes en -er. Tu es prêt ?",
+      "textMg": "Manao ahoana {firstName}! Androany, hianatra ny matoanteny -er isika. Vonona ve ianao?",
+      "audio": {
+        "ttsTextFr": "Bonjour! Aujourd'hui, nous allons apprendre les verbes en -er. Tu es prêt?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "intro"
+    },
+    {
+      "id": "intro",
+      "speaker": "teacher",
+      "textFr": "Parler, manger, aimer - 90% des verbes français. Commençons par les exemples.",
+      "textMg": "Miteny, mihinana, tia - 90% amin'ny matoanteny frantsay. Andao hanomboka amin'ny ohatra.",
+      "audio": {
+        "ttsTextFr": "Parler, manger, aimer - 90% des verbes français. Commençons.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz1"
+    },
+    {
+      "id": "quiz1",
+      "speaker": "user",
+      "textFr": "Ahoana no ilazana 'miteny frantsay aho' ?",
+      "textMg": "Ahoana no ilazana 'miteny frantsay aho' ?",
+      "responseOptions": [
+        {
+          "textFr": "Je parle français",
+          "textMg": "Je parle français",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct1"
+        },
+        {
+          "textFr": "Je mange français",
+          "textMg": "Je mange français",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'miteny' signifie 'parler', pas 'manger'.",
+            "mg": "Tsia, 'miteny' dia 'parler', fa tsy 'manger'."
+          },
+          "nextNodeOnFail": "quiz1"
+        }
+      ]
+    },
+    {
+      "id": "correct1",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Bonne réponse.",
+      "textMg": "Tsara be! Valiny marina.",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz2"
+    },
+    {
+      "id": "quiz2",
+      "speaker": "user",
+      "textFr": "Ahoana no ilazana 'mihinana vary izy' ?",
+      "textMg": "Ahoana no ilazana 'mihinana vary izy' ?",
+      "responseOptions": [
+        {
+          "textFr": "Il mange du riz",
+          "textMg": "Il mange du riz",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct2"
+        },
+        {
+          "textFr": "Il parle du riz",
+          "textMg": "Il parle du riz",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'mihinana' signifie 'manger', pas 'parler'.",
+            "mg": "Tsia, 'mihinana' dia 'manger', fa tsy 'parler'."
+          },
+          "nextNodeOnFail": "quiz2"
+        }
+      ]
+    },
+    {
+      "id": "correct2",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Bonne réponse.",
+      "textMg": "Tsara be! Valiny marina.",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz3"
+    },
+    {
+      "id": "quiz3",
+      "speaker": "user",
+      "textFr": "Ahoana no ilazana 'tia mozika izy' ?",
+      "textMg": "Ahoana no ilazana 'tia mozika izy' ?",
+      "responseOptions": [
+        {
+          "textFr": "Elle aime la musique",
+          "textMg": "Elle aime la musique",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct3"
+        },
+        {
+          "textFr": "Elle chante la musique",
+          "textMg": "Elle chante la musique",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'tia' signifie 'aimer', pas 'chanter'.",
+            "mg": "Tsia, 'tia' dia 'aimer', fa tsy 'chanter'."
+          },
+          "nextNodeOnFail": "quiz3"
+        }
+      ]
+    },
+    {
+      "id": "correct3",
+      "speaker": "teacher",
+      "textFr": "Bravo ! Tu as maîtrisé les verbes en -er. Continue à pratiquer !",
+      "textMg": "Arahabaina! Hainao tsara ny ny matoanteny -er. Mianara mitohy!",
+      "audio": {
+        "ttsTextFr": "Bravo!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "farewell"
+    },
+    {
+      "id": "farewell",
+      "speaker": "teacher",
+      "textFr": "Bravo pour ton travail ! À bientôt !",
+      "textMg": "Arahabaina tamin'ny asanao! Mandra-pihaona!",
+      "audio": {
+        "ttsTextFr": "Bravo pour ton travail! À bientôt!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "end"
+    },
+    {
+      "id": "end",
+      "speaker": "teacher",
+      "isEnd": true,
+      "textFr": "Tu as terminé la leçon sur les verbes en -er.",
+      "textMg": "Vita ny lesona momba ny ny matoanteny -er.",
+      "audio": {
+        "ttsTextFr": "Tu as terminé la leçon sur les verbes en -er.",
+        "ttsRate": 0.9
+      }
+    }
+  ]
+}

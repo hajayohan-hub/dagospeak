@@ -1,0 +1,322 @@
+[
+  {
+    "id": "verbes_er_001",
+    "level": "A0",
+    "category": "verbes_er",
+    "pos": "verbe",
+    "wordFr": "parler",
+    "wordMg": "miteny",
+    "phonetic": "/paʁ.le/",
+    "visual": {
+      "icon": "💬",
+      "iconClass": "icon-verbes_er",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "parler",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/verbes_er/ver1.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Je parle français.",
+      "exampleMg": "Miteny frantsay aho.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "verbes_er_002",
+    "level": "A0",
+    "category": "verbes_er",
+    "pos": "verbe",
+    "wordFr": "manger",
+    "wordMg": "mihinana",
+    "phonetic": "/mɑ̃.ʒe/",
+    "visual": {
+      "icon": "🍚",
+      "iconClass": "icon-verbes_er",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "manger",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/verbes_er/ver2.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Il mange du riz.",
+      "exampleMg": "Mihinana vary izy.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "verbes_er_003",
+    "level": "A0",
+    "category": "verbes_er",
+    "pos": "verbe",
+    "wordFr": "aimer",
+    "wordMg": "tia",
+    "phonetic": "/ɛ.me/",
+    "visual": {
+      "icon": "❤️",
+      "iconClass": "icon-verbes_er",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "aimer",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/verbes_er/ver3.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Elle aime la musique.",
+      "exampleMg": "Tia mozika izy.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "verbes_er_004",
+    "level": "A0",
+    "category": "verbes_er",
+    "pos": "verbe",
+    "wordFr": "travailler",
+    "wordMg": "miasa",
+    "phonetic": "/tʁa.va.je/",
+    "visual": {
+      "icon": "💼",
+      "iconClass": "icon-verbes_er",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "travailler",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/verbes_er/ver4.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Nous travaillons beaucoup.",
+      "exampleMg": "Miasa be izahay.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "verbes_er_005",
+    "level": "A0",
+    "category": "verbes_er",
+    "pos": "verbe",
+    "wordFr": "habiter",
+    "wordMg": "monina",
+    "phonetic": "/a.bi.te/",
+    "visual": {
+      "icon": "🏠",
+      "iconClass": "icon-verbes_er",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "habiter",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/verbes_er/ver5.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "J'habite à Antananarivo.",
+      "exampleMg": "Monina eto Antananarivo aho.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "verbes_er_006",
+    "level": "A0",
+    "category": "verbes_er",
+    "pos": "verbe",
+    "wordFr": "écouter",
+    "wordMg": "mihaino",
+    "phonetic": "/e.ku.te/",
+    "visual": {
+      "icon": "👂",
+      "iconClass": "icon-verbes_er",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "écouter",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/verbes_er/ver6.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Tu écoutes la radio.",
+      "exampleMg": "Mihaino radio ianao.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "verbes_er_007",
+    "level": "A0",
+    "category": "verbes_er",
+    "pos": "verbe",
+    "wordFr": "regarder",
+    "wordMg": "mijery",
+    "phonetic": "/ʁə.ɡaʁ.de/",
+    "visual": {
+      "icon": "📺",
+      "iconClass": "icon-verbes_er",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "regarder",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/verbes_er/ver7.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Ils regardent la télévision.",
+      "exampleMg": "Mijery televiziona izy ireo.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "verbes_er_008",
+    "level": "A0",
+    "category": "verbes_er",
+    "pos": "verbe",
+    "wordFr": "jouer",
+    "wordMg": "milalao",
+    "phonetic": "/ʒu.e/",
+    "visual": {
+      "icon": "⚽",
+      "iconClass": "icon-verbes_er",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "jouer",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/verbes_er/ver8.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Les enfants jouent dehors.",
+      "exampleMg": "Milalao any ivelany ireo ankizy.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "verbes_er_009",
+    "level": "A0",
+    "category": "verbes_er",
+    "pos": "verbe",
+    "wordFr": "chanter",
+    "wordMg": "mihira",
+    "phonetic": "/ʃɑ̃.te/",
+    "visual": {
+      "icon": "🎤",
+      "iconClass": "icon-verbes_er",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "chanter",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/verbes_er/ver9.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Elle chante bien.",
+      "exampleMg": "Mihira tsara izy.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "verbes_er_010",
+    "level": "A0",
+    "category": "verbes_er",
+    "pos": "verbe",
+    "wordFr": "danser",
+    "wordMg": "mandihy",
+    "phonetic": "/dɑ̃.se/",
+    "visual": {
+      "icon": "💃",
+      "iconClass": "icon-verbes_er",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "danser",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/verbes_er/ver10.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Nous dansons ensemble.",
+      "exampleMg": "Mandihy miaraka izahay.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  }
+]

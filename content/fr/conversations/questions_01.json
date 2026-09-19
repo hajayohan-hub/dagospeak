@@ -1,0 +1,160 @@
+{
+  "id": "questions_01",
+  "titleFr": "Apprendre les mots interrogatifs",
+  "titleMg": "Mianatra ny teny fanontaniana",
+  "level": "A0",
+  "theme": "questions",
+  "descriptionFr": "Où, quand, pourquoi, comment - poser des questions",
+  "descriptionMg": "Aiza, rahoviana, nahoana, ahoana - manontany",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "teacher",
+      "textFr": "Bonjour {firstName} ! Aujourd'hui, nous allons apprendre les mots interrogatifs. Tu es prêt ?",
+      "textMg": "Manao ahoana {firstName}! Androany, hianatra ny teny fanontaniana isika. Vonona ve ianao?",
+      "audio": {
+        "ttsTextFr": "Bonjour! Aujourd'hui, nous allons apprendre les mots interrogatifs. Tu es prêt?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "intro"
+    },
+    {
+      "id": "intro",
+      "speaker": "teacher",
+      "textFr": "Où, quand, pourquoi, comment - poser des questions. Commençons par les exemples.",
+      "textMg": "Aiza, rahoviana, nahoana, ahoana - manontany. Andao hanomboka amin'ny ohatra.",
+      "audio": {
+        "ttsTextFr": "Où, quand, pourquoi, comment - poser des questions. Commençons.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz1"
+    },
+    {
+      "id": "quiz1",
+      "speaker": "user",
+      "textFr": "Ahoana no ilazana 'aiza no fonenanao?' ?",
+      "textMg": "Ahoana no ilazana 'aiza no fonenanao?' ?",
+      "responseOptions": [
+        {
+          "textFr": "Où habites-tu ?",
+          "textMg": "Où habites-tu ?",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct1"
+        },
+        {
+          "textFr": "Quand viens-tu ?",
+          "textMg": "Quand viens-tu ?",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'aiza' signifie 'où', pas 'quand'.",
+            "mg": "Tsia, 'aiza' dia 'où', fa tsy 'quand'."
+          },
+          "nextNodeOnFail": "quiz1"
+        }
+      ]
+    },
+    {
+      "id": "correct1",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Bonne réponse.",
+      "textMg": "Tsara be! Valiny marina.",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz2"
+    },
+    {
+      "id": "quiz2",
+      "speaker": "user",
+      "textFr": "Ahoana no ilazana 'nahoana no mitomany ianao?' ?",
+      "textMg": "Ahoana no ilazana 'nahoana no mitomany ianao?' ?",
+      "responseOptions": [
+        {
+          "textFr": "Pourquoi pleures-tu ?",
+          "textMg": "Pourquoi pleures-tu ?",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct2"
+        },
+        {
+          "textFr": "Comment vas-tu ?",
+          "textMg": "Comment vas-tu ?",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'nahoana' signifie 'pourquoi', pas 'comment'.",
+            "mg": "Tsia, 'nahoana' dia 'pourquoi', fa tsy 'comment'."
+          },
+          "nextNodeOnFail": "quiz2"
+        }
+      ]
+    },
+    {
+      "id": "correct2",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Bonne réponse.",
+      "textMg": "Tsara be! Valiny marina.",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz3"
+    },
+    {
+      "id": "quiz3",
+      "speaker": "user",
+      "textFr": "Ahoana no ilazana 'firy ny vidiny?' ?",
+      "textMg": "Ahoana no ilazana 'firy ny vidiny?' ?",
+      "responseOptions": [
+        {
+          "textFr": "Combien ça coûte ?",
+          "textMg": "Combien ça coûte ?",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct3"
+        },
+        {
+          "textFr": "Où est le marché ?",
+          "textMg": "Où est le marché ?",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'firy' signifie 'combien', pas 'où'.",
+            "mg": "Tsia, 'firy' dia 'combien', fa tsy 'aiza'."
+          },
+          "nextNodeOnFail": "quiz3"
+        }
+      ]
+    },
+    {
+      "id": "correct3",
+      "speaker": "teacher",
+      "textFr": "Bravo ! Tu as maîtrisé les mots interrogatifs. Continue à pratiquer !",
+      "textMg": "Arahabaina! Hainao tsara ny ny teny fanontaniana. Mianara mitohy!",
+      "audio": {
+        "ttsTextFr": "Bravo!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "farewell"
+    },
+    {
+      "id": "farewell",
+      "speaker": "teacher",
+      "textFr": "Bravo pour ton travail ! À bientôt !",
+      "textMg": "Arahabaina tamin'ny asanao! Mandra-pihaona!",
+      "audio": {
+        "ttsTextFr": "Bravo pour ton travail! À bientôt!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "end"
+    },
+    {
+      "id": "end",
+      "speaker": "teacher",
+      "isEnd": true,
+      "textFr": "Tu as terminé la leçon sur les mots interrogatifs.",
+      "textMg": "Vita ny lesona momba ny ny teny fanontaniana.",
+      "audio": {
+        "ttsTextFr": "Tu as terminé la leçon sur les mots interrogatifs.",
+        "ttsRate": 0.9
+      }
+    }
+  ]
+}

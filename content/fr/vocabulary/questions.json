@@ -1,0 +1,168 @@
+{
+  "id": "questions",
+  "level": "A0",
+  "theme": "Les mots interrogatifs",
+  "themeMg": "Ny teny fanontaniana",
+  "items": [
+    {
+      "id": "que1",
+      "lexicalId": "questions_001",
+      "target": "où",
+      "source": "aiza",
+      "phonetic": "u",
+      "audio": "",
+      "context": "Où habites-tu ?",
+      "contextTranslation": "Aiza no fonenanao?",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "mot interrogatif",
+        "A0"
+      ],
+      "icon": "📍"
+    },
+    {
+      "id": "que2",
+      "lexicalId": "questions_002",
+      "target": "quand",
+      "source": "rahoviana",
+      "phonetic": "kɑ̃",
+      "audio": "",
+      "context": "Quand viens-tu ?",
+      "contextTranslation": "Rahoviana no tonganao?",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "mot interrogatif",
+        "A0"
+      ],
+      "icon": "📅"
+    },
+    {
+      "id": "que3",
+      "lexicalId": "questions_003",
+      "target": "pourquoi",
+      "source": "nahoana",
+      "phonetic": "puʁ.kwa",
+      "audio": "",
+      "context": "Pourquoi pleures-tu ?",
+      "contextTranslation": "Nahoana no mitomany ianao?",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "mot interrogatif",
+        "A0"
+      ],
+      "icon": "🤔"
+    },
+    {
+      "id": "que4",
+      "lexicalId": "questions_004",
+      "target": "comment",
+      "source": "ahoana",
+      "phonetic": "kɔ.mɑ̃",
+      "audio": "",
+      "context": "Comment vas-tu ?",
+      "contextTranslation": "Ahoana ianao?",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "mot interrogatif",
+        "A0"
+      ],
+      "icon": "⚙️"
+    },
+    {
+      "id": "que5",
+      "lexicalId": "questions_005",
+      "target": "qui",
+      "source": "iza",
+      "phonetic": "ki",
+      "audio": "",
+      "context": "Qui est-ce ?",
+      "contextTranslation": "Iza io?",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "mot interrogatif",
+        "A0"
+      ],
+      "icon": "👤"
+    },
+    {
+      "id": "que6",
+      "lexicalId": "questions_006",
+      "target": "que",
+      "source": "inona",
+      "phonetic": "kə",
+      "audio": "",
+      "context": "Que veux-tu ?",
+      "contextTranslation": "Inona no tianao?",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "mot interrogatif",
+        "A0"
+      ],
+      "icon": "❔"
+    },
+    {
+      "id": "que7",
+      "lexicalId": "questions_007",
+      "target": "quel",
+      "source": "inona",
+      "phonetic": "kɛl",
+      "audio": "",
+      "context": "Quel âge as-tu ?",
+      "contextTranslation": "Firy taona ianao?",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "mot interrogatif",
+        "A0"
+      ],
+      "icon": "🔢"
+    },
+    {
+      "id": "que8",
+      "lexicalId": "questions_008",
+      "target": "combien",
+      "source": "firy",
+      "phonetic": "kɔ̃.bjɛ̃",
+      "audio": "",
+      "context": "Combien ça coûte ?",
+      "contextTranslation": "Firy ny vidiny?",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "mot interrogatif",
+        "A0"
+      ],
+      "icon": "💰"
+    },
+    {
+      "id": "que9",
+      "lexicalId": "questions_009",
+      "target": "est-ce que",
+      "source": "moa ve",
+      "phonetic": "ɛs.kə",
+      "audio": "",
+      "context": "Est-ce que tu viens ?",
+      "contextTranslation": "Mo ve ianao no tonga?",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "mot interrogatif",
+        "A0"
+      ],
+      "icon": "🔍"
+    },
+    {
+      "id": "que10",
+      "lexicalId": "questions_010",
+      "target": "qu'est-ce que",
+      "source": "inona no",
+      "phonetic": "kɛs.kə",
+      "audio": "",
+      "context": "Qu'est-ce que tu fais ?",
+      "contextTranslation": "Inona no ataonao?",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "mot interrogatif",
+        "A0"
+      ],
+      "icon": "🎯"
+    }
+  ]
+}

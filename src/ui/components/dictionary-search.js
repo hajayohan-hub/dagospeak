@@ -43,7 +43,7 @@ export class DictionarySearch {
   }
 
   async #loadAllDictionaries() {
-    const themes = ['market', 'family', 'survival', 'numbers', 'colors', 'days', 'months', 'greetings', 'body', 'alphabet1', 'alphabet2', 'numbers2', 'articles', 'verbe_etre', 'verbe_avoir', 'adjectifs', 'prepositions', 'demonstratifs', 'possessifs'];
+    const themes = ['market', 'family', 'survival', 'numbers', 'colors', 'days', 'months', 'greetings', 'body', 'alphabet1', 'alphabet2', 'numbers2', 'articles', 'verbe_etre', 'verbe_avoir', 'adjectifs', 'prepositions', 'demonstratifs', 'possessifs', 'verbes_er', 'questions', 'negation'];
 
     for (const theme of themes) {
       try {

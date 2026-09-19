@@ -1,0 +1,160 @@
+{
+  "id": "negation_01",
+  "titleFr": "Apprendre la négation",
+  "titleMg": "Mianatra ny fandavana",
+  "level": "A0",
+  "theme": "negation",
+  "descriptionFr": "Ne...pas, ne...jamais, ne...plus - exprimer le refus",
+  "descriptionMg": "Tsy...mihitsy, tsy...intsony - mandà",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "teacher",
+      "textFr": "Bonjour {firstName} ! Aujourd'hui, nous allons apprendre la négation. Tu es prêt ?",
+      "textMg": "Manao ahoana {firstName}! Androany, hianatra ny fandavana isika. Vonona ve ianao?",
+      "audio": {
+        "ttsTextFr": "Bonjour! Aujourd'hui, nous allons apprendre la négation. Tu es prêt?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "intro"
+    },
+    {
+      "id": "intro",
+      "speaker": "teacher",
+      "textFr": "Ne...pas, ne...jamais, ne...plus - exprimer le refus. Commençons par les exemples.",
+      "textMg": "Tsy...mihitsy, tsy...intsony - mandà. Andao hanomboka amin'ny ohatra.",
+      "audio": {
+        "ttsTextFr": "Ne...pas, ne...jamais, ne...plus - exprimer le refus. Commençons.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz1"
+    },
+    {
+      "id": "quiz1",
+      "speaker": "user",
+      "textFr": "Ahoana no ilazana 'tsy miteny aho' ?",
+      "textMg": "Ahoana no ilazana 'tsy miteny aho' ?",
+      "responseOptions": [
+        {
+          "textFr": "Je ne parle pas",
+          "textMg": "Je ne parle pas",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct1"
+        },
+        {
+          "textFr": "Je parle toujours",
+          "textMg": "Je parle toujours",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'tsy' exprime la négation 'ne...pas'.",
+            "mg": "Tsia, 'tsy' dia fandavana 'ne...pas'."
+          },
+          "nextNodeOnFail": "quiz1"
+        }
+      ]
+    },
+    {
+      "id": "correct1",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Bonne réponse.",
+      "textMg": "Tsara be! Valiny marina.",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz2"
+    },
+    {
+      "id": "quiz2",
+      "speaker": "user",
+      "textFr": "Ahoana no ilazana 'tsy tonga mihitsy izy' ?",
+      "textMg": "Ahoana no ilazana 'tsy tonga mihitsy izy' ?",
+      "responseOptions": [
+        {
+          "textFr": "Il ne vient jamais",
+          "textMg": "Il ne vient jamais",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct2"
+        },
+        {
+          "textFr": "Il vient toujours",
+          "textMg": "Il vient toujours",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'tsy...mihitsy' signifie 'ne...jamais'.",
+            "mg": "Tsia, 'tsy...mihitsy' dia 'ne...jamais'."
+          },
+          "nextNodeOnFail": "quiz2"
+        }
+      ]
+    },
+    {
+      "id": "correct2",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Bonne réponse.",
+      "textMg": "Tsara be! Valiny marina.",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz3"
+    },
+    {
+      "id": "quiz3",
+      "speaker": "user",
+      "textFr": "Ahoana no ilazana 'tsy miasa intsony izy' ?",
+      "textMg": "Ahoana no ilazana 'tsy miasa intsony izy' ?",
+      "responseOptions": [
+        {
+          "textFr": "Elle ne travaille plus",
+          "textMg": "Elle ne travaille plus",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct3"
+        },
+        {
+          "textFr": "Elle travaille encore",
+          "textMg": "Elle travaille encore",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'tsy...intsony' signifie 'ne...plus'.",
+            "mg": "Tsia, 'tsy...intsony' dia 'ne...plus'."
+          },
+          "nextNodeOnFail": "quiz3"
+        }
+      ]
+    },
+    {
+      "id": "correct3",
+      "speaker": "teacher",
+      "textFr": "Bravo ! Tu as maîtrisé la négation. Continue à pratiquer !",
+      "textMg": "Arahabaina! Hainao tsara ny ny fandavana. Mianara mitohy!",
+      "audio": {
+        "ttsTextFr": "Bravo!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "farewell"
+    },
+    {
+      "id": "farewell",
+      "speaker": "teacher",
+      "textFr": "Bravo pour ton travail ! À bientôt !",
+      "textMg": "Arahabaina tamin'ny asanao! Mandra-pihaona!",
+      "audio": {
+        "ttsTextFr": "Bravo pour ton travail! À bientôt!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "end"
+    },
+    {
+      "id": "end",
+      "speaker": "teacher",
+      "isEnd": true,
+      "textFr": "Tu as terminé la leçon sur la négation.",
+      "textMg": "Vita ny lesona momba ny ny fandavana.",
+      "audio": {
+        "ttsTextFr": "Tu as terminé la leçon sur la négation.",
+        "ttsRate": 0.9
+      }
+    }
+  ]
+}

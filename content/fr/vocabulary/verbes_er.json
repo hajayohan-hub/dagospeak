@@ -1,0 +1,168 @@
+{
+  "id": "verbes_er",
+  "level": "A0",
+  "theme": "Les verbes en -er",
+  "themeMg": "Ny matoanteny -er",
+  "items": [
+    {
+      "id": "ver1",
+      "lexicalId": "verbes_er_001",
+      "target": "parler",
+      "source": "miteny",
+      "phonetic": "paʁ.le",
+      "audio": "",
+      "context": "Je parle français.",
+      "contextTranslation": "Miteny frantsay aho.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe",
+        "A0"
+      ],
+      "icon": "💬"
+    },
+    {
+      "id": "ver2",
+      "lexicalId": "verbes_er_002",
+      "target": "manger",
+      "source": "mihinana",
+      "phonetic": "mɑ̃.ʒe",
+      "audio": "",
+      "context": "Il mange du riz.",
+      "contextTranslation": "Mihinana vary izy.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe",
+        "A0"
+      ],
+      "icon": "🍚"
+    },
+    {
+      "id": "ver3",
+      "lexicalId": "verbes_er_003",
+      "target": "aimer",
+      "source": "tia",
+      "phonetic": "ɛ.me",
+      "audio": "",
+      "context": "Elle aime la musique.",
+      "contextTranslation": "Tia mozika izy.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe",
+        "A0"
+      ],
+      "icon": "❤️"
+    },
+    {
+      "id": "ver4",
+      "lexicalId": "verbes_er_004",
+      "target": "travailler",
+      "source": "miasa",
+      "phonetic": "tʁa.va.je",
+      "audio": "",
+      "context": "Nous travaillons beaucoup.",
+      "contextTranslation": "Miasa be izahay.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe",
+        "A0"
+      ],
+      "icon": "💼"
+    },
+    {
+      "id": "ver5",
+      "lexicalId": "verbes_er_005",
+      "target": "habiter",
+      "source": "monina",
+      "phonetic": "a.bi.te",
+      "audio": "",
+      "context": "J'habite à Antananarivo.",
+      "contextTranslation": "Monina eto Antananarivo aho.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe",
+        "A0"
+      ],
+      "icon": "🏠"
+    },
+    {
+      "id": "ver6",
+      "lexicalId": "verbes_er_006",
+      "target": "écouter",
+      "source": "mihaino",
+      "phonetic": "e.ku.te",
+      "audio": "",
+      "context": "Tu écoutes la radio.",
+      "contextTranslation": "Mihaino radio ianao.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe",
+        "A0"
+      ],
+      "icon": "👂"
+    },
+    {
+      "id": "ver7",
+      "lexicalId": "verbes_er_007",
+      "target": "regarder",
+      "source": "mijery",
+      "phonetic": "ʁə.ɡaʁ.de",
+      "audio": "",
+      "context": "Ils regardent la télévision.",
+      "contextTranslation": "Mijery televiziona izy ireo.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe",
+        "A0"
+      ],
+      "icon": "📺"
+    },
+    {
+      "id": "ver8",
+      "lexicalId": "verbes_er_008",
+      "target": "jouer",
+      "source": "milalao",
+      "phonetic": "ʒu.e",
+      "audio": "",
+      "context": "Les enfants jouent dehors.",
+      "contextTranslation": "Milalao any ivelany ireo ankizy.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe",
+        "A0"
+      ],
+      "icon": "⚽"
+    },
+    {
+      "id": "ver9",
+      "lexicalId": "verbes_er_009",
+      "target": "chanter",
+      "source": "mihira",
+      "phonetic": "ʃɑ̃.te",
+      "audio": "",
+      "context": "Elle chante bien.",
+      "contextTranslation": "Mihira tsara izy.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe",
+        "A0"
+      ],
+      "icon": "🎤"
+    },
+    {
+      "id": "ver10",
+      "lexicalId": "verbes_er_010",
+      "target": "danser",
+      "source": "mandihy",
+      "phonetic": "dɑ̃.se",
+      "audio": "",
+      "context": "Nous dansons ensemble.",
+      "contextTranslation": "Mandihy miaraka izahay.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe",
+        "A0"
+      ],
+      "icon": "💃"
+    }
+  ]
+}

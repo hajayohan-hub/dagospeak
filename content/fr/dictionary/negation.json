@@ -1,0 +1,322 @@
+[
+  {
+    "id": "negation_001",
+    "level": "A0",
+    "category": "negation",
+    "pos": "forme négative",
+    "wordFr": "ne...pas",
+    "wordMg": "tsy",
+    "phonetic": "/nə pa/",
+    "visual": {
+      "icon": "❌",
+      "iconClass": "icon-negation",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "ne...pas",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/negation/neg1.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Je ne parle pas.",
+      "exampleMg": "Tsy miteny aho.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "negation_002",
+    "level": "A0",
+    "category": "negation",
+    "pos": "forme négative",
+    "wordFr": "ne...jamais",
+    "wordMg": "tsy...mihitsy",
+    "phonetic": "/nə ʒamɛ/",
+    "visual": {
+      "icon": "🚫",
+      "iconClass": "icon-negation",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "ne...jamais",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/negation/neg2.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Il ne vient jamais.",
+      "exampleMg": "Tsy tonga mihitsy izy.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "negation_003",
+    "level": "A0",
+    "category": "negation",
+    "pos": "forme négative",
+    "wordFr": "ne...plus",
+    "wordMg": "tsy...intsony",
+    "phonetic": "/nə ply/",
+    "visual": {
+      "icon": "⏹️",
+      "iconClass": "icon-negation",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "ne...plus",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/negation/neg3.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Elle ne travaille plus.",
+      "exampleMg": "Tsy miasa intsony izy.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "negation_004",
+    "level": "A0",
+    "category": "negation",
+    "pos": "forme négative",
+    "wordFr": "ne...rien",
+    "wordMg": "tsy...na inona na inona",
+    "phonetic": "/nə ʁjɛ̃/",
+    "visual": {
+      "icon": "👁️",
+      "iconClass": "icon-negation",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "ne...rien",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/negation/neg4.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Je ne vois rien.",
+      "exampleMg": "Tsy mahita na inona na inona aho.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "negation_005",
+    "level": "A0",
+    "category": "negation",
+    "pos": "forme négative",
+    "wordFr": "ne...personne",
+    "wordMg": "tsy...olona",
+    "phonetic": "/nə pɛʁsɔn/",
+    "visual": {
+      "icon": "👤",
+      "iconClass": "icon-negation",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "ne...personne",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/negation/neg5.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Il n'y a personne.",
+      "exampleMg": "Tsy misy olona.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "negation_006",
+    "level": "A0",
+    "category": "negation",
+    "pos": "forme négative",
+    "wordFr": "ni...ni",
+    "wordMg": "na...na",
+    "phonetic": "/ni ni/",
+    "visual": {
+      "icon": "↔️",
+      "iconClass": "icon-negation",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "ni...ni",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/negation/neg6.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Ni toi ni moi.",
+      "exampleMg": "Na ianao na izaho.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "negation_007",
+    "level": "A0",
+    "category": "negation",
+    "pos": "forme négative",
+    "wordFr": "ne...que",
+    "wordMg": "ihany",
+    "phonetic": "/nə kə/",
+    "visual": {
+      "icon": "🍚",
+      "iconClass": "icon-negation",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "ne...que",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/negation/neg7.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Je ne mange que du riz.",
+      "exampleMg": "Vary ihany no hohaniko.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "negation_008",
+    "level": "A0",
+    "category": "negation",
+    "pos": "forme négative",
+    "wordFr": "sans",
+    "wordMg": "tsy misy",
+    "phonetic": "/sɑ̃/",
+    "visual": {
+      "icon": "🚷",
+      "iconClass": "icon-negation",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "sans",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/negation/neg8.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Sans sucre, s'il vous plaît.",
+      "exampleMg": "Tsy misy siramamy, azafady.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "negation_009",
+    "level": "A0",
+    "category": "negation",
+    "pos": "forme négative",
+    "wordFr": "personne",
+    "wordMg": "tsy misy olona",
+    "phonetic": "/pɛʁsɔn/",
+    "visual": {
+      "icon": "👥",
+      "iconClass": "icon-negation",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "personne",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/negation/neg9.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Personne n'est ici.",
+      "exampleMg": "Tsy misy olona eto.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "negation_010",
+    "level": "A0",
+    "category": "negation",
+    "pos": "forme négative",
+    "wordFr": "rien",
+    "wordMg": "tsy misy",
+    "phonetic": "/ʁjɛ̃/",
+    "visual": {
+      "icon": "⭕",
+      "iconClass": "icon-negation",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "rien",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/negation/neg10.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Rien n'est prêt.",
+      "exampleMg": "Tsy misy vonona.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  }
+]

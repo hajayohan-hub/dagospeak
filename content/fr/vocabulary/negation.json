@@ -1,0 +1,168 @@
+{
+  "id": "negation",
+  "level": "A0",
+  "theme": "La négation",
+  "themeMg": "Ny fandavana",
+  "items": [
+    {
+      "id": "neg1",
+      "lexicalId": "negation_001",
+      "target": "ne...pas",
+      "source": "tsy",
+      "phonetic": "nə pa",
+      "audio": "",
+      "context": "Je ne parle pas.",
+      "contextTranslation": "Tsy miteny aho.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "forme négative",
+        "A0"
+      ],
+      "icon": "❌"
+    },
+    {
+      "id": "neg2",
+      "lexicalId": "negation_002",
+      "target": "ne...jamais",
+      "source": "tsy...mihitsy",
+      "phonetic": "nə ʒamɛ",
+      "audio": "",
+      "context": "Il ne vient jamais.",
+      "contextTranslation": "Tsy tonga mihitsy izy.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "forme négative",
+        "A0"
+      ],
+      "icon": "🚫"
+    },
+    {
+      "id": "neg3",
+      "lexicalId": "negation_003",
+      "target": "ne...plus",
+      "source": "tsy...intsony",
+      "phonetic": "nə ply",
+      "audio": "",
+      "context": "Elle ne travaille plus.",
+      "contextTranslation": "Tsy miasa intsony izy.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "forme négative",
+        "A0"
+      ],
+      "icon": "⏹️"
+    },
+    {
+      "id": "neg4",
+      "lexicalId": "negation_004",
+      "target": "ne...rien",
+      "source": "tsy...na inona na inona",
+      "phonetic": "nə ʁjɛ̃",
+      "audio": "",
+      "context": "Je ne vois rien.",
+      "contextTranslation": "Tsy mahita na inona na inona aho.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "forme négative",
+        "A0"
+      ],
+      "icon": "👁️"
+    },
+    {
+      "id": "neg5",
+      "lexicalId": "negation_005",
+      "target": "ne...personne",
+      "source": "tsy...olona",
+      "phonetic": "nə pɛʁsɔn",
+      "audio": "",
+      "context": "Il n'y a personne.",
+      "contextTranslation": "Tsy misy olona.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "forme négative",
+        "A0"
+      ],
+      "icon": "👤"
+    },
+    {
+      "id": "neg6",
+      "lexicalId": "negation_006",
+      "target": "ni...ni",
+      "source": "na...na",
+      "phonetic": "ni ni",
+      "audio": "",
+      "context": "Ni toi ni moi.",
+      "contextTranslation": "Na ianao na izaho.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "forme négative",
+        "A0"
+      ],
+      "icon": "↔️"
+    },
+    {
+      "id": "neg7",
+      "lexicalId": "negation_007",
+      "target": "ne...que",
+      "source": "ihany",
+      "phonetic": "nə kə",
+      "audio": "",
+      "context": "Je ne mange que du riz.",
+      "contextTranslation": "Vary ihany no hohaniko.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "forme négative",
+        "A0"
+      ],
+      "icon": "🍚"
+    },
+    {
+      "id": "neg8",
+      "lexicalId": "negation_008",
+      "target": "sans",
+      "source": "tsy misy",
+      "phonetic": "sɑ̃",
+      "audio": "",
+      "context": "Sans sucre, s'il vous plaît.",
+      "contextTranslation": "Tsy misy siramamy, azafady.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "forme négative",
+        "A0"
+      ],
+      "icon": "🚷"
+    },
+    {
+      "id": "neg9",
+      "lexicalId": "negation_009",
+      "target": "personne",
+      "source": "tsy misy olona",
+      "phonetic": "pɛʁsɔn",
+      "audio": "",
+      "context": "Personne n'est ici.",
+      "contextTranslation": "Tsy misy olona eto.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "forme négative",
+        "A0"
+      ],
+      "icon": "👥"
+    },
+    {
+      "id": "neg10",
+      "lexicalId": "negation_010",
+      "target": "rien",
+      "source": "tsy misy",
+      "phonetic": "ʁjɛ̃",
+      "audio": "",
+      "context": "Rien n'est prêt.",
+      "contextTranslation": "Tsy misy vonona.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "forme négative",
+        "A0"
+      ],
+      "icon": "⭕"
+    }
+  ]
+}

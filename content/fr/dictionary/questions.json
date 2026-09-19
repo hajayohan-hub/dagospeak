@@ -1,0 +1,322 @@
+[
+  {
+    "id": "questions_001",
+    "level": "A0",
+    "category": "questions",
+    "pos": "mot interrogatif",
+    "wordFr": "où",
+    "wordMg": "aiza",
+    "phonetic": "/u/",
+    "visual": {
+      "icon": "📍",
+      "iconClass": "icon-questions",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "où",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/questions/que1.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Où habites-tu ?",
+      "exampleMg": "Aiza no fonenanao?",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "questions_002",
+    "level": "A0",
+    "category": "questions",
+    "pos": "mot interrogatif",
+    "wordFr": "quand",
+    "wordMg": "rahoviana",
+    "phonetic": "/kɑ̃/",
+    "visual": {
+      "icon": "📅",
+      "iconClass": "icon-questions",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "quand",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/questions/que2.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Quand viens-tu ?",
+      "exampleMg": "Rahoviana no tonganao?",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "questions_003",
+    "level": "A0",
+    "category": "questions",
+    "pos": "mot interrogatif",
+    "wordFr": "pourquoi",
+    "wordMg": "nahoana",
+    "phonetic": "/puʁ.kwa/",
+    "visual": {
+      "icon": "🤔",
+      "iconClass": "icon-questions",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "pourquoi",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/questions/que3.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Pourquoi pleures-tu ?",
+      "exampleMg": "Nahoana no mitomany ianao?",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "questions_004",
+    "level": "A0",
+    "category": "questions",
+    "pos": "mot interrogatif",
+    "wordFr": "comment",
+    "wordMg": "ahoana",
+    "phonetic": "/kɔ.mɑ̃/",
+    "visual": {
+      "icon": "⚙️",
+      "iconClass": "icon-questions",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "comment",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/questions/que4.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Comment vas-tu ?",
+      "exampleMg": "Ahoana ianao?",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "questions_005",
+    "level": "A0",
+    "category": "questions",
+    "pos": "mot interrogatif",
+    "wordFr": "qui",
+    "wordMg": "iza",
+    "phonetic": "/ki/",
+    "visual": {
+      "icon": "👤",
+      "iconClass": "icon-questions",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "qui",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/questions/que5.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Qui est-ce ?",
+      "exampleMg": "Iza io?",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "questions_006",
+    "level": "A0",
+    "category": "questions",
+    "pos": "mot interrogatif",
+    "wordFr": "que",
+    "wordMg": "inona",
+    "phonetic": "/kə/",
+    "visual": {
+      "icon": "❔",
+      "iconClass": "icon-questions",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "que",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/questions/que6.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Que veux-tu ?",
+      "exampleMg": "Inona no tianao?",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "questions_007",
+    "level": "A0",
+    "category": "questions",
+    "pos": "mot interrogatif",
+    "wordFr": "quel",
+    "wordMg": "inona",
+    "phonetic": "/kɛl/",
+    "visual": {
+      "icon": "🔢",
+      "iconClass": "icon-questions",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "quel",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/questions/que7.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Quel âge as-tu ?",
+      "exampleMg": "Firy taona ianao?",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "questions_008",
+    "level": "A0",
+    "category": "questions",
+    "pos": "mot interrogatif",
+    "wordFr": "combien",
+    "wordMg": "firy",
+    "phonetic": "/kɔ̃.bjɛ̃/",
+    "visual": {
+      "icon": "💰",
+      "iconClass": "icon-questions",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "combien",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/questions/que8.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Combien ça coûte ?",
+      "exampleMg": "Firy ny vidiny?",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "questions_009",
+    "level": "A0",
+    "category": "questions",
+    "pos": "mot interrogatif",
+    "wordFr": "est-ce que",
+    "wordMg": "moa ve",
+    "phonetic": "/ɛs.kə/",
+    "visual": {
+      "icon": "🔍",
+      "iconClass": "icon-questions",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "est-ce que",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/questions/que9.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Est-ce que tu viens ?",
+      "exampleMg": "Mo ve ianao no tonga?",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "questions_010",
+    "level": "A0",
+    "category": "questions",
+    "pos": "mot interrogatif",
+    "wordFr": "qu'est-ce que",
+    "wordMg": "inona no",
+    "phonetic": "/kɛs.kə/",
+    "visual": {
+      "icon": "🎯",
+      "iconClass": "icon-questions",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "qu'est-ce que",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/questions/que10.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Qu'est-ce que tu fais ?",
+      "exampleMg": "Inona no ataonao?",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  }
+]

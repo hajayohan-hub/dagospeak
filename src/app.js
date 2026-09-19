@@ -7098,7 +7098,10 @@ async function renderConversationLive() {
           { id: 'adjectifs_01', title: 'Les adjectifs de base', icon: '🎨', description: 'Grand, petit, bon, mauvais, chaud, froid, content, triste' },
           { id: 'prepositions_01', title: 'Les prépositions', icon: '📍', description: 'Dans, sur, sous, devant, derrière - situer dans l\'espace' },
           { id: 'demonstratifs_01', title: 'Les démonstratifs', icon: '👉', description: 'Ce, cet, cette, ces - désigner précisément' },
-          { id: 'possessifs_01', title: 'Les possessifs', icon: '🤝', description: 'Mon, ton, son, notre, votre, leur - exprimer la possession' }
+          { id: 'possessifs_01', title: 'Les possessifs', icon: '🤝', description: 'Mon, ton, son, notre, votre, leur - exprimer la possession' },
+          { id: 'verbes_er_01', title: 'Les verbes en -er', icon: '🏃', description: 'Parler, manger, aimer - 90% des verbes français' },
+          { id: 'questions_01', title: 'Les mots interrogatifs', icon: '❓', description: 'Où, quand, pourquoi, comment - poser des questions' },
+          { id: 'negation_01', title: 'La négation', icon: '🚫', description: 'Ne...pas, ne...jamais, ne...plus - exprimer le refus' }
         ],
         A1: [], // À venir
         A2: [], // À venir
