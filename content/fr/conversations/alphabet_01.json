@@ -46,16 +46,24 @@
       "textMg": "Lazao ny litera A.",
       "responseOptions": [
         {
-          "textFr": "A ! Comme dans anana.",
-          "textMg": "A! Hoatry ny ao amin'ny anana.",
+          "textFr": "A",
+          "textMg": "A",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_e"
+          "nextNodeOnSuccess": "teacher_e",
+          "feedback": {
+            "fr": "Parfait ! 'A' est correct.",
+            "mg": "Tonga lafatra! Marina ny 'A'."
+          }
         },
         {
-          "textFr": "A.",
-          "textMg": "A.",
+          "textFr": "A comme dans anana",
+          "textMg": "A toy ny ao amin'ny anana",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_e"
+          "nextNodeOnSuccess": "teacher_e",
+          "feedback": {
+            "fr": "Excellent ! 'A' comme dans anana.",
+            "mg": "Tsara be! 'A' toy ny ao amin'ny anana."
+          }
         }
       ]
     },
@@ -77,16 +85,24 @@
       "textMg": "Lazao ny litera E.",
       "responseOptions": [
         {
-          "textFr": "E ! Comme dans Ely.",
-          "textMg": "E! Hoatry ny ao amin'ny Ely.",
+          "textFr": "E",
+          "textMg": "E",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_i"
+          "nextNodeOnSuccess": "teacher_i",
+          "feedback": {
+            "fr": "Parfait ! 'E' est correct.",
+            "mg": "Tonga lafatra! Marina ny 'E'."
+          }
         },
         {
-          "textFr": "E.",
-          "textMg": "E.",
+          "textFr": "E comme dans ekolo",
+          "textMg": "E toy ny ao amin'ny ekolo",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_i"
+          "nextNodeOnSuccess": "teacher_i",
+          "feedback": {
+            "fr": "Excellent ! 'E' comme dans ekolo.",
+            "mg": "Tsara be! 'E' toy ny ao amin'ny ekolo."
+          }
         }
       ]
     },
@@ -108,16 +124,24 @@
       "textMg": "Lazao ny litera I.",
       "responseOptions": [
         {
-          "textFr": "I ! Comme dans Iry.",
-          "textMg": "I! Hoatry ny ao amin'ny Iry.",
+          "textFr": "I",
+          "textMg": "I",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_o"
+          "nextNodeOnSuccess": "teacher_o",
+          "feedback": {
+            "fr": "Parfait ! 'I' est correct.",
+            "mg": "Tonga lafatra! Marina ny 'I'."
+          }
         },
         {
-          "textFr": "I.",
-          "textMg": "I.",
+          "textFr": "I comme dans iray",
+          "textMg": "I toy ny ao amin'ny iray",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_o"
+          "nextNodeOnSuccess": "teacher_o",
+          "feedback": {
+            "fr": "Excellent ! 'I' comme dans iray.",
+            "mg": "Tsara be! 'I' toy ny ao amin'ny iray."
+          }
         }
       ]
     },
@@ -139,16 +163,24 @@
       "textMg": "Lazao ny litera O.",
       "responseOptions": [
         {
-          "textFr": "O ! Comme dans ola.",
-          "textMg": "O! Hoatry ny ao amin'ny ola.",
+          "textFr": "O",
+          "textMg": "O",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_all_vowels"
+          "nextNodeOnSuccess": "teacher_all_vowels",
+          "feedback": {
+            "fr": "Parfait ! 'O' est correct.",
+            "mg": "Tonga lafatra! Marina ny 'O'."
+          }
         },
         {
-          "textFr": "O.",
-          "textMg": "O.",
+          "textFr": "O comme dans olo",
+          "textMg": "O toy ny ao amin'ny olo",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_all_vowels"
+          "nextNodeOnSuccess": "teacher_all_vowels",
+          "feedback": {
+            "fr": "Excellent ! 'O' comme dans olo.",
+            "mg": "Tsara be! 'O' toy ny ao amin'ny olo."
+          }
         }
       ]
     },

@@ -46,16 +46,24 @@
       "textMg": "Avereno B sy D.",
       "responseOptions": [
         {
-          "textFr": "B comme Baba, D comme Dada.",
-          "textMg": "B hoatry ny Baba, D hoatry ny Dada.",
+          "textFr": "B, D",
+          "textMg": "B, D",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_f_k"
+          "nextNodeOnSuccess": "teacher_f_k",
+          "feedback": {
+            "fr": "Parfait ! Vous avez bien dit : B, D",
+            "mg": "Tonga lafatra! Nolazainao tsara ny hoe: B, D"
+          }
         },
         {
-          "textFr": "B, D.",
-          "textMg": "B, D.",
+          "textFr": "B comme Baba, D comme Dada",
+          "textMg": "B comme Baba, D comme Dada",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_f_k"
+          "nextNodeOnSuccess": "teacher_f_k",
+          "feedback": {
+            "fr": "Excellent ! Vous avez dit : B comme Baba, D comme Dada",
+            "mg": "Tsara be! Nolazainao ny hoe: B comme Baba, D comme Dada"
+          }
         }
       ]
     },
@@ -77,16 +85,24 @@
       "textMg": "Avereno F, K, L.",
       "responseOptions": [
         {
-          "textFr": "F comme Faly, K comme Kely, L comme Lova.",
-          "textMg": "F hoatry ny Faly, K hoatry ny Kely, L hoatry ny Lova.",
+          "textFr": "F, K, L",
+          "textMg": "F, K, L",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_m_n"
+          "nextNodeOnSuccess": "teacher_m_n",
+          "feedback": {
+            "fr": "Parfait ! Vous avez bien dit : F, K, L",
+            "mg": "Tonga lafatra! Nolazainao tsara ny hoe: F, K, L"
+          }
         },
         {
-          "textFr": "F, K, L.",
-          "textMg": "F, K, L.",
+          "textFr": "F comme Faly, K comme Kely, L comme Lova",
+          "textMg": "F comme Faly, K comme Kely, L comme Lova",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_m_n"
+          "nextNodeOnSuccess": "teacher_m_n",
+          "feedback": {
+            "fr": "Excellent ! Vous avez dit : F comme Faly, K comme Kely, L comme Lova",
+            "mg": "Tsara be! Nolazainao ny hoe: F comme Faly, K comme Kely, L comme Lova"
+          }
         }
       ]
     },
@@ -108,16 +124,24 @@
       "textMg": "Avereno M sy N.",
       "responseOptions": [
         {
-          "textFr": "M comme Mama, N comme Neny.",
-          "textMg": "M hoatry ny Mama, N hoatry ny Neny.",
+          "textFr": "M, N",
+          "textMg": "M, N",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_r_s_t"
+          "nextNodeOnSuccess": "teacher_r_s_t",
+          "feedback": {
+            "fr": "Parfait ! Vous avez bien dit : M, N",
+            "mg": "Tonga lafatra! Nolazainao tsara ny hoe: M, N"
+          }
         },
         {
-          "textFr": "M, N.",
-          "textMg": "M, N.",
+          "textFr": "M comme Mama, N comme Neny",
+          "textMg": "M comme Mama, N comme Neny",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_r_s_t"
+          "nextNodeOnSuccess": "teacher_r_s_t",
+          "feedback": {
+            "fr": "Excellent ! Vous avez dit : M comme Mama, N comme Neny",
+            "mg": "Tsara be! Nolazainao ny hoe: M comme Mama, N comme Neny"
+          }
         }
       ]
     },
@@ -139,16 +163,24 @@
       "textMg": "Avereno R, S, T.",
       "responseOptions": [
         {
-          "textFr": "R comme Rano, S comme Soa, T comme Tiana.",
-          "textMg": "R hoatry ny Rano, S hoatry ny Soa, T hoatry ny Tiana.",
+          "textFr": "R, S, T",
+          "textMg": "R, S, T",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_v_z"
+          "nextNodeOnSuccess": "teacher_v_z",
+          "feedback": {
+            "fr": "Parfait ! Vous avez bien dit : R, S, T",
+            "mg": "Tonga lafatra! Nolazainao tsara ny hoe: R, S, T"
+          }
         },
         {
-          "textFr": "R, S, T.",
-          "textMg": "R, S, T.",
+          "textFr": "R comme Rano, S comme Soa, T comme Tiana",
+          "textMg": "R comme Rano, S comme Soa, T comme Tiana",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_v_z"
+          "nextNodeOnSuccess": "teacher_v_z",
+          "feedback": {
+            "fr": "Excellent ! Vous avez dit : R comme Rano, S comme Soa, T comme Tiana",
+            "mg": "Tsara be! Nolazainao ny hoe: R comme Rano, S comme Soa, T comme Tiana"
+          }
         }
       ]
     },
@@ -170,16 +202,24 @@
       "textMg": "Avereno V sy Z.",
       "responseOptions": [
         {
-          "textFr": "V comme Vary, Z comme Zaza.",
-          "textMg": "V hoatry ny Vary, Z hoatry ny Zaza.",
+          "textFr": "V, Z",
+          "textMg": "V, Z",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_quiz"
+          "nextNodeOnSuccess": "teacher_quiz",
+          "feedback": {
+            "fr": "Parfait ! Vous avez bien dit : V, Z",
+            "mg": "Tonga lafatra! Nolazainao tsara ny hoe: V, Z"
+          }
         },
         {
-          "textFr": "V, Z.",
-          "textMg": "V, Z.",
+          "textFr": "V comme Vary, Z comme Zaza",
+          "textMg": "V comme Vary, Z comme Zaza",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_quiz"
+          "nextNodeOnSuccess": "teacher_quiz",
+          "feedback": {
+            "fr": "Excellent ! Vous avez dit : V comme Vary, Z comme Zaza",
+            "mg": "Tsara be! Nolazainao ny hoe: V comme Vary, Z comme Zaza"
+          }
         }
       ]
     },
@@ -202,25 +242,33 @@
       "responseOptions": [
         {
           "textFr": "M comme Mama.",
-          "textMg": "M hoatry ny Mama.",
+          "textMg": "M toy ny Mama.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_quiz_2"
+          "nextNodeOnSuccess": "teacher_quiz_2",
+          "feedback": {
+            "fr": "Parfait ! M se prononce comme dans Mama.",
+            "mg": "Tonga lafatra! M dia tononina toy ny ao amin'ny Mama."
+          }
         },
         {
           "textFr": "Ma.",
           "textMg": "Ma.",
-          "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_quiz_2"
+          "isCorrect": false,
+          "nextNodeOnFail": "user_quiz_m",
+          "feedback": {
+            "fr": "Presque ! Mais on demande le son de la lettre, pas une syllabe.",
+            "mg": "Efa akaiky! Fa ny feon'ny litera no angatahina, fa tsy syllabe."
+          }
         },
         {
           "textFr": "M comme Kely.",
-          "textMg": "M hoatry ny Kely.",
+          "textMg": "M toy ny Kely.",
           "isCorrect": false,
+          "nextNodeOnFail": "user_quiz_m",
           "feedback": {
-            "fr": "Non, K comme Kely. M comme Mama.",
-            "mg": "Tsia, K hoatry ny Kely. M hoatry ny Mama."
-          },
-          "nextNodeOnFail": "user_quiz_m"
+            "fr": "Non, Kely ne commence pas par M. M comme Mama est correct.",
+            "mg": "Tsia, Kely dia tsy manomboka amin'ny M. M toy ny Mama no marina."
+          }
         }
       ]
     },
@@ -243,15 +291,23 @@
       "responseOptions": [
         {
           "textFr": "S comme Soa.",
-          "textMg": "S hoatry ny Soa.",
+          "textMg": "S toy ny Soa.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_intro"
+          "nextNodeOnSuccess": "roleplay_intro",
+          "feedback": {
+            "fr": "Parfait ! S se prononce comme dans Soa.",
+            "mg": "Tonga lafatra! S dia tononina toy ny ao amin'ny Soa."
+          }
         },
         {
           "textFr": "Sa.",
           "textMg": "Sa.",
-          "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_intro"
+          "isCorrect": false,
+          "nextNodeOnFail": "user_quiz_s",
+          "feedback": {
+            "fr": "Presque ! Mais on demande le son de la lettre, pas une syllabe.",
+            "mg": "Efa akaiky! Fa ny feon'ny litera no angatahina, fa tsy syllabe."
+          }
         }
       ]
     },
