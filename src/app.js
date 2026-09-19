@@ -7101,7 +7101,9 @@ async function renderConversationLive() {
           { id: 'possessifs_01', title: 'Les possessifs', icon: '🤝', description: 'Mon, ton, son, notre, votre, leur - exprimer la possession' },
           { id: 'verbes_er_01', title: 'Les verbes en -er', icon: '🏃', description: 'Parler, manger, aimer - 90% des verbes français' },
           { id: 'questions_01', title: 'Les mots interrogatifs', icon: '❓', description: 'Où, quand, pourquoi, comment - poser des questions' },
-          { id: 'negation_01', title: 'La négation', icon: '🚫', description: 'Ne...pas, ne...jamais, ne...plus - exprimer le refus' }
+          { id: 'negation_01', title: 'La négation', icon: '🚫', description: 'Ne...pas, ne...jamais, ne...plus - exprimer le refus' },
+          { id: 'imperatif_01', title: 'L\'impératif', icon: '👆', description: 'Écoute, parle, mange - donner des instructions' },
+          { id: 'futur_proche_01', title: 'Le futur proche', icon: '⏰', description: 'Je vais parler, tu vas manger - exprimer l\'intention' }
         ],
         A1: [], // À venir
         A2: [], // À venir

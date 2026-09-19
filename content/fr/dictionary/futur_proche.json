@@ -1,0 +1,322 @@
+[
+  {
+    "id": "futur_proche_001",
+    "level": "A0",
+    "category": "futur_proche",
+    "pos": "temps verbal",
+    "wordFr": "je vais parler",
+    "wordMg": "handeha hiteny aho",
+    "phonetic": "/ʒə ve paʁle/",
+    "visual": {
+      "icon": "💬",
+      "iconClass": "icon-futur_proche",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "je vais parler",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/futur_proche/fut1.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Je vais parler français.",
+      "exampleMg": "Handeha hiteny frantsay aho.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "futur_proche_002",
+    "level": "A0",
+    "category": "futur_proche",
+    "pos": "temps verbal",
+    "wordFr": "tu vas manger",
+    "wordMg": "handeha hihinana ianao",
+    "phonetic": "/ty va mɑ̃ʒe/",
+    "visual": {
+      "icon": "🍚",
+      "iconClass": "icon-futur_proche",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "tu vas manger",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/futur_proche/fut2.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Tu vas manger du riz.",
+      "exampleMg": "Handeha hihinana vary ianao.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "futur_proche_003",
+    "level": "A0",
+    "category": "futur_proche",
+    "pos": "temps verbal",
+    "wordFr": "il va venir",
+    "wordMg": "handeha ho tonga izy",
+    "phonetic": "/il va vniʁ/",
+    "visual": {
+      "icon": "🚶",
+      "iconClass": "icon-futur_proche",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "il va venir",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/futur_proche/fut3.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Il va venir demain.",
+      "exampleMg": "Handeha ho tonga rahampitso izy.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "futur_proche_004",
+    "level": "A0",
+    "category": "futur_proche",
+    "pos": "temps verbal",
+    "wordFr": "elle va travailler",
+    "wordMg": "handeha hiasa izy",
+    "phonetic": "/ɛl va tʁavaje/",
+    "visual": {
+      "icon": "💼",
+      "iconClass": "icon-futur_proche",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "elle va travailler",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/futur_proche/fut4.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Elle va travailler bientôt.",
+      "exampleMg": "Handeha hiasa tsy ho ela izy.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "futur_proche_005",
+    "level": "A0",
+    "category": "futur_proche",
+    "pos": "temps verbal",
+    "wordFr": "nous allons partir",
+    "wordMg": "handeha hiala izahay",
+    "phonetic": "/nu zalɔ̃ paʁtiʁ/",
+    "visual": {
+      "icon": "🚪",
+      "iconClass": "icon-futur_proche",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "nous allons partir",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/futur_proche/fut5.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Nous allons partir.",
+      "exampleMg": "Handeha hiala izahay.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "futur_proche_006",
+    "level": "A0",
+    "category": "futur_proche",
+    "pos": "temps verbal",
+    "wordFr": "vous allez étudier",
+    "wordMg": "handeha hianatra ianareo",
+    "phonetic": "/vu zale etudje/",
+    "visual": {
+      "icon": "📚",
+      "iconClass": "icon-futur_proche",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "vous allez étudier",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/futur_proche/fut6.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Vous allez étudier.",
+      "exampleMg": "Handeha hianatra ianareo.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "futur_proche_007",
+    "level": "A0",
+    "category": "futur_proche",
+    "pos": "temps verbal",
+    "wordFr": "ils vont jouer",
+    "wordMg": "handeha hilalao izy ireo",
+    "phonetic": "/il vɔ̃ ʒue/",
+    "visual": {
+      "icon": "⚽",
+      "iconClass": "icon-futur_proche",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "ils vont jouer",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/futur_proche/fut7.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Ils vont jouer au foot.",
+      "exampleMg": "Handeha hilalao baolina izy ireo.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "futur_proche_008",
+    "level": "A0",
+    "category": "futur_proche",
+    "pos": "temps verbal",
+    "wordFr": "je vais acheter",
+    "wordMg": "handeha hividy aho",
+    "phonetic": "/ʒə ve aʃte/",
+    "visual": {
+      "icon": "🛒",
+      "iconClass": "icon-futur_proche",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "je vais acheter",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/futur_proche/fut8.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Je vais acheter du pain.",
+      "exampleMg": "Handeha hividy mofo aho.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "futur_proche_009",
+    "level": "A0",
+    "category": "futur_proche",
+    "pos": "temps verbal",
+    "wordFr": "tu vas dormir",
+    "wordMg": "handeha hatory ianao",
+    "phonetic": "/ty va dɔʁmiʁ/",
+    "visual": {
+      "icon": "😴",
+      "iconClass": "icon-futur_proche",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "tu vas dormir",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/futur_proche/fut9.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Tu vas dormir maintenant.",
+      "exampleMg": "Handeha hatory izao ianao.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "futur_proche_010",
+    "level": "A0",
+    "category": "futur_proche",
+    "pos": "temps verbal",
+    "wordFr": "elle va chanter",
+    "wordMg": "handeha hihira izy",
+    "phonetic": "/ɛl va ʃɑ̃te/",
+    "visual": {
+      "icon": "🎤",
+      "iconClass": "icon-futur_proche",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "elle va chanter",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/futur_proche/fut10.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Elle va chanter ce soir.",
+      "exampleMg": "Handeha hihira hariva izy.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  }
+]

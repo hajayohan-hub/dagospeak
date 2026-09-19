@@ -1,0 +1,160 @@
+{
+  "id": "imperatif_01",
+  "titleFr": "Apprendre l'impératif",
+  "titleMg": "Mianatra ny filaza mandidy",
+  "level": "A0",
+  "theme": "imperatif",
+  "descriptionFr": "Écoute, parle, mange - donner des instructions",
+  "descriptionMg": "Mihainoa, mitenia, mihinana - mandidy",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "teacher",
+      "textFr": "Bonjour {firstName} ! Aujourd'hui, nous allons apprendre l'impératif. Tu es prêt ?",
+      "textMg": "Manao ahoana {firstName}! Androany, hianatra ny filaza mandidy isika. Vonona ve ianao?",
+      "audio": {
+        "ttsTextFr": "Bonjour! Aujourd'hui, nous allons apprendre l'impératif. Tu es prêt?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "intro"
+    },
+    {
+      "id": "intro",
+      "speaker": "teacher",
+      "textFr": "Écoute, parle, mange - donner des instructions. Commençons par les exemples.",
+      "textMg": "Mihainoa, mitenia, mihinana - mandidy. Andao hanomboka amin'ny ohatra.",
+      "audio": {
+        "ttsTextFr": "Écoute, parle, mange - donner des instructions. Commençons.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz1"
+    },
+    {
+      "id": "quiz1",
+      "speaker": "user",
+      "textFr": "Ahoana no ilazana 'mihainoa ny mpampianatra' ?",
+      "textMg": "Ahoana no ilazana 'mihainoa ny mpampianatra' ?",
+      "responseOptions": [
+        {
+          "textFr": "Écoute le professeur",
+          "textMg": "Écoute le professeur",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct1"
+        },
+        {
+          "textFr": "Écoute la musique",
+          "textMg": "Écoute la musique",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'mpampianatra' signifie 'professeur', pas 'musique'.",
+            "mg": "Tsia, 'mpampianatra' dia 'professeur', fa tsy 'musique'."
+          },
+          "nextNodeOnFail": "quiz1"
+        }
+      ]
+    },
+    {
+      "id": "correct1",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Bonne réponse.",
+      "textMg": "Tsara be! Valiny marina.",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz2"
+    },
+    {
+      "id": "quiz2",
+      "speaker": "user",
+      "textFr": "Ahoana no ilazana 'mitenia mafy kokoa' ?",
+      "textMg": "Ahoana no ilazana 'mitenia mafy kokoa' ?",
+      "responseOptions": [
+        {
+          "textFr": "Parle plus fort",
+          "textMg": "Parle plus fort",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct2"
+        },
+        {
+          "textFr": "Parle doucement",
+          "textMg": "Parle doucement",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'mafy kokoa' signifie 'plus fort', pas 'doucement'.",
+            "mg": "Tsia, 'mafy kokoa' dia 'plus fort', fa tsy 'doucement'."
+          },
+          "nextNodeOnFail": "quiz2"
+        }
+      ]
+    },
+    {
+      "id": "correct2",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Bonne réponse.",
+      "textMg": "Tsara be! Valiny marina.",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz3"
+    },
+    {
+      "id": "quiz3",
+      "speaker": "user",
+      "textFr": "Ahoana no ilazana 'mandehana eto' ?",
+      "textMg": "Ahoana no ilazana 'mandehana eto' ?",
+      "responseOptions": [
+        {
+          "textFr": "Viens ici",
+          "textMg": "Viens ici",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct3"
+        },
+        {
+          "textFr": "Va là-bas",
+          "textMg": "Va là-bas",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'eto' signifie 'ici', pas 'là-bas'.",
+            "mg": "Tsia, 'eto' dia 'ici', fa tsy 'là-bas'."
+          },
+          "nextNodeOnFail": "quiz3"
+        }
+      ]
+    },
+    {
+      "id": "correct3",
+      "speaker": "teacher",
+      "textFr": "Bravo ! Tu as maîtrisé l'impératif. Continue à pratiquer !",
+      "textMg": "Arahabaina! Hainao tsara ny ny filaza mandidy. Mianara mitohy!",
+      "audio": {
+        "ttsTextFr": "Bravo!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "farewell"
+    },
+    {
+      "id": "farewell",
+      "speaker": "teacher",
+      "textFr": "Bravo pour ton travail ! À bientôt !",
+      "textMg": "Arahabaina tamin'ny asanao! Mandra-pihaona!",
+      "audio": {
+        "ttsTextFr": "Bravo pour ton travail! À bientôt!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "end"
+    },
+    {
+      "id": "end",
+      "speaker": "teacher",
+      "isEnd": true,
+      "textFr": "Tu as terminé la leçon sur l'impératif.",
+      "textMg": "Vita ny lesona momba ny ny filaza mandidy.",
+      "audio": {
+        "ttsTextFr": "Tu as terminé la leçon sur l'impératif.",
+        "ttsRate": 0.9
+      }
+    }
+  ]
+}

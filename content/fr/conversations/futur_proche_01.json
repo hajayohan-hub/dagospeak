@@ -1,0 +1,160 @@
+{
+  "id": "futur_proche_01",
+  "titleFr": "Apprendre le futur proche",
+  "titleMg": "Mianatra ny ho avy akaiky",
+  "level": "A0",
+  "theme": "futur_proche",
+  "descriptionFr": "Je vais parler, tu vas manger - exprimer l'intention",
+  "descriptionMg": "Handeha hiteny aho, handeha hihinana ianao - milaza fikasana",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "teacher",
+      "textFr": "Bonjour {firstName} ! Aujourd'hui, nous allons apprendre le futur proche. Tu es prêt ?",
+      "textMg": "Manao ahoana {firstName}! Androany, hianatra ny ho avy akaiky isika. Vonona ve ianao?",
+      "audio": {
+        "ttsTextFr": "Bonjour! Aujourd'hui, nous allons apprendre le futur proche. Tu es prêt?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "intro"
+    },
+    {
+      "id": "intro",
+      "speaker": "teacher",
+      "textFr": "Je vais parler, tu vas manger - exprimer l'intention. Commençons par les exemples.",
+      "textMg": "Handeha hiteny aho, handeha hihinana ianao - milaza fikasana. Andao hanomboka amin'ny ohatra.",
+      "audio": {
+        "ttsTextFr": "Je vais parler, tu vas manger - exprimer l'intention. Commençons.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz1"
+    },
+    {
+      "id": "quiz1",
+      "speaker": "user",
+      "textFr": "Ahoana no ilazana 'handeha hiteny frantsay aho' ?",
+      "textMg": "Ahoana no ilazana 'handeha hiteny frantsay aho' ?",
+      "responseOptions": [
+        {
+          "textFr": "Je vais parler français",
+          "textMg": "Je vais parler français",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct1"
+        },
+        {
+          "textFr": "Je parle français",
+          "textMg": "Je parle français",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'handeha hiteny' exprime le futur 'je vais parler', pas le présent.",
+            "mg": "Tsia, 'handeha hiteny' dia manambara ny ho avy 'je vais parler', fa tsy ny ankehitriny."
+          },
+          "nextNodeOnFail": "quiz1"
+        }
+      ]
+    },
+    {
+      "id": "correct1",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Bonne réponse.",
+      "textMg": "Tsara be! Valiny marina.",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz2"
+    },
+    {
+      "id": "quiz2",
+      "speaker": "user",
+      "textFr": "Ahoana no ilazana 'handeha hihinana vary ianao' ?",
+      "textMg": "Ahoana no ilazana 'handeha hihinana vary ianao' ?",
+      "responseOptions": [
+        {
+          "textFr": "Tu vas manger du riz",
+          "textMg": "Tu vas manger du riz",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct2"
+        },
+        {
+          "textFr": "Tu manges du riz",
+          "textMg": "Tu manges du riz",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'handeha hihinana' exprime le futur 'tu vas manger', pas le présent.",
+            "mg": "Tsia, 'handeha hihinana' dia manambara ny ho avy 'tu vas manger', fa tsy ny ankehitriny."
+          },
+          "nextNodeOnFail": "quiz2"
+        }
+      ]
+    },
+    {
+      "id": "correct2",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Bonne réponse.",
+      "textMg": "Tsara be! Valiny marina.",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz3"
+    },
+    {
+      "id": "quiz3",
+      "speaker": "user",
+      "textFr": "Ahoana no ilazana 'handeha ho tonga rahampitso izy' ?",
+      "textMg": "Ahoana no ilazana 'handeha ho tonga rahampitso izy' ?",
+      "responseOptions": [
+        {
+          "textFr": "Il va venir demain",
+          "textMg": "Il va venir demain",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct3"
+        },
+        {
+          "textFr": "Il vient demain",
+          "textMg": "Il vient demain",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'handeha ho tonga' exprime le futur proche 'il va venir'.",
+            "mg": "Tsia, 'handeha ho tonga' dia manambara ny ho avy akaiky 'il va venir'."
+          },
+          "nextNodeOnFail": "quiz3"
+        }
+      ]
+    },
+    {
+      "id": "correct3",
+      "speaker": "teacher",
+      "textFr": "Bravo ! Tu as maîtrisé le futur proche. Continue à pratiquer !",
+      "textMg": "Arahabaina! Hainao tsara ny ny ho avy akaiky. Mianara mitohy!",
+      "audio": {
+        "ttsTextFr": "Bravo!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "farewell"
+    },
+    {
+      "id": "farewell",
+      "speaker": "teacher",
+      "textFr": "Bravo pour ton travail ! À bientôt !",
+      "textMg": "Arahabaina tamin'ny asanao! Mandra-pihaona!",
+      "audio": {
+        "ttsTextFr": "Bravo pour ton travail! À bientôt!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "end"
+    },
+    {
+      "id": "end",
+      "speaker": "teacher",
+      "isEnd": true,
+      "textFr": "Tu as terminé la leçon sur le futur proche.",
+      "textMg": "Vita ny lesona momba ny ny ho avy akaiky.",
+      "audio": {
+        "ttsTextFr": "Tu as terminé la leçon sur le futur proche.",
+        "ttsRate": 0.9
+      }
+    }
+  ]
+}

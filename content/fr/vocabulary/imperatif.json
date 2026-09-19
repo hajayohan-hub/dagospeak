@@ -1,0 +1,168 @@
+{
+  "id": "imperatif",
+  "level": "A0",
+  "theme": "L'impératif",
+  "themeMg": "Ny filaza mandidy",
+  "items": [
+    {
+      "id": "imp1",
+      "lexicalId": "imperatif_001",
+      "target": "écoute",
+      "source": "mihainoa",
+      "phonetic": "ekut",
+      "audio": "",
+      "context": "Écoute le professeur !",
+      "contextTranslation": "Mihainoa ny mpampianatra!",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe impératif",
+        "A0"
+      ],
+      "icon": "👂"
+    },
+    {
+      "id": "imp2",
+      "lexicalId": "imperatif_002",
+      "target": "parle",
+      "source": "mitenia",
+      "phonetic": "paʁl",
+      "audio": "",
+      "context": "Parle plus fort !",
+      "contextTranslation": "Mitenia mafy kokoa!",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe impératif",
+        "A0"
+      ],
+      "icon": "💬"
+    },
+    {
+      "id": "imp3",
+      "lexicalId": "imperatif_003",
+      "target": "mange",
+      "source": "mihina",
+      "phonetic": "mɑ̃ʒ",
+      "audio": "",
+      "context": "Mange ton riz !",
+      "contextTranslation": "Mihina ny varinao!",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe impératif",
+        "A0"
+      ],
+      "icon": "🍚"
+    },
+    {
+      "id": "imp4",
+      "lexicalId": "imperatif_004",
+      "target": "viens",
+      "source": "mandehana",
+      "phonetic": "vjɛ̃",
+      "audio": "",
+      "context": "Viens ici !",
+      "contextTranslation": "Mandehana eto!",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe impératif",
+        "A0"
+      ],
+      "icon": "👋"
+    },
+    {
+      "id": "imp5",
+      "lexicalId": "imperatif_005",
+      "target": "regarde",
+      "source": "mijery",
+      "phonetic": "ʁəgaʁd",
+      "audio": "",
+      "context": "Regarde le tableau !",
+      "contextTranslation": "Mijery ny tabilao!",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe impératif",
+        "A0"
+      ],
+      "icon": "👁️"
+    },
+    {
+      "id": "imp6",
+      "lexicalId": "imperatif_006",
+      "target": "attends",
+      "source": "miandrasa",
+      "phonetic": "atɑ̃",
+      "audio": "",
+      "context": "Attends-moi !",
+      "contextTranslation": "Miandrasa ahy!",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe impératif",
+        "A0"
+      ],
+      "icon": "⏳"
+    },
+    {
+      "id": "imp7",
+      "lexicalId": "imperatif_007",
+      "target": "prends",
+      "source": "alaivo",
+      "phonetic": "pʁɑ̃",
+      "audio": "",
+      "context": "Prends ton livre !",
+      "contextTranslation": "Alaivo ny bokinao!",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe impératif",
+        "A0"
+      ],
+      "icon": "✋"
+    },
+    {
+      "id": "imp8",
+      "lexicalId": "imperatif_008",
+      "target": "fais",
+      "source": "ataovy",
+      "phonetic": "fɛ",
+      "audio": "",
+      "context": "Fais tes devoirs !",
+      "contextTranslation": "Ataovy ny entimodinao!",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe impératif",
+        "A0"
+      ],
+      "icon": "✍️"
+    },
+    {
+      "id": "imp9",
+      "lexicalId": "imperatif_009",
+      "target": "dis",
+      "source": "lazao",
+      "phonetic": "di",
+      "audio": "",
+      "context": "Dis la vérité !",
+      "contextTranslation": "Lazao ny marina!",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe impératif",
+        "A0"
+      ],
+      "icon": "🗣️"
+    },
+    {
+      "id": "imp10",
+      "lexicalId": "imperatif_010",
+      "target": "va",
+      "source": "mandehana",
+      "phonetic": "va",
+      "audio": "",
+      "context": "Va à l'école !",
+      "contextTranslation": "Mandehana any an-tsekoly!",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe impératif",
+        "A0"
+      ],
+      "icon": "🚶"
+    }
+  ]
+}

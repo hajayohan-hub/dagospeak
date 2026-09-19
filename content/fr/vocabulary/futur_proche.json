@@ -1,0 +1,168 @@
+{
+  "id": "futur_proche",
+  "level": "A0",
+  "theme": "Le futur proche",
+  "themeMg": "Ny ho avy akaiky",
+  "items": [
+    {
+      "id": "fut1",
+      "lexicalId": "futur_proche_001",
+      "target": "je vais parler",
+      "source": "handeha hiteny aho",
+      "phonetic": "ʒə ve paʁle",
+      "audio": "",
+      "context": "Je vais parler français.",
+      "contextTranslation": "Handeha hiteny frantsay aho.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "temps verbal",
+        "A0"
+      ],
+      "icon": "💬"
+    },
+    {
+      "id": "fut2",
+      "lexicalId": "futur_proche_002",
+      "target": "tu vas manger",
+      "source": "handeha hihinana ianao",
+      "phonetic": "ty va mɑ̃ʒe",
+      "audio": "",
+      "context": "Tu vas manger du riz.",
+      "contextTranslation": "Handeha hihinana vary ianao.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "temps verbal",
+        "A0"
+      ],
+      "icon": "🍚"
+    },
+    {
+      "id": "fut3",
+      "lexicalId": "futur_proche_003",
+      "target": "il va venir",
+      "source": "handeha ho tonga izy",
+      "phonetic": "il va vniʁ",
+      "audio": "",
+      "context": "Il va venir demain.",
+      "contextTranslation": "Handeha ho tonga rahampitso izy.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "temps verbal",
+        "A0"
+      ],
+      "icon": "🚶"
+    },
+    {
+      "id": "fut4",
+      "lexicalId": "futur_proche_004",
+      "target": "elle va travailler",
+      "source": "handeha hiasa izy",
+      "phonetic": "ɛl va tʁavaje",
+      "audio": "",
+      "context": "Elle va travailler bientôt.",
+      "contextTranslation": "Handeha hiasa tsy ho ela izy.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "temps verbal",
+        "A0"
+      ],
+      "icon": "💼"
+    },
+    {
+      "id": "fut5",
+      "lexicalId": "futur_proche_005",
+      "target": "nous allons partir",
+      "source": "handeha hiala izahay",
+      "phonetic": "nu zalɔ̃ paʁtiʁ",
+      "audio": "",
+      "context": "Nous allons partir.",
+      "contextTranslation": "Handeha hiala izahay.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "temps verbal",
+        "A0"
+      ],
+      "icon": "🚪"
+    },
+    {
+      "id": "fut6",
+      "lexicalId": "futur_proche_006",
+      "target": "vous allez étudier",
+      "source": "handeha hianatra ianareo",
+      "phonetic": "vu zale etudje",
+      "audio": "",
+      "context": "Vous allez étudier.",
+      "contextTranslation": "Handeha hianatra ianareo.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "temps verbal",
+        "A0"
+      ],
+      "icon": "📚"
+    },
+    {
+      "id": "fut7",
+      "lexicalId": "futur_proche_007",
+      "target": "ils vont jouer",
+      "source": "handeha hilalao izy ireo",
+      "phonetic": "il vɔ̃ ʒue",
+      "audio": "",
+      "context": "Ils vont jouer au foot.",
+      "contextTranslation": "Handeha hilalao baolina izy ireo.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "temps verbal",
+        "A0"
+      ],
+      "icon": "⚽"
+    },
+    {
+      "id": "fut8",
+      "lexicalId": "futur_proche_008",
+      "target": "je vais acheter",
+      "source": "handeha hividy aho",
+      "phonetic": "ʒə ve aʃte",
+      "audio": "",
+      "context": "Je vais acheter du pain.",
+      "contextTranslation": "Handeha hividy mofo aho.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "temps verbal",
+        "A0"
+      ],
+      "icon": "🛒"
+    },
+    {
+      "id": "fut9",
+      "lexicalId": "futur_proche_009",
+      "target": "tu vas dormir",
+      "source": "handeha hatory ianao",
+      "phonetic": "ty va dɔʁmiʁ",
+      "audio": "",
+      "context": "Tu vas dormir maintenant.",
+      "contextTranslation": "Handeha hatory izao ianao.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "temps verbal",
+        "A0"
+      ],
+      "icon": "😴"
+    },
+    {
+      "id": "fut10",
+      "lexicalId": "futur_proche_010",
+      "target": "elle va chanter",
+      "source": "handeha hihira izy",
+      "phonetic": "ɛl va ʃɑ̃te",
+      "audio": "",
+      "context": "Elle va chanter ce soir.",
+      "contextTranslation": "Handeha hihira hariva izy.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "temps verbal",
+        "A0"
+      ],
+      "icon": "🎤"
+    }
+  ]
+}

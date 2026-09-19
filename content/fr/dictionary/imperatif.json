@@ -1,0 +1,322 @@
+[
+  {
+    "id": "imperatif_001",
+    "level": "A0",
+    "category": "imperatif",
+    "pos": "verbe impératif",
+    "wordFr": "écoute",
+    "wordMg": "mihainoa",
+    "phonetic": "/ekut/",
+    "visual": {
+      "icon": "👂",
+      "iconClass": "icon-imperatif",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "écoute",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/imperatif/imp1.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Écoute le professeur !",
+      "exampleMg": "Mihainoa ny mpampianatra!",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "imperatif_002",
+    "level": "A0",
+    "category": "imperatif",
+    "pos": "verbe impératif",
+    "wordFr": "parle",
+    "wordMg": "mitenia",
+    "phonetic": "/paʁl/",
+    "visual": {
+      "icon": "💬",
+      "iconClass": "icon-imperatif",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "parle",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/imperatif/imp2.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Parle plus fort !",
+      "exampleMg": "Mitenia mafy kokoa!",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "imperatif_003",
+    "level": "A0",
+    "category": "imperatif",
+    "pos": "verbe impératif",
+    "wordFr": "mange",
+    "wordMg": "mihina",
+    "phonetic": "/mɑ̃ʒ/",
+    "visual": {
+      "icon": "🍚",
+      "iconClass": "icon-imperatif",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "mange",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/imperatif/imp3.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Mange ton riz !",
+      "exampleMg": "Mihina ny varinao!",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "imperatif_004",
+    "level": "A0",
+    "category": "imperatif",
+    "pos": "verbe impératif",
+    "wordFr": "viens",
+    "wordMg": "mandehana",
+    "phonetic": "/vjɛ̃/",
+    "visual": {
+      "icon": "👋",
+      "iconClass": "icon-imperatif",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "viens",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/imperatif/imp4.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Viens ici !",
+      "exampleMg": "Mandehana eto!",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "imperatif_005",
+    "level": "A0",
+    "category": "imperatif",
+    "pos": "verbe impératif",
+    "wordFr": "regarde",
+    "wordMg": "mijery",
+    "phonetic": "/ʁəgaʁd/",
+    "visual": {
+      "icon": "👁️",
+      "iconClass": "icon-imperatif",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "regarde",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/imperatif/imp5.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Regarde le tableau !",
+      "exampleMg": "Mijery ny tabilao!",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "imperatif_006",
+    "level": "A0",
+    "category": "imperatif",
+    "pos": "verbe impératif",
+    "wordFr": "attends",
+    "wordMg": "miandrasa",
+    "phonetic": "/atɑ̃/",
+    "visual": {
+      "icon": "⏳",
+      "iconClass": "icon-imperatif",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "attends",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/imperatif/imp6.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Attends-moi !",
+      "exampleMg": "Miandrasa ahy!",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "imperatif_007",
+    "level": "A0",
+    "category": "imperatif",
+    "pos": "verbe impératif",
+    "wordFr": "prends",
+    "wordMg": "alaivo",
+    "phonetic": "/pʁɑ̃/",
+    "visual": {
+      "icon": "✋",
+      "iconClass": "icon-imperatif",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "prends",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/imperatif/imp7.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Prends ton livre !",
+      "exampleMg": "Alaivo ny bokinao!",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "imperatif_008",
+    "level": "A0",
+    "category": "imperatif",
+    "pos": "verbe impératif",
+    "wordFr": "fais",
+    "wordMg": "ataovy",
+    "phonetic": "/fɛ/",
+    "visual": {
+      "icon": "✍️",
+      "iconClass": "icon-imperatif",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "fais",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/imperatif/imp8.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Fais tes devoirs !",
+      "exampleMg": "Ataovy ny entimodinao!",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "imperatif_009",
+    "level": "A0",
+    "category": "imperatif",
+    "pos": "verbe impératif",
+    "wordFr": "dis",
+    "wordMg": "lazao",
+    "phonetic": "/di/",
+    "visual": {
+      "icon": "🗣️",
+      "iconClass": "icon-imperatif",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "dis",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/imperatif/imp9.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Dis la vérité !",
+      "exampleMg": "Lazao ny marina!",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "imperatif_010",
+    "level": "A0",
+    "category": "imperatif",
+    "pos": "verbe impératif",
+    "wordFr": "va",
+    "wordMg": "mandehana",
+    "phonetic": "/va/",
+    "visual": {
+      "icon": "🚶",
+      "iconClass": "icon-imperatif",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "va",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/imperatif/imp10.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Va à l'école !",
+      "exampleMg": "Mandehana any an-tsekoly!",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  }
+]
