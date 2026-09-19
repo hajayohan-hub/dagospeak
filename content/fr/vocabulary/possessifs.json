@@ -1,0 +1,200 @@
+{
+  "id": "possessifs",
+  "level": "A0",
+  "theme": "Les possessifs",
+  "themeMg": "Ny mpisolo manam-pananana",
+  "items": [
+    {
+      "id": "pos1",
+      "lexicalId": "possessifs_001",
+      "target": "mon",
+      "source": "aho manana (lahy)",
+      "phonetic": "mɔ̃",
+      "audio": "",
+      "context": "Mon père est médecin.",
+      "contextTranslation": "Dokotera ny raiko.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif possessif",
+        "A0"
+      ],
+      "icon": "👨"
+    },
+    {
+      "id": "pos2",
+      "lexicalId": "possessifs_002",
+      "target": "ma",
+      "source": "aho manana (vavy)",
+      "phonetic": "ma",
+      "audio": "",
+      "context": "Ma mère est professeure.",
+      "contextTranslation": "Mpampianatra ny reniko.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif possessif",
+        "A0"
+      ],
+      "icon": "👩"
+    },
+    {
+      "id": "pos3",
+      "lexicalId": "possessifs_003",
+      "target": "mes",
+      "source": "aho manana (maro)",
+      "phonetic": "me",
+      "audio": "",
+      "context": "Mes amis sont gentils.",
+      "contextTranslation": "Tsara fanahy ny namako.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif possessif",
+        "A0"
+      ],
+      "icon": "👥"
+    },
+    {
+      "id": "pos4",
+      "lexicalId": "possessifs_004",
+      "target": "ton",
+      "source": "ianao manana (lahy)",
+      "phonetic": "tɔ̃",
+      "audio": "",
+      "context": "Ton frère est grand.",
+      "contextTranslation": "Lehibe ny rahalahinao.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif possessif",
+        "A0"
+      ],
+      "icon": "👦"
+    },
+    {
+      "id": "pos5",
+      "lexicalId": "possessifs_005",
+      "target": "ta",
+      "source": "ianao manana (vavy)",
+      "phonetic": "ta",
+      "audio": "",
+      "context": "Ta sœur est petite.",
+      "contextTranslation": "Kely ny anabavinao.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif possessif",
+        "A0"
+      ],
+      "icon": "👧"
+    },
+    {
+      "id": "pos6",
+      "lexicalId": "possessifs_006",
+      "target": "tes",
+      "source": "ianao manana (maro)",
+      "phonetic": "te",
+      "audio": "",
+      "context": "Tes livres sont sur la table.",
+      "contextTranslation": "Eo ambonin'ny latabatra ny bokinao.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif possessif",
+        "A0"
+      ],
+      "icon": "📚"
+    },
+    {
+      "id": "pos7",
+      "lexicalId": "possessifs_007",
+      "target": "son",
+      "source": "izy manana (lahy)",
+      "phonetic": "sɔ̃",
+      "audio": "",
+      "context": "Son chien est noir.",
+      "contextTranslation": "Mainty ny alikany.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif possessif",
+        "A0"
+      ],
+      "icon": "🐕"
+    },
+    {
+      "id": "pos8",
+      "lexicalId": "possessifs_008",
+      "target": "sa",
+      "source": "izy manana (vavy)",
+      "phonetic": "sa",
+      "audio": "",
+      "context": "Sa voiture est rouge.",
+      "contextTranslation": "Mena ny fiarany.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif possessif",
+        "A0"
+      ],
+      "icon": "🚗"
+    },
+    {
+      "id": "pos9",
+      "lexicalId": "possessifs_009",
+      "target": "notre",
+      "source": "isika manana",
+      "phonetic": "nɔtʁ",
+      "audio": "",
+      "context": "Notre maison est grande.",
+      "contextTranslation": "Lehibe ny tranontsika.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif possessif",
+        "A0"
+      ],
+      "icon": "🏠"
+    },
+    {
+      "id": "pos10",
+      "lexicalId": "possessifs_010",
+      "target": "votre",
+      "source": "ianareo manana",
+      "phonetic": "vɔtʁ",
+      "audio": "",
+      "context": "Votre école est belle.",
+      "contextTranslation": "Tsara tarehy ny sekolinareo.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif possessif",
+        "A0"
+      ],
+      "icon": "🏫"
+    },
+    {
+      "id": "pos11",
+      "lexicalId": "possessifs_011",
+      "target": "leur",
+      "source": "izy ireo manana",
+      "phonetic": "lœʁ",
+      "audio": "",
+      "context": "Leur jardin est magnifique.",
+      "contextTranslation": "Mahafinaritra ny zaridainany.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif possessif",
+        "A0"
+      ],
+      "icon": "🌳"
+    },
+    {
+      "id": "pos12",
+      "lexicalId": "possessifs_012",
+      "target": "leurs",
+      "source": "izy ireo manana (maro)",
+      "phonetic": "lœʁ",
+      "audio": "",
+      "context": "Leurs enfants sont intelligents.",
+      "contextTranslation": "Maranitra ny zanakany.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif possessif",
+        "A0"
+      ],
+      "icon": "👨‍👩‍👧‍👦"
+    }
+  ]
+}

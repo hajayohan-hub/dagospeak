@@ -1,0 +1,168 @@
+{
+  "id": "demonstratifs",
+  "level": "A0",
+  "theme": "Les démonstratifs",
+  "themeMg": "Ny mpisolo manondro",
+  "items": [
+    {
+      "id": "dem1",
+      "lexicalId": "demonstratifs_001",
+      "target": "ce",
+      "source": "ity (lahy)",
+      "phonetic": "sə",
+      "audio": "",
+      "context": "Ce livre est intéressant.",
+      "contextTranslation": "Mahaliana ity boky ity.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif démonstratif",
+        "A0"
+      ],
+      "icon": "📘"
+    },
+    {
+      "id": "dem2",
+      "lexicalId": "demonstratifs_002",
+      "target": "cet",
+      "source": "ity (lahy eo alohan\\'ny voambolana)",
+      "phonetic": "sɛt",
+      "audio": "",
+      "context": "Cet homme est mon père.",
+      "contextTranslation": "Ity lehilahy ity no raiko.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif démonstratif",
+        "A0"
+      ],
+      "icon": "👨"
+    },
+    {
+      "id": "dem3",
+      "lexicalId": "demonstratifs_003",
+      "target": "cette",
+      "source": "ity (vavy)",
+      "phonetic": "sɛt",
+      "audio": "",
+      "context": "Cette femme est ma mère.",
+      "contextTranslation": "Ity vehivavy ity no reniko.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif démonstratif",
+        "A0"
+      ],
+      "icon": "👩"
+    },
+    {
+      "id": "dem4",
+      "lexicalId": "demonstratifs_004",
+      "target": "ces",
+      "source": "ireo",
+      "phonetic": "se",
+      "audio": "",
+      "context": "Ces enfants sont contents.",
+      "contextTranslation": "Faly ireo ankizy ireo.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif démonstratif",
+        "A0"
+      ],
+      "icon": "👥"
+    },
+    {
+      "id": "dem5",
+      "lexicalId": "demonstratifs_005",
+      "target": "celui",
+      "source": "ity lehilahy",
+      "phonetic": "səlɥi",
+      "audio": "",
+      "context": "Celui qui parle est mon frère.",
+      "contextTranslation": "Ity miteny ity no rahalahiko.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif démonstratif",
+        "A0"
+      ],
+      "icon": "👤"
+    },
+    {
+      "id": "dem6",
+      "lexicalId": "demonstratifs_006",
+      "target": "celle",
+      "source": "ity vehivavy",
+      "phonetic": "sɛl",
+      "audio": "",
+      "context": "Celle qui chante est ma sœur.",
+      "contextTranslation": "Ity mihira ity no anabaviko.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif démonstratif",
+        "A0"
+      ],
+      "icon": "👤"
+    },
+    {
+      "id": "dem7",
+      "lexicalId": "demonstratifs_007",
+      "target": "ceux",
+      "source": "ireo lehilahy",
+      "phonetic": "sø",
+      "audio": "",
+      "context": "Ceux qui travaillent sont fatigués.",
+      "contextTranslation": "Reraka ireo miasa ireo.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif démonstratif",
+        "A0"
+      ],
+      "icon": "👥"
+    },
+    {
+      "id": "dem8",
+      "lexicalId": "demonstratifs_008",
+      "target": "celles",
+      "source": "ireo vehivavy",
+      "phonetic": "sɛl",
+      "audio": "",
+      "context": "Celles qui étudient sont intelligentes.",
+      "contextTranslation": "Maranitra ireo mianatra ireo.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif démonstratif",
+        "A0"
+      ],
+      "icon": "👥"
+    },
+    {
+      "id": "dem9",
+      "lexicalId": "demonstratifs_009",
+      "target": "celui-ci",
+      "source": "ity",
+      "phonetic": "səlɥi si",
+      "audio": "",
+      "context": "Celui-ci est mon stylo.",
+      "contextTranslation": "Ity no pensilihiko.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif démonstratif",
+        "A0"
+      ],
+      "icon": "🖊️"
+    },
+    {
+      "id": "dem10",
+      "lexicalId": "demonstratifs_010",
+      "target": "celle-là",
+      "source": "irery",
+      "phonetic": "sɛl la",
+      "audio": "",
+      "context": "Celle-là est ta maison.",
+      "contextTranslation": "Irery no tranonao.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif démonstratif",
+        "A0"
+      ],
+      "icon": "🏠"
+    }
+  ]
+}

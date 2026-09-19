@@ -1,0 +1,322 @@
+[
+  {
+    "id": "demonstratifs_001",
+    "level": "A0",
+    "category": "demonstratifs",
+    "pos": "adjectif démonstratif",
+    "wordFr": "ce",
+    "wordMg": "ity (lahy)",
+    "phonetic": "/sə/",
+    "visual": {
+      "icon": "📘",
+      "iconClass": "icon-demonstratifs",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "ce",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/demonstratifs/dem1.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Ce livre est intéressant.",
+      "exampleMg": "Mahaliana ity boky ity.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "demonstratifs_002",
+    "level": "A0",
+    "category": "demonstratifs",
+    "pos": "adjectif démonstratif",
+    "wordFr": "cet",
+    "wordMg": "ity (lahy eo alohan\\'ny voambolana)",
+    "phonetic": "/sɛt/",
+    "visual": {
+      "icon": "👨",
+      "iconClass": "icon-demonstratifs",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "cet",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/demonstratifs/dem2.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Cet homme est mon père.",
+      "exampleMg": "Ity lehilahy ity no raiko.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "demonstratifs_003",
+    "level": "A0",
+    "category": "demonstratifs",
+    "pos": "adjectif démonstratif",
+    "wordFr": "cette",
+    "wordMg": "ity (vavy)",
+    "phonetic": "/sɛt/",
+    "visual": {
+      "icon": "👩",
+      "iconClass": "icon-demonstratifs",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "cette",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/demonstratifs/dem3.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Cette femme est ma mère.",
+      "exampleMg": "Ity vehivavy ity no reniko.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "demonstratifs_004",
+    "level": "A0",
+    "category": "demonstratifs",
+    "pos": "adjectif démonstratif",
+    "wordFr": "ces",
+    "wordMg": "ireo",
+    "phonetic": "/se/",
+    "visual": {
+      "icon": "👥",
+      "iconClass": "icon-demonstratifs",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "ces",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/demonstratifs/dem4.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Ces enfants sont contents.",
+      "exampleMg": "Faly ireo ankizy ireo.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "demonstratifs_005",
+    "level": "A0",
+    "category": "demonstratifs",
+    "pos": "adjectif démonstratif",
+    "wordFr": "celui",
+    "wordMg": "ity lehilahy",
+    "phonetic": "/səlɥi/",
+    "visual": {
+      "icon": "👤",
+      "iconClass": "icon-demonstratifs",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "celui",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/demonstratifs/dem5.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Celui qui parle est mon frère.",
+      "exampleMg": "Ity miteny ity no rahalahiko.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "demonstratifs_006",
+    "level": "A0",
+    "category": "demonstratifs",
+    "pos": "adjectif démonstratif",
+    "wordFr": "celle",
+    "wordMg": "ity vehivavy",
+    "phonetic": "/sɛl/",
+    "visual": {
+      "icon": "👤",
+      "iconClass": "icon-demonstratifs",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "celle",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/demonstratifs/dem6.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Celle qui chante est ma sœur.",
+      "exampleMg": "Ity mihira ity no anabaviko.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "demonstratifs_007",
+    "level": "A0",
+    "category": "demonstratifs",
+    "pos": "adjectif démonstratif",
+    "wordFr": "ceux",
+    "wordMg": "ireo lehilahy",
+    "phonetic": "/sø/",
+    "visual": {
+      "icon": "👥",
+      "iconClass": "icon-demonstratifs",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "ceux",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/demonstratifs/dem7.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Ceux qui travaillent sont fatigués.",
+      "exampleMg": "Reraka ireo miasa ireo.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "demonstratifs_008",
+    "level": "A0",
+    "category": "demonstratifs",
+    "pos": "adjectif démonstratif",
+    "wordFr": "celles",
+    "wordMg": "ireo vehivavy",
+    "phonetic": "/sɛl/",
+    "visual": {
+      "icon": "👥",
+      "iconClass": "icon-demonstratifs",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "celles",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/demonstratifs/dem8.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Celles qui étudient sont intelligentes.",
+      "exampleMg": "Maranitra ireo mianatra ireo.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "demonstratifs_009",
+    "level": "A0",
+    "category": "demonstratifs",
+    "pos": "adjectif démonstratif",
+    "wordFr": "celui-ci",
+    "wordMg": "ity",
+    "phonetic": "/səlɥi si/",
+    "visual": {
+      "icon": "🖊️",
+      "iconClass": "icon-demonstratifs",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "celui-ci",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/demonstratifs/dem9.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Celui-ci est mon stylo.",
+      "exampleMg": "Ity no pensilihiko.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "demonstratifs_010",
+    "level": "A0",
+    "category": "demonstratifs",
+    "pos": "adjectif démonstratif",
+    "wordFr": "celle-là",
+    "wordMg": "irery",
+    "phonetic": "/sɛl la/",
+    "visual": {
+      "icon": "🏠",
+      "iconClass": "icon-demonstratifs",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "celle-là",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/demonstratifs/dem10.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Celle-là est ta maison.",
+      "exampleMg": "Irery no tranonao.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  }
+]

@@ -1,0 +1,322 @@
+[
+  {
+    "id": "prepositions_001",
+    "level": "A0",
+    "category": "prepositions",
+    "pos": "préposition",
+    "wordFr": "dans",
+    "wordMg": "ao anatiny",
+    "phonetic": "/dan/",
+    "visual": {
+      "icon": "📥",
+      "iconClass": "icon-prepositions",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "dans",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/prepositions/pre1.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Le livre est dans le sac.",
+      "exampleMg": "Ao anaty kitapo ny boky.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "prepositions_002",
+    "level": "A0",
+    "category": "prepositions",
+    "pos": "préposition",
+    "wordFr": "sur",
+    "wordMg": "eo amboniny",
+    "phonetic": "/syʁ/",
+    "visual": {
+      "icon": "⬆️",
+      "iconClass": "icon-prepositions",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "sur",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/prepositions/pre2.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Le chat est sur la table.",
+      "exampleMg": "Eo ambonin'ny latabatra ny saka.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "prepositions_003",
+    "level": "A0",
+    "category": "prepositions",
+    "pos": "préposition",
+    "wordFr": "sous",
+    "wordMg": "eo ambaniny",
+    "phonetic": "/su/",
+    "visual": {
+      "icon": "⬇️",
+      "iconClass": "icon-prepositions",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "sous",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/prepositions/pre3.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Le ballon est sous la chaise.",
+      "exampleMg": "Eo ambanin'ny seza ny baolina.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "prepositions_004",
+    "level": "A0",
+    "category": "prepositions",
+    "pos": "préposition",
+    "wordFr": "devant",
+    "wordMg": "eo alohany",
+    "phonetic": "/dəvɑ̃/",
+    "visual": {
+      "icon": "👁️",
+      "iconClass": "icon-prepositions",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "devant",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/prepositions/pre4.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "L'arbre est devant la maison.",
+      "exampleMg": "Eo alohan'ny trano ny hazo.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "prepositions_005",
+    "level": "A0",
+    "category": "prepositions",
+    "pos": "préposition",
+    "wordFr": "derrière",
+    "wordMg": "eo aoriany",
+    "phonetic": "/dɛʁjɛʁ/",
+    "visual": {
+      "icon": "🔙",
+      "iconClass": "icon-prepositions",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "derrière",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/prepositions/pre5.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Le jardin est derrière la maison.",
+      "exampleMg": "Eo aorian'ny trano ny zaridaina.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "prepositions_006",
+    "level": "A0",
+    "category": "prepositions",
+    "pos": "préposition",
+    "wordFr": "à côté de",
+    "wordMg": "eo anilany",
+    "phonetic": "/a kote də/",
+    "visual": {
+      "icon": "↔️",
+      "iconClass": "icon-prepositions",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "à côté de",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/prepositions/pre6.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "La banque est à côté du marché.",
+      "exampleMg": "Eo anilan'ny tsena ny banky.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "prepositions_007",
+    "level": "A0",
+    "category": "prepositions",
+    "pos": "préposition",
+    "wordFr": "entre",
+    "wordMg": "eo anelanelany",
+    "phonetic": "/ɑ̃tʁ/",
+    "visual": {
+      "icon": "↔️",
+      "iconClass": "icon-prepositions",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "entre",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/prepositions/pre7.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Le chat est entre les deux chaises.",
+      "exampleMg": "Eo anelanelan'ny seza roa ny saka.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "prepositions_008",
+    "level": "A0",
+    "category": "prepositions",
+    "pos": "préposition",
+    "wordFr": "en face de",
+    "wordMg": "mifanatrika aminy",
+    "phonetic": "/ɑ̃ fas də/",
+    "visual": {
+      "icon": "🔄",
+      "iconClass": "icon-prepositions",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "en face de",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/prepositions/pre8.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Le café est en face de l'école.",
+      "exampleMg": "Mifanatrika amin'ny sekoly ny kafe.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "prepositions_009",
+    "level": "A0",
+    "category": "prepositions",
+    "pos": "préposition",
+    "wordFr": "près de",
+    "wordMg": "akaikin'ny",
+    "phonetic": "/pʁɛ də/",
+    "visual": {
+      "icon": "📏",
+      "iconClass": "icon-prepositions",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "près de",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/prepositions/pre9.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "L'école est près de chez moi.",
+      "exampleMg": "Akaikin'ny tranoko ny sekoly.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "prepositions_010",
+    "level": "A0",
+    "category": "prepositions",
+    "pos": "préposition",
+    "wordFr": "loin de",
+    "wordMg": "lavitra",
+    "phonetic": "/lwɛ̃ də/",
+    "visual": {
+      "icon": "🛣️",
+      "iconClass": "icon-prepositions",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "loin de",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/prepositions/pre10.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Le marché est loin d'ici.",
+      "exampleMg": "Lavitra eto ny tsena.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  }
+]

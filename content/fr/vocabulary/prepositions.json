@@ -1,0 +1,168 @@
+{
+  "id": "prepositions",
+  "level": "A0",
+  "theme": "Les prépositions",
+  "themeMg": "Ny mpisolo toerana",
+  "items": [
+    {
+      "id": "pre1",
+      "lexicalId": "prepositions_001",
+      "target": "dans",
+      "source": "ao anatiny",
+      "phonetic": "dan",
+      "audio": "",
+      "context": "Le livre est dans le sac.",
+      "contextTranslation": "Ao anaty kitapo ny boky.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "préposition",
+        "A0"
+      ],
+      "icon": "📥"
+    },
+    {
+      "id": "pre2",
+      "lexicalId": "prepositions_002",
+      "target": "sur",
+      "source": "eo amboniny",
+      "phonetic": "syʁ",
+      "audio": "",
+      "context": "Le chat est sur la table.",
+      "contextTranslation": "Eo ambonin'ny latabatra ny saka.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "préposition",
+        "A0"
+      ],
+      "icon": "⬆️"
+    },
+    {
+      "id": "pre3",
+      "lexicalId": "prepositions_003",
+      "target": "sous",
+      "source": "eo ambaniny",
+      "phonetic": "su",
+      "audio": "",
+      "context": "Le ballon est sous la chaise.",
+      "contextTranslation": "Eo ambanin'ny seza ny baolina.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "préposition",
+        "A0"
+      ],
+      "icon": "⬇️"
+    },
+    {
+      "id": "pre4",
+      "lexicalId": "prepositions_004",
+      "target": "devant",
+      "source": "eo alohany",
+      "phonetic": "dəvɑ̃",
+      "audio": "",
+      "context": "L'arbre est devant la maison.",
+      "contextTranslation": "Eo alohan'ny trano ny hazo.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "préposition",
+        "A0"
+      ],
+      "icon": "👁️"
+    },
+    {
+      "id": "pre5",
+      "lexicalId": "prepositions_005",
+      "target": "derrière",
+      "source": "eo aoriany",
+      "phonetic": "dɛʁjɛʁ",
+      "audio": "",
+      "context": "Le jardin est derrière la maison.",
+      "contextTranslation": "Eo aorian'ny trano ny zaridaina.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "préposition",
+        "A0"
+      ],
+      "icon": "🔙"
+    },
+    {
+      "id": "pre6",
+      "lexicalId": "prepositions_006",
+      "target": "à côté de",
+      "source": "eo anilany",
+      "phonetic": "a kote də",
+      "audio": "",
+      "context": "La banque est à côté du marché.",
+      "contextTranslation": "Eo anilan'ny tsena ny banky.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "préposition",
+        "A0"
+      ],
+      "icon": "↔️"
+    },
+    {
+      "id": "pre7",
+      "lexicalId": "prepositions_007",
+      "target": "entre",
+      "source": "eo anelanelany",
+      "phonetic": "ɑ̃tʁ",
+      "audio": "",
+      "context": "Le chat est entre les deux chaises.",
+      "contextTranslation": "Eo anelanelan'ny seza roa ny saka.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "préposition",
+        "A0"
+      ],
+      "icon": "↔️"
+    },
+    {
+      "id": "pre8",
+      "lexicalId": "prepositions_008",
+      "target": "en face de",
+      "source": "mifanatrika aminy",
+      "phonetic": "ɑ̃ fas də",
+      "audio": "",
+      "context": "Le café est en face de l'école.",
+      "contextTranslation": "Mifanatrika amin'ny sekoly ny kafe.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "préposition",
+        "A0"
+      ],
+      "icon": "🔄"
+    },
+    {
+      "id": "pre9",
+      "lexicalId": "prepositions_009",
+      "target": "près de",
+      "source": "akaikin'ny",
+      "phonetic": "pʁɛ də",
+      "audio": "",
+      "context": "L'école est près de chez moi.",
+      "contextTranslation": "Akaikin'ny tranoko ny sekoly.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "préposition",
+        "A0"
+      ],
+      "icon": "📏"
+    },
+    {
+      "id": "pre10",
+      "lexicalId": "prepositions_010",
+      "target": "loin de",
+      "source": "lavitra",
+      "phonetic": "lwɛ̃ də",
+      "audio": "",
+      "context": "Le marché est loin d'ici.",
+      "contextTranslation": "Lavitra eto ny tsena.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "préposition",
+        "A0"
+      ],
+      "icon": "🛣️"
+    }
+  ]
+}

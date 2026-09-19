@@ -1,0 +1,160 @@
+{
+  "id": "demonstratifs_01",
+  "titleFr": "Apprendre les démonstratifs",
+  "titleMg": "Mianatra ny mpisolo manondro",
+  "level": "A0",
+  "theme": "demonstratifs",
+  "descriptionFr": "Ce, cet, cette, ces - désigner précisément",
+  "descriptionMg": "Ity, io, ireo - manondro mazava",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "teacher",
+      "textFr": "Bonjour {firstName} ! Aujourd'hui, nous allons apprendre les démonstratifs. Tu es prêt ?",
+      "textMg": "Manao ahoana {firstName}! Androany, hianatra ny mpisolo manondro isika. Vonona ve ianao?",
+      "audio": {
+        "ttsTextFr": "Bonjour! Aujourd'hui, nous allons apprendre les démonstratifs. Tu es prêt?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "intro"
+    },
+    {
+      "id": "intro",
+      "speaker": "teacher",
+      "textFr": "Ce, cet, cette, ces - désigner précisément. Commençons par les exemples.",
+      "textMg": "Ity, io, ireo - manondro mazava. Andao hanomboka amin'ny ohatra.",
+      "audio": {
+        "ttsTextFr": "Ce, cet, cette, ces - désigner précisément. Commençons.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz1"
+    },
+    {
+      "id": "quiz1",
+      "speaker": "user",
+      "textFr": "Ahoana no ilazana 'ity boky ity' ?",
+      "textMg": "Ahoana no ilazana 'ity boky ity' ?",
+      "responseOptions": [
+        {
+          "textFr": "Ce livre",
+          "textMg": "Ce livre",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct1"
+        },
+        {
+          "textFr": "Ces livres",
+          "textMg": "Ces livres",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'ity' (singulier) = 'ce', pas 'ces' (pluriel).",
+            "mg": "Tsia, 'ity' (tokana) = 'ce', fa tsy 'ces' (maro)."
+          },
+          "nextNodeOnFail": "quiz1"
+        }
+      ]
+    },
+    {
+      "id": "correct1",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Bonne réponse.",
+      "textMg": "Tsara be! Valiny marina.",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz2"
+    },
+    {
+      "id": "quiz2",
+      "speaker": "user",
+      "textFr": "Ahoana no ilazana 'ireo ankizy ireo' ?",
+      "textMg": "Ahoana no ilazana 'ireo ankizy ireo' ?",
+      "responseOptions": [
+        {
+          "textFr": "Ces enfants",
+          "textMg": "Ces enfants",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct2"
+        },
+        {
+          "textFr": "Cet enfant",
+          "textMg": "Cet enfant",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'ireo' (pluriel) = 'ces', pas 'cet' (singulier).",
+            "mg": "Tsia, 'ireo' (maro) = 'ces', fa tsy 'cet' (tokana)."
+          },
+          "nextNodeOnFail": "quiz2"
+        }
+      ]
+    },
+    {
+      "id": "correct2",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Bonne réponse.",
+      "textMg": "Tsara be! Valiny marina.",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz3"
+    },
+    {
+      "id": "quiz3",
+      "speaker": "user",
+      "textFr": "Ahoana no ilazana 'ity vehivavy ity' ?",
+      "textMg": "Ahoana no ilazana 'ity vehivavy ity' ?",
+      "responseOptions": [
+        {
+          "textFr": "Cette femme",
+          "textMg": "Cette femme",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct3"
+        },
+        {
+          "textFr": "Ce femme",
+          "textMg": "Ce femme",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'femme' est féminin, donc 'cette', pas 'ce'.",
+            "mg": "Tsia, 'vehivavy' dia vavy, ka 'cette' no ampiasaina."
+          },
+          "nextNodeOnFail": "quiz3"
+        }
+      ]
+    },
+    {
+      "id": "correct3",
+      "speaker": "teacher",
+      "textFr": "Bravo ! Tu as maîtrisé les démonstratifs. Continue à pratiquer !",
+      "textMg": "Arahabaina! Hainao tsara ny ny mpisolo manondro. Mianara mitohy!",
+      "audio": {
+        "ttsTextFr": "Bravo!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "farewell"
+    },
+    {
+      "id": "farewell",
+      "speaker": "teacher",
+      "textFr": "Bravo pour ton travail ! À bientôt !",
+      "textMg": "Arahabaina tamin'ny asanao! Mandra-pihaona!",
+      "audio": {
+        "ttsTextFr": "Bravo pour ton travail! À bientôt!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "end"
+    },
+    {
+      "id": "end",
+      "speaker": "teacher",
+      "isEnd": true,
+      "textFr": "Tu as terminé la leçon sur les démonstratifs.",
+      "textMg": "Vita ny lesona momba ny ny mpisolo manondro.",
+      "audio": {
+        "ttsTextFr": "Tu as terminé la leçon sur les démonstratifs.",
+        "ttsRate": 0.9
+      }
+    }
+  ]
+}

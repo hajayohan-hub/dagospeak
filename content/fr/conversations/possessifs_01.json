@@ -1,0 +1,160 @@
+{
+  "id": "possessifs_01",
+  "titleFr": "Apprendre les possessifs",
+  "titleMg": "Mianatra ny mpisolo manam-pananana",
+  "level": "A0",
+  "theme": "possessifs",
+  "descriptionFr": "Mon, ton, son, notre, votre, leur - exprimer la possession",
+  "descriptionMg": "Ahy, anao, azy, antsika, anareo, azy ireo",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "teacher",
+      "textFr": "Bonjour {firstName} ! Aujourd'hui, nous allons apprendre les possessifs. Tu es prêt ?",
+      "textMg": "Manao ahoana {firstName}! Androany, hianatra ny mpisolo manam-pananana isika. Vonona ve ianao?",
+      "audio": {
+        "ttsTextFr": "Bonjour! Aujourd'hui, nous allons apprendre les possessifs. Tu es prêt?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "intro"
+    },
+    {
+      "id": "intro",
+      "speaker": "teacher",
+      "textFr": "Mon, ton, son, notre, votre, leur - exprimer la possession. Commençons par les exemples.",
+      "textMg": "Ahy, anao, azy, antsika, anareo, azy ireo. Andao hanomboka amin'ny ohatra.",
+      "audio": {
+        "ttsTextFr": "Mon, ton, son, notre, votre, leur - exprimer la possession. Commençons.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz1"
+    },
+    {
+      "id": "quiz1",
+      "speaker": "user",
+      "textFr": "Ahoana no ilazana 'ny raiko' ?",
+      "textMg": "Ahoana no ilazana 'ny raiko' ?",
+      "responseOptions": [
+        {
+          "textFr": "Mon père",
+          "textMg": "Mon père",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct1"
+        },
+        {
+          "textFr": "Ma père",
+          "textMg": "Ma père",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'père' est masculin, donc 'mon', pas 'ma'.",
+            "mg": "Tsia, 'ray' dia lahy, ka 'mon' no ampiasaina."
+          },
+          "nextNodeOnFail": "quiz1"
+        }
+      ]
+    },
+    {
+      "id": "correct1",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Bonne réponse.",
+      "textMg": "Tsara be! Valiny marina.",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz2"
+    },
+    {
+      "id": "quiz2",
+      "speaker": "user",
+      "textFr": "Ahoana no ilazana 'ny reniko' ?",
+      "textMg": "Ahoana no ilazana 'ny reniko' ?",
+      "responseOptions": [
+        {
+          "textFr": "Ma mère",
+          "textMg": "Ma mère",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct2"
+        },
+        {
+          "textFr": "Mon mère",
+          "textMg": "Mon mère",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'mère' est féminin, donc 'ma', pas 'mon'.",
+            "mg": "Tsia, 'reny' dia vavy, ka 'ma' no ampiasaina."
+          },
+          "nextNodeOnFail": "quiz2"
+        }
+      ]
+    },
+    {
+      "id": "correct2",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Bonne réponse.",
+      "textMg": "Tsara be! Valiny marina.",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz3"
+    },
+    {
+      "id": "quiz3",
+      "speaker": "user",
+      "textFr": "Ahoana no ilazana 'ny bokinao' ?",
+      "textMg": "Ahoana no ilazana 'ny bokinao' ?",
+      "responseOptions": [
+        {
+          "textFr": "Tes livres",
+          "textMg": "Tes livres",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct3"
+        },
+        {
+          "textFr": "Ton livres",
+          "textMg": "Ton livres",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'livres' est pluriel, donc 'tes', pas 'ton'.",
+            "mg": "Tsia, 'boky' eto dia maro, ka 'tes' no ampiasaina."
+          },
+          "nextNodeOnFail": "quiz3"
+        }
+      ]
+    },
+    {
+      "id": "correct3",
+      "speaker": "teacher",
+      "textFr": "Bravo ! Tu as maîtrisé les possessifs. Continue à pratiquer !",
+      "textMg": "Arahabaina! Hainao tsara ny ny mpisolo manam-pananana. Mianara mitohy!",
+      "audio": {
+        "ttsTextFr": "Bravo!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "farewell"
+    },
+    {
+      "id": "farewell",
+      "speaker": "teacher",
+      "textFr": "Bravo pour ton travail ! À bientôt !",
+      "textMg": "Arahabaina tamin'ny asanao! Mandra-pihaona!",
+      "audio": {
+        "ttsTextFr": "Bravo pour ton travail! À bientôt!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "end"
+    },
+    {
+      "id": "end",
+      "speaker": "teacher",
+      "isEnd": true,
+      "textFr": "Tu as terminé la leçon sur les possessifs.",
+      "textMg": "Vita ny lesona momba ny ny mpisolo manam-pananana.",
+      "audio": {
+        "ttsTextFr": "Tu as terminé la leçon sur les possessifs.",
+        "ttsRate": 0.9
+      }
+    }
+  ]
+}

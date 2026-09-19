@@ -6,7 +6,7 @@
 // ⚠️ Change ce numéro à CHAQUE déploiement — c'est ce qui déclenche
 // la détection de mise à jour (le navigateur compare ce fichier octet
 // par octet à la version active).
-const CACHE_VERSION = 'v110';
+const CACHE_VERSION = 'v111';
 const CACHE_NAME = `dagospeak-${CACHE_VERSION}`;
 
 const STATIC_ASSETS = [
@@ -28,6 +28,9 @@ const STATIC_ASSETS = [
   '/content/fr/vocabulary/verbe_etre.json',
   '/content/fr/vocabulary/verbe_avoir.json',
   '/content/fr/vocabulary/adjectifs.json',
+  '/content/fr/vocabulary/prepositions.json',
+  '/content/fr/vocabulary/demonstratifs.json',
+  '/content/fr/vocabulary/possessifs.json',
 
     // ✅ TOUS les dialogues pour Role Play
   '/content/fr/dialogues/body_dialogue.json',
@@ -53,6 +56,9 @@ const STATIC_ASSETS = [
   '/content/fr/dictionary/verbe_etre.json',
   '/content/fr/dictionary/verbe_avoir.json',
   '/content/fr/dictionary/adjectifs.json',
+  '/content/fr/dictionary/prepositions.json',
+  '/content/fr/dictionary/demonstratifs.json',
+  '/content/fr/dictionary/possessifs.json',
 
   // ✅ TOUS les dialogues Conversation Live
    '/content/fr/conversations/greetings_01.json',
@@ -70,6 +76,9 @@ const STATIC_ASSETS = [
   '/content/fr/conversations/verbe_etre_01.json',
   '/content/fr/conversations/verbe_avoir_01.json',
   '/content/fr/conversations/adjectifs_01.json',
+  '/content/fr/conversations/prepositions_01.json',
+  '/content/fr/conversations/demonstratifs_01.json',
+  '/content/fr/conversations/possessifs_01.json',
     '/content/fr/conversations/alphabet_01.json',
   '/content/fr/conversations/alphabet_02.json',
   '/content/fr/conversations/numbers2_01.json',

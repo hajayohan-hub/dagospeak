@@ -1,0 +1,386 @@
+[
+  {
+    "id": "possessifs_001",
+    "level": "A0",
+    "category": "possessifs",
+    "pos": "adjectif possessif",
+    "wordFr": "mon",
+    "wordMg": "aho manana (lahy)",
+    "phonetic": "/mɔ̃/",
+    "visual": {
+      "icon": "👨",
+      "iconClass": "icon-possessifs",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "mon",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/possessifs/pos1.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Mon père est médecin.",
+      "exampleMg": "Dokotera ny raiko.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "possessifs_002",
+    "level": "A0",
+    "category": "possessifs",
+    "pos": "adjectif possessif",
+    "wordFr": "ma",
+    "wordMg": "aho manana (vavy)",
+    "phonetic": "/ma/",
+    "visual": {
+      "icon": "👩",
+      "iconClass": "icon-possessifs",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "ma",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/possessifs/pos2.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Ma mère est professeure.",
+      "exampleMg": "Mpampianatra ny reniko.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "possessifs_003",
+    "level": "A0",
+    "category": "possessifs",
+    "pos": "adjectif possessif",
+    "wordFr": "mes",
+    "wordMg": "aho manana (maro)",
+    "phonetic": "/me/",
+    "visual": {
+      "icon": "👥",
+      "iconClass": "icon-possessifs",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "mes",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/possessifs/pos3.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Mes amis sont gentils.",
+      "exampleMg": "Tsara fanahy ny namako.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "possessifs_004",
+    "level": "A0",
+    "category": "possessifs",
+    "pos": "adjectif possessif",
+    "wordFr": "ton",
+    "wordMg": "ianao manana (lahy)",
+    "phonetic": "/tɔ̃/",
+    "visual": {
+      "icon": "👦",
+      "iconClass": "icon-possessifs",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "ton",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/possessifs/pos4.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Ton frère est grand.",
+      "exampleMg": "Lehibe ny rahalahinao.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "possessifs_005",
+    "level": "A0",
+    "category": "possessifs",
+    "pos": "adjectif possessif",
+    "wordFr": "ta",
+    "wordMg": "ianao manana (vavy)",
+    "phonetic": "/ta/",
+    "visual": {
+      "icon": "👧",
+      "iconClass": "icon-possessifs",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "ta",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/possessifs/pos5.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Ta sœur est petite.",
+      "exampleMg": "Kely ny anabavinao.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "possessifs_006",
+    "level": "A0",
+    "category": "possessifs",
+    "pos": "adjectif possessif",
+    "wordFr": "tes",
+    "wordMg": "ianao manana (maro)",
+    "phonetic": "/te/",
+    "visual": {
+      "icon": "📚",
+      "iconClass": "icon-possessifs",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "tes",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/possessifs/pos6.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Tes livres sont sur la table.",
+      "exampleMg": "Eo ambonin'ny latabatra ny bokinao.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "possessifs_007",
+    "level": "A0",
+    "category": "possessifs",
+    "pos": "adjectif possessif",
+    "wordFr": "son",
+    "wordMg": "izy manana (lahy)",
+    "phonetic": "/sɔ̃/",
+    "visual": {
+      "icon": "🐕",
+      "iconClass": "icon-possessifs",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "son",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/possessifs/pos7.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Son chien est noir.",
+      "exampleMg": "Mainty ny alikany.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "possessifs_008",
+    "level": "A0",
+    "category": "possessifs",
+    "pos": "adjectif possessif",
+    "wordFr": "sa",
+    "wordMg": "izy manana (vavy)",
+    "phonetic": "/sa/",
+    "visual": {
+      "icon": "🚗",
+      "iconClass": "icon-possessifs",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "sa",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/possessifs/pos8.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Sa voiture est rouge.",
+      "exampleMg": "Mena ny fiarany.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "possessifs_009",
+    "level": "A0",
+    "category": "possessifs",
+    "pos": "adjectif possessif",
+    "wordFr": "notre",
+    "wordMg": "isika manana",
+    "phonetic": "/nɔtʁ/",
+    "visual": {
+      "icon": "🏠",
+      "iconClass": "icon-possessifs",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "notre",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/possessifs/pos9.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Notre maison est grande.",
+      "exampleMg": "Lehibe ny tranontsika.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "possessifs_010",
+    "level": "A0",
+    "category": "possessifs",
+    "pos": "adjectif possessif",
+    "wordFr": "votre",
+    "wordMg": "ianareo manana",
+    "phonetic": "/vɔtʁ/",
+    "visual": {
+      "icon": "🏫",
+      "iconClass": "icon-possessifs",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "votre",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/possessifs/pos10.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Votre école est belle.",
+      "exampleMg": "Tsara tarehy ny sekolinareo.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "possessifs_011",
+    "level": "A0",
+    "category": "possessifs",
+    "pos": "adjectif possessif",
+    "wordFr": "leur",
+    "wordMg": "izy ireo manana",
+    "phonetic": "/lœʁ/",
+    "visual": {
+      "icon": "🌳",
+      "iconClass": "icon-possessifs",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "leur",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/possessifs/pos11.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Leur jardin est magnifique.",
+      "exampleMg": "Mahafinaritra ny zaridainany.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "possessifs_012",
+    "level": "A0",
+    "category": "possessifs",
+    "pos": "adjectif possessif",
+    "wordFr": "leurs",
+    "wordMg": "izy ireo manana (maro)",
+    "phonetic": "/lœʁ/",
+    "visual": {
+      "icon": "👨‍👩‍👧‍👦",
+      "iconClass": "icon-possessifs",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "leurs",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/possessifs/pos12.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Leurs enfants sont intelligents.",
+      "exampleMg": "Maranitra ny zanakany.",
+      "situation": "Conversation quotidienne"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  }
+]

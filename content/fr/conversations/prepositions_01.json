@@ -1,0 +1,160 @@
+{
+  "id": "prepositions_01",
+  "titleFr": "Apprendre les prépositions",
+  "titleMg": "Mianatra ny mpisolo toerana",
+  "level": "A0",
+  "theme": "prepositions",
+  "descriptionFr": "Dans, sur, sous, devant, derrière - situer dans l'espace",
+  "descriptionMg": "Ao anatiny, eo amboniny, eo ambaniny, eo alohany, eo aoriany",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "teacher",
+      "textFr": "Bonjour {firstName} ! Aujourd'hui, nous allons apprendre les prépositions. Tu es prêt ?",
+      "textMg": "Manao ahoana {firstName}! Androany, hianatra ny mpisolo toerana isika. Vonona ve ianao?",
+      "audio": {
+        "ttsTextFr": "Bonjour! Aujourd'hui, nous allons apprendre les prépositions. Tu es prêt?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "intro"
+    },
+    {
+      "id": "intro",
+      "speaker": "teacher",
+      "textFr": "Dans, sur, sous, devant, derrière - situer dans l'espace. Commençons par les exemples.",
+      "textMg": "Ao anatiny, eo amboniny, eo ambaniny, eo alohany, eo aoriany. Andao hanomboka amin'ny ohatra.",
+      "audio": {
+        "ttsTextFr": "Dans, sur, sous, devant, derrière - situer dans l'espace. Commençons.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz1"
+    },
+    {
+      "id": "quiz1",
+      "speaker": "user",
+      "textFr": "Ahoana no ilazana 'ao anaty kitapo ny boky' ?",
+      "textMg": "Ahoana no ilazana 'ao anaty kitapo ny boky' ?",
+      "responseOptions": [
+        {
+          "textFr": "Le livre est dans le sac",
+          "textMg": "Le livre est dans le sac",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct1"
+        },
+        {
+          "textFr": "Le livre est sur le sac",
+          "textMg": "Le livre est sur le sac",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'ao anatiny' signifie 'dans', pas 'sur'.",
+            "mg": "Tsia, 'ao anatiny' dia 'dans', fa tsy 'sur'."
+          },
+          "nextNodeOnFail": "quiz1"
+        }
+      ]
+    },
+    {
+      "id": "correct1",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Bonne réponse.",
+      "textMg": "Tsara be! Valiny marina.",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz2"
+    },
+    {
+      "id": "quiz2",
+      "speaker": "user",
+      "textFr": "Ahoana no ilazana 'eo ambonin\\'ny latabatra ny saka' ?",
+      "textMg": "Ahoana no ilazana 'eo ambonin\\'ny latabatra ny saka' ?",
+      "responseOptions": [
+        {
+          "textFr": "Le chat est sur la table",
+          "textMg": "Le chat est sur la table",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct2"
+        },
+        {
+          "textFr": "Le chat est sous la table",
+          "textMg": "Le chat est sous la table",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'eo amboniny' signifie 'sur', pas 'sous'.",
+            "mg": "Tsia, 'eo amboniny' dia 'sur', fa tsy 'sous'."
+          },
+          "nextNodeOnFail": "quiz2"
+        }
+      ]
+    },
+    {
+      "id": "correct2",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Bonne réponse.",
+      "textMg": "Tsara be! Valiny marina.",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz3"
+    },
+    {
+      "id": "quiz3",
+      "speaker": "user",
+      "textFr": "Ahoana no ilazana 'eo ambanin\\'ny seza ny baolina' ?",
+      "textMg": "Ahoana no ilazana 'eo ambanin\\'ny seza ny baolina' ?",
+      "responseOptions": [
+        {
+          "textFr": "Le ballon est sous la chaise",
+          "textMg": "Le ballon est sous la chaise",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct3"
+        },
+        {
+          "textFr": "Le ballon est sur la chaise",
+          "textMg": "Le ballon est sur la chaise",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'eo ambaniny' signifie 'sous', pas 'sur'.",
+            "mg": "Tsia, 'eo ambaniny' dia 'sous', fa tsy 'sur'."
+          },
+          "nextNodeOnFail": "quiz3"
+        }
+      ]
+    },
+    {
+      "id": "correct3",
+      "speaker": "teacher",
+      "textFr": "Bravo ! Tu as maîtrisé les prépositions. Continue à pratiquer !",
+      "textMg": "Arahabaina! Hainao tsara ny ny mpisolo toerana. Mianara mitohy!",
+      "audio": {
+        "ttsTextFr": "Bravo!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "farewell"
+    },
+    {
+      "id": "farewell",
+      "speaker": "teacher",
+      "textFr": "Bravo pour ton travail ! À bientôt !",
+      "textMg": "Arahabaina tamin'ny asanao! Mandra-pihaona!",
+      "audio": {
+        "ttsTextFr": "Bravo pour ton travail! À bientôt!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "end"
+    },
+    {
+      "id": "end",
+      "speaker": "teacher",
+      "isEnd": true,
+      "textFr": "Tu as terminé la leçon sur les prépositions.",
+      "textMg": "Vita ny lesona momba ny ny mpisolo toerana.",
+      "audio": {
+        "ttsTextFr": "Tu as terminé la leçon sur les prépositions.",
+        "ttsRate": 0.9
+      }
+    }
+  ]
+}
