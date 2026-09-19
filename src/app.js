@@ -7912,10 +7912,6 @@ async function renderConversation() {
   const failFeedbackFr = personalizeText(node.feedbackOnFail?.textFr || '');
   const failFeedbackMg = personalizeText(node.feedbackOnFail?.textMg || '');
   const failTtsText = personalizeText(node.feedbackOnFail?.audio?.ttsTextFr || '');
-                                  console.log('[Feedback DEBUG] selected:', selected);
-                                  console.log('[Feedback DEBUG] selected.feedback:', selected?.feedback);
-                                  console.log('[Feedback DEBUG] failFeedbackFr:', failFeedbackFr);
-                                  console.log('[Feedback DEBUG] failFeedbackMg:', failFeedbackMg);
                                   
 
   // ✅ Personnaliser les options de réponse
@@ -8510,10 +8506,6 @@ function captureUserResponse(nodeId, selectedOption) {
                                 const failFeedbackFr = personalizeText(node.feedbackOnFail?.textFr || defaultFailFeedback);
                                 const failFeedbackMg = personalizeText(node.feedbackOnFail?.textMg || '');
                                 const failTtsText = personalizeText(node.feedbackOnFail?.audio?.ttsTextFr || failFeedbackFr);
-                                  console.log('[Feedback DEBUG] selected:', selected);
-                                  console.log('[Feedback DEBUG] selected.feedback:', selected?.feedback);
-                                  console.log('[Feedback DEBUG] failFeedbackFr:', failFeedbackFr);
-                                  console.log('[Feedback DEBUG] failFeedbackMg:', failFeedbackMg);
                                   
                                 
                                 if (currentFeedback) {
