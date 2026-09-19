@@ -98,44 +98,44 @@
       "textMg": "Ahoana no valinao?",
       "responseOptions": [
         {
-          "textFr": "Je vais bien, merci.",
-          "textMg": "Tsara aho, misaotra.",
+          "textFr": "Je vais bien, merci !",
+          "textMg": "Tsara aho, misaotra!",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_happy"
-        },
-        {
-          "textFr": "Ça va.",
-          "textMg": "Mbola tsara.",
-          "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_happy"
-        },
-        {
-          "textFr": "Très bien !",
-          "textMg": "Tsara be!",
-          "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_happy"
-        },
-        {
-          "textFr": "Au revoir.",
-          "textMg": "Veloma.",
-          "isCorrect": false,
-          "nextNodeOnSuccess": "retry_greeting",
+          "nextNodeOnSuccess": "teacher_user_fine",
           "feedback": {
-            "fr": "On dit d'abord comment on va.",
-            "mg": "Lazao aloha ny fahasalamanao."
+            "fr": "Parfait ! 'Je vais bien' est la réponse positive standard.",
+            "mg": "Tonga lafatra! 'Je vais bien' dia valiny tsara mahazatra."
           }
         },
         {
           "textFr": "Je suis fatigué.",
           "textMg": "Vizaka aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_happy"
+          "nextNodeOnSuccess": "teacher_user_tired",
+          "feedback": {
+            "fr": "Très bien ! 'Je suis fatigué' exprime votre état physique.",
+            "mg": "Tsara be! 'Je suis fatigué' dia milaza ny toetran'ny vatanao."
+          }
         },
         {
-          "textFr": "Je suis content.",
-          "textMg": "Faly aho.",
+          "textFr": "Je suis malade.",
+          "textMg": "Marary aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_happy"
+          "nextNodeOnSuccess": "teacher_user_sick",
+          "feedback": {
+            "fr": "Correct ! 'Je suis malade' indique un problème de santé.",
+            "mg": "Marina! 'Je suis malade' dia manondro olana ara-pahasalamana."
+          }
+        },
+        {
+          "textFr": "Ça ne va pas très bien.",
+          "textMg": "Tsy dia tsara loatra.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "teacher_user_bad",
+          "feedback": {
+            "fr": "Bien ! 'Ça ne va pas très bien' exprime un état négatif.",
+            "mg": "Tsara! 'Ça ne va pas très bien' dia milaza toetra ratsy."
+          }
         }
       ]
     },
@@ -149,17 +149,6 @@
         "ttsRate": 0.9
       },
       "nextNode": "user_how_are_you"
-    },
-    {
-      "id": "teacher_happy",
-      "speaker": "teacher",
-      "textFr": "Je suis content ! Et moi, je vais très bien aussi.",
-      "textMg": "Faly aho! Izaho koa dia tsara be.",
-      "audio": {
-        "ttsTextFr": "Je suis content ! Et moi, je vais très bien aussi.",
-        "ttsRate": 0.9
-      },
-      "nextNode": "teacher_ask_origin"
     },
     {
       "id": "teacher_ask_origin",
@@ -547,6 +536,50 @@
         "ttsTextFr": "Bravo ! Vous savez vous présenter en français !",
         "ttsRate": 0.9
       }
+    },
+    {
+      "id": "teacher_user_fine",
+      "speaker": "teacher",
+      "textFr": "Je suis content de l'entendre ! Moi aussi, je vais très bien, merci.",
+      "textMg": "Faly aho mandre izany! Tsara koa aho, misaotra.",
+      "audio": {
+        "ttsTextFr": "Je suis content de l'entendre! Moi aussi, je vais très bien, merci.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "teacher_ask_origin"
+    },
+    {
+      "id": "teacher_user_tired",
+      "speaker": "teacher",
+      "textFr": "Oh, je suis désolé d'entendre ça. Reposez-vous bien ! Le repos est important.",
+      "textMg": "Oh, miala tsiny aho mandre izany. Mialà sasatra tsara! Zava-dehibe ny fitsaharana.",
+      "audio": {
+        "ttsTextFr": "Oh, je suis désolé d'entendre ça. Reposez-vous bien! Le repos est important.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "teacher_ask_origin"
+    },
+    {
+      "id": "teacher_user_sick",
+      "speaker": "teacher",
+      "textFr": "Je suis vraiment désolé. J'espère que vous irez mieux bientôt. Prenez soin de vous !",
+      "textMg": "Miala tsiny tokoa aho. Antenaina ho tsara kokoa ianao tsy ho ela. Tandremo ny tenanao!",
+      "audio": {
+        "ttsTextFr": "Je suis vraiment désolé. J'espère que vous irez mieux bientôt. Prenez soin de vous!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "teacher_ask_origin"
+    },
+    {
+      "id": "teacher_user_bad",
+      "speaker": "teacher",
+      "textFr": "Je suis désolé d'entendre ça. J'espère que les choses iront mieux pour vous. Courage !",
+      "textMg": "Miala tsiny aho mandre izany. Antenaina ho tsara kokoa ny zavatra ho anao. Mahereza!",
+      "audio": {
+        "ttsTextFr": "Je suis désolé d'entendre ça. J'espère que les choses iront mieux pour vous. Courage!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "teacher_ask_origin"
     }
   ]
 }
