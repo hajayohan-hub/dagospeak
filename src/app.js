@@ -7091,7 +7091,8 @@ async function renderConversationLive() {
           { id: 'body_01', title: 'Parler de son corps', icon: '🏥', description: 'Décrire une douleur chez le médecin' },
           { id: 'days_01', title: 'Les jours de la semaine', icon: '📅', description: 'Dire quel jour on est et parler de sa routine' },
           { id: 'months_01', title: 'Les mois de l\'année', icon: '🗓️', description: 'Parler des mois, des saisons et de son anniversaire' },
-          { id: 'pronouns_basic_01', title: 'Les pronoms de base', icon: '🙋', description: 'Utiliser Je, Tu, Vous, Nous pour se présenter' }
+          { id: 'pronouns_basic_01', title: 'Les pronoms de base', icon: '🙋', description: 'Utiliser Je, Tu, Vous, Nous pour se présenter' },
+          { id: 'articles_01', title: 'Les articles français', icon: '📖', description: 'Maîtriser le, la, les, un, une, des et les articles contractés' }
         ],
         A1: [], // À venir
         A2: [], // À venir

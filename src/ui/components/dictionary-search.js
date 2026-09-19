@@ -43,7 +43,7 @@ export class DictionarySearch {
   }
 
   async #loadAllDictionaries() {
-    const themes = ['market', 'family', 'survival', 'numbers', 'colors', 'days', 'months', 'greetings', 'body', 'alphabet1', 'alphabet2', 'numbers2'];
+    const themes = ['market', 'family', 'survival', 'numbers', 'colors', 'days', 'months', 'greetings', 'body', 'alphabet1', 'alphabet2', 'numbers2', 'articles'];
 
     for (const theme of themes) {
       try {

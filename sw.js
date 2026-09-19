@@ -6,7 +6,7 @@
 // ⚠️ Change ce numéro à CHAQUE déploiement — c'est ce qui déclenche
 // la détection de mise à jour (le navigateur compare ce fichier octet
 // par octet à la version active).
-const CACHE_VERSION = 'v103';
+const CACHE_VERSION = 'v104';
 const CACHE_NAME = `dagospeak-${CACHE_VERSION}`;
 
 const STATIC_ASSETS = [
@@ -24,6 +24,7 @@ const STATIC_ASSETS = [
   '/content/fr/vocabulary/days.json', '/content/fr/vocabulary/months.json',
   '/content/fr/vocabulary/greetings.json', '/content/fr/vocabulary/body.json',
   '/content/fr/vocabulary/pronouns_basic.json',
+  '/content/fr/vocabulary/articles.json',
 
     // ✅ TOUS les dialogues pour Role Play
   '/content/fr/dialogues/body_dialogue.json',
@@ -45,6 +46,7 @@ const STATIC_ASSETS = [
   '/content/fr/dictionary/body.json', '/content/fr/dictionary/numbers2.json',
   '/content/fr/dictionary/alphabet1.json', '/content/fr/dictionary/alphabet2.json',
   '/content/fr/dictionary/pronouns_basic.json',
+  '/content/fr/dictionary/articles.json',
 
   // ✅ TOUS les dialogues Conversation Live
    '/content/fr/conversations/greetings_01.json',
@@ -58,6 +60,7 @@ const STATIC_ASSETS = [
     '/content/fr/conversations/days_01.json',
   '/content/fr/conversations/months_01.json',
   '/content/fr/conversations/pronouns_basic_01.json',
+   '/content/fr/conversations/articles_01.json',
     '/content/fr/conversations/alphabet_01.json',
   '/content/fr/conversations/alphabet_02.json',
   '/content/fr/conversations/numbers2_01.json',
