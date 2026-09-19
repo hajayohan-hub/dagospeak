@@ -16,6 +16,208 @@
         "ttsTextFr": "Bonjour! Aujourd'hui, nous allons apprendre les verbes en -er. Tu es prêt?",
         "ttsRate": 0.9
       },
+      "nextNode": "lesson_intro"
+    },
+    {
+      "id": "lesson_intro",
+      "speaker": "teacher",
+      "textFr": "Découvrons les verbes en -er à travers une conversation.",
+      "textMg": "Andao hijery ny matoanteny -er amin'ny alalan'ny resaka.",
+      "audio": {
+        "ttsTextFr": "Découvrons les verbes en -er à travers une conversation.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_1"
+    },
+    {
+      "id": "lesson_1",
+      "speaker": "teacher",
+      "textFr": "Je parle français tous les jours.",
+      "textMg": "Miteny frantsay isan'andro aho.",
+      "audio": {
+        "ttsTextFr": "Je parle français tous les jours.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_1_response"
+    },
+    {
+      "id": "lesson_1_response",
+      "speaker": "user",
+      "textFr": "Comment conjuguer 'parler' ?",
+      "textMg": "Ahoana no anovana ny 'parler'?",
+      "responseOptions": [
+        {
+          "textFr": "Comment conjuguer 'parler' ?",
+          "textMg": "Ahoana no anovana ny 'parler'?",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "lesson_1_feedback"
+        }
+      ]
+    },
+    {
+      "id": "lesson_1_feedback",
+      "speaker": "teacher",
+      "textFr": "Je parle, tu parles, il parle, nous parlons, vous parlez, ils parlent.",
+      "textMg": "Je parle, tu parles, il parle, nous parlons, vous parlez, ils parlent.",
+      "audio": {
+        "ttsTextFr": "Je parle, tu parles, il parle, nous parlons, vous parlez, ils parlent.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_2"
+    },
+    {
+      "id": "lesson_2",
+      "speaker": "teacher",
+      "textFr": "Tu manges du riz ?",
+      "textMg": "Mihinana vary ve ianao?",
+      "audio": {
+        "ttsTextFr": "Tu manges du riz ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_2_response"
+    },
+    {
+      "id": "lesson_2_response",
+      "speaker": "user",
+      "textFr": "Oui, je mange du riz.",
+      "textMg": "Eny, mihinana vary aho.",
+      "responseOptions": [
+        {
+          "textFr": "Oui, je mange du riz.",
+          "textMg": "Eny, mihinana vary aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "lesson_2_feedback"
+        }
+      ]
+    },
+    {
+      "id": "lesson_2_feedback",
+      "speaker": "teacher",
+      "textFr": "'Manger' se conjugue comme 'parler'. Je mange, tu manges, il mange...",
+      "textMg": "'Manger' dia anovana toy ny 'parler'. Je mange, tu manges, il mange...",
+      "audio": {
+        "ttsTextFr": "'Manger' se conjugue comme 'parler'. Je mange, tu manges, il mange...",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_3"
+    },
+    {
+      "id": "lesson_3",
+      "speaker": "teacher",
+      "textFr": "Elle aime la musique.",
+      "textMg": "Tia mozika izy.",
+      "audio": {
+        "ttsTextFr": "Elle aime la musique.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_3_response"
+    },
+    {
+      "id": "lesson_3_response",
+      "speaker": "user",
+      "textFr": "Et nous ?",
+      "textMg": "Ary isika?",
+      "responseOptions": [
+        {
+          "textFr": "Et nous ?",
+          "textMg": "Ary isika?",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "lesson_3_feedback"
+        }
+      ]
+    },
+    {
+      "id": "lesson_3_feedback",
+      "speaker": "teacher",
+      "textFr": "Nous aimons, vous aimez, ils aiment. Le -er devient -ons, -ez, -ent.",
+      "textMg": "Nous aimons, vous aimez, ils aiment. Ny -er dia lasa -ons, -ez, -ent.",
+      "audio": {
+        "ttsTextFr": "Nous aimons, vous aimez, ils aiment. Le -er devient -ons, -ez, -ent.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_4"
+    },
+    {
+      "id": "lesson_4",
+      "speaker": "teacher",
+      "textFr": "Nous travaillons beaucoup.",
+      "textMg": "Miasa be izahay.",
+      "audio": {
+        "ttsTextFr": "Nous travaillons beaucoup.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_4_response"
+    },
+    {
+      "id": "lesson_4_response",
+      "speaker": "user",
+      "textFr": "Travailler est un verbe en -er ?",
+      "textMg": "Matoanteny -er ve ny travailler?",
+      "responseOptions": [
+        {
+          "textFr": "Travailler est un verbe en -er ?",
+          "textMg": "Matoanteny -er ve ny travailler?",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "lesson_4_feedback"
+        }
+      ]
+    },
+    {
+      "id": "lesson_4_feedback",
+      "speaker": "teacher",
+      "textFr": "Oui ! 90% des verbes français finissent en -er. Ils suivent tous le même pattern.",
+      "textMg": "Eny! 90% amin'ny matoanteny frantsay dia mifarana amin'ny -er. Manaraka fomba mitovy izy rehetra.",
+      "audio": {
+        "ttsTextFr": "Oui ! 90% des verbes français finissent en -er. Ils suivent tous le même pattern.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_5"
+    },
+    {
+      "id": "lesson_5",
+      "speaker": "teacher",
+      "textFr": "Ils jouent au football. Elles chantent bien.",
+      "textMg": "Milalao baolina izy ireo. Mihira tsara izy ireo (vavy).",
+      "audio": {
+        "ttsTextFr": "Ils jouent au football. Elles chantent bien.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_5_response"
+    },
+    {
+      "id": "lesson_5_response",
+      "speaker": "user",
+      "textFr": "Je vais pratiquer maintenant !",
+      "textMg": "Hanamboatra izao aho!",
+      "responseOptions": [
+        {
+          "textFr": "Je vais pratiquer maintenant !",
+          "textMg": "Hanamboatra izao aho!",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "lesson_5_feedback"
+        }
+      ]
+    },
+    {
+      "id": "lesson_5_feedback",
+      "speaker": "teacher",
+      "textFr": "Parfait ! Passons aux exercices.",
+      "textMg": "Tonga lafatra! Andao handeha amin'ny fanazaran-tena.",
+      "audio": {
+        "ttsTextFr": "Parfait ! Passons aux exercices.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_complete"
+    },
+    {
+      "id": "lesson_complete",
+      "speaker": "teacher",
+      "textFr": "Parfait ! Tu as bien compris. Passons aux exercices !",
+      "textMg": "Tonga lafatra! Azonao tsara. Andao handeha amin'ny fanazaran-tena!",
+      "audio": {
+        "ttsTextFr": "Parfait! Tu as bien compris. Passons aux exercices!",
+        "ttsRate": 0.9
+      },
       "nextNode": "intro"
     },
     {
@@ -130,6 +332,264 @@
       "textMg": "Arahabaina! Hainao tsara ny ny matoanteny -er. Mianara mitohy!",
       "audio": {
         "ttsTextFr": "Bravo!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_intro"
+    },
+    {
+      "id": "roleplay_intro",
+      "speaker": "teacher",
+      "textFr": "Maintenant, faisons un jeu de rôle ! Raconte ta journée !",
+      "textMg": "Andao hilalao anjara! Tantarao ny andronao!",
+      "audio": {
+        "ttsTextFr": "Maintenant, faisons un jeu de rôle!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_1"
+    },
+    {
+      "id": "roleplay_1",
+      "speaker": "teacher",
+      "textFr": "Répète après moi : Je travaille",
+      "textMg": "Avereno aoriana: Je travaille",
+      "audio": {
+        "ttsTextFr": "Je travaille",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_1_response"
+    },
+    {
+      "id": "roleplay_1_response",
+      "speaker": "user",
+      "textFr": "Répéter : Je travaille",
+      "textMg": "Avereno: Je travaille",
+      "responseOptions": [
+        {
+          "textFr": "Je travaille",
+          "textMg": "Miasa aho",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "roleplay_1_success"
+        }
+      ]
+    },
+    {
+      "id": "roleplay_1_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Continue !",
+      "textMg": "Tsara be! Tohizo!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_2"
+    },
+    {
+      "id": "roleplay_2",
+      "speaker": "teacher",
+      "textFr": "Répète après moi : Il mange du riz",
+      "textMg": "Avereno aoriana: Il mange du riz",
+      "audio": {
+        "ttsTextFr": "Il mange du riz",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_2_response"
+    },
+    {
+      "id": "roleplay_2_response",
+      "speaker": "user",
+      "textFr": "Répéter : Il mange du riz",
+      "textMg": "Avereno: Il mange du riz",
+      "responseOptions": [
+        {
+          "textFr": "Il mange du riz",
+          "textMg": "Mihinana vary izy",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "roleplay_2_success"
+        }
+      ]
+    },
+    {
+      "id": "roleplay_2_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Continue !",
+      "textMg": "Tsara be! Tohizo!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_3"
+    },
+    {
+      "id": "roleplay_3",
+      "speaker": "teacher",
+      "textFr": "Répète après moi : Nous apprenons le français",
+      "textMg": "Avereno aoriana: Nous apprenons le français",
+      "audio": {
+        "ttsTextFr": "Nous apprenons le français",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_3_response"
+    },
+    {
+      "id": "roleplay_3_response",
+      "speaker": "user",
+      "textFr": "Répéter : Nous apprenons le français",
+      "textMg": "Avereno: Nous apprenons le français",
+      "responseOptions": [
+        {
+          "textFr": "Nous apprenons le français",
+          "textMg": "Mianatra frantsay isika",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "roleplay_3_success"
+        }
+      ]
+    },
+    {
+      "id": "roleplay_3_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Continue !",
+      "textMg": "Tsara be! Tohizo!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_intro"
+    },
+    {
+      "id": "challenge_intro",
+      "speaker": "teacher",
+      "textFr": "Maintenant, le défi final ! Réponds correctement aux 3 questions pour gagner !",
+      "textMg": "Androany, ny fanamby farany! Valio marina ny fanontaniana 3 mba handresy!",
+      "audio": {
+        "ttsTextFr": "Maintenant, le défi final!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_1"
+    },
+    {
+      "id": "challenge_1",
+      "speaker": "user",
+      "textFr": "Question 1 : Comment dit-on 'miteny' ?",
+      "textMg": "Fanontaniana 1: Ahoana no ilazana 'miteny'?",
+      "responseOptions": [
+        {
+          "textFr": "parler",
+          "textMg": "miteny",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "challenge_1_success",
+          "feedback": {
+            "fr": "Bravo ! 'parler' est correct !",
+            "mg": "Arahabaina! Marina ny 'parler'!"
+          }
+        },
+        {
+          "textFr": "écouter",
+          "textMg": "écouter",
+          "isCorrect": false,
+          "nextNodeOnFail": "challenge_1",
+          "feedback": {
+            "fr": "Non, 'écouter' n'est pas correct. Réessaie !",
+            "mg": "Tsia, 'écouter' dia tsy marina. Andramo indray!"
+          }
+        }
+      ]
+    },
+    {
+      "id": "challenge_1_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! 1/3 correct !",
+      "textMg": "Tsara be! 1/3 marina!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_2_success"
+    },
+    {
+      "id": "challenge_2",
+      "speaker": "user",
+      "textFr": "Question 2 : Comment dit-on 'mihinana' ?",
+      "textMg": "Fanontaniana 2: Ahoana no ilazana 'mihinana'?",
+      "responseOptions": [
+        {
+          "textFr": "manger",
+          "textMg": "mihinana",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "challenge_2_success",
+          "feedback": {
+            "fr": "Bravo ! 'manger' est correct !",
+            "mg": "Arahabaina! Marina ny 'manger'!"
+          }
+        },
+        {
+          "textFr": "boire",
+          "textMg": "boire",
+          "isCorrect": false,
+          "nextNodeOnFail": "challenge_2",
+          "feedback": {
+            "fr": "Non, 'boire' n'est pas correct. Réessaie !",
+            "mg": "Tsia, 'boire' dia tsy marina. Andramo indray!"
+          }
+        }
+      ]
+    },
+    {
+      "id": "challenge_2_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! 2/3 correct !",
+      "textMg": "Tsara be! 2/3 marina!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_3_success"
+    },
+    {
+      "id": "challenge_3",
+      "speaker": "user",
+      "textFr": "Question 3 : Comment dit-on 'miasa' ?",
+      "textMg": "Fanontaniana 3: Ahoana no ilazana 'miasa'?",
+      "responseOptions": [
+        {
+          "textFr": "travailler",
+          "textMg": "miasa",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "challenge_3_success",
+          "feedback": {
+            "fr": "Bravo ! 'travailler' est correct !",
+            "mg": "Arahabaina! Marina ny 'travailler'!"
+          }
+        },
+        {
+          "textFr": "dormir",
+          "textMg": "dormir",
+          "isCorrect": false,
+          "nextNodeOnFail": "challenge_3",
+          "feedback": {
+            "fr": "Non, 'dormir' n'est pas correct. Réessaie !",
+            "mg": "Tsia, 'dormir' dia tsy marina. Andramo indray!"
+          }
+        }
+      ]
+    },
+    {
+      "id": "challenge_3_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! 3/3 correct !",
+      "textMg": "Tsara be! 3/3 marina!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_victory"
+    },
+    {
+      "id": "challenge_victory",
+      "speaker": "teacher",
+      "textFr": "🏆 FÉLICITATIONS ! Tu as réussi tous les défis ! Tu maîtrises ce thème !",
+      "textMg": "🏆 ARAHABAINA! Nahomby ianao tamin'ny fanamby rehetra! Hainao tsara ity lohahevitra ity!",
+      "audio": {
+        "ttsTextFr": "Félicitations! Tu as réussi tous les défis!",
         "ttsRate": 0.9
       },
       "nextNode": "farewell"

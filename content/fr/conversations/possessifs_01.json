@@ -16,6 +16,208 @@
         "ttsTextFr": "Bonjour! Aujourd'hui, nous allons apprendre les possessifs. Tu es prêt?",
         "ttsRate": 0.9
       },
+      "nextNode": "lesson_intro"
+    },
+    {
+      "id": "lesson_intro",
+      "speaker": "teacher",
+      "textFr": "Apprenons à dire ce qui nous appartient avec mon, ton, son...",
+      "textMg": "Andao hianatra hilaza ny ananantsika amin'ny mon, ton, son...",
+      "audio": {
+        "ttsTextFr": "Apprenons à dire ce qui nous appartient avec mon, ton, son...",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_1"
+    },
+    {
+      "id": "lesson_1",
+      "speaker": "teacher",
+      "textFr": "C'est mon livre.",
+      "textMg": "Bokiko ity.",
+      "audio": {
+        "ttsTextFr": "C'est mon livre.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_1_response"
+    },
+    {
+      "id": "lesson_1_response",
+      "speaker": "user",
+      "textFr": "Et le stylo ?",
+      "textMg": "Ary ny pensily?",
+      "responseOptions": [
+        {
+          "textFr": "Et le stylo ?",
+          "textMg": "Ary ny pensily?",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "lesson_1_feedback"
+        }
+      ]
+    },
+    {
+      "id": "lesson_1_feedback",
+      "speaker": "teacher",
+      "textFr": "'Mon' est pour un nom masculin singulier qui m'appartient.",
+      "textMg": "'Mon' dia ho an'ny anarana lahy tokana ananako.",
+      "audio": {
+        "ttsTextFr": "'Mon' est pour un nom masculin singulier qui m'appartient.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_2"
+    },
+    {
+      "id": "lesson_2",
+      "speaker": "teacher",
+      "textFr": "C'est ma maison. C'est ma voiture.",
+      "textMg": "Tranoko ity. Fiarako ity.",
+      "audio": {
+        "ttsTextFr": "C'est ma maison. C'est ma voiture.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_2_response"
+    },
+    {
+      "id": "lesson_2_response",
+      "speaker": "user",
+      "textFr": "Pourquoi 'ma' et pas 'mon' ?",
+      "textMg": "Nahoana 'ma' fa tsy 'mon'?",
+      "responseOptions": [
+        {
+          "textFr": "Pourquoi 'ma' et pas 'mon' ?",
+          "textMg": "Nahoana 'ma' fa tsy 'mon'?",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "lesson_2_feedback"
+        }
+      ]
+    },
+    {
+      "id": "lesson_2_feedback",
+      "speaker": "teacher",
+      "textFr": "'Ma' est pour un nom féminin singulier. 'Maison' et 'voiture' sont féminins.",
+      "textMg": "'Ma' dia ho an'ny anarana vavy tokana. 'Maison' sy 'voiture' dia vavy.",
+      "audio": {
+        "ttsTextFr": "'Ma' est pour un nom féminin singulier. 'Maison' et 'voiture' sont féminins.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_3"
+    },
+    {
+      "id": "lesson_3",
+      "speaker": "teacher",
+      "textFr": "Ce sont mes amis.",
+      "textMg": "Namako ireo.",
+      "audio": {
+        "ttsTextFr": "Ce sont mes amis.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_3_response"
+    },
+    {
+      "id": "lesson_3_response",
+      "speaker": "user",
+      "textFr": "'Mes' pour le pluriel ?",
+      "textMg": "Ho an'ny ploraly ve ny 'mes'?",
+      "responseOptions": [
+        {
+          "textFr": "'Mes' pour le pluriel ?",
+          "textMg": "Ho an'ny ploraly ve ny 'mes'?",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "lesson_3_feedback"
+        }
+      ]
+    },
+    {
+      "id": "lesson_3_feedback",
+      "speaker": "teacher",
+      "textFr": "Oui ! 'Mes' est le pluriel de mon/ma. Il sert pour tous mes objets au pluriel.",
+      "textMg": "Eny! 'Mes' dia ploraly ny mon/ma. Ho an'ny zavatra rehetra ananako amin'ny ploraly.",
+      "audio": {
+        "ttsTextFr": "Oui ! 'Mes' est le pluriel de mon/ma. Il sert pour tous mes objets au pluriel.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_4"
+    },
+    {
+      "id": "lesson_4",
+      "speaker": "teacher",
+      "textFr": "Ton frère est médecin. Ta sœur est professeure.",
+      "textMg": "Dokotera ny rahalahinao. Mpampianatra ny anabavinao.",
+      "audio": {
+        "ttsTextFr": "Ton frère est médecin. Ta sœur est professeure.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_4_response"
+    },
+    {
+      "id": "lesson_4_response",
+      "speaker": "user",
+      "textFr": "Et pour lui et elle ?",
+      "textMg": "Ary ho azy?",
+      "responseOptions": [
+        {
+          "textFr": "Et pour lui et elle ?",
+          "textMg": "Ary ho azy?",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "lesson_4_feedback"
+        }
+      ]
+    },
+    {
+      "id": "lesson_4_feedback",
+      "speaker": "teacher",
+      "textFr": "'Son' pour un nom masculin, 'sa' pour un nom féminin, 'ses' pour le pluriel.",
+      "textMg": "'Son' ho an'ny lahy, 'sa' ho an'ny vavy, 'ses' ho an'ny ploraly.",
+      "audio": {
+        "ttsTextFr": "'Son' pour un nom masculin, 'sa' pour un nom féminin, 'ses' pour le pluriel.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_5"
+    },
+    {
+      "id": "lesson_5",
+      "speaker": "teacher",
+      "textFr": "Notre école est grande. Votre classe est belle.",
+      "textMg": "Lehibe ny sekolin-tsika. Tsara ny kilasinareo.",
+      "audio": {
+        "ttsTextFr": "Notre école est grande. Votre classe est belle.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_5_response"
+    },
+    {
+      "id": "lesson_5_response",
+      "speaker": "user",
+      "textFr": "Notre et votre ?",
+      "textMg": "Notre sy votre?",
+      "responseOptions": [
+        {
+          "textFr": "Notre et votre ?",
+          "textMg": "Notre sy votre?",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "lesson_5_feedback"
+        }
+      ]
+    },
+    {
+      "id": "lesson_5_feedback",
+      "speaker": "teacher",
+      "textFr": "'Notre' = à nous tous. 'Votre' = à vous plusieurs. 'Leur' = à eux.",
+      "textMg": "'Notre' = antsika rehetra. 'Votre' = anareo. 'Leur' = azy ireo.",
+      "audio": {
+        "ttsTextFr": "'Notre' = à nous tous. 'Votre' = à vous plusieurs. 'Leur' = à eux.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_complete"
+    },
+    {
+      "id": "lesson_complete",
+      "speaker": "teacher",
+      "textFr": "Parfait ! Tu as bien compris. Passons aux exercices !",
+      "textMg": "Tonga lafatra! Azonao tsara. Andao handeha amin'ny fanazaran-tena!",
+      "audio": {
+        "ttsTextFr": "Parfait! Tu as bien compris. Passons aux exercices!",
+        "ttsRate": 0.9
+      },
       "nextNode": "intro"
     },
     {
@@ -130,6 +332,264 @@
       "textMg": "Arahabaina! Hainao tsara ny ny mpisolo manam-pananana. Mianara mitohy!",
       "audio": {
         "ttsTextFr": "Bravo!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_intro"
+    },
+    {
+      "id": "roleplay_intro",
+      "speaker": "teacher",
+      "textFr": "Maintenant, faisons un jeu de rôle ! Parle de ce qui t'appartient !",
+      "textMg": "Andao hilalao anjara! Resaho izay anao!",
+      "audio": {
+        "ttsTextFr": "Maintenant, faisons un jeu de rôle!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_1"
+    },
+    {
+      "id": "roleplay_1",
+      "speaker": "teacher",
+      "textFr": "Répète après moi : Mon livre",
+      "textMg": "Avereno aoriana: Mon livre",
+      "audio": {
+        "ttsTextFr": "Mon livre",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_1_response"
+    },
+    {
+      "id": "roleplay_1_response",
+      "speaker": "user",
+      "textFr": "Répéter : Mon livre",
+      "textMg": "Avereno: Mon livre",
+      "responseOptions": [
+        {
+          "textFr": "Mon livre",
+          "textMg": "Ny bokiko",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "roleplay_1_success"
+        }
+      ]
+    },
+    {
+      "id": "roleplay_1_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Continue !",
+      "textMg": "Tsara be! Tohizo!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_2"
+    },
+    {
+      "id": "roleplay_2",
+      "speaker": "teacher",
+      "textFr": "Répète après moi : Ta maison",
+      "textMg": "Avereno aoriana: Ta maison",
+      "audio": {
+        "ttsTextFr": "Ta maison",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_2_response"
+    },
+    {
+      "id": "roleplay_2_response",
+      "speaker": "user",
+      "textFr": "Répéter : Ta maison",
+      "textMg": "Avereno: Ta maison",
+      "responseOptions": [
+        {
+          "textFr": "Ta maison",
+          "textMg": "Ny tranonao",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "roleplay_2_success"
+        }
+      ]
+    },
+    {
+      "id": "roleplay_2_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Continue !",
+      "textMg": "Tsara be! Tohizo!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_3"
+    },
+    {
+      "id": "roleplay_3",
+      "speaker": "teacher",
+      "textFr": "Répète après moi : Sa famille",
+      "textMg": "Avereno aoriana: Sa famille",
+      "audio": {
+        "ttsTextFr": "Sa famille",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_3_response"
+    },
+    {
+      "id": "roleplay_3_response",
+      "speaker": "user",
+      "textFr": "Répéter : Sa famille",
+      "textMg": "Avereno: Sa famille",
+      "responseOptions": [
+        {
+          "textFr": "Sa famille",
+          "textMg": "Ny fianakaviany",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "roleplay_3_success"
+        }
+      ]
+    },
+    {
+      "id": "roleplay_3_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Continue !",
+      "textMg": "Tsara be! Tohizo!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_intro"
+    },
+    {
+      "id": "challenge_intro",
+      "speaker": "teacher",
+      "textFr": "Maintenant, le défi final ! Réponds correctement aux 3 questions pour gagner !",
+      "textMg": "Androany, ny fanamby farany! Valio marina ny fanontaniana 3 mba handresy!",
+      "audio": {
+        "ttsTextFr": "Maintenant, le défi final!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_1"
+    },
+    {
+      "id": "challenge_1",
+      "speaker": "user",
+      "textFr": "Question 1 : Comment dit-on '-ko' ?",
+      "textMg": "Fanontaniana 1: Ahoana no ilazana '-ko'?",
+      "responseOptions": [
+        {
+          "textFr": "mon/ma",
+          "textMg": "-ko",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "challenge_1_success",
+          "feedback": {
+            "fr": "Bravo ! 'mon/ma' est correct !",
+            "mg": "Arahabaina! Marina ny 'mon/ma'!"
+          }
+        },
+        {
+          "textFr": "ton/ta",
+          "textMg": "ton/ta",
+          "isCorrect": false,
+          "nextNodeOnFail": "challenge_1",
+          "feedback": {
+            "fr": "Non, 'ton/ta' n'est pas correct. Réessaie !",
+            "mg": "Tsia, 'ton/ta' dia tsy marina. Andramo indray!"
+          }
+        }
+      ]
+    },
+    {
+      "id": "challenge_1_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! 1/3 correct !",
+      "textMg": "Tsara be! 1/3 marina!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_2_success"
+    },
+    {
+      "id": "challenge_2",
+      "speaker": "user",
+      "textFr": "Question 2 : Comment dit-on '-nao' ?",
+      "textMg": "Fanontaniana 2: Ahoana no ilazana '-nao'?",
+      "responseOptions": [
+        {
+          "textFr": "ton/ta",
+          "textMg": "-nao",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "challenge_2_success",
+          "feedback": {
+            "fr": "Bravo ! 'ton/ta' est correct !",
+            "mg": "Arahabaina! Marina ny 'ton/ta'!"
+          }
+        },
+        {
+          "textFr": "son/sa",
+          "textMg": "son/sa",
+          "isCorrect": false,
+          "nextNodeOnFail": "challenge_2",
+          "feedback": {
+            "fr": "Non, 'son/sa' n'est pas correct. Réessaie !",
+            "mg": "Tsia, 'son/sa' dia tsy marina. Andramo indray!"
+          }
+        }
+      ]
+    },
+    {
+      "id": "challenge_2_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! 2/3 correct !",
+      "textMg": "Tsara be! 2/3 marina!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_3_success"
+    },
+    {
+      "id": "challenge_3",
+      "speaker": "user",
+      "textFr": "Question 3 : Comment dit-on '-ny' ?",
+      "textMg": "Fanontaniana 3: Ahoana no ilazana '-ny'?",
+      "responseOptions": [
+        {
+          "textFr": "son/sa",
+          "textMg": "-ny",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "challenge_3_success",
+          "feedback": {
+            "fr": "Bravo ! 'son/sa' est correct !",
+            "mg": "Arahabaina! Marina ny 'son/sa'!"
+          }
+        },
+        {
+          "textFr": "notre",
+          "textMg": "notre",
+          "isCorrect": false,
+          "nextNodeOnFail": "challenge_3",
+          "feedback": {
+            "fr": "Non, 'notre' n'est pas correct. Réessaie !",
+            "mg": "Tsia, 'notre' dia tsy marina. Andramo indray!"
+          }
+        }
+      ]
+    },
+    {
+      "id": "challenge_3_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! 3/3 correct !",
+      "textMg": "Tsara be! 3/3 marina!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_victory"
+    },
+    {
+      "id": "challenge_victory",
+      "speaker": "teacher",
+      "textFr": "🏆 FÉLICITATIONS ! Tu as réussi tous les défis ! Tu maîtrises ce thème !",
+      "textMg": "🏆 ARAHABAINA! Nahomby ianao tamin'ny fanamby rehetra! Hainao tsara ity lohahevitra ity!",
+      "audio": {
+        "ttsTextFr": "Félicitations! Tu as réussi tous les défis!",
         "ttsRate": 0.9
       },
       "nextNode": "farewell"

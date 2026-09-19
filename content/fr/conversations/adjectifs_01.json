@@ -16,6 +16,208 @@
         "ttsTextFr": "Bonjour! Aujourd'hui, nous allons apprendre les adjectifs. Ils servent à décrire les personnes et les choses. Tu es prêt?",
         "ttsRate": 0.9
       },
+      "nextNode": "lesson_intro"
+    },
+    {
+      "id": "lesson_intro",
+      "speaker": "teacher",
+      "textFr": "Apprenons à décrire avec les adjectifs dans une conversation.",
+      "textMg": "Andao hianatra hamaritra amin'ny teny famaritana.",
+      "audio": {
+        "ttsTextFr": "Apprenons à décrire avec les adjectifs dans une conversation.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_1"
+    },
+    {
+      "id": "lesson_1",
+      "speaker": "teacher",
+      "textFr": "Regarde cette maison. Elle est grande !",
+      "textMg": "Jereo ity trano ity. Lehibe izy!",
+      "audio": {
+        "ttsTextFr": "Regarde cette maison. Elle est grande !",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_1_response"
+    },
+    {
+      "id": "lesson_1_response",
+      "speaker": "user",
+      "textFr": "Oui, elle est très grande.",
+      "textMg": "Eny, lehibe be izy.",
+      "responseOptions": [
+        {
+          "textFr": "Oui, elle est très grande.",
+          "textMg": "Eny, lehibe be izy.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "lesson_1_feedback"
+        }
+      ]
+    },
+    {
+      "id": "lesson_1_feedback",
+      "speaker": "teacher",
+      "textFr": "Parfait ! 'Grand' décrit la taille. Le féminin est 'grande'.",
+      "textMg": "Tonga lafatra! 'Grand' dia manambara habe. 'Grande' no endrika vavy.",
+      "audio": {
+        "ttsTextFr": "Parfait ! 'Grand' décrit la taille. Le féminin est 'grande'.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_2"
+    },
+    {
+      "id": "lesson_2",
+      "speaker": "teacher",
+      "textFr": "Le café est chaud. L'eau est froide.",
+      "textMg": "Mafana ny kafe. Mangatsiaka ny rano.",
+      "audio": {
+        "ttsTextFr": "Le café est chaud. L'eau est froide.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_2_response"
+    },
+    {
+      "id": "lesson_2_response",
+      "speaker": "user",
+      "textFr": "Comment dire le contraire de chaud ?",
+      "textMg": "Ahoana no ilazana ny mifanohitra amin'ny mafana?",
+      "responseOptions": [
+        {
+          "textFr": "Comment dire le contraire de chaud ?",
+          "textMg": "Ahoana no ilazana ny mifanohitra amin'ny mafana?",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "lesson_2_feedback"
+        }
+      ]
+    },
+    {
+      "id": "lesson_2_feedback",
+      "speaker": "teacher",
+      "textFr": "Le contraire de 'chaud' est 'froid'. Le féminin est 'froide'.",
+      "textMg": "Ny mifanohitra amin'ny 'chaud' dia 'froid'. 'Froide' no endrika vavy.",
+      "audio": {
+        "ttsTextFr": "Le contraire de 'chaud' est 'froid'. Le féminin est 'froide'.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_3"
+    },
+    {
+      "id": "lesson_3",
+      "speaker": "teacher",
+      "textFr": "Tu es content aujourd'hui ?",
+      "textMg": "Faly ve ianao androany?",
+      "audio": {
+        "ttsTextFr": "Tu es content aujourd'hui ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_3_response"
+    },
+    {
+      "id": "lesson_3_response",
+      "speaker": "user",
+      "textFr": "Oui, je suis très content !",
+      "textMg": "Eny, faly be aho!",
+      "responseOptions": [
+        {
+          "textFr": "Oui, je suis très content !",
+          "textMg": "Eny, faly be aho!",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "lesson_3_feedback"
+        }
+      ]
+    },
+    {
+      "id": "lesson_3_feedback",
+      "speaker": "teacher",
+      "textFr": "Excellent ! 'Content' exprime une émotion. Le féminin est 'contente'.",
+      "textMg": "Tsara be! 'Content' dia manambara fihetseham-po. 'Contente' no endrika vavy.",
+      "audio": {
+        "ttsTextFr": "Excellent ! 'Content' exprime une émotion. Le féminin est 'contente'.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_4"
+    },
+    {
+      "id": "lesson_4",
+      "speaker": "teacher",
+      "textFr": "Le riz est bon. Le poisson est mauvais.",
+      "textMg": "Tsara ny vary. Ratsy ny trondro.",
+      "audio": {
+        "ttsTextFr": "Le riz est bon. Le poisson est mauvais.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_4_response"
+    },
+    {
+      "id": "lesson_4_response",
+      "speaker": "user",
+      "textFr": "Bon et mauvais sont opposés ?",
+      "textMg": "Mifanohitra ve ny bon sy mauvais?",
+      "responseOptions": [
+        {
+          "textFr": "Bon et mauvais sont opposés ?",
+          "textMg": "Mifanohitra ve ny bon sy mauvais?",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "lesson_4_feedback"
+        }
+      ]
+    },
+    {
+      "id": "lesson_4_feedback",
+      "speaker": "teacher",
+      "textFr": "Oui ! 'Bon' = positif, 'mauvais' = négatif. Les féminins sont 'bonne' et 'mauvaise'.",
+      "textMg": "Eny! 'Bon' = tsara, 'mauvais' = ratsy. 'Bonne' sy 'mauvaise' no endrika vavy.",
+      "audio": {
+        "ttsTextFr": "Oui ! 'Bon' = positif, 'mauvais' = négatif. Les féminins sont 'bonne' et 'mauvaise'.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_5"
+    },
+    {
+      "id": "lesson_5",
+      "speaker": "teacher",
+      "textFr": "Je suis fatigué. Je suis malade.",
+      "textMg": "Reraka aho. Marary aho.",
+      "audio": {
+        "ttsTextFr": "Je suis fatigué. Je suis malade.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_5_response"
+    },
+    {
+      "id": "lesson_5_response",
+      "speaker": "user",
+      "textFr": "Repose-toi bien !",
+      "textMg": "Mialà sasatra tsara!",
+      "responseOptions": [
+        {
+          "textFr": "Repose-toi bien !",
+          "textMg": "Mialà sasatra tsara!",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "lesson_5_feedback"
+        }
+      ]
+    },
+    {
+      "id": "lesson_5_feedback",
+      "speaker": "teacher",
+      "textFr": "Merci ! Les adjectifs décrivent aussi notre état physique et émotionnel.",
+      "textMg": "Misaotra! Ny teny famaritana dia manambara ny toetran'ny vatana sy ny fo koa.",
+      "audio": {
+        "ttsTextFr": "Merci ! Les adjectifs décrivent aussi notre état physique et émotionnel.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_complete"
+    },
+    {
+      "id": "lesson_complete",
+      "speaker": "teacher",
+      "textFr": "Parfait ! Tu as bien compris. Passons aux exercices !",
+      "textMg": "Tonga lafatra! Azonao tsara. Andao handeha amin'ny fanazaran-tena!",
+      "audio": {
+        "ttsTextFr": "Parfait! Tu as bien compris. Passons aux exercices!",
+        "ttsRate": 0.9
+      },
       "nextNode": "intro_grand"
     },
     {
@@ -95,6 +297,264 @@
       "textMg": "Tsara! Mianatra haingana ianao. Ny teny famaritana dia ilaina hamaritana ny tontolo. Mianara mitohy amin'ny: bon, mauvais, chaud, froid, content, triste, fatigué, malade.",
       "audio": {
         "ttsTextFr": "Bravo! Tu apprends vite. Les adjectifs sont essentiels pour décrire le monde.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_intro"
+    },
+    {
+      "id": "roleplay_intro",
+      "speaker": "teacher",
+      "textFr": "Maintenant, faisons un jeu de rôle ! Décris ta maison et ta famille !",
+      "textMg": "Andao hilalao anjara! Farito ny tranonao sy ny fianakavianao!",
+      "audio": {
+        "ttsTextFr": "Maintenant, faisons un jeu de rôle!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_1"
+    },
+    {
+      "id": "roleplay_1",
+      "speaker": "teacher",
+      "textFr": "Répète après moi : Ma maison est grande",
+      "textMg": "Avereno aoriana: Ma maison est grande",
+      "audio": {
+        "ttsTextFr": "Ma maison est grande",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_1_response"
+    },
+    {
+      "id": "roleplay_1_response",
+      "speaker": "user",
+      "textFr": "Répéter : Ma maison est grande",
+      "textMg": "Avereno: Ma maison est grande",
+      "responseOptions": [
+        {
+          "textFr": "Ma maison est grande",
+          "textMg": "Lehibe ny tranoko",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "roleplay_1_success"
+        }
+      ]
+    },
+    {
+      "id": "roleplay_1_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Continue !",
+      "textMg": "Tsara be! Tohizo!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_2"
+    },
+    {
+      "id": "roleplay_2",
+      "speaker": "teacher",
+      "textFr": "Répète après moi : Le temps est beau",
+      "textMg": "Avereno aoriana: Le temps est beau",
+      "audio": {
+        "ttsTextFr": "Le temps est beau",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_2_response"
+    },
+    {
+      "id": "roleplay_2_response",
+      "speaker": "user",
+      "textFr": "Répéter : Le temps est beau",
+      "textMg": "Avereno: Le temps est beau",
+      "responseOptions": [
+        {
+          "textFr": "Le temps est beau",
+          "textMg": "Tsara ny andro",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "roleplay_2_success"
+        }
+      ]
+    },
+    {
+      "id": "roleplay_2_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Continue !",
+      "textMg": "Tsara be! Tohizo!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_3"
+    },
+    {
+      "id": "roleplay_3",
+      "speaker": "teacher",
+      "textFr": "Répète après moi : Les enfants sont contents",
+      "textMg": "Avereno aoriana: Les enfants sont contents",
+      "audio": {
+        "ttsTextFr": "Les enfants sont contents",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_3_response"
+    },
+    {
+      "id": "roleplay_3_response",
+      "speaker": "user",
+      "textFr": "Répéter : Les enfants sont contents",
+      "textMg": "Avereno: Les enfants sont contents",
+      "responseOptions": [
+        {
+          "textFr": "Les enfants sont contents",
+          "textMg": "Faly ny ankizy",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "roleplay_3_success"
+        }
+      ]
+    },
+    {
+      "id": "roleplay_3_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Continue !",
+      "textMg": "Tsara be! Tohizo!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_intro"
+    },
+    {
+      "id": "challenge_intro",
+      "speaker": "teacher",
+      "textFr": "Maintenant, le défi final ! Réponds correctement aux 3 questions pour gagner !",
+      "textMg": "Androany, ny fanamby farany! Valio marina ny fanontaniana 3 mba handresy!",
+      "audio": {
+        "ttsTextFr": "Maintenant, le défi final!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_1"
+    },
+    {
+      "id": "challenge_1",
+      "speaker": "user",
+      "textFr": "Question 1 : Comment dit-on 'lehibe' ?",
+      "textMg": "Fanontaniana 1: Ahoana no ilazana 'lehibe'?",
+      "responseOptions": [
+        {
+          "textFr": "grand",
+          "textMg": "lehibe",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "challenge_1_success",
+          "feedback": {
+            "fr": "Bravo ! 'grand' est correct !",
+            "mg": "Arahabaina! Marina ny 'grand'!"
+          }
+        },
+        {
+          "textFr": "petit",
+          "textMg": "petit",
+          "isCorrect": false,
+          "nextNodeOnFail": "challenge_1",
+          "feedback": {
+            "fr": "Non, 'petit' n'est pas correct. Réessaie !",
+            "mg": "Tsia, 'petit' dia tsy marina. Andramo indray!"
+          }
+        }
+      ]
+    },
+    {
+      "id": "challenge_1_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! 1/3 correct !",
+      "textMg": "Tsara be! 1/3 marina!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_2_success"
+    },
+    {
+      "id": "challenge_2",
+      "speaker": "user",
+      "textFr": "Question 2 : Comment dit-on 'kely' ?",
+      "textMg": "Fanontaniana 2: Ahoana no ilazana 'kely'?",
+      "responseOptions": [
+        {
+          "textFr": "petit",
+          "textMg": "kely",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "challenge_2_success",
+          "feedback": {
+            "fr": "Bravo ! 'petit' est correct !",
+            "mg": "Arahabaina! Marina ny 'petit'!"
+          }
+        },
+        {
+          "textFr": "grand",
+          "textMg": "grand",
+          "isCorrect": false,
+          "nextNodeOnFail": "challenge_2",
+          "feedback": {
+            "fr": "Non, 'grand' n'est pas correct. Réessaie !",
+            "mg": "Tsia, 'grand' dia tsy marina. Andramo indray!"
+          }
+        }
+      ]
+    },
+    {
+      "id": "challenge_2_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! 2/3 correct !",
+      "textMg": "Tsara be! 2/3 marina!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_3_success"
+    },
+    {
+      "id": "challenge_3",
+      "speaker": "user",
+      "textFr": "Question 3 : Comment dit-on 'tsara' ?",
+      "textMg": "Fanontaniana 3: Ahoana no ilazana 'tsara'?",
+      "responseOptions": [
+        {
+          "textFr": "bon",
+          "textMg": "tsara",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "challenge_3_success",
+          "feedback": {
+            "fr": "Bravo ! 'bon' est correct !",
+            "mg": "Arahabaina! Marina ny 'bon'!"
+          }
+        },
+        {
+          "textFr": "mauvais",
+          "textMg": "mauvais",
+          "isCorrect": false,
+          "nextNodeOnFail": "challenge_3",
+          "feedback": {
+            "fr": "Non, 'mauvais' n'est pas correct. Réessaie !",
+            "mg": "Tsia, 'mauvais' dia tsy marina. Andramo indray!"
+          }
+        }
+      ]
+    },
+    {
+      "id": "challenge_3_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! 3/3 correct !",
+      "textMg": "Tsara be! 3/3 marina!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_victory"
+    },
+    {
+      "id": "challenge_victory",
+      "speaker": "teacher",
+      "textFr": "🏆 FÉLICITATIONS ! Tu as réussi tous les défis ! Tu maîtrises ce thème !",
+      "textMg": "🏆 ARAHABAINA! Nahomby ianao tamin'ny fanamby rehetra! Hainao tsara ity lohahevitra ity!",
+      "audio": {
+        "ttsTextFr": "Félicitations! Tu as réussi tous les défis!",
         "ttsRate": 0.9
       },
       "nextNode": "farewell"

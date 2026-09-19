@@ -16,6 +16,208 @@
         "ttsTextFr": "Bonjour! Aujourd'hui, nous allons apprendre le verbe être. C'est le verbe le plus important en français. Tu es prêt?",
         "ttsRate": 0.9
       },
+      "nextNode": "lesson_intro"
+    },
+    {
+      "id": "lesson_intro",
+      "speaker": "teacher",
+      "textFr": "Regardons comment utiliser le verbe être dans une vraie conversation.",
+      "textMg": "Jereo ny fomba fampiasana ny matoanteny être amin'ny resaka tena izy.",
+      "audio": {
+        "ttsTextFr": "Regardons comment utiliser le verbe être dans une vraie conversation.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_1"
+    },
+    {
+      "id": "lesson_1",
+      "speaker": "teacher",
+      "textFr": "Bonjour ! Je suis ton professeur de français.",
+      "textMg": "Manao ahoana! Mpampianatra frantsay-nao aho.",
+      "audio": {
+        "ttsTextFr": "Bonjour ! Je suis ton professeur de français.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_1_response"
+    },
+    {
+      "id": "lesson_1_response",
+      "speaker": "user",
+      "textFr": "Je suis étudiant.",
+      "textMg": "Mpianatra aho.",
+      "responseOptions": [
+        {
+          "textFr": "Je suis étudiant.",
+          "textMg": "Mpianatra aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "lesson_1_feedback"
+        }
+      ]
+    },
+    {
+      "id": "lesson_1_feedback",
+      "speaker": "teacher",
+      "textFr": "Parfait ! 'Je suis' est la première personne. On l'utilise pour parler de soi.",
+      "textMg": "Tonga lafatra! 'Je suis' dia ny olona voalohany. Ampiasaina hitenenana ny tena.",
+      "audio": {
+        "ttsTextFr": "Parfait ! 'Je suis' est la première personne. On l'utilise pour parler de soi.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_2"
+    },
+    {
+      "id": "lesson_2",
+      "speaker": "teacher",
+      "textFr": "Tu es très motivé ! D'où es-tu ?",
+      "textMg": "Tena mailika ianao! Avy aiza ianao?",
+      "audio": {
+        "ttsTextFr": "Tu es très motivé ! D'où es-tu ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_2_response"
+    },
+    {
+      "id": "lesson_2_response",
+      "speaker": "user",
+      "textFr": "Je suis de Madagascar.",
+      "textMg": "Avy eto Madagasikara aho.",
+      "responseOptions": [
+        {
+          "textFr": "Je suis de Madagascar.",
+          "textMg": "Avy eto Madagasikara aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "lesson_2_feedback"
+        }
+      ]
+    },
+    {
+      "id": "lesson_2_feedback",
+      "speaker": "teacher",
+      "textFr": "Excellent ! 'Tu es' pour parler à quelqu'un. 'Je suis de' pour dire d'où on vient.",
+      "textMg": "Tsara be! 'Tu es' hitenenana olona. 'Je suis de' hilazana ny fiaviana.",
+      "audio": {
+        "ttsTextFr": "Excellent ! 'Tu es' pour parler à quelqu'un. 'Je suis de' pour dire d'où on vient.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_3"
+    },
+    {
+      "id": "lesson_3",
+      "speaker": "teacher",
+      "textFr": "Il est médecin. Elle est professeure.",
+      "textMg": "Dokotera izy (lahy). Mpampianatra izy (vavy).",
+      "audio": {
+        "ttsTextFr": "Il est médecin. Elle est professeure.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_3_response"
+    },
+    {
+      "id": "lesson_3_response",
+      "speaker": "user",
+      "textFr": "Quelle est la différence ?",
+      "textMg": "Inona no fahasamihafana?",
+      "responseOptions": [
+        {
+          "textFr": "Quelle est la différence ?",
+          "textMg": "Inona no fahasamihafana?",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "lesson_3_feedback"
+        }
+      ]
+    },
+    {
+      "id": "lesson_3_feedback",
+      "speaker": "teacher",
+      "textFr": "'Il est' pour un homme, 'elle est' pour une femme. En malgache, 'izy' sert pour les deux.",
+      "textMg": "'Il est' ho an'ny lehilahy, 'elle est' ho an'ny vehivavy. Amin'ny teny malagasy, 'izy' dia ho an'ny roa.",
+      "audio": {
+        "ttsTextFr": "'Il est' pour un homme, 'elle est' pour une femme. En malgache, 'izy' sert pour les deux.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_4"
+    },
+    {
+      "id": "lesson_4",
+      "speaker": "teacher",
+      "textFr": "Nous sommes amis. Vous êtes étudiants.",
+      "textMg": "Namana izahay. Mpianatra ianareo.",
+      "audio": {
+        "ttsTextFr": "Nous sommes amis. Vous êtes étudiants.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_4_response"
+    },
+    {
+      "id": "lesson_4_response",
+      "speaker": "user",
+      "textFr": "Et pour plusieurs personnes ?",
+      "textMg": "Ary ho an'ny olona maro?",
+      "responseOptions": [
+        {
+          "textFr": "Et pour plusieurs personnes ?",
+          "textMg": "Ary ho an'ny olona maro?",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "lesson_4_feedback"
+        }
+      ]
+    },
+    {
+      "id": "lesson_4_feedback",
+      "speaker": "teacher",
+      "textFr": "'Nous sommes' pour soi + autres. 'Vous êtes' pour le pluriel de politesse ou plusieurs personnes.",
+      "textMg": "'Nous sommes' ho an'ny tena + hafa. 'Vous êtes' ho an'ny fahamendrehana na olona maro.",
+      "audio": {
+        "ttsTextFr": "'Nous sommes' pour soi + autres. 'Vous êtes' pour le pluriel de politesse ou plusieurs personnes.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_5"
+    },
+    {
+      "id": "lesson_5",
+      "speaker": "teacher",
+      "textFr": "Ils sont contents. Elles sont fatiguées.",
+      "textMg": "Faly izy ireo (lahy). Reraka izy ireo (vavy).",
+      "audio": {
+        "ttsTextFr": "Ils sont contents. Elles sont fatiguées.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_5_response"
+    },
+    {
+      "id": "lesson_5_response",
+      "speaker": "user",
+      "textFr": "Merci ! J'ai compris le verbe être.",
+      "textMg": "Misaotra! Azoko ny matoanteny être.",
+      "responseOptions": [
+        {
+          "textFr": "Merci ! J'ai compris le verbe être.",
+          "textMg": "Misaotra! Azoko ny matoanteny être.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "lesson_5_feedback"
+        }
+      ]
+    },
+    {
+      "id": "lesson_5_feedback",
+      "speaker": "teacher",
+      "textFr": "Bravo ! Passons aux exercices pour pratiquer.",
+      "textMg": "Arahabaina! Andao handeha amin'ny fanazaran-tena.",
+      "audio": {
+        "ttsTextFr": "Bravo ! Passons aux exercices pour pratiquer.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_complete"
+    },
+    {
+      "id": "lesson_complete",
+      "speaker": "teacher",
+      "textFr": "Parfait ! Tu as bien compris. Passons aux exercices !",
+      "textMg": "Tonga lafatra! Azonao tsara. Andao handeha amin'ny fanazaran-tena!",
+      "audio": {
+        "ttsTextFr": "Parfait! Tu as bien compris. Passons aux exercices!",
+        "ttsRate": 0.9
+      },
       "nextNode": "user_ready"
     },
     {
@@ -311,6 +513,264 @@
       "textMg": "Tsara be! Hainao ny endrika rehetra amin'ny matoanteny être: je suis, tu es, il/elle est, nous sommes, vous êtes, ils/elles sont. Mianara mitohy!",
       "audio": {
         "ttsTextFr": "Excellent! Tu as maîtrisé toutes les formes du verbe être. Continue à pratiquer!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_intro"
+    },
+    {
+      "id": "roleplay_intro",
+      "speaker": "teacher",
+      "textFr": "Maintenant, faisons un jeu de rôle ! Décris qui tu es et ce que tu fais !",
+      "textMg": "Andao hilalao anjara! Farito iza ianao sy izay ataonao!",
+      "audio": {
+        "ttsTextFr": "Maintenant, faisons un jeu de rôle!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_1"
+    },
+    {
+      "id": "roleplay_1",
+      "speaker": "teacher",
+      "textFr": "Répète après moi : Je suis étudiant",
+      "textMg": "Avereno aoriana: Je suis étudiant",
+      "audio": {
+        "ttsTextFr": "Je suis étudiant",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_1_response"
+    },
+    {
+      "id": "roleplay_1_response",
+      "speaker": "user",
+      "textFr": "Répéter : Je suis étudiant",
+      "textMg": "Avereno: Je suis étudiant",
+      "responseOptions": [
+        {
+          "textFr": "Je suis étudiant",
+          "textMg": "Mpianatra aho",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "roleplay_1_success"
+        }
+      ]
+    },
+    {
+      "id": "roleplay_1_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Continue !",
+      "textMg": "Tsara be! Tohizo!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_2"
+    },
+    {
+      "id": "roleplay_2",
+      "speaker": "teacher",
+      "textFr": "Répète après moi : Il est professeur",
+      "textMg": "Avereno aoriana: Il est professeur",
+      "audio": {
+        "ttsTextFr": "Il est professeur",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_2_response"
+    },
+    {
+      "id": "roleplay_2_response",
+      "speaker": "user",
+      "textFr": "Répéter : Il est professeur",
+      "textMg": "Avereno: Il est professeur",
+      "responseOptions": [
+        {
+          "textFr": "Il est professeur",
+          "textMg": "Mpampianatra izy",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "roleplay_2_success"
+        }
+      ]
+    },
+    {
+      "id": "roleplay_2_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Continue !",
+      "textMg": "Tsara be! Tohizo!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_3"
+    },
+    {
+      "id": "roleplay_3",
+      "speaker": "teacher",
+      "textFr": "Répète après moi : Nous sommes contents",
+      "textMg": "Avereno aoriana: Nous sommes contents",
+      "audio": {
+        "ttsTextFr": "Nous sommes contents",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_3_response"
+    },
+    {
+      "id": "roleplay_3_response",
+      "speaker": "user",
+      "textFr": "Répéter : Nous sommes contents",
+      "textMg": "Avereno: Nous sommes contents",
+      "responseOptions": [
+        {
+          "textFr": "Nous sommes contents",
+          "textMg": "Faly izahay",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "roleplay_3_success"
+        }
+      ]
+    },
+    {
+      "id": "roleplay_3_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Continue !",
+      "textMg": "Tsara be! Tohizo!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_intro"
+    },
+    {
+      "id": "challenge_intro",
+      "speaker": "teacher",
+      "textFr": "Maintenant, le défi final ! Réponds correctement aux 3 questions pour gagner !",
+      "textMg": "Androany, ny fanamby farany! Valio marina ny fanontaniana 3 mba handresy!",
+      "audio": {
+        "ttsTextFr": "Maintenant, le défi final!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_1"
+    },
+    {
+      "id": "challenge_1",
+      "speaker": "user",
+      "textFr": "Question 1 : Comment dit-on 'aho dia' ?",
+      "textMg": "Fanontaniana 1: Ahoana no ilazana 'aho dia'?",
+      "responseOptions": [
+        {
+          "textFr": "je suis",
+          "textMg": "aho dia",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "challenge_1_success",
+          "feedback": {
+            "fr": "Bravo ! 'je suis' est correct !",
+            "mg": "Arahabaina! Marina ny 'je suis'!"
+          }
+        },
+        {
+          "textFr": "tu es",
+          "textMg": "tu es",
+          "isCorrect": false,
+          "nextNodeOnFail": "challenge_1",
+          "feedback": {
+            "fr": "Non, 'tu es' n'est pas correct. Réessaie !",
+            "mg": "Tsia, 'tu es' dia tsy marina. Andramo indray!"
+          }
+        }
+      ]
+    },
+    {
+      "id": "challenge_1_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! 1/3 correct !",
+      "textMg": "Tsara be! 1/3 marina!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_2_success"
+    },
+    {
+      "id": "challenge_2",
+      "speaker": "user",
+      "textFr": "Question 2 : Comment dit-on 'ianao dia' ?",
+      "textMg": "Fanontaniana 2: Ahoana no ilazana 'ianao dia'?",
+      "responseOptions": [
+        {
+          "textFr": "tu es",
+          "textMg": "ianao dia",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "challenge_2_success",
+          "feedback": {
+            "fr": "Bravo ! 'tu es' est correct !",
+            "mg": "Arahabaina! Marina ny 'tu es'!"
+          }
+        },
+        {
+          "textFr": "il est",
+          "textMg": "il est",
+          "isCorrect": false,
+          "nextNodeOnFail": "challenge_2",
+          "feedback": {
+            "fr": "Non, 'il est' n'est pas correct. Réessaie !",
+            "mg": "Tsia, 'il est' dia tsy marina. Andramo indray!"
+          }
+        }
+      ]
+    },
+    {
+      "id": "challenge_2_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! 2/3 correct !",
+      "textMg": "Tsara be! 2/3 marina!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_3_success"
+    },
+    {
+      "id": "challenge_3",
+      "speaker": "user",
+      "textFr": "Question 3 : Comment dit-on 'izahay dia' ?",
+      "textMg": "Fanontaniana 3: Ahoana no ilazana 'izahay dia'?",
+      "responseOptions": [
+        {
+          "textFr": "nous sommes",
+          "textMg": "izahay dia",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "challenge_3_success",
+          "feedback": {
+            "fr": "Bravo ! 'nous sommes' est correct !",
+            "mg": "Arahabaina! Marina ny 'nous sommes'!"
+          }
+        },
+        {
+          "textFr": "vous êtes",
+          "textMg": "vous êtes",
+          "isCorrect": false,
+          "nextNodeOnFail": "challenge_3",
+          "feedback": {
+            "fr": "Non, 'vous êtes' n'est pas correct. Réessaie !",
+            "mg": "Tsia, 'vous êtes' dia tsy marina. Andramo indray!"
+          }
+        }
+      ]
+    },
+    {
+      "id": "challenge_3_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! 3/3 correct !",
+      "textMg": "Tsara be! 3/3 marina!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_victory"
+    },
+    {
+      "id": "challenge_victory",
+      "speaker": "teacher",
+      "textFr": "🏆 FÉLICITATIONS ! Tu as réussi tous les défis ! Tu maîtrises ce thème !",
+      "textMg": "🏆 ARAHABAINA! Nahomby ianao tamin'ny fanamby rehetra! Hainao tsara ity lohahevitra ity!",
+      "audio": {
+        "ttsTextFr": "Félicitations! Tu as réussi tous les défis!",
         "ttsRate": 0.9
       },
       "nextNode": "farewell"

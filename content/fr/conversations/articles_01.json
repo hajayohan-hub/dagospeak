@@ -16,6 +16,208 @@
         "ttsTextFr": "Bonjour! Aujourd'hui, je vais t'aider à comprendre les articles français. C'est très important pour construire des phrases correctes. Tu es prêt?",
         "ttsRate": 0.9
       },
+      "nextNode": "lesson_intro"
+    },
+    {
+      "id": "lesson_intro",
+      "speaker": "teacher",
+      "textFr": "Avant de faire les exercices, regardons un dialogue qui utilise les articles. Écoutez bien !",
+      "textMg": "Alohan'ny hanaovana fanazaran-tena, jereo ny resaka mampiasa ny lahatsoratra. Henoy tsara!",
+      "audio": {
+        "ttsTextFr": "Avant de faire les exercices, regardons un dialogue qui utilise les articles. Écoutez bien !",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_1"
+    },
+    {
+      "id": "lesson_1",
+      "speaker": "teacher",
+      "textFr": "Je vais au marché. Je veux acheter le riz.",
+      "textMg": "Mandeha any an-tsena aho. Te-hividy ny vary aho.",
+      "audio": {
+        "ttsTextFr": "Je vais au marché. Je veux acheter le riz.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_1_response"
+    },
+    {
+      "id": "lesson_1_response",
+      "speaker": "user",
+      "textFr": "Le riz ou un riz ?",
+      "textMg": "Ny vary sa vary iray?",
+      "responseOptions": [
+        {
+          "textFr": "Le riz ou un riz ?",
+          "textMg": "Ny vary sa vary iray?",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "lesson_1_feedback"
+        }
+      ]
+    },
+    {
+      "id": "lesson_1_feedback",
+      "speaker": "teacher",
+      "textFr": "On dit 'le riz' quand on parle d'un riz précis. Par exemple, le riz que nous achetons d'habitude.",
+      "textMg": "Lazaina hoe 'le riz' rehefa miresaka vary voafaritra isika. Ohatra, ny vary fividianantsika matetika.",
+      "audio": {
+        "ttsTextFr": "On dit 'le riz' quand on parle d'un riz précis. Par exemple, le riz que nous achetons d'habitude.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_2"
+    },
+    {
+      "id": "lesson_2",
+      "speaker": "teacher",
+      "textFr": "Je veux aussi une pomme et des oranges.",
+      "textMg": "Te-hividy paoma iray sy voasary maro koa aho.",
+      "audio": {
+        "ttsTextFr": "Je veux aussi une pomme et des oranges.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_2_response"
+    },
+    {
+      "id": "lesson_2_response",
+      "speaker": "user",
+      "textFr": "Pourquoi 'une' et 'des' ?",
+      "textMg": "Nahoana 'une' sy 'des'?",
+      "responseOptions": [
+        {
+          "textFr": "Pourquoi 'une' et 'des' ?",
+          "textMg": "Nahoana 'une' sy 'des'?",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "lesson_2_feedback"
+        }
+      ]
+    },
+    {
+      "id": "lesson_2_feedback",
+      "speaker": "teacher",
+      "textFr": "'Une' pour un objet singulier féminin (une pomme). 'Des' pour plusieurs objets (des oranges).",
+      "textMg": "'Une' ho an'ny zavatra singiolary vavy (paoma iray). 'Des' ho an'ny zavatra maro (voasary maro).",
+      "audio": {
+        "ttsTextFr": "'Une' pour un objet singulier féminin (une pomme). 'Des' pour plusieurs objets (des oranges).",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_3"
+    },
+    {
+      "id": "lesson_3",
+      "speaker": "teacher",
+      "textFr": "Combien coûte le kilo de pommes ?",
+      "textMg": "Ohatrinona ny kilao paoma?",
+      "audio": {
+        "ttsTextFr": "Combien coûte le kilo de pommes ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_3_response"
+    },
+    {
+      "id": "lesson_3_response",
+      "speaker": "user",
+      "textFr": "Le prix est de 5000 Ariary.",
+      "textMg": "5000 Ariary ny vidiny.",
+      "responseOptions": [
+        {
+          "textFr": "Le prix est de 5000 Ariary.",
+          "textMg": "5000 Ariary ny vidiny.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "lesson_3_feedback"
+        }
+      ]
+    },
+    {
+      "id": "lesson_3_feedback",
+      "speaker": "teacher",
+      "textFr": "Très bien ! 'Le kilo' et 'le prix' utilisent 'le' car ce sont des noms masculins.",
+      "textMg": "Tsara be! 'Le kilo' sy 'le prix' dia mampiasa 'le' satria anarana lahy ireo.",
+      "audio": {
+        "ttsTextFr": "Très bien ! 'Le kilo' et 'le prix' utilisent 'le' car ce sont des noms masculins.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_4"
+    },
+    {
+      "id": "lesson_4",
+      "speaker": "teacher",
+      "textFr": "Je voudrais l'orange et la banane.",
+      "textMg": "Te-hividy ny voasary sy ny akondro aho.",
+      "audio": {
+        "ttsTextFr": "Je voudrais l'orange et la banane.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_4_response"
+    },
+    {
+      "id": "lesson_4_response",
+      "speaker": "user",
+      "textFr": "Pourquoi 'l'orange' et pas 'le orange' ?",
+      "textMg": "Nahoana 'l'orange' fa tsy 'le orange'?",
+      "responseOptions": [
+        {
+          "textFr": "Pourquoi 'l'orange' et pas 'le orange' ?",
+          "textMg": "Nahoana 'l'orange' fa tsy 'le orange'?",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "lesson_4_feedback"
+        }
+      ]
+    },
+    {
+      "id": "lesson_4_feedback",
+      "speaker": "teacher",
+      "textFr": "Devant une voyelle, 'le' devient 'l'. C'est l'élision. Exemple : l'orange, l'ami, l'école.",
+      "textMg": "Eo alohan'ny voambolana, 'le' dia lasa 'l'. Fanalefahana izany. Ohatra: l'orange, l'ami, l'école.",
+      "audio": {
+        "ttsTextFr": "Devant une voyelle, 'le' devient 'l'. C'est l'élision. Exemple : l'orange, l'ami, l'école.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_5"
+    },
+    {
+      "id": "lesson_5",
+      "speaker": "teacher",
+      "textFr": "Parfait ! Tu comprends les articles maintenant.",
+      "textMg": "Tonga lafatra! Azonao izao ny lahatsoratra.",
+      "audio": {
+        "ttsTextFr": "Parfait ! Tu comprends les articles maintenant.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_5_response"
+    },
+    {
+      "id": "lesson_5_response",
+      "speaker": "user",
+      "textFr": "Merci ! Je vais pratiquer avec les exercices.",
+      "textMg": "Misaotra! Hanamboatra amin'ny fanazaran-tena aho.",
+      "responseOptions": [
+        {
+          "textFr": "Merci ! Je vais pratiquer avec les exercices.",
+          "textMg": "Misaotra! Hanamboatra amin'ny fanazaran-tena aho.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "lesson_5_feedback"
+        }
+      ]
+    },
+    {
+      "id": "lesson_5_feedback",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Continuons avec les quiz pour tester ta compréhension.",
+      "textMg": "Tsara be! Tohizana amin'ny quiz hahitana ny fahatakaranao.",
+      "audio": {
+        "ttsTextFr": "Excellent ! Continuons avec les quiz pour tester ta compréhension.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_complete"
+    },
+    {
+      "id": "lesson_complete",
+      "speaker": "teacher",
+      "textFr": "Parfait ! Tu as bien compris. Passons aux exercices !",
+      "textMg": "Tonga lafatra! Azonao tsara. Andao handeha amin'ny fanazaran-tena!",
+      "audio": {
+        "ttsTextFr": "Parfait! Tu as bien compris. Passons aux exercices!",
+        "ttsRate": 0.9
+      },
       "nextNode": "user_ready"
     },
     {
@@ -395,15 +597,273 @@
           "textFr": "Merci ! J'ai bien compris les articles.",
           "textMg": "Misaotra! Azoko tsara ny lahatsoratra.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "farewell"
+          "nextNodeOnSuccess": "roleplay_intro"
         },
         {
           "textFr": "Peux-tu répéter la leçon ?",
           "textMg": "Azonao averina ve ny lesona?",
           "isCorrect": true,
-          "nextNodeOnSuccess": "definite_intro"
+          "nextNodeOnSuccess": "roleplay_intro"
         }
       ]
+    },
+    {
+      "id": "roleplay_intro",
+      "speaker": "teacher",
+      "textFr": "Maintenant, faisons un jeu de rôle ! Tu es au marché. Achète des choses en utilisant les bons articles !",
+      "textMg": "Andao hilalao anjara! Eny an-tsena ianao. Mividiana zavatra amin'ny alalan'ny lahatsoratra mety!",
+      "audio": {
+        "ttsTextFr": "Maintenant, faisons un jeu de rôle!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_1"
+    },
+    {
+      "id": "roleplay_1",
+      "speaker": "teacher",
+      "textFr": "Répète après moi : Je veux acheter le livre",
+      "textMg": "Avereno aoriana: Je veux acheter le livre",
+      "audio": {
+        "ttsTextFr": "Je veux acheter le livre",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_1_response"
+    },
+    {
+      "id": "roleplay_1_response",
+      "speaker": "user",
+      "textFr": "Répéter : Je veux acheter le livre",
+      "textMg": "Avereno: Je veux acheter le livre",
+      "responseOptions": [
+        {
+          "textFr": "Je veux acheter le livre",
+          "textMg": "Te-hividy ny boky aho",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "roleplay_1_success"
+        }
+      ]
+    },
+    {
+      "id": "roleplay_1_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Continue !",
+      "textMg": "Tsara be! Tohizo!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_2"
+    },
+    {
+      "id": "roleplay_2",
+      "speaker": "teacher",
+      "textFr": "Répète après moi : Donne-moi un fruit",
+      "textMg": "Avereno aoriana: Donne-moi un fruit",
+      "audio": {
+        "ttsTextFr": "Donne-moi un fruit",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_2_response"
+    },
+    {
+      "id": "roleplay_2_response",
+      "speaker": "user",
+      "textFr": "Répéter : Donne-moi un fruit",
+      "textMg": "Avereno: Donne-moi un fruit",
+      "responseOptions": [
+        {
+          "textFr": "Donne-moi un fruit",
+          "textMg": "Omeo ahy voankazo iray",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "roleplay_2_success"
+        }
+      ]
+    },
+    {
+      "id": "roleplay_2_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Continue !",
+      "textMg": "Tsara be! Tohizo!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_3"
+    },
+    {
+      "id": "roleplay_3",
+      "speaker": "teacher",
+      "textFr": "Répète après moi : Voici l'argent",
+      "textMg": "Avereno aoriana: Voici l'argent",
+      "audio": {
+        "ttsTextFr": "Voici l'argent",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_3_response"
+    },
+    {
+      "id": "roleplay_3_response",
+      "speaker": "user",
+      "textFr": "Répéter : Voici l'argent",
+      "textMg": "Avereno: Voici l'argent",
+      "responseOptions": [
+        {
+          "textFr": "Voici l'argent",
+          "textMg": "Eto ny vola",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "roleplay_3_success"
+        }
+      ]
+    },
+    {
+      "id": "roleplay_3_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Continue !",
+      "textMg": "Tsara be! Tohizo!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_intro"
+    },
+    {
+      "id": "challenge_intro",
+      "speaker": "teacher",
+      "textFr": "Maintenant, le défi final ! Réponds correctement aux 3 questions pour gagner !",
+      "textMg": "Androany, ny fanamby farany! Valio marina ny fanontaniana 3 mba handresy!",
+      "audio": {
+        "ttsTextFr": "Maintenant, le défi final!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_1"
+    },
+    {
+      "id": "challenge_1",
+      "speaker": "user",
+      "textFr": "Question 1 : Comment dit-on 'ny boky' ?",
+      "textMg": "Fanontaniana 1: Ahoana no ilazana 'ny boky'?",
+      "responseOptions": [
+        {
+          "textFr": "le livre",
+          "textMg": "ny boky",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "challenge_1_success",
+          "feedback": {
+            "fr": "Bravo ! 'le livre' est correct !",
+            "mg": "Arahabaina! Marina ny 'le livre'!"
+          }
+        },
+        {
+          "textFr": "un livre",
+          "textMg": "un livre",
+          "isCorrect": false,
+          "nextNodeOnFail": "challenge_1",
+          "feedback": {
+            "fr": "Non, 'un livre' n'est pas correct. Réessaie !",
+            "mg": "Tsia, 'un livre' dia tsy marina. Andramo indray!"
+          }
+        }
+      ]
+    },
+    {
+      "id": "challenge_1_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! 1/3 correct !",
+      "textMg": "Tsara be! 1/3 marina!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_2_success"
+    },
+    {
+      "id": "challenge_2",
+      "speaker": "user",
+      "textFr": "Question 2 : Comment dit-on 'voankazo iray' ?",
+      "textMg": "Fanontaniana 2: Ahoana no ilazana 'voankazo iray'?",
+      "responseOptions": [
+        {
+          "textFr": "un fruit",
+          "textMg": "voankazo iray",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "challenge_2_success",
+          "feedback": {
+            "fr": "Bravo ! 'un fruit' est correct !",
+            "mg": "Arahabaina! Marina ny 'un fruit'!"
+          }
+        },
+        {
+          "textFr": "le fruit",
+          "textMg": "le fruit",
+          "isCorrect": false,
+          "nextNodeOnFail": "challenge_2",
+          "feedback": {
+            "fr": "Non, 'le fruit' n'est pas correct. Réessaie !",
+            "mg": "Tsia, 'le fruit' dia tsy marina. Andramo indray!"
+          }
+        }
+      ]
+    },
+    {
+      "id": "challenge_2_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! 2/3 correct !",
+      "textMg": "Tsara be! 2/3 marina!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_3_success"
+    },
+    {
+      "id": "challenge_3",
+      "speaker": "user",
+      "textFr": "Question 3 : Comment dit-on 'ireo ankizy' ?",
+      "textMg": "Fanontaniana 3: Ahoana no ilazana 'ireo ankizy'?",
+      "responseOptions": [
+        {
+          "textFr": "les enfants",
+          "textMg": "ireo ankizy",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "challenge_3_success",
+          "feedback": {
+            "fr": "Bravo ! 'les enfants' est correct !",
+            "mg": "Arahabaina! Marina ny 'les enfants'!"
+          }
+        },
+        {
+          "textFr": "des enfants",
+          "textMg": "des enfants",
+          "isCorrect": false,
+          "nextNodeOnFail": "challenge_3",
+          "feedback": {
+            "fr": "Non, 'des enfants' n'est pas correct. Réessaie !",
+            "mg": "Tsia, 'des enfants' dia tsy marina. Andramo indray!"
+          }
+        }
+      ]
+    },
+    {
+      "id": "challenge_3_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! 3/3 correct !",
+      "textMg": "Tsara be! 3/3 marina!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_victory"
+    },
+    {
+      "id": "challenge_victory",
+      "speaker": "teacher",
+      "textFr": "🏆 FÉLICITATIONS ! Tu as réussi tous les défis ! Tu maîtrises ce thème !",
+      "textMg": "🏆 ARAHABAINA! Nahomby ianao tamin'ny fanamby rehetra! Hainao tsara ity lohahevitra ity!",
+      "audio": {
+        "ttsTextFr": "Félicitations! Tu as réussi tous les défis!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "farewell"
     },
     {
       "id": "farewell",

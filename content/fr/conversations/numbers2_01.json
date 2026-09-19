@@ -204,6 +204,264 @@
         "ttsTextFr": "Excellent {firstName} ! Vous maîtrisez les grands nombres !",
         "ttsRate": 0.9
       },
+      "nextNode": "roleplay_intro"
+    },
+    {
+      "id": "roleplay_intro",
+      "speaker": "teacher",
+      "textFr": "Maintenant, faisons un jeu de rôle ! Compte jusqu'à 100 pour un jeu !",
+      "textMg": "Andao hilalao anjara! Isao hatramin'ny 100 ho an'ny lalao!",
+      "audio": {
+        "ttsTextFr": "Maintenant, faisons un jeu de rôle!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_1"
+    },
+    {
+      "id": "roleplay_1",
+      "speaker": "teacher",
+      "textFr": "Répète après moi : Vingt et un",
+      "textMg": "Avereno aoriana: Vingt et un",
+      "audio": {
+        "ttsTextFr": "Vingt et un",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_1_response"
+    },
+    {
+      "id": "roleplay_1_response",
+      "speaker": "user",
+      "textFr": "Répéter : Vingt et un",
+      "textMg": "Avereno: Vingt et un",
+      "responseOptions": [
+        {
+          "textFr": "Vingt et un",
+          "textMg": "Roapolo sy iray",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "roleplay_1_success"
+        }
+      ]
+    },
+    {
+      "id": "roleplay_1_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Continue !",
+      "textMg": "Tsara be! Tohizo!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_2"
+    },
+    {
+      "id": "roleplay_2",
+      "speaker": "teacher",
+      "textFr": "Répète après moi : Cinquante",
+      "textMg": "Avereno aoriana: Cinquante",
+      "audio": {
+        "ttsTextFr": "Cinquante",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_2_response"
+    },
+    {
+      "id": "roleplay_2_response",
+      "speaker": "user",
+      "textFr": "Répéter : Cinquante",
+      "textMg": "Avereno: Cinquante",
+      "responseOptions": [
+        {
+          "textFr": "Cinquante",
+          "textMg": "Dimampolo",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "roleplay_2_success"
+        }
+      ]
+    },
+    {
+      "id": "roleplay_2_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Continue !",
+      "textMg": "Tsara be! Tohizo!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_3"
+    },
+    {
+      "id": "roleplay_3",
+      "speaker": "teacher",
+      "textFr": "Répète après moi : Cent",
+      "textMg": "Avereno aoriana: Cent",
+      "audio": {
+        "ttsTextFr": "Cent",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_3_response"
+    },
+    {
+      "id": "roleplay_3_response",
+      "speaker": "user",
+      "textFr": "Répéter : Cent",
+      "textMg": "Avereno: Cent",
+      "responseOptions": [
+        {
+          "textFr": "Cent",
+          "textMg": "Zato",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "roleplay_3_success"
+        }
+      ]
+    },
+    {
+      "id": "roleplay_3_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Continue !",
+      "textMg": "Tsara be! Tohizo!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_intro"
+    },
+    {
+      "id": "challenge_intro",
+      "speaker": "teacher",
+      "textFr": "Maintenant, le défi final ! Réponds correctement aux 3 questions pour gagner !",
+      "textMg": "Androany, ny fanamby farany! Valio marina ny fanontaniana 3 mba handresy!",
+      "audio": {
+        "ttsTextFr": "Maintenant, le défi final!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_1"
+    },
+    {
+      "id": "challenge_1",
+      "speaker": "user",
+      "textFr": "Question 1 : Comment dit-on 'telopolo' ?",
+      "textMg": "Fanontaniana 1: Ahoana no ilazana 'telopolo'?",
+      "responseOptions": [
+        {
+          "textFr": "trente",
+          "textMg": "telopolo",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "challenge_1_success",
+          "feedback": {
+            "fr": "Bravo ! 'trente' est correct !",
+            "mg": "Arahabaina! Marina ny 'trente'!"
+          }
+        },
+        {
+          "textFr": "quarante",
+          "textMg": "quarante",
+          "isCorrect": false,
+          "nextNodeOnFail": "challenge_1",
+          "feedback": {
+            "fr": "Non, 'quarante' n'est pas correct. Réessaie !",
+            "mg": "Tsia, 'quarante' dia tsy marina. Andramo indray!"
+          }
+        }
+      ]
+    },
+    {
+      "id": "challenge_1_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! 1/3 correct !",
+      "textMg": "Tsara be! 1/3 marina!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_2_success"
+    },
+    {
+      "id": "challenge_2",
+      "speaker": "user",
+      "textFr": "Question 2 : Comment dit-on 'enimpolo' ?",
+      "textMg": "Fanontaniana 2: Ahoana no ilazana 'enimpolo'?",
+      "responseOptions": [
+        {
+          "textFr": "soixante",
+          "textMg": "enimpolo",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "challenge_2_success",
+          "feedback": {
+            "fr": "Bravo ! 'soixante' est correct !",
+            "mg": "Arahabaina! Marina ny 'soixante'!"
+          }
+        },
+        {
+          "textFr": "cinquante",
+          "textMg": "cinquante",
+          "isCorrect": false,
+          "nextNodeOnFail": "challenge_2",
+          "feedback": {
+            "fr": "Non, 'cinquante' n'est pas correct. Réessaie !",
+            "mg": "Tsia, 'cinquante' dia tsy marina. Andramo indray!"
+          }
+        }
+      ]
+    },
+    {
+      "id": "challenge_2_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! 2/3 correct !",
+      "textMg": "Tsara be! 2/3 marina!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_3_success"
+    },
+    {
+      "id": "challenge_3",
+      "speaker": "user",
+      "textFr": "Question 3 : Comment dit-on 'sivifolo' ?",
+      "textMg": "Fanontaniana 3: Ahoana no ilazana 'sivifolo'?",
+      "responseOptions": [
+        {
+          "textFr": "quatre-vingt-dix",
+          "textMg": "sivifolo",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "challenge_3_success",
+          "feedback": {
+            "fr": "Bravo ! 'quatre-vingt-dix' est correct !",
+            "mg": "Arahabaina! Marina ny 'quatre-vingt-dix'!"
+          }
+        },
+        {
+          "textFr": "cent",
+          "textMg": "cent",
+          "isCorrect": false,
+          "nextNodeOnFail": "challenge_3",
+          "feedback": {
+            "fr": "Non, 'cent' n'est pas correct. Réessaie !",
+            "mg": "Tsia, 'cent' dia tsy marina. Andramo indray!"
+          }
+        }
+      ]
+    },
+    {
+      "id": "challenge_3_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! 3/3 correct !",
+      "textMg": "Tsara be! 3/3 marina!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_victory"
+    },
+    {
+      "id": "challenge_victory",
+      "speaker": "teacher",
+      "textFr": "🏆 FÉLICITATIONS ! Tu as réussi tous les défis ! Tu maîtrises ce thème !",
+      "textMg": "🏆 ARAHABAINA! Nahomby ianao tamin'ny fanamby rehetra! Hainao tsara ity lohahevitra ity!",
+      "audio": {
+        "ttsTextFr": "Félicitations! Tu as réussi tous les défis!",
+        "ttsRate": 0.9
+      },
       "nextNode": "farewell"
     },
     {

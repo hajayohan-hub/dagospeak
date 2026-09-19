@@ -16,6 +16,208 @@
         "ttsTextFr": "Bonjour! Aujourd'hui, nous allons apprendre les prépositions. Tu es prêt?",
         "ttsRate": 0.9
       },
+      "nextNode": "lesson_intro"
+    },
+    {
+      "id": "lesson_intro",
+      "speaker": "teacher",
+      "textFr": "Apprenons à situer les objets avec les prépositions.",
+      "textMg": "Andao hianatra hametraka zavatra amin'ny mpisolo toerana.",
+      "audio": {
+        "ttsTextFr": "Apprenons à situer les objets avec les prépositions.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_1"
+    },
+    {
+      "id": "lesson_1",
+      "speaker": "teacher",
+      "textFr": "Où est le livre ?",
+      "textMg": "Aiza ny boky?",
+      "audio": {
+        "ttsTextFr": "Où est le livre ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_1_response"
+    },
+    {
+      "id": "lesson_1_response",
+      "speaker": "user",
+      "textFr": "Le livre est sur la table.",
+      "textMg": "Eo ambonin'ny latabatra ny boky.",
+      "responseOptions": [
+        {
+          "textFr": "Le livre est sur la table.",
+          "textMg": "Eo ambonin'ny latabatra ny boky.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "lesson_1_feedback"
+        }
+      ]
+    },
+    {
+      "id": "lesson_1_feedback",
+      "speaker": "teacher",
+      "textFr": "Parfait ! 'Sur' indique une position au-dessus avec contact.",
+      "textMg": "Tonga lafatra! 'Sur' dia manambara toerana eo ambony misy fifandraisana.",
+      "audio": {
+        "ttsTextFr": "Parfait ! 'Sur' indique une position au-dessus avec contact.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_2"
+    },
+    {
+      "id": "lesson_2",
+      "speaker": "teacher",
+      "textFr": "Et le chat ?",
+      "textMg": "Ary ny saka?",
+      "audio": {
+        "ttsTextFr": "Et le chat ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_2_response"
+    },
+    {
+      "id": "lesson_2_response",
+      "speaker": "user",
+      "textFr": "Le chat est sous la chaise.",
+      "textMg": "Eo ambanin'ny seza ny saka.",
+      "responseOptions": [
+        {
+          "textFr": "Le chat est sous la chaise.",
+          "textMg": "Eo ambanin'ny seza ny saka.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "lesson_2_feedback"
+        }
+      ]
+    },
+    {
+      "id": "lesson_2_feedback",
+      "speaker": "teacher",
+      "textFr": "Excellent ! 'Sous' est le contraire de 'sur'.",
+      "textMg": "Tsara be! 'Sous' dia mifanohitra amin'ny 'sur'.",
+      "audio": {
+        "ttsTextFr": "Excellent ! 'Sous' est le contraire de 'sur'.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_3"
+    },
+    {
+      "id": "lesson_3",
+      "speaker": "teacher",
+      "textFr": "Où est le jardin ?",
+      "textMg": "Aiza ny zaridaina?",
+      "audio": {
+        "ttsTextFr": "Où est le jardin ?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_3_response"
+    },
+    {
+      "id": "lesson_3_response",
+      "speaker": "user",
+      "textFr": "Le jardin est derrière la maison.",
+      "textMg": "Eo aorian'ny trano ny zaridaina.",
+      "responseOptions": [
+        {
+          "textFr": "Le jardin est derrière la maison.",
+          "textMg": "Eo aorian'ny trano ny zaridaina.",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "lesson_3_feedback"
+        }
+      ]
+    },
+    {
+      "id": "lesson_3_feedback",
+      "speaker": "teacher",
+      "textFr": "Très bien ! 'Derrière' = à l'arrière. Le contraire est 'devant'.",
+      "textMg": "Tsara be! 'Derrière' = any aoriana. Ny mifanohitra dia 'devant'.",
+      "audio": {
+        "ttsTextFr": "Très bien ! 'Derrière' = à l'arrière. Le contraire est 'devant'.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_4"
+    },
+    {
+      "id": "lesson_4",
+      "speaker": "teacher",
+      "textFr": "Je vais au marché.",
+      "textMg": "Mandeha any an-tsena aho.",
+      "audio": {
+        "ttsTextFr": "Je vais au marché.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_4_response"
+    },
+    {
+      "id": "lesson_4_response",
+      "speaker": "user",
+      "textFr": "Le marché est à côté de la banque ?",
+      "textMg": "Eo anilan'ny banky ve ny tsena?",
+      "responseOptions": [
+        {
+          "textFr": "Le marché est à côté de la banque ?",
+          "textMg": "Eo anilan'ny banky ve ny tsena?",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "lesson_4_feedback"
+        }
+      ]
+    },
+    {
+      "id": "lesson_4_feedback",
+      "speaker": "teacher",
+      "textFr": "Oui ! 'À côté de' signifie proche, à proximité.",
+      "textMg": "Eny! 'À côté de' dia midika akaiky.",
+      "audio": {
+        "ttsTextFr": "Oui ! 'À côté de' signifie proche, à proximité.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_5"
+    },
+    {
+      "id": "lesson_5",
+      "speaker": "teacher",
+      "textFr": "L'école est près de chez moi. Le stade est loin.",
+      "textMg": "Akaikin'ny tranoko ny sekoly. Lavitra ny kianja.",
+      "audio": {
+        "ttsTextFr": "L'école est près de chez moi. Le stade est loin.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_5_response"
+    },
+    {
+      "id": "lesson_5_response",
+      "speaker": "user",
+      "textFr": "Près et loin sont opposés ?",
+      "textMg": "Mifanohitra ve ny près sy loin?",
+      "responseOptions": [
+        {
+          "textFr": "Près et loin sont opposés ?",
+          "textMg": "Mifanohitra ve ny près sy loin?",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "lesson_5_feedback"
+        }
+      ]
+    },
+    {
+      "id": "lesson_5_feedback",
+      "speaker": "teacher",
+      "textFr": "Exactement ! 'Près de' = proche, 'loin de' = éloigné.",
+      "textMg": "Marina tokoa! 'Près de' = akaiky, 'loin de' = lavitra.",
+      "audio": {
+        "ttsTextFr": "Exactement ! 'Près de' = proche, 'loin de' = éloigné.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "lesson_complete"
+    },
+    {
+      "id": "lesson_complete",
+      "speaker": "teacher",
+      "textFr": "Parfait ! Tu as bien compris. Passons aux exercices !",
+      "textMg": "Tonga lafatra! Azonao tsara. Andao handeha amin'ny fanazaran-tena!",
+      "audio": {
+        "ttsTextFr": "Parfait! Tu as bien compris. Passons aux exercices!",
+        "ttsRate": 0.9
+      },
       "nextNode": "intro"
     },
     {
@@ -130,6 +332,264 @@
       "textMg": "Arahabaina! Hainao tsara ny ny mpisolo toerana. Mianara mitohy!",
       "audio": {
         "ttsTextFr": "Bravo!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_intro"
+    },
+    {
+      "id": "roleplay_intro",
+      "speaker": "teacher",
+      "textFr": "Maintenant, faisons un jeu de rôle ! Donne des directions dans la ville !",
+      "textMg": "Andao hilalao anjara! Omeo torolalana ao anatin'ny tanàna!",
+      "audio": {
+        "ttsTextFr": "Maintenant, faisons un jeu de rôle!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_1"
+    },
+    {
+      "id": "roleplay_1",
+      "speaker": "teacher",
+      "textFr": "Répète après moi : Sur la table",
+      "textMg": "Avereno aoriana: Sur la table",
+      "audio": {
+        "ttsTextFr": "Sur la table",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_1_response"
+    },
+    {
+      "id": "roleplay_1_response",
+      "speaker": "user",
+      "textFr": "Répéter : Sur la table",
+      "textMg": "Avereno: Sur la table",
+      "responseOptions": [
+        {
+          "textFr": "Sur la table",
+          "textMg": "Eo ambonin'ny latabatra",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "roleplay_1_success"
+        }
+      ]
+    },
+    {
+      "id": "roleplay_1_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Continue !",
+      "textMg": "Tsara be! Tohizo!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_2"
+    },
+    {
+      "id": "roleplay_2",
+      "speaker": "teacher",
+      "textFr": "Répète après moi : Dans la maison",
+      "textMg": "Avereno aoriana: Dans la maison",
+      "audio": {
+        "ttsTextFr": "Dans la maison",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_2_response"
+    },
+    {
+      "id": "roleplay_2_response",
+      "speaker": "user",
+      "textFr": "Répéter : Dans la maison",
+      "textMg": "Avereno: Dans la maison",
+      "responseOptions": [
+        {
+          "textFr": "Dans la maison",
+          "textMg": "Ao anatin'ny trano",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "roleplay_2_success"
+        }
+      ]
+    },
+    {
+      "id": "roleplay_2_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Continue !",
+      "textMg": "Tsara be! Tohizo!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_3"
+    },
+    {
+      "id": "roleplay_3",
+      "speaker": "teacher",
+      "textFr": "Répète après moi : Devant l'école",
+      "textMg": "Avereno aoriana: Devant l'école",
+      "audio": {
+        "ttsTextFr": "Devant l'école",
+        "ttsRate": 0.9
+      },
+      "nextNode": "roleplay_3_response"
+    },
+    {
+      "id": "roleplay_3_response",
+      "speaker": "user",
+      "textFr": "Répéter : Devant l'école",
+      "textMg": "Avereno: Devant l'école",
+      "responseOptions": [
+        {
+          "textFr": "Devant l'école",
+          "textMg": "Eo alohan'ny sekoly",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "roleplay_3_success"
+        }
+      ]
+    },
+    {
+      "id": "roleplay_3_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Continue !",
+      "textMg": "Tsara be! Tohizo!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_intro"
+    },
+    {
+      "id": "challenge_intro",
+      "speaker": "teacher",
+      "textFr": "Maintenant, le défi final ! Réponds correctement aux 3 questions pour gagner !",
+      "textMg": "Androany, ny fanamby farany! Valio marina ny fanontaniana 3 mba handresy!",
+      "audio": {
+        "ttsTextFr": "Maintenant, le défi final!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_1"
+    },
+    {
+      "id": "challenge_1",
+      "speaker": "user",
+      "textFr": "Question 1 : Comment dit-on 'eo amboniny' ?",
+      "textMg": "Fanontaniana 1: Ahoana no ilazana 'eo amboniny'?",
+      "responseOptions": [
+        {
+          "textFr": "sur",
+          "textMg": "eo amboniny",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "challenge_1_success",
+          "feedback": {
+            "fr": "Bravo ! 'sur' est correct !",
+            "mg": "Arahabaina! Marina ny 'sur'!"
+          }
+        },
+        {
+          "textFr": "sous",
+          "textMg": "sous",
+          "isCorrect": false,
+          "nextNodeOnFail": "challenge_1",
+          "feedback": {
+            "fr": "Non, 'sous' n'est pas correct. Réessaie !",
+            "mg": "Tsia, 'sous' dia tsy marina. Andramo indray!"
+          }
+        }
+      ]
+    },
+    {
+      "id": "challenge_1_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! 1/3 correct !",
+      "textMg": "Tsara be! 1/3 marina!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_2_success"
+    },
+    {
+      "id": "challenge_2",
+      "speaker": "user",
+      "textFr": "Question 2 : Comment dit-on 'ao anatiny' ?",
+      "textMg": "Fanontaniana 2: Ahoana no ilazana 'ao anatiny'?",
+      "responseOptions": [
+        {
+          "textFr": "dans",
+          "textMg": "ao anatiny",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "challenge_2_success",
+          "feedback": {
+            "fr": "Bravo ! 'dans' est correct !",
+            "mg": "Arahabaina! Marina ny 'dans'!"
+          }
+        },
+        {
+          "textFr": "devant",
+          "textMg": "devant",
+          "isCorrect": false,
+          "nextNodeOnFail": "challenge_2",
+          "feedback": {
+            "fr": "Non, 'devant' n'est pas correct. Réessaie !",
+            "mg": "Tsia, 'devant' dia tsy marina. Andramo indray!"
+          }
+        }
+      ]
+    },
+    {
+      "id": "challenge_2_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! 2/3 correct !",
+      "textMg": "Tsara be! 2/3 marina!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_3_success"
+    },
+    {
+      "id": "challenge_3",
+      "speaker": "user",
+      "textFr": "Question 3 : Comment dit-on 'eo ambaniny' ?",
+      "textMg": "Fanontaniana 3: Ahoana no ilazana 'eo ambaniny'?",
+      "responseOptions": [
+        {
+          "textFr": "sous",
+          "textMg": "eo ambaniny",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "challenge_3_success",
+          "feedback": {
+            "fr": "Bravo ! 'sous' est correct !",
+            "mg": "Arahabaina! Marina ny 'sous'!"
+          }
+        },
+        {
+          "textFr": "sur",
+          "textMg": "sur",
+          "isCorrect": false,
+          "nextNodeOnFail": "challenge_3",
+          "feedback": {
+            "fr": "Non, 'sur' n'est pas correct. Réessaie !",
+            "mg": "Tsia, 'sur' dia tsy marina. Andramo indray!"
+          }
+        }
+      ]
+    },
+    {
+      "id": "challenge_3_success",
+      "speaker": "teacher",
+      "textFr": "Excellent ! 3/3 correct !",
+      "textMg": "Tsara be! 3/3 marina!",
+      "audio": {
+        "ttsTextFr": "Excellent!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "challenge_victory"
+    },
+    {
+      "id": "challenge_victory",
+      "speaker": "teacher",
+      "textFr": "🏆 FÉLICITATIONS ! Tu as réussi tous les défis ! Tu maîtrises ce thème !",
+      "textMg": "🏆 ARAHABAINA! Nahomby ianao tamin'ny fanamby rehetra! Hainao tsara ity lohahevitra ity!",
+      "audio": {
+        "ttsTextFr": "Félicitations! Tu as réussi tous les défis!",
         "ttsRate": 0.9
       },
       "nextNode": "farewell"
