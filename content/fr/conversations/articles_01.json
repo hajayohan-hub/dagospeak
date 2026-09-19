@@ -52,10 +52,10 @@
     {
       "id": "definite_intro",
       "speaker": "teacher",
-      "textFr": "Parfait ! Les articles définis sont 'le', 'la' et 'les'. On les utilise quand on parle de quelque chose de précis. 'Le' est pour le masculin singulier, 'la' pour le féminin singulier, et 'les' pour le pluriel. Essayons avec un exemple : comment dirais-tu 'the book' en français ?",
-      "textMg": "Tsara! Ny lahatsoratra voafaritra dia 'le', 'la' ary 'les'. Ampiasaintsika rehefa miresaka zavatra voafaritra isika. 'Le' ho an'ny lahy singiolary, 'la' ho an'ny vavy singiolary, ary 'les' ho an'ny ploraly. Andao handramana amin'ny ohatra: ahoana no hilazanao 'the book' amin'ny teny frantsay?",
+      "textFr": "Parfait ! Les articles définis sont 'le', 'la' et 'les'. On les utilise quand on parle de quelque chose de précis. 'Le' est pour le masculin singulier, 'la' pour le féminin singulier, et 'les' pour le pluriel. Essayons avec un exemple : comment dit-on 'boky' en français avec l'article défini ?",
+      "textMg": "Tsara! Ny lahatsoratra voafaritra dia 'le', 'la' ary 'les'. Ampiasaintsika rehefa miresaka zavatra voafaritra isika. 'Le' ho an'ny lahy singiolary, 'la' ho an'ny vavy singiolary, ary 'les' ho an'ny ploraly. Andao handramana amin'ny ohatra: ahoana no ilazana 'boky' amin'ny teny frantsay miaraka amin'ny lahatsoratra voafaritra?",
       "audio": {
-        "ttsTextFr": "Parfait! Les articles définis sont 'le', 'la' et 'les'. On les utilise quand on parle de quelque chose de précis. Essayons avec un exemple: comment dirais-tu 'the book' en français?",
+        "ttsTextFr": "Parfait ! Les articles définis sont 'le', 'la' et 'les'. On les utilise quand on parle de quelque chose de précis. 'Le' est pour le masculin singulier, 'la' pour le féminin singulier, et 'les' pour le pluriel. Essayons avec un exemple : comment dit-on 'boky' en français avec l'article défini ?",
         "ttsRate": 0.9
       },
       "nextNode": "quiz_le"
@@ -63,8 +63,8 @@
     {
       "id": "quiz_le",
       "speaker": "user",
-      "textFr": "Quel article pour 'book' (livre - masculin) ?",
-      "textMg": "Inona ny lahatsoratra ho an'ny 'book' (boky - lahy)?",
+      "textFr": "Comment dit-on 'ny boky' (le livre) en français ?",
+      "textMg": "Ahoana no ilazana 'ny boky' amin'ny teny frantsay?",
       "responseOptions": [
         {
           "textFr": "Le livre",
@@ -97,10 +97,10 @@
     {
       "id": "correct_le",
       "speaker": "teacher",
-      "textFr": "Excellent ! 'Le livre' est correct. Maintenant, essayons avec un nom féminin. Comment dirais-tu 'the house' (la maison) ?",
-      "textMg": "Tsara be! Marina ny 'Le livre'. Andao handramana amin'ny anarana vavy. Ahoana no hilazanao 'the house' (ny trano)?",
+      "textFr": "Excellent ! 'Le livre' est correct. 'Livre' est un nom masculin, donc on utilise 'le'. Maintenant, essayons avec un nom féminin. Comment dit-on 'ny trano' (la maison) en français ?",
+      "textMg": "Tsara be! Marina ny 'Le livre'. 'Livre' dia anarana lahy, ka 'le' no ampiasaina. Andao handramana amin'ny anarana vavy. Ahoana no ilazana 'ny trano' amin'ny teny frantsay?",
       "audio": {
-        "ttsTextFr": "Excellent! 'Le livre' est correct. Maintenant, essayons avec un nom féminin. Comment dirais-tu 'the house'?",
+        "ttsTextFr": "Excellent ! 'Le livre' est correct. 'Livre' est un nom masculin, donc on utilise 'le'. Maintenant, essayons avec un nom féminin. Comment dit-on 'ny trano' (la maison) en français ?",
         "ttsRate": 0.9
       },
       "nextNode": "quiz_la"
@@ -108,8 +108,8 @@
     {
       "id": "quiz_la",
       "speaker": "user",
-      "textFr": "Quel article pour 'house' (maison - féminin) ?",
-      "textMg": "Inona ny lahatsoratra ho an'ny 'house' (trano - vavy)?",
+      "textFr": "Comment dit-on 'ny trano' (la maison) en français ?",
+      "textMg": "Ahoana no ilazana 'ny trano' amin'ny teny frantsay?",
       "responseOptions": [
         {
           "textFr": "La maison",
@@ -132,10 +132,10 @@
     {
       "id": "correct_la",
       "speaker": "teacher",
-      "textFr": "Bravo ! 'La maison' est parfait. Et pour le pluriel ? Comment dirais-tu 'the children' (les enfants) ?",
-      "textMg": "Tsara! Tonga lafatra ny 'La maison'. Ary ho an'ny ploraly? Ahoana no hilazanao 'the children' (ireo ankizy)?",
+      "textFr": "Bravo ! 'La maison' est parfait. 'Maison' est un nom féminin, donc on utilise 'la'. Et pour le pluriel ? Comment dit-on 'ireo ankizy' (les enfants) en français ?",
+      "textMg": "Tsara! Tonga lafatra ny 'La maison'. 'Maison' dia anarana vavy, ka 'la' no ampiasaina. Ary ho an'ny ploraly? Ahoana no ilazana 'ireo ankizy' amin'ny teny frantsay?",
       "audio": {
-        "ttsTextFr": "Bravo! 'La maison' est parfait. Et pour le pluriel? Comment dirais-tu 'the children'?",
+        "ttsTextFr": "Bravo ! 'La maison' est parfait. 'Maison' est un nom féminin, donc on utilise 'la'. Et pour le pluriel ? Comment dit-on 'ireo ankizy' (les enfants) en français ?",
         "ttsRate": 0.9
       },
       "nextNode": "quiz_les"
@@ -143,8 +143,8 @@
     {
       "id": "quiz_les",
       "speaker": "user",
-      "textFr": "Quel article pour 'children' (enfants - pluriel) ?",
-      "textMg": "Inona ny lahatsoratra ho an'ny 'children' (ankizy - ploraly)?",
+      "textFr": "Comment dit-on 'ireo ankizy' (les enfants) en français ?",
+      "textMg": "Ahoana no ilazana 'ireo ankizy' amin'ny teny frantsay?",
       "responseOptions": [
         {
           "textFr": "Les enfants",
@@ -167,10 +167,10 @@
     {
       "id": "correct_les",
       "speaker": "teacher",
-      "textFr": "Parfait ! Tu maîtrises les articles définis. Maintenant, passons aux articles indéfinis : un, une, des. On les utilise quand on parle de quelque chose de non précis. Comment dirais-tu 'a book' (un livre) ?",
-      "textMg": "Tonga lafatra! Hainao tsara ny lahatsoratra voafaritra. Andao handeha amin'ny lahatsoratra tsy voafaritra: un, une, des. Ampiasaintsika rehefa miresaka zavatra tsy voafaritra isika. Ahoana no hilazanao 'a book' (boky iray)?",
+      "textFr": "Parfait ! Tu maîtrises les articles définis. Maintenant, passons aux articles indéfinis : un, une, des. On les utilise quand on parle de quelque chose de non précis. Comment dit-on 'boky iray' (un livre) en français ?",
+      "textMg": "Tonga lafatra! Hainao tsara ny lahatsoratra voafaritra. Andao handeha amin'ny lahatsoratra tsy voafaritra: un, une, des. Ampiasaintsika rehefa miresaka zavatra tsy voafaritra isika. Ahoana no ilazana 'boky iray' amin'ny teny frantsay?",
       "audio": {
-        "ttsTextFr": "Parfait! Tu maîtrises les articles définis. Maintenant, passons aux articles indéfinis: un, une, des. Comment dirais-tu 'a book'?",
+        "ttsTextFr": "Parfait ! Tu maîtrises les articles définis. Maintenant, passons aux articles indéfinis : un, une, des. On les utilise quand on parle de quelque chose de non précis. Comment dit-on 'boky iray' (un livre) en français ?",
         "ttsRate": 0.9
       },
       "nextNode": "quiz_un"
@@ -178,8 +178,8 @@
     {
       "id": "quiz_un",
       "speaker": "user",
-      "textFr": "Quel article pour 'a book' (un livre - masculin singulier) ?",
-      "textMg": "Inona ny lahatsoratra ho an'ny 'a book' (boky iray - lahy singiolary)?",
+      "textFr": "Comment dit-on 'boky iray' en français ?",
+      "textMg": "Ahoana no ilazana 'boky iray' amin'ny teny frantsay?",
       "responseOptions": [
         {
           "textFr": "Un livre",
@@ -202,10 +202,10 @@
     {
       "id": "correct_un",
       "speaker": "teacher",
-      "textFr": "Excellent ! Et pour un nom féminin, comment dirais-tu 'a car' (une voiture) ?",
-      "textMg": "Tsara be! Ary ho an'ny anarana vavy, ahoana no hilazanao 'a car' (fiara iray)?",
+      "textFr": "Excellent ! 'Un livre' est correct. Et pour un nom féminin, comment dit-on 'fiara iray' (une voiture) en français ?",
+      "textMg": "Tsara be! Marina ny 'Un livre'. Ary ho an'ny anarana vavy, ahoana no ilazana 'fiara iray' amin'ny teny frantsay?",
       "audio": {
-        "ttsTextFr": "Excellent! Et pour un nom féminin, comment dirais-tu 'a car'?",
+        "ttsTextFr": "Excellent ! 'Un livre' est correct. Et pour un nom féminin, comment dit-on 'fiara iray' (une voiture) en français ?",
         "ttsRate": 0.9
       },
       "nextNode": "quiz_une"
@@ -213,8 +213,8 @@
     {
       "id": "quiz_une",
       "speaker": "user",
-      "textFr": "Quel article pour 'a car' (une voiture - féminin singulier) ?",
-      "textMg": "Inona ny lahatsoratra ho an'ny 'a car' (fiara iray - vavy singiolary)?",
+      "textFr": "Comment dit-on 'fiara iray' en français ?",
+      "textMg": "Ahoana no ilazana 'fiara iray' amin'ny teny frantsay?",
       "responseOptions": [
         {
           "textFr": "Une voiture",
@@ -237,10 +237,10 @@
     {
       "id": "correct_une",
       "speaker": "teacher",
-      "textFr": "Bravo ! Et pour le pluriel indéfini ? Comment dirais-tu 'some flowers' (des fleurs) ?",
-      "textMg": "Tsara! Ary ho an'ny ploraly tsy voafaritra? Ahoana no hilazanao 'some flowers' (voninkazo maro)?",
+      "textFr": "Bravo ! 'Une voiture' est correct. Et pour le pluriel indéfini ? Comment dit-on 'voninkazo maro' (des fleurs) en français ?",
+      "textMg": "Tsara! Marina ny 'Une voiture'. Ary ho an'ny ploraly tsy voafaritra? Ahoana no ilazana 'voninkazo maro' amin'ny teny frantsay?",
       "audio": {
-        "ttsTextFr": "Bravo! Et pour le pluriel indéfini? Comment dirais-tu 'some flowers'?",
+        "ttsTextFr": "Bravo ! 'Une voiture' est correct. Et pour le pluriel indéfini ? Comment dit-on 'voninkazo maro' (des fleurs) en français ?",
         "ttsRate": 0.9
       },
       "nextNode": "quiz_des"
@@ -248,8 +248,8 @@
     {
       "id": "quiz_des",
       "speaker": "user",
-      "textFr": "Quel article pour 'some flowers' (des fleurs - pluriel) ?",
-      "textMg": "Inona ny lahatsoratra ho an'ny 'some flowers' (voninkazo maro - ploraly)?",
+      "textFr": "Comment dit-on 'voninkazo maro' en français ?",
+      "textMg": "Ahoana no ilazana 'voninkazo maro' amin'ny teny frantsay?",
       "responseOptions": [
         {
           "textFr": "Des fleurs",
@@ -272,10 +272,10 @@
     {
       "id": "correct_des",
       "speaker": "teacher",
-      "textFr": "Parfait ! Tu comprends bien les articles définis et indéfinis. Maintenant, parlons des articles contractés. 'Au' est la contraction de 'à + le', et 'aux' est la contraction de 'à + les'. Comment dirais-tu 'I go to the market' (Je vais au marché) ?",
-      "textMg": "Tonga lafatra! Azonao tsara ny lahatsoratra voafaritra sy tsy voafaritra. Andao hiresaka momba ny lahatsoratra mifangaro. 'Au' dia fifangaroan'ny 'à + le', ary 'aux' dia fifangaroan'ny 'à + les'. Ahoana no hilazanao 'I go to the market' (Mandeha any an-tsena aho)?",
+      "textFr": "Parfait ! Tu comprends bien les articles définis et indéfinis. Maintenant, parlons des articles contractés. 'Au' est la contraction de 'à + le', et 'aux' est la contraction de 'à + les'. Comment dit-on 'Mandeha any an-tsena aho' en français ?",
+      "textMg": "Tonga lafatra! Azonao tsara ny lahatsoratra voafaritra sy tsy voafaritra. Andao hiresaka momba ny lahatsoratra mifangaro. 'Au' dia fifangaroan'ny 'à + le', ary 'aux' dia fifangaroan'ny 'à + les'. Ahoana no ilazana 'Mandeha any an-tsena aho' amin'ny teny frantsay?",
       "audio": {
-        "ttsTextFr": "Parfait! Tu comprends bien les articles définis et indéfinis. Maintenant, parlons des articles contractés. Comment dirais-tu 'I go to the market'?",
+        "ttsTextFr": "Parfait ! Tu comprends bien les articles définis et indéfinis. Maintenant, parlons des articles contractés. 'Au' est la contraction de 'à + le', et 'aux' est la contraction de 'à + les'. Comment dit-on 'Mandeha any an-tsena aho' en français ?",
         "ttsRate": 0.9
       },
       "nextNode": "quiz_au"
@@ -283,8 +283,8 @@
     {
       "id": "quiz_au",
       "speaker": "user",
-      "textFr": "Comment dit-on 'I go to the market' ?",
-      "textMg": "Ahoana no ilazana 'Mandeha any an-tsena aho'?",
+      "textFr": "Comment dit-on 'Mandeha any an-tsena aho' en français ?",
+      "textMg": "Ahoana no ilazana 'Mandeha any an-tsena aho' amin'ny teny frantsay?",
       "responseOptions": [
         {
           "textFr": "Je vais au marché",
@@ -307,10 +307,10 @@
     {
       "id": "correct_au",
       "speaker": "teacher",
-      "textFr": "Excellent ! 'Je vais au marché' est correct. Et pour le pluriel ? Comment dirais-tu 'I speak to the children' (Je parle aux enfants) ?",
-      "textMg": "Tsara be! Marina ny 'Je vais au marché'. Ary ho an'ny ploraly? Ahoana no hilazanao 'I speak to the children' (Miresaka amin'ireo ankizy aho)?",
+      "textFr": "Excellent ! 'Je vais au marché' est correct. Et pour le pluriel ? Comment dit-on 'Miresaka amin'ireo ankizy aho' en français ?",
+      "textMg": "Tsara be! Marina ny 'Je vais au marché'. Ary ho an'ny ploraly? Ahoana no ilazana 'Miresaka amin'ireo ankizy aho' amin'ny teny frantsay?",
       "audio": {
-        "ttsTextFr": "Excellent! 'Je vais au marché' est correct. Et pour le pluriel? Comment dirais-tu 'I speak to the children'?",
+        "ttsTextFr": "Excellent ! 'Je vais au marché' est correct. Et pour le pluriel ? Comment dit-on 'Miresaka amin'ireo ankizy aho' en français ?",
         "ttsRate": 0.9
       },
       "nextNode": "quiz_aux"
@@ -318,8 +318,8 @@
     {
       "id": "quiz_aux",
       "speaker": "user",
-      "textFr": "Comment dit-on 'I speak to the children' ?",
-      "textMg": "Ahoana no ilazana 'Miresaka amin'ireo ankizy aho'?",
+      "textFr": "Comment dit-on 'Miresaka amin'ireo ankizy aho' en français ?",
+      "textMg": "Ahoana no ilazana 'Miresaka amin'ireo ankizy aho' amin'ny teny frantsay?",
       "responseOptions": [
         {
           "textFr": "Je parle aux enfants",
@@ -342,10 +342,10 @@
     {
       "id": "correct_aux",
       "speaker": "teacher",
-      "textFr": "Bravo ! Tu as très bien compris tous les articles français. Pour terminer, comment dirais-tu 'I eat some bread' (Je mange du pain) ? 'Du' est la contraction de 'de + le'.",
-      "textMg": "Tsara! azonao tsara ny lahatsoratra frantsay rehetra. Hampamarana, ahoana no hilazanao 'I eat some bread' (Mihinana mofo aho)? 'Du' dia fifangaroan'ny 'de + le'.",
+      "textFr": "Bravo ! Tu as très bien compris tous les articles français. Pour terminer, comment dit-on 'Mihinana mofo aho' en français ? 'Du' est la contraction de 'de + le'.",
+      "textMg": "Tsara! azonao tsara ny lahatsoratra frantsay rehetra. Hampamarana, ahoana no ilazana 'Mihinana mofo aho' amin'ny teny frantsay? 'Du' dia fifangaroan'ny 'de + le'.",
       "audio": {
-        "ttsTextFr": "Bravo! Tu as très bien compris tous les articles français. Pour terminer, comment dirais-tu 'I eat some bread'?",
+        "ttsTextFr": "Bravo ! Tu as très bien compris tous les articles français. Pour terminer, comment dit-on 'Mihinana mofo aho' en français ? 'Du' est la contraction de 'de + le'.",
         "ttsRate": 0.9
       },
       "nextNode": "quiz_du"
@@ -353,8 +353,8 @@
     {
       "id": "quiz_du",
       "speaker": "user",
-      "textFr": "Comment dit-on 'I eat some bread' ?",
-      "textMg": "Ahoana no ilazana 'Mihinana mofo aho'?",
+      "textFr": "Comment dit-on 'Mihinana mofo aho' en français ?",
+      "textMg": "Ahoana no ilazana 'Mihinana mofo aho' amin'ny teny frantsay?",
       "responseOptions": [
         {
           "textFr": "Je mange du pain",
