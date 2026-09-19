@@ -538,6 +538,29 @@ export class STTManager {
     const rec = norm(recognized);
     const exp = norm(expected);
 
+    // ✅ V5.84: Cas spéciaux pour les lettres de l'alphabet
+    // Si l'attendu est juste une lettre, accepter toute réponse contenant cette lettre
+    if (/^[a-z]$/.test(exp)) {
+      if (rec.includes(exp) || rec.includes(exp.toUpperCase())) {
+        console.log(`[STT] Lettre détectée: ${exp} dans "${rec}"`);
+        return { score: 100, isCorrect: true, feedback: 'Parfait !', isSimulation: false };
+      }
+    }
+    
+    // Si l'attendu contient "comme dans", accepter la lettre seule OU la phrase complète
+    if (exp.includes('comme dans')) {
+      const firstLetter = exp.trim().charAt(0).toLowerCase();
+      if (rec === firstLetter || rec === firstLetter.toUpperCase()) {
+        console.log(`[STT] Lettre seule acceptée: ${firstLetter}`);
+        return { score: 100, isCorrect: true, feedback: 'Parfait !', isSimulation: false };
+      }
+      if (rec.includes(firstLetter) && (rec.includes('comme') || rec.includes('dans'))) {
+        console.log(`[STT] Phrase complète acceptée`);
+        return { score: 100, isCorrect: true, feedback: 'Excellent !', isSimulation: false };
+      }
+    }
+
+
     if (rec === exp) {
       return { score: 100, isCorrect: true, feedback: 'Parfait !' };
     }
@@ -556,9 +579,11 @@ export class STTManager {
     const bonus = keywordMatches * 10;
 
     const score = Math.min(100, baseScore + bonus);
-    const isCorrect = score >= 60;
+    const isCorrect = score >= 40; // ✅ V5.84: Réduit de 60 à 40 pour être plus permissif
 
-    const feedback = isCorrect ? 'Très bien !' : 'Essaie encore';
+    const feedback = isCorrect 
+      ? 'Très bien !' 
+      : (score >= 30 ? 'Presque ! Essaie encore' : 'Utilise les boutons ci-dessous');
 
     console.log(`[STT] Comparaison: rec="${rec}", exp="${exp}", score=${score}%`);
 
