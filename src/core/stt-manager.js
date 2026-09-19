@@ -102,8 +102,14 @@ export class STTManager {
    * Appelée automatiquement par startListening()
    */
   refreshSettings() {
-    const settings = JSON.parse(localStorage.getItem('dagospeak:sttSettings') || '{}');
-    const userWantsRealSTT = settings.sttEnabled !== false;
+    const rawSettings = localStorage.getItem('dagospeak:sttSettings');
+    console.log(`[STTManager] 🔍 DEBUG: rawSettings =`, rawSettings);
+    const settings = JSON.parse(rawSettings || '{}');
+    console.log(`[STTManager] 🔍 DEBUG: parsed settings =`, settings);
+    console.log(`[STTManager] 🔍 DEBUG: settings.sttEnabled =`, settings.sttEnabled, `(type: ${typeof settings.sttEnabled})`);
+    
+    // ✅ V5.89: Traiter undefined comme false (simulation par défaut)
+    const userWantsRealSTT = settings.sttEnabled !== false && settings.sttEnabled !== undefined;
     
     if (this.#isOffline) {
       this.#simulationMode = true;

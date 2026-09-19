@@ -96,13 +96,13 @@
           }
         },
         {
-          "textFr": "E comme dans ekolo",
-          "textMg": "E toy ny ao amin'ny ekolo",
+          "textFr": "E comme dans efa",
+          "textMg": "E toy ny ao amin'ny efa",
           "isCorrect": true,
           "nextNodeOnSuccess": "teacher_i",
           "feedback": {
-            "fr": "Excellent ! 'E' comme dans ekolo.",
-            "mg": "Tsara be! 'E' toy ny ao amin'ny ekolo."
+            "fr": "Excellent ! 'E' comme dans efa.",
+            "mg": "Tsara be! 'E' toy ny ao amin'ny efa."
           }
         }
       ],
@@ -111,8 +111,8 @@
     {
       "id": "teacher_i",
       "speaker": "teacher",
-      "textFr": "La troisième voyelle est I. Comme dans IRY, un beau prénom.",
-      "textMg": "Ny fahatelo dia I. Hoatry ny ao amin'ny IRY.",
+      "textFr": "La troisième voyelle est I. Comme dans IRAY, un beau prénom.",
+      "textMg": "Ny fahatelo dia I. Hoatry ny ao amin'ny IRAY.",
       "audio": {
         "ttsTextFr": "La troisième voyelle est I. Comme dans IRY, un beau prénom.",
         "ttsRate": 0.9
@@ -176,13 +176,13 @@
           }
         },
         {
-          "textFr": "O comme dans olo",
-          "textMg": "O toy ny ao amin'ny olo",
+          "textFr": "O comme dans omena",
+          "textMg": "O toy ny ao amin'ny omena",
           "isCorrect": true,
           "nextNodeOnSuccess": "teacher_all_vowels",
           "feedback": {
-            "fr": "Excellent ! 'O' comme dans olo.",
-            "mg": "Tsara be! 'O' toy ny ao amin'ny olo."
+            "fr": "Excellent ! 'O' comme dans omena.",
+            "mg": "Tsara be! 'O' toy ny ao amin'ny omena."
           }
         }
       ],
