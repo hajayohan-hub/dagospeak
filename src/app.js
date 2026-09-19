@@ -7910,7 +7910,7 @@ async function renderConversation() {
   const successTtsText = personalizeText(node.feedbackOnSuccess?.audio?.ttsTextFr || '');
 
   const failFeedbackFr = personalizeText(node.feedbackOnFail?.textFr || '');
-  const failFeedbackMg = personalizeText(selected?.feedback?.mg || node.feedbackOnFail?.textMg || '');
+  const failFeedbackMg = personalizeText(node.feedbackOnFail?.textMg || '');
   const failTtsText = personalizeText(node.feedbackOnFail?.audio?.ttsTextFr || '');
                                   console.log('[Feedback DEBUG] selected:', selected);
                                   console.log('[Feedback DEBUG] selected.feedback:', selected?.feedback);
@@ -8045,6 +8045,15 @@ async function renderConversation() {
             const currentFeedback = document.getElementById('feedback');
             const selected = node.responseOptions[idx];
             attempts[node.id]++;
+            
+            // ✅ V5.68: Lire le feedback depuis l'option sélectionnée
+            const optionFeedbackFr = selected?.feedback?.fr || failFeedbackFr;
+            const optionFeedbackMg = selected?.feedback?.mg || failFeedbackMg;
+            
+            console.log('[Feedback V5.68] selected:', selected);
+            console.log('[Feedback V5.68] selected.feedback:', selected?.feedback);
+            console.log('[Feedback V5.68] optionFeedbackFr:', optionFeedbackFr);
+            console.log('[Feedback V5.68] optionFeedbackMg:', optionFeedbackMg);
 
             // ✅ Récupérer le bouton correspondant
             const clickedBtn = document.querySelector(`.btn-option[data-idx="${idx}"]`);
@@ -8176,8 +8185,8 @@ async function renderConversation() {
                  <div class="feedback-fail" style="background: #fee2e2; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-danger, #ef4444);">
                     <div style="font-size: 2rem;">🔄</div>
 
-                    <p style="color: var(--ds-color-danger); font-weight: 600;">${failFeedbackFr}</p>
-                    <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${failFeedbackMg})</p>
+                    <p style="color: var(--ds-color-danger); font-weight: 600;">${optionFeedbackFr}</p>
+                    <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${optionFeedbackMg})</p>
                   </div>
                   <button id="btn-retry" class="pulse-animation" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;" disabled>🔁 Réessayer</button>
                 `;
@@ -8498,9 +8507,9 @@ function captureUserResponse(nodeId, selectedOption) {
                                 console.log('[STT] ❌ Mauvaise réponse, tentative', attempts[node.id]);
                                 
                                 const defaultFailFeedback = failVariations[Math.floor(Math.random() * failVariations.length)];
-                                const failFeedbackFr = personalizeText(selected?.feedback?.fr || node.feedbackOnFail?.textFr || defaultFailFeedback);
-                                const failFeedbackMg = personalizeText(selected?.feedback?.mg || node.feedbackOnFail?.textMg || '');
-                                const failTtsText = personalizeText(selected?.feedback?.fr || node.feedbackOnFail?.audio?.ttsTextFr || failFeedbackFr);
+                                const failFeedbackFr = personalizeText(node.feedbackOnFail?.textFr || defaultFailFeedback);
+                                const failFeedbackMg = personalizeText(node.feedbackOnFail?.textMg || '');
+                                const failTtsText = personalizeText(node.feedbackOnFail?.audio?.ttsTextFr || failFeedbackFr);
                                   console.log('[Feedback DEBUG] selected:', selected);
                                   console.log('[Feedback DEBUG] selected.feedback:', selected?.feedback);
                                   console.log('[Feedback DEBUG] failFeedbackFr:', failFeedbackFr);
@@ -8511,8 +8520,8 @@ function captureUserResponse(nodeId, selectedOption) {
                                   currentFeedback.innerHTML = `
                                     <div class="feedback-fail" style="background: #fee2e2; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-danger);">
                                       <div style="font-size: 2rem;">🔄</div>
-                                      <p style="color: var(--ds-color-danger); font-weight: 600;">${failFeedbackFr}</p>
-                                      <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${failFeedbackMg})</p>
+                                      <p style="color: var(--ds-color-danger); font-weight: 600;">${optionFeedbackFr}</p>
+                                      <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${optionFeedbackMg})</p>
                                     </div>
                                     <button id="btn-retry" class="pulse-animation" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;" disabled>🔁 Réessayer</button>
                                   `;
