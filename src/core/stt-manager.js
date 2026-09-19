@@ -142,6 +142,16 @@ export class STTManager {
    * Démarre l'écoute (réelle ou simulée)
    */
      startListening(lang = 'fr-FR', callbacks = {}, expectedText = null) {
+      // ✅ V5.87: Re-lire les settings AVANT chaque écoute pour respecter le toggle utilisateur
+      const settings = JSON.parse(localStorage.getItem('dagospeak:sttSettings') || '{}');
+      const userWantsRealSTT = settings.sttEnabled !== false;
+      
+      // Si online et utilisateur veut simulation → forcer simulationMode=true
+      if (navigator.onLine && !userWantsRealSTT) {
+        this.#simulationMode = true;
+        console.log(`[STTManager] ✅ V5.87: Toggle utilisateur respecté → simulation forcée (sttEnabled=${settings.sttEnabled})`);
+      }
+      
       console.log(`[STTManager] startListening appelé, isListening=${this.#isListening}, simulationMode=${this.#simulationMode}`);
       
       // ✅ FORÇAGE ABSOLU : Si offline, SIMULATION OBLIGATOIRE (override tout)
