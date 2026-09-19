@@ -7096,7 +7096,7 @@ async function renderConversationLive() {
           { id: 'verbe_etre_01', title: 'Le verbe être', icon: '👤', description: 'Je suis, tu es, il est, nous sommes, vous êtes, ils sont' },
           { id: 'verbe_avoir_01', title: 'Le verbe avoir', icon: '🤲', description: "J'ai, tu as, il a, nous avons, vous avez, ils ont" },
           { id: 'adjectifs_01', title: 'Les adjectifs de base', icon: '🎨', description: 'Grand, petit, bon, mauvais, chaud, froid, content, triste' },
-          { id: 'prepositions_01', title: 'Les prépositions', icon: '📍', description: 'Dans, sur, sous, devant, derrière - situer dans l'espace' },
+          { id: 'prepositions_01', title: 'Les prépositions', icon: '📍', description: 'Dans, sur, sous, devant, derrière - situer dans l\'espace' },
           { id: 'demonstratifs_01', title: 'Les démonstratifs', icon: '👉', description: 'Ce, cet, cette, ces - désigner précisément' },
           { id: 'possessifs_01', title: 'Les possessifs', icon: '🤝', description: 'Mon, ton, son, notre, votre, leur - exprimer la possession' }
         ],
