@@ -7910,8 +7910,13 @@ async function renderConversation() {
   const successTtsText = personalizeText(node.feedbackOnSuccess?.audio?.ttsTextFr || '');
 
   const failFeedbackFr = personalizeText(node.feedbackOnFail?.textFr || '');
-  const failFeedbackMg = personalizeText(node.feedbackOnFail?.textMg || '');
+  const failFeedbackMg = personalizeText(selected?.feedback?.mg || node.feedbackOnFail?.textMg || '');
   const failTtsText = personalizeText(node.feedbackOnFail?.audio?.ttsTextFr || '');
+                                  console.log('[Feedback DEBUG] selected:', selected);
+                                  console.log('[Feedback DEBUG] selected.feedback:', selected?.feedback);
+                                  console.log('[Feedback DEBUG] failFeedbackFr:', failFeedbackFr);
+                                  console.log('[Feedback DEBUG] failFeedbackMg:', failFeedbackMg);
+                                  
 
   // ✅ Personnaliser les options de réponse
   const personalizedOptions = node.responseOptions.map(opt => ({
@@ -8493,9 +8498,14 @@ function captureUserResponse(nodeId, selectedOption) {
                                 console.log('[STT] ❌ Mauvaise réponse, tentative', attempts[node.id]);
                                 
                                 const defaultFailFeedback = failVariations[Math.floor(Math.random() * failVariations.length)];
-                                const failFeedbackFr = personalizeText(node.feedbackOnFail?.textFr || defaultFailFeedback);
-                                const failFeedbackMg = personalizeText(node.feedbackOnFail?.textMg || '');
-                                const failTtsText = personalizeText(node.feedbackOnFail?.audio?.ttsTextFr || failFeedbackFr);
+                                const failFeedbackFr = personalizeText(selected?.feedback?.fr || node.feedbackOnFail?.textFr || defaultFailFeedback);
+                                const failFeedbackMg = personalizeText(selected?.feedback?.mg || node.feedbackOnFail?.textMg || '');
+                                const failTtsText = personalizeText(selected?.feedback?.fr || node.feedbackOnFail?.audio?.ttsTextFr || failFeedbackFr);
+                                  console.log('[Feedback DEBUG] selected:', selected);
+                                  console.log('[Feedback DEBUG] selected.feedback:', selected?.feedback);
+                                  console.log('[Feedback DEBUG] failFeedbackFr:', failFeedbackFr);
+                                  console.log('[Feedback DEBUG] failFeedbackMg:', failFeedbackMg);
+                                  
                                 
                                 if (currentFeedback) {
                                   currentFeedback.innerHTML = `
