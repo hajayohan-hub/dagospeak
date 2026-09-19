@@ -562,6 +562,26 @@ export class STTManager {
           isSimulation: false 
         };
       }
+
+    // ✅ V5.86: Cas 3 - Listes de lettres (ex: "a b c", "a e i o")
+    const multiLetterMatch = exp.match(/^([a-z](?:\s+[a-z])*)$/);
+    if (multiLetterMatch) {
+      const expectedLetters = exp.split(/\s+/).filter(l => /^[a-z]$/.test(l));
+      if (expectedLetters.length > 0) {
+        const foundLetters = expectedLetters.filter(letter => rec.includes(letter));
+        const matchRatio = foundLetters.length / expectedLetters.length;
+        console.log(`[STT] Liste: ${foundLetters.length}/${expectedLetters.length} trouvées`);
+        if (matchRatio >= 0.5) {
+          return {
+            score: Math.round(matchRatio * 100),
+            isCorrect: true,
+            feedback: `Bien ! ${foundLetters.length}/${expectedLetters.length} lettres reconnues.`,
+            isSimulation: false
+          };
+        }
+      }
+    }
+
     }
 
 

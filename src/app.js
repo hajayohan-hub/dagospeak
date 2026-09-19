@@ -8055,6 +8055,11 @@ async function renderConversation() {
             
             // ✅ V5.68: Lire le feedback depuis l'option sélectionnée
             const optionFeedbackFr = selected?.feedback?.fr || failFeedbackFr;
+        // ✅ V5.86: Debug du feedback TTS
+        console.log('[Feedback TTS Debug V5.86]');
+        console.log('  optionFeedbackFr:', optionFeedbackFr);
+        console.log('  failFeedbackFr:', failFeedbackFr);
+        console.log('  selected?.feedback?.fr:', selected?.feedback?.fr);
             const optionFeedbackMg = selected?.feedback?.mg || failFeedbackMg;
             
             console.log('[Feedback V5.68] selected:', selected);
