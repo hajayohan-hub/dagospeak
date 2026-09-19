@@ -1,0 +1,144 @@
+{
+  "id": "verbe_etre",
+  "level": "A0",
+  "theme": "Verbe être",
+  "themeMg": "Matoanteny être",
+  "items": [
+    {
+      "id": "be1",
+      "lexicalId": "verbe_etre_001",
+      "target": "je suis",
+      "source": "aho dia",
+      "phonetic": "ʒə sɥi",
+      "audio": "",
+      "context": "Je suis étudiant.",
+      "contextTranslation": "Mpianatra aho.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe",
+        "être",
+        "présent"
+      ],
+      "icon": "👤"
+    },
+    {
+      "id": "be2",
+      "lexicalId": "verbe_etre_002",
+      "target": "tu es",
+      "source": "ianao dia",
+      "phonetic": "ty ɛ",
+      "audio": "",
+      "context": "Tu es mon ami.",
+      "contextTranslation": "Namako ianao.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe",
+        "être",
+        "présent"
+      ],
+      "icon": "👥"
+    },
+    {
+      "id": "be3",
+      "lexicalId": "verbe_etre_003",
+      "target": "il est",
+      "source": "izy dia",
+      "phonetic": "il ɛ",
+      "audio": "",
+      "context": "Il est professeur.",
+      "contextTranslation": "Mpampianatra izy.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe",
+        "être",
+        "présent"
+      ],
+      "icon": "👨"
+    },
+    {
+      "id": "be4",
+      "lexicalId": "verbe_etre_004",
+      "target": "elle est",
+      "source": "izy dia",
+      "phonetic": "ɛl ɛ",
+      "audio": "",
+      "context": "Elle est médecin.",
+      "contextTranslation": "Dokotera izy.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe",
+        "être",
+        "présent"
+      ],
+      "icon": "👩"
+    },
+    {
+      "id": "be5",
+      "lexicalId": "verbe_etre_005",
+      "target": "nous sommes",
+      "source": "izahay dia",
+      "phonetic": "nu sɔm",
+      "audio": "",
+      "context": "Nous sommes étudiants.",
+      "contextTranslation": "Mpianatra izahay.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe",
+        "être",
+        "présent"
+      ],
+      "icon": "👥"
+    },
+    {
+      "id": "be6",
+      "lexicalId": "verbe_etre_006",
+      "target": "vous êtes",
+      "source": "ianareo dia",
+      "phonetic": "vu zɛt",
+      "audio": "",
+      "context": "Vous êtes français.",
+      "contextTranslation": "Frantsay ianareo.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe",
+        "être",
+        "présent"
+      ],
+      "icon": "👥"
+    },
+    {
+      "id": "be7",
+      "lexicalId": "verbe_etre_007",
+      "target": "ils sont",
+      "source": "izy ireo dia",
+      "phonetic": "il sɔ̃",
+      "audio": "",
+      "context": "Ils sont contents.",
+      "contextTranslation": "Faly izy ireo.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe",
+        "être",
+        "présent"
+      ],
+      "icon": "👥"
+    },
+    {
+      "id": "be8",
+      "lexicalId": "verbe_etre_008",
+      "target": "elles sont",
+      "source": "izy ireo dia",
+      "phonetic": "ɛl sɔ̃",
+      "audio": "",
+      "context": "Elles sont amies.",
+      "contextTranslation": "Namana izy ireo.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe",
+        "être",
+        "présent"
+      ],
+      "icon": "👥"
+    }
+  ]
+}

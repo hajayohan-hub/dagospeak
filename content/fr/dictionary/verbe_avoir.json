@@ -1,0 +1,266 @@
+[
+  {
+    "id": "verbe_avoir_001",
+    "level": "A0",
+    "category": "verbe_avoir",
+    "pos": "verbe",
+    "wordFr": "j'ai",
+    "wordMg": "manana aho",
+    "phonetic": "/ʒe/",
+    "visual": {
+      "icon": "📖",
+      "iconClass": "icon-verbe_avoir-have1",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "j'ai",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/verbe_avoir/have1.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "J'ai un livre.",
+      "exampleMg": "Manana boky aho.",
+      "situation": "Conversation quotidienne",
+      "rule": "Forme du présent de l'indicatif"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "verbe_avoir_002",
+    "level": "A0",
+    "category": "verbe_avoir",
+    "pos": "verbe",
+    "wordFr": "tu as",
+    "wordMg": "manana ianao",
+    "phonetic": "/ty a/",
+    "visual": {
+      "icon": "🚗",
+      "iconClass": "icon-verbe_avoir-have2",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "tu as",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/verbe_avoir/have2.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Tu as une voiture.",
+      "exampleMg": "Manana fiara ianao.",
+      "situation": "Conversation quotidienne",
+      "rule": "Forme du présent de l'indicatif"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "verbe_avoir_003",
+    "level": "A0",
+    "category": "verbe_avoir",
+    "pos": "verbe",
+    "wordFr": "il a",
+    "wordMg": "manana izy",
+    "phonetic": "/il a/",
+    "visual": {
+      "icon": "🐕",
+      "iconClass": "icon-verbe_avoir-have3",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "il a",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/verbe_avoir/have3.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Il a un chien.",
+      "exampleMg": "Manana alika izy.",
+      "situation": "Conversation quotidienne",
+      "rule": "Forme du présent de l'indicatif"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "verbe_avoir_004",
+    "level": "A0",
+    "category": "verbe_avoir",
+    "pos": "verbe",
+    "wordFr": "elle a",
+    "wordMg": "manana izy",
+    "phonetic": "/ɛl a/",
+    "visual": {
+      "icon": "🏠",
+      "iconClass": "icon-verbe_avoir-have4",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "elle a",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/verbe_avoir/have4.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Elle a une maison.",
+      "exampleMg": "Manana trano izy.",
+      "situation": "Conversation quotidienne",
+      "rule": "Forme du présent de l'indicatif"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "verbe_avoir_005",
+    "level": "A0",
+    "category": "verbe_avoir",
+    "pos": "verbe",
+    "wordFr": "nous avons",
+    "wordMg": "manana izahay",
+    "phonetic": "/nu z‿avɔ̃/",
+    "visual": {
+      "icon": "👥",
+      "iconClass": "icon-verbe_avoir-have5",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "nous avons",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/verbe_avoir/have5.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Nous avons des amis.",
+      "exampleMg": "Manana namana izahay.",
+      "situation": "Conversation quotidienne",
+      "rule": "Forme du présent de l'indicatif"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "verbe_avoir_006",
+    "level": "A0",
+    "category": "verbe_avoir",
+    "pos": "verbe",
+    "wordFr": "vous avez",
+    "wordMg": "manana ianareo",
+    "phonetic": "/vu z‿ave/",
+    "visual": {
+      "icon": "✅",
+      "iconClass": "icon-verbe_avoir-have6",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "vous avez",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/verbe_avoir/have6.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Vous avez raison.",
+      "exampleMg": "Marina ny lazainareo.",
+      "situation": "Conversation quotidienne",
+      "rule": "Forme du présent de l'indicatif"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "verbe_avoir_007",
+    "level": "A0",
+    "category": "verbe_avoir",
+    "pos": "verbe",
+    "wordFr": "ils ont",
+    "wordMg": "manana izy ireo",
+    "phonetic": "/il z‿ɔ̃/",
+    "visual": {
+      "icon": "👨‍👩‍👧‍👦",
+      "iconClass": "icon-verbe_avoir-have7",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "ils ont",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/verbe_avoir/have7.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Ils ont des enfants.",
+      "exampleMg": "Manana zanaka izy ireo.",
+      "situation": "Conversation quotidienne",
+      "rule": "Forme du présent de l'indicatif"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "verbe_avoir_008",
+    "level": "A0",
+    "category": "verbe_avoir",
+    "pos": "verbe",
+    "wordFr": "elles ont",
+    "wordMg": "manana izy ireo",
+    "phonetic": "/ɛl z‿ɔ̃/",
+    "visual": {
+      "icon": "🌸",
+      "iconClass": "icon-verbe_avoir-have8",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "elles ont",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/verbe_avoir/have8.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Elles ont des fleurs.",
+      "exampleMg": "Manana voninkazo izy ireo.",
+      "situation": "Conversation quotidienne",
+      "rule": "Forme du présent de l'indicatif"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  }
+]

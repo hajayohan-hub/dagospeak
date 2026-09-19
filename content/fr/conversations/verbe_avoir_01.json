@@ -1,0 +1,125 @@
+{
+  "id": "verbe_avoir_01",
+  "titleFr": "Apprendre le verbe avoir",
+  "titleMg": "Mianatra ny matoanteny avoir",
+  "level": "A0",
+  "theme": "verbe_avoir",
+  "descriptionFr": "Maîtrisez les 8 formes du verbe avoir pour exprimer la possession",
+  "descriptionMg": "Hianatra ny endrika 8 amin'ny matoanteny avoir",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "teacher",
+      "textFr": "Bonjour {firstName} ! Aujourd'hui, nous allons apprendre le verbe avoir. Il sert à exprimer la possession. Tu es prêt ?",
+      "textMg": "Manao ahoana {firstName}! Androany, hianatra ny matoanteny avoir isika. Ampiasaina hitenenana fananana io. Vonona ve ianao?",
+      "audio": {
+        "ttsTextFr": "Bonjour! Aujourd'hui, nous allons apprendre le verbe avoir. Il sert à exprimer la possession. Tu es prêt?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "intro_jai"
+    },
+    {
+      "id": "intro_jai",
+      "speaker": "teacher",
+      "textFr": "Commençons. Comment dit-on 'manana boky aho' en français ?",
+      "textMg": "Andao hanomboka. Ahoana no ilazana 'manana boky aho' amin'ny teny frantsay?",
+      "audio": {
+        "ttsTextFr": "Commençons. Comment dit-on 'manana boky aho' en français?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz_jai"
+    },
+    {
+      "id": "quiz_jai",
+      "speaker": "user",
+      "textFr": "Comment dit-on 'manana boky aho' ?",
+      "textMg": "Ahoana no ilazana 'manana boky aho'?",
+      "responseOptions": [
+        {
+          "textFr": "J'ai un livre",
+          "textMg": "J'ai un livre",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct_jai"
+        },
+        {
+          "textFr": "Tu as un livre",
+          "textMg": "Tu as un livre",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'aho' signifie 'je'. On dit 'j'ai', pas 'tu as'.",
+            "mg": "Tsia, 'aho' dia 'je'. 'J'ai' no lazaina, fa tsy 'tu as'."
+          },
+          "nextNodeOnFail": "quiz_jai"
+        }
+      ]
+    },
+    {
+      "id": "correct_jai",
+      "speaker": "teacher",
+      "textFr": "Excellent ! 'J'ai un livre' est correct. Maintenant, comment dit-on 'manana fiara ianao' ?",
+      "textMg": "Tsara be! Marina ny 'J'ai un livre'. Androany, ahoana no ilazana 'manana fiara ianao'?",
+      "audio": {
+        "ttsTextFr": "Excellent! 'J'ai un livre' est correct. Maintenant, comment dit-on 'manana fiara ianao'?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz_tu_as"
+    },
+    {
+      "id": "quiz_tu_as",
+      "speaker": "user",
+      "textFr": "Comment dit-on 'manana fiara ianao' ?",
+      "textMg": "Ahoana no ilazana 'manana fiara ianao'?",
+      "responseOptions": [
+        {
+          "textFr": "Tu as une voiture",
+          "textMg": "Tu as une voiture",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct_tu_as"
+        },
+        {
+          "textFr": "J'ai une voiture",
+          "textMg": "J'ai une voiture",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'ianao' signifie 'tu'. On dit 'tu as'.",
+            "mg": "Tsia, 'ianao' dia 'tu'. 'Tu as' no lazaina."
+          },
+          "nextNodeOnFail": "quiz_tu_as"
+        }
+      ]
+    },
+    {
+      "id": "correct_tu_as",
+      "speaker": "teacher",
+      "textFr": "Bravo ! Tu progresses bien. Le verbe avoir est essentiel pour exprimer la possession. Continue à pratiquer avec les autres formes : il a, elle a, nous avons, vous avez, ils ont, elles ont.",
+      "textMg": "Tsara! Mandroso tsara ianao. Ny matoanteny avoir dia ilaina hitenenana fananana. Mianara mitohy amin'ny endrika hafa: il a, elle a, nous avons, vous avez, ils ont, elles ont.",
+      "audio": {
+        "ttsTextFr": "Bravo! Tu progresses bien. Le verbe avoir est essentiel pour exprimer la possession.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "farewell"
+    },
+    {
+      "id": "farewell",
+      "speaker": "teacher",
+      "textFr": "Bravo pour ton travail ! À bientôt pour la prochaine leçon !",
+      "textMg": "Arahabaina tamin'ny asanao! Mandra-pihaona amin'ny lesona manaraka!",
+      "audio": {
+        "ttsTextFr": "Bravo pour ton travail! À bientôt pour la prochaine leçon!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "end"
+    },
+    {
+      "id": "end",
+      "speaker": "teacher",
+      "isEnd": true,
+      "textFr": "Tu as terminé la leçon sur le verbe avoir.",
+      "textMg": "Vita ny lesona momba ny matoanteny avoir.",
+      "audio": {
+        "ttsTextFr": "Tu as terminé la leçon sur le verbe avoir.",
+        "ttsRate": 0.9
+      }
+    }
+  ]
+}

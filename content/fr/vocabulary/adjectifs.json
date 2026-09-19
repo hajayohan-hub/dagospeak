@@ -1,0 +1,168 @@
+{
+  "id": "adjectifs",
+  "level": "A0",
+  "theme": "Adjectifs de base",
+  "themeMg": "Teny famaritana fototra",
+  "items": [
+    {
+      "id": "adj1",
+      "lexicalId": "adjectifs_001",
+      "target": "grand",
+      "source": "lehibe",
+      "phonetic": "ɡʁɑ̃",
+      "audio": "",
+      "context": "Il est grand.",
+      "contextTranslation": "Lehibe izy.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif",
+        "taille"
+      ],
+      "icon": "📏"
+    },
+    {
+      "id": "adj2",
+      "lexicalId": "adjectifs_002",
+      "target": "petit",
+      "source": "kely",
+      "phonetic": "pəti",
+      "audio": "",
+      "context": "Elle est petite.",
+      "contextTranslation": "Kely izy.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif",
+        "taille"
+      ],
+      "icon": "🤏"
+    },
+    {
+      "id": "adj3",
+      "lexicalId": "adjectifs_003",
+      "target": "bon",
+      "source": "tsara",
+      "phonetic": "bɔ̃",
+      "audio": "",
+      "context": "Le riz est bon.",
+      "contextTranslation": "Tsara ny vary.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif",
+        "qualité"
+      ],
+      "icon": "👍"
+    },
+    {
+      "id": "adj4",
+      "lexicalId": "adjectifs_004",
+      "target": "mauvais",
+      "source": "ratsy",
+      "phonetic": "movɛ",
+      "audio": "",
+      "context": "Le temps est mauvais.",
+      "contextTranslation": "Ratsy ny toetr'andro.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif",
+        "qualité"
+      ],
+      "icon": "👎"
+    },
+    {
+      "id": "adj5",
+      "lexicalId": "adjectifs_005",
+      "target": "chaud",
+      "source": "mafana",
+      "phonetic": "ʃo",
+      "audio": "",
+      "context": "Le café est chaud.",
+      "contextTranslation": "Mafana ny kafe.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif",
+        "température"
+      ],
+      "icon": "🔥"
+    },
+    {
+      "id": "adj6",
+      "lexicalId": "adjectifs_006",
+      "target": "froid",
+      "source": "mangatsiaka",
+      "phonetic": "fʁwa",
+      "audio": "",
+      "context": "L'eau est froide.",
+      "contextTranslation": "Mangatsiaka ny rano.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif",
+        "température"
+      ],
+      "icon": "❄️"
+    },
+    {
+      "id": "adj7",
+      "lexicalId": "adjectifs_007",
+      "target": "content",
+      "source": "faly",
+      "phonetic": "kɔ̃tɑ̃",
+      "audio": "",
+      "context": "Je suis content.",
+      "contextTranslation": "Faly aho.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif",
+        "émotion"
+      ],
+      "icon": "😊"
+    },
+    {
+      "id": "adj8",
+      "lexicalId": "adjectifs_008",
+      "target": "triste",
+      "source": "malahelo",
+      "phonetic": "tʁist",
+      "audio": "",
+      "context": "Elle est triste.",
+      "contextTranslation": "Malahelo izy.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif",
+        "émotion"
+      ],
+      "icon": "😢"
+    },
+    {
+      "id": "adj9",
+      "lexicalId": "adjectifs_009",
+      "target": "fatigué",
+      "source": "reraka",
+      "phonetic": "fatiɡe",
+      "audio": "",
+      "context": "Il est fatigué.",
+      "contextTranslation": "Reraka izy.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif",
+        "état"
+      ],
+      "icon": "😴"
+    },
+    {
+      "id": "adj10",
+      "lexicalId": "adjectifs_010",
+      "target": "malade",
+      "source": "marary",
+      "phonetic": "malad",
+      "audio": "",
+      "context": "L'enfant est malade.",
+      "contextTranslation": "Marary ny ankizy.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "adjectif",
+        "santé"
+      ],
+      "icon": "🤒"
+    }
+  ]
+}

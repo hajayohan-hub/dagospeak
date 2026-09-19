@@ -1,0 +1,341 @@
+{
+  "id": "verbe_etre_01",
+  "titleFr": "Apprendre le verbe être",
+  "titleMg": "Mianatra ny matoanteny être",
+  "level": "A0",
+  "theme": "verbe_etre",
+  "descriptionFr": "Maîtrisez les 8 formes du verbe être avec votre ami Teacher AI",
+  "descriptionMg": "Hianatra ny endrika 8 amin'ny matoanteny être",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "teacher",
+      "textFr": "Bonjour {firstName} ! Aujourd'hui, nous allons apprendre le verbe être. C'est le verbe le plus important en français. Tu es prêt ?",
+      "textMg": "Manao ahoana {firstName}! Androany, hianatra ny matoanteny être isika. Io no matoanteny manan-danja indrindra amin'ny teny frantsay. Vonona ve ianao?",
+      "audio": {
+        "ttsTextFr": "Bonjour! Aujourd'hui, nous allons apprendre le verbe être. C'est le verbe le plus important en français. Tu es prêt?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "user_ready"
+    },
+    {
+      "id": "user_ready",
+      "speaker": "user",
+      "textFr": "Es-tu prêt à commencer ?",
+      "textMg": "Vonona ve ianao?",
+      "responseOptions": [
+        {
+          "textFr": "Oui, je suis prêt !",
+          "textMg": "Eny, vonona aho!",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "intro_je_suis"
+        },
+        {
+          "textFr": "Qu'est-ce que le verbe être ?",
+          "textMg": "Inona ny matoanteny être?",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "what_is_etre"
+        }
+      ]
+    },
+    {
+      "id": "what_is_etre",
+      "speaker": "teacher",
+      "textFr": "Très bonne question ! Le verbe être sert à décrire, identifier ou localiser. Par exemple : 'Je suis étudiant' ou 'La maison est grande'. Maintenant, commençons !",
+      "textMg": "Fanontaniana tsara! Ny matoanteny être dia ampiasaina hamaritana, hanondroana na hametraka. Ohatra: 'Je suis étudiant' na 'La maison est grande'. Andao hanomboka!",
+      "audio": {
+        "ttsTextFr": "Très bonne question! Le verbe être sert à décrire, identifier ou localiser. Maintenant, commençons!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "intro_je_suis"
+    },
+    {
+      "id": "intro_je_suis",
+      "speaker": "teacher",
+      "textFr": "Commençons par la première personne. Comment dit-on 'aho dia mpianatra' en français ?",
+      "textMg": "Andao hanomboka amin'ny olona voalohany. Ahoana no ilazana 'aho dia mpianatra' amin'ny teny frantsay?",
+      "audio": {
+        "ttsTextFr": "Commençons par la première personne. Comment dit-on 'aho dia mpianatra' en français?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz_je_suis"
+    },
+    {
+      "id": "quiz_je_suis",
+      "speaker": "user",
+      "textFr": "Comment dit-on 'aho dia mpianatra' ?",
+      "textMg": "Ahoana no ilazana 'aho dia mpianatra'?",
+      "responseOptions": [
+        {
+          "textFr": "Je suis étudiant",
+          "textMg": "Je suis étudiant",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct_je_suis"
+        },
+        {
+          "textFr": "Tu es étudiant",
+          "textMg": "Tu es étudiant",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'aho' signifie 'je'. On utilise 'je suis', pas 'tu es'.",
+            "mg": "Tsia, 'aho' dia 'je'. 'Je suis' no ampiasaina, fa tsy 'tu es'."
+          },
+          "nextNodeOnFail": "quiz_je_suis"
+        },
+        {
+          "textFr": "Il est étudiant",
+          "textMg": "Il est étudiant",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'aho' signifie 'je', pas 'il'. On dit 'je suis'.",
+            "mg": "Tsia, 'aho' dia 'je', fa tsy 'il'. 'Je suis' no lazaina."
+          },
+          "nextNodeOnFail": "quiz_je_suis"
+        }
+      ]
+    },
+    {
+      "id": "correct_je_suis",
+      "speaker": "teacher",
+      "textFr": "Excellent ! 'Je suis étudiant' est correct. Maintenant, comment dit-on 'ianao dia namako' ?",
+      "textMg": "Tsara be! Marina ny 'Je suis étudiant'. Androany, ahoana no ilazana 'ianao dia namako'?",
+      "audio": {
+        "ttsTextFr": "Excellent! 'Je suis étudiant' est correct. Maintenant, comment dit-on 'ianao dia namako'?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz_tu_es"
+    },
+    {
+      "id": "quiz_tu_es",
+      "speaker": "user",
+      "textFr": "Comment dit-on 'ianao dia namako' ?",
+      "textMg": "Ahoana no ilazana 'ianao dia namako'?",
+      "responseOptions": [
+        {
+          "textFr": "Tu es mon ami",
+          "textMg": "Tu es mon ami",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct_tu_es"
+        },
+        {
+          "textFr": "Je suis ton ami",
+          "textMg": "Je suis ton ami",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'ianao' signifie 'tu'. On dit 'tu es', pas 'je suis'.",
+            "mg": "Tsia, 'ianao' dia 'tu'. 'Tu es' no lazaina, fa tsy 'je suis'."
+          },
+          "nextNodeOnFail": "quiz_tu_es"
+        }
+      ]
+    },
+    {
+      "id": "correct_tu_es",
+      "speaker": "teacher",
+      "textFr": "Bravo ! 'Tu es mon ami' est parfait. Passons à la troisième personne. Comment dit-on 'izy dia mpampianatra' ?",
+      "textMg": "Tsara! Tonga lafatra ny 'Tu es mon ami'. Andao handeha amin'ny olona fahatelo. Ahoana no ilazana 'izy dia mpampianatra'?",
+      "audio": {
+        "ttsTextFr": "Bravo! 'Tu es mon ami' est parfait. Passons à la troisième personne. Comment dit-on 'izy dia mpampianatra'?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz_il_est"
+    },
+    {
+      "id": "quiz_il_est",
+      "speaker": "user",
+      "textFr": "Comment dit-on 'izy dia mpampianatra' ?",
+      "textMg": "Ahoana no ilazana 'izy dia mpampianatra'?",
+      "responseOptions": [
+        {
+          "textFr": "Il est professeur",
+          "textMg": "Il est professeur",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct_il_est"
+        },
+        {
+          "textFr": "Elle est professeur",
+          "textMg": "Elle est professeur",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "'Izy' peut être 'il' ou 'elle', mais pour un homme, on dit 'il est'.",
+            "mg": "'Izy' dia mety ho 'il' na 'elle', fa ho an'ny lehilahy, 'il est' no lazaina."
+          },
+          "nextNodeOnFail": "quiz_il_est"
+        }
+      ]
+    },
+    {
+      "id": "correct_il_est",
+      "speaker": "teacher",
+      "textFr": "Parfait ! Maintenant, pour une femme, comment dit-on 'izy dia dokotera' ?",
+      "textMg": "Tonga lafatra! Androany, ho an'ny vehivavy, ahoana no ilazana 'izy dia dokotera'?",
+      "audio": {
+        "ttsTextFr": "Parfait! Maintenant, pour une femme, comment dit-on 'izy dia dokotera'?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz_elle_est"
+    },
+    {
+      "id": "quiz_elle_est",
+      "speaker": "user",
+      "textFr": "Comment dit-on 'izy dia dokotera' (pour une femme) ?",
+      "textMg": "Ahoana no ilazana 'izy dia dokotera' (ho an'ny vehivavy)?",
+      "responseOptions": [
+        {
+          "textFr": "Elle est médecin",
+          "textMg": "Elle est médecin",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct_elle_est"
+        },
+        {
+          "textFr": "Il est médecin",
+          "textMg": "Il est médecin",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Pour une femme, on utilise 'elle est', pas 'il est'.",
+            "mg": "Ho an'ny vehivavy, 'elle est' no ampiasaina, fa tsy 'il est'."
+          },
+          "nextNodeOnFail": "quiz_elle_est"
+        }
+      ]
+    },
+    {
+      "id": "correct_elle_est",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Tu maîtrises les formes singulières. Maintenant, le pluriel. Comment dit-on 'izahay dia mpianatra' ?",
+      "textMg": "Tsara be! Hainao ny endrika singiolary. Androany, ny ploraly. Ahoana no ilazana 'izahay dia mpianatra'?",
+      "audio": {
+        "ttsTextFr": "Excellent! Tu maîtrises les formes singulières. Maintenant, le pluriel. Comment dit-on 'izahay dia mpianatra'?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz_nous_sommes"
+    },
+    {
+      "id": "quiz_nous_sommes",
+      "speaker": "user",
+      "textFr": "Comment dit-on 'izahay dia mpianatra' ?",
+      "textMg": "Ahoana no ilazana 'izahay dia mpianatra'?",
+      "responseOptions": [
+        {
+          "textFr": "Nous sommes étudiants",
+          "textMg": "Nous sommes étudiants",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct_nous_sommes"
+        },
+        {
+          "textFr": "Vous êtes étudiants",
+          "textMg": "Vous êtes étudiants",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'izahay' signifie 'nous'. On dit 'nous sommes'.",
+            "mg": "Tsia, 'izahay' dia 'nous'. 'Nous sommes' no lazaina."
+          },
+          "nextNodeOnFail": "quiz_nous_sommes"
+        }
+      ]
+    },
+    {
+      "id": "correct_nous_sommes",
+      "speaker": "teacher",
+      "textFr": "Bravo ! Et pour 'ianareo dia frantsay', comment dit-on ?",
+      "textMg": "Tsara! Ary ho an'ny 'ianareo dia frantsay', ahoana no ilazana?",
+      "audio": {
+        "ttsTextFr": "Bravo! Et pour 'ianareo dia frantsay', comment dit-on?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz_vous_etes"
+    },
+    {
+      "id": "quiz_vous_etes",
+      "speaker": "user",
+      "textFr": "Comment dit-on 'ianareo dia frantsay' ?",
+      "textMg": "Ahoana no ilazana 'ianareo dia frantsay'?",
+      "responseOptions": [
+        {
+          "textFr": "Vous êtes français",
+          "textMg": "Vous êtes français",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct_vous_etes"
+        },
+        {
+          "textFr": "Nous sommes français",
+          "textMg": "Nous sommes français",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'ianareo' signifie 'vous'. On dit 'vous êtes'.",
+            "mg": "Tsia, 'ianareo' dia 'vous'. 'Vous êtes' no lazaina."
+          },
+          "nextNodeOnFail": "quiz_vous_etes"
+        }
+      ]
+    },
+    {
+      "id": "correct_vous_etes",
+      "speaker": "teacher",
+      "textFr": "Parfait ! Dernière forme : 'izy ireo dia faly'. Comment dit-on ?",
+      "textMg": "Tonga lafatra! Endrika farany: 'izy ireo dia faly'. Ahoana no ilazana?",
+      "audio": {
+        "ttsTextFr": "Parfait! Dernière forme: 'izy ireo dia faly'. Comment dit-on?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz_ils_sont"
+    },
+    {
+      "id": "quiz_ils_sont",
+      "speaker": "user",
+      "textFr": "Comment dit-on 'izy ireo dia faly' ?",
+      "textMg": "Ahoana no ilazana 'izy ireo dia faly'?",
+      "responseOptions": [
+        {
+          "textFr": "Ils sont contents",
+          "textMg": "Ils sont contents",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct_ils_sont"
+        },
+        {
+          "textFr": "Elles sont contentes",
+          "textMg": "Elles sont contentes",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "'Izy ireo' peut être 'ils' ou 'elles', mais pour un groupe mixte ou masculin, on dit 'ils sont'.",
+            "mg": "'Izy ireo' dia mety ho 'ils' na 'elles', fa ho an'ny vondrona mifangaro na lahy, 'ils sont' no lazaina."
+          },
+          "nextNodeOnFail": "quiz_ils_sont"
+        }
+      ]
+    },
+    {
+      "id": "correct_ils_sont",
+      "speaker": "teacher",
+      "textFr": "Excellent ! Tu as maîtrisé toutes les formes du verbe être : je suis, tu es, il/elle est, nous sommes, vous êtes, ils/elles sont. Continue à pratiquer !",
+      "textMg": "Tsara be! Hainao ny endrika rehetra amin'ny matoanteny être: je suis, tu es, il/elle est, nous sommes, vous êtes, ils/elles sont. Mianara mitohy!",
+      "audio": {
+        "ttsTextFr": "Excellent! Tu as maîtrisé toutes les formes du verbe être. Continue à pratiquer!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "farewell"
+    },
+    {
+      "id": "farewell",
+      "speaker": "teacher",
+      "textFr": "Bravo pour ton travail ! Reviens quand tu veux pratiquer d'autres leçons. À bientôt !",
+      "textMg": "Arahabaina tamin'ny asanao! Miverena rehefa tianao hianatra lesona hafa. Mandra-pihaona!",
+      "audio": {
+        "ttsTextFr": "Bravo pour ton travail! Reviens quand tu veux pratiquer d'autres leçons. À bientôt!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "end"
+    },
+    {
+      "id": "end",
+      "speaker": "teacher",
+      "isEnd": true,
+      "textFr": "Tu as terminé la leçon sur le verbe être.",
+      "textMg": "Vita ny lesona momba ny matoanteny être.",
+      "audio": {
+        "ttsTextFr": "Tu as terminé la leçon sur le verbe être.",
+        "ttsRate": 0.9
+      }
+    }
+  ]
+}

@@ -1,0 +1,332 @@
+[
+  {
+    "id": "adjectifs_001",
+    "level": "A0",
+    "category": "adjectifs",
+    "pos": "adjectif",
+    "wordFr": "grand",
+    "wordMg": "lehibe",
+    "phonetic": "/ɡʁɑ̃/",
+    "visual": {
+      "icon": "📏",
+      "iconClass": "icon-adjectifs-adj1",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "grand",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/adjectifs/adj1.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Il est grand.",
+      "exampleMg": "Lehibe izy.",
+      "situation": "Conversation quotidienne",
+      "rule": "Adjectif qualificatif"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "adjectifs_002",
+    "level": "A0",
+    "category": "adjectifs",
+    "pos": "adjectif",
+    "wordFr": "petit",
+    "wordMg": "kely",
+    "phonetic": "/pəti/",
+    "visual": {
+      "icon": "🤏",
+      "iconClass": "icon-adjectifs-adj2",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "petit",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/adjectifs/adj2.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Elle est petite.",
+      "exampleMg": "Kely izy.",
+      "situation": "Conversation quotidienne",
+      "rule": "Adjectif qualificatif"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "adjectifs_003",
+    "level": "A0",
+    "category": "adjectifs",
+    "pos": "adjectif",
+    "wordFr": "bon",
+    "wordMg": "tsara",
+    "phonetic": "/bɔ̃/",
+    "visual": {
+      "icon": "👍",
+      "iconClass": "icon-adjectifs-adj3",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "bon",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/adjectifs/adj3.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Le riz est bon.",
+      "exampleMg": "Tsara ny vary.",
+      "situation": "Conversation quotidienne",
+      "rule": "Adjectif qualificatif"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "adjectifs_004",
+    "level": "A0",
+    "category": "adjectifs",
+    "pos": "adjectif",
+    "wordFr": "mauvais",
+    "wordMg": "ratsy",
+    "phonetic": "/movɛ/",
+    "visual": {
+      "icon": "👎",
+      "iconClass": "icon-adjectifs-adj4",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "mauvais",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/adjectifs/adj4.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Le temps est mauvais.",
+      "exampleMg": "Ratsy ny toetr'andro.",
+      "situation": "Conversation quotidienne",
+      "rule": "Adjectif qualificatif"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "adjectifs_005",
+    "level": "A0",
+    "category": "adjectifs",
+    "pos": "adjectif",
+    "wordFr": "chaud",
+    "wordMg": "mafana",
+    "phonetic": "/ʃo/",
+    "visual": {
+      "icon": "🔥",
+      "iconClass": "icon-adjectifs-adj5",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "chaud",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/adjectifs/adj5.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Le café est chaud.",
+      "exampleMg": "Mafana ny kafe.",
+      "situation": "Conversation quotidienne",
+      "rule": "Adjectif qualificatif"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "adjectifs_006",
+    "level": "A0",
+    "category": "adjectifs",
+    "pos": "adjectif",
+    "wordFr": "froid",
+    "wordMg": "mangatsiaka",
+    "phonetic": "/fʁwa/",
+    "visual": {
+      "icon": "❄️",
+      "iconClass": "icon-adjectifs-adj6",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "froid",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/adjectifs/adj6.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "L'eau est froide.",
+      "exampleMg": "Mangatsiaka ny rano.",
+      "situation": "Conversation quotidienne",
+      "rule": "Adjectif qualificatif"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "adjectifs_007",
+    "level": "A0",
+    "category": "adjectifs",
+    "pos": "adjectif",
+    "wordFr": "content",
+    "wordMg": "faly",
+    "phonetic": "/kɔ̃tɑ̃/",
+    "visual": {
+      "icon": "😊",
+      "iconClass": "icon-adjectifs-adj7",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "content",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/adjectifs/adj7.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Je suis content.",
+      "exampleMg": "Faly aho.",
+      "situation": "Conversation quotidienne",
+      "rule": "Adjectif qualificatif"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "adjectifs_008",
+    "level": "A0",
+    "category": "adjectifs",
+    "pos": "adjectif",
+    "wordFr": "triste",
+    "wordMg": "malahelo",
+    "phonetic": "/tʁist/",
+    "visual": {
+      "icon": "😢",
+      "iconClass": "icon-adjectifs-adj8",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "triste",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/adjectifs/adj8.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Elle est triste.",
+      "exampleMg": "Malahelo izy.",
+      "situation": "Conversation quotidienne",
+      "rule": "Adjectif qualificatif"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "adjectifs_009",
+    "level": "A0",
+    "category": "adjectifs",
+    "pos": "adjectif",
+    "wordFr": "fatigué",
+    "wordMg": "reraka",
+    "phonetic": "/fatiɡe/",
+    "visual": {
+      "icon": "😴",
+      "iconClass": "icon-adjectifs-adj9",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "fatigué",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/adjectifs/adj9.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Il est fatigué.",
+      "exampleMg": "Reraka izy.",
+      "situation": "Conversation quotidienne",
+      "rule": "Adjectif qualificatif"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "adjectifs_010",
+    "level": "A0",
+    "category": "adjectifs",
+    "pos": "adjectif",
+    "wordFr": "malade",
+    "wordMg": "marary",
+    "phonetic": "/malad/",
+    "visual": {
+      "icon": "🤒",
+      "iconClass": "icon-adjectifs-adj10",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "malade",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/adjectifs/adj10.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "L'enfant est malade.",
+      "exampleMg": "Marary ny ankizy.",
+      "situation": "Conversation quotidienne",
+      "rule": "Adjectif qualificatif"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  }
+]

@@ -7092,7 +7092,10 @@ async function renderConversationLive() {
           { id: 'days_01', title: 'Les jours de la semaine', icon: '📅', description: 'Dire quel jour on est et parler de sa routine' },
           { id: 'months_01', title: 'Les mois de l\'année', icon: '🗓️', description: 'Parler des mois, des saisons et de son anniversaire' },
           { id: 'pronouns_basic_01', title: 'Les pronoms de base', icon: '🙋', description: 'Utiliser Je, Tu, Vous, Nous pour se présenter' },
-          { id: 'articles_01', title: 'Les articles français', icon: '📖', description: 'Maîtriser le, la, les, un, une, des et les articles contractés' }
+          { id: 'articles_01', title: 'Les articles français', icon: '📖', description: 'Maîtriser le, la, les, un, une, des et les articles contractés' },
+          { id: 'verbe_etre_01', title: 'Le verbe être', icon: '👤', description: 'Je suis, tu es, il est, nous sommes, vous êtes, ils sont' },
+          { id: 'verbe_avoir_01', title: 'Le verbe avoir', icon: '🤲', description: "J'ai, tu as, il a, nous avons, vous avez, ils ont" },
+          { id: 'adjectifs_01', title: 'Les adjectifs de base', icon: '🎨', description: 'Grand, petit, bon, mauvais, chaud, froid, content, triste' }
         ],
         A1: [], // À venir
         A2: [], // À venir

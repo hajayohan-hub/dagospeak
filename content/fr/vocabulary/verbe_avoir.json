@@ -1,0 +1,144 @@
+{
+  "id": "verbe_avoir",
+  "level": "A0",
+  "theme": "Verbe avoir",
+  "themeMg": "Matoanteny avoir",
+  "items": [
+    {
+      "id": "have1",
+      "lexicalId": "verbe_avoir_001",
+      "target": "j'ai",
+      "source": "manana aho",
+      "phonetic": "ʒe",
+      "audio": "",
+      "context": "J'ai un livre.",
+      "contextTranslation": "Manana boky aho.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe",
+        "avoir",
+        "présent"
+      ],
+      "icon": "📖"
+    },
+    {
+      "id": "have2",
+      "lexicalId": "verbe_avoir_002",
+      "target": "tu as",
+      "source": "manana ianao",
+      "phonetic": "ty a",
+      "audio": "",
+      "context": "Tu as une voiture.",
+      "contextTranslation": "Manana fiara ianao.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe",
+        "avoir",
+        "présent"
+      ],
+      "icon": "🚗"
+    },
+    {
+      "id": "have3",
+      "lexicalId": "verbe_avoir_003",
+      "target": "il a",
+      "source": "manana izy",
+      "phonetic": "il a",
+      "audio": "",
+      "context": "Il a un chien.",
+      "contextTranslation": "Manana alika izy.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe",
+        "avoir",
+        "présent"
+      ],
+      "icon": "🐕"
+    },
+    {
+      "id": "have4",
+      "lexicalId": "verbe_avoir_004",
+      "target": "elle a",
+      "source": "manana izy",
+      "phonetic": "ɛl a",
+      "audio": "",
+      "context": "Elle a une maison.",
+      "contextTranslation": "Manana trano izy.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe",
+        "avoir",
+        "présent"
+      ],
+      "icon": "🏠"
+    },
+    {
+      "id": "have5",
+      "lexicalId": "verbe_avoir_005",
+      "target": "nous avons",
+      "source": "manana izahay",
+      "phonetic": "nu z‿avɔ̃",
+      "audio": "",
+      "context": "Nous avons des amis.",
+      "contextTranslation": "Manana namana izahay.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe",
+        "avoir",
+        "présent"
+      ],
+      "icon": "👥"
+    },
+    {
+      "id": "have6",
+      "lexicalId": "verbe_avoir_006",
+      "target": "vous avez",
+      "source": "manana ianareo",
+      "phonetic": "vu z‿ave",
+      "audio": "",
+      "context": "Vous avez raison.",
+      "contextTranslation": "Marina ny lazainareo.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe",
+        "avoir",
+        "présent"
+      ],
+      "icon": "✅"
+    },
+    {
+      "id": "have7",
+      "lexicalId": "verbe_avoir_007",
+      "target": "ils ont",
+      "source": "manana izy ireo",
+      "phonetic": "il z‿ɔ̃",
+      "audio": "",
+      "context": "Ils ont des enfants.",
+      "contextTranslation": "Manana zanaka izy ireo.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe",
+        "avoir",
+        "présent"
+      ],
+      "icon": "👨‍👩‍👧‍👦"
+    },
+    {
+      "id": "have8",
+      "lexicalId": "verbe_avoir_008",
+      "target": "elles ont",
+      "source": "manana izy ireo",
+      "phonetic": "ɛl z‿ɔ̃",
+      "audio": "",
+      "context": "Elles ont des fleurs.",
+      "contextTranslation": "Manana voninkazo izy ireo.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "verbe",
+        "avoir",
+        "présent"
+      ],
+      "icon": "🌸"
+    }
+  ]
+}

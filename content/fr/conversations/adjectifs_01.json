@@ -1,0 +1,125 @@
+{
+  "id": "adjectifs_01",
+  "titleFr": "Apprendre les adjectifs de base",
+  "titleMg": "Mianatra ny teny famaritana fototra",
+  "level": "A0",
+  "theme": "adjectifs",
+  "descriptionFr": "Décrivez le monde avec 10 adjectifs essentiels",
+  "descriptionMg": "Hamary ny tontolo amin'ny teny famaritana 10 ilaina",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "teacher",
+      "textFr": "Bonjour {firstName} ! Aujourd'hui, nous allons apprendre les adjectifs. Ils servent à décrire les personnes et les choses. Tu es prêt ?",
+      "textMg": "Manao ahoana {firstName}! Androany, hianatra ny teny famaritana isika. Ampiasaina hamaritana olona sy zavatra ireo. Vonona ve ianao?",
+      "audio": {
+        "ttsTextFr": "Bonjour! Aujourd'hui, nous allons apprendre les adjectifs. Ils servent à décrire les personnes et les choses. Tu es prêt?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "intro_grand"
+    },
+    {
+      "id": "intro_grand",
+      "speaker": "teacher",
+      "textFr": "Commençons par la taille. Comment dit-on 'lehibe izy' en français ?",
+      "textMg": "Andao hanomboka amin'ny habeny. Ahoana no ilazana 'lehibe izy' amin'ny teny frantsay?",
+      "audio": {
+        "ttsTextFr": "Commençons par la taille. Comment dit-on 'lehibe izy' en français?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz_grand"
+    },
+    {
+      "id": "quiz_grand",
+      "speaker": "user",
+      "textFr": "Comment dit-on 'lehibe izy' ?",
+      "textMg": "Ahoana no ilazana 'lehibe izy'?",
+      "responseOptions": [
+        {
+          "textFr": "Il est grand",
+          "textMg": "Il est grand",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct_grand"
+        },
+        {
+          "textFr": "Il est petit",
+          "textMg": "Il est petit",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'lehibe' signifie 'grand', pas 'petit'.",
+            "mg": "Tsia, 'lehibe' dia 'grand', fa tsy 'petit'."
+          },
+          "nextNodeOnFail": "quiz_grand"
+        }
+      ]
+    },
+    {
+      "id": "correct_grand",
+      "speaker": "teacher",
+      "textFr": "Excellent ! 'Il est grand' est correct. Maintenant, comment dit-on 'kely izy' ?",
+      "textMg": "Tsara be! Marina ny 'Il est grand'. Androany, ahoana no ilazana 'kely izy'?",
+      "audio": {
+        "ttsTextFr": "Excellent! 'Il est grand' est correct. Maintenant, comment dit-on 'kely izy'?",
+        "ttsRate": 0.9
+      },
+      "nextNode": "quiz_petit"
+    },
+    {
+      "id": "quiz_petit",
+      "speaker": "user",
+      "textFr": "Comment dit-on 'kely izy' ?",
+      "textMg": "Ahoana no ilazana 'kely izy'?",
+      "responseOptions": [
+        {
+          "textFr": "Il est petit",
+          "textMg": "Il est petit",
+          "isCorrect": true,
+          "nextNodeOnSuccess": "correct_petit"
+        },
+        {
+          "textFr": "Il est grand",
+          "textMg": "Il est grand",
+          "isCorrect": false,
+          "feedback": {
+            "fr": "Non, 'kely' signifie 'petit', pas 'grand'.",
+            "mg": "Tsia, 'kely' dia 'petit', fa tsy 'grand'."
+          },
+          "nextNodeOnFail": "quiz_petit"
+        }
+      ]
+    },
+    {
+      "id": "correct_petit",
+      "speaker": "teacher",
+      "textFr": "Bravo ! Tu apprends vite. Les adjectifs sont essentiels pour décrire le monde. Continue à pratiquer avec : bon, mauvais, chaud, froid, content, triste, fatigué, malade.",
+      "textMg": "Tsara! Mianatra haingana ianao. Ny teny famaritana dia ilaina hamaritana ny tontolo. Mianara mitohy amin'ny: bon, mauvais, chaud, froid, content, triste, fatigué, malade.",
+      "audio": {
+        "ttsTextFr": "Bravo! Tu apprends vite. Les adjectifs sont essentiels pour décrire le monde.",
+        "ttsRate": 0.9
+      },
+      "nextNode": "farewell"
+    },
+    {
+      "id": "farewell",
+      "speaker": "teacher",
+      "textFr": "Bravo pour ton travail ! À bientôt !",
+      "textMg": "Arahabaina tamin'ny asanao! Mandra-pihaona!",
+      "audio": {
+        "ttsTextFr": "Bravo pour ton travail! À bientôt!",
+        "ttsRate": 0.9
+      },
+      "nextNode": "end"
+    },
+    {
+      "id": "end",
+      "speaker": "teacher",
+      "isEnd": true,
+      "textFr": "Tu as terminé la leçon sur les adjectifs.",
+      "textMg": "Vita ny lesona momba ny teny famaritana.",
+      "audio": {
+        "ttsTextFr": "Tu as terminé la leçon sur les adjectifs.",
+        "ttsRate": 0.9
+      }
+    }
+  ]
+}

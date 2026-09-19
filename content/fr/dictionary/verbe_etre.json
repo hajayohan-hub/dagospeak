@@ -1,0 +1,266 @@
+[
+  {
+    "id": "verbe_etre_001",
+    "level": "A0",
+    "category": "verbe_etre",
+    "pos": "verbe",
+    "wordFr": "je suis",
+    "wordMg": "aho dia",
+    "phonetic": "/ʒə sɥi/",
+    "visual": {
+      "icon": "👤",
+      "iconClass": "icon-verbe_etre-be1",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "je suis",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/verbe_etre/be1.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Je suis étudiant.",
+      "exampleMg": "Mpianatra aho.",
+      "situation": "Conversation quotidienne",
+      "rule": "Forme du présent de l'indicatif"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "verbe_etre_002",
+    "level": "A0",
+    "category": "verbe_etre",
+    "pos": "verbe",
+    "wordFr": "tu es",
+    "wordMg": "ianao dia",
+    "phonetic": "/ty ɛ/",
+    "visual": {
+      "icon": "👥",
+      "iconClass": "icon-verbe_etre-be2",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "tu es",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/verbe_etre/be2.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Tu es mon ami.",
+      "exampleMg": "Namako ianao.",
+      "situation": "Conversation quotidienne",
+      "rule": "Forme du présent de l'indicatif"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "verbe_etre_003",
+    "level": "A0",
+    "category": "verbe_etre",
+    "pos": "verbe",
+    "wordFr": "il est",
+    "wordMg": "izy dia",
+    "phonetic": "/il ɛ/",
+    "visual": {
+      "icon": "👨",
+      "iconClass": "icon-verbe_etre-be3",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "il est",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/verbe_etre/be3.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Il est professeur.",
+      "exampleMg": "Mpampianatra izy.",
+      "situation": "Conversation quotidienne",
+      "rule": "Forme du présent de l'indicatif"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "verbe_etre_004",
+    "level": "A0",
+    "category": "verbe_etre",
+    "pos": "verbe",
+    "wordFr": "elle est",
+    "wordMg": "izy dia",
+    "phonetic": "/ɛl ɛ/",
+    "visual": {
+      "icon": "👩",
+      "iconClass": "icon-verbe_etre-be4",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "elle est",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/verbe_etre/be4.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Elle est médecin.",
+      "exampleMg": "Dokotera izy.",
+      "situation": "Conversation quotidienne",
+      "rule": "Forme du présent de l'indicatif"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "verbe_etre_005",
+    "level": "A0",
+    "category": "verbe_etre",
+    "pos": "verbe",
+    "wordFr": "nous sommes",
+    "wordMg": "izahay dia",
+    "phonetic": "/nu sɔm/",
+    "visual": {
+      "icon": "👥",
+      "iconClass": "icon-verbe_etre-be5",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "nous sommes",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/verbe_etre/be5.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Nous sommes étudiants.",
+      "exampleMg": "Mpianatra izahay.",
+      "situation": "Conversation quotidienne",
+      "rule": "Forme du présent de l'indicatif"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "verbe_etre_006",
+    "level": "A0",
+    "category": "verbe_etre",
+    "pos": "verbe",
+    "wordFr": "vous êtes",
+    "wordMg": "ianareo dia",
+    "phonetic": "/vu zɛt/",
+    "visual": {
+      "icon": "👥",
+      "iconClass": "icon-verbe_etre-be6",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "vous êtes",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/verbe_etre/be6.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Vous êtes français.",
+      "exampleMg": "Frantsay ianareo.",
+      "situation": "Conversation quotidienne",
+      "rule": "Forme du présent de l'indicatif"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "verbe_etre_007",
+    "level": "A0",
+    "category": "verbe_etre",
+    "pos": "verbe",
+    "wordFr": "ils sont",
+    "wordMg": "izy ireo dia",
+    "phonetic": "/il sɔ̃/",
+    "visual": {
+      "icon": "👥",
+      "iconClass": "icon-verbe_etre-be7",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "ils sont",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/verbe_etre/be7.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Ils sont contents.",
+      "exampleMg": "Faly izy ireo.",
+      "situation": "Conversation quotidienne",
+      "rule": "Forme du présent de l'indicatif"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  },
+  {
+    "id": "verbe_etre_008",
+    "level": "A0",
+    "category": "verbe_etre",
+    "pos": "verbe",
+    "wordFr": "elles sont",
+    "wordMg": "izy ireo dia",
+    "phonetic": "/ɛl sɔ̃/",
+    "visual": {
+      "icon": "👥",
+      "iconClass": "icon-verbe_etre-be8",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "elles sont",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/verbe_etre/be8.mp3",
+      "estimatedDurationMs": 700
+    },
+    "context": {
+      "exampleFr": "Elles sont amies.",
+      "exampleMg": "Namana izy ireo.",
+      "situation": "Conversation quotidienne",
+      "rule": "Forme du présent de l'indicatif"
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": []
+    }
+  }
+]
