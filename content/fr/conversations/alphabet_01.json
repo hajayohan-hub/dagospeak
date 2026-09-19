@@ -427,7 +427,7 @@
         "ttsTextFr": "Excellent!",
         "ttsRate": 0.9
       },
-      "nextNode": "challenge_2_success"
+      "nextNode": "challenge_2"
     },
     {
       "id": "challenge_2",
@@ -467,7 +467,7 @@
         "ttsTextFr": "Excellent!",
         "ttsRate": 0.9
       },
-      "nextNode": "challenge_3_success"
+      "nextNode": "challenge_3"
     },
     {
       "id": "challenge_3",
