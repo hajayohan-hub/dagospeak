@@ -98,6 +98,30 @@ export class STTManager {
   }
 
   /**
+   * ✅ V5.87: Re-lire les settings et mettre à jour simulationMode
+   * Appelée automatiquement par startListening()
+   */
+  refreshSettings() {
+    const settings = JSON.parse(localStorage.getItem('dagospeak:sttSettings') || '{}');
+    const userWantsRealSTT = settings.sttEnabled !== false;
+    
+    if (this.#isOffline) {
+      this.#simulationMode = true;
+      console.log(`[STTManager] ✅ refreshSettings: offline → simulation forcée`);
+    } else if (!userWantsRealSTT) {
+      this.#simulationMode = true;
+      console.log(`[STTManager] ✅ refreshSettings: sttEnabled=${settings.sttEnabled} → simulation`);
+    } else if (!this.#isSupported) {
+      this.#simulationMode = true;
+      console.log(`[STTManager] ✅ refreshSettings: Web Speech non supporté → simulation`);
+    } else {
+      this.#simulationMode = false;
+      console.log(`[STTManager] ✅ refreshSettings: sttEnabled=${settings.sttEnabled} → web-api`);
+    }
+  }
+
+
+  /**
    * Vérifie si le STT est disponible (réel ou simulé)
    */
   isAvailable() {
@@ -150,6 +174,9 @@ export class STTManager {
       if (navigator.onLine && !userWantsRealSTT) {
         this.#simulationMode = true;
         console.log(`[STTManager] ✅ V5.87: Toggle utilisateur respecté → simulation forcée (sttEnabled=${settings.sttEnabled})`);
+      // ✅ V5.87: Re-lire les settings AVANT chaque écoute
+      this.refreshSettings();
+
       }
       
       console.log(`[STTManager] startListening appelé, isListening=${this.#isListening}, simulationMode=${this.#simulationMode}`);
@@ -218,6 +245,7 @@ export class STTManager {
         transcript: transcript,
         isReal: false,
         simulated: true,
+        attemptDetected: flag === 'complete',
         noSpeechDetected: flag === 'noSpeech',
         incompleteAttempt: flag === 'incomplete'
       });
