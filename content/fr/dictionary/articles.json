@@ -1,0 +1,372 @@
+[
+  {
+    "id": "articles_001",
+    "level": "A0",
+    "category": "articles",
+    "pos": "article défini",
+    "wordFr": "le",
+    "wordMg": "ny (lahy)",
+    "phonetic": "/lə/",
+    "visual": {
+      "icon": "📘",
+      "iconClass": "icon-article-le",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "Le.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/articles/le.mp3",
+      "estimatedDurationMs": 500
+    },
+    "context": {
+      "exampleFr": "Le livre est sur la table.",
+      "exampleMg": "Ny boky dia eo ambonin'ny latabatra.",
+      "situation": "Utilisé devant un nom masculin singulier spécifique.",
+      "rule": "Article défini masculin singulier. Utilisé pour désigner quelque chose de précis ou connu."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "la",
+        "les",
+        "un"
+      ]
+    }
+  },
+  {
+    "id": "articles_002",
+    "level": "A0",
+    "category": "articles",
+    "pos": "article défini",
+    "wordFr": "la",
+    "wordMg": "ny (vavy)",
+    "phonetic": "/la/",
+    "visual": {
+      "icon": "📕",
+      "iconClass": "icon-article-la",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "La.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/articles/la.mp3",
+      "estimatedDurationMs": 500
+    },
+    "context": {
+      "exampleFr": "La maison est grande.",
+      "exampleMg": "Lehibe ny trano.",
+      "situation": "Utilisé devant un nom féminin singulier spécifique.",
+      "rule": "Article défini féminin singulier. Utilisé pour désigner quelque chose de précis ou connu."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "le",
+        "les",
+        "une"
+      ]
+    }
+  },
+  {
+    "id": "articles_003",
+    "level": "A0",
+    "category": "articles",
+    "pos": "article défini",
+    "wordFr": "les",
+    "wordMg": "ireo",
+    "phonetic": "/le/",
+    "visual": {
+      "icon": "📚",
+      "iconClass": "icon-article-les",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "Les.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/articles/les.mp3",
+      "estimatedDurationMs": 500
+    },
+    "context": {
+      "exampleFr": "Les enfants jouent dans le jardin.",
+      "exampleMg": "Milalao ao amin'ny zaridaina ireo ankizy.",
+      "situation": "Utilisé devant un nom pluriel (masculin ou féminin).",
+      "rule": "Article défini pluriel. Utilisé pour désigner plusieurs choses précises ou connues."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "le",
+        "la",
+        "des"
+      ]
+    }
+  },
+  {
+    "id": "articles_004",
+    "level": "A0",
+    "category": "articles",
+    "pos": "article indéfini",
+    "wordFr": "un",
+    "wordMg": "iray (lahy)",
+    "phonetic": "/œ̃/",
+    "visual": {
+      "icon": "1️⃣",
+      "iconClass": "icon-article-un",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "Un.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/articles/un.mp3",
+      "estimatedDurationMs": 500
+    },
+    "context": {
+      "exampleFr": "J'ai un chien.",
+      "exampleMg": "Manana alika iray aho.",
+      "situation": "Utilisé devant un nom masculin singulier non spécifique.",
+      "rule": "Article indéfini masculin singulier. Utilisé pour parler d'une chose non précise ou pour la première fois."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "une",
+        "le",
+        "des"
+      ]
+    }
+  },
+  {
+    "id": "articles_005",
+    "level": "A0",
+    "category": "articles",
+    "pos": "article indéfini",
+    "wordFr": "une",
+    "wordMg": "iray (vavy)",
+    "phonetic": "/yn/",
+    "visual": {
+      "icon": "1️⃣",
+      "iconClass": "icon-article-une",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "Une.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/articles/une.mp3",
+      "estimatedDurationMs": 500
+    },
+    "context": {
+      "exampleFr": "Elle a une voiture.",
+      "exampleMg": "Manana fiara iray izy.",
+      "situation": "Utilisé devant un nom féminin singulier non spécifique.",
+      "rule": "Article indéfini féminin singulier. Utilisé pour parler d'une chose non précise ou pour la première fois."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "un",
+        "la",
+        "des"
+      ]
+    }
+  },
+  {
+    "id": "articles_006",
+    "level": "A0",
+    "category": "articles",
+    "pos": "article indéfini",
+    "wordFr": "des",
+    "wordMg": "maro",
+    "phonetic": "/de/",
+    "visual": {
+      "icon": "🌸",
+      "iconClass": "icon-article-des",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "Des.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/articles/des.mp3",
+      "estimatedDurationMs": 500
+    },
+    "context": {
+      "exampleFr": "Il y a des fleurs dans le jardin.",
+      "exampleMg": "Misy voninkazo ao amin'ny zaridaina.",
+      "situation": "Utilisé devant un nom pluriel non spécifique.",
+      "rule": "Article indéfini pluriel. Utilisé pour parler de plusieurs choses non précises."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "les",
+        "un",
+        "une"
+      ]
+    }
+  },
+  {
+    "id": "articles_007",
+    "level": "A0",
+    "category": "articles",
+    "pos": "article défini",
+    "wordFr": "l'",
+    "wordMg": "ny (eo alohan'ny voambolana)",
+    "phonetic": "/l/",
+    "visual": {
+      "icon": "👤",
+      "iconClass": "icon-article-l",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "L'ami.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/articles/l.mp3",
+      "estimatedDurationMs": 500
+    },
+    "context": {
+      "exampleFr": "L'ami est ici.",
+      "exampleMg": "Eto ny namana.",
+      "situation": "Forme contractée de 'le' ou 'la' devant une voyelle ou un 'h' muet.",
+      "rule": "Article défini avec élision. Utilisé devant un mot commençant par une voyelle ou un 'h' muet."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "le",
+        "la",
+        "les"
+      ]
+    }
+  },
+  {
+    "id": "articles_008",
+    "level": "A0",
+    "category": "articles",
+    "pos": "article partitif",
+    "wordFr": "du",
+    "wordMg": "amin'ny (lahy)",
+    "phonetic": "/dy/",
+    "visual": {
+      "icon": "🍞",
+      "iconClass": "icon-article-du",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "Du.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/articles/du.mp3",
+      "estimatedDurationMs": 500
+    },
+    "context": {
+      "exampleFr": "Je mange du pain.",
+      "exampleMg": "Mihinana mofo aho.",
+      "situation": "Contraction de 'de + le'. Utilisé pour une quantité non précise.",
+      "rule": "Article partitif masculin. Utilisé pour parler d'une quantité non précise d'une chose non comptable."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "au",
+        "un",
+        "le"
+      ]
+    }
+  },
+  {
+    "id": "articles_009",
+    "level": "A0",
+    "category": "articles",
+    "pos": "article contracté",
+    "wordFr": "au",
+    "wordMg": "any amin'ny (lahy)",
+    "phonetic": "/o/",
+    "visual": {
+      "icon": "📍",
+      "iconClass": "icon-article-au",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "Au.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/articles/au.mp3",
+      "estimatedDurationMs": 500
+    },
+    "context": {
+      "exampleFr": "Je vais au marché.",
+      "exampleMg": "Handeha any an-tsena aho.",
+      "situation": "Contraction de 'à + le'. Indique la direction ou le lieu.",
+      "rule": "Article contracté (à + le). Utilisé pour indiquer la direction vers un lieu masculin."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "du",
+        "aux",
+        "le"
+      ]
+    }
+  },
+  {
+    "id": "articles_010",
+    "level": "A0",
+    "category": "articles",
+    "pos": "article contracté",
+    "wordFr": "aux",
+    "wordMg": "any amin'ireo",
+    "phonetic": "/o/",
+    "visual": {
+      "icon": "👥",
+      "iconClass": "icon-article-aux",
+      "svgState": "neutral"
+    },
+    "audio": {
+      "ttsTextFr": "Aux.",
+      "ttsRate": 0.9,
+      "fallbackMp3": "/assets/audio/fr/articles/aux.mp3",
+      "estimatedDurationMs": 500
+    },
+    "context": {
+      "exampleFr": "Je parle aux enfants.",
+      "exampleMg": "Miresaka amin'ireo ankizy aho.",
+      "situation": "Contraction de 'à + les'. Indique la direction vers plusieurs personnes ou choses.",
+      "rule": "Article contracté (à + les). Utilisé pour indiquer la direction vers plusieurs lieux ou personnes."
+    },
+    "exam": {
+      "quizType": "mg_to_fr",
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "au",
+        "les",
+        "des"
+      ]
+    }
+  }
+]

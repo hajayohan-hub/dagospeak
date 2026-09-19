@@ -1,0 +1,178 @@
+{
+  "id": "articles",
+  "level": "A0",
+  "theme": "Articles",
+  "themeMg": "Lahatsoratra",
+  "items": [
+    {
+      "id": "art1",
+      "lexicalId": "articles_001",
+      "target": "le",
+      "source": "ny (lahy)",
+      "phonetic": "lə",
+      "audio": "",
+      "context": "Le livre est sur la table.",
+      "contextTranslation": "Ny boky dia eo ambonin'ny latabatra.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "article",
+        "défini",
+        "masculin"
+      ],
+      "icon": "📘"
+    },
+    {
+      "id": "art2",
+      "lexicalId": "articles_002",
+      "target": "la",
+      "source": "ny (vavy)",
+      "phonetic": "la",
+      "audio": "",
+      "context": "La maison est grande.",
+      "contextTranslation": "Lehibe ny trano.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "article",
+        "défini",
+        "féminin"
+      ],
+      "icon": "📕"
+    },
+    {
+      "id": "art3",
+      "lexicalId": "articles_003",
+      "target": "les",
+      "source": "ireo",
+      "phonetic": "le",
+      "audio": "",
+      "context": "Les enfants jouent dans le jardin.",
+      "contextTranslation": "Milalao ao amin'ny zaridaina ireo ankizy.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "article",
+        "défini",
+        "pluriel"
+      ],
+      "icon": "📚"
+    },
+    {
+      "id": "art4",
+      "lexicalId": "articles_004",
+      "target": "un",
+      "source": "iray (lahy)",
+      "phonetic": "œ̃",
+      "audio": "",
+      "context": "J'ai un chien.",
+      "contextTranslation": "Manana alika iray aho.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "article",
+        "indéfini",
+        "masculin"
+      ],
+      "icon": "1️⃣"
+    },
+    {
+      "id": "art5",
+      "lexicalId": "articles_005",
+      "target": "une",
+      "source": "iray (vavy)",
+      "phonetic": "yn",
+      "audio": "",
+      "context": "Elle a une voiture.",
+      "contextTranslation": "Manana fiara iray izy.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "article",
+        "indéfini",
+        "féminin"
+      ],
+      "icon": "1️⃣"
+    },
+    {
+      "id": "art6",
+      "lexicalId": "articles_006",
+      "target": "des",
+      "source": "maro",
+      "phonetic": "de",
+      "audio": "",
+      "context": "Il y a des fleurs dans le jardin.",
+      "contextTranslation": "Misy voninkazo ao amin'ny zaridaina.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "article",
+        "indéfini",
+        "pluriel"
+      ],
+      "icon": "🌸"
+    },
+    {
+      "id": "art7",
+      "lexicalId": "articles_007",
+      "target": "l'",
+      "source": "ny (eo alohan'ny voambolana)",
+      "phonetic": "l",
+      "audio": "",
+      "context": "L'ami est ici.",
+      "contextTranslation": "Eto ny namana.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "article",
+        "défini",
+        "élision"
+      ],
+      "icon": "👤"
+    },
+    {
+      "id": "art8",
+      "lexicalId": "articles_008",
+      "target": "du",
+      "source": "amin'ny (lahy)",
+      "phonetic": "dy",
+      "audio": "",
+      "context": "Je mange du pain.",
+      "contextTranslation": "Mihinana mofo aho.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "article",
+        "partitif",
+        "masculin"
+      ],
+      "icon": "🍞"
+    },
+    {
+      "id": "art9",
+      "lexicalId": "articles_009",
+      "target": "au",
+      "source": "any amin'ny (lahy)",
+      "phonetic": "o",
+      "audio": "",
+      "context": "Je vais au marché.",
+      "contextTranslation": "Handeha any an-tsena aho.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "article",
+        "contracté",
+        "à+le"
+      ],
+      "icon": "📍"
+    },
+    {
+      "id": "art10",
+      "lexicalId": "articles_010",
+      "target": "aux",
+      "source": "any amin'ireo",
+      "phonetic": "o",
+      "audio": "",
+      "context": "Je parle aux enfants.",
+      "contextTranslation": "Miresaka amin'ireo ankizy aho.",
+      "quizType": "mg_to_fr",
+      "tags": [
+        "article",
+        "contracté",
+        "à+les"
+      ],
+      "icon": "👥"
+    }
+  ]
+}
