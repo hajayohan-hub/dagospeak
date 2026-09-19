@@ -227,13 +227,16 @@ export class STTManager {
     let silenceStartTime = null;
     
     // ✅ V5.59: Timeout global de sécurité (15s)
-    const GLOBAL_TIMEOUT = 15000;
+    const GLOBAL_TIMEOUT = 8000; // ✅ V5.88: Réduit de 15s à 8s pour éviter le blocage
     let globalTimeoutId = null;
     let sessionEnded = false;
     
     const endSessionWithFlag = (flag, transcript = '') => {
       if (sessionEnded) return;
       sessionEnded = true;
+      
+      // ✅ V5.88: Log explicite de fin de session
+      console.log(`[STTManager] 🏁 Session terminée avec flag: ${flag}, transcript: "${transcript}"`);
       
       if (globalTimeoutId) {
         clearTimeout(globalTimeoutId);
@@ -329,7 +332,7 @@ export class STTManager {
     };
 
     const SILENCE_THRESHOLD = 0.01; // Seuil de silence (RMS)
-    const SILENCE_DURATION = 1500;  // 1.5s de silence = fin de parole
+    const SILENCE_DURATION = 1000; // ✅ V5.88: Réduit de 1.5s à 1s pour terminer plus vite  // 1.5s de silence = fin de parole
     const MIN_SPEECH_DURATION = 500; // Durée minimum de parole avant de considérer la fin
 
     // Demander l'accès au microphone
