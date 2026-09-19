@@ -65,7 +65,8 @@
             "mg": "Tsara be! 'A' toy ny ao amin'ny anana."
           }
         }
-      ]
+      ],
+      "skipSTT": true
     },
     {
       "id": "teacher_e",
@@ -104,7 +105,8 @@
             "mg": "Tsara be! 'E' toy ny ao amin'ny ekolo."
           }
         }
-      ]
+      ],
+      "skipSTT": true
     },
     {
       "id": "teacher_i",
@@ -143,7 +145,8 @@
             "mg": "Tsara be! 'I' toy ny ao amin'ny iray."
           }
         }
-      ]
+      ],
+      "skipSTT": true
     },
     {
       "id": "teacher_o",
@@ -182,7 +185,8 @@
             "mg": "Tsara be! 'O' toy ny ao amin'ny olo."
           }
         }
-      ]
+      ],
+      "skipSTT": true
     },
     {
       "id": "teacher_all_vowels",
@@ -217,7 +221,8 @@
           },
           "nextNodeOnFail": "user_all"
         }
-      ]
+      ],
+      "skipSTT": true
     },
     {
       "id": "teacher_spell",
@@ -248,7 +253,8 @@
           "isCorrect": true,
           "nextNodeOnSuccess": "roleplay_intro"
         }
-      ]
+      ],
+      "skipSTT": true
     },
     {
       "id": "roleplay_intro",
@@ -284,7 +290,8 @@
           "isCorrect": true,
           "nextNodeOnSuccess": "roleplay_1_success"
         }
-      ]
+      ],
+      "skipSTT": true
     },
     {
       "id": "roleplay_1_success",
@@ -320,7 +327,8 @@
           "isCorrect": true,
           "nextNodeOnSuccess": "roleplay_2_success"
         }
-      ]
+      ],
+      "skipSTT": true
     },
     {
       "id": "roleplay_2_success",
@@ -356,7 +364,8 @@
           "isCorrect": true,
           "nextNodeOnSuccess": "roleplay_3_success"
         }
-      ]
+      ],
+      "skipSTT": true
     },
     {
       "id": "roleplay_3_success",
@@ -406,7 +415,8 @@
             "mg": "Tsia, 'E' dia tsy marina. Andramo indray!"
           }
         }
-      ]
+      ],
+      "skipSTT": true
     },
     {
       "id": "challenge_1_success",
@@ -445,7 +455,8 @@
             "mg": "Tsia, 'I' dia tsy marina. Andramo indray!"
           }
         }
-      ]
+      ],
+      "skipSTT": true
     },
     {
       "id": "challenge_2_success",
@@ -484,7 +495,8 @@
             "mg": "Tsia, 'O' dia tsy marina. Andramo indray!"
           }
         }
-      ]
+      ],
+      "skipSTT": true
     },
     {
       "id": "challenge_3_success",

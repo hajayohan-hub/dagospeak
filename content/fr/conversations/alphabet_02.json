@@ -65,7 +65,8 @@
             "mg": "Tsara be! Nolazainao ny hoe: B comme Baba, D comme Dada"
           }
         }
-      ]
+      ],
+      "skipSTT": true
     },
     {
       "id": "teacher_f_k",
@@ -104,7 +105,8 @@
             "mg": "Tsara be! Nolazainao ny hoe: F comme Faly, K comme Kely, L comme Lova"
           }
         }
-      ]
+      ],
+      "skipSTT": true
     },
     {
       "id": "teacher_m_n",
@@ -143,7 +145,8 @@
             "mg": "Tsara be! Nolazainao ny hoe: M comme Mama, N comme Neny"
           }
         }
-      ]
+      ],
+      "skipSTT": true
     },
     {
       "id": "teacher_r_s_t",
@@ -182,7 +185,8 @@
             "mg": "Tsara be! Nolazainao ny hoe: R comme Rano, S comme Soa, T comme Tiana"
           }
         }
-      ]
+      ],
+      "skipSTT": true
     },
     {
       "id": "teacher_v_z",
@@ -221,7 +225,8 @@
             "mg": "Tsara be! Nolazainao ny hoe: V comme Vary, Z comme Zaza"
           }
         }
-      ]
+      ],
+      "skipSTT": true
     },
     {
       "id": "teacher_quiz",
@@ -270,7 +275,8 @@
             "mg": "Tsia, Kely dia tsy manomboka amin'ny M. M toy ny Mama no marina."
           }
         }
-      ]
+      ],
+      "skipSTT": true
     },
     {
       "id": "teacher_quiz_2",
@@ -309,7 +315,8 @@
             "mg": "Efa akaiky! Fa ny feon'ny litera no angatahina, fa tsy syllabe."
           }
         }
-      ]
+      ],
+      "skipSTT": true
     },
     {
       "id": "roleplay_intro",
@@ -345,7 +352,8 @@
           "isCorrect": true,
           "nextNodeOnSuccess": "roleplay_1_success"
         }
-      ]
+      ],
+      "skipSTT": true
     },
     {
       "id": "roleplay_1_success",
@@ -381,7 +389,8 @@
           "isCorrect": true,
           "nextNodeOnSuccess": "roleplay_2_success"
         }
-      ]
+      ],
+      "skipSTT": true
     },
     {
       "id": "roleplay_2_success",
@@ -417,7 +426,8 @@
           "isCorrect": true,
           "nextNodeOnSuccess": "roleplay_3_success"
         }
-      ]
+      ],
+      "skipSTT": true
     },
     {
       "id": "roleplay_3_success",
@@ -467,7 +477,8 @@
             "mg": "Tsia, 'M' dia tsy marina. Andramo indray!"
           }
         }
-      ]
+      ],
+      "skipSTT": true
     },
     {
       "id": "challenge_1_success",
@@ -506,7 +517,8 @@
             "mg": "Tsia, 'S' dia tsy marina. Andramo indray!"
           }
         }
-      ]
+      ],
+      "skipSTT": true
     },
     {
       "id": "challenge_2_success",
@@ -545,7 +557,8 @@
             "mg": "Tsia, 'Y' dia tsy marina. Andramo indray!"
           }
         }
-      ]
+      ],
+      "skipSTT": true
     },
     {
       "id": "challenge_3_success",

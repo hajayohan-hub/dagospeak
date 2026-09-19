@@ -538,6 +538,33 @@ export class STTManager {
     const rec = norm(recognized);
     const exp = norm(expected);
 
+    // ✅ V5.85: Logique intelligente pour l'alphabet
+    // Cas 1: L'attendu est juste une lettre (ex: "A" ou "a")
+    if (/^[a-z]$/.test(exp)) {
+      if (rec.includes(exp)) {
+        console.log(`[STT] ✅ Lettre simple détectée: '${exp}' dans "${rec}"`);
+        return { score: 100, isCorrect: true, feedback: 'Parfait !', isSimulation: false };
+      }
+    }
+    
+    // Cas 2: L'attendu contient "comme dans X" (ex: "a comme dans anana")
+    const commeDansMatch = exp.match(/^([a-z])\s+comme\s+dans\s+/i);
+    if (commeDansMatch) {
+      const expectedLetter = commeDansMatch[1].toLowerCase();
+      
+      // Vérifier si la lettre est présente dans le texte reconnu
+      if (rec.includes(expectedLetter)) {
+        console.log(`[STT] ✅ Lettre détectée: '${expectedLetter}' trouvée dans "${rec}"`);
+        return { 
+          score: 100, 
+          isCorrect: true, 
+          feedback: `Parfait ! Lettre ${expectedLetter.toUpperCase()} reconnue.`, 
+          isSimulation: false 
+        };
+      }
+    }
+
+
     // ✅ V5.84: Cas spéciaux pour les lettres de l'alphabet
     // Si l'attendu est juste une lettre, accepter toute réponse contenant cette lettre
     if (/^[a-z]$/.test(exp)) {
