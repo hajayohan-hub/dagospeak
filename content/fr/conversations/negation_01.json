@@ -177,7 +177,7 @@
       "id": "lesson_5",
       "speaker": "teacher",
       "textFr": "Il y a quelqu'un ?",
-      "textMg": "Misy omenana ve?",
+      "textMg": "Misy olona ve?",
       "audio": {
         "ttsTextFr": "Il y a quelqu'un ?",
         "ttsRate": 0.9
@@ -188,11 +188,11 @@
       "id": "lesson_5_response",
       "speaker": "user",
       "textFr": "Non, il n'y a personne.",
-      "textMg": "Tsia, tsy misy omenana.",
+      "textMg": "Tsia, tsy misy olona.",
       "responseOptions": [
         {
           "textFr": "Non, il n'y a personne.",
-          "textMg": "Tsia, tsy misy omenana.",
+          "textMg": "Tsia, tsy misy olona.",
           "isCorrect": true,
           "nextNodeOnSuccess": "lesson_5_feedback"
         }
@@ -202,7 +202,7 @@
       "id": "lesson_5_feedback",
       "speaker": "teacher",
       "textFr": "'Ne...personne' = nobody, aucun être humain.",
-      "textMg": "'Ne...personne' = tsy misy omenana, omenana na iza na iza.",
+      "textMg": "'Ne...personne' = tsy misy olona, olona na iza na iza.",
       "audio": {
         "ttsTextFr": "'Ne...personne' = nobody, aucun être humain.",
         "ttsRate": 0.9
@@ -438,7 +438,7 @@
       "responseOptions": [
         {
           "textFr": "Il n'y a personne ici",
-          "textMg": "Tsy misy omenana eto",
+          "textMg": "Tsy misy olona eto",
           "isCorrect": true,
           "nextNodeOnSuccess": "roleplay_3_success"
         }

@@ -166,7 +166,7 @@
       "id": "lesson_4_feedback",
       "speaker": "teacher",
       "textFr": "Devant une voyelle, 'le' devient 'l'. C'est l'élision. Exemple : l'orange, l'ami, l'école.",
-      "textMg": "Eo alohan'ny voambomenana, 'le' dia lasa 'l'. Fanalefahana izany. Ohatra: l'orange, l'ami, l'école.",
+      "textMg": "Eo alohan'ny voambolona, 'le' dia lasa 'l'. Fanalefahana izany. Ohatra: l'orange, l'ami, l'école.",
       "audio": {
         "ttsTextFr": "Devant une voyelle, 'le' devient 'l'. C'est l'élision. Exemple : l'orange, l'ami, l'école.",
         "ttsRate": 0.9
@@ -709,7 +709,7 @@
       "responseOptions": [
         {
           "textFr": "Voici l'argent",
-          "textMg": "Eto ny vomena",
+          "textMg": "Eto ny vola",
           "isCorrect": true,
           "nextNodeOnSuccess": "roleplay_3_success"
         }

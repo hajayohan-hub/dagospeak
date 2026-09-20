@@ -58,7 +58,7 @@
       "id": "lesson_1_feedback",
       "speaker": "teacher",
       "textFr": "Parfait ! 'J'ai' est la première personne du verbe avoir.",
-      "textMg": "Tonga lafatra! 'J'ai' dia ny omenana voalohany amin'ny matoanteny avoir.",
+      "textMg": "Tonga lafatra! 'J'ai' dia ny olona voalohany amin'ny matoanteny avoir.",
       "audio": {
         "ttsTextFr": "Parfait ! 'J'ai' est la première personne du verbe avoir.",
         "ttsRate": 0.9
@@ -152,11 +152,11 @@
       "id": "lesson_4_response",
       "speaker": "user",
       "textFr": "J'ai vingt ans.",
-      "textMg": "Fomena taona aho.",
+      "textMg": "Folo taona aho.",
       "responseOptions": [
         {
           "textFr": "J'ai vingt ans.",
-          "textMg": "Fomena taona aho.",
+          "textMg": "Folo taona aho.",
           "isCorrect": true,
           "nextNodeOnSuccess": "lesson_4_feedback"
         }
@@ -403,7 +403,7 @@
       "responseOptions": [
         {
           "textFr": "Je n'ai pas d'argent",
-          "textMg": "Tsy manana vomena aho",
+          "textMg": "Tsy manana vola aho",
           "isCorrect": true,
           "nextNodeOnSuccess": "roleplay_3_success"
         }

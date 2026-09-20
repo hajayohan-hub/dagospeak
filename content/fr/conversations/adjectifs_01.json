@@ -11,7 +11,7 @@
       "id": "start",
       "speaker": "teacher",
       "textFr": "Bonjour {firstName} ! Aujourd'hui, nous allons apprendre les adjectifs. Ils servent à décrire les personnes et les choses. Tu es prêt ?",
-      "textMg": "Manao ahoana {firstName}! Androany, hianatra ny teny famaritana isika. Ampiasaina hamaritana omenana sy zavatra ireo. Vonona ve ianao?",
+      "textMg": "Manao ahoana {firstName}! Androany, hianatra ny teny famaritana isika. Ampiasaina hamaritana olona sy zavatra ireo. Vonona ve ianao?",
       "audio": {
         "ttsTextFr": "Bonjour! Aujourd'hui, nous allons apprendre les adjectifs. Ils servent à décrire les personnes et les choses. Tu es prêt?",
         "ttsRate": 0.9
