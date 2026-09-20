@@ -8057,14 +8057,14 @@ async function renderConversation() {
             const optionFeedbackFr = selected?.feedback?.fr || failFeedbackFr;
         // ✅ V5.86: Debug du feedback TTS
         console.log('[Feedback TTS Debug V5.86]');
-        console.log('  (selected?.feedback?.fr || ''):', (selected?.feedback?.fr || ''));
+        console.log(`  Feedback FR:`, selected?.feedback?.fr || '(aucun)');
         console.log('  failFeedbackFr:', failFeedbackFr);
         console.log('  selected?.feedback?.fr:', selected?.feedback?.fr);
             const optionFeedbackMg = selected?.feedback?.mg || failFeedbackMg;
             
             console.log('[Feedback V5.68] selected:', selected);
             console.log('[Feedback V5.68] selected.feedback:', selected?.feedback);
-            console.log('[Feedback V5.68] (selected?.feedback?.fr || ''):', (selected?.feedback?.fr || ''));
+            console.log('[Feedback V5.68] Feedback FR:', selected?.feedback?.fr || '(aucun)');
             console.log('[Feedback V5.68] optionFeedbackMg:', optionFeedbackMg);
 
             // ✅ Récupérer le bouton correspondant
