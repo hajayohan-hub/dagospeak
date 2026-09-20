@@ -41,6 +41,33 @@ import { OnboardingScreen } from './ui/components/onboarding-screen.js';
 import { ConversationEngine } from './ui/components/conversation-engine.js';
 import { DictionarySearch } from './ui/components/dictionary-search.js';
 
+
+// ✅ V5.103: Helper pour gérer la structure des unités (ancienne et nouvelle)
+function getUnitIds(units) {
+  if (!units || !Array.isArray(units)) return [];
+  return units.map(u => typeof u === 'string' ? u : u.id);
+}
+
+// ✅ V5.103: Helper pour vérifier si un thème est débloqué
+function isThemeUnlocked(unitId, levelData, journeys) {
+  const unit = levelData.units.find(u => 
+    typeof u === 'object' ? u.id === unitId : u === unitId
+  );
+  
+  if (!unit || typeof unit !== 'object') return true; // Pas de structure = pas de gating
+  
+  const requires = unit.requires || [];
+  if (requires.length === 0) return true;
+  
+  // Vérifier si tous les prérequis sont complétés
+  return requires.every(reqId => 
+    journeys.lessons?.includes(reqId) || 
+    journeys.practices?.includes(reqId) ||
+    journeys.dialogues?.includes(reqId)
+  );
+}
+
+
 const teacherAvatar = new TeacherAvatar();
 window.teacherAvatar = teacherAvatar;
 
