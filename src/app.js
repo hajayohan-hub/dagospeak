@@ -54,6 +54,7 @@ import './engines/audio/audio-loader.js';  // ✅ MP3 pré-enregistrés avec fal
 import { OnboardingScreen } from './ui/components/onboarding-screen.js';
 import { ConversationEngine } from './ui/components/conversation-engine.js';
 import { DictionarySearch } from './ui/components/dictionary-search.js';
+import { renderToday } from './ui/views/today-view.js';
 
 
 // ✅ V5.103: Helper pour gérer la structure des unités (ancienne et nouvelle)
@@ -8960,7 +8961,8 @@ async function renderDictionary() {
 // ═══════════════════════════════════════════════════════════
 // ROUTEUR & DÉMARRAGE (Onboarding temporairement désactivé)
 // ═══════════════════════════════════════════════════════════
-router.addRoute('/', renderHome);
+router.addRoute('/today', renderToday);
+router.addRoute('/', renderToday);
 router.addRoute('/themes', renderThemes);
 router.addRoute('/theme-detail', renderThemeDetail);
 router.addRoute('/lesson', renderLesson);
