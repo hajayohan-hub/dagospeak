@@ -1836,9 +1836,8 @@ const heroHtml = `
     // ✅ 8. ÉCOUTEURS D'ÉVÉNEMENTS
     // Bouton "Reprendre l'apprentissage"
     document.getElementById('btn-resume-learning')?.addEventListener('click', () => {
-      const lastTheme = localStorage.getItem('dagospeak:theme') || 'survival';
-      currentTheme = lastTheme;
-      router.navigate('/theme-detail');
+      // ✅ V5.109: Utiliser la même logique que /today (progression pédagogique)
+      router.navigate('/today');
     });
 
     /// ✅ Bouton Installer l'app (position fixe)
