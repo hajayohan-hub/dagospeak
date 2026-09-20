@@ -618,13 +618,13 @@ function syncProfileWithJourneys() {
 // FLUX PÉDAGOGIQUE CENTRALISÉ
 // ═══════════════════════════════════════════════════════════
 const JOURNEY_FLOW = [
-  'lesson',
-  'practice',
-  'lesson-phrases',
-  'practice-phrases',
-  'dialogues',
-  'roleplay',
-  'challenge'
+  'lesson-words',       // Étape 1: Leçon de mots
+  'practice-words',     // Étape 2: Révision des mots
+  'lesson-phrases',     // Étape 3: Leçon de phrases
+  'practice-phrases',   // Étape 4: Révision des phrases
+  'dialogues',          // Étape 5: Dialogue
+  'roleplay',           // Étape 6: Jeu de rôle (optionnel)
+  'challenge'           // Étape 7: Défi final
 ];
 
     // ═══════════════════════════════════════════════════════════
@@ -3091,7 +3091,7 @@ async function renderLesson() {
          document.getElementById('btn-start-practice')?.addEventListener('click', () => {
            journeyTracker.markJourneyComplete('lessons', unitId);
            saveProfile();
-           goToNextJourney('lesson'); // → va automatiquement vers 'practice'
+           goToNextJourney('lesson-words'); // → va automatiquement vers 'practice'
          });
 
      window.teacherAvatar.show('lesson');
@@ -4287,7 +4287,7 @@ async function renderPractice() {
 
       // ✅ NOUVEAU CODE avec flux centralisé :
         document.getElementById('btn-go-dialogues').addEventListener('click', () => {
-          goToNextJourney('practice'); // → va automatiquement vers 'lesson-phrases'
+          goToNextJourney('practice-words'); // → va automatiquement vers 'lesson-phrases'
         });
         document.getElementById('btn-back-themes').addEventListener('click', () => router.navigate('/themes'));
       };
