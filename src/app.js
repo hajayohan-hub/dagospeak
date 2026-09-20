@@ -881,7 +881,7 @@ window.selectLevel = (levelId) => {
   currentTheme = null; // Réinitialise le thème
   localStorage.setItem('dagospeak:level', currentLevel);
   updateLevelUI();
-  router.navigate('/themes');
+  router.navigate('/today'); // ✅ V5.109: Aller vers écran Aujourd'hui
 };
 
 function updateLevelUI() {
@@ -6908,9 +6908,8 @@ function renderFloatingHomeButtons() {
 
   // Action du bouton Commencer
   document.getElementById('btn-float-start').addEventListener('click', () => {
-    // ✅ PLUS DE REDIRECTION AUTOMATIQUE - Juste un message vocal
-    window.teacherAvatar.speak("Bienvenue ! Choisissez un niveau pour commencer votre apprentissage du français. Cliquez sur une carte de niveau.");
-    // Pas de setTimeout avec router.navigate()
+    // ✅ V5.109: Rediriger vers l'écran Aujourd'hui
+    router.navigate('/today');
   });
 
   // Action du bouton Guide
