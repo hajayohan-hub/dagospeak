@@ -52,7 +52,7 @@
           "nextNodeOnSuccess": "teacher_f_k",
           "feedback": {
             "fr": "Parfait ! Vous avez bien dit : B, D",
-            "mg": "Tonga lafatra! Nolazainao tsara ny hoe: B, D"
+            "mg": "Tonga lafatra! Nomenazainao tsara ny hoe: B, D"
           }
         },
         {
@@ -62,7 +62,7 @@
           "nextNodeOnSuccess": "teacher_f_k",
           "feedback": {
             "fr": "Excellent ! Vous avez dit : B comme Baba, D comme Dada",
-            "mg": "Tsara be! Nolazainao ny hoe: B comme Baba, D comme Dada"
+            "mg": "Tsara be! Nomenazainao ny hoe: B comme Baba, D comme Dada"
           }
         }
       ],
@@ -92,7 +92,7 @@
           "nextNodeOnSuccess": "teacher_m_n",
           "feedback": {
             "fr": "Parfait ! Vous avez bien dit : F, K, L",
-            "mg": "Tonga lafatra! Nolazainao tsara ny hoe: F, K, L"
+            "mg": "Tonga lafatra! Nomenazainao tsara ny hoe: F, K, L"
           }
         },
         {
@@ -102,7 +102,7 @@
           "nextNodeOnSuccess": "teacher_m_n",
           "feedback": {
             "fr": "Excellent ! Vous avez dit : F comme Faly, K comme Kely, L comme Lova",
-            "mg": "Tsara be! Nolazainao ny hoe: F comme Faly, K comme Kely, L comme Lova"
+            "mg": "Tsara be! Nomenazainao ny hoe: F comme Faly, K comme Kely, L comme Lova"
           }
         }
       ],
@@ -132,7 +132,7 @@
           "nextNodeOnSuccess": "teacher_r_s_t",
           "feedback": {
             "fr": "Parfait ! Vous avez bien dit : M, N",
-            "mg": "Tonga lafatra! Nolazainao tsara ny hoe: M, N"
+            "mg": "Tonga lafatra! Nomenazainao tsara ny hoe: M, N"
           }
         },
         {
@@ -142,7 +142,7 @@
           "nextNodeOnSuccess": "teacher_r_s_t",
           "feedback": {
             "fr": "Excellent ! Vous avez dit : M comme Mama, N comme Neny",
-            "mg": "Tsara be! Nolazainao ny hoe: M comme Mama, N comme Neny"
+            "mg": "Tsara be! Nomenazainao ny hoe: M comme Mama, N comme Neny"
           }
         }
       ],
@@ -172,7 +172,7 @@
           "nextNodeOnSuccess": "teacher_v_z",
           "feedback": {
             "fr": "Parfait ! Vous avez bien dit : R, S, T",
-            "mg": "Tonga lafatra! Nolazainao tsara ny hoe: R, S, T"
+            "mg": "Tonga lafatra! Nomenazainao tsara ny hoe: R, S, T"
           }
         },
         {
@@ -182,7 +182,7 @@
           "nextNodeOnSuccess": "teacher_v_z",
           "feedback": {
             "fr": "Excellent ! Vous avez dit : R comme Rano, S comme Soa, T comme Tiana",
-            "mg": "Tsara be! Nolazainao ny hoe: R comme Rano, S comme Soa, T comme Tiana"
+            "mg": "Tsara be! Nomenazainao ny hoe: R comme Rano, S comme Soa, T comme Tiana"
           }
         }
       ],
@@ -212,7 +212,7 @@
           "nextNodeOnSuccess": "teacher_quiz",
           "feedback": {
             "fr": "Parfait ! Vous avez bien dit : V, Z",
-            "mg": "Tonga lafatra! Nolazainao tsara ny hoe: V, Z"
+            "mg": "Tonga lafatra! Nomenazainao tsara ny hoe: V, Z"
           }
         },
         {
@@ -222,7 +222,7 @@
           "nextNodeOnSuccess": "teacher_quiz",
           "feedback": {
             "fr": "Excellent ! Vous avez dit : V comme Vary, Z comme Zaza",
-            "mg": "Tsara be! Nolazainao ny hoe: V comme Vary, Z comme Zaza"
+            "mg": "Tsara be! Nomenazainao ny hoe: V comme Vary, Z comme Zaza"
           }
         }
       ],

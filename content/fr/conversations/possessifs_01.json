@@ -11,7 +11,7 @@
       "id": "start",
       "speaker": "teacher",
       "textFr": "Bonjour {firstName} ! Aujourd'hui, nous allons apprendre les possessifs. Tu es prêt ?",
-      "textMg": "Manao ahoana {firstName}! Androany, hianatra ny mpisolo manam-pananana isika. Vonona ve ianao?",
+      "textMg": "Manao ahoana {firstName}! Androany, hianatra ny mpisomena manam-pananana isika. Vonona ve ianao?",
       "audio": {
         "ttsTextFr": "Bonjour! Aujourd'hui, nous allons apprendre les possessifs. Tu es prêt?",
         "ttsRate": 0.9
@@ -329,7 +329,7 @@
       "id": "correct3",
       "speaker": "teacher",
       "textFr": "Bravo ! Tu as maîtrisé les possessifs. Continue à pratiquer !",
-      "textMg": "Arahabaina! Hainao tsara ny ny mpisolo manam-pananana. Mianara mitohy!",
+      "textMg": "Arahabaina! Hainao tsara ny ny mpisomena manam-pananana. Mianara mitohy!",
       "audio": {
         "ttsTextFr": "Bravo!",
         "ttsRate": 0.9
@@ -610,7 +610,7 @@
       "speaker": "teacher",
       "isEnd": true,
       "textFr": "Tu as terminé la leçon sur les possessifs.",
-      "textMg": "Vita ny lesona momba ny ny mpisolo manam-pananana.",
+      "textMg": "Vita ny lesona momba ny ny mpisomena manam-pananana.",
       "audio": {
         "ttsTextFr": "Tu as terminé la leçon sur les possessifs.",
         "ttsRate": 0.9

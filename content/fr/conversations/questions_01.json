@@ -177,7 +177,7 @@
       "id": "lesson_5",
       "speaker": "teacher",
       "textFr": "Combien ça coûte ?",
-      "textMg": "Firy ny vidiny?",
+      "textMg": "Firay ny vidiny?",
       "audio": {
         "ttsTextFr": "Combien ça coûte ?",
         "ttsRate": 0.9
@@ -304,8 +304,8 @@
     {
       "id": "quiz3",
       "speaker": "user",
-      "textFr": "Ahoana no ilazana 'firy ny vidiny?' ?",
-      "textMg": "Ahoana no ilazana 'firy ny vidiny?' ?",
+      "textFr": "Ahoana no ilazana 'firay ny vidiny?' ?",
+      "textMg": "Ahoana no ilazana 'firay ny vidiny?' ?",
       "responseOptions": [
         {
           "textFr": "Combien ça coûte ?",
@@ -318,8 +318,8 @@
           "textMg": "Où est le marché ?",
           "isCorrect": false,
           "feedback": {
-            "fr": "Non, 'firy' signifie 'combien', pas 'où'.",
-            "mg": "Tsia, 'firy' dia 'combien', fa tsy 'aiza'."
+            "fr": "Non, 'firay' signifie 'combien', pas 'où'.",
+            "mg": "Tsia, 'firay' dia 'combien', fa tsy 'aiza'."
           },
           "nextNodeOnFail": "quiz3"
         }

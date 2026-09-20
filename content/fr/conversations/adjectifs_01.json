@@ -11,7 +11,7 @@
       "id": "start",
       "speaker": "teacher",
       "textFr": "Bonjour {firstName} ! Aujourd'hui, nous allons apprendre les adjectifs. Ils servent à décrire les personnes et les choses. Tu es prêt ?",
-      "textMg": "Manao ahoana {firstName}! Androany, hianatra ny teny famaritana isika. Ampiasaina hamaritana olona sy zavatra ireo. Vonona ve ianao?",
+      "textMg": "Manao ahoana {firstName}! Androany, hianatra ny teny famaritana isika. Ampiasaina hamaritana omenana sy zavatra ireo. Vonona ve ianao?",
       "audio": {
         "ttsTextFr": "Bonjour! Aujourd'hui, nous allons apprendre les adjectifs. Ils servent à décrire les personnes et les choses. Tu es prêt?",
         "ttsRate": 0.9
@@ -294,7 +294,7 @@
       "id": "correct_petit",
       "speaker": "teacher",
       "textFr": "Bravo ! Tu apprends vite. Les adjectifs sont essentiels pour décrire le monde. Continue à pratiquer avec : bon, mauvais, chaud, froid, content, triste, fatigué, malade.",
-      "textMg": "Tsara! Mianatra haingana ianao. Ny teny famaritana dia ilaina hamaritana ny tontolo. Mianara mitohy amin'ny: bon, mauvais, chaud, froid, content, triste, fatigué, malade.",
+      "textMg": "Tsara! Mianatra haingana ianao. Ny teny famaritana dia ilaina hamaritana ny tontomena. Mianara mitohy amin'ny: bon, mauvais, chaud, froid, content, triste, fatigué, malade.",
       "audio": {
         "ttsTextFr": "Bravo! Tu apprends vite. Les adjectifs sont essentiels pour décrire le monde.",
         "ttsRate": 0.9

@@ -94,7 +94,7 @@
       "id": "lesson_2_feedback",
       "speaker": "teacher",
       "textFr": "'Une' pour un objet singulier féminin (une pomme). 'Des' pour plusieurs objets (des oranges).",
-      "textMg": "'Une' ho an'ny zavatra singiolary vavy (paoma iray). 'Des' ho an'ny zavatra maro (voasary maro).",
+      "textMg": "'Une' ho an'ny zavatra singiomenary vavy (paoma iray). 'Des' ho an'ny zavatra maro (voasary maro).",
       "audio": {
         "ttsTextFr": "'Une' pour un objet singulier féminin (une pomme). 'Des' pour plusieurs objets (des oranges).",
         "ttsRate": 0.9
@@ -166,7 +166,7 @@
       "id": "lesson_4_feedback",
       "speaker": "teacher",
       "textFr": "Devant une voyelle, 'le' devient 'l'. C'est l'élision. Exemple : l'orange, l'ami, l'école.",
-      "textMg": "Eo alohan'ny voambolana, 'le' dia lasa 'l'. Fanalefahana izany. Ohatra: l'orange, l'ami, l'école.",
+      "textMg": "Eo alohan'ny voambomenana, 'le' dia lasa 'l'. Fanalefahana izany. Ohatra: l'orange, l'ami, l'école.",
       "audio": {
         "ttsTextFr": "Devant une voyelle, 'le' devient 'l'. C'est l'élision. Exemple : l'orange, l'ami, l'école.",
         "ttsRate": 0.9
@@ -255,7 +255,7 @@
       "id": "definite_intro",
       "speaker": "teacher",
       "textFr": "Parfait ! Les articles définis sont 'le', 'la' et 'les'. On les utilise quand on parle de quelque chose de précis. 'Le' est pour le masculin singulier, 'la' pour le féminin singulier, et 'les' pour le pluriel. Essayons avec un exemple : comment dit-on 'boky' en français avec l'article défini ?",
-      "textMg": "Tsara! Ny lahatsoratra voafaritra dia 'le', 'la' ary 'les'. Ampiasaintsika rehefa miresaka zavatra voafaritra isika. 'Le' ho an'ny lahy singiolary, 'la' ho an'ny vavy singiolary, ary 'les' ho an'ny ploraly. Andao handramana amin'ny ohatra: ahoana no ilazana 'boky' amin'ny teny frantsay miaraka amin'ny lahatsoratra voafaritra?",
+      "textMg": "Tsara! Ny lahatsoratra voafaritra dia 'le', 'la' ary 'les'. Ampiasaintsika rehefa miresaka zavatra voafaritra isika. 'Le' ho an'ny lahy singiomenary, 'la' ho an'ny vavy singiomenary, ary 'les' ho an'ny ploraly. Andao handramana amin'ny ohatra: ahoana no ilazana 'boky' amin'ny teny frantsay miaraka amin'ny lahatsoratra voafaritra?",
       "audio": {
         "ttsTextFr": "Parfait ! Les articles définis sont 'le', 'la' et 'les'. On les utilise quand on parle de quelque chose de précis. 'Le' est pour le masculin singulier, 'la' pour le féminin singulier, et 'les' pour le pluriel. Essayons avec un exemple : comment dit-on 'boky' en français avec l'article défini ?",
         "ttsRate": 0.9
@@ -709,7 +709,7 @@
       "responseOptions": [
         {
           "textFr": "Voici l'argent",
-          "textMg": "Eto ny vola",
+          "textMg": "Eto ny vomena",
           "isCorrect": true,
           "nextNodeOnSuccess": "roleplay_3_success"
         }

@@ -11,7 +11,7 @@
       "id": "start",
       "speaker": "teacher",
       "textFr": "Bonjour {firstName} ! Aujourd'hui, nous allons apprendre les démonstratifs. Tu es prêt ?",
-      "textMg": "Manao ahoana {firstName}! Androany, hianatra ny mpisolo manondro isika. Vonona ve ianao?",
+      "textMg": "Manao ahoana {firstName}! Androany, hianatra ny mpisomena manondro isika. Vonona ve ianao?",
       "audio": {
         "ttsTextFr": "Bonjour! Aujourd'hui, nous allons apprendre les démonstratifs. Tu es prêt?",
         "ttsRate": 0.9
@@ -130,7 +130,7 @@
       "id": "lesson_3_feedback",
       "speaker": "teacher",
       "textFr": "'Cet' est utilisé devant un nom masculin qui commence par une voyelle ou un h muet.",
-      "textMg": "'Cet' dia ampiasaina eo alohan'ny anarana lahy manomboka amin'ny voambolana.",
+      "textMg": "'Cet' dia ampiasaina eo alohan'ny anarana lahy manomboka amin'ny voambomenana.",
       "audio": {
         "ttsTextFr": "'Cet' est utilisé devant un nom masculin qui commence par une voyelle ou un h muet.",
         "ttsRate": 0.9
@@ -329,7 +329,7 @@
       "id": "correct3",
       "speaker": "teacher",
       "textFr": "Bravo ! Tu as maîtrisé les démonstratifs. Continue à pratiquer !",
-      "textMg": "Arahabaina! Hainao tsara ny ny mpisolo manondro. Mianara mitohy!",
+      "textMg": "Arahabaina! Hainao tsara ny ny mpisomena manondro. Mianara mitohy!",
       "audio": {
         "ttsTextFr": "Bravo!",
         "ttsRate": 0.9
@@ -610,7 +610,7 @@
       "speaker": "teacher",
       "isEnd": true,
       "textFr": "Tu as terminé la leçon sur les démonstratifs.",
-      "textMg": "Vita ny lesona momba ny ny mpisolo manondro.",
+      "textMg": "Vita ny lesona momba ny ny mpisomena manondro.",
       "audio": {
         "ttsTextFr": "Tu as terminé la leçon sur les démonstratifs.",
         "ttsRate": 0.9

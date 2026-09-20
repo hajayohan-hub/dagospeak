@@ -11,7 +11,7 @@
       "id": "start",
       "speaker": "teacher",
       "textFr": "Bonjour {firstName} ! Aujourd'hui, nous allons apprendre les prépositions. Tu es prêt ?",
-      "textMg": "Manao ahoana {firstName}! Androany, hianatra ny mpisolo toerana isika. Vonona ve ianao?",
+      "textMg": "Manao ahoana {firstName}! Androany, hianatra ny mpisomena toerana isika. Vonona ve ianao?",
       "audio": {
         "ttsTextFr": "Bonjour! Aujourd'hui, nous allons apprendre les prépositions. Tu es prêt?",
         "ttsRate": 0.9
@@ -22,7 +22,7 @@
       "id": "lesson_intro",
       "speaker": "teacher",
       "textFr": "Apprenons à situer les objets avec les prépositions.",
-      "textMg": "Andao hianatra hametraka zavatra amin'ny mpisolo toerana.",
+      "textMg": "Andao hianatra hametraka zavatra amin'ny mpisomena toerana.",
       "audio": {
         "ttsTextFr": "Apprenons à situer les objets avec les prépositions.",
         "ttsRate": 0.9
@@ -329,7 +329,7 @@
       "id": "correct3",
       "speaker": "teacher",
       "textFr": "Bravo ! Tu as maîtrisé les prépositions. Continue à pratiquer !",
-      "textMg": "Arahabaina! Hainao tsara ny ny mpisolo toerana. Mianara mitohy!",
+      "textMg": "Arahabaina! Hainao tsara ny ny mpisomena toerana. Mianara mitohy!",
       "audio": {
         "ttsTextFr": "Bravo!",
         "ttsRate": 0.9
@@ -340,7 +340,7 @@
       "id": "roleplay_intro",
       "speaker": "teacher",
       "textFr": "Maintenant, faisons un jeu de rôle ! Donne des directions dans la ville !",
-      "textMg": "Andao hilalao anjara! Omeo torolalana ao anatin'ny tanàna!",
+      "textMg": "Andao hilalao anjara! Omeo toromenalana ao anatin'ny tanàna!",
       "audio": {
         "ttsTextFr": "Maintenant, faisons un jeu de rôle!",
         "ttsRate": 0.9
@@ -610,7 +610,7 @@
       "speaker": "teacher",
       "isEnd": true,
       "textFr": "Tu as terminé la leçon sur les prépositions.",
-      "textMg": "Vita ny lesona momba ny ny mpisolo toerana.",
+      "textMg": "Vita ny lesona momba ny ny mpisomena toerana.",
       "audio": {
         "ttsTextFr": "Tu as terminé la leçon sur les prépositions.",
         "ttsRate": 0.9

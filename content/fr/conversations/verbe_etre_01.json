@@ -58,7 +58,7 @@
       "id": "lesson_1_feedback",
       "speaker": "teacher",
       "textFr": "Parfait ! 'Je suis' est la première personne. On l'utilise pour parler de soi.",
-      "textMg": "Tonga lafatra! 'Je suis' dia ny olona voalohany. Ampiasaina hitenenana ny tena.",
+      "textMg": "Tonga lafatra! 'Je suis' dia ny omenana voalohany. Ampiasaina hitenenana ny tena.",
       "audio": {
         "ttsTextFr": "Parfait ! 'Je suis' est la première personne. On l'utilise pour parler de soi.",
         "ttsRate": 0.9
@@ -94,7 +94,7 @@
       "id": "lesson_2_feedback",
       "speaker": "teacher",
       "textFr": "Excellent ! 'Tu es' pour parler à quelqu'un. 'Je suis de' pour dire d'où on vient.",
-      "textMg": "Tsara be! 'Tu es' hitenenana olona. 'Je suis de' hilazana ny fiaviana.",
+      "textMg": "Tsara be! 'Tu es' hitenenana omenana. 'Je suis de' hilazana ny fiaviana.",
       "audio": {
         "ttsTextFr": "Excellent ! 'Tu es' pour parler à quelqu'un. 'Je suis de' pour dire d'où on vient.",
         "ttsRate": 0.9
@@ -152,11 +152,11 @@
       "id": "lesson_4_response",
       "speaker": "user",
       "textFr": "Et pour plusieurs personnes ?",
-      "textMg": "Ary ho an'ny olona maro?",
+      "textMg": "Ary ho an'ny omenana maro?",
       "responseOptions": [
         {
           "textFr": "Et pour plusieurs personnes ?",
-          "textMg": "Ary ho an'ny olona maro?",
+          "textMg": "Ary ho an'ny omenana maro?",
           "isCorrect": true,
           "nextNodeOnSuccess": "lesson_4_feedback"
         }
@@ -166,7 +166,7 @@
       "id": "lesson_4_feedback",
       "speaker": "teacher",
       "textFr": "'Nous sommes' pour soi + autres. 'Vous êtes' pour le pluriel de politesse ou plusieurs personnes.",
-      "textMg": "'Nous sommes' ho an'ny tena + hafa. 'Vous êtes' ho an'ny fahamendrehana na olona maro.",
+      "textMg": "'Nous sommes' ho an'ny tena + hafa. 'Vous êtes' ho an'ny fahamendrehana na omenana maro.",
       "audio": {
         "ttsTextFr": "'Nous sommes' pour soi + autres. 'Vous êtes' pour le pluriel de politesse ou plusieurs personnes.",
         "ttsRate": 0.9
@@ -255,7 +255,7 @@
       "id": "intro_je_suis",
       "speaker": "teacher",
       "textFr": "Commençons par la première personne. Comment dit-on 'aho dia mpianatra' en français ?",
-      "textMg": "Andao hanomboka amin'ny olona voalohany. Ahoana no ilazana 'aho dia mpianatra' amin'ny teny frantsay?",
+      "textMg": "Andao hanomboka amin'ny omenana voalohany. Ahoana no ilazana 'aho dia mpianatra' amin'ny teny frantsay?",
       "audio": {
         "ttsTextFr": "Commençons par la première personne. Comment dit-on 'aho dia mpianatra' en français?",
         "ttsRate": 0.9
@@ -335,7 +335,7 @@
       "id": "correct_tu_es",
       "speaker": "teacher",
       "textFr": "Bravo ! 'Tu es mon ami' est parfait. Passons à la troisième personne. Comment dit-on 'izy dia mpampianatra' ?",
-      "textMg": "Tsara! Tonga lafatra ny 'Tu es mon ami'. Andao handeha amin'ny olona fahatelo. Ahoana no ilazana 'izy dia mpampianatra'?",
+      "textMg": "Tsara! Tonga lafatra ny 'Tu es mon ami'. Andao handeha amin'ny omenana fahatelo. Ahoana no ilazana 'izy dia mpampianatra'?",
       "audio": {
         "ttsTextFr": "Bravo! 'Tu es mon ami' est parfait. Passons à la troisième personne. Comment dit-on 'izy dia mpampianatra'?",
         "ttsRate": 0.9
@@ -405,7 +405,7 @@
       "id": "correct_elle_est",
       "speaker": "teacher",
       "textFr": "Excellent ! Tu maîtrises les formes singulières. Maintenant, le pluriel. Comment dit-on 'izahay dia mpianatra' ?",
-      "textMg": "Tsara be! Hainao ny endrika singiolary. Androany, ny ploraly. Ahoana no ilazana 'izahay dia mpianatra'?",
+      "textMg": "Tsara be! Hainao ny endrika singiomenary. Androany, ny ploraly. Ahoana no ilazana 'izahay dia mpianatra'?",
       "audio": {
         "ttsTextFr": "Excellent! Tu maîtrises les formes singulières. Maintenant, le pluriel. Comment dit-on 'izahay dia mpianatra'?",
         "ttsRate": 0.9
