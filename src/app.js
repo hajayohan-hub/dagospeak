@@ -1924,7 +1924,7 @@ const heroHtml = `
             updateLevelUI();
 
             console.log('[Home] 🚀 Navigation vers /themes en cours...');
-            router.navigate('/themes');
+            router.navigate('/today');  // ✅ V5.109: Vers écran Aujourd'hui
 
             e.preventDefault();
             e.stopPropagation();
