@@ -6,31 +6,179 @@
       "title": "Débutant",
       "description": "Les 10 bases essentielles pour commencer",
       "units": [
-        "greetings",
-        "survival",
-        "articles",
-        "family",
-        "verbe_etre",
-        "numbers",
-        "verbe_avoir",
-        "colors",
-        "adjectifs",
-        "days",
-        "prepositions",
-        "months",
-        "demonstratifs",
-        "body",
-        "possessifs",
-        "market",
-        "verbes_er",
-        "alphabet1",
-        "questions",
-        "alphabet2",
-        "negation",
-        "numbers2",
-        "imperatif",
-        "pronouns_basic",
-        "futur_proche"
+        {
+          "id": "alphabet1",
+          "order": 1,
+          "requires": []
+        },
+        {
+          "id": "alphabet2",
+          "order": 2,
+          "requires": [
+            "alphabet1"
+          ]
+        },
+        {
+          "id": "greetings",
+          "order": 3,
+          "requires": [
+            "alphabet2"
+          ]
+        },
+        {
+          "id": "survival",
+          "order": 4,
+          "requires": [
+            "greetings"
+          ]
+        },
+        {
+          "id": "family",
+          "order": 5,
+          "requires": [
+            "survival"
+          ]
+        },
+        {
+          "id": "market",
+          "order": 6,
+          "requires": [
+            "survival"
+          ]
+        },
+        {
+          "id": "numbers",
+          "order": 7,
+          "requires": [
+            "survival"
+          ]
+        },
+        {
+          "id": "numbers2",
+          "order": 8,
+          "requires": [
+            "numbers"
+          ]
+        },
+        {
+          "id": "colors",
+          "order": 9,
+          "requires": [
+            "survival"
+          ]
+        },
+        {
+          "id": "days",
+          "order": 10,
+          "requires": [
+            "numbers"
+          ]
+        },
+        {
+          "id": "months",
+          "order": 11,
+          "requires": [
+            "days"
+          ]
+        },
+        {
+          "id": "body",
+          "order": 12,
+          "requires": [
+            "survival"
+          ]
+        },
+        {
+          "id": "pronouns_basic",
+          "order": 13,
+          "requires": [
+            "body"
+          ]
+        },
+        {
+          "id": "articles",
+          "order": 14,
+          "requires": [
+            "pronouns_basic"
+          ]
+        },
+        {
+          "id": "verbe_etre",
+          "order": 15,
+          "requires": [
+            "pronouns_basic"
+          ]
+        },
+        {
+          "id": "verbe_avoir",
+          "order": 16,
+          "requires": [
+            "verbe_etre"
+          ]
+        },
+        {
+          "id": "possessifs",
+          "order": 17,
+          "requires": [
+            "verbe_avoir"
+          ]
+        },
+        {
+          "id": "demonstratifs",
+          "order": 18,
+          "requires": [
+            "possessifs"
+          ]
+        },
+        {
+          "id": "adjectifs",
+          "order": 19,
+          "requires": [
+            "demonstratifs"
+          ]
+        },
+        {
+          "id": "verbes_er",
+          "order": 20,
+          "requires": [
+            "adjectifs"
+          ]
+        },
+        {
+          "id": "negation",
+          "order": 21,
+          "requires": [
+            "verbes_er"
+          ]
+        },
+        {
+          "id": "questions",
+          "order": 22,
+          "requires": [
+            "negation"
+          ]
+        },
+        {
+          "id": "prepositions",
+          "order": 23,
+          "requires": [
+            "questions"
+          ]
+        },
+        {
+          "id": "imperatif",
+          "order": 24,
+          "requires": [
+            "prepositions"
+          ]
+        },
+        {
+          "id": "futur_proche",
+          "order": 25,
+          "requires": [
+            "imperatif"
+          ]
+        }
       ]
     }
   ]

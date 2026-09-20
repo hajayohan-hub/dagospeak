@@ -2818,7 +2818,7 @@ async function renderLesson() {
       throw new Error(`Niveau ${currentLevel} introuvable dans le manifest`);
     }
 
-    const unitId = currentTheme || levelData.units[0];
+    const unitId = currentTheme || getUnitIds(levelData.units)[0];
     currentTheme = unitId;
 
     console.log(`[renderLesson] Chargement vocabulaire pour: ${unitId}`);
@@ -3114,7 +3114,7 @@ async function renderLessonPhrases() {
 
     const manifest = await content.loadManifest('fr');
     const levelData = manifest.levels.find(l => l.id === currentLevel);
-    const unitId = currentTheme || levelData.units[0];
+    const unitId = currentTheme || getUnitIds(levelData.units)[0];
     currentTheme = unitId;
     // ✅ NOUVEAU : Utiliser le helper de fusion vocabulary + dictionary
     const vocabData = await content.loadLessonData('fr', unitId);
@@ -3835,7 +3835,7 @@ async function renderPractice() {
 
     const manifest = await content.loadManifest('fr');
     const levelData = manifest.levels.find(l => l.id === currentLevel);
-    const unitId = currentTheme || levelData.units[0];
+    const unitId = currentTheme || getUnitIds(levelData.units)[0];
     currentTheme = unitId;
     // ✅ NOUVEAU : Utiliser le helper de fusion vocabulary + dictionary
     const vocabData = await content.loadLessonData('fr', unitId);
@@ -4308,7 +4308,7 @@ async function renderPracticePhrases() {
 
     const manifest = await content.loadManifest('fr');
     const levelData = manifest.levels.find(l => l.id === currentLevel);
-    const unitId = currentTheme || levelData.units[0];
+    const unitId = currentTheme || getUnitIds(levelData.units)[0];
     currentTheme = unitId;
     // ✅ NOUVEAU : Utiliser le helper de fusion vocabulary + dictionary
     const vocabData = await content.loadLessonData('fr', unitId);
@@ -4692,7 +4692,7 @@ syncProfileWithJourneys();
     const levelData = manifest.levels.find(l => l.id === currentLevel);
 
     // Verrouillage sur le thème choisi
-    const unitId = currentTheme || levelData.units[0];
+    const unitId = currentTheme || getUnitIds(levelData.units)[0];
     currentTheme = unitId;
 
     const dialogueId = `${unitId}_dialogue`;
@@ -6274,12 +6274,17 @@ async function renderThemes() {
     const journeyTypes = ['lessons', 'practices', 'dialogues', 'roleplays', 'challenges'];
 
    // ✅ AJOUTER : Mettre alphabet1 et alphabet2 en premier (sans doublons)
-      const otherUnits = levelData.units.filter(u => u !== 'alphabet1' && u !== 'alphabet2');
+      const otherUnits = getUnitIds(levelData.units).filter(u => u !== 'alphabet1' && u !== 'alphabet2');
       const orderedUnits = ['alphabet1', 'alphabet2', ...otherUnits];
 
       const themesHtml = orderedUnits.map(unitId => {
       const info = themeInfo[unitId] || { icon: '📁', fr: unitId, mg: unitId };
       const locked = isThemeLocked(unitId, profile);
+      
+      // ✅ V5.103: Vérifier les prérequis pédagogiques
+      const journeys = journeyTracker.getCompletedJourneys();
+      const prerequisitesMet = isThemeUnlocked(unitId, levelData, journeys);
+      const gated = !prerequisitesMet && !locked;
 
       // ✅ Calcul de la progression (uniquement si déverrouillé)
       let doneCount = 0;
@@ -6315,6 +6320,7 @@ async function renderThemes() {
                 <p style="color:var(--ds-color-text-muted); font-size:0.85rem; margin:0; font-style:italic;">${info.mg}</p>
 
                 ${locked ? '<p style="font-size:0.75rem; color:var(--ds-color-accent); margin-top:4px; font-weight:600;">⭐ Premium requis</p>' : ''}
+                ${gated ? '<p style="font-size:0.75rem; color:#94a3b8; margin-top:4px; font-weight:600;">🔒 Complétez les thèmes précédents</p>' : ''}
               </div>
             `;
           }).join('');
