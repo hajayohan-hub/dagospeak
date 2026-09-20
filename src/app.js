@@ -4471,7 +4471,7 @@ async function renderPracticePhrases() {
           if (typeof feedbackSounds !== 'undefined') feedbackSounds.playSuccess();
           setTimeout(() => window.teacherAvatar.speak("Excellent !"), 500);
 
-                      shadowFeedback.innerHTML += getEngineIndicator(data.engine);
+                      shadowFeedback.innerHTML += getEngineIndicator(window.sttManager ? 'real' : 'simulated');
         } else {
           quizEl.classList.add('wrong-answer');
           setTimeout(() => quizEl.classList.remove('wrong-answer'), 400);
