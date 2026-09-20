@@ -164,7 +164,7 @@ function findNextStep(journeys) {
         step: 'Leçon de mots',
         title: getThemeName(unitId),
         description: 'Commencez par la leçon de mots',
-        onclick: `startStep(unitId, '/lesson')`
+        onclick: `startStep('${unitId}', '/lesson')`
       };
     }
     
@@ -175,7 +175,7 @@ function findNextStep(journeys) {
         step: `${getThemeName(unitId)} - Étape 2/5`,
         title: 'Révision des mots',
         description: 'Testez votre connaissance avec des quiz',
-        onclick: `startStep(unitId, '/practice')`
+        onclick: `startStep('${unitId}', '/practice')`
       };
     }
     
@@ -186,7 +186,7 @@ function findNextStep(journeys) {
         step: `${getThemeName(unitId)} - Étape 3/5`,
         title: 'Phrases de contexte',
         description: 'Apprenez les phrases utiles',
-        onclick: `startStep(unitId, '/lesson-phrases')`
+        onclick: `startStep('${unitId}', '/lesson-phrases')`
       };
     }
     
@@ -197,7 +197,7 @@ function findNextStep(journeys) {
         step: `${getThemeName(unitId)} - Étape 4/5`,
         title: 'Révision des phrases',
         description: 'Pratiquez les phrases complètes',
-        onclick: `startStep(unitId, '/practice-phrases')`
+        onclick: `startStep('${unitId}', '/practice-phrases')`
       };
     }
     
@@ -208,7 +208,7 @@ function findNextStep(journeys) {
         step: `${getThemeName(unitId)} - Étape 5/5`,
         title: 'Dialogue',
         description: 'Conversation complète sur le thème',
-        onclick: `startStep(unitId, '/dialogues')`
+        onclick: `startStep('${unitId}', '/dialogues')`
       };
     }
     
