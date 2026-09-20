@@ -2228,6 +2228,11 @@ async function renderCertification() {
         <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem; animation: fadeInUp 0.4s ease-out;">
           <ds-button variant="ghost" size="sm" id="btn-back-cert" style="margin-bottom: 1rem;">← Retour au profil</ds-button>
 
+      <!-- Bouton Commencer l'apprentissage -->
+      <ds-button id="btn-start-learning" variant="primary" size="lg" style="margin-top: 1rem; width: 100%;" onclick="router.navigate('/today')">
+        🚀 Commencer l'apprentissage
+      </ds-button>
+
           <div style="text-align: center; margin-bottom: 2rem;">
             <div style="font-size: 4rem; margin-bottom: 1rem;">🎓</div>
             <h2 style="color: var(--ds-color-success); margin-bottom: 0.5rem;">Félicitations !</h2>
@@ -8961,8 +8966,8 @@ async function renderDictionary() {
 // ═══════════════════════════════════════════════════════════
 // ROUTEUR & DÉMARRAGE (Onboarding temporairement désactivé)
 // ═══════════════════════════════════════════════════════════
+router.addRoute('/', renderHome);
 router.addRoute('/today', renderToday);
-router.addRoute('/', renderToday);
 router.addRoute('/themes', renderThemes);
 router.addRoute('/theme-detail', renderThemeDetail);
 router.addRoute('/lesson', renderLesson);
