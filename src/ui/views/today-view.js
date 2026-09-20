@@ -269,3 +269,11 @@ function getThemeName(themeId) {
   };
   return names[themeId] || themeId;
 }
+
+
+// ✅ V5.109: Exposer les fonctions pour debug
+window.calculateTodayActions = calculateTodayActions;
+window.findNextStep = findNextStep;
+window.findAvailableConversationLive = findAvailableConversationLive;
+window.getThemeName = getThemeName;
+console.log('[Today] ✅ Fonctions exposées globalement pour debug');

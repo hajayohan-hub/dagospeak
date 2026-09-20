@@ -179,6 +179,7 @@ function isThemeLocked(themeId, profile) {
 // SUIVI DE PROGRESSION DES PARCOURS (VERSION CENTRALISÉE)
 // ═══════════════════════════════════════════════════════════
 const journeyTracker = {
+window.journeyTracker = journeyTracker; // ✅ V5.109: Exposer globalement
   // ✅ TOUS les types de parcours (y compris phrases)
   getCompletedJourneys() {
     const saved = localStorage.getItem('dagospeak:completedJourneys');
