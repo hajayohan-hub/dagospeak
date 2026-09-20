@@ -1836,9 +1836,7 @@ const heroHtml = `
     // ✅ 8. ÉCOUTEURS D'ÉVÉNEMENTS
     // Bouton "Reprendre l'apprentissage"
     document.getElementById('btn-resume-learning')?.addEventListener('click', () => {
-      const lastTheme = localStorage.getItem('dagospeak:theme') || 'survival';
-      currentTheme = lastTheme;
-      router.navigate('/theme-detail');
+      router.navigate('/today'); // ✅ V5.109: Redirige vers écran Aujourd'hui
     });
 
     /// ✅ Bouton Installer l'app (position fixe)
@@ -1925,7 +1923,7 @@ const heroHtml = `
             localStorage.setItem('dagospeak:level', currentLevel);
             updateLevelUI();
 
-            console.log('[Home] 🚀 Navigation vers /themes en cours...');
+            console.log('[Home] 🚀 Navigation vers /today en cours...');
             router.navigate('/today');  // ✅ V5.109: Vers écran Aujourd'hui
 
             e.preventDefault();
