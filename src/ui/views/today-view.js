@@ -128,52 +128,109 @@ function calculateTodayActions() {
 }
 
 function findNextStep(journeys) {
-  var manifest = window.currentManifest || {};
-  var levels = manifest.levels || [];
-  var a0 = null;
-  for (var i = 0; i < levels.length; i++) {
-    if (levels[i].id === 'A0') { a0 = levels[i]; break; }
-  }
-
-  if (!a0 || !a0.units) {
+  // ✅ V5.109: PRIORISER le thème en cours (currentTheme)
+  const currentTheme = localStorage.getItem('dagospeak:theme');
+  
+  const manifest = window.currentManifest || {};
+  const levels = manifest.levels || [];
+  const a0Level = levels.find(l => l.id === 'A0');
+  
+  if (!a0Level || !a0Level.units) {
     return {
-      icon: '📚', step: 'Etape suivante',
-      title: 'Commencer un nouveau theme',
-      description: 'Choisissez un theme pour continuer',
+      icon: '📚',
+      step: 'Étape suivante',
+      title: 'Commencer un nouveau thème',
+      description: 'Choisissez un thème pour continuer votre apprentissage',
       onclick: "router.navigate('/themes')"
     };
   }
-
-  var steps = ['lessons', 'practices', 'phraseLessons', 'phrasePractices', 'dialogues'];
-  var routes = ['/lesson', '/practice', '/lesson-phrases', '/practice-phrases', '/dialogues'];
-  var icons = ['📖', '🎯', '📝', '🎯', '💬'];
-  var stepNames = ['Lecon de mots', 'Revision des mots', 'Phrases de contexte', 'Revision des phrases', 'Dialogue'];
-
-  for (var u = 0; u < a0.units.length; u++) {
-    var unit = a0.units[u];
-    var unitId = typeof unit === 'string' ? unit : unit.id;
-
-    if (typeof isThemeUnlocked === 'function') {
-      try { if (!isThemeUnlocked(unitId, a0, journeys)) continue; } catch(e) {}
+  
+  // Helper pour trouver l'étape suivante d'un thème
+  const findNextStepForTheme = (unitId) => {
+    // Étape 1: Leçon de mots
+    if (!journeys.lessons?.includes(unitId)) {
+      return {
+        icon: '📖',
+        step: 'Leçon de mots',
+        title: getThemeName(unitId),
+        description: 'Commencez par la leçon de mots',
+        onclick: `router.navigate('/lesson?theme=${unitId}')`
+      };
     }
-
-    for (var s = 0; s < steps.length; s++) {
-      var done = journeys[steps[s]] || [];
-      if (done.indexOf(unitId) === -1) {
-        return {
-          icon: icons[s],
-          step: getThemeName(unitId) + ' - Etape ' + (s + 1) + '/5',
-          title: stepNames[s],
-          description: 'Theme: ' + getThemeName(unitId),
-          onclick: "router.navigate('" + routes[s] + "?theme=" + unitId + "')"
-        };
-      }
+    
+    // Étape 2: Révision des mots
+    if (!journeys.practices?.includes(unitId)) {
+      return {
+        icon: '🎯',
+        step: `${getThemeName(unitId)} - Étape 2/5`,
+        title: 'Révision des mots',
+        description: 'Testez votre connaissance avec des quiz',
+        onclick: `router.navigate('/practice?theme=${unitId}')`
+      };
+    }
+    
+    // Étape 3: Phrases de contexte
+    if (!journeys.phraseLessons?.includes(unitId)) {
+      return {
+        icon: '📝',
+        step: `${getThemeName(unitId)} - Étape 3/5`,
+        title: 'Phrases de contexte',
+        description: 'Apprenez les phrases utiles',
+        onclick: `router.navigate('/lesson-phrases?theme=${unitId}')`
+      };
+    }
+    
+    // Étape 4: Révision des phrases
+    if (!journeys.phrasePractices?.includes(unitId)) {
+      return {
+        icon: '🎯',
+        step: `${getThemeName(unitId)} - Étape 4/5`,
+        title: 'Révision des phrases',
+        description: 'Pratiquez les phrases complètes',
+        onclick: `router.navigate('/practice-phrases?theme=${unitId}')`
+      };
+    }
+    
+    // Étape 5: Dialogue
+    if (!journeys.dialogues?.includes(unitId)) {
+      return {
+        icon: '💬',
+        step: `${getThemeName(unitId)} - Étape 5/5`,
+        title: 'Dialogue',
+        description: 'Conversation complète sur le thème',
+        onclick: `router.navigate('/dialogues?theme=${unitId}')`
+      };
+    }
+    
+    return null; // Thème complètement terminé
+  };
+  
+  // ✅ PRIORITÉ 1: Si un thème est en cours, continuer ce thème
+  if (currentTheme && currentTheme !== 'null') {
+    const nextStep = findNextStepForTheme(currentTheme);
+    if (nextStep) {
+      return nextStep;
+    }
+    // Si le thème en cours est terminé, on passera au suivant
+  }
+  
+  // ✅ PRIORITÉ 2: Chercher le premier thème non terminé
+  for (const unit of a0Level.units) {
+    const unitId = typeof unit === 'string' ? unit : unit.id;
+    
+    // Vérifier si le thème est débloqué
+    if (typeof isThemeUnlocked === 'function' && !isThemeUnlocked(unitId, a0Level, journeys)) {
+      continue;
+    }
+    
+    const nextStep = findNextStepForTheme(unitId);
+    if (nextStep) {
+      return nextStep;
     }
   }
-
+  
   return null;
 }
-
 function findAvailableConversationLive(journeys) {
   var manifest = window.currentManifest || {};
   var levels = manifest.levels || [];
