@@ -351,7 +351,7 @@
     {
       "id": "roleplay_2",
       "speaker": "teacher",
-      "textFr": "Répète après moi : Le temps est beau",
+      "textFr": "Répète après moi : Il fait beau",
       "textMg": "Avereno aoriana: Le temps est beau",
       "audio": {
         "ttsTextFr": "Le temps est beau",
@@ -362,11 +362,11 @@
     {
       "id": "roleplay_2_response",
       "speaker": "user",
-      "textFr": "Répéter : Le temps est beau",
+      "textFr": "Répéter : Il fait beau",
       "textMg": "Avereno: Le temps est beau",
       "responseOptions": [
         {
-          "textFr": "Le temps est beau",
+          "textFr": "Il fait beau",
           "textMg": "Tsara ny andro",
           "isCorrect": true,
           "nextNodeOnSuccess": "roleplay_2_success"
@@ -468,7 +468,7 @@
         "ttsTextFr": "Excellent!",
         "ttsRate": 0.9
       },
-      "nextNode": "challenge_2_success"
+      "nextNode": "challenge_2"
     },
     {
       "id": "challenge_2",
@@ -507,7 +507,7 @@
         "ttsTextFr": "Excellent!",
         "ttsRate": 0.9
       },
-      "nextNode": "challenge_3_success"
+      "nextNode": "challenge_3"
     },
     {
       "id": "challenge_3",
