@@ -114,7 +114,7 @@
       "textFr": "La troisième voyelle est I. Comme dans IRAY, un beau prénom.",
       "textMg": "Ny fahatelo dia I. Hoatry ny ao amin'ny IRAY.",
       "audio": {
-        "ttsTextFr": "La troisième voyelle est I. Comme dans IRY, un beau prénom.",
+        "ttsTextFr": "La troisième voyelle est I. Comme dans IRAY, un beau prénom.",
         "ttsRate": 0.9
       },
       "nextNode": "user_i"
