@@ -1,3 +1,17 @@
+
+// V5.109: Charger manifest pour Today view
+async function initializeManifest() {
+  try {
+    const resp = await fetch('/content/fr/manifest.json');
+    const manifest = await resp.json();
+    window.currentManifest = manifest;
+    console.log('[App] Manifest charge pour Today view');
+  } catch (e) {
+    console.warn('[App] Impossible de charger manifest:', e);
+  }
+}
+initializeManifest();
+
 // ═══════════════════════════════════════════════════════════
 // IMPORTS
 // ═══════════════════════════════════════════════════════════

@@ -1,3 +1,4 @@
+import { renderToday } from '../ui/views/today-view.js';
 /**
  * Router — Gestionnaire de navigation basé sur le hash (#).
  * Doit être démarré explicitement via start() après avoir ajouté les routes.
