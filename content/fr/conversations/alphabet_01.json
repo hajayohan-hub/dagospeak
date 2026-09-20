@@ -151,10 +151,10 @@
     {
       "id": "teacher_o",
       "speaker": "teacher",
-      "textFr": "Et enfin O. Comme dans OLA, qui veut dire vague.",
-      "textMg": "Ary farany O. Hoatry ny ao amin'ny OLA, izay midika onjan-drano.",
+      "textFr": "Et enfin O. Comme dans OMENA, qui veut dire vague.",
+      "textMg": "Ary farany O. Hoatry ny ao amin'ny OMENA, izay midika onjan-drano.",
       "audio": {
-        "ttsTextFr": "Et enfin O. Comme dans OLA, qui veut dire vague.",
+        "ttsTextFr": "Et enfin O. Comme dans OMENA, qui veut dire vague.",
         "ttsRate": 0.9
       },
       "nextNode": "user_o"
