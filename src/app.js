@@ -8186,7 +8186,14 @@ function handleUserResponse(idx, node, attempts, feedback, isAutoEval = false) {
             // ✅ Dans la gestion du succès, utiliser les textes personnalisés
                                   // V5.111: Switch sur evaluation.state
             if (evaluation.state === 'INCORRECT') {
-              // Note: attempts[node.id]++ deja fait plus haut dans la fonction
+              // V5.113: Protection anti double appel (flag global)
+              if (window._incorrectProcessed) {
+                console.warn('[Conversation] V5.113 INCORRECT deja traite, ignore');
+                return;
+              }
+              window._incorrectProcessed = true;
+              setTimeout(() => { window._incorrectProcessed = false; }, 1000);
+              
               console.log('[Conversation] V5.111 INCORRECT, tentative', attempts[node.id]);
               
               if (attempts[node.id] < 3) {
