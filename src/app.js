@@ -8176,7 +8176,40 @@ function handleUserResponse(idx, node, attempts, feedback, isAutoEval = false) {
             document.querySelectorAll('.btn-option, .btn-microphone, .btn-auto-eval').forEach(b => b.disabled = true);
 
             // ✅ Dans la gestion du succès, utiliser les textes personnalisés
-                      if (selected.isCorrect) {
+                                  // V5.111: Switch sur evaluation.state
+            if (evaluation.state === 'INCORRECT') {
+              attempts[node.id]++;
+              console.log('[Conversation] V5.111 INCORRECT, tentative', attempts[node.id]);
+              
+              if (attempts[node.id] < 3) {
+                // Retry automatique
+                currentFeedback.innerHTML = `
+                  <div style="background: var(--ds-color-warning-soft, #fef3c7); padding: 1rem; border-radius: 12px; text-align: center;">
+                    <div style="font-size: 2rem;">⚠️</div>
+                    <p style="color: var(--ds-color-warning); font-weight: 600;">${evaluation.feedback}</p>
+                    <p style="color: var(--ds-color-text-muted); font-size: 0.9rem;">Tentative ${attempts[node.id]}/3 - Reessayez !</p>
+                  </div>
+                `;
+                
+                // Reactiver les boutons apres 2 secondes
+                setTimeout(() => {
+                  document.querySelectorAll('.btn-option, .btn-microphone').forEach(b => {
+                    b.disabled = false;
+                    b.style.opacity = '1';
+                  });
+                  turnProcessed = false; // Reset pour permettre retry
+                }, 2000);
+                
+                return; // Sortir sans progression
+              } else {
+                // Apres 3 essais, utiliser nextNodeOnFail ou nextNodeOnSuccess
+                console.log('[Conversation] V5.111 Max tentatives atteintes, progression forcee');
+                // Continuer avec la logique normale (nextNodeOnSuccess)
+              }
+            }
+            
+            // Pour CORRECT, ACCEPTABLE, ou INCORRECT apres 3 essais
+            if (selected.isCorrect) {
           if (clickedBtn) clickedBtn.style.borderColor = 'var(--ds-color-success)';
 
           currentFeedback.innerHTML = `
