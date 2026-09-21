@@ -7132,43 +7132,33 @@ async function renderConversationLive() {
                     const conversationsData = {
         A0: [
           { id: 'greetings_01', title: 'Se présenter', icon: '👋', description: 'Dire son nom et demander comment ça va' },
-          { id: 'alphabet_01', title: 'Épeler son nom', icon: '🔤', description: 'Épeler son nom et prénom lettre par lettre' },
-          { id: 'alphabet_02', title: 'Épeler des mots du quotidien', icon: '🔤', description: 'Épeler des mots avec les lettres N à Z' },
-          { id: 'numbers_01', title: 'Compter de 1 à 10', icon: '🔢', description: 'Compter et demander des prix simples' },
-          { id: 'numbers2_01', title: 'Acheter plusieurs articles', icon: '🔢', description: 'Compter de 11 à 100 et payer au marché' },
-          { id: 'market_01', title: 'Au marché', icon: '🏪', description: 'Acheter du riz et des légumes' },
-          { id: 'family_01', title: 'Parler de sa famille', icon: '👨‍👩‍👧', description: 'Présenter ses parents et frères/sœurs' },
-          { id: 'family_02', title: 'Parler de sa famille (avec mémoire)', icon: '🧠', description: 'Conversation qui se souvient de ce que tu dis' },
-          { id: 'colors_01', title: 'Décrire des couleurs', icon: '🎨', description: 'Identifier les couleurs du ciel et de la nature' },
-          { id: 'survival_01', title: 'Demander de l\'aide', icon: '🆘', description: 'Demander son chemin et remercier' },
-          { id: 'body_01', title: 'Parler de son corps', icon: '🏥', description: 'Décrire une douleur chez le médecin' },
-          { id: 'days_01', title: 'Les jours de la semaine', icon: '📅', description: 'Dire quel jour on est et parler de sa routine' },
-          { id: 'months_01', title: 'Les mois de l\'année', icon: '🗓️', description: 'Parler des mois, des saisons et de son anniversaire' },
-          { id: 'pronouns_basic_01', title: 'Les pronoms de base', icon: '🙋', description: 'Utiliser Je, Tu, Vous, Nous pour se présenter' },
           { id: 'articles_01', title: 'Les articles français', icon: '📖', description: 'Maîtriser le, la, les, un, une, des et les articles contractés' },
-          { id: 'verbe_etre_01', title: 'Le verbe être', icon: '👤', description: 'Je suis, tu es, il est, nous sommes, vous êtes, ils sont' },
-          { id: 'verbe_avoir_01', title: 'Le verbe avoir', icon: '🤲', description: "J'ai, tu as, il a, nous avons, vous avez, ils ont" },
-          { id: 'adjectifs_01', title: 'Les adjectifs de base', icon: '🎨', description: 'Grand, petit, bon, mauvais, chaud, froid, content, triste' },
-          { id: 'prepositions_01', title: 'Les prépositions', icon: '📍', description: 'Dans, sur, sous, devant, derrière - situer dans l\'espace' },
-          { id: 'demonstratifs_01', title: 'Les démonstratifs', icon: '👉', description: 'Ce, cet, cette, ces - désigner précisément' },
-          { id: 'possessifs_01', title: 'Les possessifs', icon: '🤝', description: 'Mon, ton, son, notre, votre, leur - exprimer la possession' },
-          { id: 'verbes_er_01', title: 'Les verbes en -er', icon: '🏃', description: 'Parler, manger, aimer - 90% des verbes français' },
-          { id: 'questions_01', title: 'Les mots interrogatifs', icon: '❓', description: 'Où, quand, pourquoi, comment - poser des questions' },
-          { id: 'negation_01', title: 'La négation', icon: '🚫', description: 'Ne...pas, ne...jamais, ne...plus - exprimer le refus' },
-          { id: 'imperatif_01', title: 'L\'impératif', icon: '👆', description: 'Écoute, parle, mange - donner des instructions' },
-          { id: 'futur_proche_01', title: 'Le futur proche', icon: '⏰', description: 'Je vais parler, tu vas manger - exprimer l\'intention' }
-        ],
-        A1: [], // À venir
-        A2: [], // À venir
-        B1: []  // À venir
+          { id: 'alphabet_01', title: 'Épeler son nom', icon: '🔤', description: 'Épeler son nom et prénom lettre par lettre' },
+          { id: 'verbe_etre_01', title: 'Le verbe être', icon: '📖', description: 'Utiliser je suis, tu es, il est pour se décrire' },
+          { id: 'survival_01', title: 'Demander de l\'aide', icon: '🆘', description: 'Demander son chemin et remercier' },
+          { id: 'adjectifs_01', title: 'Les adjectifs', icon: '📖', description: 'Décrire avec grand, petit, bon, mauvais' },
+          { id: 'family_01', title: 'Parler de sa famille', icon: '👨‍👩‍👧', description: 'Présenter ses parents et frères/sœurs' },
+          { id: 'possessifs_01', title: 'Les possessifs', icon: '📖', description: 'Utiliser mon, ton, son, notre, votre, leur' },
+          { id: 'numbers_01', title: 'Compter de 1 à 10', icon: '🔢', description: 'Compter et demander des prix simples' },
+          { id: 'negation_01', title: 'La négation', icon: '📖', description: 'Dire non avec ne...pas, ne...jamais, ne...plus' },
+          { id: 'market_01', title: 'Au marché', icon: '🏪', description: 'Acheter du riz et des légumes' },
+          { id: 'questions_01', title: 'Poser des questions', icon: '📖', description: 'Utiliser qui, quoi, où, quand, pourquoi, comment' },
+          { id: 'numbers2_01', title: 'Acheter plusieurs articles', icon: '🔢', description: 'Compter de 11 à 100 et payer au marché' },
+          { id: 'demonstratifs_01', title: 'Les démonstratifs', icon: '📖', description: 'Utiliser ce, cet, cette, ces pour désigner' },
+          { id: 'colors_01', title: 'Décrire des couleurs', icon: '🎨', description: 'Identifier les couleurs du ciel et de la nature' },
+          { id: 'prepositions_01', title: 'Les prépositions', icon: '📖', description: 'Utiliser sur, sous, dans, devant, derrière' },
+          { id: 'days_01', title: 'Les jours de la semaine', icon: '📅', description: 'Dire quel jour on est et parler de sa routine' },
+          { id: 'verbe_avoir_01', title: 'Le verbe avoir', icon: '📖', description: 'Utiliser j\'ai, tu as, il a pour posséder' },
+          { id: 'months_01', title: 'Les mois de l\'année', icon: '🗓️', description: 'Parler des mois, des saisons et de son anniversaire' },
+          { id: 'verbes_er_01', title: 'Les verbes en -er', icon: '📖', description: 'Conjuguer parler, manger, aimer au présent' },
+          { id: 'body_01', title: 'Parler de son corps', icon: '🏥', description: 'Décrire une douleur chez le médecin' },
+          { id: 'imperatif_01', title: 'L\'impératif', icon: '📖', description: 'Donner des ordres et des conseils' },
+          { id: 'pronouns_basic_01', title: 'Les pronoms de base', icon: '🙋', description: 'Utiliser Je, Tu, Vous, Nous pour se présenter' },
+          { id: 'futur_proche_01', title: 'Le futur proche', icon: '📖', description: 'Parler de ses projets avec aller + infinitif' },
+          { id: 'alphabet_02', title: 'Épeler des mots du quotidien', icon: '🔤', description: 'Épeler des mots avec les lettres N à Z' },
+          { id: 'family_02', title: 'Parler de sa famille (avec mémoire)', icon: '🧠', description: 'Conversation qui se souvient de ce que tu dis' }
+        ]
       };
-
-    const levels = [
-      { id: 'A0', name: 'Niveau A0', subtitle: 'Débutant absolu', available: true, color: 'var(--ds-color-success)', icon: '🌱', conversations: conversationsData.A0 },
-      { id: 'A1', name: 'Niveau A1', subtitle: 'Élémentaire', available: false, color: 'var(--ds-color-primary)', icon: '📚', conversations: conversationsData.A1 },
-      { id: 'A2', name: 'Niveau A2', subtitle: 'Intermédiaire', available: false, color: 'var(--ds-color-accent)', icon: '🎓', conversations: conversationsData.A2 },
-      { id: 'B1', name: 'Niveau B1', subtitle: 'Seuil', available: false, color: 'var(--ds-color-text-muted)', icon: '🔒', conversations: conversationsData.B1 }
-    ];
 
     main.innerHTML = `
       <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem;">
