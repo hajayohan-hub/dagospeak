@@ -61,11 +61,11 @@
           "textFr": "Bonjour !",
           "textMg": "Manao ahoana!",
           "isCorrect": false,
-          "nextNodeOnSuccess": "correct_name",
           "feedback": {
             "fr": "Dites d'abord votre nom.",
             "mg": "Lazao aloha ny anaranao."
-          }
+          },
+          "nextNodeOnFail": "correct_name"
         }
       ]
     },

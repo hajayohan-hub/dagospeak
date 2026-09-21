@@ -225,7 +225,7 @@
           "textFr": "Où est la gare routière ?",
           "textMg": "Aiza ny gara fitaterana?",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_toilets"
+          "nextNodeOnSuccess": "teacher_station"
         }
       ]
     },
@@ -248,6 +248,28 @@
       "audio": {
         "ttsTextFr": "Voici de l'eau. Bonne nuit !",
         "ttsRate": 0.9
+      },
+      "nextNode": "farewell"
+    },
+    {
+      "id": "teacher_medicine",
+      "speaker": "teacher",
+      "textFr": "Bien sûr ! Voici le numéro d'urgence : 117. Je peux aussi appeler la réception pour vous.",
+      "textMg": "Eny tokoa ! Ireto ny nomeraon'ny maika : 117. Afaka miantso ny fandraisana koa aho ho anao.",
+      "audio": {
+        "ttsTextFr": "Bien sûr ! Voici le numéro d'urgence : 117. Je peux aussi appeler la réception pour vous.",
+        "gender": "female"
+      },
+      "nextNode": "farewell"
+    },
+    {
+      "id": "teacher_station",
+      "speaker": "teacher",
+      "textFr": "La gare routière est à 500 mètres d'ici. Prenez à gauche en sortant, puis tout droit.",
+      "textMg": "Ny gara fitaterana dia 500 metatra eto. Mandehana miankavia raha vao mivoaka, avy eo mandrosoa.",
+      "audio": {
+        "ttsTextFr": "La gare routière est à 500 mètres d'ici. Prenez à gauche en sortant, puis tout droit.",
+        "gender": "female"
       },
       "nextNode": "farewell"
     },
