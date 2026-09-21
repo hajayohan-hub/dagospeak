@@ -8178,7 +8178,7 @@ function handleUserResponse(idx, node, attempts, feedback, isAutoEval = false) {
             // ✅ Dans la gestion du succès, utiliser les textes personnalisés
                                   // V5.111: Switch sur evaluation.state
             if (evaluation.state === 'INCORRECT') {
-              attempts[node.id]++;
+              // Note: attempts[node.id]++ deja fait plus haut dans la fonction
               console.log('[Conversation] V5.111 INCORRECT, tentative', attempts[node.id]);
               
               if (attempts[node.id] < 3) {
