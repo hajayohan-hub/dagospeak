@@ -8196,6 +8196,31 @@ function handleUserResponse(idx, node, attempts, feedback, isAutoEval = false) {
               
               console.log('[Conversation] V5.111 INCORRECT, tentative', attempts[node.id]);
               
+              // V5.114: Voix de Teacher AI sur feedback INCORRECT
+              const errorTtsText = selected?.feedback?.fr || evaluation.feedback || 'Pas tout a fait. Essayez encore.';
+              console.log('[Conversation] V5.114 TTS feedback INCORRECT:', errorTtsText);
+              
+              if (typeof speakWithFeedback === 'function' && errorTtsText) {
+                speakWithFeedback(errorTtsText, {
+                  rate: 0.9,
+                  gender: 'female',
+                  onStart: () => {
+                    console.log('[Conversation] V5.114 TTS INCORRECT demarre');
+                    if (window.teacherAvatarSVG) {
+                      window.teacherAvatarSVG.startSpeaking();
+                      window.teacherAvatarSVG.setExpression('encouraging');
+                    }
+                  },
+                  onEnd: () => {
+                    console.log('[Conversation] V5.114 TTS INCORRECT termine');
+                    if (window.teacherAvatarSVG) {
+                      window.teacherAvatarSVG.stopSpeaking();
+                      window.teacherAvatarSVG.setExpression('neutral');
+                    }
+                  }
+                });
+              }
+              
               if (attempts[node.id] < 3) {
                 // Retry automatique
                 currentFeedback.innerHTML = `
