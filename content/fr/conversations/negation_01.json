@@ -93,10 +93,10 @@
     {
       "id": "lesson_2_feedback",
       "speaker": "teacher",
-      "textFr": "'Ne...jamais' = never, à aucun moment.",
+      "textFr": "'Ne...jamais' signifie qu'une action ne se produit à aucun moment.",
       "textMg": "'Ne...jamais' = tsy mihitsy, na oviana na oviana.",
       "audio": {
-        "ttsTextFr": "'Ne...jamais' = never, à aucun moment.",
+        "ttsTextFr": "'Ne...jamais' signifie qu'une action ne se produit à aucun moment.",
         "ttsRate": 0.9
       },
       "nextNode": "lesson_3"
@@ -129,10 +129,10 @@
     {
       "id": "lesson_3_feedback",
       "speaker": "teacher",
-      "textFr": "'Ne...plus' = not anymore, cessation d'une action.",
+      "textFr": "'Ne...plus' indique qu'une action a cessé, elle ne se produit plus.",
       "textMg": "'Ne...plus' = tsy intsony, fahatapahan'ny asa.",
       "audio": {
-        "ttsTextFr": "'Ne...plus' = not anymore, cessation d'une action.",
+        "ttsTextFr": "'Ne...plus' indique qu'une action a cessé, elle ne se produit plus.",
         "ttsRate": 0.9
       },
       "nextNode": "lesson_4"
@@ -165,10 +165,10 @@
     {
       "id": "lesson_4_feedback",
       "speaker": "teacher",
-      "textFr": "'Ne...rien' = nothing, aucune chose.",
+      "textFr": "'Ne...rien' signifie qu'il n'y a aucune chose, rien du tout.",
       "textMg": "'Ne...rien' = tsy misy, zavatra na inona na inona.",
       "audio": {
-        "ttsTextFr": "'Ne...rien' = nothing, aucune chose.",
+        "ttsTextFr": "'Ne...rien' signifie qu'il n'y a aucune chose, rien du tout.",
         "ttsRate": 0.9
       },
       "nextNode": "lesson_5"
@@ -201,10 +201,10 @@
     {
       "id": "lesson_5_feedback",
       "speaker": "teacher",
-      "textFr": "'Ne...personne' = nobody, aucun être humain.",
+      "textFr": "'Ne...personne' signifie qu'il n'y a aucun être humain.",
       "textMg": "'Ne...personne' = tsy misy olona, olona na iza na iza.",
       "audio": {
-        "ttsTextFr": "'Ne...personne' = nobody, aucun être humain.",
+        "ttsTextFr": "'Ne...personne' signifie qu'il n'y a aucun être humain.",
         "ttsRate": 0.9
       },
       "nextNode": "lesson_complete"

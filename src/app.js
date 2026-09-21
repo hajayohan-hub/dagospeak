@@ -8134,7 +8134,15 @@ function evaluateUserResponse(selected, transcript) {
 window.evaluateUserResponse = evaluateUserResponse;
 
 function handleUserResponse(idx, node, attempts, feedback, isAutoEval = false) {
-            // ✅ Protection contre les doubles progressions (clic + micro)
+            // V5.112: Protection contre doubles appels (timestamp + flag)
+            const now = Date.now();
+            if (!window._lastHandleTime) window._lastHandleTime = 0;
+            if (now - window._lastHandleTime < 500) {
+              console.warn('[Conversation] V5.112 Double appel ignore (delai < 500ms)');
+              return;
+            }
+            window._lastHandleTime = now;
+            
             if (turnProcessed) {
               console.warn('[Conversation] ⚠️ handleUserResponse ignoré (tour déjà traité)');
               return;
