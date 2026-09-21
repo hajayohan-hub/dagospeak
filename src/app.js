@@ -7157,12 +7157,17 @@ async function renderConversationLive() {
           { id: 'futur_proche_01', title: 'Le futur proche', icon: '📖', description: 'Parler de ses projets avec aller + infinitif' },
           { id: 'alphabet_02', title: 'Épeler des mots du quotidien', icon: '🔤', description: 'Épeler des mots avec les lettres N à Z' },
           { id: 'family_02', title: 'Parler de sa famille (avec mémoire)', icon: '🧠', description: 'Conversation qui se souvient de ce que tu dis' }
-        ]
+        ],
+        A1: [], // À venir
+        A2: [], // À venir
+        B1: []  // À venir
       };
 
-    // ✅ Définir les niveaux disponibles pour Conversation Live
     const levels = [
-      { id: 'A0', name: 'A0 - Débutant', available: true, icon: '🌱', description: 'Les bases essentielles' }
+      { id: 'A0', name: 'Niveau A0', subtitle: 'Débutant absolu', available: true, color: 'var(--ds-color-success)', icon: '🌱', conversations: conversationsData.A0 },
+      { id: 'A1', name: 'Niveau A1', subtitle: 'Élémentaire', available: false, color: 'var(--ds-color-primary)', icon: '📚', conversations: conversationsData.A1 },
+      { id: 'A2', name: 'Niveau A2', subtitle: 'Intermédiaire', available: false, color: 'var(--ds-color-accent)', icon: '🎓', conversations: conversationsData.A2 },
+      { id: 'B1', name: 'Niveau B1', subtitle: 'Seuil', available: false, color: 'var(--ds-color-text-muted)', icon: '🔒', conversations: conversationsData.B1 }
     ];
 
     main.innerHTML = `
