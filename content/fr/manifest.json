@@ -12,171 +12,171 @@
           "requires": []
         },
         {
-          "id": "alphabet2",
+          "id": "articles",
           "order": 2,
           "requires": [
             "alphabet1"
           ]
         },
         {
-          "id": "articles",
+          "id": "alphabet2",
           "order": 3,
-          "requires": [
-            "alphabet2"
-          ]
-        },
-        {
-          "id": "greetings",
-          "order": 4,
           "requires": [
             "articles"
           ]
         },
         {
           "id": "verbe_etre",
-          "order": 5,
+          "order": 4,
           "requires": [
-            "greetings"
+            "alphabet2"
           ]
         },
         {
-          "id": "survival",
-          "order": 6,
+          "id": "greetings",
+          "order": 5,
           "requires": [
             "verbe_etre"
           ]
         },
         {
           "id": "adjectifs",
-          "order": 7,
+          "order": 6,
           "requires": [
-            "survival"
+            "greetings"
           ]
         },
         {
-          "id": "family",
-          "order": 8,
+          "id": "survival",
+          "order": 7,
           "requires": [
             "adjectifs"
           ]
         },
         {
           "id": "possessifs",
-          "order": 9,
+          "order": 8,
           "requires": [
-            "family"
+            "survival"
           ]
         },
         {
-          "id": "numbers",
-          "order": 10,
+          "id": "family",
+          "order": 9,
           "requires": [
             "possessifs"
           ]
         },
         {
           "id": "negation",
-          "order": 11,
+          "order": 10,
           "requires": [
-            "numbers"
+            "family"
           ]
         },
         {
-          "id": "market",
-          "order": 12,
+          "id": "numbers",
+          "order": 11,
           "requires": [
             "negation"
           ]
         },
         {
           "id": "questions",
-          "order": 13,
+          "order": 12,
           "requires": [
-            "market"
+            "numbers"
           ]
         },
         {
-          "id": "numbers2",
-          "order": 14,
+          "id": "market",
+          "order": 13,
           "requires": [
             "questions"
           ]
         },
         {
           "id": "demonstratifs",
-          "order": 15,
+          "order": 14,
           "requires": [
-            "numbers2"
+            "market"
           ]
         },
         {
-          "id": "colors",
-          "order": 16,
+          "id": "numbers2",
+          "order": 15,
           "requires": [
             "demonstratifs"
           ]
         },
         {
           "id": "prepositions",
-          "order": 17,
+          "order": 16,
           "requires": [
-            "colors"
+            "numbers2"
           ]
         },
         {
-          "id": "days",
-          "order": 18,
+          "id": "colors",
+          "order": 17,
           "requires": [
             "prepositions"
           ]
         },
         {
           "id": "verbe_avoir",
-          "order": 19,
+          "order": 18,
           "requires": [
-            "days"
+            "colors"
           ]
         },
         {
-          "id": "months",
-          "order": 20,
+          "id": "days",
+          "order": 19,
           "requires": [
             "verbe_avoir"
           ]
         },
         {
           "id": "verbes_er",
-          "order": 21,
+          "order": 20,
           "requires": [
-            "months"
+            "days"
           ]
         },
         {
-          "id": "body",
-          "order": 22,
+          "id": "months",
+          "order": 21,
           "requires": [
             "verbes_er"
           ]
         },
         {
           "id": "imperatif",
-          "order": 23,
+          "order": 22,
           "requires": [
-            "body"
+            "months"
           ]
         },
         {
-          "id": "pronouns_basic",
-          "order": 24,
+          "id": "body",
+          "order": 23,
           "requires": [
             "imperatif"
           ]
         },
         {
           "id": "futur_proche",
+          "order": 24,
+          "requires": [
+            "body"
+          ]
+        },
+        {
+          "id": "pronouns_basic",
           "order": 25,
           "requires": [
-            "pronouns_basic"
+            "futur_proche"
           ]
         }
       ]
