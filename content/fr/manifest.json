@@ -19,164 +19,164 @@
           ]
         },
         {
-          "id": "greetings",
+          "id": "articles",
           "order": 3,
           "requires": [
             "alphabet2"
           ]
         },
         {
-          "id": "survival",
+          "id": "greetings",
           "order": 4,
+          "requires": [
+            "articles"
+          ]
+        },
+        {
+          "id": "verbe_etre",
+          "order": 5,
           "requires": [
             "greetings"
           ]
         },
         {
-          "id": "family",
-          "order": 5,
-          "requires": [
-            "survival"
-          ]
-        },
-        {
-          "id": "market",
+          "id": "survival",
           "order": 6,
           "requires": [
-            "survival"
+            "verbe_etre"
           ]
         },
         {
-          "id": "numbers",
+          "id": "adjectifs",
           "order": 7,
           "requires": [
             "survival"
           ]
         },
         {
-          "id": "numbers2",
+          "id": "family",
           "order": 8,
-          "requires": [
-            "numbers"
-          ]
-        },
-        {
-          "id": "colors",
-          "order": 9,
-          "requires": [
-            "survival"
-          ]
-        },
-        {
-          "id": "days",
-          "order": 10,
-          "requires": [
-            "numbers"
-          ]
-        },
-        {
-          "id": "months",
-          "order": 11,
-          "requires": [
-            "days"
-          ]
-        },
-        {
-          "id": "body",
-          "order": 12,
-          "requires": [
-            "survival"
-          ]
-        },
-        {
-          "id": "pronouns_basic",
-          "order": 13,
-          "requires": [
-            "body"
-          ]
-        },
-        {
-          "id": "articles",
-          "order": 14,
-          "requires": [
-            "pronouns_basic"
-          ]
-        },
-        {
-          "id": "verbe_etre",
-          "order": 15,
-          "requires": [
-            "pronouns_basic"
-          ]
-        },
-        {
-          "id": "verbe_avoir",
-          "order": 16,
-          "requires": [
-            "verbe_etre"
-          ]
-        },
-        {
-          "id": "possessifs",
-          "order": 17,
-          "requires": [
-            "verbe_avoir"
-          ]
-        },
-        {
-          "id": "demonstratifs",
-          "order": 18,
-          "requires": [
-            "possessifs"
-          ]
-        },
-        {
-          "id": "adjectifs",
-          "order": 19,
-          "requires": [
-            "demonstratifs"
-          ]
-        },
-        {
-          "id": "verbes_er",
-          "order": 20,
           "requires": [
             "adjectifs"
           ]
         },
         {
-          "id": "negation",
-          "order": 21,
+          "id": "possessifs",
+          "order": 9,
           "requires": [
-            "verbes_er"
+            "family"
           ]
         },
         {
-          "id": "questions",
-          "order": 22,
+          "id": "numbers",
+          "order": 10,
+          "requires": [
+            "possessifs"
+          ]
+        },
+        {
+          "id": "negation",
+          "order": 11,
+          "requires": [
+            "numbers"
+          ]
+        },
+        {
+          "id": "market",
+          "order": 12,
           "requires": [
             "negation"
           ]
         },
         {
-          "id": "prepositions",
-          "order": 23,
+          "id": "questions",
+          "order": 13,
+          "requires": [
+            "market"
+          ]
+        },
+        {
+          "id": "numbers2",
+          "order": 14,
           "requires": [
             "questions"
           ]
         },
         {
-          "id": "imperatif",
-          "order": 24,
+          "id": "demonstratifs",
+          "order": 15,
+          "requires": [
+            "numbers2"
+          ]
+        },
+        {
+          "id": "colors",
+          "order": 16,
+          "requires": [
+            "demonstratifs"
+          ]
+        },
+        {
+          "id": "prepositions",
+          "order": 17,
+          "requires": [
+            "colors"
+          ]
+        },
+        {
+          "id": "days",
+          "order": 18,
           "requires": [
             "prepositions"
+          ]
+        },
+        {
+          "id": "verbe_avoir",
+          "order": 19,
+          "requires": [
+            "days"
+          ]
+        },
+        {
+          "id": "months",
+          "order": 20,
+          "requires": [
+            "verbe_avoir"
+          ]
+        },
+        {
+          "id": "verbes_er",
+          "order": 21,
+          "requires": [
+            "months"
+          ]
+        },
+        {
+          "id": "body",
+          "order": 22,
+          "requires": [
+            "verbes_er"
+          ]
+        },
+        {
+          "id": "imperatif",
+          "order": 23,
+          "requires": [
+            "body"
+          ]
+        },
+        {
+          "id": "pronouns_basic",
+          "order": 24,
+          "requires": [
+            "imperatif"
           ]
         },
         {
           "id": "futur_proche",
           "order": 25,
           "requires": [
-            "imperatif"
+            "pronouns_basic"
           ]
         }
       ]
