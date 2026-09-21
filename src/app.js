@@ -7160,6 +7160,11 @@ async function renderConversationLive() {
         ]
       };
 
+    // ✅ Définir les niveaux disponibles pour Conversation Live
+    const levels = [
+      { id: 'A0', name: 'A0 - Débutant', available: true, icon: '🌱', description: 'Les bases essentielles' }
+    ];
+
     main.innerHTML = `
       <section style="max-width: 600px; margin: 0 auto; padding: 2rem 1rem;">
         <ds-button variant="ghost" size="sm" id="btn-back-conv" style="margin-bottom: 1rem;">← Retour</ds-button>
