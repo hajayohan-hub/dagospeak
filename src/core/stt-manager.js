@@ -19,6 +19,23 @@ export class STTManager {
   #simulationAnimationFrameId = null;
   #simulationFinished = false;
 
+  // ✅ V5.110: Fonction centralisée de décision du moteur
+  getCurrentSTTMode() {
+    // 1. Offline forcé
+    if (!navigator.onLine) return 'SIMULATION';
+    
+    // 2. Toggle utilisateur OFF
+    if (!this.#sttEnabled) return 'SIMULATION';
+    
+    // 3. Pas de support Web Speech
+    if (!this.#isSupported) return 'SIMULATION';
+    
+    // 4. Mode normal
+    return 'WEB_API';
+  }
+
+
+
   constructor() {
     this.#detectCapabilities();
     this.#setupNetworkListeners();
@@ -263,7 +280,7 @@ export class STTManager {
     };
     
     globalTimeoutId = setTimeout(() => {
-      console.warn('[STTManager] ⏱️ Timeout 15s atteint');
+      console.warn('[STTManager] ⏱️ Timeout 8s atteint');
       if (!hasStartedSpeaking) {
         console.log('[STTManager] 🤫 Aucune parole détectée');
         endSessionWithFlag('noSpeech');
@@ -361,6 +378,23 @@ export class STTManager {
     this.#simulationStream = mediaStream;
     this.#simulationAudioContext = audioContext;
     this.#simulationFinished = false;
+
+  // ✅ V5.110: Fonction centralisée de décision du moteur
+  getCurrentSTTMode() {
+    // 1. Offline forcé
+    if (!navigator.onLine) return 'SIMULATION';
+    
+    // 2. Toggle utilisateur OFF
+    if (!this.#sttEnabled) return 'SIMULATION';
+    
+    // 3. Pas de support Web Speech
+    if (!this.#isSupported) return 'SIMULATION';
+    
+    // 4. Mode normal
+    return 'WEB_API';
+  }
+
+
           let finished = false; // ✅ Flag idempotent (AVANT checkAudio pour scope correct)
           let lastRmsLogTime = 0; // Pour log RMS périodique
 
@@ -564,6 +598,7 @@ export class STTManager {
    * Mode simulation : toujours encourageant
    * Mode réel : comparaison précise
    */
+  // ✅ V5.110: Retour structuré avec 3 états séparés
   compareTexts(recognized, expected) {
     if (!recognized || !expected) {
       return { score: 0, isCorrect: false, feedback: 'Aucun texte reconnu' };
