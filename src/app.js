@@ -8141,6 +8141,15 @@ function handleUserResponse(idx, node, attempts, feedback, isAutoEval = false) {
             }
             turnProcessed = true;
             
+            // V5.111: Evaluation selon le contrat des 4 etats
+            const evaluation = evaluateUserResponse(selected);
+            console.log('[Conversation] V5.111 evaluation:', {
+              state: evaluation.state,
+              score: evaluation.score,
+              feedback: evaluation.feedback,
+              selectedText: selected?.textFr
+            });
+            
             let ttsCompleted = false; // ✅ Protection contre les doubles callbacks
             const currentFeedback = document.getElementById('feedback');
             const selected = node.responseOptions[idx];
