@@ -8093,7 +8093,47 @@ async function renderConversation() {
         }
 
         // ✅ Fonction pour gérer la réponse utilisateur (clic ou STT)
-        function handleUserResponse(idx, node, attempts, feedback, isAutoEval = false) {
+        // V5.111: Evaluer une reponse selon le contrat des 4 etats
+function evaluateUserResponse(selected, transcript) {
+  // Cas 1 : Pas de transcript (clic sur bouton)
+  if (!transcript) {
+    if (selected.isCorrect === true) {
+      return { state: 'CORRECT', score: 100, feedback: 'Parfait !' };
+    }
+    return { state: 'INCORRECT', score: 0, feedback: 'Pas tout a fait.' };
+  }
+  
+  // Cas 2 : Transcript vide (erreur STT)
+  if (!transcript.trim()) {
+    return { state: 'UNKNOWN', score: 0, feedback: 'Je n\'ai pas bien entendu.' };
+  }
+  
+  // Cas 3 : Utiliser sttManager si disponible
+  if (window.sttManager && typeof window.sttManager.compareTexts === 'function') {
+    const comparison = window.sttManager.compareTexts(transcript, selected.textFr);
+    
+    if (comparison.isSimulation) {
+      return { state: 'CORRECT', score: 85, feedback: 'Bien ! (mode simulation)', isSimulation: true };
+    }
+    
+    const score = comparison.score || 0;
+    if (score >= 85) {
+      return { state: 'CORRECT', score: score, feedback: comparison.feedback || 'Parfait !' };
+    }
+    if (score >= 70) {
+      return { state: 'ACCEPTABLE', score: score, feedback: comparison.feedback || 'Bien ! Continuez.' };
+    }
+    return { state: 'INCORRECT', score: score, feedback: comparison.feedback || 'Essayez encore.' };
+  }
+  
+  // Cas 4 : Fallback
+  return { state: 'UNKNOWN', score: 0, feedback: 'Evaluation non disponible' };
+}
+
+// Exposer globalement pour debug
+window.evaluateUserResponse = evaluateUserResponse;
+
+function handleUserResponse(idx, node, attempts, feedback, isAutoEval = false) {
             // ✅ Protection contre les doubles progressions (clic + micro)
             if (turnProcessed) {
               console.warn('[Conversation] ⚠️ handleUserResponse ignoré (tour déjà traité)');
