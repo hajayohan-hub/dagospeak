@@ -8141,6 +8141,10 @@ function handleUserResponse(idx, node, attempts, feedback, isAutoEval = false) {
             }
             turnProcessed = true;
             
+            let ttsCompleted = false; // ✅ Protection contre les doubles callbacks
+            const currentFeedback = document.getElementById('feedback');
+            const selected = node.responseOptions[idx];
+            
             // V5.111: Evaluation selon le contrat des 4 etats
             const evaluation = evaluateUserResponse(selected);
             console.log('[Conversation] V5.111 evaluation:', {
@@ -8149,10 +8153,6 @@ function handleUserResponse(idx, node, attempts, feedback, isAutoEval = false) {
               feedback: evaluation.feedback,
               selectedText: selected?.textFr
             });
-            
-            let ttsCompleted = false; // ✅ Protection contre les doubles callbacks
-            const currentFeedback = document.getElementById('feedback');
-            const selected = node.responseOptions[idx];
             attempts[node.id]++;
             
             // ✅ V5.68: Lire le feedback depuis l'option sélectionnée
