@@ -263,7 +263,7 @@
       "textFr": "Maintenant, faisons un jeu de rôle ! Tu rencontres un nouvel ami à l'école. Présente-toi !",
       "textMg": "Andao hilalao anjara! Mifanena amin'ny namana vaovao any an-tsekoly ianao. Mampahafantaro tena!",
       "audio": {
-        "ttsTextFr": "Maintenant, faisons un jeu de rôle!",
+        "ttsTextFr": "Maintenant, faisons un jeu de rôle ! Tu rencontres un nouvel ami à l'école. Présente-toi !",
         "ttsRate": 0.9
       },
       "nextNode": "roleplay_1"
@@ -274,7 +274,7 @@
       "textFr": "Répète après moi : Bonjour !",
       "textMg": "Avereno aoriana: Bonjour !",
       "audio": {
-        "ttsTextFr": "Bonjour !",
+        "ttsTextFr": "Répète après moi : Bonjour !",
         "ttsRate": 0.9
       },
       "nextNode": "roleplay_1_response"
@@ -299,7 +299,7 @@
       "textFr": "Excellent ! Continue !",
       "textMg": "Tsara be! Tohizo!",
       "audio": {
-        "ttsTextFr": "Excellent!",
+        "ttsTextFr": "Excellent ! Continue !",
         "ttsRate": 0.9
       },
       "nextNode": "roleplay_2"
@@ -310,7 +310,7 @@
       "textFr": "Répète après moi : Comment vas-tu ?",
       "textMg": "Avereno aoriana: Comment vas-tu ?",
       "audio": {
-        "ttsTextFr": "Comment vas-tu ?",
+        "ttsTextFr": "Répète après moi : Comment vas-tu ?",
         "ttsRate": 0.9
       },
       "nextNode": "roleplay_2_response"
@@ -335,7 +335,7 @@
       "textFr": "Excellent ! Continue !",
       "textMg": "Tsara be! Tohizo!",
       "audio": {
-        "ttsTextFr": "Excellent!",
+        "ttsTextFr": "Excellent ! Continue !",
         "ttsRate": 0.9
       },
       "nextNode": "roleplay_3"
@@ -346,7 +346,7 @@
       "textFr": "Répète après moi : Comment t'appelles-tu ?",
       "textMg": "Avereno aoriana: Comment t'appelles-tu ?",
       "audio": {
-        "ttsTextFr": "Comment t'appelles-tu ?",
+        "ttsTextFr": "Répète après moi : Comment t'appelles-tu ?",
         "ttsRate": 0.9
       },
       "nextNode": "roleplay_3_response"
@@ -371,7 +371,7 @@
       "textFr": "Excellent ! Continue !",
       "textMg": "Tsara be! Tohizo!",
       "audio": {
-        "ttsTextFr": "Excellent!",
+        "ttsTextFr": "Excellent ! Continue !",
         "ttsRate": 0.9
       },
       "nextNode": "challenge_intro"
@@ -382,7 +382,7 @@
       "textFr": "Maintenant, le défi final ! Réponds correctement aux 3 questions pour gagner !",
       "textMg": "Androany, ny fanamby farany! Valio marina ny fanontaniana 3 mba handresy!",
       "audio": {
-        "ttsTextFr": "Maintenant, le défi final!",
+        "ttsTextFr": "Maintenant, le défi final ! Réponds correctement aux 3 questions pour gagner !",
         "ttsRate": 0.9
       },
       "nextNode": "challenge_1"
@@ -421,7 +421,7 @@
       "textFr": "Excellent ! 1/3 correct !",
       "textMg": "Tsara be! 1/3 marina!",
       "audio": {
-        "ttsTextFr": "Excellent!",
+        "ttsTextFr": "Excellent ! 1/3 correct !",
         "ttsRate": 0.9
       },
       "nextNode": "challenge_2"
@@ -460,7 +460,7 @@
       "textFr": "Excellent ! 2/3 correct !",
       "textMg": "Tsara be! 2/3 marina!",
       "audio": {
-        "ttsTextFr": "Excellent!",
+        "ttsTextFr": "Excellent ! 2/3 correct !",
         "ttsRate": 0.9
       },
       "nextNode": "challenge_3"
@@ -499,7 +499,7 @@
       "textFr": "Excellent ! 3/3 correct !",
       "textMg": "Tsara be! 3/3 marina!",
       "audio": {
-        "ttsTextFr": "Excellent!",
+        "ttsTextFr": "Excellent ! 3/3 correct !",
         "ttsRate": 0.9
       },
       "nextNode": "challenge_victory"
@@ -510,7 +510,7 @@
       "textFr": "🏆 FÉLICITATIONS ! Tu as réussi tous les défis ! Tu maîtrises ce thème !",
       "textMg": "🏆 ARAHABAINA! Nahomby ianao tamin'ny fanamby rehetra! Hainao tsara ity lohahevitra ity!",
       "audio": {
-        "ttsTextFr": "Félicitations! Tu as réussi tous les défis!",
+        "ttsTextFr": "🏆 FÉLICITATIONS ! Tu as réussi tous les défis ! Tu maîtrises ce thème !",
         "ttsRate": 0.9
       },
       "nextNode": "farewell"

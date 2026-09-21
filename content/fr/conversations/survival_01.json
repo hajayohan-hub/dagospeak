@@ -353,7 +353,7 @@
       "textFr": "Maintenant, faisons un jeu de rôle ! Tu es perdu dans la rue. Demande de l'aide !",
       "textMg": "Andao hilalao anjara! Very lalana eny an-dalana ianao. Mangataha fanampiana!",
       "audio": {
-        "ttsTextFr": "Maintenant, faisons un jeu de rôle!",
+        "ttsTextFr": "Maintenant, faisons un jeu de rôle ! Tu es perdu dans la rue. Demande de l'aide !",
         "ttsRate": 0.9
       },
       "nextNode": "roleplay_1"
@@ -364,7 +364,7 @@
       "textFr": "Répète après moi : Excusez-moi, où est la rue ?",
       "textMg": "Avereno aoriana: Excusez-moi, où est la rue ?",
       "audio": {
-        "ttsTextFr": "Excusez-moi, où est la rue ?",
+        "ttsTextFr": "Répète après moi : Excusez-moi, où est la rue ?",
         "ttsRate": 0.9
       },
       "nextNode": "roleplay_1_response"
@@ -389,7 +389,7 @@
       "textFr": "Excellent ! Continue !",
       "textMg": "Tsara be! Tohizo!",
       "audio": {
-        "ttsTextFr": "Excellent!",
+        "ttsTextFr": "Excellent ! Continue !",
         "ttsRate": 0.9
       },
       "nextNode": "roleplay_2"
@@ -400,7 +400,7 @@
       "textFr": "Répète après moi : Pouvez-vous m'aider ?",
       "textMg": "Avereno aoriana: Pouvez-vous m'aider ?",
       "audio": {
-        "ttsTextFr": "Pouvez-vous m'aider ?",
+        "ttsTextFr": "Répète après moi : Pouvez-vous m'aider ?",
         "ttsRate": 0.9
       },
       "nextNode": "roleplay_2_response"
@@ -425,7 +425,7 @@
       "textFr": "Excellent ! Continue !",
       "textMg": "Tsara be! Tohizo!",
       "audio": {
-        "ttsTextFr": "Excellent!",
+        "ttsTextFr": "Excellent ! Continue !",
         "ttsRate": 0.9
       },
       "nextNode": "roleplay_3"
@@ -436,7 +436,7 @@
       "textFr": "Répète après moi : Merci beaucoup !",
       "textMg": "Avereno aoriana: Merci beaucoup !",
       "audio": {
-        "ttsTextFr": "Merci beaucoup !",
+        "ttsTextFr": "Répète après moi : Merci beaucoup !",
         "ttsRate": 0.9
       },
       "nextNode": "roleplay_3_response"
@@ -461,7 +461,7 @@
       "textFr": "Excellent ! Continue !",
       "textMg": "Tsara be! Tohizo!",
       "audio": {
-        "ttsTextFr": "Excellent!",
+        "ttsTextFr": "Excellent ! Continue !",
         "ttsRate": 0.9
       },
       "nextNode": "challenge_intro"
@@ -472,7 +472,7 @@
       "textFr": "Maintenant, le défi final ! Réponds correctement aux 3 questions pour gagner !",
       "textMg": "Androany, ny fanamby farany! Valio marina ny fanontaniana 3 mba handresy!",
       "audio": {
-        "ttsTextFr": "Maintenant, le défi final!",
+        "ttsTextFr": "Maintenant, le défi final ! Réponds correctement aux 3 questions pour gagner !",
         "ttsRate": 0.9
       },
       "nextNode": "challenge_1"
@@ -511,7 +511,7 @@
       "textFr": "Excellent ! 1/3 correct !",
       "textMg": "Tsara be! 1/3 marina!",
       "audio": {
-        "ttsTextFr": "Excellent!",
+        "ttsTextFr": "Excellent ! 1/3 correct !",
         "ttsRate": 0.9
       },
       "nextNode": "challenge_2"
@@ -550,7 +550,7 @@
       "textFr": "Excellent ! 2/3 correct !",
       "textMg": "Tsara be! 2/3 marina!",
       "audio": {
-        "ttsTextFr": "Excellent!",
+        "ttsTextFr": "Excellent ! 2/3 correct !",
         "ttsRate": 0.9
       },
       "nextNode": "challenge_3"
@@ -589,7 +589,7 @@
       "textFr": "Excellent ! 3/3 correct !",
       "textMg": "Tsara be! 3/3 marina!",
       "audio": {
-        "ttsTextFr": "Excellent!",
+        "ttsTextFr": "Excellent ! 3/3 correct !",
         "ttsRate": 0.9
       },
       "nextNode": "challenge_victory"
@@ -600,7 +600,7 @@
       "textFr": "🏆 FÉLICITATIONS ! Tu as réussi tous les défis ! Tu maîtrises ce thème !",
       "textMg": "🏆 ARAHABAINA! Nahomby ianao tamin'ny fanamby rehetra! Hainao tsara ity lohahevitra ity!",
       "audio": {
-        "ttsTextFr": "Félicitations! Tu as réussi tous les défis!",
+        "ttsTextFr": "🏆 FÉLICITATIONS ! Tu as réussi tous les défis ! Tu maîtrises ce thème !",
         "ttsRate": 0.9
       },
       "nextNode": "farewell"
