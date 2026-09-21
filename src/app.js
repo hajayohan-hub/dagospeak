@@ -8134,6 +8134,18 @@ function evaluateUserResponse(selected, transcript) {
 window.evaluateUserResponse = evaluateUserResponse;
 
 function handleUserResponse(idx, node, attempts, feedback, isAutoEval = false) {
+            // V5.114: Bloquer les appels multiples pendant le traitement
+            if (window._isProcessingResponse) {
+              console.warn('[Conversation] V5.114 Appel ignore (traitement en cours)');
+              return;
+            }
+            window._isProcessingResponse = true;
+            
+            // Debloquer apres 3 secondes (securite)
+            setTimeout(() => {
+              window._isProcessingResponse = false;
+            }, 3000);
+
             // V5.112: Protection contre doubles appels (timestamp + flag)
             const now = Date.now();
             if (!window._lastHandleTime) window._lastHandleTime = 0;
@@ -8238,6 +8250,7 @@ function handleUserResponse(idx, node, attempts, feedback, isAutoEval = false) {
                     b.style.opacity = '1';
                   });
                   turnProcessed = false; // Reset pour permettre retry
+                  window._isProcessingResponse = false; // V5.114: Debloquer pour le prochain essai
                 }, 2000);
                 
                 return; // Sortir sans progression
