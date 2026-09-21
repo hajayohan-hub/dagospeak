@@ -8581,35 +8581,7 @@ function captureUserResponse(nodeId, selectedOption) {
                             cancelTimeout(); // ✅ Annuler le timeout
                             console.log('[STT] 🎭 Résultat simulation:', result);
                 
-                // V5.114: Si parole detectee mais pas de transcript en simulation
-                if (result.simulated && result.transcript === '' && result.attemptDetected) {
-                  console.log('[STT] V5.114 Parole detectee sans transcript');
-                  
-                  const currentFeedback = document.getElementById('feedback');
-                  if (currentFeedback) {
-                    currentFeedback.innerHTML = `
-                      <div style="background: var(--ds-color-info-soft, #e0f2fe); padding: 1rem; border-radius: 12px; text-align: center;">
-                        <div style="font-size: 2rem;">🎤</div>
-                        <p style="color: var(--ds-color-primary); font-weight: 600;">Je vous ai entendu !</p>
-                        <p style="color: var(--ds-color-text-muted); font-size: 0.9rem;">
-                          En mode simulation, je ne peux pas transcrire.<br>
-                          Cliquez sur une option pour continuer.
-                        </p>
-                      </div>
-                    `;
-                  }
-                  
-                  setTimeout(() => {
-                    document.querySelectorAll('.btn-option, .btn-microphone').forEach(b => {
-                      b.disabled = false;
-                      b.style.opacity = '1';
-                      b.style.cursor = 'pointer';
-                    });
-                    turnProcessed = false;
-                  }, 2500);
-                  
-                  return;
-                }
+
                             
                             if (currentFeedback) {
                               currentFeedback.innerHTML = `
