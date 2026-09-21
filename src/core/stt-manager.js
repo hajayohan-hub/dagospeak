@@ -21,18 +21,12 @@ export class STTManager {
 
   // ✅ V5.110: Fonction centralisée de décision du moteur
   getCurrentSTTMode() {
-    // 1. Offline forcé
     if (!navigator.onLine) return 'SIMULATION';
-    
-    // 2. Toggle utilisateur OFF
     if (!this.#sttEnabled) return 'SIMULATION';
-    
-    // 3. Pas de support Web Speech
     if (!this.#isSupported) return 'SIMULATION';
-    
-    // 4. Mode normal
     return 'WEB_API';
   }
+
 
 
 
@@ -599,6 +593,23 @@ export class STTManager {
    * Mode réel : comparaison précise
    */
   // ✅ V5.110: Retour structuré avec 3 états séparés
+
+  // ✅ V5.110: Simulation sans micro (pour offline et appareils modestes)
+  #simulateListening(options) {
+    const { expected, onResult, onEnd } = options;
+    setTimeout(() => {
+      if (onResult) {
+        onResult({
+          transcript: expected || 'simulation',
+          confidence: 0.95,
+          isSimulation: true
+        });
+      }
+      if (onEnd) onEnd();
+    }, 1500);
+    return Promise.resolve();
+  }
+
   compareTexts(recognized, expected) {
     if (!recognized || !expected) {
       return { score: 0, isCorrect: false, feedback: 'Aucun texte reconnu' };
