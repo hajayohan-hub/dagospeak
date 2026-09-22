@@ -8736,6 +8736,9 @@ function captureUserResponse(nodeId, selectedOption) {
                                 const failFeedbackFr = personalizeText(node.feedbackOnFail?.textFr || defaultFailFeedback);
                                 const failFeedbackMg = personalizeText(node.feedbackOnFail?.textMg || '');
                                 const failTtsText = personalizeText(node.feedbackOnFail?.audio?.ttsTextFr || failFeedbackFr);
+                                
+                                // V5.130: Définir optionFeedbackMg pour le feedback STT
+                                const optionFeedbackMg = selected?.feedback?.mg || failFeedbackMg;
                                   
                                 
                                 if (currentFeedback) {
