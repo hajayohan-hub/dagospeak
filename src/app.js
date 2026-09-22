@@ -8754,9 +8754,11 @@ function captureUserResponse(nodeId, selectedOption) {
                                   // Les boutons restent actifs pour permettre un choix immédiat
                                 }
                                 
-                                // TTS du feedback d'échec
-                                speakWithFeedback(failTtsText, {
-                                  rate: node.feedbackOnFail?.audio?.ttsRate || 0.9,
+                                // V5.132: TTS du feedback d'échec - utiliser selected.feedback.fr en priorité
+                                const failTtsTextFinal = selected?.feedback?.fr || failTtsText;
+                                console.log('[STT] V5.132 TTS feedback échec:', failTtsTextFinal);
+                                speakWithFeedback(failTtsTextFinal, {
+                                  rate: 0.9,
                                   gender: 'female',
                                   onStart: () => {
                                     if (window.teacherAvatarSVG) window.teacherAvatarSVG.startSpeaking();
