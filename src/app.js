@@ -8234,6 +8234,20 @@ function handleUserResponse(idx, node, attempts, feedback, isAutoEval = false) {
                       window.teacherAvatarSVG.stopSpeaking();
                       window.teacherAvatarSVG.setExpression('neutral');
                     }
+                    
+                    // V5.127: Réactiver le micro après le TTS pour permettre de réessayer
+                    console.log('[Conversation] V5.127 Réactivation micro après TTS INCORRECT');
+                    const micBtns = document.querySelectorAll('.btn-microphone');
+                    micBtns.forEach(btn => {
+                      btn.disabled = false;
+                      btn.style.opacity = '1';
+                      btn.style.cursor = 'pointer';
+                    });
+                    
+                    // Réinitialiser les flags pour permettre une nouvelle tentative
+                    turnProcessed = false;
+                    window._isProcessingResponse = false;
+                    window._incorrectProcessed = false;
                   }
                 });
               }
