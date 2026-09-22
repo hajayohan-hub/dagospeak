@@ -7839,14 +7839,19 @@ async function renderConversation() {
           // ✅ Timeout de sécurité : désactivé en mode hors-ligne (PWA gère déjà le cache)
           let safetyTimeout = null;
           if (!isOfflineMode()) {
+            // V5.125: Timeout dynamique basé sur longueur du texte
+            const textLen = (node.textFr || node.text || '').length || 50;
+            const ttsDuration = Math.max(15000, Math.ceil(textLen * 125) + 5000); // ~8 chars/sec + 5s marge
+            console.log(`[Conversation] V5.125 Timeout TTS: ${Math.round(ttsDuration/1000)}s pour ${textLen} caractères`);
+            
             safetyTimeout = setTimeout(() => {
               if (!nodeTtsCompleted) {
-                console.warn('[Conversation] ⚠️ TTS timeout (15s), progression forcée vers', node.nextNode);
+                console.warn('[Conversation] ⚠️ TTS timeout (' + Math.round(ttsDuration/1000) + 's), progression forcée vers', node.nextNode);
                 nodeTtsCompleted = true;
-                // ✅ V5.37: Transition centralisée via scheduleTransition (timeout 15s)
+                // ✅ V5.37: Transition centralisée via scheduleTransition
                 scheduleTransition(node.nextNode, 0);
               }
-            }, 15000);
+            }, ttsDuration);
           } else {
             console.log('[Conversation] ℹ️ Mode hors-ligne détecté, timeout de sécurité désactivé');
           }
@@ -8278,9 +8283,14 @@ function handleUserResponse(idx, node, attempts, feedback, isAutoEval = false) {
             // ✅ Timeout de sécurité pour le feedback succès (désactivé en offline)
             let successSafetyTimeout = null;
             if (!isOfflineMode()) {
+              // V5.125: Timeout dynamique pour feedback success
+              const feedbackLen = (selected?.feedback?.fr || '').length || 50;
+              const feedbackDuration = Math.max(15000, Math.ceil(feedbackLen * 125) + 5000);
+              console.log(`[Conversation] V5.125 Timeout feedback: ${Math.round(feedbackDuration/1000)}s pour ${feedbackLen} caractères`);
+              
               successSafetyTimeout = setTimeout(() => {
                 if (!ttsCompleted) {
-                  console.warn('[Conversation] ⚠️ TTS success timeout (15s), progression forcée');
+                  console.warn('[Conversation] ⚠️ TTS success timeout (' + Math.round(feedbackDuration/1000) + 's), progression forcée');
                   ttsCompleted = true;
                   // ✅ V5.21: Tracker l'historique avant changement
                   // ✅ V5.34: Utiliser selected.nextNodeOnSuccess
