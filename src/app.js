@@ -8744,14 +8744,14 @@ function captureUserResponse(nodeId, selectedOption) {
                                 if (currentFeedback) {
                                   currentFeedback.innerHTML = `
                                     <div class="feedback-fail" style="background: #fee2e2; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-danger);">
-                                      <div style="font-size: 2rem;">🔄</div>
+                                      <div style="font-size: 2rem;">⚠️</div>
                                       <p style="color: var(--ds-color-danger); font-weight: 600;">${(selected?.feedback?.fr || '')}</p>
                                       <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${optionFeedbackMg})</p>
+                                      <p style="color: var(--ds-color-text-muted); font-size: 0.85rem; margin-top: 0.5rem;">Tentative ${attempts[node.id]}/3 - Essayez une autre réponse !</p>
                                     </div>
-                                    <button id="btn-retry" class="pulse-animation" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;" disabled>🔁 Réessayer</button>
                                   `;
-                                  // ✅ Désactiver les boutons de réponse pour forcer l'utilisation de Réessayer
-                                  document.querySelectorAll('.btn-option, .btn-microphone, .btn-auto-eval').forEach(b => b.disabled = true);
+                                  // V5.131: NE PAS désactiver les boutons - l'utilisateur peut directement réessayer
+                                  // Les boutons restent actifs pour permettre un choix immédiat
                                 }
                                 
                                 // TTS du feedback d'échec
@@ -8764,12 +8764,9 @@ function captureUserResponse(nodeId, selectedOption) {
                                   onEnd: () => {
                                     console.log('[STT] ✅ TTS feedback échec terminé');
                                     if (window.teacherAvatarSVG) window.teacherAvatarSVG.stopSpeaking();
-                                    // Réactiver le bouton Réessayer
-                                    const retryBtn = document.getElementById('btn-retry');
-                                    if (retryBtn) {
-                                      retryBtn.disabled = false;
-                                      console.log('[STT] 🔓 Bouton Réessayer activé');
-                                    }
+                                    // V5.131: Plus de bouton Réessayer - les boutons de réponse restent actifs
+                                    // L'utilisateur peut directement choisir une autre réponse
+                                    console.log('[STT] 🔓 Boutons de réponse déjà actifs - l\'utilisateur peut réessayer');
                                     // NE PAS progresser : rester sur même node
                                     turnProcessed = false; // Permettre nouvelle tentative
                                   },
