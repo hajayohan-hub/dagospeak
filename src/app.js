@@ -7182,6 +7182,32 @@ function highlightGrammarWords(text, themeId) {
 
 window.highlightGrammarWords = highlightGrammarWords;
 window.grammarHighlights = grammarHighlights;
+
+// V5.135 : helpers pour mise en évidence visible uniquement
+function escapeHtmlSafe(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+
+function highlightVisible(text) {
+  ensureGrammarHighlightStyle();
+
+  const themeId = (typeof getCurrentGrammarThemeId === 'function')
+    ? getCurrentGrammarThemeId()
+    : '';
+
+  if (typeof highlightGrammarWords === 'function') {
+    return highlightGrammarWords(String(text || ''), themeId);
+  }
+
+  return String(text || '');
+}
+
 window.getCurrentGrammarThemeId = getCurrentGrammarThemeId;
 
 async function renderConversationLive() {
@@ -8093,11 +8119,11 @@ async function renderConversation() {
             ${personalizedOptions.map((opt, idx) => `
               <div class="live-option-row">
                 <button class="live-option-btn btn-option" data-idx="${idx}" style="flex: 1;">
-                  <div>${['🅰️','🅱️','🅲','🅳','🅴','🅵','🅶','🅷'][idx] || '▫️'} ${highlightGrammarWords(opt.textFr, getCurrentGrammarThemeId())}</div>
+                  <div>${['🅰️','🅱️','🅲','🅳','🅴','🅵','🅶','🅷'][idx] || '▫️'} ${highlightVisible(opt.textFr)}</div>
                   <div>(${opt.textMg})</div>
                 </button>
                 ${window.sttAvailable ? `
-                  <button class="btn-microphone" data-idx="${idx}" data-expected="${highlightGrammarWords(opt.textFr, getCurrentGrammarThemeId())}">🎤</button>
+                  <button class="btn-microphone" data-idx="${idx}" data-expected="${escapeHtmlSafe(opt.textFr)}">🎤</button>
                 ` : `
                   <button class="btn-auto-eval" data-idx="${idx}">✓</button>
                 `}
@@ -8336,7 +8362,7 @@ function handleUserResponse(idx, node, attempts, feedback, isAutoEval = false) {
                 currentFeedback.innerHTML = `
                   <div style="background: var(--ds-color-warning-soft, #fef3c7); padding: 1rem; border-radius: 12px; text-align: center;">
                     <div style="font-size: 2rem;">⚠️</div>
-                    <p style="color: var(--ds-color-warning); font-weight: 600;">${evaluation.feedback}</p>
+                    <p style="color: var(--ds-color-warning); font-weight: 600;">${highlightVisible(evaluation.feedback)}</p>
                     <p style="color: var(--ds-color-text-muted); font-size: 0.9rem;">Tentative ${attempts[node.id]}/3 - Reessayez !</p>
                   </div>
                 `;
@@ -8366,7 +8392,7 @@ function handleUserResponse(idx, node, attempts, feedback, isAutoEval = false) {
           currentFeedback.innerHTML = `
            <div class="feedback-success" style="background: var(--ds-color-success-soft, #d1fae5); padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-success);">
               <div style="font-size: 2rem;">✅</div>
-              <p style="color: var(--ds-color-success); font-weight: 600;">${successFeedbackFr}</p>
+              <p style="color: var(--ds-color-success); font-weight: 600;">${highlightVisible(successFeedbackFr)}</p>
               ${isAutoEval ? '<p style="color: var(--ds-color-text-muted); font-size: 0.85rem;">(Auto-évaluation)</p>' : ''}
               <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${successFeedbackMg})</p>
             </div>
@@ -8463,7 +8489,7 @@ function handleUserResponse(idx, node, attempts, feedback, isAutoEval = false) {
                 currentFeedback.innerHTML = `
                   <div style="background: #fef3c7; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-accent);">
                     <div style="font-size: 2rem;">💡</div>
-                    <p>La bonne réponse était : <strong>${highlightGrammarWords(correct.textFr, getCurrentGrammarThemeId())}</strong></p>
+                    <p>La bonne réponse était : <strong>${highlightVisible(correct.textFr)}</strong></p>
                   </div>
                   <button id="btn-continue" class="pulse-animation" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">Manaraka →</button>
                 `;
@@ -8488,7 +8514,7 @@ function handleUserResponse(idx, node, attempts, feedback, isAutoEval = false) {
                  <div class="feedback-fail" style="background: #fee2e2; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-danger, #ef4444);">
                     <div style="font-size: 2rem;">🔄</div>
 
-                    <p style="color: var(--ds-color-danger); font-weight: 600;">${(selected?.feedback?.fr || '')}</p>
+                    <p style="color: var(--ds-color-danger); font-weight: 600;">${highlightVisible(selected?.feedback?.fr)}</p>
                     <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${optionFeedbackMg})</p>
                   </div>
                   <button id="btn-retry" class="pulse-animation" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;" disabled>🔁 Réessayer</button>
@@ -8824,7 +8850,7 @@ function captureUserResponse(nodeId, selectedOption) {
                                   currentFeedback.innerHTML = `
                                     <div class="feedback-fail" style="background: #fee2e2; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-danger);">
                                       <div style="font-size: 2rem;">⚠️</div>
-                                      <p style="color: var(--ds-color-danger); font-weight: 600;">${(selected?.feedback?.fr || '')}</p>
+                                      <p style="color: var(--ds-color-danger); font-weight: 600;">${highlightVisible(selected?.feedback?.fr)}</p>
                                       <p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${optionFeedbackMg})</p>
                                       <p style="color: var(--ds-color-text-muted); font-size: 0.85rem; margin-top: 0.5rem;">Tentative ${attempts[node.id]}/3 - Essayez une autre réponse !</p>
                                     </div>
@@ -8887,7 +8913,7 @@ function captureUserResponse(nodeId, selectedOption) {
                                   currentFeedback.innerHTML = `
                                     <div style="background: #d1fae5; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-success);">
                                       <div style="font-size: 2rem;">✅</div>
-                                      <p style="color: var(--ds-color-success); font-weight: 600;">${successFeedbackFr}</p>
+                                      <p style="color: var(--ds-color-success); font-weight: 600;">${highlightVisible(successFeedbackFr)}</p>
                                         ${successFeedbackMg ? `<p style="color: var(--ds-color-text-muted); font-style: italic; font-size: 0.9rem;">(${successFeedbackMg})</p>` : ''}
                                     </div>
                                   `;
