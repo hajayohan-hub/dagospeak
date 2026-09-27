@@ -1146,7 +1146,7 @@ function checkSpacedRepetition() {
 // ═══════════════════════════════════════════════════════════
 
 (function () {
-  const TODAY_ACTIVITY_ROUTE = "/practice";
+  const TODAY_ACTIVITY_ROUTE = "/theme-detail";
 
   function safeLocalStorageGet(key) {
     try {
