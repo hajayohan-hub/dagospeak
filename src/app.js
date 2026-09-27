@@ -7105,6 +7105,85 @@ function getSkeletonThemesList() {
 // ═══════════════════════════════════════════════════════════
 // VUE : CONVERSATION LIVE (sélection par niveau + dialogues)
 // ═══════════════════════════════════════════════════════════
+
+// ═══════════════════════════════════════════════════════════
+// V5.134 : MISE EN ÉVIDENCE DES MOTS DE GRAMMAIRE
+// ═══════════════════════════════════════════════════════════
+
+const grammarHighlights = {
+  articles: ['le', 'la', 'les', 'un', 'une', 'des', 'du', 'au', 'aux'],
+  demonstratifs: ['ce', 'cet', 'cette', 'ces', 'celui-ci', 'celui-là', 'celle-ci', 'celle-là', 'ceci', 'cela', 'ça', 'ceux-ci', 'ceux-là', 'celles-ci', 'celles-là'],
+  possessifs: ['mon', 'ma', 'mes', 'ton', 'ta', 'tes', 'son', 'sa', 'ses', 'notre', 'nos', 'votre', 'vos', 'leur', 'leurs'],
+  adjectifs: ['grand', 'grande', 'grands', 'grandes', 'petit', 'petite', 'petits', 'petites', 'bon', 'bonne', 'bons', 'bonnes', 'mauvais', 'mauvaise', 'mauvais', 'mauvaises', 'chaud', 'chaude', 'chauds', 'chaudes', 'froid', 'froide', 'froids', 'froides', 'content', 'contente', 'contents', 'contentes', 'fatigué', 'fatiguée', 'fatigués', 'fatiguées', 'malade', 'malades'],
+  negation: ['ne', 'pas', 'jamais', 'plus', 'rien', 'personne', 'aucun', 'aucune', 'aucuns', 'aucunes'],
+  questions: ['qui', 'que', 'quoi', 'où', 'quand', 'pourquoi', 'comment', 'combien', 'est-ce que'],
+  verbe_etre: ['suis', 'es', 'est', 'sommes', 'êtes', 'sont'],
+  verbe_avoir: ['ai', 'as', 'a', 'avons', 'avez', 'ont'],
+  verbes_er: ['parle', 'parles', 'parlons', 'parlez', 'parlent', 'mange', 'manges', 'mangeons', 'mangez', 'mangent', 'aime', 'aimes', 'aimons', 'aimez', 'aiment'],
+  imperatif: ['parle', 'mange', 'aime', 'viens', 'va', 'donne', 'regarde', 'écoute'],
+  futur_proche: ['vais', 'vas', 'va', 'allons', 'allez', 'vont'],
+  prepositions: ['sur', 'sous', 'dans', 'devant', 'derrière', 'à côté de', 'près de', 'loin de', 'entre', 'chez']
+};
+
+function getGrammarThemeKey(themeId) {
+  return String(themeId || '').replace(/_0[12]$/, '');
+}
+
+function getCurrentGrammarThemeId() {
+  try { if (typeof dialogue !== 'undefined' && dialogue && dialogue.id) return dialogue.id; } catch (_) {}
+  try { if (typeof dialogueId !== 'undefined' && dialogueId) return dialogueId; } catch (_) {}
+  try { if (typeof currentDialogueId !== 'undefined' && currentDialogueId) return currentDialogueId; } catch (_) {}
+  try { if (window.currentConversationId) return window.currentConversationId; } catch (_) {}
+  try { if (window.currentDialogueId) return window.currentDialogueId; } catch (_) {}
+  return '';
+}
+
+function ensureGrammarHighlightStyle() {
+  if (typeof document === 'undefined') return;
+  if (document.getElementById('grammar-highlight-style')) return;
+
+  const style = document.createElement('style');
+  style.id = 'grammar-highlight-style';
+  style.textContent = '.grammar-highlight{background:rgba(56,189,248,.18);color:#0ea5e9;font-weight:700;padding:0 .25em;border-radius:.35em;border-bottom:2px solid #38bdf8;transition:all .2s ease}.grammar-highlight:hover{background:rgba(56,189,248,.28);transform:translateY(-1px)}';
+  document.head.appendChild(style);
+}
+
+function escapeRegExpGrammar(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function highlightGrammarWords(text, themeId) {
+  if (!text) return '';
+
+  const key = getGrammarThemeKey(themeId);
+  const keywords = grammarHighlights[themeId] || grammarHighlights[key];
+
+  if (!keywords || !keywords.length) {
+    return String(text);
+  }
+
+  ensureGrammarHighlightStyle();
+
+  let output = String(text);
+  const sortedKeywords = [...keywords].sort((a, b) => b.length - a.length);
+
+  for (const keyword of sortedKeywords) {
+    const escaped = escapeRegExpGrammar(keyword);
+    const regex = new RegExp(
+      '(^|[^A-Za-zÀ-ÖØ-öø-ÿ0-9_])(' + escaped + ')(?=$|[^A-Za-zÀ-ÖØ-öø-ÿ0-9_])',
+      'gi'
+    );
+
+    output = output.replace(regex, '$1<span class="grammar-highlight">$2</span>');
+  }
+
+  return output;
+}
+
+window.highlightGrammarWords = highlightGrammarWords;
+window.grammarHighlights = grammarHighlights;
+window.getCurrentGrammarThemeId = getCurrentGrammarThemeId;
+
 async function renderConversationLive() {
   console.log('[ConversationLive] 🚀 Fonction appelée');
 
@@ -8014,11 +8093,11 @@ async function renderConversation() {
             ${personalizedOptions.map((opt, idx) => `
               <div class="live-option-row">
                 <button class="live-option-btn btn-option" data-idx="${idx}" style="flex: 1;">
-                  <div>${['🅰️','🅱️','🅲','🅳','🅴','🅵','🅶','🅷'][idx] || '▫️'} ${opt.textFr}</div>
+                  <div>${['🅰️','🅱️','🅲','🅳','🅴','🅵','🅶','🅷'][idx] || '▫️'} ${highlightGrammarWords(opt.textFr, getCurrentGrammarThemeId())}</div>
                   <div>(${opt.textMg})</div>
                 </button>
                 ${window.sttAvailable ? `
-                  <button class="btn-microphone" data-idx="${idx}" data-expected="${opt.textFr}">🎤</button>
+                  <button class="btn-microphone" data-idx="${idx}" data-expected="${highlightGrammarWords(opt.textFr, getCurrentGrammarThemeId())}">🎤</button>
                 ` : `
                   <button class="btn-auto-eval" data-idx="${idx}">✓</button>
                 `}
@@ -8384,7 +8463,7 @@ function handleUserResponse(idx, node, attempts, feedback, isAutoEval = false) {
                 currentFeedback.innerHTML = `
                   <div style="background: #fef3c7; padding: 1rem; border-radius: 12px; border-left: 4px solid var(--ds-color-accent);">
                     <div style="font-size: 2rem;">💡</div>
-                    <p>La bonne réponse était : <strong>${correct.textFr}</strong></p>
+                    <p>La bonne réponse était : <strong>${highlightGrammarWords(correct.textFr, getCurrentGrammarThemeId())}</strong></p>
                   </div>
                   <button id="btn-continue" class="pulse-animation" style="margin-top: 1rem; background: var(--ds-color-accent); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">Manaraka →</button>
                 `;
