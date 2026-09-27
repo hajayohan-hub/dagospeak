@@ -4744,9 +4744,11 @@ syncProfileWithJourneys();
     currentTheme = unitId;
 
     const dialogueId = `${unitId}_dialogue`;
+    window.__currentGrammarThemeId = dialogueId || window.__currentGrammarThemeId || '';
     console.log(`[DEBUG] Tentative de chargement du dialogue : ${dialogueId}`);
 
     const dialogue = await content.loadSection('fr', 'dialogues', dialogueId);
+    window.__currentGrammarThemeId = (dialogue && dialogue.id) || '';
 
     // ✅ NOUVEAU : Avatar SVG animé pour conversation live
       const avatarContainer = document.createElement('div');
@@ -4990,6 +4992,7 @@ async function renderRolePlay() {
 
 
     const dialogue = await content.loadSection('fr', 'dialogues', `${unitId}_dialogue`);
+    window.__currentGrammarThemeId = (dialogue && dialogue.id) || '';
     const themeNames = {
       'survival': 'Mots de survie', 'numbers': 'Les Nombres',
       'family': 'La Famille', 'market': 'Au Marché', 'colors': 'Les Couleurs'
@@ -5451,6 +5454,7 @@ async function renderChallenge() {
 
 
     const dialogue = await content.loadSection('fr', 'dialogues', `${unitId}_dialogue`);
+    window.__currentGrammarThemeId = (dialogue && dialogue.id) || '';
     const themeNames = {
       'survival': 'Mots de survie', 'numbers': 'Les Nombres',
       'family': 'La Famille', 'market': 'Au Marché', 'colors': 'Les Couleurs'
@@ -6660,6 +6664,7 @@ async function renderThemeDetail() {
           if (hasCompletedDialogues) {
             // Construire l'ID du dialogue basé sur le thème actuel
             const dialogueId = currentTheme + '_01';
+            window.__currentGrammarThemeId = dialogueId || window.__currentGrammarThemeId || '';
             router.navigate('/conversation?dialogue=' + dialogueId);
           } else {
             showLockedMessage();
@@ -7110,6 +7115,7 @@ function getSkeletonThemesList() {
 // V5.134 : MISE EN ÉVIDENCE DES MOTS DE GRAMMAIRE
 // ═══════════════════════════════════════════════════════════
 
+window.__currentGrammarThemeId = '';
 const grammarHighlights = {
   articles: ['le', 'la', 'les', 'un', 'une', 'des', 'du', 'au', 'aux'],
   demonstratifs: ['ce', 'cet', 'cette', 'ces', 'celui-ci', 'celui-là', 'celle-ci', 'celle-là', 'ceci', 'cela', 'ça', 'ceux-ci', 'ceux-là', 'celles-ci', 'celles-là'],
@@ -7129,14 +7135,7 @@ function getGrammarThemeKey(themeId) {
   return String(themeId || '').replace(/_0[12]$/, '');
 }
 
-function getCurrentGrammarThemeId() {
-  try { if (typeof dialogue !== 'undefined' && dialogue && dialogue.id) return dialogue.id; } catch (_) {}
-  try { if (typeof dialogueId !== 'undefined' && dialogueId) return dialogueId; } catch (_) {}
-  try { if (typeof currentDialogueId !== 'undefined' && currentDialogueId) return currentDialogueId; } catch (_) {}
-  try { if (window.currentConversationId) return window.currentConversationId; } catch (_) {}
-  try { if (window.currentDialogueId) return window.currentDialogueId; } catch (_) {}
-  return '';
-}
+
 
 function ensureGrammarHighlightStyle() {
   if (typeof document === 'undefined') return;
@@ -7181,6 +7180,151 @@ function highlightGrammarWords(text, themeId) {
 }
 
 window.highlightGrammarWords = highlightGrammarWords;
+
+// ═══════════════════════════════════════════════════════════
+// V5.138 : Mise en évidence DOM des mots de grammaire
+// Applique la couleur uniquement sur le texte visible,
+// jamais sur les attributs techniques (data-expected, etc.)
+// ═══════════════════════════════════════════════════════════
+
+function applyGrammarHighlightToDOM(root = document) {
+  if (!root || typeof document === "undefined") return;
+
+  const themeId =
+    (typeof getCurrentGrammarThemeId === "function")
+      ? getCurrentGrammarThemeId()
+      : "";
+
+  if (!themeId) return;
+
+  const key =
+    (typeof getGrammarThemeKey === "function")
+      ? getGrammarThemeKey(themeId)
+      : String(themeId || "").replace(/_0[12]$/, "");
+
+  const keywords =
+    (typeof grammarHighlights !== "undefined")
+      ? (grammarHighlights[themeId] || grammarHighlights[key])
+      : null;
+
+  if (!keywords || !keywords.length) return;
+
+  if (typeof ensureGrammarHighlightStyle === "function") {
+    ensureGrammarHighlightStyle();
+  }
+
+  const walker = document.createTreeWalker(
+    root,
+    NodeFilter.SHOW_TEXT,
+    {
+      acceptNode(node) {
+        const parent = node.parentElement;
+        if (!parent) return NodeFilter.FILTER_REJECT;
+
+        const tag = parent.tagName;
+        if (
+          tag === "SCRIPT" ||
+          tag === "STYLE" ||
+          tag === "TEXTAREA" ||
+          tag === "INPUT" ||
+          tag === "SELECT" ||
+          tag === "OPTION"
+        ) {
+          return NodeFilter.FILTER_REJECT;
+        }
+
+        // Ne pas re-traiter l'intérieur d'un span déjà coloré
+        if (parent.closest(".grammar-highlight")) {
+          return NodeFilter.FILTER_REJECT;
+        }
+
+        // Ignorer les textes sans lettres
+        if (!/[A-Za-zÀ-ÖØ-öø-ÿ]/.test(node.nodeValue || "")) {
+          return NodeFilter.FILTER_REJECT;
+        }
+
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    }
+  );
+
+  const textNodes = [];
+  while (walker.nextNode()) {
+    textNodes.push(walker.currentNode);
+  }
+
+  for (const node of textNodes) {
+    const originalText = node.nodeValue || "";
+    const highlightedText =
+      (typeof highlightGrammarWords === "function")
+        ? highlightGrammarWords(originalText, themeId)
+        : originalText;
+
+    if (highlightedText === originalText) continue;
+
+    const template = document.createElement("template");
+    template.innerHTML = highlightedText;
+    const fragment = template.content.cloneNode(true);
+
+    if (node.parentNode) {
+      node.parentNode.replaceChild(fragment, node);
+    }
+  }
+}
+
+window.applyGrammarHighlightToDOM = applyGrammarHighlightToDOM;
+
+(function initGrammarHighlightObserver() {
+  if (typeof window === "undefined") return;
+  if (typeof MutationObserver === "undefined") return;
+  if (window.__grammarHighlightObserver) return;
+
+  let timer = null;
+
+  function scheduleGrammarHighlight() {
+    if (timer) clearTimeout(timer);
+
+    timer = setTimeout(() => {
+      try {
+        // Uniquement dans Conversation Live
+        if (!location.hash.includes("conversation")) return;
+
+        const root =
+          document.querySelector(".live-container") ||
+          document.querySelector("#conversation-live") ||
+          document.getElementById("app");
+
+        if (!root) return;
+
+        applyGrammarHighlightToDOM(root);
+      } catch (error) {
+        console.warn("[GrammarHighlight] Erreur observer:", error);
+      }
+    }, 120);
+  }
+
+  function startObserver() {
+    const target = document.getElementById("app") || document.body;
+    if (!target) return;
+
+    const observer = new MutationObserver(scheduleGrammarHighlight);
+    observer.observe(target, {
+      childList: true,
+      subtree: true,
+      characterData: true
+    });
+
+    window.__grammarHighlightObserver = observer;
+    scheduleGrammarHighlight();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", startObserver, { once: true });
+  } else {
+    startObserver();
+  }
+})();
+
 window.grammarHighlights = grammarHighlights;
 
 // V5.135 : helpers pour mise en évidence visible uniquement
@@ -7193,6 +7337,17 @@ function escapeHtmlSafe(value) {
     .replace(/'/g, '&#039;');
 }
 
+
+function getCurrentGrammarThemeId() {
+  try { if (window.__currentGrammarThemeId) return window.__currentGrammarThemeId; } catch (_) {}
+  try { if (typeof dialogue !== 'undefined' && dialogue && dialogue.id) return dialogue.id; } catch (_) {}
+  try { if (typeof dialogueId !== 'undefined' && dialogueId) return dialogueId; } catch (_) {}
+  try { if (typeof currentDialogueId !== 'undefined' && currentDialogueId) return currentDialogueId; } catch (_) {}
+  try { if (window.currentConversationId) return window.currentConversationId; } catch (_) {}
+  try { if (window.currentDialogueId) return window.currentDialogueId; } catch (_) {}
+  try { if (window.currentTheme) return window.currentTheme; } catch (_) {}
+  return '';
+}
 
 function highlightVisible(text) {
   ensureGrammarHighlightStyle();
@@ -7453,6 +7608,7 @@ async function renderConversationLive() {
       dialoguesContainer.querySelectorAll('.dialogue-card').forEach(card => {
         card.addEventListener('click', () => {
           const dialogueId = card.dataset.dialogueId;
+          window.__currentGrammarThemeId = dialogueId || window.__currentGrammarThemeId || '';
           console.log(`[ConversationLive] 🚀 Lancement dialogue: ${dialogueId}`);
           
           // ✅ V5: Initialiser le contexte de conversation
@@ -7576,13 +7732,16 @@ async function renderConversation() {
   const urlParams = new URLSearchParams(window.location.search);
   // ✅ Lire depuis query OU variable globale OU défaut
   const dialogueId = urlParams.get('dialogue') || window.currentConversationId || 'market_01';
+  window.__currentGrammarThemeId = dialogueId || window.__currentGrammarThemeId || '';
 
   try {
     const response = await fetch(`/content/fr/conversations/${dialogueId}.json`);
     if (!response.ok) throw new Error(`Dialogue introuvable : ${dialogueId}`);
     const dialogue = await response.json();
+    window.__currentGrammarThemeId = (dialogue && dialogue.id) || '';
 
     console.log(`[Conversation] ✅ Dialogue chargé : ${dialogue.titleFr}`);
+    window.__currentGrammarThemeId = (typeof dialogue !== 'undefined' && dialogue && dialogue.id) || window.__currentGrammarThemeId || '';
 
     // Afficher le premier nœud
     let currentNodeId = dialogue.nodes[0].id;
