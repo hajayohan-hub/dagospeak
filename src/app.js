@@ -1139,6 +1139,281 @@ function checkSpacedRepetition() {
   );
 }
 
+
+// ═══════════════════════════════════════════════════════════
+// V5.140 : Today / Apprentissage guidé -> Activités guidées
+// Ne redirige PLUS vers Conversation Live.
+// ═══════════════════════════════════════════════════════════
+
+(function () {
+  const TODAY_ACTIVITY_ROUTE = "/practice";
+
+  function safeLocalStorageGet(key) {
+    try {
+      return localStorage.getItem(key) || "";
+    } catch (_) {
+      return "";
+    }
+  }
+
+  function safeLocalStorageSet(key, value) {
+    try {
+      if (value) localStorage.setItem(key, String(value));
+    } catch (_) {}
+  }
+
+  function normalizeThemeId(value) {
+    return String(value || "").trim().replace(/\.json$/i, "");
+  }
+
+  function getThemeFromElement(el) {
+    if (!el) return "";
+
+    const direct =
+      el.dataset?.themeId ||
+      el.dataset?.theme ||
+      el.dataset?.dialogue ||
+      el.dataset?.dialogueId ||
+      el.dataset?.unit ||
+      el.dataset?.unitId ||
+      el.dataset?.conversationId ||
+      el.getAttribute("data-theme") ||
+      el.getAttribute("data-dialogue") ||
+      el.getAttribute("data-unit") ||
+      el.getAttribute("data-conversation-id") ||
+      "";
+
+    if (direct) return normalizeThemeId(direct);
+
+    const parentWithTheme = el.closest?.("[data-theme], [data-dialogue], [data-unit], [data-conversation-id]");
+    if (parentWithTheme) {
+      return normalizeThemeId(
+        parentWithTheme.dataset?.theme ||
+        parentWithTheme.dataset?.dialogue ||
+        parentWithTheme.dataset?.unit ||
+        parentWithTheme.dataset?.conversationId ||
+        parentWithTheme.getAttribute("data-theme") ||
+        parentWithTheme.getAttribute("data-dialogue") ||
+        parentWithTheme.getAttribute("data-unit") ||
+        parentWithTheme.getAttribute("data-conversation-id") ||
+        ""
+      );
+    }
+
+    return "";
+  }
+
+  function getTodayTheme(triggerEl = null) {
+    // 1) Élément déclencheur ou carte parente
+    const fromTrigger = getThemeFromElement(triggerEl);
+    if (fromTrigger) return fromTrigger;
+
+    // 2) Variables globales possibles
+    const globals = [
+      window.currentTodayTheme,
+      window.recommendedTheme,
+      window.lastRecommendedTheme,
+      window.todayTheme,
+      window.currentTheme,
+      window.__currentGrammarThemeId,
+      window.currentDialogueId,
+      window.lastDialogueId
+    ];
+
+    for (const g of globals) {
+      const v = normalizeThemeId(g);
+      if (v) return v;
+    }
+
+    // 3) localStorage
+    const storageKeys = [
+      "dagospeak:recommendedTheme",
+      "dagospeak:todayTheme",
+      "dagospeak:lastTheme",
+      "dagospeak:theme",
+      "dagospeak:lastDialogue",
+      "dagospeak:currentDialogue",
+      "dagospeak:todayDialogue"
+    ];
+
+    for (const key of storageKeys) {
+      const v = normalizeThemeId(safeLocalStorageGet(key));
+      if (v) return v;
+    }
+
+    // 4) Premier élément de la page Today contenant un thème
+    const selectors = [
+      "[data-theme]",
+      "[data-dialogue]",
+      "[data-unit]",
+      "[data-conversation-id]",
+      ".today-card[data-theme]",
+      ".progress-card[data-theme]",
+      ".today-progress-card[data-theme]",
+      ".today-item[data-theme]"
+    ];
+
+    for (const selector of selectors) {
+      const el = document.querySelector(selector);
+      const v = getThemeFromElement(el);
+      if (v) return v;
+    }
+
+    return "";
+  }
+
+  function buildActivityUrl(themeId) {
+    const cleanTheme = normalizeThemeId(themeId);
+    const url = new URL(
+      TODAY_ACTIVITY_ROUTE.startsWith("/") ? TODAY_ACTIVITY_ROUTE : "/" + TODAY_ACTIVITY_ROUTE,
+      window.location.origin
+    );
+
+    if (cleanTheme) {
+      url.searchParams.set("theme", cleanTheme);
+      url.searchParams.set("dialogue", cleanTheme);
+      url.searchParams.set("id", cleanTheme);
+      url.searchParams.set("source", "today");
+    } else {
+      url.searchParams.set("source", "today");
+    }
+
+    return url.pathname + url.search;
+  }
+
+  function navigateToActivity(themeId) {
+    const cleanTheme = normalizeThemeId(themeId);
+
+    if (cleanTheme) {
+      safeLocalStorageSet("dagospeak:recommendedTheme", cleanTheme);
+      safeLocalStorageSet("dagospeak:todayTheme", cleanTheme);
+      safeLocalStorageSet("dagospeak:lastTheme", cleanTheme);
+      safeLocalStorageSet("dagospeak:theme", cleanTheme);
+      window.currentTodayTheme = cleanTheme;
+    }
+
+    const route = buildActivityUrl(cleanTheme);
+    console.log("[Today] Redirection apprentissage guidé vers activités :", route);
+
+    if (window.router && typeof window.router.navigate === "function") {
+      window.router.navigate(route);
+    } else {
+      window.location.hash = "#" + route;
+    }
+  }
+
+  function isTodayPage() {
+    const hash = (window.location.hash || "").toLowerCase();
+    return hash.includes("today") || hash.includes("accueil-guide") || hash.includes("guided");
+  }
+
+  function isNegativeText(text) {
+    return /retour|back|quitter|accueil|home|déconnexion|logout|annuler|cancel/i.test(text);
+  }
+
+  function isTodayCta(el) {
+    if (!el) return false;
+
+    const text = (el.innerText || el.textContent || "").toLowerCase();
+    const action = String(el.dataset?.action || el.getAttribute("data-action") || "").toLowerCase();
+    const className = String(el.className || "").toLowerCase();
+    const id = String(el.id || "").toLowerCase();
+
+    if (isNegativeText(text)) return false;
+
+    const byText =
+      text.includes("commencer") ||
+      text.includes("continuer") ||
+      text.includes("reprendre") ||
+      text.includes("dernière") ||
+      text.includes("derniere") ||
+      text.includes("activité") ||
+      text.includes("activités") ||
+      text.includes("activite") ||
+      text.includes("activites") ||
+      text.includes("apprentissage guidé") ||
+      text.includes("apprentissage guide") ||
+      text.includes("guided") ||
+      text.includes("practice") ||
+      text.includes("lesson") ||
+      text.includes("voir les") ||
+      text.includes("aller vers");
+
+    const byAction =
+      action.includes("today") ||
+      action.includes("guided") ||
+      action.includes("continue") ||
+      action.includes("resume") ||
+      action.includes("activity") ||
+      action.includes("activities") ||
+      action.includes("learning") ||
+      action.includes("practice") ||
+      action.includes("start");
+
+    const byClass =
+      className.includes("today") ||
+      className.includes("guided") ||
+      className.includes("continue") ||
+      className.includes("resume") ||
+      className.includes("activity") ||
+      className.includes("learning");
+
+    const byId =
+      id.includes("today") ||
+      id.includes("guided") ||
+      id.includes("continue") ||
+      id.includes("resume") ||
+      id.includes("activity") ||
+      id.includes("learning");
+
+    return byText || byAction || byClass || byId;
+  }
+
+  function findClickable(target) {
+    if (!target || !target.closest) return null;
+    return target.closest(
+      'a, button, [role="button"], [data-action], .interactive-tap, .card, .btn, .today-cta, .today-card, .progress-card'
+    );
+  }
+
+  document.addEventListener(
+    "click",
+    function (event) {
+      if (!isTodayPage()) return;
+
+      const clickable = findClickable(event.target);
+      if (!clickable) return;
+
+      if (!isTodayCta(clickable)) return;
+
+      // Si le lien pointe explicitement vers Conversation Live, on corrige quand même.
+      const href = String(clickable.getAttribute("href") || "").toLowerCase();
+      const dataRoute = String(clickable.dataset?.route || "").toLowerCase();
+      const pointsToConversation = href.includes("conversation") || dataRoute.includes("conversation");
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      const themeId = getTodayTheme(clickable);
+      navigateToActivity(themeId);
+
+      if (pointsToConversation) {
+        console.warn("[Today] Lien Conversation Live intercepté et redirigé vers activités.");
+      }
+    },
+    true
+  );
+
+  window.DagoSpeakTodayActivities = {
+    route: TODAY_ACTIVITY_ROUTE,
+    getTodayTheme,
+    buildActivityUrl,
+    navigateToActivity
+  };
+
+  console.log("[Today] V5.140 prêt : apprentissage guidé -> activités =", TODAY_ACTIVITY_ROUTE);
+})();
+
 async function renderHome() {
   console.log('[renderHome] 1. Début de la fonction');
   updateNavActiveState();
