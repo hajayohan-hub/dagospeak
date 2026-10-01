@@ -11572,3 +11572,432 @@ function showUpdateBannerInline(registration) {
   console.log("[V5.156] Raccourci Mini-jeu floating initialisé");
 })();
 
+// ═══════════════════════════════════════════════════════════
+// V5.157 : Mini-jeu dans la barre de navigation basse
+// Cible : Accueil | Thèmes | Teacher AI | Profil
+// Ajoute : 🎮 Mini-jeu
+// ═══════════════════════════════════════════════════════════
+
+(function () {
+  var BTN_ID = "ds-bottom-nav-minigame";
+  var ROUTE = "/mini-game";
+  var INVALID_THEMES = ["dark", "light", "null", "undefined", ""];
+
+  var TARGET_LABELS = [
+    "accueil",
+    "home",
+    "thèmes",
+    "themes",
+    "teacher ai",
+    "teacher",
+    "conversation",
+    "profil",
+    "profile"
+  ];
+
+  var TARGET_ROUTES = [
+    "#/",
+    "#/home",
+    "#/accueil",
+    "#/themes",
+    "#/theme",
+    "#/theme-detail",
+    "#/conversation",
+    "#/conversation-live",
+    "#/teacher",
+    "#/profile",
+    "#/profil"
+  ];
+
+  function normalize(value) {
+    return String(value || "")
+      .toLowerCase()
+      .replace(/[\u2018\u2019]/g, "'")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function normalizeTheme(value) {
+    var t = String(value || "").trim().replace(/\.json$/i, "");
+    if (!t || INVALID_THEMES.indexOf(t.toLowerCase()) !== -1) return "";
+    return t;
+  }
+
+  function baseThemeId(value) {
+    return normalizeTheme(value).replace(/_0[12]$/, "");
+  }
+
+  function getStorage(key, fallback) {
+    try {
+      return localStorage.getItem(key) || fallback;
+    } catch (e) {
+      return fallback;
+    }
+  }
+
+  function setStorage(key, value) {
+    try {
+      localStorage.setItem(key, String(value == null ? "" : value));
+    } catch (e) {}
+  }
+
+  function labelOf(el) {
+    if (!el) return "";
+
+    return normalize(
+      (el.innerText || "") + " " +
+      (el.textContent || "") + " " +
+      (el.getAttribute("aria-label") || "") + " " +
+      (el.getAttribute("title") || "") + " " +
+      (el.dataset && el.dataset.label ? el.dataset.label : "")
+    );
+  }
+
+  function routeOf(el) {
+    if (!el) return "";
+
+    return normalize(
+      (el.getAttribute("href") || "") + " " +
+      (el.dataset && el.dataset.route ? el.dataset.route : "") + " " +
+      (el.dataset && el.dataset.nav ? el.dataset.nav : "")
+    );
+  }
+
+  function isTargetItem(el) {
+    if (!el) return false;
+
+    var label = labelOf(el);
+    var route = routeOf(el);
+
+    for (var i = 0; i < TARGET_LABELS.length; i++) {
+      if (label.indexOf(TARGET_LABELS[i]) !== -1) return true;
+    }
+
+    for (var r = 0; r < TARGET_ROUTES.length; r++) {
+      if (route.indexOf(TARGET_ROUTES[r]) !== -1) return true;
+    }
+
+    return false;
+  }
+
+  function getTargetItems(root) {
+    if (!root) return [];
+
+    var nodes = root.querySelectorAll("a, button, [role='button']");
+    var items = [];
+
+    for (var i = 0; i < nodes.length; i++) {
+      if (nodes[i].id === BTN_ID) continue;
+      if (isTargetItem(nodes[i])) items.push(nodes[i]);
+    }
+
+    return items;
+  }
+
+  function lowestCommonAncestor(a, b) {
+    var pathA = [];
+    var pathB = [];
+
+    while (a) {
+      pathA.unshift(a);
+      a = a.parentElement;
+    }
+
+    while (b) {
+      pathB.unshift(b);
+      b = b.parentElement;
+    }
+
+    var i = 0;
+    while (i < pathA.length && i < pathB.length && pathA[i] === pathB[i]) {
+      i++;
+    }
+
+    return i > 0 ? pathA[i - 1] : null;
+  }
+
+  function findBottomNavContainer() {
+    var allItems = getTargetItems(document);
+
+    if (allItems.length >= 3) {
+      var first = allItems[0];
+      var last = allItems[allItems.length - 1];
+      var lca = lowestCommonAncestor(first, last);
+
+      if (lca && lca !== document.documentElement && lca !== document.body) {
+        var count = getTargetItems(lca).length;
+        if (count >= 3) return lca;
+      }
+
+      // Si LCA est trop haut, essayer le parent direct du premier item
+      var parent = first.parentElement;
+      if (parent && getTargetItems(parent).length >= 3) return parent;
+    }
+
+    // Sélecteurs de secours
+    var selectors = [
+      "#bottom-nav",
+      ".bottom-nav",
+      "footer",
+      "#app-footer",
+      ".app-footer",
+      ".nav-footer",
+      "nav[aria-label]",
+      "#floating-home-actions",
+      ".floating-home-actions"
+    ];
+
+    for (var s = 0; s < selectors.length; s++) {
+      var el = document.querySelector(selectors[s]);
+      if (el && getTargetItems(el).length >= 3) return el;
+    }
+
+    return null;
+  }
+
+  function getHashTheme() {
+    try {
+      var h = window.location.hash || "";
+      var qIndex = h.indexOf("?");
+      if (qIndex === -1) return "";
+
+      var params = new URLSearchParams(h.slice(qIndex + 1));
+      return normalizeTheme(
+        params.get("theme") ||
+        params.get("id") ||
+        params.get("dialogue") ||
+        ""
+      );
+    } catch (e) {
+      return "";
+    }
+  }
+
+  function getRecommendedTheme() {
+    var fromHash = getHashTheme();
+    if (fromHash) return fromHash;
+
+    try {
+      if (window.DagoSpeakGuided && typeof DagoSpeakGuided.getNextAction === "function") {
+        var action = DagoSpeakGuided.getNextAction();
+        if (action && action.themeId) {
+          var t = baseThemeId(action.themeId);
+          if (t) return t;
+        }
+      }
+    } catch (e) {}
+
+    var stored =
+      baseThemeId(getStorage("dagospeak:lastValidTheme", "")) ||
+      baseThemeId(getStorage("dagospeak:theme", "")) ||
+      baseThemeId(window.currentTheme) ||
+      baseThemeId(window.recommendedTheme);
+
+    if (stored) return stored;
+
+    return "alphabet1";
+  }
+
+  function openMiniGame() {
+    var themeId = getRecommendedTheme();
+
+    setStorage("dagospeak:theme", themeId);
+    setStorage("dagospeak:lastValidTheme", themeId);
+
+    window.currentTheme = themeId;
+    window.recommendedTheme = themeId;
+
+    console.log("[BottomNav V5.157] Ouverture mini-jeu pour thème:", themeId);
+
+    try {
+      if (window.DagoSpeakGuided && typeof DagoSpeakGuided.navigate === "function") {
+        DagoSpeakGuided.navigate({
+          type: "minigame",
+          themeId: themeId,
+          route: ROUTE,
+          label: "Mini-jeu",
+          description: ""
+        });
+        return;
+      }
+    } catch (e) {
+      console.warn("[BottomNav V5.157] DagoSpeakGuided.navigate indisponible", e);
+    }
+
+    try {
+      if (typeof window.renderMiniGame === "function") {
+        history.replaceState(null, "", "#" + ROUTE + "?theme=" + encodeURIComponent(themeId));
+
+        var result = window.renderMiniGame(themeId);
+        if (result && typeof result.catch === "function") {
+          result.catch(function (err) {
+            console.error("[BottomNav V5.157] Erreur renderMiniGame", err);
+          });
+        }
+
+        try { window.scrollTo(0, 0); } catch (e) {}
+        return;
+      }
+    } catch (e) {
+      console.error("[BottomNav V5.157] Erreur appel direct renderMiniGame", e);
+    }
+
+    window.location.hash = "#" + ROUTE + "?theme=" + encodeURIComponent(themeId);
+  }
+
+  function copyStyleFromSibling(btn, sibling) {
+    if (!sibling) return;
+
+    if (sibling.className) {
+      btn.className = sibling.className;
+    }
+
+    if (sibling.style && sibling.style.cssText) {
+      btn.style.cssText = sibling.style.cssText;
+    }
+
+    // Si le sibling est un <a>, on force quelques propriétés compatibles bouton
+    btn.style.display = sibling.style.display || "inline-flex";
+    btn.style.alignItems = "center";
+    btn.style.justifyContent = "center";
+    btn.style.textDecoration = "none";
+    btn.style.cursor = "pointer";
+    btn.style.background = sibling.style.background || "transparent";
+    btn.style.border = sibling.style.border || "none";
+    btn.style.color = sibling.style.color || "inherit";
+  }
+
+  function adjustContainerLayout(container) {
+    if (!container) return;
+
+    try {
+      var cs = window.getComputedStyle(container);
+
+      // Si grille 4 colonnes -> 5 colonnes
+      if (cs.display === "grid" || /grid/.test(container.style.display || "")) {
+        var existing = container.style.gridTemplateColumns || cs.gridTemplateColumns || "";
+
+        if (/repeat\(\s*4\s*,/.test(existing)) {
+          container.style.gridTemplateColumns = existing.replace(/repeat\(\s*4\s*,/i, "repeat(5,");
+        } else if (existing.split(/\s+/).filter(Boolean).length === 4) {
+          container.style.gridTemplateColumns = "repeat(5, 1fr)";
+        }
+      }
+
+      // Si flex, s'assurer que les éléments prennent la place équitablement
+      if (cs.display === "flex" || /flex/.test(container.style.display || "")) {
+        var children = container.children;
+        for (var i = 0; i < children.length; i++) {
+          var child = children[i];
+          if (child.nodeType === 1) {
+            child.style.flex = child.style.flex || "1 1 0";
+            child.style.minWidth = child.style.minWidth || "0";
+          }
+        }
+      }
+    } catch (e) {
+      console.warn("[BottomNav V5.157] Impossible d'ajuster la layout", e);
+    }
+  }
+
+  function ensureBottomNavMiniGameButton() {
+    var container = findBottomNavContainer();
+    if (!container) return;
+
+    if (container.querySelector("#" + BTN_ID)) return;
+
+    var items = getTargetItems(container);
+    var lastItem = items.length ? items[items.length - 1] : null;
+    var firstItem = items.length ? items[0] : null;
+    var sibling = lastItem || firstItem || container.querySelector("button, a");
+
+    var btn = document.createElement("button");
+    btn.id = BTN_ID;
+    btn.type = "button";
+    btn.setAttribute("data-route", ROUTE);
+    btn.setAttribute("aria-label", "Mini-jeux de consolidation");
+    btn.setAttribute("title", "Mini-jeux de consolidation");
+
+    copyStyleFromSibling(btn, sibling);
+
+    btn.innerHTML =
+      '<span aria-hidden="true" style="font-size:1.25rem;line-height:1;">🎮</span>' +
+      '<span style="margin-left:.35rem;font-size:.78rem;font-weight:700;">Mini-jeu</span>';
+
+    btn.addEventListener("click", function (evt) {
+      evt.preventDefault();
+      evt.stopPropagation();
+      openMiniGame();
+    });
+
+    if (lastItem && lastItem.nextSibling) {
+      container.insertBefore(btn, lastItem.nextSibling);
+    } else if (lastItem) {
+      container.appendChild(btn);
+    } else {
+      container.insertBefore(btn, container.firstChild);
+    }
+
+    adjustContainerLayout(container);
+
+    if (typeof window.updateNavActiveState === "function") {
+      try {
+        window.updateNavActiveState();
+      } catch (e) {}
+    }
+
+    console.log("[BottomNav V5.157] Icône Mini-jeu ajoutée dans la barre basse");
+  }
+
+  var pending = null;
+
+  function scheduleEnsure() {
+    if (pending) clearTimeout(pending);
+
+    pending = setTimeout(function () {
+      pending = null;
+
+      try {
+        ensureBottomNavMiniGameButton();
+      } catch (e) {
+        console.warn("[BottomNav V5.157] Erreur injection icône", e);
+      }
+    }, 100);
+  }
+
+  window.DagoSpeakBottomNavMiniGame = {
+    ensure: ensureBottomNavMiniGameButton,
+    open: openMiniGame,
+    findContainer: findBottomNavContainer,
+    getItems: function () {
+      var c = findBottomNavContainer();
+      return c ? getTargetItems(c) : [];
+    }
+  };
+
+  scheduleEnsure();
+
+  setTimeout(scheduleEnsure, 250);
+  setTimeout(scheduleEnsure, 800);
+  setTimeout(scheduleEnsure, 1800);
+  setTimeout(scheduleEnsure, 3500);
+  setTimeout(scheduleEnsure, 6000);
+
+  window.addEventListener("hashchange", scheduleEnsure);
+  window.addEventListener("resize", scheduleEnsure);
+
+  var target = document.getElementById("app") || document.body;
+
+  if (target && typeof MutationObserver !== "undefined" && !window.__dsBottomNavMiniGameObserver) {
+    var observer = new MutationObserver(scheduleEnsure);
+    observer.observe(target, {
+      childList: true,
+      subtree: true
+    });
+
+    window.__dsBottomNavMiniGameObserver = observer;
+  }
+
+  console.log("[V5.157] Mini-jeu barre de navigation basse initialisé");
+})();
+
