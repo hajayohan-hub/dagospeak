@@ -11091,3 +11091,263 @@ function showUpdateBannerInline(registration) {
   console.log('[V5.152] DagoSpeak guided mini-game engine prêt');
 })();
 
+// ═══════════════════════════════════════════════════════════
+// V5.155 : Raccourci Mini-jeux dans le footer
+// Ajoute un bouton 🎮 Mini-jeu à côté des autres导航/footer items
+// ═══════════════════════════════════════════════════════════
+
+(function () {
+  var ROUTE = "/mini-game";
+  var BTN_ID = "ds-footer-minigame";
+  var INVALID_THEMES = ["dark", "light", "null", "undefined", ""];
+
+  function normalizeTheme(value) {
+    var t = String(value || "").trim().replace(/\.json$/i, "");
+    if (!t || INVALID_THEMES.indexOf(t.toLowerCase()) !== -1) return "";
+    return t;
+  }
+
+  function baseThemeId(value) {
+    return normalizeTheme(value).replace(/_0[12]$/, "");
+  }
+
+  function getStorage(key, fallback) {
+    try {
+      return localStorage.getItem(key) || fallback;
+    } catch (e) {
+      return fallback;
+    }
+  }
+
+  function setStorage(key, value) {
+    try {
+      localStorage.setItem(key, String(value == null ? "" : value));
+    } catch (e) {}
+  }
+
+  function getHashTheme() {
+    try {
+      var h = window.location.hash || "";
+      var qIndex = h.indexOf("?");
+      if (qIndex === -1) return "";
+
+      var params = new URLSearchParams(h.slice(qIndex + 1));
+      return normalizeTheme(
+        params.get("theme") ||
+        params.get("id") ||
+        params.get("dialogue") ||
+        ""
+      );
+    } catch (e) {
+      return "";
+    }
+  }
+
+  function getRecommendedTheme() {
+    var fromHash = getHashTheme();
+    if (fromHash) return fromHash;
+
+    try {
+      if (window.DagoSpeakGuided && typeof DagoSpeakGuided.getNextAction === "function") {
+        var action = DagoSpeakGuided.getNextAction();
+        if (action && action.themeId) {
+          var t = baseThemeId(action.themeId);
+          if (t) return t;
+        }
+      }
+    } catch (e) {}
+
+    var stored =
+      baseThemeId(getStorage("dagospeak:lastValidTheme", "")) ||
+      baseThemeId(getStorage("dagospeak:theme", "")) ||
+      baseThemeId(window.currentTheme) ||
+      baseThemeId(window.recommendedTheme);
+
+    if (stored) return stored;
+
+    return "alphabet1";
+  }
+
+  function openMiniGame() {
+    var themeId = getRecommendedTheme();
+
+    setStorage("dagospeak:theme", themeId);
+    setStorage("dagospeak:lastValidTheme", themeId);
+
+    window.currentTheme = themeId;
+    window.recommendedTheme = themeId;
+
+    console.log("[Footer V5.155] Ouverture mini-jeu pour thème:", themeId);
+
+    try {
+      if (window.DagoSpeakGuided && typeof DagoSpeakGuided.navigate === "function") {
+        DagoSpeakGuided.navigate({
+          type: "minigame",
+          themeId: themeId,
+          route: ROUTE,
+          label: "Mini-jeu",
+          description: ""
+        });
+        return;
+      }
+    } catch (e) {
+      console.warn("[Footer V5.155] DagoSpeakGuided.navigate indisponible", e);
+    }
+
+    try {
+      if (typeof window.renderMiniGame === "function") {
+        history.replaceState(null, "", "#" + ROUTE + "?theme=" + encodeURIComponent(themeId));
+        var result = window.renderMiniGame(themeId);
+        if (result && typeof result.catch === "function") {
+          result.catch(function (err) {
+            console.error("[Footer V5.155] Erreur renderMiniGame", err);
+          });
+        }
+        try { window.scrollTo(0, 0); } catch (e) {}
+        return;
+      }
+    } catch (e) {
+      console.error("[Footer V5.155] Erreur appel direct renderMiniGame", e);
+    }
+
+    window.location.hash = "#" + ROUTE + "?theme=" + encodeURIComponent(themeId);
+  }
+
+  function findFooterContainer() {
+    var selectors = [
+      "footer",
+      ".bottom-nav",
+      ".app-footer",
+      "#app-footer",
+      ".nav-footer",
+      "#bottom-nav",
+      ".ds-bottom-nav",
+      "#ds-bottom-nav",
+      "nav[aria-label='Navigation principale']",
+      "nav.bottom-navigation",
+      "#floating-home-actions",
+      ".floating-home-actions"
+    ];
+
+    for (var i = 0; i < selectors.length; i++) {
+      var el = document.querySelector(selectors[i]);
+      if (el) return el;
+    }
+
+    // Fallback : parent du premier bouton/link de navigation existant
+    var sample = document.querySelector(
+      'footer button, footer a[href^="#/"], ' +
+      '.bottom-nav button, .bottom-nav a[href^="#/"], ' +
+      '#floating-home-actions button, #floating-home-actions a[href^="#/"]'
+    );
+
+    if (sample && sample.parentElement) {
+      return sample.parentElement;
+    }
+
+    return null;
+  }
+
+  function ensureMiniGameFooterShortcut() {
+    var footer = findFooterContainer();
+    if (!footer) return;
+
+    // Éviter les doublons
+    if (footer.querySelector("#" + BTN_ID)) return;
+
+    var existing = footer.querySelector(
+      '[data-route="' + ROUTE + '"], a[href="#' + ROUTE + '"], a[href="/#' + ROUTE + '"]'
+    );
+
+    if (existing) {
+      // Si un lien natif existe déjà, on le connecte quand même à openMiniGame()
+      existing.addEventListener("click", function (evt) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        openMiniGame();
+      });
+      return;
+    }
+
+    var btn = document.createElement("button");
+    btn.id = BTN_ID;
+    btn.type = "button";
+    btn.setAttribute("data-route", ROUTE);
+    btn.setAttribute("aria-label", "Mini-jeux");
+    btn.setAttribute("title", "Mini-jeux de consolidation");
+
+    // Essayer de coller au style existant
+    var sibling = footer.querySelector(
+      'button:not(#' + BTN_ID + '), a[href^="#/"]'
+    );
+
+    if (sibling && sibling.className) {
+      btn.className = sibling.className;
+    } else {
+      btn.style.cssText =
+        "display:inline-flex;align-items:center;justify-content:center;gap:.35rem;" +
+        "background:transparent;color:inherit;border:none;cursor:pointer;" +
+        "font:inherit;padding:.5rem .75rem;border-radius:10px;";
+    }
+
+    btn.innerHTML =
+      '<span aria-hidden="true">🎮</span>' +
+      '<span style="margin-left:.25rem;">Mini-jeu</span>';
+
+    btn.addEventListener("click", function (evt) {
+      evt.preventDefault();
+      evt.stopPropagation();
+      openMiniGame();
+    });
+
+    footer.appendChild(btn);
+
+    if (typeof window.updateNavActiveState === "function") {
+      try {
+        window.updateNavActiveState();
+      } catch (e) {}
+    }
+
+    console.log("[Footer V5.155] Raccourci Mini-jeu ajouté dans le footer");
+  }
+
+  var pending = null;
+
+  function scheduleEnsure() {
+    if (pending) clearTimeout(pending);
+
+    pending = setTimeout(function () {
+      pending = null;
+
+      try {
+        ensureMiniGameFooterShortcut();
+      } catch (e) {
+        console.warn("[Footer V5.155] Erreur injection raccourci", e);
+      }
+    }, 120);
+  }
+
+  scheduleEnsure();
+
+  setTimeout(scheduleEnsure, 250);
+  setTimeout(scheduleEnsure, 800);
+  setTimeout(scheduleEnsure, 1800);
+  setTimeout(scheduleEnsure, 3500);
+
+  window.addEventListener("hashchange", scheduleEnsure);
+
+  var target = document.getElementById("app") || document.body;
+
+  if (target && typeof MutationObserver !== "undefined" && !window.__dsMiniGameFooterObserver) {
+    var observer = new MutationObserver(scheduleEnsure);
+    observer.observe(target, {
+      childList: true,
+      subtree: true
+    });
+
+    window.__dsMiniGameFooterObserver = observer;
+  }
+
+  console.log("[V5.155] Raccourci footer Mini-jeu initialisé");
+})();
+
