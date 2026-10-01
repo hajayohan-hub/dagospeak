@@ -10751,15 +10751,59 @@ function showUpdateBannerInline(registration) {
       '/content/fr/minigames/' + themeId + '_01.json',
       '/content/fr/minigames/' + themeId + '.json'
     ];
+    var MG_CACHE = 'dagospeak-minigames-v1';
+
+    async function getMiniGameJsonOfflineFirst(urlPath) {
+      var absoluteUrl = new URL(urlPath, window.location.origin);
+      var request = new Request(absoluteUrl, { cache: 'no-store' });
+
+      // 1. Essayer d'abord le cache local
+      if (typeof caches !== 'undefined') {
+        try {
+          var cache = await caches.open(MG_CACHE);
+          var cachedResponse = await cache.match(request);
+
+          if (cachedResponse) {
+            try {
+              console.log('[V5.161] Mini-jeu chargé depuis le cache:', urlPath);
+              return await cachedResponse.json();
+            } catch (e) {
+              console.warn('[V5.161] Cache JSON invalide pour', urlPath, e);
+            }
+          }
+        } catch (e) {
+          console.warn('[V5.161] Erreur lecture cache mini-jeu', e);
+        }
+      }
+
+      // 2. Sinon essayer le réseau
+      try {
+        var res = await fetch(request);
+
+        if (res && res.ok) {
+          // 3. Mettre en cache pour le mode hors ligne
+          if (typeof caches !== 'undefined') {
+            try {
+              var cachePut = await caches.open(MG_CACHE);
+              await cachePut.put(request, res.clone());
+              console.log('[V5.161] Mini-jeu mis en cache pour hors ligne:', urlPath);
+            } catch (e) {
+              console.warn('[V5.161] Erreur mise en cache mini-jeu', e);
+            }
+          }
+
+          return await res.json();
+        }
+      } catch (e) {
+        console.warn('[V5.161] Erreur réseau mini-jeu', urlPath, e);
+      }
+
+      return null;
+    }
 
     for (var i = 0; i < urls.length; i++) {
-      try {
-        var res = await fetch(urls[i], { cache: 'no-store' });
-        if (res.ok) {
-          data = await res.json();
-          break;
-        }
-      } catch (e) {}
+      data = await getMiniGameJsonOfflineFirst(urls[i]);
+      if (data) break;
     }
 
     if (!data || !Array.isArray(data.questions) || data.questions.length === 0) {
@@ -12927,5 +12971,138 @@ function showUpdateBannerInline(registration) {
   }
 
   console.log("[V5.159] Insertion robuste Mini-jeu dans barre basse initialisée");
+})();
+
+// ═══════════════════════════════════════════════════════════
+// V5.161 : préchargement offline des mini-jeux
+// Quand l'utilisateur ouvre #/minigames en ligne,
+// les JSON disponibles sont copiés dans Cache API.
+// ═══════════════════════════════════════════════════════════
+
+(function () {
+  var MG_CACHE = "dagospeak-minigames-v1";
+
+  // Doit rester synchronisé avec AVAILABLE_MINIGAMES dans V5.158
+  var PREFETCH_MINIGAMES = [
+    "alphabet1",
+    "colors",
+    "articles"
+  ];
+
+  function miniGameUrl(themeId) {
+    return "/content/fr/minigames/" + themeId + "_01.json";
+  }
+
+  async function prefetchMiniGames() {
+    if (typeof navigator !== "undefined" && navigator.onLine === false) {
+      console.log("[V5.161] Hors ligne, préchargement mini-jeux ignoré");
+      return;
+    }
+
+    if (typeof caches === "undefined") {
+      console.warn("[V5.161] Cache API indisponible");
+      return;
+    }
+
+    try {
+      var cache = await caches.open(MG_CACHE);
+      var promises = [];
+
+      for (var i = 0; i < PREFETCH_MINIGAMES.length; i++) {
+        var themeId = PREFETCH_MINIGAMES[i];
+        var path = miniGameUrl(themeId);
+        var url = new URL(path, window.location.origin);
+        var request = new Request(url, { cache: "no-store" });
+
+        promises.push(
+          (async function (req, theme, p) {
+            try {
+              var existing = await cache.match(req);
+              if (existing) {
+                console.log("[V5.161] Mini-jeu déjà en cache:", theme);
+                return;
+              }
+
+              var res = await fetch(req);
+              if (res && res.ok) {
+                await cache.put(req, res.clone());
+                console.log("[V5.161] Mini-jeu préchargé pour hors ligne:", theme, p);
+              } else {
+                console.warn("[V5.161] Mini-jeu non préchargé:", theme, res ? res.status : "network error");
+              }
+            } catch (e) {
+              console.warn("[V5.161] Erreur préchargement mini-jeu:", theme, e);
+            }
+          })(request, themeId, path)
+        );
+      }
+
+      await Promise.allSettled(promises);
+      console.log("[V5.161] Préchargement mini-jeux terminé");
+    } catch (e) {
+      console.warn("[V5.161] Erreur globale préchargement mini-jeux", e);
+    }
+  }
+
+  window.DagoSpeakPrefetchMiniGames = prefetchMiniGames;
+
+  // Patch renderMiniGameThemes pour précharger quand la sélection s'ouvre
+  if (typeof window.renderMiniGameThemes === "function") {
+    var originalRenderMiniGameThemes = window.renderMiniGameThemes;
+
+    window.renderMiniGameThemes = function () {
+      var result = originalRenderMiniGameThemes.apply(this, arguments);
+
+      setTimeout(function () {
+        prefetchMiniGames();
+      }, 120);
+
+      return result;
+    };
+
+    console.log("[V5.161] renderMiniGameThemes patché pour préchargement offline");
+  }
+
+  // Patch DagoSpeakMiniGameSelect.show si disponible
+  try {
+    if (window.DagoSpeakMiniGameSelect && typeof window.DagoSpeakMiniGameSelect.show === "function") {
+      var originalShow = window.DagoSpeakMiniGameSelect.show;
+
+      window.DagoSpeakMiniGameSelect.show = function () {
+        var result = originalShow.apply(this, arguments);
+
+        setTimeout(function () {
+          prefetchMiniGames();
+        }, 120);
+
+        return result;
+      };
+
+      console.log("[V5.161] DagoSpeakMiniGameSelect.show patché pour préchargement offline");
+    }
+  } catch (e) {
+    console.warn("[V5.161] Patch DagoSpeakMiniGameSelect ignoré", e);
+  }
+
+  function maybePrefetchOnHash() {
+    var h = window.location.hash || "";
+    if (h.indexOf("#/minigames") === 0) {
+      prefetchMiniGames();
+    }
+  }
+
+  window.addEventListener("hashchange", maybePrefetchOnHash, true);
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function () {
+      maybePrefetchOnHash();
+      setTimeout(prefetchMiniGames, 1500);
+    }, { once: true });
+  } else {
+    maybePrefetchOnHash();
+    setTimeout(prefetchMiniGames, 1500);
+  }
+
+  console.log("[V5.161] Préchargement offline mini-jeux initialisé");
 })();
 
