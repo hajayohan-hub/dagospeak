@@ -9655,8 +9655,57 @@ function startAppAndShowHome() {
 
   // ✅ V5.44: Forcer le retour à l'accueil au démarrage (après reload Ctrl+Shift+R)
   // Cela évite de tomber sur une conversation orpheline (ex: Market)
-  if (window.location.hash && window.location.hash !== '#/' && window.location.hash !== '#') {
-    console.log("[App] 🏠 Reset vers accueil (hash précédent:", window.location.hash, ")");
+  // V5.154: Autoriser les routes guidées au démarrage
+  // Ne plus casser #/mini-game, #/lesson, #/practice, etc.
+  try {
+    var startupHash = window.location.hash || '';
+    var startupPath = startupHash.split('?')[0].replace(/^#/, '');
+
+    var allowedStartupPaths = [
+      '',
+      '/',
+      '/home',
+      '/accueil',
+      '/today',
+      '/themes',
+      '/theme-detail',
+      '/lesson',
+      '/practice',
+      '/lesson-phrases',
+      '/practice-phrases',
+      '/dialogues',
+      '/challenge',
+      '/roleplay',
+      '/mini-game',
+      '/review',
+      '/exam',
+      '/dictionary',
+      '/profile'
+    ];
+
+    var allowStartup = allowedStartupPaths.indexOf(startupPath) !== -1;
+
+    // Conversation Live autorisé seulement s'il y a un contexte thème/dialogue
+    if (!allowStartup && startupPath === '/conversation-live') {
+      allowStartup =
+        startupHash.indexOf('theme=') !== -1 ||
+        startupHash.indexOf('dialogue=') !== -1 ||
+        startupHash.indexOf('id=') !== -1;
+
+      try {
+        allowStartup =
+          allowStartup ||
+          !!localStorage.getItem('dagospeak:requestedConversationTheme') ||
+          !!localStorage.getItem('dagospeak:conversationTheme');
+      } catch (e) {}
+    }
+
+    if (startupHash && startupHash !== '#/' && startupHash !== '#' && !allowStartup) {
+      console.log('[App] 🏠 Reset vers accueil (hash non guidé:', startupHash, ')');
+      window.location.hash = '/';
+    }
+  } catch (e) {
+    console.warn('[App] Erreur contrôle hash démarrage', e);
     window.location.hash = '/';
   }
 
