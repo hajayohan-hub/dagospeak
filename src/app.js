@@ -10929,10 +10929,15 @@ function showUpdateBannerInline(registration) {
   function injectGuidedNextCard() {
     if (!isGuidedPage()) return;
 
+    // V5.153: ne pas injecter avant que le manifeste soit chargé
+    if (!window.currentManifest || !window.currentManifest.levels) return;
+
     var app = document.getElementById('app');
     if (!app) return;
 
-    if (document.getElementById('ds-guided-next-card')) return;
+    // V5.153: remplacer l'ancienne carte au lieu de bloquer la mise à jour
+    var existingCard = document.getElementById('ds-guided-next-card');
+    if (existingCard) existingCard.remove();
 
     var action = getNextAction();
     if (!action) return;

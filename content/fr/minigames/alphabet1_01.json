@@ -1,0 +1,39 @@
+{
+  "id": "alphabet1_minigame_01",
+  "theme": "alphabet1",
+  "title": "Consolider l'alphabet - Partie 1",
+  "passScore": 80,
+  "questions": [
+    {
+      "type": "recognize",
+      "prompt": "Quelle lettre est une voyelle ?",
+      "options": ["B", "D", "E", "F"],
+      "correct": "E"
+    },
+    {
+      "type": "recall",
+      "prompt": "Complète : A, B, ___, D",
+      "options": ["C", "E", "F", "G"],
+      "correct": "C"
+    },
+    {
+      "type": "understand",
+      "prompt": "Écoute et choisis la lettre.",
+      "audioText": "M",
+      "options": ["M", "N", "R", "L"],
+      "correct": "M"
+    },
+    {
+      "type": "recall",
+      "prompt": "Complète : X, Y, ___",
+      "options": ["Z", "W", "V", "U"],
+      "correct": "Z"
+    },
+    {
+      "type": "use",
+      "prompt": "Quelle lettre manque ? A, E, I, ___, U",
+      "options": ["O", "B", "C", "D"],
+      "correct": "O"
+    }
+  ]
+}
