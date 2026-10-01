@@ -1146,6 +1146,8 @@ function checkSpacedRepetition() {
 // ═══════════════════════════════════════════════════════════
 
 (function () {
+  /* V5.144 DISABLED */ return;
+
   const TODAY_ACTIVITY_ROUTE = "/theme-detail";
 
   function safeLocalStorageGet(key) {
@@ -10067,3 +10069,158 @@ function showUpdateBannerInline(registration) {
       // window.location.reload(); // COMMENTÉ ou SUPPRIMÉ
     });
   }
+// ═══════════════════════════════════════════════════════════
+// V5.144 : TODAY FINAL INTERCEPTOR
+// Force la redirection vers /theme-detail avec le bon thème
+// ═══════════════════════════════════════════════════════════
+
+(function () {
+  console.log("[Today V5.144] Initialisation...");
+
+  // Mapping des titres/textes visibles vers les IDs internes
+  const TEXT_TO_ID_MAP = {
+    "alphabet": "alphabet1",
+    "alfabe": "alphabet1",
+    "greeting": "greetings",
+    "salutation": "greetings",
+    "survival": "survival",
+    "famille": "family",
+    "marché": "market",
+    "nombre": "numbers",
+    "couleur": "colors",
+    "jour": "days",
+    "mois": "months",
+    "corps": "body",
+    "pronom": "pronouns_basic",
+    "article": "articles",
+    "être": "verbe_etre",
+    "avoir": "verbe_avoir",
+    "adjectif": "adjectifs",
+    "négation": "negation",
+    "question": "questions",
+    "démonstratif": "demonstratifs",
+    "possessif": "possessifs",
+    "préposition": "prepositions",
+    "impératif": "imperatif",
+    "futur": "futur_proche",
+    "verbe er": "verbes_er"
+  };
+
+  function extractThemeId(el) {
+    if (!el) return null;
+
+    // 1. Attributs data-* directs
+    const attrs = [
+      el.dataset?.themeId,
+      el.dataset?.theme,
+      el.dataset?.unit,
+      el.dataset?.dialogue,
+      el.getAttribute("data-theme"),
+      el.getAttribute("data-unit"),
+      el.getAttribute("data-dialogue")
+    ];
+
+    for (const attr of attrs) {
+      if (attr && typeof attr === "string") {
+        let id = attr.trim().replace(/\.json$/i, "");
+        // Normaliser les suffixes _01, _02 si nécessaire
+        if (id.endsWith("_01")) id = id.replace("_01", "");
+        if (id.endsWith("_02")) id = id.replace("_02", ""); 
+        // Cas spécifique alphabet_01 -> alphabet1
+        if (id === "alphabet") id = "alphabet1"; 
+        
+        return id;
+      }
+    }
+
+    // 2. Texte visible (fallback intelligent)
+    const text = (el.innerText || el.textContent || "").toLowerCase();
+    
+    for (const [keyword, id] of Object.entries(TEXT_TO_ID_MAP)) {
+      if (text.includes(keyword)) {
+        // Si c'est "Alphabet - Partie 2", on essaie de détecter le 2
+        if (id === "alphabet1" && text.includes("2")) return "alphabet2";
+        if (id === "family" && text.includes("2")) return "family2"; // si ça existe
+        
+        return id;
+      }
+    }
+
+    // 3. Href ?theme=...
+    const href = el.getAttribute("href") || "";
+    if (href.includes("?theme=")) {
+      try {
+        const url = new URL(href, window.location.origin);
+        return url.searchParams.get("theme");
+      } catch (_) {}
+    }
+
+    return null;
+  }
+
+  function navigateToThemeDetail(themeId) {
+    if (!themeId) {
+      console.warn("[Today V5.144] Aucun thème identifié, retour à l'accueil");
+      if (window.router) window.router.navigate("/");
+      else location.hash = "#/";
+      return;
+    }
+
+    console.log(`[Today V5.144] Redirection forcée vers /theme-detail pour : ${themeId}`);
+
+    // A. Mettre à jour l'état global
+    window.currentTheme = themeId;
+    window.recommendedTheme = themeId;
+    
+    // B. Mettre à jour localStorage (clé standard de l'app)
+    try {
+      localStorage.setItem("dagospeak:theme", themeId);
+      localStorage.setItem("dagospeak:lastTheme", themeId);
+      localStorage.setItem("dagospeak:currentTheme", themeId);
+    } catch (e) {
+      console.error("Erreur localStorage:", e);
+    }
+
+    // C. Naviguer
+    if (window.router && typeof window.router.navigate === "function") {
+      window.router.navigate("/theme-detail");
+    } else {
+      window.location.hash = "#/theme-detail";
+    }
+  }
+
+  document.addEventListener(
+    "click",
+    function (event) {
+      // Ne pas interférer si on est déjà dans Conversation Live
+      if (location.hash.includes("conversation")) return;
+
+      const target = event.target;
+      
+      // Chercher l'élément cliquable le plus proche
+      const clickable = target.closest(
+        'a, button, [role="button"], .card, .interactive-tap, [data-theme], [data-unit]'
+      );
+
+      if (!clickable) return;
+
+      // Extraire le thème
+      const themeId = extractThemeId(clickable);
+
+      // Si on a trouvé un thème, on prend le contrôle TOTAL
+      if (themeId) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        navigateToThemeDetail(themeId);
+      }
+    },
+    true // Capture phase pour agir avant les autres listeners
+  );
+
+  window.DagoSpeakTodayV5_144 = {
+    extractThemeId,
+    navigateToThemeDetail
+  };
+
+  console.log("[Today V5.144] Prêt.");
+})();
