@@ -10224,3 +10224,36 @@ function showUpdateBannerInline(registration) {
 
   console.log("[Today V5.144] Prêt.");
 })();
+
+// ═══════════════════════════════════════════════════════════
+// V5.146 : MASQUER LA CARTE DE MISE À JOUR AUTOMATIQUEMENT
+// Quand le nouveau Service Worker prend le contrôle, on cache la notif
+// ═══════════════════════════════════════════════════════════
+
+(function () {
+  function hideUpdateBanner() {
+    const banners = document.querySelectorAll(
+      '.update-banner, .pwa-update-notification, [id*="update"], [class*="update"]'
+    );
+    
+    banners.forEach(el => {
+      el.style.display = 'none';
+      el.remove(); // Suppression totale pour éviter les résidus
+    });
+    
+    console.log('[SW] Carte de mise à jour masquée automatiquement');
+  }
+
+  // Écouter quand le contrôleur change (nouveau SW actif)
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      console.log('[SW] Nouveau contrôleur détecté, nettoyage UI...');
+      hideUpdateBanner();
+      
+      // Optionnel : Recharger doucement si nécessaire, 
+      // mais ici on préfère juste nettoyer l'UI pour ne pas perdre le contexte utilisateur
+    });
+  }
+
+  window.hideUpdateBanner = hideUpdateBanner;
+})();
