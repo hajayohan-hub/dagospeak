@@ -1,0 +1,32 @@
+{
+  "id": "greetings_minigame_01",
+  "theme": "greetings",
+  "title": "Consolider les salutations",
+  "passScore": 80,
+  "questions": [
+    {
+      "type": "recall",
+      "prompt": "Complète : Bonjour, comment ___ ?",
+      "options": ["ça va", "tu es", "il est", "nous sommes"],
+      "correct": "ça va"
+    },
+    {
+      "type": "understand",
+      "prompt": "Écoute et choisis la bonne réponse.",
+      "audioText": "Comment tu t'appelles ?",
+      "options": [
+        "Je m'appelle Rakoto.",
+        "Je vais bien.",
+        "Merci.",
+        "Au revoir."
+      ],
+      "correct": "Je m'appelle Rakoto."
+    },
+    {
+      "type": "use",
+      "prompt": "Pour quitter poliment, on dit :",
+      "options": ["Au revoir", "Bonjour", "Merci", "S'il vous plaît"],
+      "correct": "Au revoir"
+    }
+  ]
+}
