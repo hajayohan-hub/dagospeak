@@ -9677,6 +9677,7 @@ function startAppAndShowHome() {
       '/challenge',
       '/roleplay',
       '/mini-game',
+      '/minigames',
       '/review',
       '/exam',
       '/dictionary',
@@ -10650,6 +10651,7 @@ function showUpdateBannerInline(registration) {
       '/challenge': 'renderChallenge',
       '/roleplay': 'renderRolePlay',
       '/mini-game': 'renderMiniGame',
+      '/minigames': 'renderMiniGameThemes',
       '/conversation-live': 'renderConversationLive',
       '/review': 'renderReview',
       '/exam': 'renderCertification',
@@ -11999,5 +12001,451 @@ function showUpdateBannerInline(registration) {
   }
 
   console.log("[V5.157] Mini-jeu barre de navigation basse initialisé");
+})();
+
+// ═══════════════════════════════════════════════════════════
+// V5.158 : Page de sélection de thème pour les mini-jeux
+// Clic sur l'icône 🎮 Mini-jeu -> #/minigames
+// Puis choix du thème -> mini-jeu correspondant
+// ═══════════════════════════════════════════════════════════
+
+(function () {
+  var SELECTION_ROUTE = "/minigames";
+  var BTN_ID = "ds-bottom-nav-minigame";
+  var MASTERY_THRESHOLD = 80;
+
+  // Mini-jeux réellement disponibles pour l'instant.
+  // Pour en ajouter un nouveau :
+  // 1. créer content/fr/minigames/<theme>_01.json
+  // 2. ajouter "<theme>" dans AVAILABLE_MINIGAMES
+  var AVAILABLE_MINIGAMES = [
+    "alphabet1",
+    "colors",
+    "articles"
+  ];
+
+  var DEFAULT_THEME_ORDER = [
+    "alphabet1",
+    "alphabet2",
+    "greetings",
+    "survival",
+    "family",
+    "market",
+    "numbers",
+    "numbers2",
+    "colors",
+    "days",
+    "months",
+    "body",
+    "pronouns_basic",
+    "articles",
+    "verbe_etre",
+    "verbe_avoir",
+    "adjectifs",
+    "negation",
+    "questions",
+    "demonstratifs",
+    "possessifs",
+    "prepositions",
+    "verbes_er",
+    "imperatif",
+    "futur_proche"
+  ];
+
+  var THEME_META = {
+    alphabet1: { label: "Alphabet 1", icon: "🔤" },
+    alphabet2: { label: "Alphabet 2", icon: "🔡" },
+    greetings: { label: "Salutations", icon: "👋" },
+    survival: { label: "Mots de survie", icon: "🆘" },
+    family: { label: "La famille", icon: "👨‍👩‍👧" },
+    market: { label: "Le marché", icon: "🛒" },
+    numbers: { label: "Nombres 1-10", icon: "🔢" },
+    numbers2: { label: "Nombres 11-20", icon: "🧮" },
+    colors: { label: "Les couleurs", icon: "🎨" },
+    days: { label: "Les jours", icon: "📅" },
+    months: { label: "Les mois", icon: "🗓️" },
+    body: { label: "Le corps", icon: "🏥" },
+    pronouns_basic: { label: "Les pronoms de base", icon: "🙋" },
+    articles: { label: "Les articles", icon: "📖" },
+    verbe_etre: { label: "Le verbe être", icon: "📖" },
+    verbe_avoir: { label: "Le verbe avoir", icon: "📖" },
+    adjectifs: { label: "Les adjectifs", icon: "📖" },
+    negation: { label: "La négation", icon: "📖" },
+    questions: { label: "Les questions", icon: "📖" },
+    demonstratifs: { label: "Les démonstratifs", icon: "📖" },
+    possessifs: { label: "Les possessifs", icon: "📖" },
+    prepositions: { label: "Les prépositions", icon: "📖" },
+    verbes_er: { label: "Les verbes en -er", icon: "📖" },
+    imperatif: { label: "L'impératif", icon: "📖" },
+    futur_proche: { label: "Le futur proche", icon: "📖" }
+  };
+
+  function esc(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  function normalizeTheme(value) {
+    var t = String(value || "").trim().replace(/\.json$/i, "");
+    if (!t || ["dark", "light", "null", "undefined", ""].indexOf(t.toLowerCase()) !== -1) return "";
+    return t;
+  }
+
+  function baseThemeId(value) {
+    return normalizeTheme(value).replace(/_0[12]$/, "");
+  }
+
+  function getStorage(key, fallback) {
+    try {
+      return localStorage.getItem(key) || fallback;
+    } catch (e) {
+      return fallback;
+    }
+  }
+
+  function setStorage(key, value) {
+    try {
+      localStorage.setItem(key, String(value == null ? "" : value));
+    } catch (e) {}
+  }
+
+  function themeLabel(id) {
+    var clean = baseThemeId(id);
+    return (THEME_META[clean] && THEME_META[clean].label) || clean || "Thème";
+  }
+
+  function themeIcon(id) {
+    var clean = baseThemeId(id);
+    return (THEME_META[clean] && THEME_META[clean].icon) || "📘";
+  }
+
+  function isMiniGameAvailable(themeId) {
+    return AVAILABLE_MINIGAMES.indexOf(baseThemeId(themeId)) !== -1;
+  }
+
+  function getMastery(themeId) {
+    var clean = baseThemeId(themeId);
+    if (!clean) return 0;
+
+    try {
+      if (window.DagoSpeakGuided && typeof DagoSpeakGuided.getMastery === "function") {
+        return DagoSpeakGuided.getMastery(clean) || 0;
+      }
+    } catch (e) {}
+
+    return parseInt(getStorage("dagospeak:mastery:" + clean, "0"), 10) || 0;
+  }
+
+  function getManifestThemes() {
+    var themes = [];
+    var seen = {};
+
+    try {
+      var manifest = window.currentManifest || {};
+      var levels = manifest.levels || [];
+
+      for (var i = 0; i < levels.length; i++) {
+        var level = levels[i];
+        if (!level || level.id !== "A0") continue;
+
+        var units = level.units || [];
+        for (var u = 0; u < units.length; u++) {
+          var unit = units[u] || {};
+          var id = baseThemeId(unit.id || unit.themeId || unit.conversationId || "");
+          if (!id || seen[id]) continue;
+
+          seen[id] = true;
+          themes.push({
+            id: id,
+            label: (unit.title && unit.title.fr) || themeLabel(id),
+            icon: unit.icon || themeIcon(id),
+            order: unit.order || 999
+          });
+        }
+      }
+    } catch (e) {}
+
+    if (themes.length) {
+      themes.sort(function (a, b) {
+        return (a.order || 0) - (b.order || 0);
+      });
+      return themes;
+    }
+
+    for (var d = 0; d < DEFAULT_THEME_ORDER.length; d++) {
+      var tid = DEFAULT_THEME_ORDER[d];
+      if (!seen[tid]) {
+        seen[tid] = true;
+        themes.push({
+          id: tid,
+          label: themeLabel(tid),
+          icon: themeIcon(tid),
+          order: d
+        });
+      }
+    }
+
+    return themes;
+  }
+
+  function openMiniGameTheme(themeId) {
+    var clean = baseThemeId(themeId);
+    if (!clean) return;
+
+    if (!isMiniGameAvailable(clean)) {
+      alert("Le mini-jeu pour ce thème n'est pas encore disponible.\nCréez content/fr/minigames/" + clean + "_01.json puis ajoutez-le à AVAILABLE_MINIGAMES.");
+      return;
+    }
+
+    setStorage("dagospeak:theme", clean);
+    setStorage("dagospeak:lastValidTheme", clean);
+
+    window.currentTheme = clean;
+    window.recommendedTheme = clean;
+
+    console.log("[MiniGameSelect V5.158] Ouverture mini-jeu thème:", clean);
+
+    try {
+      if (window.DagoSpeakGuided && typeof DagoSpeakGuided.navigate === "function") {
+        DagoSpeakGuided.navigate({
+          type: "minigame",
+          themeId: clean,
+          route: "/mini-game",
+          label: "Mini-jeu : " + themeLabel(clean),
+          description: ""
+        });
+        return;
+      }
+    } catch (e) {
+      console.warn("[MiniGameSelect V5.158] DagoSpeakGuided.navigate indisponible", e);
+    }
+
+    try {
+      if (typeof window.renderMiniGame === "function") {
+        history.replaceState(null, "", "#/mini-game?theme=" + encodeURIComponent(clean));
+        var result = window.renderMiniGame(clean);
+        if (result && typeof result.catch === "function") {
+          result.catch(function (err) {
+            console.error("[MiniGameSelect V5.158] Erreur renderMiniGame", err);
+          });
+        }
+        try { window.scrollTo(0, 0); } catch (e) {}
+        return;
+      }
+    } catch (e) {
+      console.error("[MiniGameSelect V5.158] Erreur appel direct renderMiniGame", e);
+    }
+
+    window.location.hash = "#/mini-game?theme=" + encodeURIComponent(clean);
+  }
+
+  function renderMiniGameThemes() {
+    var main = document.getElementById("app");
+    if (!main) return;
+
+    // Éviter de re-render en boucle si on est déjà sur la page de sélection
+    if (document.getElementById("ds-minigame-select-root")) {
+      try {
+        history.replaceState(null, "", "#" + SELECTION_ROUTE);
+      } catch (e) {}
+      return;
+    }
+
+    var themes = getManifestThemes();
+
+    var html = "" +
+      '<div id="ds-minigame-select-root" style="max-width:760px;margin:0 auto;padding:1rem;">' +
+        '<div style="background:linear-gradient(135deg,var(--ds-color-primary,#2563eb),var(--ds-color-accent,#f59e0b));color:white;border-radius:16px;padding:1.25rem;margin-bottom:1rem;">' +
+          '<div style="font-size:.85rem;opacity:.9;margin-bottom:.25rem;">Consolidation active</div>' +
+          '<h1 style="margin:0;font-size:1.45rem;">🎮 Choisir un mini-jeu</h1>' +
+          '<p style="margin:.55rem 0 0 0;font-size:.95rem;opacity:.95;">' +
+            'Choisis un thème pour mémoriser activement les mots, phrases ou règles avant la conversation.' +
+          '</p>' +
+        '</div>' +
+        '<div style="display:grid;gap:.85rem;">';
+
+    for (var i = 0; i < themes.length; i++) {
+      var theme = themes[i];
+      var available = isMiniGameAvailable(theme.id);
+      var mastery = getMastery(theme.id);
+
+      var statusHtml = "";
+      if (!available) {
+        statusHtml = '<span style="color:var(--ds-color-text-muted,#64748b);font-size:.85rem;">🔒 Mini-jeu à préparer</span>';
+      } else if (mastery >= MASTERY_THRESHOLD) {
+        statusHtml = '<span style="color:#16a34a;font-size:.85rem;font-weight:700;">✅ Maîtrisé · ' + mastery + '%</span>';
+      } else if (mastery > 0) {
+        statusHtml = '<span style="color:#d97706;font-size:.85rem;font-weight:700;">🟡 ' + mastery + '% / objectif ' + MASTERY_THRESHOLD + '%</span>';
+      } else {
+        statusHtml = '<span style="color:var(--ds-color-text-muted,#64748b);font-size:.85rem;">⚪ À jouer</span>';
+      }
+
+      html += "" +
+        '<div style="background:var(--ds-color-surface,#fff);border:1px solid var(--ds-color-border,#e2e8f0);border-radius:14px;padding:1rem;display:flex;gap:1rem;align-items:center;justify-content:space-between;flex-wrap:wrap;' + (available ? '' : 'opacity:.68;') + '">' +
+          '<div style="min-width:220px;flex:1;">' +
+            '<div style="display:flex;align-items:center;gap:.65rem;">' +
+              '<div style="font-size:1.75rem;line-height:1;">' + esc(theme.icon || themeIcon(theme.id)) + '</div>' +
+              '<div>' +
+                '<h3 style="margin:0;font-size:1.05rem;">' + esc(theme.label || themeLabel(theme.id)) + '</h3>' +
+                '<div style="margin-top:.25rem;">' + statusHtml + '</div>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+          '<div>' +
+            '<button class="ds-minigame-select-btn" data-theme="' + esc(theme.id) + '" ' + (available ? '' : 'disabled ') + 'style="background:' + (available ? 'var(--ds-color-primary,#2563eb)' : 'var(--ds-color-surface-2,#e2e8f0)') + ';color:' + (available ? 'white' : 'var(--ds-color-text-muted,#64748b)') + ';border:none;padding:.7rem 1rem;border-radius:10px;font-weight:700;cursor:' + (available ? 'pointer' : 'not-allowed') + ';">' +
+              (available ? 'Jouer' : 'À venir') +
+            '</button>' +
+          '</div>' +
+        '</div>';
+    }
+
+    html += "" +
+        '</div>' +
+        '<div style="margin-top:1.25rem;text-align:center;">' +
+          '<button id="ds-minigame-select-back" style="background:transparent;color:var(--ds-color-primary,#2563eb);border:1px solid var(--ds-color-primary,#2563eb);padding:.7rem 1rem;border-radius:10px;cursor:pointer;font-weight:700;">← Retour</button>' +
+        '</div>' +
+      '</div>';
+
+    main.innerHTML = html;
+
+    try {
+      history.replaceState(null, "", "#" + SELECTION_ROUTE);
+    } catch (e) {
+      window.location.hash = "#" + SELECTION_ROUTE;
+    }
+
+    var buttons = main.querySelectorAll(".ds-minigame-select-btn");
+    for (var b = 0; b < buttons.length; b++) {
+      buttons[b].addEventListener("click", function (evt) {
+        var themeId = evt.currentTarget.getAttribute("data-theme");
+        openMiniGameTheme(themeId);
+      });
+    }
+
+    var back = document.getElementById("ds-minigame-select-back");
+    if (back) {
+      back.addEventListener("click", function (evt) {
+        evt.preventDefault();
+        evt.stopPropagation();
+
+        try {
+          if (window.history && window.history.length > 1) {
+            window.history.back();
+            return;
+          }
+        } catch (e) {}
+
+        window.location.hash = "#/";
+      });
+    }
+
+    if (typeof window.updateNavActiveState === "function") {
+      try {
+        window.updateNavActiveState();
+      } catch (e) {}
+    }
+
+    console.log("[MiniGameSelect V5.158] Page de sélection mini-jeux affichée");
+  }
+
+  window.renderMiniGameThemes = renderMiniGameThemes;
+
+  function isSelectionHash() {
+    var h = window.location.hash || "";
+    var path = h.split("?")[0].replace(/^#/, "");
+    return path === SELECTION_ROUTE;
+  }
+
+  function showSelection() {
+    renderMiniGameThemes();
+  }
+
+  function handleHashChange(evt) {
+    if (!isSelectionHash()) return;
+
+    // Empêcher le routeur de renvoyer vers l'accueil si #/minigames n'est pas encore connu
+    if (evt && typeof evt.stopImmediatePropagation === "function") {
+      evt.stopImmediatePropagation();
+    }
+
+    showSelection();
+  }
+
+  function replaceFooterButton() {
+    var btn = document.getElementById(BTN_ID);
+    if (!btn) return;
+
+    if (btn.getAttribute("data-ds-minigame-selection") === "true") return;
+
+    var clone = btn.cloneNode(true);
+    clone.setAttribute("data-ds-minigame-selection", "true");
+
+    clone.addEventListener("click", function (evt) {
+      evt.preventDefault();
+      evt.stopPropagation();
+      showSelection();
+    });
+
+    if (btn.parentNode) {
+      btn.parentNode.replaceChild(clone, btn);
+      console.log("[MiniGameSelect V5.158] Icône Mini-jeu redirigée vers la sélection de thème");
+    }
+  }
+
+  var pending = null;
+
+  function schedule() {
+    if (pending) clearTimeout(pending);
+
+    pending = setTimeout(function () {
+      pending = null;
+
+      try {
+        replaceFooterButton();
+
+        if (isSelectionHash()) {
+          showSelection();
+        }
+      } catch (e) {
+        console.warn("[MiniGameSelect V5.158] Erreur schedule", e);
+      }
+    }, 100);
+  }
+
+  window.DagoSpeakMiniGameSelect = {
+    route: SELECTION_ROUTE,
+    show: showSelection,
+    openTheme: openMiniGameTheme,
+    available: AVAILABLE_MINIGAMES
+  };
+
+  schedule();
+
+  setTimeout(schedule, 250);
+  setTimeout(schedule, 800);
+  setTimeout(schedule, 1800);
+  setTimeout(schedule, 3500);
+  setTimeout(schedule, 6000);
+
+  window.addEventListener("hashchange", handleHashChange, true);
+  window.addEventListener("resize", schedule);
+
+  var target = document.getElementById("app") || document.body;
+
+  if (target && typeof MutationObserver !== "undefined" && !window.__dsMiniGameSelectObserver) {
+    var observer = new MutationObserver(schedule);
+    observer.observe(target, {
+      childList: true,
+      subtree: true
+    });
+
+    window.__dsMiniGameSelectObserver = observer;
+  }
+
+  console.log("[V5.158] Sélection de thème pour mini-jeux initialisée");
 })();
 
