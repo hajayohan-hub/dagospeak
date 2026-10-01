@@ -2,7 +2,7 @@
 window.startStep = function(themeId, route) {
   var INVALID_THEMES = ['dark', 'light', 'null', 'undefined', ''];
 
-  var cleanTheme = String(themeId || '').trim();
+  var cleanTheme = String(themeId || '').trim().replace(/\.json$/i, '');
 
   if (!cleanTheme || INVALID_THEMES.indexOf(cleanTheme.toLowerCase()) !== -1) {
     cleanTheme =
@@ -15,12 +15,16 @@ window.startStep = function(themeId, route) {
     }
   }
 
-  localStorage.setItem('dagospeak:theme', cleanTheme);
-  localStorage.setItem('dagospeak:lastValidTheme', cleanTheme);
-  window.currentTheme = cleanTheme;
-  window.recommendedTheme = cleanTheme;
+  if (typeof window.DagoSpeakSetGuidedTheme === 'function') {
+    cleanTheme = window.DagoSpeakSetGuidedTheme(cleanTheme) || cleanTheme;
+  } else {
+    localStorage.setItem('dagospeak:theme', cleanTheme);
+    localStorage.setItem('dagospeak:lastValidTheme', cleanTheme);
+    window.currentTheme = cleanTheme;
+    window.recommendedTheme = cleanTheme;
+  }
 
-  console.log('[Today V5.150] Theme defini:', cleanTheme, 'Route:', route);
+  console.log('[Today V5.151] Theme defini:', cleanTheme, 'Route:', route);
 
   var routeMap = {
     '/lesson': 'renderLesson',
@@ -44,22 +48,36 @@ window.startStep = function(themeId, route) {
     }
   } catch (e) {}
 
-  if (typeof updateNavActiveState === 'function') {
-    try { updateNavActiveState(); } catch (e) {}
+  if (typeof window.updateNavActiveState === 'function') {
+    try {
+      window.updateNavActiveState();
+    } catch (e) {}
   }
 
   if (fn) {
-    console.log('[Today V5.150] Appel direct de la vue:', fnName);
+    console.log('[Today V5.151] Appel direct de la vue:', fnName);
+
     try {
-      fn();
+      var result = fn();
+
+      if (result && typeof result.catch === 'function') {
+        result.catch(function (err) {
+          console.error('[Today V5.151] Erreur vue asynchrone', fnName, err);
+        });
+      }
+
+      try {
+        window.scrollTo(0, 0);
+      } catch (e) {}
+
       return;
     } catch (e) {
-      console.error('[Today V5.150] Erreur appel direct', e);
+      console.error('[Today V5.151] Erreur appel direct', fnName, e);
     }
   }
 
   if (window.router && typeof window.router.navigate === 'function') {
-    console.log('[Today V5.150] Fallback router.navigate:', route);
+    console.log('[Today V5.151] Fallback router.navigate:', route);
     window.router.navigate(route);
   } else {
     window.location.hash = '#' + route;
