@@ -12449,3 +12449,483 @@ function showUpdateBannerInline(registration) {
   console.log("[V5.158] Sélection de thème pour mini-jeux initialisée");
 })();
 
+// ═══════════════════════════════════════════════════════════
+// V5.159 : insertion robuste icône Mini-jeu dans barre basse
+// Cible réelle : Accueil | Thèmes | Teacher AI | Profil
+// Ajoute : 🎮 Mini-jeu
+// ═══════════════════════════════════════════════════════════
+
+(function () {
+  var BTN_ID = "ds-minigame-nav-btn";
+  var PANEL_ID = "ds-minigame-nav-panel";
+  var STYLE_ID = "ds-minigame-nav-style";
+  var ROUTE = "/minigames";
+
+  var STALE_IDS = [
+    "ds-bottom-nav-minigame",
+    "ds-floating-minigame",
+    "ds-footer-minigame"
+  ];
+
+  var TARGET_WORDS = [
+    "accueil",
+    "home",
+    "thèmes",
+    "themes",
+    "teacher ai",
+    "teacher",
+    "conversation",
+    "conversation live",
+    "profil",
+    "profile"
+  ];
+
+  var TARGET_HREFS = [
+    "#/",
+    "#/home",
+    "#/accueil",
+    "#/themes",
+    "#/theme",
+    "#/theme-detail",
+    "#/conversation",
+    "#/conversation-live",
+    "#/teacher",
+    "#/profile",
+    "#/profil",
+    "/",
+    "/home",
+    "/accueil",
+    "/themes",
+    "/theme",
+    "/theme-detail",
+    "/conversation",
+    "/conversation-live",
+    "/teacher",
+    "/profile",
+    "/profil"
+  ];
+
+  function norm(value) {
+    return String(value || "")
+      .toLowerCase()
+      .replace(/[\u2018\u2019]/g, "'")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function textOf(el) {
+    if (!el) return "";
+
+    return norm(
+      (el.innerText || "") + " " +
+      (el.textContent || "") + " " +
+      (el.getAttribute("aria-label") || "") + " " +
+      (el.getAttribute("title") || "") + " " +
+      (el.dataset && el.dataset.label ? el.dataset.label : "")
+    );
+  }
+
+  function hrefOf(el) {
+    if (!el) return "";
+
+    return norm(
+      (el.getAttribute("href") || "") + " " +
+      (el.dataset && el.dataset.route ? el.dataset.route : "") + " " +
+      (el.dataset && el.dataset.nav ? el.dataset.nav : "")
+    );
+  }
+
+  function isTarget(el) {
+    if (!el || !el.tagName) return false;
+
+    var id = el.id || "";
+    if (id === BTN_ID || id === PANEL_ID) return false;
+    if (STALE_IDS.indexOf(id) !== -1) return false;
+
+    var text = textOf(el);
+    for (var i = 0; i < TARGET_WORDS.length; i++) {
+      if (text.indexOf(TARGET_WORDS[i]) !== -1) return true;
+    }
+
+    var href = hrefOf(el);
+    for (var h = 0; h < TARGET_HREFS.length; h++) {
+      if (href.indexOf(TARGET_HREFS[h]) !== -1) return true;
+    }
+
+    return false;
+  }
+
+  function getTargets(root) {
+    if (!root || !root.querySelectorAll) return [];
+
+    var nodes = root.querySelectorAll("a, button, [role='button']");
+    var out = [];
+
+    for (var i = 0; i < nodes.length; i++) {
+      if (isTarget(nodes[i])) out.push(nodes[i]);
+    }
+
+    return out;
+  }
+
+  function directTargetPanels(container) {
+    if (!container || !container.children) return [];
+
+    var out = [];
+    for (var i = 0; i < container.children.length; i++) {
+      var child = container.children[i];
+      if (child && child.nodeType === 1 && getTargets(child).length > 0) {
+        out.push(child);
+      }
+    }
+
+    return out;
+  }
+
+  function elementCount(el) {
+    return el && el.getElementsByTagName ? el.getElementsByTagName("*").length : 9999;
+  }
+
+  function scoreContainer(el) {
+    if (!el) return -1;
+
+    var targets = getTargets(el);
+    if (targets.length < 3) return -1;
+
+    var panels = directTargetPanels(el);
+    var rect = el.getBoundingClientRect();
+    var vh = window.innerHeight || 800;
+
+    var bottomness = Math.max(0, 5000 - Math.abs(rect.bottom - vh) * 20);
+    var lowerHalf = rect.top > vh * 0.45 ? 3000 : 0;
+    var compact = Math.max(0, 4000 - elementCount(el) * 20);
+    var directBonus = panels.length >= 3 ? 6000 : panels.length * 800;
+
+    return targets.length * 1000 + bottomness + lowerHalf + compact + directBonus;
+  }
+
+  function findContainer() {
+    var targets = getTargets(document);
+    var best = null;
+    var bestScore = 0;
+
+    for (var i = 0; i < targets.length; i++) {
+      var p = targets[i].parentElement;
+
+      for (var depth = 0; depth < 8 && p; depth++) {
+        if (p === document.documentElement) break;
+
+        var sc = scoreContainer(p);
+        if (sc > bestScore) {
+          bestScore = sc;
+          best = p;
+        }
+
+        p = p.parentElement;
+      }
+    }
+
+    if (best && bestScore > 0) return best;
+
+    var fallbackSelectors = [
+      "#floating-home-actions",
+      ".floating-home-actions",
+      "footer",
+      ".bottom-nav",
+      "#bottom-nav",
+      ".nav-footer",
+      "#app-footer",
+      ".app-footer",
+      "nav"
+    ];
+
+    for (var f = 0; f < fallbackSelectors.length; f++) {
+      var el = document.querySelector(fallbackSelectors[f]);
+      if (el && getTargets(el).length >= 2) return el;
+    }
+
+    return null;
+  }
+
+  function ensureStyle() {
+    if (typeof document === "undefined") return;
+    if (document.getElementById(STYLE_ID)) return;
+
+    var style = document.createElement("style");
+    style.id = STYLE_ID;
+    style.textContent =
+      "#" + BTN_ID + ", #" + PANEL_ID + " {" +
+        "display:inline-flex !important;" +
+        "visibility:visible !important;" +
+        "opacity:1 !important;" +
+      "}" +
+      "#" + BTN_ID + " {" +
+        "align-items:center;" +
+        "justify-content:center;" +
+        "gap:.25rem;" +
+        "text-decoration:none;" +
+        "cursor:pointer;" +
+      "}" +
+      ".ds-mg-icon {" +
+        "font-size:1.25rem;" +
+        "line-height:1;" +
+      "}" +
+      ".ds-mg-label {" +
+        "font-size:.78rem;" +
+        "font-weight:700;" +
+      "}";
+
+    document.head.appendChild(style);
+  }
+
+  function removeIds(root) {
+    if (!root || !root.querySelectorAll) return;
+
+    var withId = root.querySelectorAll("[id]");
+    for (var i = 0; i < withId.length; i++) {
+      withId[i].removeAttribute("id");
+    }
+  }
+
+  function decorateClickable(clickable) {
+    if (!clickable) return;
+
+    var walker = document.createTreeWalker(
+      clickable,
+      NodeFilter.SHOW_TEXT,
+      null,
+      false
+    );
+
+    var textNodes = [];
+    while (walker.nextNode()) {
+      var node = walker.currentNode;
+      if (node && node.nodeValue && node.nodeValue.trim()) {
+        textNodes.push(node);
+      }
+    }
+
+    if (textNodes.length >= 2) {
+      textNodes[0].nodeValue = "🎮";
+      textNodes[1].nodeValue = "Mini-jeu";
+
+      for (var i = 2; i < textNodes.length; i++) {
+        textNodes[i].nodeValue = "";
+      }
+    } else if (textNodes.length === 1) {
+      textNodes[0].nodeValue = "🎮 Mini-jeu";
+    } else {
+      clickable.innerHTML =
+        '<span class="ds-mg-icon" aria-hidden="true">🎮</span>' +
+        '<span class="ds-mg-label">Mini-jeu</span>';
+    }
+  }
+
+  function openSelection() {
+    try {
+      if (window.DagoSpeakMiniGameSelect && typeof window.DagoSpeakMiniGameSelect.show === "function") {
+        window.DagoSpeakMiniGameSelect.show();
+        return;
+      }
+    } catch (e) {}
+
+    try {
+      if (typeof window.renderMiniGameThemes === "function") {
+        history.replaceState(null, "", "#" + ROUTE);
+        var result = window.renderMiniGameThemes();
+        if (result && typeof result.catch === "function") {
+          result.catch(function (err) {
+            console.error("[V5.159] Erreur renderMiniGameThemes", err);
+          });
+        }
+        try { window.scrollTo(0, 0); } catch (e2) {}
+        return;
+      }
+    } catch (e3) {
+      console.error("[V5.159] Erreur appel renderMiniGameThemes", e3);
+    }
+
+    window.location.hash = "#" + ROUTE;
+  }
+
+  function bindClickable(clickable) {
+    if (!clickable) return;
+
+    clickable.id = BTN_ID;
+    clickable.setAttribute("data-route", ROUTE);
+    clickable.setAttribute("aria-label", "Mini-jeux de consolidation");
+    clickable.setAttribute("title", "Mini-jeux de consolidation");
+    clickable.removeAttribute("aria-current");
+    clickable.classList.remove("active", "is-active", "current", "selected");
+
+    if (clickable.tagName === "A") {
+      clickable.setAttribute("href", "#" + ROUTE);
+    } else {
+      clickable.setAttribute("role", "button");
+      clickable.tabIndex = 0;
+    }
+
+    clickable.addEventListener("click", function (evt) {
+      evt.preventDefault();
+      evt.stopPropagation();
+      openSelection();
+    });
+
+    clickable.addEventListener("keydown", function (evt) {
+      if (evt.key === "Enter" || evt.key === " ") {
+        evt.preventDefault();
+        evt.stopPropagation();
+        openSelection();
+      }
+    });
+  }
+
+  function removeStaleButtons() {
+    for (var i = 0; i < STALE_IDS.length; i++) {
+      var els = document.querySelectorAll("#" + STALE_IDS[i]);
+      for (var j = els.length - 1; j >= 0; j--) {
+        if (els[j] && els[j].parentNode) els[j].parentNode.removeChild(els[j]);
+      }
+    }
+  }
+
+  function ensureButton() {
+    ensureStyle();
+    removeStaleButtons();
+
+    if (document.getElementById(BTN_ID) || document.getElementById(PANEL_ID)) return;
+
+    var container = findContainer();
+    if (!container) return;
+
+    var panels = directTargetPanels(container);
+
+    // Cas idéal : la barre est composée de plusieurs panneaux enfants.
+    if (panels.length >= 3) {
+      var lastPanel = panels[panels.length - 1];
+      var clone = lastPanel.cloneNode(true);
+
+      clone.id = PANEL_ID;
+      removeIds(clone);
+      clone.classList.remove("active", "is-active", "current", "selected");
+
+      var clickable = clone.querySelector("a, button, [role='button']");
+      if (!clickable) clickable = clone;
+
+      decorateClickable(clickable);
+      bindClickable(clickable);
+
+      container.insertBefore(clone, lastPanel.nextSibling);
+      console.log("[V5.159] Icône Mini-jeu clonée depuis panneau de barre basse");
+      return;
+    }
+
+    // Cas secondaire : les boutons/liens sont directs.
+    var targets = getTargets(container);
+    var last = targets[targets.length - 1];
+
+    if (last) {
+      var btn = last.cloneNode(true);
+      removeIds(btn);
+      btn.id = BTN_ID;
+      btn.classList.remove("active", "is-active", "current", "selected");
+
+      decorateClickable(btn);
+      bindClickable(btn);
+
+      if (last.parentNode === container) {
+        container.insertBefore(btn, last.nextSibling);
+      } else {
+        container.appendChild(btn);
+      }
+
+      console.log("[V5.159] Icône Mini-jeu clonée depuis bouton/lien direct");
+      return;
+    }
+
+    // Dernier recours : bouton simple.
+    var fallback = document.createElement("button");
+    fallback.type = "button";
+    decorateClickable(fallback);
+    bindClickable(fallback);
+    container.appendChild(fallback);
+
+    console.log("[V5.159] Icône Mini-jeu créée en fallback");
+  }
+
+  function handleHash() {
+    var h = window.location.hash || "";
+    var path = h.split("?")[0].replace(/^#/, "");
+
+    if (path === ROUTE) {
+      openSelection();
+    }
+  }
+
+  var pending = null;
+
+  function schedule() {
+    if (pending) clearTimeout(pending);
+
+    pending = setTimeout(function () {
+      pending = null;
+
+      try {
+        ensureButton();
+      } catch (e) {
+        console.warn("[V5.159] Erreur ensureButton", e);
+      }
+    }, 120);
+  }
+
+  window.DagoSpeakMinigameNavV5_159 = {
+    route: ROUTE,
+    ensure: ensureButton,
+    open: openSelection,
+    findContainer: findContainer,
+    getTargets: function (root) {
+      return getTargets(root || document);
+    }
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function () {
+      schedule();
+      handleHash();
+    }, { once: true });
+  } else {
+    schedule();
+    handleHash();
+  }
+
+  schedule();
+
+  setTimeout(schedule, 250);
+  setTimeout(schedule, 800);
+  setTimeout(schedule, 1800);
+  setTimeout(schedule, 3500);
+  setTimeout(schedule, 6000);
+  setTimeout(schedule, 10000);
+
+  window.addEventListener("hashchange", function () {
+    handleHash();
+    schedule();
+  }, true);
+
+  window.addEventListener("resize", schedule);
+
+  var target = document.body || document.getElementById("app");
+
+  if (target && typeof MutationObserver !== "undefined" && !window.__dsMinigameNavObserverV5_159) {
+    var observer = new MutationObserver(schedule);
+    observer.observe(target, {
+      childList: true,
+      subtree: true
+    });
+
+    window.__dsMinigameNavObserverV5_159 = observer;
+  }
+
+  console.log("[V5.159] Insertion robuste Mini-jeu dans barre basse initialisée");
+})();
+
