@@ -50,7 +50,11 @@
           "textFr": "Le livre est sur la table.",
           "textMg": "Eo ambonin'ny latabatra ny boky.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "lesson_1_feedback"
+          "nextNodeOnSuccess": "lesson_1_feedback",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -86,7 +90,11 @@
           "textFr": "Le chat est sous la chaise.",
           "textMg": "Eo ambanin'ny seza ny saka.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "lesson_2_feedback"
+          "nextNodeOnSuccess": "lesson_2_feedback",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -122,7 +130,11 @@
           "textFr": "Le jardin est derrière la maison.",
           "textMg": "Eo aorian'ny trano ny zaridaina.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "lesson_3_feedback"
+          "nextNodeOnSuccess": "lesson_3_feedback",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -158,7 +170,11 @@
           "textFr": "Le marché est à côté de la banque ?",
           "textMg": "Eo anilan'ny banky ve ny tsena?",
           "isCorrect": true,
-          "nextNodeOnSuccess": "lesson_4_feedback"
+          "nextNodeOnSuccess": "lesson_4_feedback",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -194,7 +210,11 @@
           "textFr": "Près et loin sont opposés ?",
           "textMg": "Mifanohitra ve ny près sy loin?",
           "isCorrect": true,
-          "nextNodeOnSuccess": "lesson_5_feedback"
+          "nextNodeOnSuccess": "lesson_5_feedback",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -241,7 +261,11 @@
           "textFr": "Le livre est dans le sac",
           "textMg": "Le livre est dans le sac",
           "isCorrect": true,
-          "nextNodeOnSuccess": "correct1"
+          "nextNodeOnSuccess": "correct1",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Le livre est sur le sac",
@@ -276,7 +300,11 @@
           "textFr": "Le chat est sur la table",
           "textMg": "Le chat est sur la table",
           "isCorrect": true,
-          "nextNodeOnSuccess": "correct2"
+          "nextNodeOnSuccess": "correct2",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Le chat est sous la table",
@@ -311,7 +339,11 @@
           "textFr": "Le ballon est sous la chaise",
           "textMg": "Le ballon est sous la chaise",
           "isCorrect": true,
-          "nextNodeOnSuccess": "correct3"
+          "nextNodeOnSuccess": "correct3",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Le ballon est sur la chaise",
@@ -368,7 +400,11 @@
           "textFr": "Sur la table",
           "textMg": "Eo ambonin'ny latabatra",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_1_success"
+          "nextNodeOnSuccess": "roleplay_1_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -404,7 +440,11 @@
           "textFr": "Dans la maison",
           "textMg": "Ao anatin'ny trano",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_2_success"
+          "nextNodeOnSuccess": "roleplay_2_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -440,7 +480,11 @@
           "textFr": "Devant l'école",
           "textMg": "Eo alohan'ny sekoly",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_3_success"
+          "nextNodeOnSuccess": "roleplay_3_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },

@@ -27,7 +27,11 @@
           "textFr": "Bonjour Madame ! Je voudrais acheter des fruits.",
           "textMg": "Manao ahoana Ramatoa! Te-hividy voankazo aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "ask_what_to_buy"
+          "nextNodeOnSuccess": "ask_what_to_buy",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Salut ! Tu as quoi comme fruits ?",
@@ -73,49 +77,81 @@
           "textFr": "Je veux des bananes, s'il vous plaît.",
           "textMg": "Te-hividy akondro aho, azafady.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "node_price_banana"
+          "nextNodeOnSuccess": "node_price_banana",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Je voudrais des pommes.",
           "textMg": "Te-hividy paoma aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "node_price_pomme"
+          "nextNodeOnSuccess": "node_price_pomme",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Donnez-moi des oranges.",
           "textMg": "Omeo voasary aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "node_price_orange"
+          "nextNodeOnSuccess": "node_price_orange",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Je prends des mangues.",
           "textMg": "Maka manga aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "node_price_mangue"
+          "nextNodeOnSuccess": "node_price_mangue",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Je voudrais des ananas.",
           "textMg": "Te-hividy manakoho aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "node_price_ananas"
+          "nextNodeOnSuccess": "node_price_ananas",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Je voudrais des papayes.",
           "textMg": "Te-hividy papaya aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "node_price_papaye"
+          "nextNodeOnSuccess": "node_price_papaye",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Je voudrais du riz, s'il vous plaît.",
           "textMg": "Te-hividy vary aho, azafady.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "node_price_riz"
+          "nextNodeOnSuccess": "node_price_riz",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Je voudrais des légumes.",
           "textMg": "Te-hividy legioma aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "node_price_legumes"
+          "nextNodeOnSuccess": "node_price_legumes",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -173,19 +209,31 @@
           "textFr": "Je voudrais un kilo, s'il vous plaît.",
           "textMg": "Te-hividy kilao iray aho, azafady.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "total_banana_1"
+          "nextNodeOnSuccess": "total_banana_1",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Deux kilos, s'il vous plaît.",
           "textMg": "Kilao roa, azafady.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "total_banana_2"
+          "nextNodeOnSuccess": "total_banana_2",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Un demi-kilo seulement.",
           "textMg": "Antsasaka kilao fotsiny.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "total_banana_half"
+          "nextNodeOnSuccess": "total_banana_half",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -199,13 +247,21 @@
           "textFr": "Un kilo de pommes.",
           "textMg": "Kilao iray paoma.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "total_pomme_1"
+          "nextNodeOnSuccess": "total_pomme_1",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Deux kilos, s'il vous plaît.",
           "textMg": "Kilao roa, azafady.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "total_pomme_2"
+          "nextNodeOnSuccess": "total_pomme_2",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -219,13 +275,21 @@
           "textFr": "Un kilo d'oranges.",
           "textMg": "Kilao iray voasary.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "total_orange_1"
+          "nextNodeOnSuccess": "total_orange_1",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Deux kilos, merci.",
           "textMg": "Kilao roa, misaotra.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "total_orange_2"
+          "nextNodeOnSuccess": "total_orange_2",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -239,13 +303,21 @@
           "textFr": "Un kilo de mangues.",
           "textMg": "Kilao iray manga.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "total_mangue_1"
+          "nextNodeOnSuccess": "total_mangue_1",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Trois kilos, s'il vous plaît.",
           "textMg": "Kilao telo, azafady.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "total_mangue_3"
+          "nextNodeOnSuccess": "total_mangue_3",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -369,13 +441,21 @@
           "textFr": "Un ananas, s'il vous plaît.",
           "textMg": "Manakoho iray, azafady.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "total_ananas_1"
+          "nextNodeOnSuccess": "total_ananas_1",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Deux ananas, s'il vous plaît.",
           "textMg": "Manakoho roa, azafady.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "total_ananas_2"
+          "nextNodeOnSuccess": "total_ananas_2",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -411,13 +491,21 @@
           "textFr": "Oui, je voudrais aussi des bananes.",
           "textMg": "Eny, te-hividy akondro koa aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "node_price_banana"
+          "nextNodeOnSuccess": "node_price_banana",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Non merci, c'est tout.",
           "textMg": "Tsia misaotra, izay ihany.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "farewell"
+          "nextNodeOnSuccess": "farewell",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -442,13 +530,21 @@
           "textFr": "Une papaye, s'il vous plaît.",
           "textMg": "Papaya iray, azafady.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "total_papaye_1"
+          "nextNodeOnSuccess": "total_papaye_1",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Trois papayes, s'il vous plaît.",
           "textMg": "Papaya telo, azafady.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "total_papaye_3"
+          "nextNodeOnSuccess": "total_papaye_3",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -484,13 +580,21 @@
           "textFr": "Oui, je voudrais aussi des oranges.",
           "textMg": "Eny, te-hividy voasary koa aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "node_price_orange"
+          "nextNodeOnSuccess": "node_price_orange",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Non merci, c'est tout.",
           "textMg": "Tsia misaotra, izay ihany.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "farewell"
+          "nextNodeOnSuccess": "farewell",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -504,19 +608,31 @@
           "textFr": "Oui, je voudrais aussi des pommes.",
           "textMg": "Eny, te-hividy paoma koa aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "node_price_pomme"
+          "nextNodeOnSuccess": "node_price_pomme",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Oui, donnez-moi aussi des oranges.",
           "textMg": "Eny, omeo voasary koa aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "node_price_orange"
+          "nextNodeOnSuccess": "node_price_orange",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Non merci, c'est tout.",
           "textMg": "Tsia misaotra, izay ihany.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "farewell"
+          "nextNodeOnSuccess": "farewell",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -530,19 +646,31 @@
           "textFr": "Oui, je voudrais aussi des bananes.",
           "textMg": "Eny, te-hividy akondro koa aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "node_price_banana"
+          "nextNodeOnSuccess": "node_price_banana",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Oui, donnez-moi aussi des mangues.",
           "textMg": "Eny, omeo manga koa aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "node_price_mangue"
+          "nextNodeOnSuccess": "node_price_mangue",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Non merci, c'est tout.",
           "textMg": "Tsia misaotra, izay ihany.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "farewell"
+          "nextNodeOnSuccess": "farewell",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -556,19 +684,31 @@
           "textFr": "Oui, je voudrais aussi des bananes.",
           "textMg": "Eny, te-hividy akondro koa aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "node_price_banana"
+          "nextNodeOnSuccess": "node_price_banana",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Oui, donnez-moi aussi des pommes.",
           "textMg": "Eny, omeo paoma koa aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "node_price_pomme"
+          "nextNodeOnSuccess": "node_price_pomme",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Non merci, c'est tout.",
           "textMg": "Tsia misaotra, izay ihany.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "farewell"
+          "nextNodeOnSuccess": "farewell",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -582,19 +722,31 @@
           "textFr": "Oui, je voudrais aussi des bananes.",
           "textMg": "Eny, te-hividy akondro koa aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_intro"
+          "nextNodeOnSuccess": "roleplay_intro",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Oui, donnez-moi aussi des oranges.",
           "textMg": "Eny, omeo voasary koa aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_intro"
+          "nextNodeOnSuccess": "roleplay_intro",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Non merci, c'est tout.",
           "textMg": "Tsia misaotra, izay ihany.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_intro"
+          "nextNodeOnSuccess": "roleplay_intro",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -630,7 +782,11 @@
           "textFr": "Bonjour ! Que cherchez-vous ?",
           "textMg": "Manao ahoana! Inona no tadiavinao?",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_1_success"
+          "nextNodeOnSuccess": "roleplay_1_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -666,7 +822,11 @@
           "textFr": "Le prix est bas",
           "textMg": "Mora ny vidiny",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_2_success"
+          "nextNodeOnSuccess": "roleplay_2_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -702,7 +862,11 @@
           "textFr": "Oui, le prix peut baisser",
           "textMg": "Eny, afaka midina ny vidiny",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_3_success"
+          "nextNodeOnSuccess": "roleplay_3_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -899,19 +1063,31 @@
           "textFr": "Un kilo de riz, s'il vous plaît.",
           "textMg": "Kilao iray vary, azafady.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "total_riz_1"
+          "nextNodeOnSuccess": "total_riz_1",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Deux kilos de riz.",
           "textMg": "Kilao roa vary.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "total_riz_2"
+          "nextNodeOnSuccess": "total_riz_2",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Cinq kilos de riz, s'il vous plaît.",
           "textMg": "Kilao dimy vary, azafady.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "total_riz_5"
+          "nextNodeOnSuccess": "total_riz_5",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -958,19 +1134,31 @@
           "textFr": "Oui, je voudrais aussi des légumes.",
           "textMg": "Eny, te-hividy legioma koa aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "node_price_legumes"
+          "nextNodeOnSuccess": "node_price_legumes",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Oui, je voudrais aussi des bananes.",
           "textMg": "Eny, te-hividy akondro koa aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "node_price_banana"
+          "nextNodeOnSuccess": "node_price_banana",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Non merci, c'est tout. Vous vendez de bonnes choses !",
           "textMg": "Tsia misaotra, izay ihany. Mivarotra zavatra tsara ianao!",
           "isCorrect": true,
-          "nextNodeOnSuccess": "farewell"
+          "nextNodeOnSuccess": "farewell",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -995,19 +1183,31 @@
           "textFr": "Un kilo de légumes, s'il vous plaît.",
           "textMg": "Kilao iray legioma, azafady.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "total_legumes_1"
+          "nextNodeOnSuccess": "total_legumes_1",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Deux kilos de légumes.",
           "textMg": "Kilao roa legioma.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "total_legumes_2"
+          "nextNodeOnSuccess": "total_legumes_2",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "C'est cher ! Vous pouvez baisser le prix ?",
           "textMg": "Lafo izany! Azonao atao ve ny mampidina ny vidiny?",
           "isCorrect": true,
-          "nextNodeOnSuccess": "bargain_legumes"
+          "nextNodeOnSuccess": "bargain_legumes",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -1032,13 +1232,21 @@
           "textFr": "Deux kilos de légumes, s'il vous plaît.",
           "textMg": "Kilao roa legioma, azafady.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "total_legumes_bargain_2"
+          "nextNodeOnSuccess": "total_legumes_bargain_2",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Trois kilos de légumes.",
           "textMg": "Kilao telo legioma.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "total_legumes_bargain_3"
+          "nextNodeOnSuccess": "total_legumes_bargain_3",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -1096,19 +1304,31 @@
           "textFr": "Oui, je voudrais aussi du riz.",
           "textMg": "Eny, te-hividy vary koa aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "node_price_riz"
+          "nextNodeOnSuccess": "node_price_riz",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Oui, je voudrais aussi des oranges.",
           "textMg": "Eny, te-hividy voasary koa aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "node_price_orange"
+          "nextNodeOnSuccess": "node_price_orange",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Non merci, c'est tout. Combien je vous dois ?",
           "textMg": "Tsia misaotra, izay ihany. Firy no trosako?",
           "isCorrect": true,
-          "nextNodeOnSuccess": "final_total"
+          "nextNodeOnSuccess": "final_total",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -1133,13 +1353,21 @@
           "textFr": "Voilà l'argent. Merci beaucoup !",
           "textMg": "Ity ny vola. Misaotra betsaka!",
           "isCorrect": true,
-          "nextNodeOnSuccess": "farewell"
+          "nextNodeOnSuccess": "farewell",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Je n'ai pas assez d'argent. Je vais revenir.",
           "textMg": "Tsy ampy ny volako. hiverina aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "farewell_later"
+          "nextNodeOnSuccess": "farewell_later",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },

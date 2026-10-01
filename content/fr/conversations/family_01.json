@@ -49,19 +49,31 @@
           "textFr": "Oui, j'ai une grande famille.",
           "textMg": "Eny, manana fianakaviana lehibe aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_big_family"
+          "nextNodeOnSuccess": "teacher_big_family",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Non, ma famille est petite.",
           "textMg": "Tsia, kely ny fianakaviako.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_small_family"
+          "nextNodeOnSuccess": "teacher_small_family",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Ma famille est moyenne.",
           "textMg": "Antonony ny fianakaviako.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_medium_family"
+          "nextNodeOnSuccess": "teacher_medium_family",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -108,25 +120,41 @@
           "textFr": "Nous sommes trois.",
           "textMg": "Telo izahay.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_ask_parents"
+          "nextNodeOnSuccess": "teacher_ask_parents",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Nous sommes quatre.",
           "textMg": "Efatra izahay.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_ask_parents"
+          "nextNodeOnSuccess": "teacher_ask_parents",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Nous sommes cinq.",
           "textMg": "Dimy izahay.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_ask_parents"
+          "nextNodeOnSuccess": "teacher_ask_parents",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Nous sommes six.",
           "textMg": "Enina izahay.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_ask_parents"
+          "nextNodeOnSuccess": "teacher_ask_parents",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -151,37 +179,61 @@
           "textFr": "Mon père et ma mère.",
           "textMg": "Ny raiko sy ny renyko.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_ask_siblings"
+          "nextNodeOnSuccess": "teacher_ask_siblings",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "J'ai un frère.",
           "textMg": "Manana rahalahy aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_ask_siblings"
+          "nextNodeOnSuccess": "teacher_ask_siblings",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "J'ai une sœur.",
           "textMg": "Manana rahavavy aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_ask_siblings"
+          "nextNodeOnSuccess": "teacher_ask_siblings",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Mon père, ma mère, mon frère et ma sœur.",
           "textMg": "Ny raiko, ny renyko, ny rahalahiko ary ny rahavaviko.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_ask_siblings"
+          "nextNodeOnSuccess": "teacher_ask_siblings",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "J'ai un oncle et une tante.",
           "textMg": "Manana raibato sy renibato aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_ask_siblings"
+          "nextNodeOnSuccess": "teacher_ask_siblings",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "J'ai des cousins.",
           "textMg": "Manana havakava aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_ask_siblings"
+          "nextNodeOnSuccess": "teacher_ask_siblings",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -206,19 +258,31 @@
           "textFr": "Oui, j'ai un frère.",
           "textMg": "Eny, manana rahalahy aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_brother"
+          "nextNodeOnSuccess": "teacher_brother",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Oui, j'ai une sœur.",
           "textMg": "Eny, manana rahavavy aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_sister"
+          "nextNodeOnSuccess": "teacher_sister",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Non, je suis enfant unique.",
           "textMg": "Tsia, zanaka tokana aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_only_child"
+          "nextNodeOnSuccess": "teacher_only_child",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -243,19 +307,31 @@
           "textFr": "Il s'appelle Jean.",
           "textMg": "Jean no anarany.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_ask_age"
+          "nextNodeOnSuccess": "teacher_ask_age",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Il s'appelle Marc.",
           "textMg": "Marc no anarany.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_ask_age"
+          "nextNodeOnSuccess": "teacher_ask_age",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Son nom est David.",
           "textMg": "David no anarany.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_ask_age"
+          "nextNodeOnSuccess": "teacher_ask_age",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -280,19 +356,31 @@
           "textFr": "Elle s'appelle Marie.",
           "textMg": "Marie no anarany.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_ask_age"
+          "nextNodeOnSuccess": "teacher_ask_age",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Elle s'appelle Sophie.",
           "textMg": "Sophie no anarany.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_ask_age"
+          "nextNodeOnSuccess": "teacher_ask_age",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Son nom est Anna.",
           "textMg": "Anna no anarany.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_ask_age"
+          "nextNodeOnSuccess": "teacher_ask_age",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -317,13 +405,21 @@
           "textFr": "Oui, j'ai des cousins.",
           "textMg": "Eny, manana havakava aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_ask_age"
+          "nextNodeOnSuccess": "teacher_ask_age",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Non, pas de cousins.",
           "textMg": "Tsia, tsy manana havakava.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_ask_age"
+          "nextNodeOnSuccess": "teacher_ask_age",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -348,19 +444,31 @@
           "textFr": "Il a dix ans.",
           "textMg": "Folo taona izy.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_farewell"
+          "nextNodeOnSuccess": "teacher_farewell",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Elle a douze ans.",
           "textMg": "Roambin'ny folo taona izy.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_farewell"
+          "nextNodeOnSuccess": "teacher_farewell",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Il a quinze ans.",
           "textMg": "Dimy ambin'ny folo taona izy.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_farewell"
+          "nextNodeOnSuccess": "teacher_farewell",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },

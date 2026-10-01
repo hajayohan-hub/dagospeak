@@ -50,7 +50,11 @@
           "textFr": "Ce livre est intéressant ?",
           "textMg": "Mahaliana ve ity boky ity?",
           "isCorrect": true,
-          "nextNodeOnSuccess": "lesson_1_feedback"
+          "nextNodeOnSuccess": "lesson_1_feedback",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -86,7 +90,11 @@
           "textFr": "Pourquoi 'cette' et pas 'ce' ?",
           "textMg": "Nahoana 'cette' fa tsy 'ce'?",
           "isCorrect": true,
-          "nextNodeOnSuccess": "lesson_2_feedback"
+          "nextNodeOnSuccess": "lesson_2_feedback",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -122,7 +130,11 @@
           "textFr": "Pourquoi 'cet' et pas 'ce' ?",
           "textMg": "Nahoana 'cet' fa tsy 'ce'?",
           "isCorrect": true,
-          "nextNodeOnSuccess": "lesson_3_feedback"
+          "nextNodeOnSuccess": "lesson_3_feedback",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -158,7 +170,11 @@
           "textFr": "'Ces' est pour le pluriel ?",
           "textMg": "Ho an'ny ploraly ve ny 'ces'?",
           "isCorrect": true,
-          "nextNodeOnSuccess": "lesson_4_feedback"
+          "nextNodeOnSuccess": "lesson_4_feedback",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -194,7 +210,11 @@
           "textFr": "Quelle est la différence ?",
           "textMg": "Inona no fahasamihafana?",
           "isCorrect": true,
-          "nextNodeOnSuccess": "lesson_5_feedback"
+          "nextNodeOnSuccess": "lesson_5_feedback",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -241,7 +261,11 @@
           "textFr": "Ce livre",
           "textMg": "Ce livre",
           "isCorrect": true,
-          "nextNodeOnSuccess": "correct1"
+          "nextNodeOnSuccess": "correct1",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Ces livres",
@@ -276,7 +300,11 @@
           "textFr": "Ces enfants",
           "textMg": "Ces enfants",
           "isCorrect": true,
-          "nextNodeOnSuccess": "correct2"
+          "nextNodeOnSuccess": "correct2",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Cet enfant",
@@ -311,7 +339,11 @@
           "textFr": "Cette femme",
           "textMg": "Cette femme",
           "isCorrect": true,
-          "nextNodeOnSuccess": "correct3"
+          "nextNodeOnSuccess": "correct3",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Ce femme",
@@ -368,7 +400,11 @@
           "textFr": "Ceci est mon livre",
           "textMg": "Ity no bokiko",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_1_success"
+          "nextNodeOnSuccess": "roleplay_1_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -404,7 +440,11 @@
           "textFr": "Ceux-là sont mes amis",
           "textMg": "Ireo no namako",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_2_success"
+          "nextNodeOnSuccess": "roleplay_2_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -440,7 +480,11 @@
           "textFr": "Cette maison est grande",
           "textMg": "Ity trano ity dia lehibe",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_3_success"
+          "nextNodeOnSuccess": "roleplay_3_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },

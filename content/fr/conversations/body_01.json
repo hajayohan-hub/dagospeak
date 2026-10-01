@@ -38,19 +38,31 @@
           "textFr": "Bonjour docteur. J'ai mal.",
           "textMg": "Manao ahoana dokotera. Marary aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_where"
+          "nextNodeOnSuccess": "teacher_where",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Je ne me sens pas bien.",
           "textMg": "Tsy salama aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_where"
+          "nextNodeOnSuccess": "teacher_where",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Je suis malade.",
           "textMg": "Marary aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_where"
+          "nextNodeOnSuccess": "teacher_where",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -75,37 +87,61 @@
           "textFr": "J'ai mal à la tête.",
           "textMg": "Marary ny lohako.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_head"
+          "nextNodeOnSuccess": "teacher_head",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "J'ai mal au ventre.",
           "textMg": "Marary ny kiboko.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_stomach"
+          "nextNodeOnSuccess": "teacher_stomach",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "J'ai mal au bras.",
           "textMg": "Marary ny sandriko.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_arm"
+          "nextNodeOnSuccess": "teacher_arm",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "J'ai mal à la jambe.",
           "textMg": "Marary ny tongotro.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_leg"
+          "nextNodeOnSuccess": "teacher_leg",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "J'ai mal au dos.",
           "textMg": "Marary ny lamosiko.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_back"
+          "nextNodeOnSuccess": "teacher_back",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "J'ai mal aux yeux.",
           "textMg": "Marary ny masoko.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_eyes_pain"
+          "nextNodeOnSuccess": "teacher_eyes_pain",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -163,19 +199,31 @@
           "textFr": "Depuis ce matin.",
           "textMg": "Hatramin'ny maraina.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_medicine"
+          "nextNodeOnSuccess": "teacher_medicine",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Depuis hier.",
           "textMg": "Hatramin'ny omaly.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_medicine"
+          "nextNodeOnSuccess": "teacher_medicine",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Depuis deux jours.",
           "textMg": "Hatramin'ny roa andro.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_medicine"
+          "nextNodeOnSuccess": "teacher_medicine",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -189,19 +237,31 @@
           "textFr": "J'ai mangé du riz.",
           "textMg": "Nihinana vary aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_medicine"
+          "nextNodeOnSuccess": "teacher_medicine",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "J'ai mangé du poisson.",
           "textMg": "Nihinana trondro aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_medicine"
+          "nextNodeOnSuccess": "teacher_medicine",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Je ne sais pas.",
           "textMg": "Tsy fantatro.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_medicine"
+          "nextNodeOnSuccess": "teacher_medicine",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -215,13 +275,21 @@
           "textFr": "Le bras droit.",
           "textMg": "Ny sandry havanana.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_medicine"
+          "nextNodeOnSuccess": "teacher_medicine",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Le bras gauche.",
           "textMg": "Ny sandry havia.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_medicine"
+          "nextNodeOnSuccess": "teacher_medicine",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -235,13 +303,21 @@
           "textFr": "Oui, un peu.",
           "textMg": "Eny, kely.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_medicine"
+          "nextNodeOnSuccess": "teacher_medicine",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Non, ça fait trop mal.",
           "textMg": "Tsia, maharary loatra.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_medicine"
+          "nextNodeOnSuccess": "teacher_medicine",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -299,13 +375,21 @@
           "textFr": "Voici ma main.",
           "textMg": "Inty ny tanako.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_eyes"
+          "nextNodeOnSuccess": "teacher_eyes",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Ma main droite ou gauche ?",
           "textMg": "Ny tanako havanana sa havia?",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_eyes"
+          "nextNodeOnSuccess": "teacher_eyes",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -330,13 +414,21 @@
           "textFr": "D'accord, je ferme les yeux.",
           "textMg": "Eny ary, makatona ny masoko aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_intro"
+          "nextNodeOnSuccess": "roleplay_intro",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Mes yeux sont fermés.",
           "textMg": "Mikombona ny masoko.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_intro"
+          "nextNodeOnSuccess": "roleplay_intro",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -372,7 +464,11 @@
           "textFr": "J'ai mal à la tête",
           "textMg": "Marary ny lohako",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_1_success"
+          "nextNodeOnSuccess": "roleplay_1_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -408,7 +504,11 @@
           "textFr": "J'ai mal à la poitrine",
           "textMg": "Mangidihidy ny tratrako",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_2_success"
+          "nextNodeOnSuccess": "roleplay_2_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -444,7 +544,11 @@
           "textFr": "J'ai mal aux jambes",
           "textMg": "Maventy ny tongotro",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_3_success"
+          "nextNodeOnSuccess": "roleplay_3_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },

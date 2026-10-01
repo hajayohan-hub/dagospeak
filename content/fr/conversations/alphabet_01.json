@@ -209,7 +209,11 @@
           "textFr": "A, E, I, O.",
           "textMg": "A, E, I, O.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_spell"
+          "nextNodeOnSuccess": "teacher_spell",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "A, B, C.",
@@ -245,13 +249,21 @@
           "textFr": "Mon prénom : {firstName}.",
           "textMg": "Ny anarako: {firstName}.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_intro"
+          "nextNodeOnSuccess": "roleplay_intro",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "{firstName}.",
           "textMg": "{firstName}.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_intro"
+          "nextNodeOnSuccess": "roleplay_intro",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ],
       "skipSTT": true
@@ -288,7 +300,11 @@
           "textFr": "A, E, I",
           "textMg": "A, E, I",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_1_success"
+          "nextNodeOnSuccess": "roleplay_1_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ],
       "skipSTT": true
@@ -325,7 +341,11 @@
           "textFr": "O, U",
           "textMg": "O, U",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_2_success"
+          "nextNodeOnSuccess": "roleplay_2_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ],
       "skipSTT": true
@@ -362,7 +382,11 @@
           "textFr": "Mon prénom commence par A",
           "textMg": "Mon prénom commence par A",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_3_success"
+          "nextNodeOnSuccess": "roleplay_3_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ],
       "skipSTT": true

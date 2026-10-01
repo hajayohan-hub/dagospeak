@@ -49,13 +49,21 @@
           "textFr": "Le ciel est bleu.",
           "textMg": "Manga ny lanitra.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_correct_blue"
+          "nextNodeOnSuccess": "teacher_correct_blue",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Bleu.",
           "textMg": "Manga.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_correct_blue"
+          "nextNodeOnSuccess": "teacher_correct_blue",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Le ciel est rouge.",
@@ -90,13 +98,21 @@
           "textFr": "Les arbres sont verts.",
           "textMg": "Maintso ny hazo.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_correct_green"
+          "nextNodeOnSuccess": "teacher_correct_green",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Vert.",
           "textMg": "Maintso.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_correct_green"
+          "nextNodeOnSuccess": "teacher_correct_green",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Les arbres sont bleus.",
@@ -131,13 +147,21 @@
           "textFr": "Le soleil est jaune.",
           "textMg": "Mavo ny masoandro.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_correct_yellow"
+          "nextNodeOnSuccess": "teacher_correct_yellow",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Jaune.",
           "textMg": "Mavo.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_correct_yellow"
+          "nextNodeOnSuccess": "teacher_correct_yellow",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -162,37 +186,61 @@
           "textFr": "J'aime le rouge.",
           "textMg": "Tiako ny mena.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_red"
+          "nextNodeOnSuccess": "teacher_red",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "J'aime le bleu.",
           "textMg": "Tiako ny manga.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_blue"
+          "nextNodeOnSuccess": "teacher_blue",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "J'aime le vert.",
           "textMg": "Tiako ny maintso.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_green"
+          "nextNodeOnSuccess": "teacher_green",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "J'aime le blanc.",
           "textMg": "Tiako ny fotsy.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_white"
+          "nextNodeOnSuccess": "teacher_white",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "J'aime le jaune.",
           "textMg": "Tiako ny mavo.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_yellow"
+          "nextNodeOnSuccess": "teacher_yellow",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "J'aime le noir.",
           "textMg": "Tiako ny mainty.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_black"
+          "nextNodeOnSuccess": "teacher_black",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -283,7 +331,11 @@
           "textFr": "Blanc, rouge et vert.",
           "textMg": "Fotsy, mena ary maintso.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_congrats"
+          "nextNodeOnSuccess": "teacher_congrats",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Bleu, blanc, rouge.",
@@ -340,7 +392,11 @@
           "textFr": "Ma voiture est rouge",
           "textMg": "Mena ny fiarako",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_1_success"
+          "nextNodeOnSuccess": "roleplay_1_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -376,7 +432,11 @@
           "textFr": "Le ciel est bleu",
           "textMg": "Manga ny lanitra",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_2_success"
+          "nextNodeOnSuccess": "roleplay_2_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -412,7 +472,11 @@
           "textFr": "Les nuages sont blancs",
           "textMg": "Fotsy ny rahona",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_3_success"
+          "nextNodeOnSuccess": "roleplay_3_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },

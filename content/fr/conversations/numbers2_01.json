@@ -49,13 +49,21 @@
           "textFr": "Dix, vingt, trente, quarante, cinquante.",
           "textMg": "Folo, roapolo, telopolo, efapolo, dimampolo.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_tens_2"
+          "nextNodeOnSuccess": "teacher_tens_2",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Folo, roapolo, telopolo.",
           "textMg": "Folo, roapolo, telopolo.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_tens_2"
+          "nextNodeOnSuccess": "teacher_tens_2",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -80,13 +88,21 @@
           "textFr": "Soixante, soixante-dix, quatre-vingts.",
           "textMg": "Enimpolo, fitopolo, valopolo.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_price"
+          "nextNodeOnSuccess": "teacher_price",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Quatre-vingts, quatre-vingt-dix, cent.",
           "textMg": "Valopolo, sivifolo, zato.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_price"
+          "nextNodeOnSuccess": "teacher_price",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -111,19 +127,31 @@
           "textFr": "Deux mille ariary.",
           "textMg": "Roa arivo ariary.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_price_2"
+          "nextNodeOnSuccess": "teacher_price_2",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Mille cinq cents ariary.",
           "textMg": "Arivo dimanjato ariary.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_price_2"
+          "nextNodeOnSuccess": "teacher_price_2",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Trois mille ariary.",
           "textMg": "Telo arivo ariary.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_price_2"
+          "nextNodeOnSuccess": "teacher_price_2",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -148,19 +176,31 @@
           "textFr": "Quatre mille ariary.",
           "textMg": "Efatra arivo ariary.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_phone"
+          "nextNodeOnSuccess": "teacher_phone",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Six mille ariary.",
           "textMg": "Enina arivo ariary.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_phone"
+          "nextNodeOnSuccess": "teacher_phone",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Trois mille ariary.",
           "textMg": "Telo arivo ariary.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_phone"
+          "nextNodeOnSuccess": "teacher_phone",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -185,13 +225,21 @@
           "textFr": "Mon numéro est le zéro trois quatre.",
           "textMg": "Ny laharako dia aotra telo efatra.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_congrats"
+          "nextNodeOnSuccess": "teacher_congrats",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "C'est le zéro trois deux.",
           "textMg": "Aotra telo roa.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_congrats"
+          "nextNodeOnSuccess": "teacher_congrats",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -238,7 +286,11 @@
           "textFr": "Vingt et un",
           "textMg": "Roapolo sy iray",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_1_success"
+          "nextNodeOnSuccess": "roleplay_1_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -274,7 +326,11 @@
           "textFr": "Cinquante",
           "textMg": "Dimampolo",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_2_success"
+          "nextNodeOnSuccess": "roleplay_2_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -310,7 +366,11 @@
           "textFr": "Cent",
           "textMg": "Zato",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_3_success"
+          "nextNodeOnSuccess": "roleplay_3_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },

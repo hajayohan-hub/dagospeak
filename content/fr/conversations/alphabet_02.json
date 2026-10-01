@@ -350,7 +350,11 @@
           "textFr": "N, O, P",
           "textMg": "N, O, P",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_1_success"
+          "nextNodeOnSuccess": "roleplay_1_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ],
       "skipSTT": true
@@ -387,7 +391,11 @@
           "textFr": "Q, R, S",
           "textMg": "Q, R, S",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_2_success"
+          "nextNodeOnSuccess": "roleplay_2_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ],
       "skipSTT": true
@@ -424,7 +432,11 @@
           "textFr": "T, U, V, W, X, Y, Z",
           "textMg": "T, U, V, W, X, Y, Z",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_3_success"
+          "nextNodeOnSuccess": "roleplay_3_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ],
       "skipSTT": true

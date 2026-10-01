@@ -49,13 +49,21 @@
           "textFr": "Excusez-moi, je cherche un taxi.",
           "textMg": "Azafady, mitady taxi aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_taxi_found"
+          "nextNodeOnSuccess": "teacher_taxi_found",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Taxi, s'il vous plaît.",
           "textMg": "Taxi, azafady.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_taxi_found"
+          "nextNodeOnSuccess": "teacher_taxi_found",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Donnez-moi un taxi !",
@@ -90,19 +98,31 @@
           "textFr": "Je vais à l'hôtel.",
           "textMg": "Mankany amin'ny hotely aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_hotel"
+          "nextNodeOnSuccess": "teacher_hotel",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Au centre-ville, s'il vous plaît.",
           "textMg": "Ao an-tanàna, azafady.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_hotel"
+          "nextNodeOnSuccess": "teacher_hotel",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Hôtel Colbert, s'il vous plaît.",
           "textMg": "Hotely Colbert, azafady.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_hotel"
+          "nextNodeOnSuccess": "teacher_hotel",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -127,19 +147,31 @@
           "textFr": "Bonjour, j'ai une réservation.",
           "textMg": "Manao ahoana, manana reservation aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_room"
+          "nextNodeOnSuccess": "teacher_room",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Je voudrais une chambre.",
           "textMg": "Te-hahazo efitrano aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_room"
+          "nextNodeOnSuccess": "teacher_room",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Une chambre pour une nuit, s'il vous plaît.",
           "textMg": "Efitrano ho an'ny alina iray, azafady.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_room"
+          "nextNodeOnSuccess": "teacher_room",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -164,19 +196,31 @@
           "textFr": "Oui, j'ai très faim.",
           "textMg": "Eny, noana be aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_restaurant"
+          "nextNodeOnSuccess": "teacher_restaurant",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Oui, où est le restaurant ?",
           "textMg": "Eny, aiza ny trano fisakafoanana?",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_restaurant"
+          "nextNodeOnSuccess": "teacher_restaurant",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Non, je suis fatigué.",
           "textMg": "Tsia, vizaka aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_rest"
+          "nextNodeOnSuccess": "teacher_rest",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -201,31 +245,51 @@
           "textFr": "Où sont les toilettes ?",
           "textMg": "Aiza ny efitrano fivoahana?",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_toilets"
+          "nextNodeOnSuccess": "teacher_toilets",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Je voudrais de l'eau.",
           "textMg": "Mila rano aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_water"
+          "nextNodeOnSuccess": "teacher_water",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Non merci, ça va.",
           "textMg": "Tsia misaotra, tsara.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "farewell"
+          "nextNodeOnSuccess": "farewell",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Je voudrais appeler un médecin.",
           "textMg": "Te-hiantso dokotera aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_medicine"
+          "nextNodeOnSuccess": "teacher_medicine",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Où est la gare routière ?",
           "textMg": "Aiza ny gara fitaterana?",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_station"
+          "nextNodeOnSuccess": "teacher_station",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -294,19 +358,31 @@
           "textFr": "Du riz avec du poulet, s'il vous plaît.",
           "textMg": "Vary sy akoho, azafady.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_drink"
+          "nextNodeOnSuccess": "teacher_drink",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Un plat du jour.",
           "textMg": "Sakafo anio.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_drink"
+          "nextNodeOnSuccess": "teacher_drink",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Qu'est-ce que vous recommandez ?",
           "textMg": "Inona no torohevitrao?",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_drink"
+          "nextNodeOnSuccess": "teacher_drink",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -331,19 +407,31 @@
           "textFr": "De l'eau, s'il vous plaît.",
           "textMg": "Rano, azafady.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_intro"
+          "nextNodeOnSuccess": "roleplay_intro",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Un jus de fruits.",
           "textMg": "Ranom-boankazo.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_intro"
+          "nextNodeOnSuccess": "roleplay_intro",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Un café.",
           "textMg": "Kafe.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_intro"
+          "nextNodeOnSuccess": "roleplay_intro",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -379,7 +467,11 @@
           "textFr": "Excusez-moi, où est la rue ?",
           "textMg": "Azafady, aiza ny lalana?",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_1_success"
+          "nextNodeOnSuccess": "roleplay_1_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -415,7 +507,11 @@
           "textFr": "Pouvez-vous m'aider ?",
           "textMg": "Afaka manampy ahy ve ianao?",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_2_success"
+          "nextNodeOnSuccess": "roleplay_2_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -451,7 +547,11 @@
           "textFr": "Merci beaucoup !",
           "textMg": "Misaotra betsaka!",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_3_success"
+          "nextNodeOnSuccess": "roleplay_3_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },

@@ -38,19 +38,31 @@
           "textFr": "Nous sommes en janvier.",
           "textMg": "Volana janoary isika.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_jan"
+          "nextNodeOnSuccess": "teacher_jan",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Nous sommes en septembre.",
           "textMg": "Volana septambra isika.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_sept"
+          "nextNodeOnSuccess": "teacher_sept",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Nous sommes en mars.",
           "textMg": "Volana martsa isika.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_march"
+          "nextNodeOnSuccess": "teacher_march",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -108,31 +120,51 @@
           "textFr": "Mon anniversaire est en juin.",
           "textMg": "Ny tsingerin-taonako dia amin'ny jona.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_june"
+          "nextNodeOnSuccess": "teacher_june",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "En décembre.",
           "textMg": "Amin'ny desambra.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_december"
+          "nextNodeOnSuccess": "teacher_december",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "En mars.",
           "textMg": "Amin'ny martsa.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_march_bday"
+          "nextNodeOnSuccess": "teacher_march_bday",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Mon anniversaire est en avril.",
           "textMg": "Ny tsingerin-taonako dia amin'ny aprily.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_april"
+          "nextNodeOnSuccess": "teacher_april",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Mon anniversaire est en août.",
           "textMg": "Ny tsingerin-taonako dia amin'ny aogositra.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_august"
+          "nextNodeOnSuccess": "teacher_august",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -212,13 +244,21 @@
           "textFr": "Je préfère la saison chaude.",
           "textMg": "Aleoko ny fotoana mafana.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_hot"
+          "nextNodeOnSuccess": "teacher_hot",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Je préfère la saison fraîche.",
           "textMg": "Aleoko ny fotoana mangatsiaka.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_cold"
+          "nextNodeOnSuccess": "teacher_cold",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -265,7 +305,11 @@
           "textFr": "Douze mois.",
           "textMg": "Volana roa ambin'ny folo.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_intro"
+          "nextNodeOnSuccess": "roleplay_intro",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Dix mois.",
@@ -311,7 +355,11 @@
           "textFr": "Janvier est le premier mois",
           "textMg": "Janvie no volana voalohany",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_1_success"
+          "nextNodeOnSuccess": "roleplay_1_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -347,7 +395,11 @@
           "textFr": "Il fait froid en juin",
           "textMg": "Mangatsiaka amin'ny jona",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_2_success"
+          "nextNodeOnSuccess": "roleplay_2_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -383,7 +435,11 @@
           "textFr": "L'été est en décembre",
           "textMg": "Fahavaratra amin'ny desambra",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_3_success"
+          "nextNodeOnSuccess": "roleplay_3_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },

@@ -49,13 +49,21 @@
           "textFr": "Bonjour grand-mère ! Je vais bien.",
           "textMg": "Manao ahoana renibe! Tsara aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "grandma_happy"
+          "nextNodeOnSuccess": "grandma_happy",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Salut mamie !",
           "textMg": "Salama beby!",
           "isCorrect": true,
-          "nextNodeOnSuccess": "grandma_happy"
+          "nextNodeOnSuccess": "grandma_happy",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Au revoir.",
@@ -90,19 +98,31 @@
           "textFr": "Oui, je veux voir grand-père.",
           "textMg": "Eny, te-hahita an-dRaibe aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "grandma_go_garden"
+          "nextNodeOnSuccess": "grandma_go_garden",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Oui, allons au jardin !",
           "textMg": "Eny, andao any an-jaridaina!",
           "isCorrect": true,
-          "nextNodeOnSuccess": "grandma_go_garden"
+          "nextNodeOnSuccess": "grandma_go_garden",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Plus tard. Je suis fatigué.",
           "textMg": "Aoriana. Vizaka aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "grandma_rest"
+          "nextNodeOnSuccess": "grandma_rest",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -149,19 +169,31 @@
           "textFr": "Oui grand-père, j'arrive !",
           "textMg": "Eny Raibe, tonga aho!",
           "isCorrect": true,
-          "nextNodeOnSuccess": "grandpa_happy"
+          "nextNodeOnSuccess": "grandpa_happy",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Qu'est-ce que je fais ?",
           "textMg": "Inona no ataoko?",
           "isCorrect": true,
-          "nextNodeOnSuccess": "grandpa_explain"
+          "nextNodeOnSuccess": "grandpa_explain",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "D'accord, je t'aide.",
           "textMg": "Eny ary, manampy anao aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "grandpa_happy"
+          "nextNodeOnSuccess": "grandpa_happy",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -197,13 +229,21 @@
           "textFr": "C'est fait, grand-père !",
           "textMg": "Vita Raibe!",
           "isCorrect": true,
-          "nextNodeOnSuccess": "grandpa_happy"
+          "nextNodeOnSuccess": "grandpa_happy",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Les fleurs sont belles.",
           "textMg": "Tsara ny voninkazo.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "grandpa_happy"
+          "nextNodeOnSuccess": "grandpa_happy",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -217,19 +257,31 @@
           "textFr": "Oui, j'ai très faim !",
           "textMg": "Eny, noana be aho!",
           "isCorrect": true,
-          "nextNodeOnSuccess": "grandma_food"
+          "nextNodeOnSuccess": "grandma_food",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Oui, merci grand-mère.",
           "textMg": "Eny, misaotra renibe.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "grandma_food"
+          "nextNodeOnSuccess": "grandma_food",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Un peu.",
           "textMg": "Kely.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "grandma_food"
+          "nextNodeOnSuccess": "grandma_food",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -254,19 +306,31 @@
           "textFr": "Merci grand-mère ! C'est délicieux !",
           "textMg": "Misaotra renibe! Matsiro be!",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_intro"
+          "nextNodeOnSuccess": "roleplay_intro",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "J'adore le poulet !",
           "textMg": "Tiako be ny akoho!",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_intro"
+          "nextNodeOnSuccess": "roleplay_intro",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Miam, c'est bon !",
           "textMg": "Matsiro!",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_intro"
+          "nextNodeOnSuccess": "roleplay_intro",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -302,7 +366,11 @@
           "textFr": "Voici mon père",
           "textMg": "Ity no raiko",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_1_success"
+          "nextNodeOnSuccess": "roleplay_1_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -338,7 +406,11 @@
           "textFr": "Voici ma mère",
           "textMg": "Ity no reniko",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_2_success"
+          "nextNodeOnSuccess": "roleplay_2_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -374,7 +446,11 @@
           "textFr": "J'ai une sœur",
           "textMg": "Manana anabavy aho",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_3_success"
+          "nextNodeOnSuccess": "roleplay_3_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },

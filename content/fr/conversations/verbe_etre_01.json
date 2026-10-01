@@ -50,7 +50,11 @@
           "textFr": "Je suis étudiant.",
           "textMg": "Mpianatra aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "lesson_1_feedback"
+          "nextNodeOnSuccess": "lesson_1_feedback",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -86,7 +90,11 @@
           "textFr": "Je suis de Madagascar.",
           "textMg": "Avy eto Madagasikara aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "lesson_2_feedback"
+          "nextNodeOnSuccess": "lesson_2_feedback",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -122,7 +130,11 @@
           "textFr": "Quelle est la différence ?",
           "textMg": "Inona no fahasamihafana?",
           "isCorrect": true,
-          "nextNodeOnSuccess": "lesson_3_feedback"
+          "nextNodeOnSuccess": "lesson_3_feedback",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -158,7 +170,11 @@
           "textFr": "Et pour plusieurs personnes ?",
           "textMg": "Ary ho an'ny olona maro?",
           "isCorrect": true,
-          "nextNodeOnSuccess": "lesson_4_feedback"
+          "nextNodeOnSuccess": "lesson_4_feedback",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -194,7 +210,11 @@
           "textFr": "Merci ! J'ai compris le verbe être.",
           "textMg": "Misaotra! Azoko ny matoanteny être.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "lesson_5_feedback"
+          "nextNodeOnSuccess": "lesson_5_feedback",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -230,13 +250,21 @@
           "textFr": "Oui, je suis prêt !",
           "textMg": "Eny, vonona aho!",
           "isCorrect": true,
-          "nextNodeOnSuccess": "intro_je_suis"
+          "nextNodeOnSuccess": "intro_je_suis",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Qu'est-ce que le verbe être ?",
           "textMg": "Inona ny matoanteny être?",
           "isCorrect": true,
-          "nextNodeOnSuccess": "what_is_etre"
+          "nextNodeOnSuccess": "what_is_etre",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -272,7 +300,11 @@
           "textFr": "Je suis étudiant",
           "textMg": "Je suis étudiant",
           "isCorrect": true,
-          "nextNodeOnSuccess": "correct_je_suis"
+          "nextNodeOnSuccess": "correct_je_suis",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Tu es étudiant",
@@ -317,7 +349,11 @@
           "textFr": "Tu es mon ami",
           "textMg": "Tu es mon ami",
           "isCorrect": true,
-          "nextNodeOnSuccess": "correct_tu_es"
+          "nextNodeOnSuccess": "correct_tu_es",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Je suis ton ami",
@@ -352,7 +388,11 @@
           "textFr": "Il est professeur",
           "textMg": "Il est professeur",
           "isCorrect": true,
-          "nextNodeOnSuccess": "correct_il_est"
+          "nextNodeOnSuccess": "correct_il_est",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Elle est professeur",
@@ -387,7 +427,11 @@
           "textFr": "Elle est médecin",
           "textMg": "Elle est médecin",
           "isCorrect": true,
-          "nextNodeOnSuccess": "correct_elle_est"
+          "nextNodeOnSuccess": "correct_elle_est",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Il est médecin",
@@ -422,7 +466,11 @@
           "textFr": "Nous sommes étudiants",
           "textMg": "Nous sommes étudiants",
           "isCorrect": true,
-          "nextNodeOnSuccess": "correct_nous_sommes"
+          "nextNodeOnSuccess": "correct_nous_sommes",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Vous êtes étudiants",
@@ -457,7 +505,11 @@
           "textFr": "Vous êtes français",
           "textMg": "Vous êtes français",
           "isCorrect": true,
-          "nextNodeOnSuccess": "correct_vous_etes"
+          "nextNodeOnSuccess": "correct_vous_etes",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Nous sommes français",
@@ -492,7 +544,11 @@
           "textFr": "Ils sont contents",
           "textMg": "Ils sont contents",
           "isCorrect": true,
-          "nextNodeOnSuccess": "correct_ils_sont"
+          "nextNodeOnSuccess": "correct_ils_sont",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Elles sont contentes",
@@ -549,7 +605,11 @@
           "textFr": "Je suis étudiant",
           "textMg": "Mpianatra aho",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_1_success"
+          "nextNodeOnSuccess": "roleplay_1_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -585,7 +645,11 @@
           "textFr": "Il est professeur",
           "textMg": "Mpampianatra izy",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_2_success"
+          "nextNodeOnSuccess": "roleplay_2_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -621,7 +685,11 @@
           "textFr": "Nous sommes contents",
           "textMg": "Faly izahay",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_3_success"
+          "nextNodeOnSuccess": "roleplay_3_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },

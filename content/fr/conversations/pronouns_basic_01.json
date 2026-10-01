@@ -49,19 +49,31 @@
           "textFr": "Je suis {firstName}.",
           "textMg": "Izaho {firstName}.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_tu"
+          "nextNodeOnSuccess": "teacher_tu",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Je suis un élève.",
           "textMg": "Izaho mpianatra.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_tu"
+          "nextNodeOnSuccess": "teacher_tu",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Je parle français.",
           "textMg": "Izaho miteny frantsay.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_tu"
+          "nextNodeOnSuccess": "teacher_tu",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -108,13 +120,21 @@
           "textFr": "Il est gentil.",
           "textMg": "Tsara fanahy izy.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_elle"
+          "nextNodeOnSuccess": "teacher_elle",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Il est grand.",
           "textMg": "Lava izy.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_elle"
+          "nextNodeOnSuccess": "teacher_elle",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Elle est gentil.",
@@ -149,19 +169,31 @@
           "textFr": "Elle est belle.",
           "textMg": "Tsara tarehy izy.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_nous"
+          "nextNodeOnSuccess": "teacher_nous",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Elle est gentille.",
           "textMg": "Tsara fanahy izy.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_nous"
+          "nextNodeOnSuccess": "teacher_nous",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Elle cuisine bien.",
           "textMg": "Mahay mahandro izy.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_nous"
+          "nextNodeOnSuccess": "teacher_nous",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -219,7 +251,11 @@
           "textFr": "Elle est une bonne élève.",
           "textMg": "Mpianatra tsara izy.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_quiz_2"
+          "nextNodeOnSuccess": "teacher_quiz_2",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Il est un bon élève.",
@@ -254,7 +290,11 @@
           "textFr": "Ils sont amis.",
           "textMg": "Mpinamana izy ireo.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_intro"
+          "nextNodeOnSuccess": "roleplay_intro",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Elles sont amies.",
@@ -300,7 +340,11 @@
           "textFr": "Il est étudiant",
           "textMg": "Izy dia mpianatra",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_1_success"
+          "nextNodeOnSuccess": "roleplay_1_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -336,7 +380,11 @@
           "textFr": "Ils sont professeurs",
           "textMg": "Izy ireo dia mpampianatra",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_2_success"
+          "nextNodeOnSuccess": "roleplay_2_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -372,7 +420,11 @@
           "textFr": "Tu es mon ami",
           "textMg": "Ianao dia namako",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_3_success"
+          "nextNodeOnSuccess": "roleplay_3_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },

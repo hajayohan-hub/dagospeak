@@ -49,13 +49,21 @@
           "textFr": "Un, deux, trois.",
           "textMg": "Iray, roa, telo.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_count_2"
+          "nextNodeOnSuccess": "teacher_count_2",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Iray, roa, telo.",
           "textMg": "Iray, roa, telo.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_count_2"
+          "nextNodeOnSuccess": "teacher_count_2",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Quatre, cinq.",
@@ -90,13 +98,21 @@
           "textFr": "Quatre, cinq, six.",
           "textMg": "Efatra, dimy, enina.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_count_3"
+          "nextNodeOnSuccess": "teacher_count_3",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Efatra, dimy, enina.",
           "textMg": "Efatra, dimy, enina.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_count_3"
+          "nextNodeOnSuccess": "teacher_count_3",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -121,13 +137,21 @@
           "textFr": "Sept, huit, neuf, dix.",
           "textMg": "Fito, valo, sivy, folo.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_ask_age"
+          "nextNodeOnSuccess": "teacher_ask_age",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Fito, valo, sivy, folo.",
           "textMg": "Fito, valo, sivy, folo.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_ask_age"
+          "nextNodeOnSuccess": "teacher_ask_age",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -152,55 +176,91 @@
           "textFr": "J'ai dix ans.",
           "textMg": "Folo taona aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_quiz"
+          "nextNodeOnSuccess": "teacher_quiz",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "J'ai douze ans.",
           "textMg": "Roa ambin'ny folo taona aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_quiz"
+          "nextNodeOnSuccess": "teacher_quiz",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "J'ai quinze ans.",
           "textMg": "Dimy ambin'ny folo taona aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_quiz"
+          "nextNodeOnSuccess": "teacher_quiz",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "J'ai vingt ans.",
           "textMg": "Roapolo taona aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_quiz"
+          "nextNodeOnSuccess": "teacher_quiz",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "J'ai huit ans.",
           "textMg": "Valo taona aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_quiz"
+          "nextNodeOnSuccess": "teacher_quiz",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "J'ai quatorze ans.",
           "textMg": "Fito ambin'ny folo taona aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_quiz"
+          "nextNodeOnSuccess": "teacher_quiz",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "J'ai dix-huit ans.",
           "textMg": "Volo ambin'ny folo taona aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_quiz"
+          "nextNodeOnSuccess": "teacher_quiz",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "J'ai vingt-cinq ans.",
           "textMg": "Dimy amby roapolo taona aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_quiz"
+          "nextNodeOnSuccess": "teacher_quiz",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "J'ai trente ans.",
           "textMg": "Telopolo taona aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_quiz"
+          "nextNodeOnSuccess": "teacher_quiz",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -225,7 +285,11 @@
           "textFr": "Cinq.",
           "textMg": "Dimy.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_quiz_2"
+          "nextNodeOnSuccess": "teacher_quiz_2",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Quatre.",
@@ -270,7 +334,11 @@
           "textFr": "Huit.",
           "textMg": "Valo.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_congrats"
+          "nextNodeOnSuccess": "teacher_congrats",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Sept.",
@@ -337,7 +405,11 @@
           "textFr": "Combien coûte ceci ?",
           "textMg": "Ohatrinona ity?",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_1_success"
+          "nextNodeOnSuccess": "roleplay_1_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -373,7 +445,11 @@
           "textFr": "Cinq ariary",
           "textMg": "Dimy ariary",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_2_success"
+          "nextNodeOnSuccess": "roleplay_2_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -409,7 +485,11 @@
           "textFr": "Un, deux, trois",
           "textMg": "Iray, roa, telo",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_3_success"
+          "nextNodeOnSuccess": "roleplay_3_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },

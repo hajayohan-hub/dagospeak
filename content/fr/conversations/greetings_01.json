@@ -49,13 +49,21 @@
           "textFr": "Je m'appelle {firstName}.",
           "textMg": "I {firstName} ny anarako.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_greet_name"
+          "nextNodeOnSuccess": "teacher_greet_name",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Mon nom est {firstName}.",
           "textMg": "{firstName} no anarako.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_greet_name"
+          "nextNodeOnSuccess": "teacher_greet_name",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Bonjour !",
@@ -171,19 +179,31 @@
           "textFr": "Je viens de Madagascar.",
           "textMg": "Avy eto Madagasikara aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_madagascar"
+          "nextNodeOnSuccess": "teacher_madagascar",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Je suis de Madagascar.",
           "textMg": "Avy eto Madagasikara aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_madagascar"
+          "nextNodeOnSuccess": "teacher_madagascar",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Madagascar.",
           "textMg": "Madagasikara.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_madagascar"
+          "nextNodeOnSuccess": "teacher_madagascar",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -219,19 +239,31 @@
           "textFr": "Je parle malgache.",
           "textMg": "Miteny malagasy aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_good"
+          "nextNodeOnSuccess": "teacher_good",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Je parle français.",
           "textMg": "Miteny frantsay aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_good"
+          "nextNodeOnSuccess": "teacher_good",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         },
         {
           "textFr": "Je parle malgache et français.",
           "textMg": "Miteny malagasy sy frantsay aho.",
           "isCorrect": true,
-          "nextNodeOnSuccess": "teacher_excellent"
+          "nextNodeOnSuccess": "teacher_excellent",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -289,7 +321,11 @@
           "textFr": "Bonjour !",
           "textMg": "Manao ahoana!",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_1_success"
+          "nextNodeOnSuccess": "roleplay_1_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -325,7 +361,11 @@
           "textFr": "Comment vas-tu ?",
           "textMg": "Ahoana ny fahasalamanao?",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_2_success"
+          "nextNodeOnSuccess": "roleplay_2_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
@@ -361,7 +401,11 @@
           "textFr": "Comment t'appelles-tu ?",
           "textMg": "Inona ny anaranao?",
           "isCorrect": true,
-          "nextNodeOnSuccess": "roleplay_3_success"
+          "nextNodeOnSuccess": "roleplay_3_success",
+          "feedback": {
+            "fr": "Parfait !",
+            "mg": "Tena marina!"
+          }
         }
       ]
     },
