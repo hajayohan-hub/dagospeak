@@ -1,3 +1,11 @@
 node_modules/
 .DS_Store
 *.logPassword_tokens_github.mg
+*.backup
+*.bak
+*.backup_*
+*.backup_*.*
+AUDIT_*.html
+AUDIT_*.md
+AUDIT_*.json
+dagospeak-*.tar.gz
