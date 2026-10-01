@@ -1,20 +1,70 @@
 // V5.109: Fonction globale pour demarrer une etape
 window.startStep = function(themeId, route) {
-  // V5.149: Sécurité contre les thèmes invalides (ex: 'dark')
-  const INVALID_THEMES = ['dark', 'light', 'null', 'undefined', ''];
-  
-  if (!themeId || INVALID_THEMES.includes(String(themeId).toLowerCase())) {
-    console.warn('[Today] Thème invalide détecté:', themeId, '- Utilisation de alphabet1 par défaut');
-    themeId = 'alphabet1'; // Repli sûr
+  var INVALID_THEMES = ['dark', 'light', 'null', 'undefined', ''];
+
+  var cleanTheme = String(themeId || '').trim();
+
+  if (!cleanTheme || INVALID_THEMES.indexOf(cleanTheme.toLowerCase()) !== -1) {
+    cleanTheme =
+      localStorage.getItem('dagospeak:lastValidTheme') ||
+      localStorage.getItem('dagospeak:theme') ||
+      'alphabet1';
+
+    if (INVALID_THEMES.indexOf(String(cleanTheme).toLowerCase()) !== -1) {
+      cleanTheme = 'alphabet1';
+    }
   }
 
-  if (themeId) {
-    localStorage.setItem('dagospeak:theme', themeId);
-    console.log('[Today] Theme defini:', themeId);
+  localStorage.setItem('dagospeak:theme', cleanTheme);
+  localStorage.setItem('dagospeak:lastValidTheme', cleanTheme);
+  window.currentTheme = cleanTheme;
+  window.recommendedTheme = cleanTheme;
+
+  console.log('[Today V5.150] Theme defini:', cleanTheme, 'Route:', route);
+
+  var routeMap = {
+    '/lesson': 'renderLesson',
+    '/practice': 'renderPractice',
+    '/lesson-phrases': 'renderLessonPhrases',
+    '/practice-phrases': 'renderPracticePhrases',
+    '/dialogues': 'renderDialogues',
+    '/theme-detail': 'renderThemeDetail',
+    '/themes': 'renderThemes',
+    '/today': 'renderToday'
+  };
+
+  var fnName = routeMap[route];
+  var fn = fnName && typeof window[fnName] === 'function' ? window[fnName] : null;
+
+  try {
+    if (window.history && window.history.replaceState) {
+      window.history.replaceState(null, '', '#' + route);
+    } else {
+      window.location.hash = '#' + route;
+    }
+  } catch (e) {}
+
+  if (typeof updateNavActiveState === 'function') {
+    try { updateNavActiveState(); } catch (e) {}
   }
-  console.log('[Today] Navigation vers:', route);
-  router.navigate(route);
-};
+
+  if (fn) {
+    console.log('[Today V5.150] Appel direct de la vue:', fnName);
+    try {
+      fn();
+      return;
+    } catch (e) {
+      console.error('[Today V5.150] Erreur appel direct', e);
+    }
+  }
+
+  if (window.router && typeof window.router.navigate === 'function') {
+    console.log('[Today V5.150] Fallback router.navigate:', route);
+    window.router.navigate(route);
+  } else {
+    window.location.hash = '#' + route;
+  }
+};;
 
 /**
  * DagoSpeak V5.109 - Ecran "Aujourd'hui"

@@ -9837,3 +9837,145 @@ function showUpdateBannerInline(registration) {
 
   window.hideUpdateBanner = hideUpdateBanner;
 })();
+
+// V5.150: expose guided views + home card all devices
+(function () {
+  // Nettoyer un éventuel thème invalide
+  try {
+    var invalid = ['dark', 'light', 'null', 'undefined', ''];
+    var storedTheme = localStorage.getItem('dagospeak:theme');
+    if (storedTheme && invalid.indexOf(String(storedTheme).toLowerCase()) !== -1) {
+      localStorage.removeItem('dagospeak:theme');
+    }
+  } catch (e) {}
+
+  // Exposer les vues si elles existent dans le scope app.js
+  if (typeof renderLesson === 'function') window.renderLesson = renderLesson;
+  if (typeof renderPractice === 'function') window.renderPractice = renderPractice;
+  if (typeof renderLessonPhrases === 'function') window.renderLessonPhrases = renderLessonPhrases;
+  if (typeof renderPracticePhrases === 'function') window.renderPracticePhrases = renderPracticePhrases;
+  if (typeof renderDialogues === 'function') window.renderDialogues = renderDialogues;
+  if (typeof renderThemeDetail === 'function') window.renderThemeDetail = renderThemeDetail;
+  if (typeof renderThemes === 'function') window.renderThemes = renderThemes;
+  if (typeof renderToday === 'function') window.renderToday = renderToday;
+
+  function isValidTheme(t) {
+    var invalid = ['dark', 'light', 'null', 'undefined', ''];
+    return t && invalid.indexOf(String(t).toLowerCase()) === -1;
+  }
+
+  function getGuidedTheme() {
+    var t =
+      localStorage.getItem('dagospeak:lastValidTheme') ||
+      localStorage.getItem('dagospeak:theme') ||
+      window.currentTheme ||
+      window.recommendedTheme ||
+      '';
+
+    if (isValidTheme(t)) return String(t).trim();
+
+    try {
+      var manifest = window.currentManifest || {};
+      var levels = manifest.levels || [];
+      var a0 = levels.find(function (l) { return l.id === 'A0'; });
+      var units = (a0 && a0.units) || [];
+      var sorted = units.slice().sort(function (a, b) {
+        return (a.order || 0) - (b.order || 0);
+      });
+      if (sorted[0] && sorted[0].id) return sorted[0].id;
+    } catch (e) {}
+
+    return 'alphabet1';
+  }
+
+  function isHomeHash() {
+    var h = window.location.hash || '';
+    return h === '' || h === '#' || h === '#/' || h.indexOf('#/home') === 0;
+  }
+
+  function injectGuidedHomeCard() {
+    if (!isHomeHash()) return;
+
+    var app = document.getElementById('app');
+    if (!app) return;
+
+    if (document.getElementById('ds-guided-home-card')) return;
+
+    var theme = getGuidedTheme();
+
+    var card = document.createElement('section');
+    card.id = 'ds-guided-home-card';
+    card.setAttribute('data-theme', theme);
+    card.style.cssText =
+      'max-width:700px;margin:0 auto 1rem auto;padding:1rem;' +
+      'background:linear-gradient(135deg,var(--ds-color-primary,#2563eb),var(--ds-color-accent,#f59e0b));' +
+      'color:white;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.12);';
+
+    card.innerHTML =
+      '<div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;">' +
+        '<div style="min-width:220px;flex:1;">' +
+          '<div style="font-size:.85rem;opacity:.9;margin-bottom:.25rem;">Apprentissage guidé</div>' +
+          '<h3 style="margin:0 0 .35rem 0;font-size:1.25rem;">Continuer ou commencer</h3>' +
+          '<p style="margin:0;font-size:.95rem;opacity:.95;">Thème recommandé : <strong>' + theme + '</strong></p>' +
+        '</div>' +
+        '<div style="display:flex;flex-wrap:wrap;gap:.5rem;">' +
+          '<button id="guided-home-lesson" style="background:white;color:#111;border:none;padding:.75rem 1rem;border-radius:10px;font-weight:700;cursor:pointer;">▶ Continuer la leçon</button>' +
+          '<button id="guided-home-today" style="background:rgba(255,255,255,.18);color:white;border:1px solid rgba(255,255,255,.35);padding:.75rem 1rem;border-radius:10px;font-weight:700;cursor:pointer;">🎯 Apprentissage guidé</button>' +
+        '</div>' +
+      '</div>';
+
+    app.insertBefore(card, app.firstChild);
+
+    var btnLesson = card.querySelector('#guided-home-lesson');
+    var btnToday = card.querySelector('#guided-home-today');
+
+    if (btnLesson) {
+      btnLesson.addEventListener('click', function () {
+        if (typeof window.startStep === 'function') {
+          window.startStep(theme, '/lesson');
+        } else if (window.router && window.router.navigate) {
+          localStorage.setItem('dagospeak:theme', theme);
+          window.router.navigate('/lesson');
+        }
+      });
+    }
+
+    if (btnToday) {
+      btnToday.addEventListener('click', function () {
+        if (typeof window.startStep === 'function') {
+          window.startStep(theme, '/today');
+        } else if (typeof window.renderToday === 'function') {
+          try { history.replaceState(null, '', '#/today'); } catch (e) {}
+          window.renderToday();
+        } else if (window.router && window.router.navigate) {
+          window.router.navigate('/today');
+        }
+      });
+    }
+
+    console.log('[Home V5.150] Carte guidée injectée pour thème:', theme);
+  }
+
+  // Patch renderHome pour injecter après chaque rendu de l'accueil
+  var origRenderHome = window.renderHome;
+  if (typeof origRenderHome === 'function') {
+    window.renderHome = function () {
+      var result = origRenderHome.apply(this, arguments);
+      setTimeout(injectGuidedHomeCard, 80);
+      return result;
+    };
+  }
+
+  window.addEventListener('hashchange', function () {
+    setTimeout(injectGuidedHomeCard, 120);
+  });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    setTimeout(injectGuidedHomeCard, 250);
+  });
+
+  setTimeout(injectGuidedHomeCard, 700);
+  setTimeout(injectGuidedHomeCard, 1500);
+
+  console.log('[V5.150] Cartes guidées PC + mobile activées');
+})();
