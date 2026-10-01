@@ -1,0 +1,44 @@
+{
+  "id": "articles_minigame_01",
+  "theme": "articles",
+  "title": "Consolider les articles",
+  "passScore": 80,
+  "questions": [
+    {
+      "type": "recall",
+      "prompt": "Complète : Je veux acheter ____ riz.",
+      "options": ["le", "la", "un", "des"],
+      "correct": "le"
+    },
+    {
+      "type": "understand",
+      "prompt": "Écoute et choisis le bon article.",
+      "audioText": "la maison",
+      "options": ["le", "la", "l'", "un"],
+      "correct": "la"
+    },
+    {
+      "type": "use",
+      "prompt": "Choisis la phrase correcte.",
+      "options": [
+        "Je veux une pomme.",
+        "Je veux un pomme.",
+        "Je veux des pomme.",
+        "Je veux une pommes."
+      ],
+      "correct": "Je veux une pomme."
+    },
+    {
+      "type": "recall",
+      "prompt": "Devant une voyelle, “le” devient…",
+      "options": ["l'", "la", "les", "un"],
+      "correct": "l'"
+    },
+    {
+      "type": "use",
+      "prompt": "Complète : Je voudrais ____ orange.",
+      "options": ["le", "la", "l'", "un"],
+      "correct": "l'"
+    }
+  ]
+}

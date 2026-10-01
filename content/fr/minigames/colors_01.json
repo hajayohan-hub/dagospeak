@@ -1,0 +1,52 @@
+{
+  "id": "colors_minigame_01",
+  "theme": "colors",
+  "title": "Consolider les couleurs",
+  "passScore": 80,
+  "questions": [
+    {
+      "type": "recognize",
+      "prompt": "Quelle couleur est-ce ?",
+      "visual": {
+        "type": "color",
+        "value": "#3b82f6"
+      },
+      "options": ["rouge", "bleu", "vert", "jaune"],
+      "correct": "bleu"
+    },
+    {
+      "type": "understand",
+      "prompt": "Écoute et choisis le bon mot.",
+      "audioText": "jaune",
+      "options": ["rouge", "jaune", "vert", "bleu"],
+      "correct": "jaune"
+    },
+    {
+      "type": "recall",
+      "prompt": "Complète : Le ciel est ______.",
+      "options": ["bleu", "rouge", "vert", "noir"],
+      "correct": "bleu"
+    },
+    {
+      "type": "use",
+      "prompt": "Choisis la phrase correcte.",
+      "options": [
+        "J'aime le bleu.",
+        "J'aime le bleus.",
+        "J'aime les bleu.",
+        "J'aime bleu."
+      ],
+      "correct": "J'aime le bleu."
+    },
+    {
+      "type": "recognize",
+      "prompt": "Quelle couleur est-ce ?",
+      "visual": {
+        "type": "color",
+        "value": "#ef4444"
+      },
+      "options": ["rouge", "bleu", "vert", "jaune"],
+      "correct": "rouge"
+    }
+  ]
+}

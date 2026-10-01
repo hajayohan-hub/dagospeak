@@ -9840,6 +9840,8 @@ function showUpdateBannerInline(registration) {
 
 // V5.150: expose guided views + home card all devices
 (function () {
+  /* V5.152 disable older guided interceptor */ return;
+
   // Nettoyer un éventuel thème invalide
   try {
     var invalid = ['dark', 'light', 'null', 'undefined', ''];
@@ -9982,6 +9984,8 @@ function showUpdateBannerInline(registration) {
 
 // V5.151: robust guided theme setter + home card observer
 (function () {
+  /* V5.152 disable older guided interceptor */ return;
+
   var invalidThemes = ['dark', 'light', 'null', 'undefined', ''];
 
   function normalizeTheme(value) {
@@ -10251,5 +10255,785 @@ function showUpdateBannerInline(registration) {
   }
 
   console.log('[V5.151] Setter thème + carte guidée PC/mobile activés');
+})();
+
+// ═══════════════════════════════════════════════════════════
+// V5.152 : DagoSpeak guided mini-game engine
+// Parcours : leçon -> pratique -> mini-jeu -> conversation
+// ═══════════════════════════════════════════════════════════
+
+(function () {
+  var INVALID_THEMES = ['dark', 'light', 'null', 'undefined', ''];
+  var MASTERY_THRESHOLD = 80;
+
+  var THEME_LABELS = {
+    alphabet1: 'Alphabet 1',
+    alphabet2: 'Alphabet 2',
+    greetings: 'Salutations',
+    survival: 'Mots de survie',
+    family: 'La famille',
+    market: 'Le marché',
+    numbers: 'Nombres 1-10',
+    numbers2: 'Nombres 11-20',
+    colors: 'Les couleurs',
+    days: 'Les jours',
+    months: 'Les mois',
+    body: 'Le corps',
+    pronouns_basic: 'Les pronoms de base',
+    articles: 'Les articles',
+    verbe_etre: 'Le verbe être',
+    verbe_avoir: 'Le verbe avoir',
+    adjectifs: 'Les adjectifs',
+    negation: 'La négation',
+    questions: 'Les questions',
+    demonstratifs: 'Les démonstratifs',
+    possessifs: 'Les possessifs',
+    prepositions: 'Les prépositions',
+    verbes_er: 'Les verbes en -er',
+    imperatif: 'L\'impératif',
+    futur_proche: 'Le futur proche'
+  };
+
+  var CONVERSATION_ID_MAP = {
+    alphabet1: 'alphabet_01',
+    alphabet2: 'alphabet_02',
+    greetings: 'greetings_01',
+    survival: 'survival_01',
+    family: 'family_01',
+    market: 'market_01',
+    numbers: 'numbers_01',
+    numbers2: 'numbers2_01',
+    colors: 'colors_01',
+    days: 'days_01',
+    months: 'months_01',
+    body: 'body_01',
+    pronouns_basic: 'pronouns_basic_01',
+    articles: 'articles_01',
+    verbe_etre: 'verbe_etre_01',
+    verbe_avoir: 'verbe_avoir_01',
+    adjectifs: 'adjectifs_01',
+    negation: 'negation_01',
+    questions: 'questions_01',
+    demonstratifs: 'demonstratifs_01',
+    possessifs: 'possessifs_01',
+    prepositions: 'prepositions_01',
+    verbes_er: 'verbes_er_01',
+    imperatif: 'imperatif_01',
+    futur_proche: 'futur_proche_01'
+  };
+
+  function esc(value) {
+    return String(value == null ? '' : value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  function normTheme(value) {
+    var t = String(value || '').trim().replace(/\.json$/i, '');
+    if (!t || INVALID_THEMES.indexOf(t.toLowerCase()) !== -1) return '';
+    return t;
+  }
+
+  function baseThemeId(value) {
+    return normTheme(value).replace(/_0[12]$/, '');
+  }
+
+  function themeLabel(id) {
+    var clean = baseThemeId(id);
+    return THEME_LABELS[clean] || clean || 'Thème';
+  }
+
+  function conversationIdFor(themeId) {
+    var clean = baseThemeId(themeId);
+    return CONVERSATION_ID_MAP[clean] || (clean + '_01');
+  }
+
+  function getStorage(key, fallback) {
+    try {
+      return localStorage.getItem(key) || fallback;
+    } catch (e) {
+      return fallback;
+    }
+  }
+
+  function setStorage(key, value) {
+    try {
+      localStorage.setItem(key, String(value == null ? '' : value));
+    } catch (e) {}
+  }
+
+  function exposeViews() {
+    if (typeof renderLesson === 'function') window.renderLesson = renderLesson;
+    if (typeof renderPractice === 'function') window.renderPractice = renderPractice;
+    if (typeof renderLessonPhrases === 'function') window.renderLessonPhrases = renderLessonPhrases;
+    if (typeof renderPracticePhrases === 'function') window.renderPracticePhrases = renderPracticePhrases;
+    if (typeof renderDialogues === 'function') window.renderDialogues = renderDialogues;
+    if (typeof renderChallenge === 'function') window.renderChallenge = renderChallenge;
+    if (typeof renderRolePlay === 'function') window.renderRolePlay = renderRolePlay;
+    if (typeof renderThemeDetail === 'function') window.renderThemeDetail = renderThemeDetail;
+    if (typeof renderThemes === 'function') window.renderThemes = renderThemes;
+    if (typeof renderConversationLive === 'function') window.renderConversationLive = renderConversationLive;
+    if (typeof renderCertification === 'function') window.renderCertification = renderCertification;
+    if (typeof renderToday === 'function') window.renderToday = renderToday;
+    if (typeof updateNavActiveState === 'function') window.updateNavActiveState = updateNavActiveState;
+  }
+
+  exposeViews();
+
+  function getManifestUnits() {
+    try {
+      var manifest = window.currentManifest || {};
+      var levels = manifest.levels || [];
+      var a0 = null;
+
+      for (var i = 0; i < levels.length; i++) {
+        if (levels[i] && levels[i].id === 'A0') {
+          a0 = levels[i];
+          break;
+        }
+      }
+
+      var units = (a0 && a0.units) || [];
+      return units.slice().sort(function (a, b) {
+        return (a.order || 0) - (b.order || 0);
+      });
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function getCompleted(type) {
+    try {
+      if (window.journeyTracker && typeof journeyTracker.getCompletedJourneys === 'function') {
+        var journeys = journeyTracker.getCompletedJourneys() || {};
+        if (Array.isArray(journeys[type])) return journeys[type];
+      }
+    } catch (e) {}
+
+    try {
+      var raw = getStorage('dagospeak:journeys', '{}');
+      var parsed = JSON.parse(raw);
+      if (Array.isArray(parsed[type])) return parsed[type];
+    } catch (e) {}
+
+    return [];
+  }
+
+  function isCompleted(type, themeId) {
+    var clean = baseThemeId(themeId);
+    var list = getCompleted(type).map(baseThemeId);
+    return list.indexOf(clean) !== -1;
+  }
+
+  function getMastery(themeId) {
+    var clean = baseThemeId(themeId);
+    return parseInt(getStorage('dagospeak:mastery:' + clean, '0'), 10) || 0;
+  }
+
+  function setMastery(themeId, score) {
+    var clean = baseThemeId(themeId);
+    score = Math.max(0, Math.min(100, Math.round(score || 0)));
+    var old = getMastery(clean);
+    var best = Math.max(old, score);
+
+    setStorage('dagospeak:mastery:' + clean, best);
+    setStorage('dagospeak:lastMastery:' + clean, score);
+    setStorage('dagospeak:lastMasteryTheme', clean);
+
+    if (best >= MASTERY_THRESHOLD) {
+      setStorage('dagospeak:conversationUnlocked:' + clean, 'true');
+    }
+
+    console.log('[V5.152] Maîtrise', clean, '=>', best + '%', 'seuil', MASTERY_THRESHOLD + '%');
+    return best;
+  }
+
+  function isConversationUnlocked(themeId) {
+    var clean = baseThemeId(themeId);
+    return getMastery(clean) >= MASTERY_THRESHOLD ||
+      getStorage('dagospeak:conversationUnlocked:' + clean, '') === 'true';
+  }
+
+  function setTheme(themeId) {
+    var clean = baseThemeId(themeId) || baseThemeId(getStorage('dagospeak:lastValidTheme', '')) || 'alphabet1';
+
+    setStorage('dagospeak:theme', clean);
+    setStorage('dagospeak:lastValidTheme', clean);
+
+    window.currentTheme = clean;
+    window.recommendedTheme = clean;
+
+    try {
+      if (typeof currentTheme !== 'undefined') currentTheme = clean;
+    } catch (e) {}
+
+    return clean;
+  }
+
+  function getNextAction() {
+    // 1. Révisions espacées si disponibles
+    try {
+      if (window.spacedRepetition && typeof spacedRepetition.getDueReviews === 'function') {
+        var due = spacedRepetition.getDueReviews();
+        if (due && due.length) {
+          return {
+            type: 'review',
+            route: '/review',
+            label: 'Réviser ' + due.length + ' mot(s)',
+            description: 'Consolide ta mémoire avec la révision espacée.',
+            icon: '🔄',
+            priority: true
+          };
+        }
+      }
+    } catch (e) {}
+
+    var units = getManifestUnits();
+
+    for (var i = 0; i < units.length; i++) {
+      var unit = units[i];
+      var id = baseThemeId(unit.id);
+      if (!id) continue;
+
+      var label = themeLabel(id);
+
+      // 2. Leçon
+      if (!isCompleted('lessons', id)) {
+        return {
+          type: 'lesson',
+          themeId: id,
+          route: '/lesson',
+          label: 'Découvrir : ' + label,
+          description: 'Commence par écouter et comprendre les mots du thème.',
+          icon: '📚',
+          priority: true
+        };
+      }
+
+      // 3. Pratique
+      if (!isCompleted('practices', id)) {
+        return {
+          type: 'practice',
+          themeId: id,
+          route: '/practice',
+          label: 'S\'entraîner : ' + label,
+          description: 'Exerce-toi sur le thème avant de consolider.',
+          icon: '✍️',
+          priority: true
+        };
+      }
+
+      // 4. Mini-jeu de consolidation
+      var mastery = getMastery(id);
+
+      if (mastery < MASTERY_THRESHOLD) {
+        return {
+          type: 'minigame',
+          themeId: id,
+          route: '/mini-game',
+          label: 'Consolider : ' + label,
+          description: 'Score actuel : ' + mastery + '% / objectif : ' + MASTERY_THRESHOLD + '%.',
+          icon: '🎮',
+          priority: true
+        };
+      }
+
+      // 5. Conversation Live débloquée
+      var conversationDone = isCompleted('dialogues', id) || isCompleted('conversations', id);
+
+      if (!conversationDone && isConversationUnlocked(id)) {
+        return {
+          type: 'conversation',
+          themeId: id,
+          conversationId: conversationIdFor(id),
+          route: '/conversation-live',
+          label: 'Parler : ' + label,
+          description: 'Bravo, tu es prêt(e) à utiliser ce thème avec Teacher AI.',
+          icon: '🗣️',
+          priority: false
+        };
+      }
+    }
+
+    // 6. Examen si tout semble consolidé
+    return {
+      type: 'exam',
+      route: '/exam',
+      label: 'Examen de niveau',
+      description: 'Tous les thèmes A0 semblent consolidés.',
+      icon: '🎓',
+      priority: true
+    };
+  }
+
+  function navigate(action) {
+    if (!action) return;
+
+    var themeId = action.themeId ? setTheme(action.themeId) : baseThemeId(getStorage('dagospeak:theme', 'alphabet1'));
+
+    if (action.type === 'conversation') {
+      var convId = action.conversationId || conversationIdFor(themeId);
+      setStorage('dagospeak:requestedConversationTheme', convId);
+      setStorage('dagospeak:conversationTheme', convId);
+      window.__requestedDialogueIdFromUrl = convId;
+      window.currentConversationTheme = convId;
+    }
+
+    try {
+      history.replaceState(null, '', '#' + action.route);
+    } catch (e) {
+      location.hash = '#' + action.route;
+    }
+
+    if (typeof window.updateNavActiveState === 'function') {
+      try { window.updateNavActiveState(); } catch (e) {}
+    }
+
+    var routeMap = {
+      '/lesson': 'renderLesson',
+      '/practice': 'renderPractice',
+      '/lesson-phrases': 'renderLessonPhrases',
+      '/practice-phrases': 'renderPracticePhrases',
+      '/dialogues': 'renderDialogues',
+      '/challenge': 'renderChallenge',
+      '/roleplay': 'renderRolePlay',
+      '/mini-game': 'renderMiniGame',
+      '/conversation-live': 'renderConversationLive',
+      '/review': 'renderReview',
+      '/exam': 'renderCertification',
+      '/theme-detail': 'renderThemeDetail',
+      '/themes': 'renderThemes',
+      '/today': 'renderToday'
+    };
+
+    var fnName = routeMap[action.route];
+    var fn = fnName && typeof window[fnName] === 'function' ? window[fnName] : null;
+
+    if (fn) {
+      console.log('[V5.152] Navigation directe vers vue:', action.route, fnName);
+
+      try {
+        if (action.route === '/mini-game') {
+          var result = fn(themeId);
+          if (result && typeof result.catch === 'function') result.catch(console.error);
+        } else {
+          var result2 = fn();
+          if (result2 && typeof result2.catch === 'function') result2.catch(console.error);
+        }
+
+        try { window.scrollTo(0, 0); } catch (e) {}
+        return;
+      } catch (e) {
+        console.error('[V5.152] Erreur appel vue', fnName, e);
+      }
+    }
+
+    if (window.router && typeof window.router.navigate === 'function') {
+      console.log('[V5.152] Fallback router.navigate:', action.route);
+      window.router.navigate(action.route);
+    }
+  }
+
+  window.DagoSpeakGuided = {
+    threshold: MASTERY_THRESHOLD,
+    getNextAction: getNextAction,
+    navigate: navigate,
+    setTheme: setTheme,
+    getMastery: getMastery,
+    setMastery: setMastery,
+    isConversationUnlocked: isConversationUnlocked,
+    conversationIdFor: conversationIdFor,
+    themeLabel: themeLabel
+  };
+
+  function speak(text) {
+    try {
+      if (typeof window.speakWithFeedback === 'function') {
+        window.speakWithFeedback(text, { rate: 0.9, gender: 'female' });
+        return;
+      }
+
+      if (window.speechSynthesis) {
+        var u = new SpeechSynthesisUtterance(text);
+        u.lang = 'fr-FR';
+        u.rate = 0.9;
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(u);
+      }
+    } catch (e) {
+      console.warn('[V5.152] TTS indisponible', e);
+    }
+  }
+
+  function normalizeAnswer(value) {
+    return String(value || '')
+      .trim()
+      .toLowerCase()
+      .replace(/[‘’]/g, "'")
+      .replace(/\s+/g, ' ');
+  }
+
+  window.renderMiniGame = async function (themeIdOverride) {
+    var main = document.getElementById('app');
+    if (!main) return;
+
+    var themeId =
+      baseThemeId(themeIdOverride) ||
+      baseThemeId(getStorage('dagospeak:theme', '')) ||
+      baseThemeId((getNextAction() || {}).themeId) ||
+      'colors';
+
+    themeId = setTheme(themeId);
+
+    main.innerHTML =
+      '<div id="ds-mini-game-root" style="max-width:700px;margin:0 auto;padding:1rem;">' +
+        '<div style="background:var(--ds-color-surface);border:1px solid var(--ds-color-border);border-radius:16px;padding:1.25rem;">' +
+          'Chargement du mini-jeu…' +
+        '</div>' +
+      '</div>';
+
+    var data = null;
+    var urls = [
+      '/content/fr/minigames/' + themeId + '_01.json',
+      '/content/fr/minigames/' + themeId + '.json'
+    ];
+
+    for (var i = 0; i < urls.length; i++) {
+      try {
+        var res = await fetch(urls[i], { cache: 'no-store' });
+        if (res.ok) {
+          data = await res.json();
+          break;
+        }
+      } catch (e) {}
+    }
+
+    if (!data || !Array.isArray(data.questions) || data.questions.length === 0) {
+      main.innerHTML =
+        '<div id="ds-mini-game-root" style="max-width:700px;margin:0 auto;padding:1rem;">' +
+          '<div style="background:var(--ds-color-surface);border:1px solid var(--ds-color-border);border-radius:16px;padding:1.25rem;">' +
+            '<h2 style="margin-top:0;">Mini-jeu indisponible</h2>' +
+            '<p>Aucun mini-jeu trouvé pour le thème <strong>' + esc(themeLabel(themeId)) + '</strong>.</p>' +
+            '<p>Fichier attendu : <code>content/fr/minigames/' + esc(themeId) + '_01.json</code></p>' +
+            '<button id="mg-back" style="background:var(--ds-color-primary);color:white;border:none;padding:.75rem 1rem;border-radius:10px;cursor:pointer;">Retour</button>' +
+          '</div>' +
+        '</div>';
+
+      var back = document.getElementById('mg-back');
+      if (back) back.addEventListener('click', function () {
+        navigate(getNextAction());
+      });
+
+      return;
+    }
+
+    var questions = data.questions.slice();
+    var idx = 0;
+    var correct = 0;
+    var total = questions.length;
+    var passScore = data.passScore || MASTERY_THRESHOLD;
+
+    function shell(title, progress) {
+      return '' +
+        '<div style="max-width:700px;margin:0 auto;padding:1rem;">' +
+          '<div style="background:linear-gradient(135deg,var(--ds-color-primary,#2563eb),var(--ds-color-accent,#f59e0b));color:white;border-radius:16px;padding:1rem;margin-bottom:1rem;">' +
+            '<div style="font-size:.85rem;opacity:.9;">Mini-jeu de consolidation</div>' +
+            '<h2 style="margin:.25rem 0 0 0;font-size:1.25rem;">' + esc(title) + '</h2>' +
+            '<div style="margin-top:.75rem;background:rgba(255,255,255,.25);height:8px;border-radius:999px;overflow:hidden;">' +
+              '<div style="background:white;height:100%;width:' + progress + '%;"></div>' +
+            '</div>' +
+            '<div style="margin-top:.35rem;font-size:.85rem;opacity:.95;">Question ' + (idx + 1) + ' / ' + total + '</div>' +
+          '</div>' +
+          '<div id="mg-body" style="background:var(--ds-color-surface);border:1px solid var(--ds-color-border);border-radius:16px;padding:1.25rem;"></div>' +
+        '</div>';
+    }
+
+    function renderResult() {
+      var score = Math.round((correct / total) * 100);
+      var best = setMastery(themeId, score);
+      var unlocked = best >= passScore;
+
+      main.innerHTML =
+        '<div id="ds-mini-game-root" style="max-width:700px;margin:0 auto;padding:1rem;">' +
+          '<div style="background:var(--ds-color-surface);border:1px solid var(--ds-color-border);border-radius:16px;padding:1.5rem;text-align:center;">' +
+            '<div style="font-size:3rem;">' + (unlocked ? '🎉' : '🎮') + '</div>' +
+            '<h2 style="margin:.5rem 0;">' + (unlocked ? 'Thème consolidé !' : 'Continue tes efforts') + '</h2>' +
+            '<p style="font-size:1.1rem;margin:.25rem 0;">Score : <strong>' + score + '%</strong></p>' +
+            '<p style="color:var(--ds-color-text-muted);margin:.25rem 0;">Meilleur score : <strong>' + best + '%</strong></p>' +
+            '<p style="color:var(--ds-color-text-muted);margin:.25rem 0;">Objectif : <strong>' + passScore + '%</strong></p>' +
+            (unlocked
+              ? '<p style="color:#16a34a;font-weight:700;margin-top:1rem;">Conversation Live débloquée pour ce thème.</p>'
+              : '<p style="color:#d97706;font-weight:700;margin-top:1rem;">Réessaie le mini-jeu pour atteindre l\'objectif.</p>') +
+            '<div style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;margin-top:1.25rem;">' +
+              '<button id="mg-replay" style="background:var(--ds-color-primary);color:white;border:none;padding:.75rem 1rem;border-radius:10px;cursor:pointer;font-weight:700;">Rejouer</button>' +
+              '<button id="mg-continue" style="background:var(--ds-color-accent);color:white;border:none;padding:.75rem 1rem;border-radius:10px;cursor:pointer;font-weight:700;">Continuer le parcours</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+
+      var replay = document.getElementById('mg-replay');
+      var cont = document.getElementById('mg-continue');
+
+      if (replay) replay.addEventListener('click', function () {
+        window.renderMiniGame(themeId);
+      });
+
+      if (cont) cont.addEventListener('click', function () {
+        navigate(getNextAction());
+      });
+
+      try {
+        history.replaceState(null, '', '#/mini-game?theme=' + encodeURIComponent(themeId));
+      } catch (e) {}
+    }
+
+    function renderQuestion() {
+      var q = questions[idx];
+      var progress = Math.round((idx / total) * 100);
+
+      main.innerHTML = shell(data.title || ('Mini-jeu : ' + themeLabel(themeId)), progress);
+
+      var body = document.getElementById('mg-body');
+      if (!body) return;
+
+      var html = '';
+
+      html += '<h3 style="margin-top:0;">' + esc(q.prompt || 'Question') + '</h3>';
+
+      if (q.visual && q.visual.type === 'color') {
+        html += '<div style="width:120px;height:120px;border-radius:18px;background:' + esc(q.visual.value) + ';margin:1rem auto;border:1px solid rgba(0,0,0,.12);box-shadow:0 8px 20px rgba(0,0,0,.12);"></div>';
+      }
+
+      if (q.visual && q.visual.type === 'emoji') {
+        html += '<div style="font-size:4rem;text-align:center;margin:1rem 0;">' + esc(q.visual.value) + '</div>';
+      }
+
+      if (q.audioText) {
+        html += '<div style="text-align:center;margin:1rem 0;">' +
+          '<button id="mg-audio" style="background:var(--ds-color-primary-soft,#dbeafe);color:var(--ds-color-primary,#2563eb);border:1px solid var(--ds-color-primary,#2563eb);padding:.75rem 1rem;border-radius:999px;cursor:pointer;font-weight:700;">🔊 Écouter</button>' +
+        '</div>';
+      }
+
+      html += '<div id="mg-options" style="display:grid;gap:.75rem;margin-top:1rem;">';
+
+      for (var o = 0; o < (q.options || []).length; o++) {
+        html += '<button class="mg-option" data-answer="' + esc(q.options[o]) + '" style="background:var(--ds-color-surface-2,#f8fafc);border:1px solid var(--ds-color-border);padding:1rem;border-radius:12px;cursor:pointer;text-align:left;font-weight:600;">' + esc(q.options[o]) + '</button>';
+      }
+
+      html += '</div>';
+
+      body.innerHTML = html;
+
+      var audioBtn = document.getElementById('mg-audio');
+      if (audioBtn) {
+        audioBtn.addEventListener('click', function () {
+          speak(q.audioText);
+        });
+      }
+
+      var optionButtons = body.querySelectorAll('.mg-option');
+
+      function disableAll() {
+        for (var b = 0; b < optionButtons.length; b++) {
+          optionButtons[b].disabled = true;
+          optionButtons[b].style.cursor = 'default';
+          optionButtons[b].style.opacity = '.85';
+        }
+      }
+
+      function markCorrectAnswer() {
+        for (var b = 0; b < optionButtons.length; b++) {
+          if (normalizeAnswer(optionButtons[b].getAttribute('data-answer')) === normalizeAnswer(q.correct)) {
+            optionButtons[b].style.background = '#22c55e';
+            optionButtons[b].style.color = 'white';
+            optionButtons[b].style.borderColor = '#16a34a';
+          }
+        }
+      }
+
+      for (var b = 0; b < optionButtons.length; b++) {
+        optionButtons[b].addEventListener('click', function (evt) {
+          var selected = evt.currentTarget.getAttribute('data-answer');
+          var isRight = normalizeAnswer(selected) === normalizeAnswer(q.correct);
+
+          disableAll();
+
+          if (isRight) {
+            correct++;
+            evt.currentTarget.style.background = '#22c55e';
+            evt.currentTarget.style.color = 'white';
+            evt.currentTarget.style.borderColor = '#16a34a';
+          } else {
+            evt.currentTarget.style.background = '#ef4444';
+            evt.currentTarget.style.color = 'white';
+            evt.currentTarget.style.borderColor = '#dc2626';
+            markCorrectAnswer();
+          }
+
+          setTimeout(function () {
+            idx++;
+            if (idx < total) renderQuestion();
+            else renderResult();
+          }, 900);
+        });
+      }
+
+      try {
+        history.replaceState(null, '', '#/mini-game?theme=' + encodeURIComponent(themeId));
+      } catch (e) {}
+    }
+
+    renderQuestion();
+  };
+
+  function isGuidedPage() {
+    var h = String(window.location.hash || '').toLowerCase();
+
+    return (
+      !h ||
+      h === '#' ||
+      h === '#/' ||
+      h.indexOf('#/home') === 0 ||
+      h.indexOf('#/today') === 0 ||
+      h.indexOf('#/accueil') === 0
+    );
+  }
+
+  function getHashTheme() {
+    try {
+      var h = window.location.hash || '';
+      var qIndex = h.indexOf('?');
+      if (qIndex === -1) return '';
+      var params = new URLSearchParams(h.slice(qIndex + 1));
+      return params.get('theme') || params.get('id') || '';
+    } catch (e) {
+      return '';
+    }
+  }
+
+  function handleDirectRoute() {
+    var h = String(window.location.hash || '').toLowerCase();
+
+    if (h.indexOf('#/mini-game') === 0) {
+      if (document.getElementById('ds-mini-game-root')) return;
+      var theme = getHashTheme() || getStorage('dagospeak:theme', 'colors');
+      if (typeof window.renderMiniGame === 'function') {
+        window.renderMiniGame(theme);
+      }
+    }
+  }
+
+  function injectGuidedNextCard() {
+    if (!isGuidedPage()) return;
+
+    var app = document.getElementById('app');
+    if (!app) return;
+
+    if (document.getElementById('ds-guided-next-card')) return;
+
+    var action = getNextAction();
+    if (!action) return;
+
+    var card = document.createElement('section');
+    card.id = 'ds-guided-next-card';
+    card.setAttribute('data-action-type', action.type || '');
+    card.setAttribute('data-theme', action.themeId || '');
+
+    card.style.cssText =
+      'max-width:700px;margin:0 auto 1rem auto;padding:1rem;' +
+      'background:linear-gradient(135deg,var(--ds-color-primary,#2563eb),var(--ds-color-accent,#f59e0b));' +
+      'color:white;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.12);';
+
+    card.innerHTML =
+      '<div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;">' +
+        '<div style="min-width:220px;flex:1;">' +
+          '<div style="font-size:.85rem;opacity:.9;margin-bottom:.25rem;">Prochaine action recommandée</div>' +
+          '<h3 style="margin:0 0 .35rem 0;font-size:1.2rem;">' + esc(action.icon || '🎯') + ' ' + esc(action.label || 'Continuer') + '</h3>' +
+          '<p style="margin:0;font-size:.95rem;opacity:.95;">' + esc(action.description || '') + '</p>' +
+        '</div>' +
+        '<div style="display:flex;flex-wrap:wrap;gap:.5rem;">' +
+          '<button id="ds-guided-next-btn" style="background:white;color:#111;border:none;padding:.75rem 1rem;border-radius:10px;font-weight:700;cursor:pointer;">Continuer</button>' +
+          '<button id="ds-guided-minigame-btn" style="background:rgba(255,255,255,.18);color:white;border:1px solid rgba(255,255,255,.35);padding:.75rem 1rem;border-radius:10px;font-weight:700;cursor:pointer;' + (action.type === 'minigame' ? 'display:none;' : '') + '">🎮 Mini-jeu</button>' +
+        '</div>' +
+      '</div>';
+
+    app.insertBefore(card, app.firstChild);
+
+    var nextBtn = document.getElementById('ds-guided-next-btn');
+    var miniBtn = document.getElementById('ds-guided-minigame-btn');
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function (evt) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        navigate(action);
+      });
+    }
+
+    if (miniBtn) {
+      miniBtn.addEventListener('click', function (evt) {
+        evt.preventDefault();
+        evt.stopPropagation();
+
+        var themeForMini = action.themeId || getStorage('dagospeak:theme', 'colors');
+        navigate({
+          type: 'minigame',
+          themeId: themeForMini,
+          route: '/mini-game',
+          label: 'Mini-jeu',
+          description: ''
+        });
+      });
+    }
+
+    console.log('[V5.152] Carte guidée injectée:', action.type, action.themeId || '', action.label);
+  }
+
+  var pendingInject = null;
+
+  function scheduleInject() {
+    if (pendingInject) clearTimeout(pendingInject);
+
+    pendingInject = setTimeout(function () {
+      pendingInject = null;
+
+      try {
+        injectGuidedNextCard();
+      } catch (e) {
+        console.warn('[V5.152] Erreur injection carte guidée', e);
+      }
+    }, 90);
+  }
+
+  handleDirectRoute();
+  scheduleInject();
+
+  setTimeout(handleDirectRoute, 250);
+  setTimeout(scheduleInject, 250);
+  setTimeout(scheduleInject, 800);
+  setTimeout(scheduleInject, 1800);
+  setTimeout(scheduleInject, 3500);
+
+  window.addEventListener('hashchange', function () {
+    handleDirectRoute();
+    scheduleInject();
+  });
+
+  var target = document.getElementById('app') || document.body;
+
+  if (target && typeof MutationObserver !== 'undefined' && !window.__dsGuidedNextObserver) {
+    var observer = new MutationObserver(scheduleInject);
+    observer.observe(target, {
+      childList: true,
+      subtree: true
+    });
+
+    window.__dsGuidedNextObserver = observer;
+  }
+
+  console.log('[V5.152] DagoSpeak guided mini-game engine prêt');
 })();
 
