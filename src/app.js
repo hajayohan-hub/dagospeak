@@ -10075,6 +10075,8 @@ function showUpdateBannerInline(registration) {
 // ═══════════════════════════════════════════════════════════
 
 (function () {
+  /* V5.147: DÉSACTIVÉ CAR TROP AGRESSIF */ return;
+
   console.log("[Today V5.144] Initialisation...");
 
   // Mapping des titres/textes visibles vers les IDs internes
