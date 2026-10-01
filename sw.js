@@ -6,7 +6,7 @@
 // ⚠️ Change ce numéro à CHAQUE déploiement — c'est ce qui déclenche
 // la détection de mise à jour (le navigateur compare ce fichier octet
 // par octet à la version active).
-const CACHE_VERSION = 'v222';
+const CACHE_VERSION = 'v223';
 const CACHE_NAME = `dagospeak-${CACHE_VERSION}`;
 
 const STATIC_ASSETS = [
@@ -105,6 +105,12 @@ const STATIC_ASSETS = [
     // ✅ STT Manager pour Conversation Live
     // '/src/core/stt-manager.js',  // ✅ TEMPORAIREMENT RETIRÉ pour forcer rechargement
 
+
+  // ✅ Mini-jeux de consolidation (offline)
+  '/content/fr/minigames/alphabet1_01.json',
+  '/content/fr/minigames/articles_01.json',
+  '/content/fr/minigames/colors_01.json',
+  '/content/fr/minigames/greetings_01.json',
   '/content/fr/levels.json', '/content/fr/exams.json',
 ];
 
@@ -141,7 +147,7 @@ self.addEventListener('activate', (event) => {
     (async () => {
       const names = await caches.keys();
       await Promise.all(
-        names.filter((n) => n !== CACHE_NAME).map((n) => {
+        names.filter((n) => n !== CACHE_NAME && !n.startsWith('dagospeak-minigames')).map((n) => {
           console.log(`[SW ${CACHE_VERSION}] 🗑️ Suppression ancien cache:`, n);
           return caches.delete(n);
         })
