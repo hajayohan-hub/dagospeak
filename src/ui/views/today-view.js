@@ -1,5 +1,13 @@
 // V5.109: Fonction globale pour demarrer une etape
 window.startStep = function(themeId, route) {
+  // V5.149: Sécurité contre les thèmes invalides (ex: 'dark')
+  const INVALID_THEMES = ['dark', 'light', 'null', 'undefined', ''];
+  
+  if (!themeId || INVALID_THEMES.includes(String(themeId).toLowerCase())) {
+    console.warn('[Today] Thème invalide détecté:', themeId, '- Utilisation de alphabet1 par défaut');
+    themeId = 'alphabet1'; // Repli sûr
+  }
+
   if (themeId) {
     localStorage.setItem('dagospeak:theme', themeId);
     console.log('[Today] Theme defini:', themeId);
@@ -127,7 +135,19 @@ function calculateTodayActions() {
     });
   }
 
-  return {
+  
+  // V5.149: Filtrer les actions avec thèmes invalides
+  actions = actions.filter(action => {
+    if (!action.onclick) return true;
+    // Extraire l'ID du thème depuis onclick si possible, ou compter sur startStep pour corriger
+    // Ici on laisse startStep faire le nettoyage, mais on logge si c'était suspect
+    if (String(action.onclick).includes("'dark'")) {
+      console.warn("[Today] Action suspecte avec 'dark' détectée et corrigée par startStep");
+    }
+    return true;
+  });
+
+return {
     dayNumber: dayNumber,
     streak: profile.streak || 0,
     themesCompleted: completedThemes,
