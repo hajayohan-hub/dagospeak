@@ -96,7 +96,7 @@
       "responseOptions": [
         {
           "textFr": "Les arbres sont verts.",
-          "textMg": "Maintso ny hazo.",
+          "textMg": "Maitso ny hazo.",
           "isCorrect": true,
           "nextNodeOnSuccess": "teacher_correct_green",
           "feedback": {
@@ -106,7 +106,7 @@
         },
         {
           "textFr": "Vert.",
-          "textMg": "Maintso.",
+          "textMg": "Maitso.",
           "isCorrect": true,
           "nextNodeOnSuccess": "teacher_correct_green",
           "feedback": {
@@ -120,7 +120,7 @@
           "isCorrect": false,
           "feedback": {
             "fr": "Non, les arbres sont verts.",
-            "mg": "Tsia, maintso ny hazo."
+            "mg": "Tsia, maitso ny hazo."
           },
           "nextNodeOnFail": "user_trees"
         }
@@ -130,7 +130,7 @@
       "id": "teacher_correct_green",
       "speaker": "teacher",
       "textFr": "Bravo ! Le vert, c'est la nature. Et le soleil ?",
-      "textMg": "Tsara! Ny maintso dia ny zavaboary. Ary ny masoandro?",
+      "textMg": "Tsara! Ny maitso dia ny zavaboary. Ary ny masoandro?",
       "audio": {
         "ttsTextFr": "Bravo ! Le vert, c'est la nature. Et le soleil ?",
         "ttsRate": 0.9
@@ -204,7 +204,7 @@
         },
         {
           "textFr": "J'aime le vert.",
-          "textMg": "Tiako ny maintso.",
+          "textMg": "Tiako ny maitso.",
           "isCorrect": true,
           "nextNodeOnSuccess": "teacher_green",
           "feedback": {
@@ -270,7 +270,7 @@
       "id": "teacher_green",
       "speaker": "teacher",
       "textFr": "Le vert ! Comme la nature. C'est rafraîchissant !",
-      "textMg": "Ny maintso! Hoatran'ny zavaboary. Mamelombelona!",
+      "textMg": "Ny maitso! Hoatran'ny zavaboary. Mamelombelona!",
       "audio": {
         "ttsTextFr": "Le vert ! Comme la nature. C'est rafraîchissant !",
         "ttsRate": 0.9
@@ -329,7 +329,7 @@
       "responseOptions": [
         {
           "textFr": "Blanc, rouge et vert.",
-          "textMg": "Fotsy, mena ary maintso.",
+          "textMg": "Fotsy, mena ary maitso.",
           "isCorrect": true,
           "nextNodeOnSuccess": "teacher_congrats",
           "feedback": {
@@ -343,7 +343,7 @@
           "isCorrect": false,
           "feedback": {
             "fr": "C'est le drapeau français ! Le drapeau malgache est blanc, rouge et vert.",
-            "mg": "Izay ny sainan'i Frantsa! Ny sainan'i Madagasikara dia fotsy, mena ary maintso."
+            "mg": "Izay ny sainan'i Frantsa! Ny sainan'i Madagasikara dia fotsy, mena ary maitso."
           },
           "nextNodeOnFail": "user_flag"
         }

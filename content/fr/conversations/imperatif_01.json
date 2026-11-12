@@ -5,7 +5,7 @@
   "level": "A0",
   "theme": "imperatif",
   "descriptionFr": "Écoute, parle, mange - donner des instructions",
-  "descriptionMg": "Mihainoa, mitenia, mihinana - mandidy",
+  "descriptionMg": "Mihainoa, mitenena, mihinàna - mandidy",
   "nodes": [
     {
       "id": "start",
@@ -22,7 +22,7 @@
       "id": "lesson_intro",
       "speaker": "teacher",
       "textFr": "Apprenons à donner des instructions avec l'impératif.",
-      "textMg": "Andao hianatra mandidy amin'ny filaza mandidy.",
+      "textMg": "Andao hianatra ny filaza mandidy.",
       "audio": {
         "ttsTextFr": "Apprenons à donner des instructions avec l'impératif.",
         "ttsRate": 0.9
@@ -73,7 +73,7 @@
       "id": "lesson_2",
       "speaker": "teacher",
       "textFr": "Parle plus fort !",
-      "textMg": "Mitenia mafy kokoa!",
+      "textMg": "Mitenena mafy kokoa!",
       "audio": {
         "ttsTextFr": "Parle plus fort !",
         "ttsRate": 0.9
@@ -113,7 +113,7 @@
       "id": "lesson_3",
       "speaker": "teacher",
       "textFr": "Mange ton repas !",
-      "textMg": "Mihina ny sakafonao!",
+      "textMg": "Mihinàna ny sakafonao!",
       "audio": {
         "ttsTextFr": "Mange ton repas !",
         "ttsRate": 0.9
@@ -153,7 +153,7 @@
       "id": "lesson_4",
       "speaker": "teacher",
       "textFr": "Viens ici ! Regarde !",
-      "textMg": "Mandehana eto! Mijery!",
+      "textMg": "Avia eto! Jereo!",
       "audio": {
         "ttsTextFr": "Viens ici ! Regarde !",
         "ttsRate": 0.9
@@ -164,7 +164,7 @@
       "id": "lesson_4_response",
       "speaker": "user",
       "textFr": "Je viens ! Je regarde !",
-      "textMg": "Mandeha aho! Mijery aho!",
+      "textMg": "Tonga aho! Mijery aho!",
       "responseOptions": [
         {
           "textFr": "Je viens ! Je regarde !",
@@ -233,7 +233,7 @@
       "id": "lesson_complete",
       "speaker": "teacher",
       "textFr": "Parfait ! Tu as bien compris. Passons aux exercices !",
-      "textMg": "Tonga lafatra! Azonao tsara. Andao handeha amin'ny fanazaran-tena!",
+      "textMg": "Tonga lafatra! Azonao tsara. Andao hanao fanazaran-tena!",
       "audio": {
         "ttsTextFr": "Parfait! Tu as bien compris. Passons aux exercices!",
         "ttsRate": 0.9
@@ -244,7 +244,7 @@
       "id": "intro",
       "speaker": "teacher",
       "textFr": "Écoute, parle, mange - donner des instructions. Commençons par les exemples.",
-      "textMg": "Mihainoa, mitenia, mihinana - mandidy. Andao hanomboka amin'ny ohatra.",
+      "textMg": "Mihainoa, mitenena, mihinàna - mandidy. Andao hanomboka amin'ny ohatra.",
       "audio": {
         "ttsTextFr": "Écoute, parle, mange - donner des instructions. Commençons par les exemples.",
         "ttsRate": 0.9
@@ -254,12 +254,12 @@
     {
       "id": "quiz1",
       "speaker": "user",
-      "textFr": "Ahoana no ilazana 'mihainoa ny mpampianatra' ?",
-      "textMg": "Ahoana no ilazana 'mihainoa ny mpampianatra' ?",
+      "textFr": "Comment dit-on « Écoute le professeur » en malgache ?",
+      "textMg": "Ahoana no ilazana hoe « Mihainoa ny mpampianatra »?",
       "responseOptions": [
         {
           "textFr": "Écoute le professeur",
-          "textMg": "Écoute le professeur",
+          "textMg": "Mihainoa ny mpampianatra!",
           "isCorrect": true,
           "nextNodeOnSuccess": "correct1",
           "feedback": {
@@ -269,7 +269,7 @@
         },
         {
           "textFr": "Écoute la musique",
-          "textMg": "Écoute la musique",
+          "textMg": "Mihainoa mozika!",
           "isCorrect": false,
           "feedback": {
             "fr": "Non, 'mpampianatra' signifie 'professeur', pas 'musique'.",
@@ -293,12 +293,12 @@
     {
       "id": "quiz2",
       "speaker": "user",
-      "textFr": "Ahoana no ilazana 'mitenia mafy kokoa' ?",
-      "textMg": "Ahoana no ilazana 'mitenia mafy kokoa' ?",
+      "textFr": "Comment dit-on « Parle plus fort » en malgache ?",
+      "textMg": "Ahoana no ilazana hoe « Mitenena mafy kokoa »?",
       "responseOptions": [
         {
-          "textFr": "Parle plus fort",
-          "textMg": "Parle plus fort",
+          "textFr": "Parle plus fort !",
+          "textMg": "Mitenena mafy kokoa!",
           "isCorrect": true,
           "nextNodeOnSuccess": "correct2",
           "feedback": {
@@ -307,8 +307,8 @@
           }
         },
         {
-          "textFr": "Parle doucement",
-          "textMg": "Parle doucement",
+          "textFr": "Parle doucement !",
+          "textMg": "Mitenena moramora!",
           "isCorrect": false,
           "feedback": {
             "fr": "Non, 'mafy kokoa' signifie 'plus fort', pas 'doucement'.",
@@ -332,12 +332,12 @@
     {
       "id": "quiz3",
       "speaker": "user",
-      "textFr": "Ahoana no ilazana 'mandehana eto' ?",
-      "textMg": "Ahoana no ilazana 'mandehana eto' ?",
+      "textFr": "Comment dit-on « Viens ici » en malgache ?",
+      "textMg": "Ahoana no ilazana hoe « Avia eto »?",
       "responseOptions": [
         {
-          "textFr": "Viens ici",
-          "textMg": "Viens ici",
+          "textFr": "Viens ici !",
+          "textMg": "Avia eto!",
           "isCorrect": true,
           "nextNodeOnSuccess": "correct3",
           "feedback": {
@@ -346,8 +346,8 @@
           }
         },
         {
-          "textFr": "Va là-bas",
-          "textMg": "Va là-bas",
+          "textFr": "Va là-bas !",
+          "textMg": "Mandehana any!",
           "isCorrect": false,
           "feedback": {
             "fr": "Non, 'eto' signifie 'ici', pas 'là-bas'.",
@@ -361,7 +361,7 @@
       "id": "correct3",
       "speaker": "teacher",
       "textFr": "Bravo ! Tu as maîtrisé l'impératif. Continue à pratiquer !",
-      "textMg": "Arahabaina! Hainao tsara ny ny filaza mandidy. Mianara mitohy!",
+      "textMg": "Arahabaina! Hainao tsara ny filaza mandidy. Tohizo ny fanazaran-tena!",
       "audio": {
         "ttsTextFr": "Bravo ! Tu as maîtrisé l'impératif. Continue à pratiquer !",
         "ttsRate": 0.9
@@ -383,7 +383,7 @@
       "id": "roleplay_1",
       "speaker": "teacher",
       "textFr": "Répète après moi : Écoute !",
-      "textMg": "Avereno aoriana: Écoute !",
+      "textMg": "Avereno hoe: Mihainoa!",
       "audio": {
         "ttsTextFr": "Répète après moi : Écoute !",
         "ttsRate": 0.9
@@ -394,7 +394,7 @@
       "id": "roleplay_1_response",
       "speaker": "user",
       "textFr": "Répéter : Écoute !",
-      "textMg": "Avereno: Écoute !",
+      "textMg": "Avereno: Mihainoa!",
       "responseOptions": [
         {
           "textFr": "Écoute !",
@@ -423,7 +423,7 @@
       "id": "roleplay_2",
       "speaker": "teacher",
       "textFr": "Répète après moi : Viens ici !",
-      "textMg": "Avereno aoriana: Viens ici !",
+      "textMg": "Avereno hoe: Avia eto!",
       "audio": {
         "ttsTextFr": "Répète après moi : Viens ici !",
         "ttsRate": 0.9
@@ -434,11 +434,11 @@
       "id": "roleplay_2_response",
       "speaker": "user",
       "textFr": "Répéter : Viens ici !",
-      "textMg": "Avereno: Viens ici !",
+      "textMg": "Avereno: Avia eto!",
       "responseOptions": [
         {
           "textFr": "Viens ici !",
-          "textMg": "Mandehana eto!",
+          "textMg": "Avia eto!",
           "isCorrect": true,
           "nextNodeOnSuccess": "roleplay_2_success",
           "feedback": {
@@ -513,8 +513,8 @@
     {
       "id": "challenge_1",
       "speaker": "user",
-      "textFr": "Question 1 : Comment dit-on 'mihainoa' ?",
-      "textMg": "Fanontaniana 1: Ahoana no ilazana 'mihainoa'?",
+      "textFr": "Question 1 : Comment dit-on « Mihainoa » en français ?",
+      "textMg": "Fanontaniana 1: Ahoana no ilazana ny hoe « mihainoa » amin'ny teny frantsay?",
       "responseOptions": [
         {
           "textFr": "écoute",
@@ -528,7 +528,7 @@
         },
         {
           "textFr": "parle",
-          "textMg": "parle",
+          "textMg": "mitenena",
           "isCorrect": false,
           "nextNodeOnFail": "challenge_1",
           "feedback": {
@@ -552,12 +552,12 @@
     {
       "id": "challenge_2",
       "speaker": "user",
-      "textFr": "Question 2 : Comment dit-on 'mandehana' ?",
-      "textMg": "Fanontaniana 2: Ahoana no ilazana 'mandehana'?",
+      "textFr": "Question 2 : Comment dit-on « Avia » en français ?",
+      "textMg": "Fanontaniana 2: Ahoana no ilazana ny hoe « avia » amin'ny teny frantsay?",
       "responseOptions": [
         {
           "textFr": "viens",
-          "textMg": "mandehana",
+          "textMg": "avia",
           "isCorrect": true,
           "nextNodeOnSuccess": "challenge_2_success",
           "feedback": {
@@ -566,13 +566,13 @@
           }
         },
         {
-          "textFr": "va",
-          "textMg": "va",
+          "textFr": "mandehana",
+          "textMg": "mandehana",
           "isCorrect": false,
           "nextNodeOnFail": "challenge_2",
           "feedback": {
             "fr": "Non, 'va' n'est pas correct. Réessaie !",
-            "mg": "Tsia, 'va' dia tsy marina. Andramo indray!"
+            "mg": "Tsia, 'mandehana' dia midika hoe 'va'. Andramo indray!"
           }
         }
       ]
@@ -591,8 +591,8 @@
     {
       "id": "challenge_3",
       "speaker": "user",
-      "textFr": "Question 3 : Comment dit-on 'ataovy' ?",
-      "textMg": "Fanontaniana 3: Ahoana no ilazana 'ataovy'?",
+      "textFr": "Question 3 : Comment dit-on « Ataovy » en français ?",
+      "textMg": "Fanontaniana 3: Ahoana no ilazana ny hoe « ataovy » amin'ny teny frantsay?",
       "responseOptions": [
         {
           "textFr": "fais",
@@ -606,7 +606,7 @@
         },
         {
           "textFr": "dis",
-          "textMg": "dis",
+          "textMg": "lazao",
           "isCorrect": false,
           "nextNodeOnFail": "challenge_3",
           "feedback": {
@@ -654,7 +654,7 @@
       "speaker": "teacher",
       "isEnd": true,
       "textFr": "Tu as terminé la leçon sur l'impératif.",
-      "textMg": "Vita ny lesona momba ny ny filaza mandidy.",
+      "textMg": "Vita ny lesona momba ny filaza mandidy.",
       "audio": {
         "ttsTextFr": "Tu as terminé la leçon sur l'impératif.",
         "ttsRate": 0.9

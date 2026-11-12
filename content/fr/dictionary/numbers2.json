@@ -7,7 +7,11 @@
     "wordFr": "Onze",
     "wordMg": "Iraika ambin'ny folo",
     "phonetic": "/ɔz/",
-    "visual": { "icon": "🔢", "iconClass": "icon-eleven", "svgState": "neutral" },
+    "visual": {
+      "icon": "🔢",
+      "iconClass": "icon-eleven",
+      "svgState": "neutral"
+    },
     "audio": {
       "ttsTextFr": "Onze.",
       "ttsRate": 0.9,
@@ -21,8 +25,14 @@
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1"],
-      "distractors": ["Roambin'ny folo", "Telo ambin'ny folo", "Efatra ambin'ny folo"]
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "Roambin'ny folo",
+        "Telo ambin'ny folo",
+        "Efatra ambin'ny folo"
+      ]
     }
   },
   {
@@ -33,7 +43,11 @@
     "wordFr": "Douze",
     "wordMg": "Roambin'ny folo",
     "phonetic": "/duz/",
-    "visual": { "icon": "🔢", "iconClass": "icon-twelve", "svgState": "neutral" },
+    "visual": {
+      "icon": "🔢",
+      "iconClass": "icon-twelve",
+      "svgState": "neutral"
+    },
     "audio": {
       "ttsTextFr": "Douze.",
       "ttsRate": 0.9,
@@ -47,8 +61,14 @@
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1"],
-      "distractors": ["Iraika ambin'ny folo", "Telo ambin'ny folo", "Efatra ambin'ny folo"]
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "Iraika ambin'ny folo",
+        "Telo ambin'ny folo",
+        "Efatra ambin'ny folo"
+      ]
     }
   },
   {
@@ -59,7 +79,11 @@
     "wordFr": "Treize",
     "wordMg": "Telo ambin'ny folo",
     "phonetic": "/tʁɛz/",
-    "visual": { "icon": "🔢", "iconClass": "icon-thirteen", "svgState": "neutral" },
+    "visual": {
+      "icon": "🔢",
+      "iconClass": "icon-thirteen",
+      "svgState": "neutral"
+    },
     "audio": {
       "ttsTextFr": "Treize.",
       "ttsRate": 0.9,
@@ -73,8 +97,14 @@
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1"],
-      "distractors": ["Iraika ambin'ny folo", "Roambin'ny folo", "Efatra ambin'ny folo"]
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "Iraika ambin'ny folo",
+        "Roambin'ny folo",
+        "Efatra ambin'ny folo"
+      ]
     }
   },
   {
@@ -85,7 +115,11 @@
     "wordFr": "Quatorze",
     "wordMg": "Efatra ambin'ny folo",
     "phonetic": "/ka.tɔʁz/",
-    "visual": { "icon": "🔢", "iconClass": "icon-fourteen", "svgState": "neutral" },
+    "visual": {
+      "icon": "🔢",
+      "iconClass": "icon-fourteen",
+      "svgState": "neutral"
+    },
     "audio": {
       "ttsTextFr": "Quatorze.",
       "ttsRate": 0.9,
@@ -99,8 +133,14 @@
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1"],
-      "distractors": ["Iraika ambin'ny folo", "Roambin'ny folo", "Telo ambin'ny folo"]
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "Iraika ambin'ny folo",
+        "Roambin'ny folo",
+        "Telo ambin'ny folo"
+      ]
     }
   },
   {
@@ -111,7 +151,11 @@
     "wordFr": "Quinze",
     "wordMg": "Dimy ambin'ny folo",
     "phonetic": "/kɛ̃z/",
-    "visual": { "icon": "🔢", "iconClass": "icon-fifteen", "svgState": "neutral" },
+    "visual": {
+      "icon": "🔢",
+      "iconClass": "icon-fifteen",
+      "svgState": "neutral"
+    },
     "audio": {
       "ttsTextFr": "Quinze.",
       "ttsRate": 0.9,
@@ -125,8 +169,14 @@
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1"],
-      "distractors": ["Iraika ambin'ny folo", "Roambin'ny folo", "Telo ambin'ny folo"]
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "Iraika ambin'ny folo",
+        "Roambin'ny folo",
+        "Telo ambin'ny folo"
+      ]
     }
   },
   {
@@ -137,7 +187,11 @@
     "wordFr": "Seize",
     "wordMg": "Enina ambin'ny folo",
     "phonetic": "/sɛz/",
-    "visual": { "icon": "🔢", "iconClass": "icon-sixteen", "svgState": "neutral" },
+    "visual": {
+      "icon": "🔢",
+      "iconClass": "icon-sixteen",
+      "svgState": "neutral"
+    },
     "audio": {
       "ttsTextFr": "Seize.",
       "ttsRate": 0.9,
@@ -151,8 +205,14 @@
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1"],
-      "distractors": ["Iraika ambin'ny folo", "Roambin'ny folo", "Telo ambin'ny folo"]
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "Iraika ambin'ny folo",
+        "Roambin'ny folo",
+        "Telo ambin'ny folo"
+      ]
     }
   },
   {
@@ -163,7 +223,11 @@
     "wordFr": "Dix-sept",
     "wordMg": "Fito ambin'ny folo",
     "phonetic": "/dis.sɛt/",
-    "visual": { "icon": "🔢", "iconClass": "icon-seventeen", "svgState": "neutral" },
+    "visual": {
+      "icon": "🔢",
+      "iconClass": "icon-seventeen",
+      "svgState": "neutral"
+    },
     "audio": {
       "ttsTextFr": "Dix-sept.",
       "ttsRate": 0.9,
@@ -177,8 +241,14 @@
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1"],
-      "distractors": ["Iraika ambin'ny folo", "Roambin'ny folo", "Telo ambin'ny folo"]
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "Iraika ambin'ny folo",
+        "Roambin'ny folo",
+        "Telo ambin'ny folo"
+      ]
     }
   },
   {
@@ -189,7 +259,11 @@
     "wordFr": "Dix-huit",
     "wordMg": "Valo ambin'ny folo",
     "phonetic": "/dis.ɥit/",
-    "visual": { "icon": "🔢", "iconClass": "icon-eighteen", "svgState": "neutral" },
+    "visual": {
+      "icon": "🔢",
+      "iconClass": "icon-eighteen",
+      "svgState": "neutral"
+    },
     "audio": {
       "ttsTextFr": "Dix-huit.",
       "ttsRate": 0.9,
@@ -203,8 +277,14 @@
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1"],
-      "distractors": ["Iraika ambin'ny folo", "Roambin'ny folo", "Telo ambin'ny folo"]
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "Iraika ambin'ny folo",
+        "Roambin'ny folo",
+        "Telo ambin'ny folo"
+      ]
     }
   },
   {
@@ -215,7 +295,11 @@
     "wordFr": "Dix-neuf",
     "wordMg": "Sivy ambin'ny folo",
     "phonetic": "/dis.nœf/",
-    "visual": { "icon": "🔢", "iconClass": "icon-nineteen", "svgState": "neutral" },
+    "visual": {
+      "icon": "🔢",
+      "iconClass": "icon-nineteen",
+      "svgState": "neutral"
+    },
     "audio": {
       "ttsTextFr": "Dix-neuf.",
       "ttsRate": 0.9,
@@ -229,8 +313,14 @@
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1"],
-      "distractors": ["Iraika ambin'ny folo", "Roambin'ny folo", "Telo ambin'ny folo"]
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "Iraika ambin'ny folo",
+        "Roambin'ny folo",
+        "Telo ambin'ny folo"
+      ]
     }
   },
   {
@@ -239,9 +329,13 @@
     "category": "numbers",
     "pos": "nombre",
     "wordFr": "Vingt",
-    "wordMg": "Roa ambin'ny folo",
+    "wordMg": "Roapolo",
     "phonetic": "/vɛ̃/",
-    "visual": { "icon": "🔢", "iconClass": "icon-twenty", "svgState": "neutral" },
+    "visual": {
+      "icon": "🔢",
+      "iconClass": "icon-twenty",
+      "svgState": "neutral"
+    },
     "audio": {
       "ttsTextFr": "Vingt.",
       "ttsRate": 0.9,
@@ -250,13 +344,19 @@
     },
     "context": {
       "exampleFr": "Vingt doigts.",
-      "exampleMg": "Rantsan-tànana roa ambin'ny folo.",
+      "exampleMg": "Rantsan-tànana roapolo.",
       "situation": "Compter ou exprimer la quantité 20."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1"],
-      "distractors": ["Iraika ambin'ny folo", "Roambin'ny folo", "Telo ambin'ny folo"]
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "Iraika ambin'ny folo",
+        "Roambin'ny folo",
+        "Telo ambin'ny folo"
+      ]
     }
   }
 ]

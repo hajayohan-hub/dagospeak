@@ -182,7 +182,7 @@
       "id": "teacher_leg",
       "speaker": "teacher",
       "textFr": "Mal à la jambe. Vous pouvez marcher ?",
-      "textMg": "Marary ny tongotra. Afaka mandeha ve ianao?",
+      "textMg": "Marary ve ny ranjonao? Afaka mandeha ve ianao?",
       "audio": {
         "ttsTextFr": "Mal à la jambe. Vous pouvez marcher ?",
         "ttsRate": 0.9

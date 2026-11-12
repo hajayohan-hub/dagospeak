@@ -7,7 +7,11 @@
     "wordFr": "Rouge",
     "wordMg": "Mena",
     "phonetic": "/ʁuʒ/",
-    "visual": { "icon": "🔴", "iconClass": "icon-red", "svgState": "neutral" },
+    "visual": {
+      "icon": "🔴",
+      "iconClass": "icon-red",
+      "svgState": "neutral"
+    },
     "audio": {
       "ttsTextFr": "Rouge.",
       "ttsRate": 0.9,
@@ -21,8 +25,14 @@
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1"],
-      "distractors": ["Manga", "Maitso", "Mavo"]
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "Manga",
+        "Maitso",
+        "Mavo"
+      ]
     }
   },
   {
@@ -33,7 +43,11 @@
     "wordFr": "Bleu",
     "wordMg": "Manga",
     "phonetic": "/blø/",
-    "visual": { "icon": "🔵", "iconClass": "icon-blue", "svgState": "neutral" },
+    "visual": {
+      "icon": "🔵",
+      "iconClass": "icon-blue",
+      "svgState": "neutral"
+    },
     "audio": {
       "ttsTextFr": "Bleu.",
       "ttsRate": 0.9,
@@ -47,8 +61,14 @@
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1"],
-      "distractors": ["Mena", "Maitso", "Mavo"]
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "Mena",
+        "Maitso",
+        "Mavo"
+      ]
     }
   },
   {
@@ -59,7 +79,11 @@
     "wordFr": "Vert",
     "wordMg": "Maitso",
     "phonetic": "/vɛʁ/",
-    "visual": { "icon": "🟢", "iconClass": "icon-green", "svgState": "neutral" },
+    "visual": {
+      "icon": "🟢",
+      "iconClass": "icon-green",
+      "svgState": "neutral"
+    },
     "audio": {
       "ttsTextFr": "Vert.",
       "ttsRate": 0.9,
@@ -73,8 +97,14 @@
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1"],
-      "distractors": ["Mena", "Manga", "Fotsy"]
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "Mena",
+        "Manga",
+        "Fotsy"
+      ]
     }
   },
   {
@@ -85,7 +115,11 @@
     "wordFr": "Jaune",
     "wordMg": "Mavo",
     "phonetic": "/ʒon/",
-    "visual": { "icon": "🟡", "iconClass": "icon-yellow", "svgState": "neutral" },
+    "visual": {
+      "icon": "🟡",
+      "iconClass": "icon-yellow",
+      "svgState": "neutral"
+    },
     "audio": {
       "ttsTextFr": "Jaune.",
       "ttsRate": 0.9,
@@ -99,8 +133,14 @@
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1"],
-      "distractors": ["Mena", "Manga", "Mainty"]
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "Mena",
+        "Manga",
+        "Mainty"
+      ]
     }
   },
   {
@@ -111,7 +151,11 @@
     "wordFr": "Blanc",
     "wordMg": "Fotsy",
     "phonetic": "/blɑ̃/",
-    "visual": { "icon": "⚪", "iconClass": "icon-white", "svgState": "neutral" },
+    "visual": {
+      "icon": "⚪",
+      "iconClass": "icon-white",
+      "svgState": "neutral"
+    },
     "audio": {
       "ttsTextFr": "Blanc.",
       "ttsRate": 0.9,
@@ -125,8 +169,14 @@
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1"],
-      "distractors": ["Mainty", "Mena", "Maitso"]
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "Mainty",
+        "Mena",
+        "Maitso"
+      ]
     }
   },
   {
@@ -137,7 +187,11 @@
     "wordFr": "Noir",
     "wordMg": "Mainty",
     "phonetic": "/nwaʁ/",
-    "visual": { "icon": "⚫", "iconClass": "icon-black", "svgState": "neutral" },
+    "visual": {
+      "icon": "⚫",
+      "iconClass": "icon-black",
+      "svgState": "neutral"
+    },
     "audio": {
       "ttsTextFr": "Noir.",
       "ttsRate": 0.9,
@@ -151,8 +205,14 @@
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1"],
-      "distractors": ["Fotsy", "Mena", "Manga"]
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "Fotsy",
+        "Mena",
+        "Manga"
+      ]
     }
   },
   {
@@ -163,7 +223,11 @@
     "wordFr": "Orange",
     "wordMg": "Volomboasary",
     "phonetic": "/ɔ.ʁɑ̃ʒ/",
-    "visual": { "icon": "🟠", "iconClass": "icon-orange", "svgState": "neutral" },
+    "visual": {
+      "icon": "🟠",
+      "iconClass": "icon-orange",
+      "svgState": "neutral"
+    },
     "audio": {
       "ttsTextFr": "Orange.",
       "ttsRate": 0.9,
@@ -177,8 +241,14 @@
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1"],
-      "distractors": ["Mavo", "Mena", "Volomparasy"]
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "Mavo",
+        "Mena",
+        "Volomparasy"
+      ]
     }
   },
   {
@@ -189,7 +259,11 @@
     "wordFr": "Violet",
     "wordMg": "Volomparasy",
     "phonetic": "/vjɔ.lɛ/",
-    "visual": { "icon": "🟣", "iconClass": "icon-purple", "svgState": "neutral" },
+    "visual": {
+      "icon": "🟣",
+      "iconClass": "icon-purple",
+      "svgState": "neutral"
+    },
     "audio": {
       "ttsTextFr": "Violet.",
       "ttsRate": 0.9,
@@ -203,8 +277,14 @@
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1"],
-      "distractors": ["Volomboasary", "Mavokely", "Manga"]
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "Volomboasary",
+        "Mavokely",
+        "Manga"
+      ]
     }
   },
   {
@@ -215,7 +295,11 @@
     "wordFr": "Rose",
     "wordMg": "Mavokely",
     "phonetic": "/ʁoz/",
-    "visual": { "icon": "🌸", "iconClass": "icon-pink", "svgState": "neutral" },
+    "visual": {
+      "icon": "🌸",
+      "iconClass": "icon-pink",
+      "svgState": "neutral"
+    },
     "audio": {
       "ttsTextFr": "Rose.",
       "ttsRate": 0.9,
@@ -229,8 +313,14 @@
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1"],
-      "distractors": ["Volomparasy", "Mena", "Volomboasary"]
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "Volomparasy",
+        "Mena",
+        "Volomboasary"
+      ]
     }
   },
   {
@@ -239,9 +329,13 @@
     "category": "colors",
     "pos": "adjectif",
     "wordFr": "Marron",
-    "wordMg": "Volondavenona",
+    "wordMg": "Volontany",
     "phonetic": "/ma.ʁɔ̃/",
-    "visual": { "icon": "🟫", "iconClass": "icon-brown", "svgState": "neutral" },
+    "visual": {
+      "icon": "🟫",
+      "iconClass": "icon-brown",
+      "svgState": "neutral"
+    },
     "audio": {
       "ttsTextFr": "Marron.",
       "ttsRate": 0.9,
@@ -250,13 +344,19 @@
     },
     "context": {
       "exampleFr": "Le chocolat est marron.",
-      "exampleMg": "Volondavenona ny sôkôla.",
+      "exampleMg": "Volontany ny sôkôla.",
       "situation": "Décrire une couleur."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1"],
-      "distractors": ["Mainty", "Volomboasary", "Mena"]
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "Mainty",
+        "Volomboasary",
+        "Mena"
+      ]
     }
   }
 ]

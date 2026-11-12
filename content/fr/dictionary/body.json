@@ -7,7 +7,11 @@
     "wordFr": "Tête",
     "wordMg": "Loha",
     "phonetic": "/tɛt/",
-    "visual": { "icon": "🗣️", "iconClass": "icon-head", "svgState": "neutral" },
+    "visual": {
+      "icon": "🗣️",
+      "iconClass": "icon-head",
+      "svgState": "neutral"
+    },
     "audio": {
       "ttsTextFr": "La tête.",
       "ttsRate": 0.9,
@@ -21,8 +25,14 @@
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1"],
-      "distractors": ["Tànana", "Tongotra", "Maso"]
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "Tànana",
+        "Tongotra",
+        "Maso"
+      ]
     }
   },
   {
@@ -33,7 +43,11 @@
     "wordFr": "Main",
     "wordMg": "Tànana",
     "phonetic": "/mɛ̃/",
-    "visual": { "icon": "✋", "iconClass": "icon-hand", "svgState": "neutral" },
+    "visual": {
+      "icon": "✋",
+      "iconClass": "icon-hand",
+      "svgState": "neutral"
+    },
     "audio": {
       "ttsTextFr": "La main.",
       "ttsRate": 0.9,
@@ -47,8 +61,14 @@
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1"],
-      "distractors": ["Loha", "Tongotra", "Maso"]
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "Loha",
+        "Tongotra",
+        "Maso"
+      ]
     }
   },
   {
@@ -59,7 +79,11 @@
     "wordFr": "Pied",
     "wordMg": "Tongotra",
     "phonetic": "/pje/",
-    "visual": { "icon": "🦶", "iconClass": "icon-foot", "svgState": "neutral" },
+    "visual": {
+      "icon": "🦶",
+      "iconClass": "icon-foot",
+      "svgState": "neutral"
+    },
     "audio": {
       "ttsTextFr": "Le pied.",
       "ttsRate": 0.9,
@@ -73,8 +97,14 @@
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1"],
-      "distractors": ["Loha", "Tànana", "Maso"]
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "Loha",
+        "Tànana",
+        "Maso"
+      ]
     }
   },
   {
@@ -85,7 +115,11 @@
     "wordFr": "Yeux",
     "wordMg": "Maso",
     "phonetic": "/jø/",
-    "visual": { "icon": "👁️", "iconClass": "icon-eyes", "svgState": "neutral" },
+    "visual": {
+      "icon": "👁️",
+      "iconClass": "icon-eyes",
+      "svgState": "neutral"
+    },
     "audio": {
       "ttsTextFr": "Les yeux.",
       "ttsRate": 0.9,
@@ -94,13 +128,19 @@
     },
     "context": {
       "exampleFr": "Ferme les yeux.",
-      "exampleMg": "hakipio ny masonao.",
+      "exampleMg": "Akimpio ny masonao.",
       "situation": "Donner une instruction."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1"],
-      "distractors": ["Loha", "Tànana", "Tongotra"]
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "Loha",
+        "Tànana",
+        "Tongotra"
+      ]
     }
   },
   {
@@ -111,7 +151,11 @@
     "wordFr": "Bouche",
     "wordMg": "Vava",
     "phonetic": "/buʃ/",
-    "visual": { "icon": "👄", "iconClass": "icon-mouth", "svgState": "neutral" },
+    "visual": {
+      "icon": "👄",
+      "iconClass": "icon-mouth",
+      "svgState": "neutral"
+    },
     "audio": {
       "ttsTextFr": "La bouche.",
       "ttsRate": 0.9,
@@ -125,8 +169,14 @@
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1"],
-      "distractors": ["Loha", "Tànana", "Maso"]
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "Loha",
+        "Tànana",
+        "Maso"
+      ]
     }
   },
   {
@@ -137,7 +187,11 @@
     "wordFr": "Oreille",
     "wordMg": "Sofina",
     "phonetic": "/ɔ.ʁɛj/",
-    "visual": { "icon": "👂", "iconClass": "icon-ear", "svgState": "neutral" },
+    "visual": {
+      "icon": "👂",
+      "iconClass": "icon-ear",
+      "svgState": "neutral"
+    },
     "audio": {
       "ttsTextFr": "L'oreille.",
       "ttsRate": 0.9,
@@ -151,8 +205,14 @@
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1"],
-      "distractors": ["Loha", "Tànana", "Maso"]
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "Loha",
+        "Tànana",
+        "Maso"
+      ]
     }
   },
   {
@@ -163,7 +223,11 @@
     "wordFr": "Nez",
     "wordMg": "Orona",
     "phonetic": "/ne/",
-    "visual": { "icon": "👃", "iconClass": "icon-nose", "svgState": "neutral" },
+    "visual": {
+      "icon": "👃",
+      "iconClass": "icon-nose",
+      "svgState": "neutral"
+    },
     "audio": {
       "ttsTextFr": "Le nez.",
       "ttsRate": 0.9,
@@ -177,8 +241,14 @@
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1"],
-      "distractors": ["Loha", "Tànana", "Maso"]
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "Loha",
+        "Tànana",
+        "Maso"
+      ]
     }
   },
   {
@@ -187,9 +257,13 @@
     "category": "body",
     "pos": "nom",
     "wordFr": "Bras",
-    "wordMg": "Sanda",
+    "wordMg": "Sandry",
     "phonetic": "/bʁa/",
-    "visual": { "icon": "💪", "iconClass": "icon-arm", "svgState": "neutral" },
+    "visual": {
+      "icon": "💪",
+      "iconClass": "icon-arm",
+      "svgState": "neutral"
+    },
     "audio": {
       "ttsTextFr": "Le bras.",
       "ttsRate": 0.9,
@@ -198,13 +272,19 @@
     },
     "context": {
       "exampleFr": "Lève le bras.",
-      "exampleMg": "Atsangano ny tànana.",
+      "exampleMg": "Atsangano ny sandrinao.",
       "situation": "Donner une instruction."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1"],
-      "distractors": ["Loha", "Tànana", "Tongotra"]
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "Loha",
+        "Tànana",
+        "Tongotra"
+      ]
     }
   },
   {
@@ -213,9 +293,13 @@
     "category": "body",
     "pos": "nom",
     "wordFr": "Jambe",
-    "wordMg": "Tongotra",
+    "wordMg": "Ranjo",
     "phonetic": "/ʒɑ̃b/",
-    "visual": { "icon": "🦵", "iconClass": "icon-leg", "svgState": "neutral" },
+    "visual": {
+      "icon": "🦵",
+      "iconClass": "icon-leg",
+      "svgState": "neutral"
+    },
     "audio": {
       "ttsTextFr": "La jambe.",
       "ttsRate": 0.9,
@@ -224,13 +308,19 @@
     },
     "context": {
       "exampleFr": "Ma jambe est fatiguée.",
-      "exampleMg": "Reraka ny tongotro.",
+      "exampleMg": "Reraka ny ranjoko.",
       "situation": "Parler de fatigue."
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1"],
-      "distractors": ["Loha", "Tànana", "Sanda"]
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "Loha",
+        "Tànana",
+        "Sandry"
+      ]
     }
   },
   {
@@ -241,7 +331,11 @@
     "wordFr": "Cœur",
     "wordMg": "Fo",
     "phonetic": "/kœʁ/",
-    "visual": { "icon": "❤️", "iconClass": "icon-heart", "svgState": "neutral" },
+    "visual": {
+      "icon": "❤️",
+      "iconClass": "icon-heart",
+      "svgState": "neutral"
+    },
     "audio": {
       "ttsTextFr": "Le cœur.",
       "ttsRate": 0.9,
@@ -255,8 +349,14 @@
     },
     "exam": {
       "quizType": "mg_to_fr",
-      "eligibleFor": ["exam_a0_a1"],
-      "distractors": ["Loha", "Tànana", "Maso"]
+      "eligibleFor": [
+        "exam_a0_a1"
+      ],
+      "distractors": [
+        "Loha",
+        "Tànana",
+        "Maso"
+      ]
     }
   }
 ]

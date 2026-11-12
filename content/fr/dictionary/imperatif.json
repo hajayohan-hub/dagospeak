@@ -37,7 +37,7 @@
     "category": "imperatif",
     "pos": "verbe impératif",
     "wordFr": "parle",
-    "wordMg": "mitenia",
+    "wordMg": "mitenena",
     "phonetic": "/paʁl/",
     "visual": {
       "icon": "💬",
@@ -52,7 +52,7 @@
     },
     "context": {
       "exampleFr": "Parle plus fort !",
-      "exampleMg": "Mitenia mafy kokoa!",
+      "exampleMg": "Mitenena mafy kokoa!",
       "situation": "Conversation quotidienne"
     },
     "exam": {
@@ -69,7 +69,7 @@
     "category": "imperatif",
     "pos": "verbe impératif",
     "wordFr": "mange",
-    "wordMg": "mihina",
+    "wordMg": "mihinàna",
     "phonetic": "/mɑ̃ʒ/",
     "visual": {
       "icon": "🍚",
@@ -84,7 +84,7 @@
     },
     "context": {
       "exampleFr": "Mange ton riz !",
-      "exampleMg": "Mihina ny varinao!",
+      "exampleMg": "Mihinàna ny varinao!",
       "situation": "Conversation quotidienne"
     },
     "exam": {
@@ -101,7 +101,7 @@
     "category": "imperatif",
     "pos": "verbe impératif",
     "wordFr": "viens",
-    "wordMg": "mandehana",
+    "wordMg": "avia",
     "phonetic": "/vjɛ̃/",
     "visual": {
       "icon": "👋",
@@ -116,7 +116,7 @@
     },
     "context": {
       "exampleFr": "Viens ici !",
-      "exampleMg": "Mandehana eto!",
+      "exampleMg": "Avia eto!",
       "situation": "Conversation quotidienne"
     },
     "exam": {
@@ -133,7 +133,7 @@
     "category": "imperatif",
     "pos": "verbe impératif",
     "wordFr": "regarde",
-    "wordMg": "mijery",
+    "wordMg": "jereo",
     "phonetic": "/ʁəgaʁd/",
     "visual": {
       "icon": "👁️",
@@ -148,7 +148,7 @@
     },
     "context": {
       "exampleFr": "Regarde le tableau !",
-      "exampleMg": "Mijery ny tabilao!",
+      "exampleMg": "Jereo ny tabilao!",
       "situation": "Conversation quotidienne"
     },
     "exam": {
