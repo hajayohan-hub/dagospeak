@@ -25,7 +25,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          current_version="$(grep -m1 "const CACHE_VERSION" sw.js | sed -E "s/.*\x27v([0-9]+)\x27.*/\1/")"
+          current_version="$(grep -m1 "const CACHE_VERSION" sw.js | cut -d"'" -f2 | tr -d 'v')"
           if [[ -z "${current_version}" ]]; then
             echo "::error::CACHE_VERSION not found in sw.js"
             exit 1
