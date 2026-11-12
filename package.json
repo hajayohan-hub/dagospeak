@@ -5,9 +5,13 @@
   "type": "module",
   "scripts": {
     "start": "http-server . -p 3000 -c-1 --cors",
-    "test": "echo \"À venir\" && exit 0"
+    "test": "node scripts/quality-check.mjs"
   },
-  "keywords": ["pwa", "languages", "offline-first"],
+  "keywords": [
+    "pwa",
+    "languages",
+    "offline-first"
+  ],
   "author": "DagoSpeak Team",
   "license": "UNLICENSED"
 }
