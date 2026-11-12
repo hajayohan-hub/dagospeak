@@ -9913,7 +9913,7 @@ function showUpdateBannerInline(registration) {
 (function () {
   function hideUpdateBanner() {
     const banners = document.querySelectorAll(
-      '.update-banner, .pwa-update-notification, [id*="update"], [class*="update"]'
+      '#update-banner'
     );
     
     banners.forEach(el => {
