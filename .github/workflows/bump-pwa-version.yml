@@ -8,6 +8,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: pwa-version-main
+  cancel-in-progress: false
+
 jobs:
   bump-service-worker:
     # Prevent the bot's own version-bump commit from starting another run.
