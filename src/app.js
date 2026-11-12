@@ -9781,75 +9781,125 @@ if (userProfile && onboardingSeen === 'true') {
 }
 
 // ═══════════════════════════════════════════════════════════
-// GESTION DES MISES À JOUR PWA (VERSION PRODUCTION FINALE)
+// GESTION DES MISES À JOUR PWA — détection périodique et activation contrôlée
 // ═══════════════════════════════════════════════════════════
 if ('serviceWorker' in navigator) {
-  // ✅ NOUVEAU : Écouter le changement de contrôleur pour recharger la page
+  let isReloadingForUpdate = false;
+
   navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (isReloadingForUpdate) return;
+    isReloadingForUpdate = true;
     console.log('[App] 🔄 Nouveau Service Worker actif, rechargement...');
     window.location.reload();
   });
 
+  const checkForPwaUpdate = async (registration) => {
+    if (!registration || !navigator.onLine || document.visibilityState === 'hidden') return;
+    try {
+      await registration.update();
+    } catch (error) {
+      console.warn('[App] Vérification de mise à jour reportée:', error);
+    }
+  };
+
   window.addEventListener('load', async () => {
     try {
-      const registration = await navigator.serviceWorker.register('/sw.js');
-      console.log('[App] ✅ SW enregistré');
+      const registration = await navigator.serviceWorker.register('/sw.js', {
+        updateViaCache: 'none'
+      });
+      console.log('[App] ✅ Service Worker enregistré');
 
-      // Vérifier si une mise à jour est DÉJÀ en attente au chargement de la page
-      if (registration.waiting) {
-        console.log('[App] ⏳ Mise à jour déjà en attente, affichage du bandeau...');
+      // Détecter immédiatement une version déjà installée et en attente.
+      if (registration.waiting && navigator.serviceWorker.controller) {
         showUpdateBannerInline(registration);
       }
 
-      // Écouter les nouvelles mises à jour futures
       registration.addEventListener('updatefound', () => {
         const newWorker = registration.installing;
+        if (!newWorker) return;
+
         newWorker.addEventListener('statechange', () => {
-          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+          if (
+            newWorker.state === 'installed' &&
+            navigator.serviceWorker.controller &&
+            registration.waiting
+          ) {
             console.log('[App] ✨ Nouvelle version prête !');
             showUpdateBannerInline(registration);
           }
         });
       });
+
+      // Vérification au démarrage, au retour dans l'application et toutes les 5 minutes.
+      await checkForPwaUpdate(registration);
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') checkForPwaUpdate(registration);
+      });
+      window.addEventListener('focus', () => checkForPwaUpdate(registration));
+      window.setInterval(() => checkForPwaUpdate(registration), 5 * 60 * 1000);
     } catch (error) {
-      console.warn('[App] ⚠️ SW error:', error);
+      console.warn('[App] ⚠️ Erreur Service Worker:', error);
     }
   });
 }
-// ✅ Fonction unique et propre pour afficher le bandeau (évite la duplication)
+
+// Bandeau unique : l'utilisateur choisit quand activer la nouvelle version.
 function showUpdateBannerInline(registration) {
   if (document.getElementById('update-banner')) return;
 
   const banner = document.createElement('div');
   banner.id = 'update-banner';
+  banner.setAttribute('role', 'status');
+  banner.setAttribute('aria-live', 'polite');
   banner.style.cssText = `
     position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
-    background: #0A8A6E; color: white; padding: 14px 28px; border-radius: 50px;
-    box-shadow: 0 8px 24px rgba(10, 138, 110, 0.5); z-index: 99999;
-    font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: 14px;
-    border: 2px solid #E8A33D; animation: slideUp 0.4s ease-out;
+    width: min(92vw, 560px); box-sizing: border-box;
+    background: #0A8A6E; color: white; padding: 14px 18px;
+    border-radius: 18px; box-shadow: 0 8px 24px rgba(10, 138, 110, 0.35);
+    z-index: 99999; font-size: 0.95rem; font-weight: 600;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 10px; border: 2px solid #E8A33D;
   `;
+
   banner.innerHTML = `
-    <span>🚀 Fanavaozana misy ! (Mise à jour prête)</span>
-    <button id="btn-update-now" style="
-      background: white; color: #0A8A6E; border: none;
-      padding: 8px 18px; border-radius: 20px; font-weight: 800;
-      cursor: pointer; font-size: 0.9rem;
-    ">Averina (Actualiser)</button>
+    <span>🚀 Fanavaozana misy ! Une nouvelle version de DagoSpeak est prête.</span>
+    <span style="display:flex;align-items:center;gap:8px;">
+      <button id="btn-update-later" type="button" style="
+        background: transparent; color: white; border: 1px solid rgba(255,255,255,.75);
+        padding: 8px 12px; border-radius: 20px; font-weight: 700; cursor: pointer;
+      ">Plus tard</button>
+      <button id="btn-update-now" type="button" style="
+        background: white; color: #0A8A6E; border: none;
+        padding: 8px 14px; border-radius: 20px; font-weight: 800; cursor: pointer;
+      ">Mettre à jour</button>
+    </span>
   `;
   document.body.appendChild(banner);
 
-      document.getElementById('btn-update-now').addEventListener('click', () => {
-      console.log('[App] 🔄 Installation de la mise à jour...');
-      if (registration.waiting) {
-        registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-      }
-      localStorage.removeItem('dagospeak:onboardingComplete');
-      // ✅ NOUVEAU : Ne plus recharger immédiatement, attendre controllerchange
-      // window.location.reload(); // COMMENTÉ ou SUPPRIMÉ
-    });
-  }
-// ═══════════════════════════════════════════════════════════
+  document.getElementById('btn-update-later')?.addEventListener('click', () => {
+    banner.remove();
+  });
+
+  document.getElementById('btn-update-now')?.addEventListener('click', () => {
+    const waitingWorker = registration.waiting;
+    if (!waitingWorker) {
+      banner.remove();
+      registration.update().catch((error) =>
+        console.warn('[App] Impossible de revérifier la mise à jour:', error)
+      );
+      return;
+    }
+
+    const button = document.getElementById('btn-update-now');
+    if (button) {
+      button.disabled = true;
+      button.textContent = 'Installation…';
+    }
+    waitingWorker.postMessage({ type: 'SKIP_WAITING' });
+    // Ne pas effacer le profil ni l'état d'onboarding : la mise à jour
+    // ne doit pas faire repasser l'apprenant par l'accueil initial.
+  });
+}
 // V5.144 : TODAY FINAL INTERCEPTOR
 // Force la redirection vers /theme-detail avec le bon thème
 // ═══════════════════════════════════════════════════════════
